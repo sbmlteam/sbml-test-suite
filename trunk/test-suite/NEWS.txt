@@ -1,6 +1,13 @@
           Systems Biology Markup Language (SBML) Test Suite
                NEWS -- history of user-visible changes
 
+=== Version 1.2 ===
+
+* We have removed the Level 1 version 1 files from this set, because
+  L1v1 is officially deprecated.  Users are encouraged to examine 
+  L1v2 or better yet, Level 2.
+
+
 === Version 1.1 ===
 
 * The KEGG translated files are no longer included with the test-suite
