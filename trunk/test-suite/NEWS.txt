@@ -1,6 +1,13 @@
           Systems Biology Markup Language (SBML) Test Suite
                NEWS -- history of user-visible changes
 
+=== Version 1.1 ===
+
+* The KEGG translated files are no longer included with the test-suite
+  distribution.  They can be obtained separately from the following site:
+
+  http://systems-biology.org/001/
+
 
 === Version 1.0.1 ===
 
