@@ -23,7 +23,7 @@
       should not use <apply> ... </apply>; these tags should be
       omitted. Thanks to Bruce Shapiro for catching this.
 
-* Released ...
+* Released  7 August 2003
 
 
 
