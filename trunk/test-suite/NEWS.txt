@@ -1,5 +1,31 @@
-	     Systems Biology Markup Language (SBML) Test Suite
-		  NEWS -- history of user-visible changes
+          Systems Biology Markup Language (SBML) Test Suite
+               NEWS -- history of user-visible changes
+
+
+=== Version 1.0.1 ===
+
+* The following SBML Level 2 version 1 errata have been corrected in
+  sbml-files/sbml-l2v1/from-spec:
+
+    - l2v1-2D-compartments.xml: the "JO" in the MathML should really
+      be a "J0" (the numeral zero, no the letter 'oh').
+
+    - l2v1-boundary.xml: the one rule in listOfRules should not use
+      <apply> ... </apply>; these tags should be omitted. Thanks to
+      Bruce Shapiro for catching this.
+
+    - l2v1-delay.xml: The definitionURL for the csymbol delay should
+      be http://www.sbml.org/sbml/symbols/delay, not
+      http://www.sbml.org/symbols/delay (the incorrect form has "sbml"
+      omitted). Thanks to Marc Vass for catching this.
+
+    - l2v1-mc-ode.xml: the MathML in the two rateRule definitions
+      should not use <apply> ... </apply>; these tags should be
+      omitted. Thanks to Bruce Shapiro for catching this.
+
+* Released ...
+
+
 
 
 === Version 1.0.0 ===
