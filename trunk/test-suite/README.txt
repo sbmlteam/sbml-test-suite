@@ -47,6 +47,6 @@ locations and file names.
 
 
 -------------------------------------------
-File author: B. Bornstein
+File author: B. Bornstein, M. Hucka
 Last Modified: $Date$
 -------------------------------------------
