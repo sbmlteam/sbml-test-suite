@@ -10,6 +10,11 @@
   files.  The current release contains only one subdirectory,
   "sample-models".
 
+* We now have CVS commit auto-notification via email.  Visit the page
+  https://lists.sourceforge.net/lists/listinfo/sbml-cvs-tstsuite
+  to subscribe to notifications.  This is a very good idea if you get
+  this test suite via CVS.
+
 * Removed the SBML and MathML schema files from the distribution.
   Interested users should obtain them from the master locations.  Keeping
   a separate copy in this test suite was a maintenance liability, because
