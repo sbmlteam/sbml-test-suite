@@ -29,6 +29,10 @@ resource for the whole community of SBML users and developers.
 The test suite is currently a collection of files in plain-text (UTF 8)
 format.  There is no installation step other than unpacking the files.
 
+If you are obtaining the test suite directly from the CVS server, make sure
+to use the -P (prune) option to the CVS check-out command.  Otherwise, you
+will receive many deleted files and directories.
+
 
 --------
 3. Usage
