@@ -3,7 +3,7 @@
 
 === Version 1.3 ===
 
-* Released 
+* Released 7 September 2004.
 
 * Removed the SBML and MathML schema files from the distribution.
   Interested users should obtain them from the master locations.  Keeping
