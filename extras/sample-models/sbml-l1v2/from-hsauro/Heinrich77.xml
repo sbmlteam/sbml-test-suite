@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by XMLPrettyPrinter on 10/16/2002 -->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="2" xmlns:jd = "http://www.sys-bio.org/sbml">
+   <annotations>
+      <jd:otherDisplayObjects>
+         <textObject name = "Heinrich's 77 Model">
+            <font fontName = "Arial" fontSize = "10" fontStyle = "" fontColor = "0"/>
+            <boundingBox x = "20" y = "19" w = "113" h = "16"/>
+         </textObject>
+         <textObject name = "Has positive feedback from S2 to v2, results in instability at certain parameter values">
+            <font fontName = "Arial" fontSize = "10" fontStyle = "" fontColor = "0"/>
+            <boundingBox x = "20" y = "36" w = "486" h = "16"/>
+         </textObject>
+      </jd:otherDisplayObjects>
+   </annotations>
+   <!--                     -->
+   <!--  Model Starts Here  -->
+   <!--                     -->
+   <model name = "untitled">
+      <listOfCompartments>
+         <compartment name = "uVol" volume = "1">
+            <annotations>
+               <jd:display>
+                  <boundingBox x = "0" y = "0" w = "0" h = "0"/>
+               </jd:display>
+            </annotations>
+         </compartment>
+      </listOfCompartments>
+      <listOfSpecies>
+         <species name = "S1" boundaryCondition = "false" initialAmount = "0" compartment = "uVol">
+            <annotations>
+               <jd:display x = "206" y = "106" iconIndex = "2" edgeThickness = "1" edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "10" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </species>
+         <species name = "S2" boundaryCondition = "false" initialAmount = "1" compartment = "uVol">
+            <annotations>
+               <jd:display x = "122" y = "170" iconIndex = "3" edgeThickness = "1" edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "10" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </species>
+         <species name = "X0" boundaryCondition = "true" initialAmount = "1" compartment = "uVol">
+            <annotations>
+               <jd:display x = "84" y = "71" iconIndex = "-1" edgeThickness = "1" edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "10" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </species>
+         <species name = "X1" boundaryCondition = "true" initialAmount = "0" compartment = "uVol">
+            <annotations>
+               <jd:display x = "339" y = "168" iconIndex = "-1" edgeThickness = "1" edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "10" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </species>
+         <species name = "X2" boundaryCondition = "true" initialAmount = "0" compartment = "uVol">
+            <annotations>
+               <jd:display x = "234" y = "229" iconIndex = "-1" edgeThickness = "1" edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "10" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </species>
+      </listOfSpecies>
+      <listOfReactions>
+         <reaction name = "J0" reversible = "false">
+            <listOfReactants>
+               <speciesReference species = "X0" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <speciesReference species = "S1" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg LineThickness = "1" LineColor = "6587523" FillColor = "0" SelectedLineColor = "255">
+                  <pt x = "0" y = "0"/>
+                  <pt x = "159" y = "97"/>
+                  <pt x = "159" y = "97"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "v0">
+               <listOfParameters>
+                  <parameter name = "v0" value = "8"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J1" reversible = "false">
+            <listOfReactants>
+               <speciesReference species = "S1" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <speciesReference species = "X1" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg LineThickness = "1" LineColor = "0" FillColor = "0" SelectedLineColor = "255">
+                  <pt x = "0" y = "0"/>
+                  <pt x = "281" y = "145"/>
+                  <pt x = "285" y = "148"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "k3*S1">
+               <listOfParameters>
+                  <parameter name = "k3" value = "0"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J2" reversible = "false">
+            <listOfReactants>
+               <speciesReference species = "S1" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <speciesReference species = "S2" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg LineThickness = "1" LineColor = "6587523" FillColor = "0" SelectedLineColor = "255">
+                  <pt x = "0" y = "0"/>
+                  <pt x = "175" y = "144"/>
+                  <pt x = "175" y = "144"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "(k1*S1-k_1*S2)*(1 + c*S2^q)">
+               <listOfParameters>
+                  <parameter name = "k1" value = "1"/>
+                  <parameter name = "k_1" value = "0"/>
+                  <parameter name = "c" value = "1"/>
+                  <parameter name = "q" value = "3"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J3" reversible = "false">
+            <listOfReactants>
+               <speciesReference species = "S2" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <speciesReference species = "X2" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg LineThickness = "1" LineColor = "6587523" FillColor = "0" SelectedLineColor = "255">
+                  <pt x = "0" y = "0"/>
+                  <pt x = "192" y = "208"/>
+                  <pt x = "192" y = "208"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "k2*S2">
+               <listOfParameters>
+                  <parameter name = "k2" value = "5"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+      </listOfReactions>
+   </model>
+</sbml>

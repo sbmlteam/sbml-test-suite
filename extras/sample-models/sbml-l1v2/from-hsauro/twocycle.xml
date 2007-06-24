@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by Jarnac 2.0 BETA on 7/24/2002 -->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="2">
+ <model name="cell">
+
+   <listOfCompartments>
+     <compartment name="uVol" volume="1"/>
+   </listOfCompartments>
+
+   <listOfSpecies>
+     <species name="ES" boundaryCondition="false" compartment="uVol" initialAmount="0"/> 
+     <species name="S1" boundaryCondition="false" compartment="uVol" initialAmount="0"/> 
+     <species name="S2" boundaryCondition="false" compartment="uVol" initialAmount="0"/> 
+     <species name="E" boundaryCondition="false" compartment="uVol" initialAmount="0"/> 
+   </listOfSpecies>
+
+  <listOfReactions>
+   <reaction name="J1" reversible="false">
+     <listOfReactants>
+       <speciesReference species="E" stoichiometry="1"/>
+       <speciesReference species="S1" stoichiometry="1"/>
+     </listOfReactants>
+     <listOfProducts>
+       <speciesReference species="ES" stoichiometry="1"/>
+     </listOfProducts>
+
+     <kineticLaw formula="v1">
+       <listOfParameters>
+         <parameter name="v1" value="0"/>
+       </listOfParameters>
+
+     </kineticLaw>
+   </reaction>
+
+   <reaction name="J2" reversible="false">
+     <listOfReactants>
+       <speciesReference species="ES" stoichiometry="1"/>
+     </listOfReactants>
+     <listOfProducts>
+       <speciesReference species="S2" stoichiometry="1"/>
+       <speciesReference species="E" stoichiometry="1"/>
+     </listOfProducts>
+
+     <kineticLaw formula="v2">
+       <listOfParameters>
+         <parameter name="v2" value="0"/>
+       </listOfParameters>
+
+     </kineticLaw>
+   </reaction>
+
+   <reaction name="J3" reversible="false">
+     <listOfReactants>
+       <speciesReference species="S2" stoichiometry="1"/>
+     </listOfReactants>
+     <listOfProducts>
+       <speciesReference species="S1" stoichiometry="1"/>
+     </listOfProducts>
+
+     <kineticLaw formula="v3">
+       <listOfParameters>
+         <parameter name="v3" value="0"/>
+       </listOfParameters>
+
+     </kineticLaw>
+   </reaction>
+
+  </listOfReactions>
+ </model>
+</sbml>

@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by Gepasi 3.30 on November 29, 2002, 13:17 -->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="1">
+	<model name="LeloupGoldbeter">
+		<listOfCompartments>
+			<compartment name="compartment" volume="1"/>
+		</listOfCompartments>
+		<listOfSpecies>
+			<specie name="AA" compartment="compartment" initialAmount="1" boundaryCondition="true"/>
+			<specie name="P0" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<specie name="T0" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<specie name="P1" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<specie name="T1" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<specie name="P2" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<specie name="T2" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<specie name="C" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<specie name="Cn" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<specie name="NN" compartment="compartment" initialAmount="1" boundaryCondition="true"/>
+			<specie name="Mp" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<specie name="Mt" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+		</listOfSpecies>
+		<listOfReactions>
+			<reaction name="P0_to_P1" reversible="false">
+				<listOfReactants>
+					<specieReference specie="P0" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="P1" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="V_1*P0/(Km_1+P0)">
+					<listOfParameters>
+						<parameter name="Km_1" value="2"/>
+						<parameter name="V_1" value="8"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="T0_to_T1" reversible="false">
+				<listOfReactants>
+					<specieReference specie="T0" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="T1" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="V_2*T0/(Km_2+T0)">
+					<listOfParameters>
+						<parameter name="Km_2" value="2"/>
+						<parameter name="V_2" value="8"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="P1_to_P0" reversible="false">
+				<listOfReactants>
+					<specieReference specie="P1" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="P0" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="V_3*P1/(Km_3+P1)">
+					<listOfParameters>
+						<parameter name="Km_3" value="2"/>
+						<parameter name="V_3" value="1"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="T1_to_T0" reversible="false">
+				<listOfReactants>
+					<specieReference specie="T1" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="T0" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="V_4*T1/(Km_4+T1)">
+					<listOfParameters>
+						<parameter name="Km_4" value="2"/>
+						<parameter name="V_4" value="1"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="P1_to_T2" reversible="false">
+				<listOfReactants>
+					<specieReference specie="P1" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="P2" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="V_5*P1/(Km_5+P1)">
+					<listOfParameters>
+						<parameter name="Km_5" value="2"/>
+						<parameter name="V_5" value="8"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="T1_to_T2" reversible="false">
+				<listOfReactants>
+					<specieReference specie="T1" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="T2" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="V_6*T1/(Km_6+T1)">
+					<listOfParameters>
+						<parameter name="Km_6" value="2"/>
+						<parameter name="V_6" value="8"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="P2_to_P1" reversible="false">
+				<listOfReactants>
+					<specieReference specie="P2" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="P1" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="V_7*P2/(Km_7+P2)">
+					<listOfParameters>
+						<parameter name="Km_7" value="2"/>
+						<parameter name="V_7" value="1"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="T2_to_T1" reversible="false">
+				<listOfReactants>
+					<specieReference specie="T2" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="T1" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="V_8*T2/(Km_8+T2)">
+					<listOfParameters>
+						<parameter name="Km_8" value="2"/>
+						<parameter name="V_8" value="1"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="P0_degradation" reversible="false">
+				<listOfReactants>
+					<specieReference specie="P0" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="AA" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="k_9*P0">
+					<listOfParameters>
+						<parameter name="k_9" value="0.01"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="T0_degradation" reversible="false">
+				<listOfReactants>
+					<specieReference specie="T0" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="AA" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="k_10*T0">
+					<listOfParameters>
+						<parameter name="k_10" value="0.01"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="P1_degradation" reversible="false">
+				<listOfReactants>
+					<specieReference specie="P1" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="AA" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="k_11*P1">
+					<listOfParameters>
+						<parameter name="k_11" value="0.01"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="T1_degradation" reversible="false">
+				<listOfReactants>
+					<specieReference specie="T1" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="AA" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="k_12*T1">
+					<listOfParameters>
+						<parameter name="k_12" value="0.01"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="P2_degradation" reversible="false">
+				<listOfReactants>
+					<specieReference specie="P2" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="AA" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(kd_13)*(P2)+((V_13)*(P2))/(Km_13+P2)">
+					<listOfParameters>
+						<parameter name="kd_13" value="0.01"/>
+						<parameter name="V_13" value="2"/>
+						<parameter name="Km_13" value="0.2"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="T2_degradation" reversible="false">
+				<listOfReactants>
+					<specieReference specie="T2" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="AA" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(kd_14)*(T2)+((V_14)*(T2))/(Km_14+T2)">
+					<listOfParameters>
+						<parameter name="kd_14" value="0.01"/>
+						<parameter name="V_14" value="2"/>
+						<parameter name="Km_14" value="0.2"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="PT_complex_formation" reversible="true">
+				<listOfReactants>
+					<specieReference specie="P2" stoichiometry="1"/>
+					<specieReference specie="T2" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="C" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="k1_15*P2*T2-k2_15*C">
+					<listOfParameters>
+						<parameter name="k1_15" value="1.2"/>
+						<parameter name="k2_15" value="0.6"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="PT_complex_nucleation" reversible="true">
+				<listOfReactants>
+					<specieReference specie="C" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="Cn" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="k1_16*C-k2_16*Cn">
+					<listOfParameters>
+						<parameter name="k1_16" value="0.6"/>
+						<parameter name="k2_16" value="0.2"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="PT_complex_degradation" reversible="false">
+				<listOfReactants>
+					<specieReference specie="C" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="AA" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="k_17*C">
+					<listOfParameters>
+						<parameter name="k_17" value="0.01"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="PTnucl_complex_degradation" reversible="false">
+				<listOfReactants>
+					<specieReference specie="Cn" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="AA" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="k_18*Cn">
+					<listOfParameters>
+						<parameter name="k_18" value="0.01"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="Mp_production" reversible="false">
+				<listOfReactants>
+					<specieReference specie="NN" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="Mp" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(((NN)*(V_19))*((K_19)^(n_19)))/((K_19)^(n_19)+(Cn)^(n_19))">
+					<listOfParameters>
+						<parameter name="V_19" value="1"/>
+						<parameter name="K_19" value="1"/>
+						<parameter name="n_19" value="4"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="Mt_production" reversible="false">
+				<listOfReactants>
+					<specieReference specie="NN" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="Mt" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(((NN)*(V_20))*((K_20)^(n_20)))/((K_20)^(n_20)+(Cn)^(n_20))">
+					<listOfParameters>
+						<parameter name="V_20" value="1"/>
+						<parameter name="K_20" value="1"/>
+						<parameter name="n_20" value="4"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="P0_production" reversible="false">
+				<listOfReactants>
+					<specieReference specie="AA" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="P0" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((AA)*(k_21))*(Mp)">
+					<listOfParameters>
+						<parameter name="k_21" value="0.9"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="T0_production" reversible="false">
+				<listOfReactants>
+					<specieReference specie="AA" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="T0" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((AA)*(k_22))*(Mt)">
+					<listOfParameters>
+						<parameter name="k_22" value="0.9"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="Mp_degradation" reversible="false">
+				<listOfReactants>
+					<specieReference specie="Mp" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="NN" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(kd_23)*(Mp)+((V_23)*(Mp))/(Km_23+Mp)">
+					<listOfParameters>
+						<parameter name="kd_23" value="0.01"/>
+						<parameter name="V_23" value="0.7"/>
+						<parameter name="Km_23" value="0.2"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="Mt_degradation" reversible="false">
+				<listOfReactants>
+					<specieReference specie="Mt" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="NN" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(kd_24)*(Mt)+((V_24)*(Mt))/(Km_24+Mt)">
+					<listOfParameters>
+						<parameter name="kd_24" value="0.01"/>
+						<parameter name="V_24" value="0.7"/>
+						<parameter name="Km_24" value="0.2"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+		</listOfReactions>
+	</model>
+</sbml>

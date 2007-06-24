@@ -1,0 +1,952 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by XMLPrettyPrinter on 11/30/2002 -->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="1" xmlns:jd = "http://www.sys-bio.org/sbml">
+   <annotations>
+      <jd:header>
+         <VersionHeader SBMLVersion = "1.0"/>
+         <ModelHeader Author = "Mark Poolman, Oxford Brookes University" ModelVersion = "??" ModelTitle = "Calvin Cycle"/>
+      </jd:header>
+      <jd:display>
+         <SBMLGraphicsHeader BackGroundColor = "15728639"/>
+      </jd:display>
+   </annotations>
+   <!--                     -->
+   <!--  Model Starts Here  -->
+   <!--                     -->
+ls   <model name = "untitled">
+      <annotations>
+         <jd:notes type = "ASCII">
+            <note value = "// Calvin cycle model"/>
+            <note value = "// (c) Mark Poolman (mgpoolman@brookes.ac.uk) 1995-2002"/>
+            <note value = "// Based description by Pettersson 1988, Eur. J. Biochem. 175, 661--672"/>
+            <note value = "//"/>
+            <note value = "//Differences are:"/>
+            <note value = "//    1 - Reactions assumed by Pettersson to be in equilibrium have fast mass action kinetics."/>
+            <note value = "//"/>
+            <note value = "//    2 - Introduction of the parameter PGAxpMult to modulate PGA export through TPT."/>
+            <note value = "//"/>
+            <note value = "//    3 - Introduction of Starch phosphorylase reaction."/>
+            <note value = "//"/>
+            <note value = "//"/>
+            <note value = "//This file may be freely copied or translated into other formats provided:"/>
+            <note value = "//"/>
+            <note value = "//    1 - This notice is reproduced in its entirety"/>
+            <note value = "//"/>
+            <note value = "//    2 - Published material making use of (information gained from) this model cites at least:"/>
+            <note value = "//"/>
+            <note value = "//	(a) Poolman, 1999, Computer Modelling Applied to the Calvin Cycle, PhD Thesis, Oxford Brookes University"/>
+            <note value = "//"/>
+            <note value = "//	and:"/>
+            <note value = "//	    (b) Poolman, Fell, and Thomas. 2000, Modelling Photosynthesis and its control,"/>
+            <note value = "//	        J. Exp. Bot. 51, 319--328"/>
+            <note value = "//"/>
+            <note value = "//	    or"/>
+            <note value = "//"/>
+            <note value = "//	    (c) Poolman et al. 2001, Computer modelling and experimental evidence for two steady states in"/>
+            <note value = "//	        the photosynthetic Calvin cycle. Eur. J. Biochem. 268, 2810--2816 "/>
+            <note value = "//"/>
+            <note value = "//Further related information may be found at http://mudshark.brookes.ac.uk"/>
+         </jd:notes>
+      </annotations>
+      <listOfCompartments>
+         <compartment name = "uVol" volume = "1">
+            <annotations>
+               <jd:display>
+                  <boundingBox x = "0" y = "0" w = "0" h = "0"/>
+               </jd:display>
+            </annotations>
+         </compartment>
+      </listOfCompartments>
+      <listOfSpecies>
+         <specie name = "x_CO2" boundaryCondition = "false" initialAmount = "1" compartment = "uVol">
+            <annotations>
+               <jd:display x = "994" y = "400" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "RuBP_ch" boundaryCondition = "false" initialAmount = "0.33644" compartment = "uVol">
+            <annotations>
+               <jd:display x = "928" y = "365" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "PGA_ch" boundaryCondition = "false" initialAmount = "3.35479" compartment = "uVol">
+            <annotations>
+               <jd:display x = "930" y = "518" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "ATP_ch" boundaryCondition = "false" initialAmount = "0.49806" compartment = "uVol">
+            <annotations>
+               <jd:display x = "657" y = "761" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+               <jd:listOfShadows>
+                  <shadow name = "___ATP_ch_0" x = "839" y = "279"/>
+                  <shadow name = "___ATP_ch_1" x = "864" y = "441"/>
+                  <shadow name = "___ATP_ch_2" x = "23" y = "246"/>
+               </jd:listOfShadows>
+            </annotations>
+         </specie>
+         <specie name = "BPGA_ch" boundaryCondition = "false" initialAmount = "0.14825" compartment = "uVol">
+            <annotations>
+               <jd:display x = "703" y = "518" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "x_NADPH_ch" boundaryCondition = "false" initialAmount = "0.21" compartment = "uVol">
+            <annotations>
+               <jd:display x = "649" y = "554" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "GAP_ch" boundaryCondition = "false" initialAmount = "0.01334" compartment = "uVol">
+            <annotations>
+               <jd:display x = "469" y = "515" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "Pi_ch" boundaryCondition = "false" initialAmount = "1.5662" compartment = "uVol">
+            <annotations>
+               <jd:display x = "847" y = "678" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+               <jd:listOfShadows>
+                  <shadow name = "___Pi_ch_0" x = "22" y = "140"/>
+                  <shadow name = "___Pi_ch_1" x = "241" y = "124"/>
+                  <shadow name = "___Pi_ch_2" x = "426" y = "428"/>
+                  <shadow name = "___Pi_ch_3" x = "175" y = "633"/>
+                  <shadow name = "___Pi_ch_4" x = "535" y = "554"/>
+                  <shadow name = "___Pi_ch_5" x = "693" y = "25"/>
+               </jd:listOfShadows>
+            </annotations>
+         </specie>
+         <specie name = "DHAP_ch" boundaryCondition = "false" initialAmount = "0.29345" compartment = "uVol">
+            <annotations>
+               <jd:display x = "244" y = "515" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "FBP_ch" boundaryCondition = "false" initialAmount = "0.02776" compartment = "uVol">
+            <annotations>
+               <jd:display x = "354" y = "429" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "F6P_ch" boundaryCondition = "false" initialAmount = "1.36481" compartment = "uVol">
+            <annotations>
+               <jd:display x = "354" y = "327" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "E4P_ch" boundaryCondition = "false" initialAmount = "0.41021" compartment = "uVol">
+            <annotations>
+               <jd:display x = "354" y = "165" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "X5P_ch" boundaryCondition = "false" initialAmount = "0.00363" compartment = "uVol">
+            <annotations>
+               <jd:display x = "828" y = "164" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "SBP_ch" boundaryCondition = "false" initialAmount = "1.56486" compartment = "uVol">
+            <annotations>
+               <jd:display x = "515" y = "70" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "S7P_ch" boundaryCondition = "false" initialAmount = "0.00541" compartment = "uVol">
+            <annotations>
+               <jd:display x = "691" y = "69" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "R5P_ch" boundaryCondition = "false" initialAmount = "0.00599" compartment = "uVol">
+            <annotations>
+               <jd:display x = "932" y = "166" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "Ru5P_ch" boundaryCondition = "false" initialAmount = "0.00235" compartment = "uVol">
+            <annotations>
+               <jd:display x = "929" y = "253" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "x_Pi_cyt" boundaryCondition = "false" initialAmount = "0.5" compartment = "uVol">
+            <annotations>
+               <jd:display x = "844" y = "589" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+               <jd:listOfShadows>
+                  <shadow name = "___x_Pi_cyt_0" x = "172" y = "569"/>
+               </jd:listOfShadows>
+            </annotations>
+         </specie>
+         <specie name = "x_GAP_cyt" boundaryCondition = "false" initialAmount = "1" compartment = "uVol">
+            <annotations>
+               <jd:display x = "458" y = "754" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "G6P_ch" boundaryCondition = "false" initialAmount = "3.1396" compartment = "uVol">
+            <annotations>
+               <jd:display x = "130" y = "328" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "x_NADP_ch" boundaryCondition = "false" initialAmount = "0.29" compartment = "uVol">
+            <annotations>
+               <jd:display x = "535" y = "436" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "x_PGA_cyt" boundaryCondition = "false" initialAmount = "1" compartment = "uVol">
+            <annotations>
+               <jd:display x = "919" y = "754" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "ADP_ch" boundaryCondition = "false" initialAmount = "0.00149" compartment = "uVol">
+            <annotations>
+               <jd:display x = "870" y = "790" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+               <jd:listOfShadows>
+                  <shadow name = "___ADP_ch_0" x = "834" y = "340"/>
+                  <shadow name = "___ADP_ch_1" x = "799" y = "446"/>
+                  <shadow name = "___ADP_ch_2" x = "40" y = "82"/>
+               </jd:listOfShadows>
+            </annotations>
+         </specie>
+         <specie name = "x_DHAP_cyt" boundaryCondition = "false" initialAmount = "1" compartment = "uVol">
+            <annotations>
+               <jd:display x = "241" y = "691" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "x_Proton_ch" boundaryCondition = "false" initialAmount = "1.26E-5" compartment = "uVol">
+            <annotations>
+               <jd:display x = "618" y = "436" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "G1P_ch" boundaryCondition = "false" initialAmount = "0.18206" compartment = "uVol">
+            <annotations>
+               <jd:display x = "130" y = "256" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "x_Starch_ch" boundaryCondition = "false" initialAmount = "1" compartment = "uVol">
+            <annotations>
+               <jd:display x = "134" y = "78" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+      </listOfSpecies>
+      <listOfReactions>
+         <reaction name = "J0" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "RuBP_ch" stoichiometry = "1"/>
+               <specieReference specie = "x_CO2" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "PGA_ch" stoichiometry = "2"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "949" y = "445"/>
+                  <pt x = "951" y = "409"/>
+                  <pt x = "950" y = "419"/>
+                  <pt x = "962" y = "419"/>
+                  <pt x = "950" y = "419"/>
+                  <pt x = "948" y = "471"/>
+                  <pt x = "949" y = "450"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "Light_on*Rbco_vm*RuBP_ch/(RuBP_ch+Rbco_km*(1+PGA_ch/Rbco_KiPGA+FBP_ch/Rbco_KiFBP+SBP_ch/Rbco_KiSBP+Pi_ch/Rbco_KiPi+x_NADPH_ch/Rbco_KiNADPH))">
+               <listOfParameters>
+                  <parameter name = "Light_on" value = "1"/>
+                  <parameter name = "Rbco_vm" value = "340"/>
+                  <parameter name = "Rbco_km" value = "0.02"/>
+                  <parameter name = "Rbco_KiPGA" value = "0.84"/>
+                  <parameter name = "Rbco_KiFBP" value = "0.04"/>
+                  <parameter name = "Rbco_KiSBP" value = "0.075"/>
+                  <parameter name = "Rbco_KiPi" value = "0.9"/>
+                  <parameter name = "Rbco_KiNADPH" value = "0.07"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J1" reversible = "true">
+            <listOfReactants>
+               <specieReference specie = "GAP_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "DHAP_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "380" y = "522"/>
+                  <pt x = "378" y = "523"/>
+                  <pt x = "378" y = "523"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "TPI_v*(GAP_ch-DHAP_ch/q4)">
+               <listOfParameters>
+                  <parameter name = "TPI_v" value = "5000000000"/>
+                  <parameter name = "q4" value = "0"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J2" reversible = "true">
+            <listOfReactants>
+               <specieReference specie = "GAP_ch" stoichiometry = "1"/>
+               <specieReference specie = "DHAP_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "FBP_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "372" y = "487"/>
+                  <pt x = "380" y = "495"/>
+                  <pt x = "372" y = "502"/>
+                  <pt x = "355" y = "493"/>
+                  <pt x = "372" y = "502"/>
+                  <pt x = "372" y = "472"/>
+                  <pt x = "372" y = "472"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "F_Aldo_v*(DHAP_ch*GAP_ch-FBP_ch/q5)">
+               <listOfParameters>
+                  <parameter name = "F_Aldo_v" value = "5000000000"/>
+                  <parameter name = "q5" value = "0"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J3" reversible = "true">
+            <listOfReactants>
+               <specieReference specie = "GAP_ch" stoichiometry = "1"/>
+               <specieReference specie = "F6P_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "X5P_ch" stoichiometry = "1"/>
+               <specieReference specie = "E4P_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "371" y = "249"/>
+                  <pt x = "492" y = "200"/>
+                  <pt x = "371" y = "278"/>
+                  <pt x = "372" y = "277"/>
+                  <pt x = "371" y = "278"/>
+                  <pt x = "371" y = "220"/>
+                  <pt x = "406" y = "171"/>
+                  <pt x = "371" y = "220"/>
+                  <pt x = "372" y = "219"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "F_TKL_v*(F6P_ch*GAP_ch-E4P_ch*X5P_ch/q7)">
+               <listOfParameters>
+                  <parameter name = "F_TKL_v" value = "5000000000"/>
+                  <parameter name = "q7" value = "0"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J4" reversible = "true">
+            <listOfReactants>
+               <specieReference specie = "DHAP_ch" stoichiometry = "1"/>
+               <specieReference specie = "E4P_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "SBP_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "405" y = "80"/>
+                  <pt x = "250" y = "53"/>
+                  <pt x = "372" y = "82"/>
+                  <pt x = "371" y = "69"/>
+                  <pt x = "372" y = "82"/>
+                  <pt x = "438" y = "78"/>
+                  <pt x = "456" y = "78"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "E_Aldo_v*(E4P_ch*DHAP_ch-SBP_ch/q8)">
+               <listOfParameters>
+                  <parameter name = "E_Aldo_v" value = "5000000000"/>
+                  <parameter name = "q8" value = "13"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J5" reversible = "true">
+            <listOfReactants>
+               <specieReference specie = "S7P_ch" stoichiometry = "1"/>
+               <specieReference specie = "GAP_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "R5P_ch" stoichiometry = "1"/>
+               <specieReference specie = "X5P_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "859" y = "81"/>
+                  <pt x = "811" y = "77"/>
+                  <pt x = "815" y = "78"/>
+                  <pt x = "615" y = "116"/>
+                  <pt x = "815" y = "78"/>
+                  <pt x = "903" y = "84"/>
+                  <pt x = "893" y = "92"/>
+                  <pt x = "903" y = "84"/>
+                  <pt x = "893" y = "92"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "G_TKL_v*(GAP_ch*S7P_ch-X5P_ch*R5P_ch/q10)">
+               <listOfParameters>
+                  <parameter name = "G_TKL_v" value = "5000000000"/>
+                  <parameter name = "q10" value = "0"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J6" reversible = "true">
+            <listOfReactants>
+               <specieReference specie = "R5P_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "Ru5P_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "949" y = "215"/>
+                  <pt x = "950" y = "216"/>
+                  <pt x = "950" y = "216"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "R5Piso_v*(R5P_ch-Ru5P_ch/q11)">
+               <listOfParameters>
+                  <parameter name = "R5Piso_v" value = "5000000000"/>
+                  <parameter name = "q11" value = "0"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J7" reversible = "true">
+            <listOfReactants>
+               <specieReference specie = "X5P_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "Ru5P_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "887" y = "209"/>
+                  <pt x = "884" y = "203"/>
+                  <pt x = "888" y = "215"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "X5Pepi_v*(X5P_ch-Ru5P_ch/q12)">
+               <listOfParameters>
+                  <parameter name = "X5Pepi_v" value = "5000000000"/>
+                  <parameter name = "q12" value = "0"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J8" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "x_Pi_cyt" stoichiometry = "1"/>
+               <specieReference specie = "PGA_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "x_PGA_cyt" stoichiometry = "1"/>
+               <specieReference specie = "Pi_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "947" y = "638"/>
+                  <pt x = "920" y = "599"/>
+                  <pt x = "948" y = "590"/>
+                  <pt x = "951" y = "543"/>
+                  <pt x = "948" y = "590"/>
+                  <pt x = "946" y = "686"/>
+                  <pt x = "948" y = "695"/>
+                  <pt x = "946" y = "686"/>
+                  <pt x = "929" y = "690"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "PGA_xpMult*TP_Piap_vm*PGA_ch/(TP_Piap_kPGA_ch*(1+(1+TP_Piap_kPi_cyt/x_Pi_cyt)*(Pi_ch/TP_Piap_kPi_ch+PGA_ch/TP_Piap_kPGA_ch+DHAP_ch/TP_Piap_kDHAP_ch+GAP_ch/TP_Piap_kGAP_ch)))">
+               <listOfParameters>
+                  <parameter name = "PGA_xpMult" value = "0.2"/>
+                  <parameter name = "TP_Piap_vm" value = "250"/>
+                  <parameter name = "TP_Piap_kPGA_ch" value = "0.25"/>
+                  <parameter name = "TP_Piap_kPi_cyt" value = "0.74"/>
+                  <parameter name = "TP_Piap_kPi_ch" value = "0.63"/>
+                  <parameter name = "TP_Piap_kDHAP_ch" value = "0.077"/>
+                  <parameter name = "TP_Piap_kGAP_ch" value = "0.075"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J9" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "x_Pi_cyt" stoichiometry = "1"/>
+               <specieReference specie = "GAP_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "x_GAP_cyt" stoichiometry = "1"/>
+               <specieReference specie = "Pi_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "485" y = "633"/>
+                  <pt x = "500" y = "607"/>
+                  <pt x = "486" y = "604"/>
+                  <pt x = "485" y = "582"/>
+                  <pt x = "486" y = "604"/>
+                  <pt x = "484" y = "662"/>
+                  <pt x = "485" y = "670"/>
+                  <pt x = "484" y = "662"/>
+                  <pt x = "536" y = "665"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "TP_Piap_vm*GAP_ch/(TP_Piap_kGAP_ch*(1+(1+TP_Piap_kPi_cyt/x_Pi_cyt)*(Pi_ch/TP_Piap_kPi_ch+PGA_ch/TP_Piap_kPGA_ch+DHAP_ch/TP_Piap_kDHAP_ch+GAP_ch/TP_Piap_kGAP_ch)))">
+               <listOfParameters>
+                  <parameter name = "TP_Piap_vm" value = "0"/>
+                  <parameter name = "TP_Piap_kGAP_ch" value = "0"/>
+                  <parameter name = "TP_Piap_kPi_cyt" value = "0"/>
+                  <parameter name = "TP_Piap_kPi_ch" value = "0"/>
+                  <parameter name = "TP_Piap_kPGA_ch" value = "0"/>
+                  <parameter name = "TP_Piap_kDHAP_ch" value = "0"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J10" reversible = "true">
+            <listOfReactants>
+               <specieReference specie = "F6P_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "G6P_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "261" y = "333"/>
+                  <pt x = "259" y = "334"/>
+                  <pt x = "259" y = "334"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "PGI_v*(F6P_ch-G6P_ch/q14)">
+               <listOfParameters>
+                  <parameter name = "PGI_v" value = "5000000000"/>
+                  <parameter name = "q14" value = "0"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J11" reversible = "true">
+            <listOfReactants>
+               <specieReference specie = "G6P_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "G1P_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "147" y = "304"/>
+                  <pt x = "148" y = "306"/>
+                  <pt x = "148" y = "306"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "PGM_v*(G6P_ch-G1P_ch/q15)">
+               <listOfParameters>
+                  <parameter name = "PGM_v" value = "5000000000"/>
+                  <parameter name = "q15" value = "0"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J12" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "Pi_ch" stoichiometry = "1"/>
+               <specieReference specie = "ADP_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "ATP_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "783" y = "765"/>
+                  <pt x = "854" y = "748"/>
+                  <pt x = "817" y = "763"/>
+                  <pt x = "829" y = "774"/>
+                  <pt x = "817" y = "763"/>
+                  <pt x = "749" y = "767"/>
+                  <pt x = "751" y = "765"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "Light_on*LR_vm*ADP_ch*Pi_ch/((ADP_ch+LR_kmADP)*(Pi_ch+LR_kmPi))">
+               <listOfParameters>
+                  <parameter name = "Light_on" value = "0"/>
+                  <parameter name = "LR_vm" value = "1500"/>
+                  <parameter name = "LR_kmADP" value = "0.014"/>
+                  <parameter name = "LR_kmPi" value = "0.3"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J13" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "Ru5P_ch" stoichiometry = "1"/>
+               <specieReference specie = "ATP_ch" stoichiometry = "1">
+                  <annotations>
+                     <jd:shadowRef shadowRef = "___ATP_ch_0"/>
+                  </annotations>
+               </specieReference>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "RuBP_ch" stoichiometry = "1"/>
+               <specieReference specie = "ADP_ch" stoichiometry = "1">
+                  <annotations>
+                     <jd:shadowRef shadowRef = "___ADP_ch_0"/>
+                  </annotations>
+               </specieReference>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "6587523" fillColor = "6587523" selectedLineColor = "255">
+                  <pt x = "951" y = "319"/>
+                  <pt x = "950" y = "292"/>
+                  <pt x = "950" y = "301"/>
+                  <pt x = "909" y = "290"/>
+                  <pt x = "950" y = "301"/>
+                  <pt x = "952" y = "337"/>
+                  <pt x = "952" y = "324"/>
+                  <pt x = "952" y = "337"/>
+                  <pt x = "924" y = "336"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "Light_on*Ru5Pk_ch_vm*Ru5P_ch*ATP_ch/((Ru5P_ch+Ru5Pk_ch_km1*(1+PGA_ch/Ru5Pk_ch_KiPGA+RuBP_ch/Ru5Pk_ch_KiRuBP+Pi_ch/Ru5Pk_ch_KiPi))*(ATP_ch*(1+ADP_ch/Ru5Pk_ch_KiADP1)+Ru5Pk_ch_km2*(1+ADP_ch/Ru5Pk_ch_KiADP2)))">
+               <listOfParameters>
+                  <parameter name = "Light_on" value = "0"/>
+                  <parameter name = "Ru5Pk_ch_vm" value = "10000"/>
+                  <parameter name = "Ru5Pk_ch_km1" value = "0.05"/>
+                  <parameter name = "Ru5Pk_ch_KiPGA" value = "2"/>
+                  <parameter name = "Ru5Pk_ch_KiRuBP" value = "0.7"/>
+                  <parameter name = "Ru5Pk_ch_KiPi" value = "4"/>
+                  <parameter name = "Ru5Pk_ch_KiADP1" value = "2.5"/>
+                  <parameter name = "Ru5Pk_ch_km2" value = "0.05"/>
+                  <parameter name = "Ru5Pk_ch_KiADP2" value = "0.4"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J14" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "PGA_ch" stoichiometry = "1"/>
+               <specieReference specie = "ATP_ch" stoichiometry = "1">
+                  <annotations>
+                     <jd:shadowRef shadowRef = "___ATP_ch_1"/>
+                  </annotations>
+               </specieReference>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "BPGA_ch" stoichiometry = "1"/>
+               <specieReference specie = "ADP_ch" stoichiometry = "1">
+                  <annotations>
+                     <jd:shadowRef shadowRef = "___ADP_ch_1"/>
+                  </annotations>
+               </specieReference>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "6587523" fillColor = "6587523" selectedLineColor = "255">
+                  <pt x = "857" y = "525"/>
+                  <pt x = "880" y = "525"/>
+                  <pt x = "904" y = "526"/>
+                  <pt x = "887" y = "491"/>
+                  <pt x = "904" y = "526"/>
+                  <pt x = "810" y = "524"/>
+                  <pt x = "797" y = "523"/>
+                  <pt x = "810" y = "524"/>
+                  <pt x = "810" y = "498"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "Light_on*PGK_v*(PGA_ch*ATP_ch-BPGA_ch*ADP_ch/q2)">
+               <listOfParameters>
+                  <parameter name = "Light_on" value = "0"/>
+                  <parameter name = "PGK_v" value = "5000000000"/>
+                  <parameter name = "q2" value = "0.00031"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J15" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "ATP_ch" stoichiometry = "1">
+                  <annotations>
+                     <jd:shadowRef shadowRef = "___ATP_ch_2"/>
+                  </annotations>
+               </specieReference>
+               <specieReference specie = "G1P_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "x_Starch_ch" stoichiometry = "1"/>
+               <specieReference specie = "ADP_ch" stoichiometry = "1">
+                  <annotations>
+                     <jd:shadowRef shadowRef = "___ADP_ch_2"/>
+                  </annotations>
+               </specieReference>
+               <specieReference specie = "Pi_ch" stoichiometry = "1">
+                  <annotations>
+                     <jd:shadowRef shadowRef = "___Pi_ch_0"/>
+                  </annotations>
+               </specieReference>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "6587523" fillColor = "6587523" selectedLineColor = "255">
+                  <pt x = "109" y = "171"/>
+                  <pt x = "96" y = "192"/>
+                  <pt x = "108" y = "189"/>
+                  <pt x = "129" y = "229"/>
+                  <pt x = "108" y = "189"/>
+                  <pt x = "110" y = "153"/>
+                  <pt x = "109" y = "135"/>
+                  <pt x = "110" y = "153"/>
+                  <pt x = "83" y = "123"/>
+                  <pt x = "110" y = "153"/>
+                  <pt x = "85" y = "147"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "StSyn_vm*G1P_ch*ATP_ch/((G1P_ch+stsyn_ch_km1)*(1+ADP_ch/stsyn_ch_Ki)*(ATP_ch+stsyn_ch_km2)+stsyn_ch_km2*Pi_ch/(stsyn_ch_ka1*PGA_ch)+(stsyn_ch_ka2*F6P_ch)+(stsyn_ch_ka3*FBP_ch))">
+               <listOfParameters>
+                  <parameter name = "StSyn_vm" value = "40"/>
+                  <parameter name = "stsyn_ch_km1" value = "0.08"/>
+                  <parameter name = "stsyn_ch_Ki" value = "10"/>
+                  <parameter name = "stsyn_ch_km2" value = "0.08"/>
+                  <parameter name = "stsyn_ch_ka1" value = "0.1"/>
+                  <parameter name = "stsyn_ch_ka2" value = "0.02"/>
+                  <parameter name = "stsyn_ch_ka3" value = "0.02"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J16" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "x_Starch_ch" stoichiometry = "1"/>
+               <specieReference specie = "Pi_ch" stoichiometry = "1">
+                  <annotations>
+                     <jd:shadowRef shadowRef = "___Pi_ch_1"/>
+                  </annotations>
+               </specieReference>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "G1P_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "6587523" fillColor = "6587523" selectedLineColor = "255">
+                  <pt x = "191" y = "175"/>
+                  <pt x = "194" y = "147"/>
+                  <pt x = "192" y = "154"/>
+                  <pt x = "204" y = "139"/>
+                  <pt x = "192" y = "154"/>
+                  <pt x = "190" y = "196"/>
+                  <pt x = "191" y = "197"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "StPase_Vm*Pi_ch/(Pi_ch+StPase_km*(1+G1P_ch/StPase_kiG1P))">
+               <listOfParameters>
+                  <parameter name = "StPase_Vm" value = "40"/>
+                  <parameter name = "StPase_km" value = "5"/>
+                  <parameter name = "StPase_kiG1P" value = "3.12"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J17" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "FBP_ch" stoichiometry = "1"/>
+               <specieReference specie = "Pi_ch" stoichiometry = "1">
+                  <annotations>
+                     <jd:shadowRef shadowRef = "___Pi_ch_2"/>
+                  </annotations>
+               </specieReference>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "F6P_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "6587523" fillColor = "6587523" selectedLineColor = "255">
+                  <pt x = "371" y = "374"/>
+                  <pt x = "372" y = "398"/>
+                  <pt x = "371" y = "389"/>
+                  <pt x = "405" y = "367"/>
+                  <pt x = "371" y = "389"/>
+                  <pt x = "371" y = "359"/>
+                  <pt x = "370" y = "371"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "Light_on*FBPase_ch_vm*FBP_ch/(FBP_ch+FBPase_ch_km*(1+F6P_ch/FBPase_ch_KiF6P+Pi_ch/FBPase_ch_KiPi))">
+               <listOfParameters>
+                  <parameter name = "Light_on" value = "0"/>
+                  <parameter name = "FBPase_ch_vm" value = "200"/>
+                  <parameter name = "FBPase_ch_km" value = "0.03"/>
+                  <parameter name = "FBPase_ch_KiF6P" value = "0.7"/>
+                  <parameter name = "FBPase_ch_KiPi" value = "12"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J18" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "x_Pi_cyt" stoichiometry = "1">
+                  <annotations>
+                     <jd:shadowRef shadowRef = "___x_Pi_cyt_0"/>
+                  </annotations>
+               </specieReference>
+               <specieReference specie = "DHAP_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "x_DHAP_cyt" stoichiometry = "1"/>
+               <specieReference specie = "Pi_ch" stoichiometry = "1">
+                  <annotations>
+                     <jd:shadowRef shadowRef = "___Pi_ch_3"/>
+                  </annotations>
+               </specieReference>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "6587523" fillColor = "6587523" selectedLineColor = "255">
+                  <pt x = "269" y = "613"/>
+                  <pt x = "243" y = "587"/>
+                  <pt x = "268" y = "585"/>
+                  <pt x = "267" y = "584"/>
+                  <pt x = "268" y = "585"/>
+                  <pt x = "270" y = "641"/>
+                  <pt x = "270" y = "635"/>
+                  <pt x = "270" y = "641"/>
+                  <pt x = "245" y = "633"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "TP_Piap_vm*DHAP_ch/(TP_Piap_kDHAP_ch*(1+(1+TP_Piap_kPi_cyt/x_Pi_cyt)*(Pi_ch/TP_Piap_kPi_ch+PGA_ch/TP_Piap_kPGA_ch+DHAP_ch/TP_Piap_kDHAP_ch+GAP_ch/TP_Piap_kGAP_ch)))">
+               <listOfParameters>
+                  <parameter name = "TP_Piap_vm" value = "0"/>
+                  <parameter name = "TP_Piap_kDHAP_ch" value = "0"/>
+                  <parameter name = "TP_Piap_kPi_cyt" value = "0"/>
+                  <parameter name = "TP_Piap_kPi_ch" value = "0"/>
+                  <parameter name = "TP_Piap_kPGA_ch" value = "0"/>
+                  <parameter name = "TP_Piap_kGAP_ch" value = "0"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J19" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "x_NADPH_ch" stoichiometry = "1"/>
+               <specieReference specie = "BPGA_ch" stoichiometry = "1"/>
+               <specieReference specie = "x_Proton_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "x_NADP_ch" stoichiometry = "1"/>
+               <specieReference specie = "GAP_ch" stoichiometry = "1"/>
+               <specieReference specie = "Pi_ch" stoichiometry = "1">
+                  <annotations>
+                     <jd:shadowRef shadowRef = "___Pi_ch_4"/>
+                  </annotations>
+               </specieReference>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "6587523" fillColor = "6587523" selectedLineColor = "255">
+                  <pt x = "610" y = "521"/>
+                  <pt x = "653" y = "526"/>
+                  <pt x = "649" y = "521"/>
+                  <pt x = "651" y = "522"/>
+                  <pt x = "649" y = "521"/>
+                  <pt x = "649" y = "488"/>
+                  <pt x = "649" y = "521"/>
+                  <pt x = "571" y = "521"/>
+                  <pt x = "575" y = "493"/>
+                  <pt x = "571" y = "521"/>
+                  <pt x = "550" y = "520"/>
+                  <pt x = "571" y = "521"/>
+                  <pt x = "576" y = "524"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "Light_on*G3Pdh_v*(BPGA_ch*x_NADPH_ch*x_Proton_ch-x_NADP_ch*GAP_ch*Pi_ch/q3)">
+               <listOfParameters>
+                  <parameter name = "Light_on" value = "0"/>
+                  <parameter name = "G3Pdh_v" value = "5000000000"/>
+                  <parameter name = "q3" value = "0"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J20" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "SBP_ch" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "Pi_ch" stoichiometry = "1">
+                  <annotations>
+                     <jd:shadowRef shadowRef = "___Pi_ch_5"/>
+                  </annotations>
+               </specieReference>
+               <specieReference specie = "S7P_ch" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "6587523" fillColor = "6587523" selectedLineColor = "255">
+                  <pt x = "620" y = "77"/>
+                  <pt x = "585" y = "77"/>
+                  <pt x = "596" y = "77"/>
+                  <pt x = "644" y = "77"/>
+                  <pt x = "652" y = "72"/>
+                  <pt x = "644" y = "77"/>
+                  <pt x = "648" y = "76"/>
+               </jd:arcSeg>
+            </annotations>
+            <kineticLaw formula = "Light_on*SBPase_ch_vm*SBP_ch/(SBP_ch+SBPase_ch_km*(1+Pi_ch/SBPase_ch_KiPi))">
+               <listOfParameters>
+                  <parameter name = "Light_on" value = "0"/>
+                  <parameter name = "SBPase_ch_vm" value = "40"/>
+                  <parameter name = "SBPase_ch_km" value = "0.013"/>
+                  <parameter name = "SBPase_ch_KiPi" value = "12"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+      </listOfReactions>
+   </model>
+</sbml>

@@ -1,0 +1,782 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="2">
+<model name="MAPK_in_Solution">
+	<notes>
+		<body xmlns="http://www.w3.org/1999/xhtml">
+			<h1>MAPK cascade in solution (no scaffold)</h1>
+
+			<table border="0" cellspacing="0" cellpadding="2" >
+				<thead>
+					<tr>
+						<th align="left" valign="middle" bgcolor="#eeeeee">Citation</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Levchenko A, Bruck J, Sternberg PW (2000)
+							 Scaffold proteins may biphasically affect the levels of mitogen-
+							activated protein kinase signaling and reduce its threshold properties. Proc. Natl. Acad. Sci. USA 97(
+							11):5818-5823.
+						<a href="http://www.pnas.org/cgi/content/abstract/97/11/
+							5818">
+							http://www.pnas.org/cgi/content/abstract/97/11/5818
+						</a></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<table border="0" cellspacing="0" cellpadding="2" >
+				<thead>
+					<tr>
+						<th align="left" valign="middle" bgcolor="#eeeeee">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>This model describes a basic 3-
+							stage Mitogen Activated Protein Kinase (MAPK)
+							 cascade in solution. This cascade is typically expressed as RAF=
+							=>MEK==>MAPK (alternative forms are K3==>K2==>
+							K1 and KKK==>KK==>K)
+							. The input signal is RAFK (RAF Kinase)
+							 and the output signal is MAPKpp (
+							doubly phosphorylated form of MAPK)
+							.  RAFK phosphorylates RAF once to RAFp.  RAFp,
+							 the phosphorylated form of RAF induces two phoshporylations of MEK,
+							to MEKp and MEKpp. MEKpp,
+							 the doubly phosphorylated form of MEK,
+							 induces two phosphorylations of MAPK to MAPKp and MAPKpp.</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<table border="0" cellspacing="0" cellpadding="2" >
+				<thead>
+					<tr>
+						<th align="left" valign="middle" bgcolor="#eeeeee">Rate&#160;constant&#160;&#160;&#160;&#160;&#160;&#160;</th>
+						<th align="left" valign="middle" bgcolor="#eeeeee">Reaction</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>a1&#160;=&#160;1.</td>
+						<td>RAF&#160;+&#160;RAFK&#160;->&#160;RAFRAFK</td>
+					</tr>
+					<tr>
+						<td>a2&#160;=&#160;0.5</td>
+						<td>RAFp&#160;+&#160;RAFPH&#160;->&#160;RAFpRAFPH</td>
+					</tr>
+					<tr>
+						<td>a3&#160;=&#160;3.3</td>
+						<td>MEKp&#160;+&#160;RAFp&#160;->&#160;MEKpRAFp</td>
+					</tr>
+					<tr>
+						<td>a3&#160;=&#160;3.3</td>
+						<td>MEK&#160;+&#160;RAFp&#160;->&#160;MEKRAFp</td>
+					</tr>
+					<tr>
+						<td>a4&#160;=&#160;10.</td>
+						<td>MEKPH&#160;+&#160;MEKpp&#160;->&#160;MEKppMEKPH</td>
+					</tr>
+					<tr>
+						<td>a4&#160;=&#160;10.</td>
+						<td>MEKp&#160;+&#160;MEKPH&#160;->&#160;MEKpMEKPH</td>
+					</tr>
+					<tr>
+						<td>a7&#160;=&#160;20.</td>
+						<td>MAPK&#160;+&#160;MEKpp&#160;->&#160;MAPKMEKpp</td>
+					</tr>
+					<tr>
+						<td>a7&#160;=&#160;20.</td>
+						<td>MAPKp&#160;+&#160;MEKpp&#160;->&#160;MAPKpMEKpp</td>
+					</tr>
+					<tr>
+						<td>a8&#160;=&#160;5.</td>
+						<td>MAPKPH&#160;+&#160;MAPKpp&#160;->&#160;MAPKppMAPKPH</td>
+					</tr>
+					<tr>
+						<td>a8&#160;=&#160;5.</td>
+						<td>MAPKp&#160;+&#160;MAPKPH&#160;->&#160;MAPKpMAPKPH</td>
+					</tr>
+					<tr>
+						<td>d1&#160;=&#160;0.4</td>
+						<td>RAFRAFK&#160;->&#160;RAF&#160;+&#160;RAFK</td>
+					</tr>
+					<tr>
+						<td>d2&#160;=&#160;0.5</td>
+						<td>RAFpRAFPH&#160;->&#160;RAFp&#160;+&#160;RAFPH</td>
+					</tr>
+					<tr>
+						<td>d3&#160;=&#160;0.42</td>
+						<td>MEKpRAFp&#160;->&#160;MEKp&#160;+&#160;RAFp</td>
+					</tr>
+					<tr>
+						<td>d3&#160;=&#160;0.42</td>
+						<td>MEKRAFp&#160;->&#160;MEK&#160;+&#160;RAFp</td>
+					</tr>
+					<tr>
+						<td>d4&#160;=&#160;0.8</td>
+						<td>MEKpMEKPH&#160;->&#160;MEKp&#160;+&#160;MEKPH</td>
+					</tr>
+					<tr>
+						<td>d4&#160;=&#160;0.8</td>
+						<td>MEKppMEKPH&#160;->&#160;MEKPH&#160;+&#160;MEKpp</td>
+					</tr>
+					<tr>
+						<td>d7&#160;=&#160;0.6</td>
+						<td>MAPKMEKpp&#160;->&#160;MAPK&#160;+&#160;MEKpp</td>
+					</tr>
+					<tr>
+						<td>d7&#160;=&#160;0.6</td>
+						<td>MAPKpMEKpp&#160;->&#160;MAPKp&#160;+&#160;MEKpp</td>
+					</tr>
+					<tr>
+						<td>d8&#160;=&#160;0.4</td>
+						<td>MAPKpMAPKPH&#160;->&#160;MAPKp&#160;+&#160;MAPKPH</td>
+					</tr>
+					<tr>
+						<td>d8&#160;=&#160;0.4</td>
+						<td>MAPKppMAPKPH&#160;->&#160;MAPKPH&#160;+&#160;MAPKpp</td>
+					</tr>
+					<tr>
+						<td>k1&#160;=&#160;0.1</td>
+						<td>RAFRAFK&#160;->&#160;RAFK&#160;+&#160;RAFp</td>
+					</tr>
+					<tr>
+						<td>k2&#160;=&#160;0.1</td>
+						<td>RAFpRAFPH&#160;->&#160;RAF&#160;+&#160;RAFPH</td>
+					</tr>
+					<tr>
+						<td>k3&#160;=&#160;0.1</td>
+						<td>MEKpRAFp&#160;->&#160;MEKpp&#160;+&#160;RAFp</td>
+					</tr>
+					<tr>
+						<td>k3&#160;=&#160;0.1</td>
+						<td>MEKRAFp&#160;->&#160;MEKp&#160;+&#160;RAFp</td>
+					</tr>
+					<tr>
+						<td>k4&#160;=&#160;0.1</td>
+						<td>MEKpMEKPH&#160;->&#160;MEK&#160;+&#160;MEKPH</td>
+					</tr>
+					<tr>
+						<td>k4&#160;=&#160;0.1</td>
+						<td>MEKppMEKPH&#160;->&#160;MEKp&#160;+&#160;MEKPH</td>
+					</tr>
+					<tr>
+						<td>k7&#160;=&#160;0.1</td>
+						<td>MAPKMEKpp&#160;->&#160;MAPKp&#160;+&#160;MEKpp</td>
+					</tr>
+					<tr>
+						<td>k7&#160;=&#160;0.1</td>
+						<td>MAPKpMEKpp&#160;->&#160;MAPKpp&#160;+&#160;MEKpp</td>
+					</tr>
+					<tr>
+						<td>k8&#160;=&#160;0.1</td>
+						<td>MAPKpMAPKPH&#160;->&#160;MAPK&#160;+&#160;MAPKPH</td>
+					</tr>
+					<tr>
+						<td>k8&#160;=&#160;0.1</td>
+						<td>MAPKppMAPKPH&#160;->&#160;MAPKp&#160;+&#160;MAPKPH</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table border="0" cellspacing="0" cellpadding="2" >
+				<thead>
+					<tr>
+						<th align="left" valign="middle" bgcolor="#eeeeee">Variable</th>
+						<th align="left" valign="middle" bgcolor="#eeeeee">IC&#160;&#160;</th>
+						<th align="left" valign="middle" bgcolor="#eeeeee">ODE</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>MAPK</td>
+						<td>0.3</td>
+						<td>MAPK'[t]&#160;==&#160;d7*MAPKMEKpp[t]&#160;+&#160;k8*MAPKpMAPKPH[t]&#160;-
+							&#160;a7*MAPK[t]*MEKpp[t]</td>
+					</tr>
+					<tr>
+						<td>MAPKMEKpp</td>
+						<td>0</td>
+						<td>MAPKMEKpp'[t]&#160;==&#160;-(d7*MAPKMEKpp[t])&#160;-&#160;k7*MAPKMEKpp[t]
+							&#160;+&#160;a7*MAPK[t]*MEKpp[t]</td>
+					</tr>
+					<tr>
+						<td>MAPKp</td>
+						<td>0</td>
+						<td>MAPKp'[t]&#160;==&#160;k7*MAPKMEKpp[t]&#160;-&#160;a8*MAPKp[t]*MAPKPH[t]
+							&#160;+&#160;d8*MAPKpMAPKPH[t]&#160;+&#160;d7*MAPKpMEKpp[t]&#160;+&#160;k8*
+							MAPKppMAPKPH[t]&#160;-&#160;a7*MAPKp[t]*MEKpp[t]</td>
+					</tr>
+					<tr>
+						<td>MAPKPH</td>
+						<td>0.3</td>
+						<td>MAPKPH'[t]&#160;==&#160;-(a8*MAPKp[t]*MAPKPH[t])&#160;+&#160;d8*MAPKpMAPKPH[
+							t]&#160;+&#160;k8*MAPKpMAPKPH[t]&#160;-&#160;a8*MAPKPH[t]*MAPKpp[t]&#160;+
+							&#160;d8*MAPKppMAPKPH[t]&#160;+&#160;k8*MAPKppMAPKPH[t]</td>
+					</tr>
+					<tr>
+						<td>MAPKpMAPKPH</td>
+						<td>0</td>
+						<td>MAPKpMAPKPH'[t]&#160;==&#160;a8*MAPKp[t]*MAPKPH[t]&#160;-&#160;d8*
+							MAPKpMAPKPH[t]&#160;-&#160;k8*MAPKpMAPKPH[t]</td>
+					</tr>
+					<tr>
+						<td>MAPKpMEKpp</td>
+						<td>0</td>
+						<td>MAPKpMEKpp'[t]&#160;==&#160;-(d7*MAPKpMEKpp[t])&#160;-&#160;k7*MAPKpMEKpp[t]
+							&#160;+&#160;a7*MAPKp[t]*MEKpp[t]</td>
+					</tr>
+					<tr>
+						<td>MAPKpp</td>
+						<td>0</td>
+						<td>MAPKpp'[t]&#160;==&#160;k7*MAPKpMEKpp[t]&#160;-&#160;a8*MAPKPH[t]*MAPKpp[t]
+							&#160;+&#160;d8*MAPKppMAPKPH[t]</td>
+					</tr>
+					<tr>
+						<td>MAPKppMAPKPH</td>
+						<td>0</td>
+						<td>MAPKppMAPKPH'[t]&#160;==&#160;a8*MAPKPH[t]*MAPKpp[t]&#160;-&#160;d8*
+							MAPKppMAPKPH[t]&#160;-&#160;k8*MAPKppMAPKPH[t]</td>
+					</tr>
+					<tr>
+						<td>MEK</td>
+						<td>0.2</td>
+						<td>MEK'[t]&#160;==&#160;k4*MEKpMEKPH[t]&#160;+&#160;d3*MEKRAFp[t]&#160;-
+							&#160;a3*MEK[t]*RAFp[t]</td>
+					</tr>
+					<tr>
+						<td>MEKp</td>
+						<td>0</td>
+						<td>MEKp'[t]&#160;==&#160;-(a4*MEKp[t]*MEKPH[t])&#160;+&#160;d4*MEKpMEKPH[t]
+							&#160;+&#160;k4*MEKppMEKPH[t]&#160;+&#160;d3*MEKpRAFp[t]&#160;+&#160;k3*MEKRAFp[
+							t]&#160;-&#160;a3*MEKp[t]*RAFp[t]</td>
+					</tr>
+					<tr>
+						<td>MEKPH</td>
+						<td>0.2</td>
+						<td>MEKPH'[t]&#160;==&#160;-(a4*MEKp[t]*MEKPH[t])&#160;+&#160;d4*MEKpMEKPH[t]
+							&#160;+&#160;k4*MEKpMEKPH[t]&#160;-&#160;a4*MEKPH[t]*MEKpp[t]&#160;+&#160;d4*
+							MEKppMEKPH[t]&#160;+&#160;k4*MEKppMEKPH[t]</td>
+					</tr>
+					<tr>
+						<td>MEKpMEKPH</td>
+						<td>0</td>
+						<td>MEKpMEKPH'[t]&#160;==&#160;a4*MEKp[t]*MEKPH[t]&#160;-&#160;d4*MEKpMEKPH[t]
+							&#160;-&#160;k4*MEKpMEKPH[t]</td>
+					</tr>
+					<tr>
+						<td>MEKpp</td>
+						<td>0</td>
+						<td>MEKpp'[t]&#160;==&#160;d7*MAPKMEKpp[t]&#160;+&#160;k7*MAPKMEKpp[t]&#160;+
+							&#160;d7*MAPKpMEKpp[t]&#160;+&#160;k7*MAPKpMEKpp[t]&#160;-&#160;a7*MAPK[t]*
+							MEKpp[t]&#160;-&#160;a7*MAPKp[t]*MEKpp[t]&#160;-&#160;a4*MEKPH[t]*MEKpp[t]
+							&#160;+&#160;d4*MEKppMEKPH[t]&#160;+&#160;k3*MEKpRAFp[t]</td>
+					</tr>
+					<tr>
+						<td>MEKppMEKPH</td>
+						<td>0</td>
+						<td>MEKppMEKPH'[t]&#160;==&#160;a4*MEKPH[t]*MEKpp[t]&#160;-&#160;d4*MEKppMEKPH[
+							t]&#160;-&#160;k4*MEKppMEKPH[t]</td>
+					</tr>
+					<tr>
+						<td>MEKpRAFp</td>
+						<td>0</td>
+						<td>MEKpRAFp'[t]&#160;==&#160;-(d3*MEKpRAFp[t])&#160;-&#160;k3*MEKpRAFp[t]
+							&#160;+&#160;a3*MEKp[t]*RAFp[t]</td>
+					</tr>
+					<tr>
+						<td>MEKRAFp</td>
+						<td>0</td>
+						<td>MEKRAFp'[t]&#160;==&#160;-(d3*MEKRAFp[t])&#160;-&#160;k3*MEKRAFp[t]&#160;+
+							&#160;a3*MEK[t]*RAFp[t]</td>
+					</tr>
+					<tr>
+						<td>RAF</td>
+						<td>0.4</td>
+						<td>RAF'[t]&#160;==&#160;-(a1*RAF[t]*RAFK[t])&#160;+&#160;k2*RAFpRAFPH[t]&#160;+
+							&#160;d1*RAFRAFK[t]</td>
+					</tr>
+					<tr>
+						<td>RAFK</td>
+						<td>0.1</td>
+						<td>RAFK'[t]&#160;==&#160;-(a1*RAF[t]*RAFK[t])&#160;+&#160;d1*RAFRAFK[t]&#160;+
+							&#160;k1*RAFRAFK[t]</td>
+					</tr>
+					<tr>
+						<td>RAFp</td>
+						<td>0</td>
+						<td>RAFp'[t]&#160;==&#160;d3*MEKpRAFp[t]&#160;+&#160;k3*MEKpRAFp[t]&#160;+
+							&#160;d3*MEKRAFp[t]&#160;+&#160;k3*MEKRAFp[t]&#160;-&#160;a3*MEK[t]*RAFp[t]
+							&#160;-&#160;a3*MEKp[t]*RAFp[t]&#160;-&#160;a2*RAFp[t]*RAFPH[t]&#160;+&#160;d2*
+							RAFpRAFPH[t]&#160;+&#160;k1*RAFRAFK[t]</td>
+					</tr>
+					<tr>
+						<td>RAFPH</td>
+						<td>0.3</td>
+						<td>RAFPH'[t]&#160;==&#160;-(a2*RAFp[t]*RAFPH[t])&#160;+&#160;d2*RAFpRAFPH[t]
+							&#160;+&#160;k2*RAFpRAFPH[t]</td>
+					</tr>
+					<tr>
+						<td>RAFpRAFPH</td>
+						<td>0</td>
+						<td>RAFpRAFPH'[t]&#160;==&#160;a2*RAFp[t]*RAFPH[t]&#160;-&#160;d2*RAFpRAFPH[t]
+							&#160;-&#160;k2*RAFpRAFPH[t]</td>
+					</tr>
+					<tr>
+						<td>RAFRAFK</td>
+						<td>0</td>
+						<td>RAFRAFK'[t]&#160;==&#160;a1*RAF[t]*RAFK[t]&#160;-&#160;d1*RAFRAFK[t]&#160;-
+							&#160;k1*RAFRAFK[t]</td>
+					</tr>
+				</tbody>
+			</table>
+			<p>Generated by Cellerator Version 1.0 update 2.1121 using Mathematica 4.2 for 
+				Mac OS X (June 4, 2002), November 22, 2002 13:52:09, using (PowerMac,PowerPC,
+				Mac OS X,MacOSX,Darwin)</p>
+			<p>author=B.E.Shapiro</p>
+
+		</body>
+	</notes>
+	<listOfCompartments>
+		<compartment name="Cytoplasm"/>
+	</listOfCompartments>
+	<listOfSpecies>
+		<species name="MAPK" initialAmount="0.3" compartment="Cytoplasm"/>
+		<species name="MAPKMAPKPH" initialAmount="0" compartment="Cytoplasm"/>
+		<species name="MAPKp" initialAmount="0" compartment="Cytoplasm"/>
+		<species name="MAPKPH" initialAmount="0.3" compartment="Cytoplasm"/>
+		<species name="MAPKpMAPKPH" initialAmount="0" compartment="Cytoplasm"/>
+		<species name="MAPKpMEKpp" initialAmount="0" compartment="Cytoplasm"/>
+		<species name="MAPKpp" initialAmount="0" compartment="Cytoplasm"/>
+		<species name="MAPKppMEKpp" initialAmount="0" compartment="Cytoplasm"/>
+		<species name="MEK" initialAmount="0.2" compartment="Cytoplasm"/>
+		<species name="MEKMEKPH" initialAmount="0" compartment="Cytoplasm"/>
+		<species name="MEKp" initialAmount="0" compartment="Cytoplasm"/>
+		<species name="MEKPH" initialAmount="0.2" compartment="Cytoplasm"/>
+		<species name="MEKpMEKPH" initialAmount="0" compartment="Cytoplasm"/>
+		<species name="MEKpp" initialAmount="0" compartment="Cytoplasm"/>
+		<species name="MEKppRAFp" initialAmount="0" compartment="Cytoplasm"/>
+		<species name="MEKpRAFp" initialAmount="0" compartment="Cytoplasm"/>
+		<species name="RAF" initialAmount="0.4" compartment="Cytoplasm"/>
+		<species name="RAFK" initialAmount="0.1" compartment="Cytoplasm"/>
+		<species name="RAFp" initialAmount="0" compartment="Cytoplasm"/>
+		<species name="RAFPH" initialAmount="0.3" compartment="Cytoplasm"/>
+		<species name="RAFpRAFPH" initialAmount="0" compartment="Cytoplasm"/>
+		<species name="RAFRAFK" initialAmount="0" compartment="Cytoplasm"/>
+	</listOfSpecies>
+	<listOfReactions>
+		<reaction name="Reaction1" reversible="false">
+			<listOfReactants>
+				<speciesReference species="RAF" />
+				<speciesReference species="RAFK" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="RAFRAFK" />
+			</listOfProducts>
+			<kineticLaw formula="a1*RAF*RAFK">
+				<listOfParameters>
+					<parameter name="a1" value="1." />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction2" reversible="false">
+			<listOfReactants>
+				<speciesReference species="RAFRAFK" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="RAF" />
+				<speciesReference species="RAFK" />
+			</listOfProducts>
+			<kineticLaw formula="d1*RAFRAFK">
+				<listOfParameters>
+					<parameter name="d1" value="0.4" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction3" reversible="false">
+			<listOfReactants>
+				<speciesReference species="RAFRAFK" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="RAFp" />
+			</listOfProducts>
+			<kineticLaw formula="k1*RAFRAFK">
+				<listOfParameters>
+					<parameter name="k1" value="0.1" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction4" reversible="false">
+			<listOfReactants>
+				<speciesReference species="RAFp" />
+				<speciesReference species="RAFPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="RAFpRAFPH" />
+			</listOfProducts>
+			<kineticLaw formula="a2*RAFp*RAFPH">
+				<listOfParameters>
+					<parameter name="a2" value="0.5" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction5" reversible="false">
+			<listOfReactants>
+				<speciesReference species="RAFpRAFPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="RAFp" />
+				<speciesReference species="RAFPH" />
+			</listOfProducts>
+			<kineticLaw formula="d2*RAFpRAFPH">
+				<listOfParameters>
+					<parameter name="d2" value="0.5" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction6" reversible="false">
+			<listOfReactants>
+				<speciesReference species="RAFpRAFPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="RAF" />
+			</listOfProducts>
+			<kineticLaw formula="k2*RAFpRAFPH">
+				<listOfParameters>
+					<parameter name="k2" value="0.1" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction7" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MEK" />
+				<speciesReference species="MEKPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MEKMEKPH" />
+			</listOfProducts>
+			<kineticLaw formula="a3*MEK*MEKPH">
+				<listOfParameters>
+					<parameter name="a3" value="3.3" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction8" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MEKMEKPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MEK" />
+				<speciesReference species="MEKPH" />
+			</listOfProducts>
+			<kineticLaw formula="d3*MEKMEKPH">
+				<listOfParameters>
+					<parameter name="d3" value="0.42" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction9" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MEKMEKPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MEKp" />
+			</listOfProducts>
+			<kineticLaw formula="k3*MEKMEKPH">
+				<listOfParameters>
+					<parameter name="k3" value="0.1" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction10" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MEKp" />
+				<speciesReference species="RAFp" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MEKpRAFp" />
+			</listOfProducts>
+			<kineticLaw formula="a4*MEKp*RAFp">
+				<listOfParameters>
+					<parameter name="a4" value="10." />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction11" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MEKpRAFp" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MEKp" />
+				<speciesReference species="RAFp" />
+			</listOfProducts>
+			<kineticLaw formula="d4*MEKpRAFp">
+				<listOfParameters>
+					<parameter name="d4" value="0.8" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction12" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MEKpRAFp" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MEK" />
+			</listOfProducts>
+			<kineticLaw formula="k4*MEKpRAFp">
+				<listOfParameters>
+					<parameter name="k4" value="0.1" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction13" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MEKp" />
+				<speciesReference species="MEKPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MEKpMEKPH" />
+			</listOfProducts>
+			<kineticLaw formula="a5*MEKp*MEKPH">
+				<listOfParameters>
+					<parameter name="a5" value="3.3" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction14" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MEKpMEKPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MEKp" />
+				<speciesReference species="MEKPH" />
+			</listOfProducts>
+			<kineticLaw formula="d5*MEKpMEKPH">
+				<listOfParameters>
+					<parameter name="d5" value="0.4" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction15" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MEKpMEKPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MEKpp" />
+			</listOfProducts>
+			<kineticLaw formula="k5*MEKpMEKPH">
+				<listOfParameters>
+					<parameter name="k5" value="0.1" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction16" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MEKpp" />
+				<speciesReference species="RAFp" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MEKppRAFp" />
+			</listOfProducts>
+			<kineticLaw formula="a6*MEKpp*RAFp">
+				<listOfParameters>
+					<parameter name="a6" value="10." />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction17" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MEKppRAFp" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MEKpp" />
+				<speciesReference species="RAFp" />
+			</listOfProducts>
+			<kineticLaw formula="d6*MEKppRAFp">
+				<listOfParameters>
+					<parameter name="d6" value="0.8" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction18" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MEKppRAFp" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MEKp" />
+			</listOfProducts>
+			<kineticLaw formula="k6*MEKppRAFp">
+				<listOfParameters>
+					<parameter name="k6" value="0.1" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction19" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MAPK" />
+				<speciesReference species="MAPKPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MAPKMAPKPH" />
+			</listOfProducts>
+			<kineticLaw formula="a7*MAPK*MAPKPH">
+				<listOfParameters>
+					<parameter name="a7" value="20." />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction20" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MAPKMAPKPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MAPK" />
+				<speciesReference species="MAPKPH" />
+			</listOfProducts>
+			<kineticLaw formula="d7*MAPKMAPKPH">
+				<listOfParameters>
+					<parameter name="d7" value="0.6" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction21" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MAPKMAPKPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MAPKp" />
+			</listOfProducts>
+			<kineticLaw formula="k7*MAPKMAPKPH">
+				<listOfParameters>
+					<parameter name="k7" value="0.1" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction22" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MAPKp" />
+				<speciesReference species="MEKpp" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MAPKpMEKpp" />
+			</listOfProducts>
+			<kineticLaw formula="a8*MAPKp*MEKpp">
+				<listOfParameters>
+					<parameter name="a8" value="5." />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction23" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MAPKpMEKpp" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MAPKp" />
+				<speciesReference species="MEKpp" />
+			</listOfProducts>
+			<kineticLaw formula="d8*MAPKpMEKpp">
+				<listOfParameters>
+					<parameter name="d8" value="0.4" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction24" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MAPKpMEKpp" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MAPK" />
+			</listOfProducts>
+			<kineticLaw formula="k8*MAPKpMEKpp">
+				<listOfParameters>
+					<parameter name="k8" value="0.1" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction25" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MAPKp" />
+				<speciesReference species="MAPKPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MAPKpMAPKPH" />
+			</listOfProducts>
+			<kineticLaw formula="a9*MAPKp*MAPKPH">
+				<listOfParameters>
+					<parameter name="a9" value="20." />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction26" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MAPKpMAPKPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MAPKp" />
+				<speciesReference species="MAPKPH" />
+			</listOfProducts>
+			<kineticLaw formula="d9*MAPKpMAPKPH">
+				<listOfParameters>
+					<parameter name="d9" value="0.6" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction27" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MAPKpMAPKPH" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MAPKpp" />
+			</listOfProducts>
+			<kineticLaw formula="k9*MAPKpMAPKPH">
+				<listOfParameters>
+					<parameter name="k9" value="0.1" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction28" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MAPKpp" />
+				<speciesReference species="MEKpp" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MAPKppMEKpp" />
+			</listOfProducts>
+			<kineticLaw formula="a10*MAPKpp*MEKpp">
+				<listOfParameters>
+					<parameter name="a10" value="5." />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction29" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MAPKppMEKpp" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MAPKpp" />
+				<speciesReference species="MEKpp" />
+			</listOfProducts>
+			<kineticLaw formula="d10*MAPKppMEKpp">
+				<listOfParameters>
+					<parameter name="d10" value="0.4" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction30" reversible="false">
+			<listOfReactants>
+				<speciesReference species="MAPKppMEKpp" />
+			</listOfReactants>
+			<listOfProducts>
+				<speciesReference species="MAPKp" />
+			</listOfProducts>
+			<kineticLaw formula="k10*MAPKppMEKpp">
+				<listOfParameters>
+					<parameter name="k10" value="0.1" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+	</listOfReactions>
+</model>
+</sbml>
