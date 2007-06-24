@@ -1,0 +1,19 @@
+#!/bin/bash
+
+number.awk $1 > $1.num
+number.awk $2 > $2.num
+
+x=$(tail -n 1 $1.num | awk '{ print $1}' )
+y=$(tail -n 1 $2.num | awk '{ print $1}' )
+
+if [ $x != $y ]; then
+{
+    echo $1 and $2 have different numbers of lines
+    exit 1
+}
+fi
+
+join $1.num $2.num > $1.join
+rm $1.num $2.num
+compare.awk $1.join
+exit

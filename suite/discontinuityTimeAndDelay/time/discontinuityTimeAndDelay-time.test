@@ -1,0 +1,5 @@
+TIME 5
+STEPS 50
+SPECIES S1 S2
+URL Time_Symbol_Semantic_Test
+REM tests the use of the time MathML csymbol in a kinetic rate law  

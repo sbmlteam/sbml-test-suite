@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Author:         Andrew Finney
+  Organisation:   SBMLTeam (http://sbml.org)
+  (C) 2004 - 2005 California Institute of Technology and University of Hertfordshire
+  This is free software;
+  see the file "LICENSE.txt" or the URL http://sbml.org/software/LICENSE.html
+  for licensing and distribution terms.
+-->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="2">
+  <model name="basic_model3_boundaryS4">
+    <listOfCompartments>
+      <compartment name="c" volume="1"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species name="S1" compartment="c" initialAmount="1e-015"/>
+      <species name="S2" compartment="c" initialAmount="2e-015"/>
+      <species name="S3" compartment="c" initialAmount="1e-015"/>
+      <species name="S4" compartment="c" initialAmount="1e-015" boundaryCondition="true"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction name="R1" reversible="false">
+        <listOfReactants>
+          <speciesReference species="S1"/>
+          <speciesReference species="S2"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S3"/>
+          <speciesReference species="S4"/>
+        </listOfProducts>
+        <kineticLaw formula="kf * S1 * S2">
+          <listOfParameters>
+            <parameter name="kf" value="0.75e15"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="R2" reversible="false">
+        <listOfReactants>
+          <speciesReference species="S3"/>
+          <speciesReference species="S4"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S1"/>
+          <speciesReference species="S2"/>
+        </listOfProducts>
+        <kineticLaw formula="kr * S3 * S4">
+          <listOfParameters>
+            <parameter name="kr" value="0.25e15"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

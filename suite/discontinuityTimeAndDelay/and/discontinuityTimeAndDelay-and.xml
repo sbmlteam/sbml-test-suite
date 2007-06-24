@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Author:         Andrew Finney
+  Organisation:   SBMLTeam (http://sbml.org)
+  (C) 2004 - 2005 California Institute of Technology and University of Hertfordshire
+  This is free software;
+  see the file "LICENSE.txt" or the URL http://sbml.org/software/LICENSE.html
+  for licensing and distribution terms.
+-->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="2">
+  <model name="discontinuityTimeAndDelay_and">
+    <listOfCompartments>
+      <compartment name="c" volume="1"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species name="s1" compartment="c" initialAmount="10"/>
+      <species name="s2" compartment="c" initialAmount="0"/>
+      <species name="s3" compartment="c" initialAmount="10"/>
+      <species name="s4" compartment="c" initialAmount="0"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction name="r1">
+        <listOfReactants>
+          <speciesReference species="s1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s2"/>
+        </listOfProducts>
+        <kineticLaw formula="s1"/>
+      </reaction>
+      <reaction name="r2">
+        <listOfReactants>
+          <speciesReference species="s3"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s4"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s2"/>
+        </listOfModifiers>
+        <kineticLaw formula="piecewise(and(gt(s2, 4), lt(s1, 5), lt(s2, 8)), 1.5, 0.05)"/>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

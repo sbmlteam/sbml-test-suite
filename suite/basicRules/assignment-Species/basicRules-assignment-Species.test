@@ -1,0 +1,5 @@
+TIME 5
+STEPS 50
+SPECIES s
+URL Assignment_Rule_Semantic_Test
+REM Tests whether an assignment rule is interpreted correctly.

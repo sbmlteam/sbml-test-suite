@@ -1,0 +1,5 @@
+TIME 2
+STEPS 50
+SPECIES S1 S2
+URL Function_Definition_used_in_Stoichiometry_Semantic_Test
+REM tests the use of a function with a stoichiometry expression

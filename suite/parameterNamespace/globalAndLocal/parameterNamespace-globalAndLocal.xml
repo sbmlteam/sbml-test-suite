@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Author:         Andrew Finney
+  Organisation:   SBMLTeam (http://sbml.org)
+  (C) 2004 - 2005 California Institute of Technology and University of Hertfordshire
+  This is free software;
+  see the file "LICENSE.txt" or the URL http://sbml.org/software/LICENSE.html
+  for licensing and distribution terms.
+-->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="2">
+  <model name="parameterNamespace_globalAndLocal">
+    <listOfCompartments>
+      <compartment name="compartment" volume="1"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species name="S1" compartment="compartment" initialAmount="0"/>
+      <species name="S2" compartment="compartment" initialAmount="0"/>
+      <species name="S3" compartment="compartment" initialAmount="0"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter name="k" value="1"/>
+    </listOfParameters>
+    <listOfReactions>
+      <reaction name="R1" reversible="false">
+        <listOfReactants>
+          <speciesReference species="S1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S2"/>
+        </listOfProducts>
+        <kineticLaw formula="k * S1"/>
+      </reaction>
+      <reaction name="R2" reversible="false">
+        <listOfReactants>
+          <speciesReference species="S2"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S3"/>
+        </listOfProducts>
+        <kineticLaw formula="k * S2">
+          <listOfParameters>
+            <parameter name="k" value="0.1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

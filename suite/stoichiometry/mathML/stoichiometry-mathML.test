@@ -1,0 +1,5 @@
+TIME 2
+STEPS 50
+SPECIES A B
+URL Dynamic_MathML_expression_stoichiometry_Semantic_Test
+REM Model contains a MathML expression for stoichiometry

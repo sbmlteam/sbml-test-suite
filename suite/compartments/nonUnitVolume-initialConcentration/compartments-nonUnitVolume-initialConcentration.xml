@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Author:         Andrew Finney
+  Organisation:   SBMLTeam (http://sbml.org)
+  (C) 2004 - 2005 California Institute of Technology and University of Hertfordshire
+  This is free software;
+  see the file "LICENSE.txt" or the URL http://sbml.org/software/LICENSE.html
+  for licensing and distribution terms.
+-->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="2">
+  <model name="compartments_nonUnitVolume_initialConcentration">
+    <listOfCompartments>
+      <compartment name="c" volume="0.00534"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species name="S1" compartment="c" initialAmount="1.50000066e-010"/>
+      <species name="S2" compartment="c" initialAmount="0"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction name="r" reversible="false">
+        <listOfReactants>
+          <speciesReference species="S1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S2"/>
+        </listOfProducts>
+        <kineticLaw formula="k * S1">
+          <listOfParameters>
+            <parameter name="k" value="0.001"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

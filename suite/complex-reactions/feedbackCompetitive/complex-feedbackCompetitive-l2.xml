@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Author:         Andrew Finney
+  Organisation:   SBMLTeam (http://sbml.org)
+  (C) 2004 - 2005 California Institute of Technology and University of Hertfordshire
+  This is free software;
+  see the file "LICENSE.txt" or the URL http://sbml.org/software/LICENSE.html
+  for licensing and distribution terms.
+-->
+<sbml level = "2" version = "1" xmlns = "http://www.sbml.org/sbml/level2">
+   <model id = "complexReactions_feedbackCompetitive">
+      <listOfCompartments>
+         <compartment id = "compartment" size = "1"/>
+      </listOfCompartments>
+      <listOfSpecies>
+         <species boundaryCondition = "false" compartment = "compartment" id = "S1" initialConcentration = "0"/>
+         <species boundaryCondition = "false" compartment = "compartment" id = "S2" initialConcentration = "0"/>
+         <species boundaryCondition = "false" compartment = "compartment" id = "S3" initialConcentration = "0"/>
+         <species boundaryCondition = "false" compartment = "compartment" id = "S4" initialConcentration = "0"/>
+         <species boundaryCondition = "true" compartment = "compartment" id = "X0" initialConcentration = "10"/>
+         <species boundaryCondition = "true" compartment = "compartment" id = "X1" initialConcentration = "0"/>
+      </listOfSpecies>
+      <listOfReactions>
+         <reaction id = "J0" reversible = "false">
+            <listOfReactants>
+               <speciesReference species = "X0" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <speciesReference species = "S1" stoichiometry = "1"/>
+            </listOfProducts>
+            <listOfModifiers>
+               <modifierSpeciesReference species = "S4" />
+            </listOfModifiers>
+            <kineticLaw>
+               <math xmlns = "http://www.w3.org/1998/Math/MathML">
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <times/>
+                        <ci>
+                               VM1 
+                        </ci>
+                        <apply>
+                           <minus/>
+                           <ci>
+                                  X0 
+                           </ci>
+                           <apply>
+                              <divide/>
+                              <ci>
+                                     S1 
+                              </ci>
+                              <ci>
+                                     Keq1 
+                              </ci>
+                           </apply>
+                        </apply>
+                     </apply>
+                     <apply>
+                        <plus/>
+                        <cn type = "integer">
+                               1 
+                        </cn>
+                        <ci>
+                               X0 
+                        </ci>
+                        <ci>
+                               S1 
+                        </ci>
+                        <apply>
+                           <power/>
+                           <ci>
+                                  S4 
+                           </ci>
+                           <ci>
+                                  h 
+                           </ci>
+                        </apply>
+                     </apply>
+                  </apply>
+               </math>
+               <listOfParameters>
+                  <parameter id = "VM1" value = "10"/>
+                  <parameter id = "Keq1" value = "10"/>
+                  <parameter id = "h" value = "10"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction id = "J1" reversible = "false">
+            <listOfReactants>
+               <speciesReference species = "S1" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <speciesReference species = "S2" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw>
+               <math xmlns = "http://www.w3.org/1998/Math/MathML">
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <minus/>
+                        <apply>
+                           <times/>
+                           <cn type = "integer">
+                                  10 
+                           </cn>
+                           <ci>
+                                  S1 
+                           </ci>
+                        </apply>
+                        <apply>
+                           <times/>
+                           <cn type = "integer">
+                                  2 
+                           </cn>
+                           <ci>
+                                  S2 
+                           </ci>
+                        </apply>
+                     </apply>
+                     <apply>
+                        <plus/>
+                        <cn type = "integer">
+                               1 
+                        </cn>
+                        <ci>
+                               S1 
+                        </ci>
+                        <ci>
+                               S2 
+                        </ci>
+                     </apply>
+                  </apply>
+               </math>
+            </kineticLaw>
+         </reaction>
+         <reaction id = "J2" reversible = "false">
+            <listOfReactants>
+               <speciesReference species = "S2" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <speciesReference species = "S3" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw>
+               <math xmlns = "http://www.w3.org/1998/Math/MathML">
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <minus/>
+                        <apply>
+                           <times/>
+                           <cn type = "integer">
+                                  10 
+                           </cn>
+                           <ci>
+                                  S2 
+                           </ci>
+                        </apply>
+                        <apply>
+                           <times/>
+                           <cn type = "integer">
+                                  2 
+                           </cn>
+                           <ci>
+                                  S3 
+                           </ci>
+                        </apply>
+                     </apply>
+                     <apply>
+                        <plus/>
+                        <cn type = "integer">
+                               1 
+                        </cn>
+                        <ci>
+                               S2 
+                        </ci>
+                        <ci>
+                               S3 
+                        </ci>
+                     </apply>
+                  </apply>
+               </math>
+            </kineticLaw>
+         </reaction>
+         <reaction id = "J3" reversible = "false">
+            <listOfReactants>
+               <speciesReference species = "S3" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <speciesReference species = "S4" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw>
+               <math xmlns = "http://www.w3.org/1998/Math/MathML">
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <minus/>
+                        <apply>
+                           <times/>
+                           <cn type = "integer">
+                                  10 
+                           </cn>
+                           <ci>
+                                  S3 
+                           </ci>
+                        </apply>
+                        <apply>
+                           <times/>
+                           <cn type = "integer">
+                                  2 
+                           </cn>
+                           <ci>
+                                  S4 
+                           </ci>
+                        </apply>
+                     </apply>
+                     <apply>
+                        <plus/>
+                        <cn type = "integer">
+                               1 
+                        </cn>
+                        <ci>
+                               S3 
+                        </ci>
+                        <ci>
+                               S4 
+                        </ci>
+                     </apply>
+                  </apply>
+               </math>
+            </kineticLaw>
+         </reaction>
+         <reaction id = "J4" reversible = "false">
+            <listOfReactants>
+               <speciesReference species = "S4" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <speciesReference species = "X1" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw>
+               <math xmlns = "http://www.w3.org/1998/Math/MathML">
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <times/>
+                        <ci>
+                               V4 
+                        </ci>
+                        <ci>
+                               S4 
+                        </ci>
+                     </apply>
+                     <apply>
+                        <plus/>
+                        <ci>
+                               KS4 
+                        </ci>
+                        <ci>
+                               S4 
+                        </ci>
+                     </apply>
+                  </apply>
+               </math>
+               <listOfParameters>
+                  <parameter id = "V4" value = "2.5"/>
+                  <parameter id = "KS4" value = "0.5"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+      </listOfReactions>
+   </model>
+</sbml>

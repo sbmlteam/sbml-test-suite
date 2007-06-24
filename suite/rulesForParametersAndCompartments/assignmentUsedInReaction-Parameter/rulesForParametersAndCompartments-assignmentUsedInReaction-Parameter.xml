@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="1">
+    <model name="rulesForParametersAndCompartments_assignmentUsedInReaction_Parameter">
+        <listOfCompartments>
+            <compartment name="c" volume="1"/>
+        </listOfCompartments>
+        <listOfSpecies>
+            <specie name="s1" compartment="c" initialAmount="1" boundaryCondition="true"/>
+            <specie name="s2" compartment="c" initialAmount="0" boundaryCondition="false"/>
+        </listOfSpecies>
+        <listOfParameters>
+            <parameter name="p" value="0"/>
+        </listOfParameters>
+        <listOfRules>
+            <parameterRule name="p" type="scalar" formula="3 + 4"/>
+        </listOfRules>
+        <listOfReactions>
+            <reaction name="r">
+                <listOfReactants>
+                    <specieReference specie="s1"/>
+                </listOfReactants>
+                <listOfProducts>
+                    <specieReference specie="s2"/>
+                </listOfProducts>
+                <kineticLaw formula="5*p"/>
+            </reaction>
+        </listOfReactions>
+    </model>
+</sbml>

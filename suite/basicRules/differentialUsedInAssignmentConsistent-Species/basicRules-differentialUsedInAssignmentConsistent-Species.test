@@ -1,0 +1,7 @@
+TIME 5
+STEPS 50
+SPECIES s1 s2
+URL XXXX
+REM Tests whether an assignment rule that contains a variable
+REM whose rate is determined by a rate rule is interpreted correctly.
+REM The explicit initial values of the model variables are consistent with the rules.

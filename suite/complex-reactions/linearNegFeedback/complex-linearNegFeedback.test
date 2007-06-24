@@ -1,0 +1,5 @@
+TIME 5000
+STEPS 50
+SPECIES Catalyst Complex Product ModifiedProduct SequestrationComplex
+URL Linear_Negative_Feedback_Model_Complex_Reaction_Semantic_Test
+REM Tests simulator's ability to solve a complex network of mass action reactions

@@ -1,0 +1,5 @@
+TIME 5
+STEPS 50
+SPECIES S1 S2 S3
+URL Global_Parameter_Scope_Semantic_Test
+REM This model tests simple interpretation of global parameters.

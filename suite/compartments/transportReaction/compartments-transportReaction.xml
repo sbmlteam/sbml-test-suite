@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Author:         Andrew Finney
+  Organisation:   SBMLTeam (http://sbml.org)
+  (C) 2004 - 2005 California Institute of Technology and University of Hertfordshire
+  This is free software;
+  see the file "LICENSE.txt" or the URL http://sbml.org/software/LICENSE.html
+  for licensing and distribution terms.
+-->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="2">
+  <model name="compartments_transportReaction">
+    <listOfCompartments>
+      <compartment name="c1" volume="0.1"/>
+      <compartment name="c2" volume="10"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species name="S1" compartment="c1" initialAmount="0.1"/>
+      <species name="S2" compartment="c2" initialAmount="0"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction name="r" reversible="false">
+        <listOfReactants>
+          <speciesReference species="S1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S2"/>
+        </listOfProducts>
+        <kineticLaw formula="k * S1">
+          <listOfParameters>
+            <parameter name="k" value="0.1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

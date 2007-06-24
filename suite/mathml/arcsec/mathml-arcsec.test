@@ -1,0 +1,5 @@
+TIME 0.7
+STEPS 50
+SPECIES S1 S2
+URL MathML_arcsec_Function_Semantic_Test
+REM tests the use of the arcsec MathML function in a kinetic law expression

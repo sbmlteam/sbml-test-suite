@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Author:         Andrew Finney
+  Organisation:   SBMLTeam (http://sbml.org)
+  (C) 2004 - 2005 California Institute of Technology and University of Hertfordshire
+  This is free software;
+  see the file "LICENSE.txt" or the URL http://sbml.org/software/LICENSE.html
+  for licensing and distribution terms.
+-->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="1">
+    <model name="basic_model2_base">
+        <listOfCompartments>
+            <compartment name="c" volume="1"/>
+        </listOfCompartments>
+        <listOfSpecies>
+            <specie name="A" compartment="c" initialAmount="1e-015"/>
+            <specie name="B" compartment="c" initialAmount="2e-015"/>
+            <specie name="C" compartment="c" initialAmount="1e-015"/>
+        </listOfSpecies>
+        <listOfReactions>
+            <reaction name="R1" reversible="false">
+                <listOfReactants>
+                    <specieReference specie="A" stoichiometry="1"/>
+                    <specieReference specie="B" stoichiometry="1"/>
+                </listOfReactants>
+                <listOfProducts>
+                    <specieReference specie="C" stoichiometry="1"/>
+                </listOfProducts>
+                <kineticLaw formula="kf*A*B">
+                    <listOfParameters>
+                        <parameter name="kf" value="0.75"/>
+                    </listOfParameters>
+                </kineticLaw>
+            </reaction>
+            <reaction name="R2" reversible="false">
+                <listOfReactants>
+                    <specieReference specie="C" stoichiometry="1"/>
+                </listOfReactants>
+                <listOfProducts>
+                    <specieReference specie="A" stoichiometry="1"/>
+                    <specieReference specie="B" stoichiometry="1"/>
+                </listOfProducts>
+                <kineticLaw formula="kr*C">
+                    <listOfParameters>
+                        <parameter name="kr" value="0.25"/>
+                    </listOfParameters>
+                </kineticLaw>
+            </reaction>
+        </listOfReactions>
+    </model>
+</sbml>

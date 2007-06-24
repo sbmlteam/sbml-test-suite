@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Author:         Andrew Finney
+  Organisation:   SBMLTeam (http://sbml.org)
+  (C) 2004 - 2005 California Institute of Technology and University of Hertfordshire
+  This is free software;
+  see the file "LICENSE.txt" or the URL http://sbml.org/software/LICENSE.html
+  for licensing and distribution terms.
+-->
+<sbml level = "1" version = "1" xmlns = "http://www.sbml.org/sbml/level1">
+   <model name = "complexReactions_feedbackCompetitive">
+      <listOfCompartments>
+         <compartment name = "compartment" volume = "1"/>
+      </listOfCompartments>
+      <listOfSpecies>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "0" name = "S1"/>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "0" name = "S2"/>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "0" name = "S3"/>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "0" name = "S4"/>
+         <specie boundaryCondition = "true" compartment = "compartment" initialAmount = "10" name = "X0"/>
+         <specie boundaryCondition = "true" compartment = "compartment" initialAmount = "0" name = "X1"/>
+      </listOfSpecies>
+      <listOfReactions>
+         <reaction name = "J0" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "X0" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "S1" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "VM1*(X0-S1/Keq1)/(1+X0+S1+S4^h)">
+               <listOfParameters>
+                  <parameter name = "VM1" value = "10"/>
+                  <parameter name = "Keq1" value = "10"/>
+                  <parameter name = "h" value = "10"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J1" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "S1" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "S2" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "(10*S1-2*S2)/(1+S1+S2)">
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J2" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "S2" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "S3" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "(10*S2-2*S3)/(1+S2+S3)">
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J3" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "S3" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "S4" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "(10*S3-2*S4)/(1+S3+S4)">
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J4" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "S4" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "X1" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "V4*S4/(KS4+S4)">
+               <listOfParameters>
+                  <parameter name = "V4" value = "2.5"/>
+                  <parameter name = "KS4" value = "0.5"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+      </listOfReactions>
+   </model>
+</sbml>

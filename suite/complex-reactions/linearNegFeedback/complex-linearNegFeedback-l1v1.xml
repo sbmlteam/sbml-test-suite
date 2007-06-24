@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Author:         Andrew Finney
+  Organisation:   SBMLTeam (http://sbml.org)
+  (C) 2004 - 2005 California Institute of Technology and University of Hertfordshire
+  This is free software;
+  see the file "LICENSE.txt" or the URL http://sbml.org/software/LICENSE.html
+  for licensing and distribution terms.
+-->
+<!-- Created by XMLPrettyPrinter on 08/06/2004 from JDesigner 1.8k -->
+<sbml level = "1" version = "1" xmlns = "http://www.sbml.org/sbml/level1">
+   <!--                     -->
+   <!--  Model Starts Here  -->
+   <!--                     -->
+   <model name = "complexReactions_linearNegFeedback">
+      <listOfCompartments>
+         <compartment name = "compartment" volume = "1"/>
+      </listOfCompartments>
+      <listOfSpecies>
+         <specie boundaryCondition = "true" compartment = "compartment" initialAmount = "100" name = "Substrate"/>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "100" name = "Catalyst"/>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "1" name = "Complex"/>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "1" name = "Product"/>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "0" name = "IntermediateProduct1"/>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "0" name = "IntermediateProduct2"/>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "0" name = "IntermediateProduct3"/>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "0" name = "IntermediateProduct4"/>     
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "0" name = "ModifiedProduct"/>
+         <specie boundaryCondition = "true" compartment = "compartment" initialAmount = "100" name = "Junk"/>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "0" name = "SequestrationComplex"/>
+      </listOfSpecies>
+      <listOfReactions>
+         <reaction name = "complexFormation" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "Catalyst" stoichiometry = "1"/>
+               <specieReference specie = "Substrate" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "Complex" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "kf*Catalyst*Substrate">
+               <listOfParameters>
+                  <parameter name = "kf" value = "0.005"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "Catalysis" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "Complex" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "Product" stoichiometry = "1"/>
+               <specieReference specie = "Catalyst" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "kcat*Complex">
+               <listOfParameters>
+                  <parameter name = "kcat" value = "0.06"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "productPathway1" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "Product" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "IntermediateProduct1" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "kpath1*Product">
+               <listOfParameters>
+                  <parameter name = "kpath1" value = "0.003"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "productPathway2" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "IntermediateProduct1" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "IntermediateProduct2" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "kpath2*IntermediateProduct1">
+               <listOfParameters>
+                  <parameter name = "kpath2" value = "0.003"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "productPathway3" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "IntermediateProduct2" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "IntermediateProduct3" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "kpath3*IntermediateProduct2">
+               <listOfParameters>
+                  <parameter name = "kpath3" value = "0.003"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "productPathway4" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "IntermediateProduct3" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "IntermediateProduct4" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "kpath4*IntermediateProduct3">
+               <listOfParameters>
+                  <parameter name = "kpath4" value = "0.003"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "productModification" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "IntermediateProduct4" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "ModifiedProduct" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "kmod*IntermediateProduct4">
+               <listOfParameters>
+                  <parameter name = "kmod" value = "0.003"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+
+         <reaction name = "sequestration" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "Catalyst" stoichiometry = "1"/>
+               <specieReference specie = "ModifiedProduct" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "SequestrationComplex" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "kseq*Catalyst*ModifiedProduct">
+               <listOfParameters>
+                  <parameter name = "kseq" value = "0.5"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "Unsequestration" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "SequestrationComplex" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "ModifiedProduct" stoichiometry = "1"/>
+               <specieReference specie = "Catalyst" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "kunseq*SequestrationComplex">
+               <listOfParameters>
+                  <parameter name = "kunseq" value = "0.01"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+
+         <reaction name = "complexSeperation" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "Complex" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "Substrate" stoichiometry = "1"/>
+               <specieReference specie = "Catalyst" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "kr*Complex">
+               <listOfParameters>
+                  <parameter name = "kr" value = "0.01"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction> 
+
+         <reaction name = "degradation" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "ModifiedProduct" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "Junk" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "kdeg*ModifiedProduct">
+               <listOfParameters>
+                  <parameter name = "kdeg" value = "0.005"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+
+      </listOfReactions>
+   </model>
+</sbml>

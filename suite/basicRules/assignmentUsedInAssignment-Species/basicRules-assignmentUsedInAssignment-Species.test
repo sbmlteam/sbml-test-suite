@@ -1,0 +1,7 @@
+TIME 5
+STEPS 50
+SPECIES s1 s2
+URL Assignment_Rule_used_in_Assignment_Rule_Semantic_Test
+REM Tests whether an assignment rule that contains a
+REM variable which is assigned a value in another assignment
+REM rule is interpreted correctly.

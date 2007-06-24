@@ -1,0 +1,5 @@
+TIME 5
+STEPS 50
+SPECIES S1 S2
+URL MathML_arctanh_Function_Semantic_Test
+REM tests the use of the arctanh MathML function in a kinetic law expression

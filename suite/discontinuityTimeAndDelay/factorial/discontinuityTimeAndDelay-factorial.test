@@ -1,0 +1,5 @@
+TIME 2
+STEPS 50
+SPECIES S1 S2
+URL MathML_factorial_Function_Semantic_Test
+REM Tests the MathML 'factorial' function 

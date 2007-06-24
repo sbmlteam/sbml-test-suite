@@ -1,0 +1,5 @@
+TIME 5
+STEPS 50
+SPECIES s
+URL Rate_Rule_Semantic_Test
+REM Tests whether a rate rule is interpreted correctly.
