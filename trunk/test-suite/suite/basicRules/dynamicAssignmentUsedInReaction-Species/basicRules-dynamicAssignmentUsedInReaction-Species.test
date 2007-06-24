@@ -1,0 +1,6 @@
+TIME 100000
+STEPS 50
+SPECIES s1 s2
+URL Dynamic_Assignment_Rule_used_in_Reaction_Semantic_Test
+REM Tests whether a kinetic law that contains a variable
+REM whose value is determined by an assignment rule is interpreted correctly.

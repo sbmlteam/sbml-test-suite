@@ -1,0 +1,5 @@
+TIME 1.5
+STEPS 50
+SPECIES S1 S2
+URL MathML_root_Operator_Semantic_Test
+REM tests the use of the root MathML operator in a kinetic law expression

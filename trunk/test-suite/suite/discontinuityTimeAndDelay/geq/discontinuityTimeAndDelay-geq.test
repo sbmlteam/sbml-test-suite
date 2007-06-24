@@ -1,0 +1,5 @@
+TIME 5
+STEPS 50
+SPECIES s1 s2 s3 s4
+URL MathML_geq_Function_Semantic_Test
+REM Tests the MathML 'geq' function 

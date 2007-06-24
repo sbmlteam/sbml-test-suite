@@ -1,0 +1,7 @@
+TIME 5
+STEPS 50
+SPECIES S1 S2
+URL ForwardFromZero_Variant_-_Basic_Model_1_Semantic_Test
+REM This model tests simple interpretation of reactions.
+REM The model consists of 2 reactions with mass action kinetics
+REM one of which has no effect (kinetic constant is 0).

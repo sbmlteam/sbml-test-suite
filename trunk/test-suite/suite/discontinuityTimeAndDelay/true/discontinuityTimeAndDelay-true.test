@@ -1,0 +1,5 @@
+TIME 30
+STEPS 50
+SPECIES s1 s2
+URL MathML_true_Constant_Semantic_Test
+REM Tests the MathML 'true' constant 

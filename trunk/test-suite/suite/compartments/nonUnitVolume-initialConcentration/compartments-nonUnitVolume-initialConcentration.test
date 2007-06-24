@@ -1,0 +1,5 @@
+TIME 20
+STEP 50
+SPECIES S1 S2
+URL Non_Unit_Volume_Initial_Concentration_Semantic_Test
+REM proper handling of non unit volume compartments

@@ -1,0 +1,6 @@
+TIME 10
+STEPS 50
+SPECIES A B C D
+URL Base_Variant_-_Basic_Model_5_Semantic_Test
+REM This model tests simple interpretation of reactions.
+REM The model consists of 3 reactions with mass action kinetics

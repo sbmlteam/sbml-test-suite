@@ -1,0 +1,5 @@
+TIME 100
+STEPS 50
+SPECIES Product
+URL No_Reactant_Model_Complex_Reaction_Semantic_Test
+REM Model consists of one reaction with no reactant

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Author:         Andrew Finney
+  Organisation:   SBMLTeam (http://sbml.org)
+  (C) 2004 - 2005 California Institute of Technology and University of Hertfordshire
+  This is free software;
+  see the file "LICENSE.txt" or the URL http://sbml.org/software/LICENSE.html
+  for licensing and distribution terms.
+-->
+<sbml xmlns="http://www.sbml.org/sbml/level2" level="2" version="1">
+  <model id="events_one_event_two_assignments">
+    <listOfCompartments>
+      <compartment id="compartment" size="1"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="S1" compartment="compartment" initialAmount="1"/>
+      <species id="S2" compartment="compartment" initialAmount="0"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="R" reversible="false">
+        <listOfReactants>
+          <speciesReference species="S1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S2"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <ci> S1 </ci>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+    <listOfEvents>
+        <event>
+            <trigger>
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <apply>
+                        <lt/>
+                        <ci> S1 </ci>
+                        <cn> 0.1 </cn>
+                    </apply>
+                </math>
+            </trigger>
+            <listOfEventAssignments>
+                <eventAssignment variable="S1">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                        <cn> 1 </cn>
+                    </math>
+                </eventAssignment>
+                <eventAssignment variable="S2">
+                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                        <cn> 0 </cn>
+                    </math>
+                </eventAssignment>
+            </listOfEventAssignments>
+        </event>
+    </listOfEvents>
+  </model>
+</sbml>

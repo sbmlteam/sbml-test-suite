@@ -1,0 +1,5 @@
+TIME 60
+STEPS 100
+SPECIES S1 S2 S3
+URL Model_Containing_Hill_Equation_Complex_Reaction_Semantic_Test
+REM Tests simulator's ability to solve a mathematically complex model

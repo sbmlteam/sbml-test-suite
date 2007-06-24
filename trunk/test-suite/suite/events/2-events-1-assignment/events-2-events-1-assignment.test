@@ -1,0 +1,6 @@
+TIME 5
+STEPS 50
+SPECIES S1 S2
+URL 2_Events_with_1_Assignment_Semantic_Tests
+REM test of support for events.
+REM model contains 2 events

@@ -1,0 +1,5 @@
+TIME 100
+STEPS 50
+SPECIES Substrate
+URL No_Product_Model_Complex_Reaction_Semantic_Test
+REM Model consists of a single reaction without a product

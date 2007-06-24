@@ -1,0 +1,5 @@
+TIME 3
+STEPS 50
+SPECIES S1 S2
+URL MathML_minus_Unary_Operator_Semantic_Test
+REM tests the use of the minus MathML unary operator in a kinetic law expression

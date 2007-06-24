@@ -1,0 +1,5 @@
+TIME 0.5
+STEPS 50
+SPECIES S1 S2
+URL MathML_exp_Function_Semantic_Test
+REM tests the use of the exp MathML function in a kinetic law expression

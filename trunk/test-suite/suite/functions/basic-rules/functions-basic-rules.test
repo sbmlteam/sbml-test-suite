@@ -1,0 +1,5 @@
+TIME 5
+STEPS 50
+SPECIES s1 s2
+URL Function_Definition_used_in_Basic_Rules_Semantic_Test
+REM tests the use of a function in an rate rule

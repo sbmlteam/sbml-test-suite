@@ -1,0 +1,47 @@
+#!/bin/bash
+accuracyGoal=$1
+precision=$2
+sbml=$3
+time=$4
+steps=$5
+csv_output=$6
+tempdir=$7
+firstOutputSpecies=$8
+mathscript=$tempdir/script.m
+stepsize=`awk "BEGIN { print $time/$steps }" /dev/null`
+
+if ! [ -e $sbml ] ; then 
+    echo $sbml does not exist
+    exit 1;
+fi
+
+#if [ -n "uname | grep CGYWIN" ] ; then 
+#    sbml=$(echo $sbml | sed {s:/:\\\\\\\\:g})
+#fi
+
+rm -f $mathscript
+rm -f $csv_output
+touch $mathscript
+chmod +w $mathscript
+cat >> $mathscript << EOF
+m=SBMLRead["$sbml", context->"SBML"]
+r=SBMLNDSolve[m,$time, AccuracyGoal->$accuracyGoal, PrecisionGoal->$precision]
+dataTable[{SBML\`$firstOutputSpecies
+EOF
+
+declare -i arg=0
+for species
+do
+    if [ $arg -gt 7 ]; then
+        cat >> $mathscript << EOF
+, SBML\`$species
+EOF
+    fi
+    let arg=$arg+1    
+done
+
+cat >> $mathscript << EOF
+}, {t, 0, $time, $stepsize}, r, file -> "$csv_output", format -> "CSV"]
+EOF
+
+math < $mathscript > $tempdir/mathout

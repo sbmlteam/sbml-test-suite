@@ -1,0 +1,19 @@
+#!/bin/bash
+tempdir=$5
+mathSBML-wrapper-once.bsh 30 12 $@
+if grep "NDSolve::nderr: Error test failure at t == 0.; unable to continue." $tempdir/mathout ; then
+    echo trying accuracy 15 precision 12
+    mathSBML-wrapper-once.bsh 15 12 $@
+fi
+if grep "NDSolve::nderr: Error test failure at t == 0.; unable to continue." $tempdir/mathout ; then
+    echo trying accuracy 10 precision 12
+    mathSBML-wrapper-once.bsh 10 12 $@
+fi
+if grep "NDSolve::nderr: Error test failure at t == 0.; unable to continue." $tempdir/mathout ; then
+    echo trying accuracy 30 precision 9
+    mathSBML-wrapper-once.bsh 30 9 $@
+fi
+if grep "NDSolve::icfail:" $tempdir/mathout ; then
+    echo trying accuracy 30 precision 9
+    mathSBML-wrapper-once.bsh 30 9 $@
+fi

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Author:         Andrew Finney
+  Organisation:   SBMLTeam (http://sbml.org)
+  (C) 2004 - 2005 California Institute of Technology and University of Hertfordshire
+  This is free software;
+  see the file "LICENSE.txt" or the URL http://sbml.org/software/LICENSE.html
+  for licensing and distribution terms.
+-->
+<!-- Created by XMLPrettyPrinter on 28/05/2004 from JDesigner 1.8k -->
+<sbml level = "1" version = "1" xmlns = "http://www.sbml.org/sbml/level1">
+   <!--                     -->
+   <!--  Model Starts Here  -->
+   <!--                     -->
+   <model name = "basic_model6_base">
+      <listOfCompartments>
+         <compartment name = "compartment" volume = "1"/>
+      </listOfCompartments>
+      <listOfSpecies>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "2E-15" name = "A"/>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "1e-15" name = "B"/>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "5e-16" name = "C"/>
+         <specie boundaryCondition = "false" compartment = "compartment" initialAmount = "0" name = "D"/>
+      </listOfSpecies>
+      <listOfReactions>
+         <reaction name = "J0" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "A" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "B" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "k1*A">
+               <listOfParameters>
+                  <parameter name = "k1" value = "0.7"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J1" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "B" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "C" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "k2*B">
+               <listOfParameters>
+                  <parameter name = "k2" value = "0.5"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J2" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "C" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "D" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "k3*C">
+               <listOfParameters>
+                  <parameter name = "k3" value = "1"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+      </listOfReactions>
+   </model>
+</sbml>
