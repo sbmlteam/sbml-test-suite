@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by XMLPrettyPrinter on 03/12/02 -->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="1">
+   <!--                     -->
+   <!--  Model Starts Here  -->
+   <!--                     -->
+   <model name = "ATitle">
+      <listOfCompartments>
+         <compartment name = "uVol" volume = "1"/>
+      </listOfCompartments>
+      <listOfSpecies>
+         <specie name = "MKKK" boundaryCondition = "false" initialAmount = "90" compartment = "uVol"/>
+         <specie name = "MKKK_P" boundaryCondition = "false" initialAmount = "10" compartment = "uVol"/>
+         <specie name = "MKK" boundaryCondition = "false" initialAmount = "280" compartment = "uVol"/>
+         <specie name = "MKK_P" boundaryCondition = "false" initialAmount = "10" compartment = "uVol"/>
+         <specie name = "MKK_PP" boundaryCondition = "false" initialAmount = "10" compartment = "uVol"/>
+         <specie name = "MAPK" boundaryCondition = "false" initialAmount = "280" compartment = "uVol"/>
+         <specie name = "MAPK_P" boundaryCondition = "false" initialAmount = "10" compartment = "uVol"/>
+         <specie name = "MAPK_PP" boundaryCondition = "false" initialAmount = "10" compartment = "uVol"/>
+      </listOfSpecies>
+      <listOfReactions>
+         <reaction name = "J0" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "MKKK" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "MKKK_P" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "V1*MKKK/((1+(MAPK_PP/Ki)^n)*(K1+MKKK))">
+               <listOfParameters>
+                  <parameter name = "V1" value = "2.5"/>
+                  <parameter name = "Ki" value = "9"/>
+                  <parameter name = "n" value = "1"/>
+                  <parameter name = "K1" value = "10"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J1" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "MKKK_P" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "MKKK" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "V2*MKKK_P/(KK2+MKKK_P)">
+               <listOfParameters>
+                  <parameter name = "V2" value = "0.25"/>
+                  <parameter name = "KK2" value = "8"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J2" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "MKK" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "MKK_P" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "k3*MKKK_P*MKK/(KK3+MKK)">
+               <listOfParameters>
+                  <parameter name = "k3" value = "0.025"/>
+                  <parameter name = "KK3" value = "15"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J3" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "MKK_P" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "MKK_PP" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "k4*MKKK_P*MKK_P/(KK4+MKK_P)">
+               <listOfParameters>
+                  <parameter name = "k4" value = "0.025"/>
+                  <parameter name = "KK4" value = "15"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J4" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "MKK_PP" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "MKK_P" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "V5*MKK_PP/(KK5+MKK_PP)">
+               <listOfParameters>
+                  <parameter name = "V5" value = "0.75"/>
+                  <parameter name = "KK5" value = "15"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J5" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "MKK_P" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "MKK" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "V6*MKK_P/(KK6+MKK_P)">
+               <listOfParameters>
+                  <parameter name = "V6" value = "0.75"/>
+                  <parameter name = "KK6" value = "15"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J6" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "MAPK" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "MAPK_P" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "k7*MKK_PP*MAPK/(KK7+MAPK)">
+               <listOfParameters>
+                  <parameter name = "k7" value = "0.025"/>
+                  <parameter name = "KK7" value = "15"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J7" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "MAPK_P" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "MAPK_PP" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "k8*MKK_PP*MAPK_P/(KK8+MAPK_P)">
+               <listOfParameters>
+                  <parameter name = "k8" value = "0.025"/>
+                  <parameter name = "KK8" value = "15"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J8" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "MAPK_PP" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "MAPK_P" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "V9*MAPK_PP/(KK9+MAPK_PP)">
+               <listOfParameters>
+                  <parameter name = "V9" value = "0.5"/>
+                  <parameter name = "KK9" value = "15"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J9" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "MAPK_P" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "MAPK" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw formula = "V10*MAPK_P/(KK10+MAPK_P)">
+               <listOfParameters>
+                  <parameter name = "V10" value = "0.5"/>
+                  <parameter name = "KK10" value = "15"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+      </listOfReactions>
+   </model>
+</sbml>

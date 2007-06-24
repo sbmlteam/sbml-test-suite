@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by XMLPrettyPrinter on 1/8/2003 -->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="1" xmlns:jd = "http://www.sys-bio.org/sbml">
+   <annotations>
+      <jd:header>
+         <VersionHeader SBMLVersion = "1.0"/>
+         <ModelHeader Author = "Tyson" ModelVersion = "1.0" ModelTitle = "untitled"/>
+      </jd:header>
+      <jd:display>
+         <SBMLGraphicsHeader BackGroundColor = "15728639"/>
+      </jd:display>
+   </annotations>
+   <!--                     -->
+   <!--  Model Starts Here  -->
+   <!--                     -->
+   <model name = "Tyson6">
+      <annotations>
+         <jd:notes type = "ASCII">
+            <note value = "A model of the cell cycle based on the interactions between cdc2 and cyclin. The model has six dynamic variables: C2 (cdc2); CP (cdc2-P complex); pM (P- cyclin-cdc2-P complex); M (active MPF, P-cyclin- cdc2 complex); Y (cyclin); and YP (cyclin-P) . Total cyclin concentration (YT) is the sum YT=Y+YP+pM+M4"/>
+            <note value = ""/>
+            <note value = "Reference:"/>
+            <note value = ""/>
+            <note value = "Tyson JJ, (1991) . Modeling the cell division cycle: cdc2 and cyclin interactions. PNAS, 88: 7328-7332. "/>
+            <note value = ""/>
+            <note value = "Generated from "/>
+            <note value = ""/>
+            <note value = "Cellerator Version 1.0 update 2.1125 using Mathematica 4.2 for Mac OS X (June 4, 2002), November 25, 2002 14:40:28, using (PowerMac,PowerPC, Mac OS X,MacOSX,Darwin)"/>
+            <note value = ""/>
+            <note value = "by B. E. Shapiro"/>
+            <note value = ""/>
+            <note value = " "/>
+            <note value = " "/>
+         </jd:notes>
+      </annotations>
+      <listOfCompartments>
+         <compartment name = "uVol" volume = "1">
+            <annotations>
+               <jd:display>
+                  <boundingBox x = "0" y = "0" w = "0" h = "0"/>
+               </jd:display>
+            </annotations>
+         </compartment>
+      </listOfCompartments>
+      <listOfSpecies>
+         <specie name = "C2" boundaryCondition = "false" initialAmount = "0" compartment = "uVol">
+            <annotations>
+               <jd:display x = "404" y = "128" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "CP" boundaryCondition = "false" initialAmount = "1" compartment = "uVol">
+            <annotations>
+               <jd:display x = "218" y = "124" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "M" boundaryCondition = "false" initialAmount = "0" compartment = "uVol">
+            <annotations>
+               <jd:display x = "405" y = "51" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "pM" boundaryCondition = "false" initialAmount = "0.3" compartment = "uVol">
+            <annotations>
+               <jd:display x = "218" y = "52" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "Y" boundaryCondition = "false" initialAmount = "0" compartment = "uVol">
+            <annotations>
+               <jd:display x = "124" y = "208" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "YP" boundaryCondition = "false" initialAmount = "0" compartment = "uVol">
+            <annotations>
+               <jd:display x = "497" y = "206" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+         <specie name = "EmptySet" boundaryCondition = "true" initialAmount = "0" compartment = "uVol">
+            <annotations>
+               <jd:display x = "311" y = "209" iconIndex = "-1" edgeThickness = "1"
+                           edgeColor = "0" selectedEdgeColor = "255" fillColor = "16777215" borderType = "ntRound">
+                  <font fontName = "Arial" fontSize = "8" fontStyle = "" fontColor = "0"/>
+               </jd:display>
+            </annotations>
+         </specie>
+      </listOfSpecies>
+      <listOfReactions>
+         <reaction name = "J0" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "M" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "C2" stoichiometry = "1"/>
+               <specieReference specie = "YP" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "0" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "501" y = "80"/>
+                  <pt x = "489" y = "57"/>
+                  <pt x = "500" y = "51"/>
+                  <pt x = "502" y = "109"/>
+                  <pt x = "494" y = "130"/>
+                  <pt x = "502" y = "109"/>
+                  <pt x = "503" y = "132"/>
+               </jd:arcSeg>
+               <jd:builtIn name = "imm">
+                  <listOfSymbols>
+                     <parameter name = "J0_k" value = "0.1"/>
+                  </listOfSymbols>
+               </jd:builtIn>
+            </annotations>
+            <kineticLaw formula = "J0_k*M">
+               <listOfParameters>
+                  <parameter name = "J0_k" value = "0.1"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J1" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "C2" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "CP" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "322" y = "116"/>
+                  <pt x = "322" y = "112"/>
+                  <pt x = "322" y = "112"/>
+               </jd:arcSeg>
+               <jd:builtIn name = "imm">
+                  <listOfSymbols>
+                     <parameter name = "J1_k" value = "0.1"/>
+                  </listOfSymbols>
+               </jd:builtIn>
+            </annotations>
+            <kineticLaw formula = "J1_k*C2">
+               <listOfParameters>
+                  <parameter name = "J1_k" value = "0.1"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J2" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "CP" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "C2" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "317" y = "154"/>
+                  <pt x = "322" y = "163"/>
+                  <pt x = "319" y = "157"/>
+               </jd:arcSeg>
+               <jd:builtIn name = "imm">
+                  <listOfSymbols>
+                     <parameter name = "J2_k" value = "0.1"/>
+                  </listOfSymbols>
+               </jd:builtIn>
+            </annotations>
+            <kineticLaw formula = "J2_k*CP">
+               <listOfParameters>
+                  <parameter name = "J2_k" value = "0.1"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J3" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "CP" stoichiometry = "1"/>
+               <specieReference specie = "Y" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "pM" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "127" y = "101"/>
+                  <pt x = "161" y = "129"/>
+                  <pt x = "127" y = "126"/>
+                  <pt x = "126" y = "147"/>
+                  <pt x = "127" y = "126"/>
+                  <pt x = "127" y = "76"/>
+                  <pt x = "135" y = "61"/>
+               </jd:arcSeg>
+               <jd:builtIn name = "imm">
+                  <listOfSymbols>
+                     <parameter name = "J3_k" value = "0.1"/>
+                  </listOfSymbols>
+               </jd:builtIn>
+            </annotations>
+            <kineticLaw formula = "J3_k*CP">
+               <listOfParameters>
+                  <parameter name = "J3_k" value = "0.1"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J4" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "M" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "pM" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "314" y = "34"/>
+                  <pt x = "311" y = "28"/>
+                  <pt x = "311" y = "28"/>
+               </jd:arcSeg>
+               <jd:builtIn name = "imm">
+                  <listOfSymbols>
+                     <parameter name = "J4_k" value = "0.1"/>
+                  </listOfSymbols>
+               </jd:builtIn>
+            </annotations>
+            <kineticLaw formula = "J4_k*M">
+               <listOfParameters>
+                  <parameter name = "J4_k" value = "0.1"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J5" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "EmptySet" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "Y" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "222" y = "237"/>
+                  <pt x = "219" y = "242"/>
+                  <pt x = "220" y = "244"/>
+               </jd:arcSeg>
+               <jd:builtIn name = "imm">
+                  <listOfSymbols>
+                     <parameter name = "J5_k" value = "0.1"/>
+                  </listOfSymbols>
+               </jd:builtIn>
+            </annotations>
+            <kineticLaw formula = "J5_k*EmptySet">
+               <listOfParameters>
+                  <parameter name = "J5_k" value = "0.1"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J6" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "Y" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "EmptySet" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "211" y = "203"/>
+                  <pt x = "205" y = "201"/>
+                  <pt x = "216" y = "201"/>
+               </jd:arcSeg>
+               <jd:builtIn name = "imm">
+                  <listOfSymbols>
+                     <parameter name = "J6_k" value = "0.1"/>
+                  </listOfSymbols>
+               </jd:builtIn>
+            </annotations>
+            <kineticLaw formula = "J6_k*Y">
+               <listOfParameters>
+                  <parameter name = "J6_k" value = "0.1"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J7" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "YP" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "EmptySet" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "422" y = "214"/>
+                  <pt x = "419" y = "215"/>
+                  <pt x = "419" y = "215"/>
+               </jd:arcSeg>
+               <jd:builtIn name = "imm">
+                  <listOfSymbols>
+                     <parameter name = "J7_k" value = "0.1"/>
+                  </listOfSymbols>
+               </jd:builtIn>
+            </annotations>
+            <kineticLaw formula = "J7_k*YP">
+               <listOfParameters>
+                  <parameter name = "J7_k" value = "0.1"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+         <reaction name = "J8" reversible = "false">
+            <listOfReactants>
+               <specieReference specie = "pM" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <specieReference specie = "M" stoichiometry = "1"/>
+            </listOfProducts>
+            <annotations>
+               <jd:arcSeg lineThickness = "1" lineColor = "0" fillColor = "16777215" selectedLineColor = "255">
+                  <pt x = "307" y = "77"/>
+                  <pt x = "306" y = "83"/>
+                  <pt x = "306" y = "83"/>
+               </jd:arcSeg>
+               <jd:builtIn name = "imm">
+                  <listOfSymbols>
+                     <parameter name = "J8_k" value = "0.1"/>
+                  </listOfSymbols>
+               </jd:builtIn>
+            </annotations>
+            <kineticLaw formula = "J8_k*pM">
+               <listOfParameters>
+                  <parameter name = "J8_k" value = "0.1"/>
+               </listOfParameters>
+            </kineticLaw>
+         </reaction>
+      </listOfReactions>
+   </model>
+</sbml>

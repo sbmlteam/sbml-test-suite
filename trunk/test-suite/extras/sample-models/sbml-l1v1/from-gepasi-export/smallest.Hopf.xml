@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by Gepasi 3.30 on September 03, 2002, 23:19 -->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="1">
+	<model name="Smallest_chemical_reaction_system_with_Hopf_bifurcation">
+		<notes>
+			<body xmlns="http://www.w3.org/1999/xhtml">
+				<p>Wilhelm, T. &amp; Heinrich, R. (1995) &quot;Smallest chemical reaction system with </p>
+				<p>Hopf bifurcation&quot; J. Math. Chem. 17, 1-14</p>
+			</body>
+		</notes>
+		<listOfCompartments>
+			<compartment name="compartment" volume="1"/>
+		</listOfCompartments>
+		<listOfSpecies>
+			<specie name="X" compartment="compartment" initialAmount="2.5" boundaryCondition="false"/>
+			<specie name="A" compartment="compartment" initialAmount="1" boundaryCondition="true"/>
+			<specie name="Y" compartment="compartment" initialAmount="2.5" boundaryCondition="false"/>
+			<specie name="Z" compartment="compartment" initialAmount="2.5" boundaryCondition="false"/>
+			<specie name="_void_" compartment="compartment" initialAmount="0.0" boundaryCondition="true"/>
+		</listOfSpecies>
+		<listOfReactions>
+			<reaction name="R1" reversible="false">
+				<listOfReactants>
+					<specieReference specie="X" stoichiometry="1"/>
+					<specieReference specie="A" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="X" stoichiometry="2"/>
+				</listOfProducts>
+				<kineticLaw formula="k_1*X*A">
+					<listOfParameters>
+						<parameter name="k_1" value="3.2"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R2" reversible="false">
+				<listOfReactants>
+					<specieReference specie="X" stoichiometry="1"/>
+					<specieReference specie="Y" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="A" stoichiometry="1"/>
+					<specieReference specie="Y" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="k_2*X*Y">
+					<listOfParameters>
+						<parameter name="k_2" value="1"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R3" reversible="false">
+				<listOfReactants>
+					<specieReference specie="X" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="Z" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="k_3*X">
+					<listOfParameters>
+						<parameter name="k_3" value="1"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R4" reversible="false">
+				<listOfReactants>
+					<specieReference specie="Z" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="Y" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="k_4*Z">
+					<listOfParameters>
+						<parameter name="k_4" value="1"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R5" reversible="false">
+				<listOfReactants>
+					<specieReference specie="Y" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="_void_" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="k_5*Y">
+					<listOfParameters>
+						<parameter name="k_5" value="1"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+		</listOfReactions>
+	</model>
+</sbml>

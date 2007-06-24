@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by Gepasi 3.30 on March 17, 2003, 12:57 -->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="1">
+	<model name="Lambeth">
+		<listOfCompartments>
+			<compartment name="uVol" volume="1"/>
+		</listOfCompartments>
+		<listOfSpecies>
+			<specie name="adp" compartment="uVol" initialAmount="1.3e-005" boundaryCondition="false"/>
+			<specie name="NADH" compartment="uVol" initialAmount="5e-007" boundaryCondition="false"/>
+			<specie name="atp" compartment="uVol" initialAmount="0.008200000000000001" boundaryCondition="false"/>
+			<specie name="PCr" compartment="uVol" initialAmount="0.03467" boundaryCondition="false"/>
+			<specie name="G1P" compartment="uVol" initialAmount="5e-005" boundaryCondition="false"/>
+			<specie name="P" compartment="uVol" initialAmount="0.0041" boundaryCondition="false"/>
+			<specie name="G6P" compartment="uVol" initialAmount="0.00075" boundaryCondition="false"/>
+			<specie name="F6P" compartment="uVol" initialAmount="0.0002" boundaryCondition="false"/>
+			<specie name="FDP" compartment="uVol" initialAmount="6.999999999999999e-005" boundaryCondition="false"/>
+			<specie name="DHAP" compartment="uVol" initialAmount="6.999999999999999e-005" boundaryCondition="false"/>
+			<specie name="GAP" compartment="uVol" initialAmount="3e-005" boundaryCondition="false"/>
+			<specie name="DPG" compartment="uVol" initialAmount="6.499999999999999e-005" boundaryCondition="false"/>
+			<specie name="P3G" compartment="uVol" initialAmount="5e-005" boundaryCondition="false"/>
+			<specie name="P2G" compartment="uVol" initialAmount="5e-006" boundaryCondition="false"/>
+			<specie name="LAC" compartment="uVol" initialAmount="0.0013" boundaryCondition="false"/>
+			<specie name="Cr" compartment="uVol" initialAmount="0.00533" boundaryCondition="false"/>
+			<specie name="amp" compartment="uVol" initialAmount="2e-008" boundaryCondition="false"/>
+			<specie name="PEP" compartment="uVol" initialAmount="1e-005" boundaryCondition="false"/>
+			<specie name="PYR" compartment="uVol" initialAmount="0.000144" boundaryCondition="false"/>
+			<specie name="NAD" compartment="uVol" initialAmount="0.0005" boundaryCondition="false"/>
+			<specie name="Gly" compartment="uVol" initialAmount="0.112" boundaryCondition="true"/>
+			<specie name="LACo" compartment="uVol" initialAmount="0" boundaryCondition="true"/>
+		</listOfSpecies>
+		<listOfReactions>
+			<reaction name="vgp" reversible="true">
+				<listOfReactants>
+					<specieReference specie="P" stoichiometry="1"/>
+					<specieReference specie="Gly" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="G1P" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(fracA_1)*(((((Vfgly_1)*(P))*(Gly))/((KgpAigly_1)*(KgpApi_1)))/(1                   +(Gly)/(KgpAglyf_1)+(P)/(KgpApi_1)+((Gly)*(P))/((KgpAglyf_1)*(KgpAipi_1))+(Gly)/(KgpAglyb_1)+(G1P)/(KgpAg1p_1)+((Gly)*(G1P))/((KgpAig1p_1)*(KgpAglyb_1)))-(((((((Vfgly_1)*(KgpAglyb_1))*(KgpAig1p_1))/(((KgpAigly_1)*(KgpApi_1))*(0.31                )))*(G1P))*(Gly))/((KgpAglyb_1)*(KgpAig1p_1)))/(1                   +(Gly)/(KgpAglyf_1)+(P)/(KgpApi_1)+((Gly)*(P))/((KgpAglyf_1)*(KgpAipi_1))+(Gly)/(KgpAglyb_1)+(G1P)/(KgpAg1p_1)+((Gly)*(G1P))/((KgpAig1p_1)*(KgpAglyb_1))))+(fracB_1)*((((((amp)^(nH_1))/(((Kgpamp_1)^(nH_1))*(0.02                )))/(1                   +((amp)^(nH_1))/(((Kgpamp_1)^(nH_1))*(0.02                ))))*((((Vfgly_1)*(P))*(Gly))/((KgpBiglyf_1)*(KgpBpi_1))))/(1                   +(Gly)/(KgpBipi_1)+(P)/(KgpBiglyf_1)+(Gly)/(KgpBiglyb_1)+(G1P)/(KgpBig1p_1)+((Gly)*(P))/((KgpBiglyf_1)*(KgpBpi_1))+((Gly)*(G1P))/((KgpBg1p_1)*(KgpBiglyb_1)))-(((((amp)^(nH_1))/(((Kgpamp_1)^(nH_1))*(0.02                )))/(1                   +((amp)^(nH_1))/(((Kgpamp_1)^(nH_1))*(0.02                ))))*(((((((Vfgly_1)*(KgpBg1p_1))*(KgpBiglyb_1))/(((KgpBiglyf_1)*(KgpBpi_1))*(0.31                )))*(G1P))*(Gly))/((KgpBg1p_1)*(KgpBiglyb_1))))/(1                   +(Gly)/(KgpBipi_1)+(P)/(KgpBiglyf_1)+(Gly)/(KgpBiglyb_1)+(G1P)/(KgpBig1p_1)+((Gly)*(P))/((KgpBiglyf_1)*(KgpBpi_1))+((Gly)*(G1P))/((KgpBg1p_1)*(KgpBiglyb_1))))">
+					<listOfParameters>
+						<parameter name="fracA_1" value="0.4"/>
+						<parameter name="Vfgly_1" value="0.05"/>
+						<parameter name="KgpAigly_1" value="0.002"/>
+						<parameter name="KgpApi_1" value="0.004"/>
+						<parameter name="KgpAglyf_1" value="0.0017"/>
+						<parameter name="KgpAipi_1" value="0.0047"/>
+						<parameter name="KgpAglyb_1" value="0.00015"/>
+						<parameter name="KgpAg1p_1" value="0.0027"/>
+						<parameter name="KgpAig1p_1" value="0.0101"/>
+						<parameter name="fracB_1" value="0.6"/>
+						<parameter name="nH_1" value="1.75"/>
+						<parameter name="Kgpamp_1" value="9.7e-005"/>
+						<parameter name="KgpBiglyf_1" value="0.015"/>
+						<parameter name="KgpBpi_1" value="0.0002"/>
+						<parameter name="KgpBipi_1" value="0.0046"/>
+						<parameter name="KgpBiglyb_1" value="0.0044"/>
+						<parameter name="KgpBig1p_1" value="0.0074"/>
+						<parameter name="KgpBg1p_1" value="0.0015"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vpglm" reversible="true">
+				<listOfReactants>
+					<specieReference specie="G1P" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="G6P" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(((Vfpglm_2)*(G1P))/(Kpglmg1p_2)-((((Vfpglm_2)*(Kpglmg6p_2))/((Kpglmg1p_2)*(16.62               )))*(G6P))/(Kpglmg6p_2))/(1                   +(G1P)/(Kpglmg1p_2)+(G6P)/(Kpglmg6p_2))">
+					<listOfParameters>
+						<parameter name="Vfpglm_2" value="0.48"/>
+						<parameter name="Kpglmg1p_2" value="6.3e-005"/>
+						<parameter name="Kpglmg6p_2" value="3e-005"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vpgi" reversible="true">
+				<listOfReactants>
+					<specieReference specie="G6P" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="F6P" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((((((Vbpgi_3)*(Kpgig6p_3))/(Kpgif6p_3))*(0.45                ))*(G6P))/(Kpgig6p_3)-((Vbpgi_3)*(F6P))/(Kpgif6p_3))/(1                   +(F6P)/(Kpgif6p_3)+(G6P)/(Kpgig6p_3))">
+					<listOfParameters>
+						<parameter name="Vbpgi_3" value="0.88"/>
+						<parameter name="Kpgig6p_3" value="0.00048"/>
+						<parameter name="Kpgif6p_3" value="0.000119"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vpfk" reversible="true">
+				<listOfReactants>
+					<specieReference specie="atp" stoichiometry="1"/>
+					<specieReference specie="F6P" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="adp" stoichiometry="1"/>
+					<specieReference specie="FDP" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((((Vfpfk_4)*(atp))*(F6P))*(1                   +((((((Kpfkatp_4)*(Kpfkf6p_4))*(Lo_4))*((1                   +((en_4)*(amp))/(Kpfkamp_4))^(4                   )))*((1                   +(atp)/(Kpfkiatp_4))^(4                   )))*(((1                   +(atp)/(KpfkatpT_4))*(1                   +(F6P)/(Kpfkf6pT_4))+(FDP)/(KpfkfdpT_4)+((adp)*(1                   +(FDP)/(KpfkfdpT_4)))/(KpfkadpT_4))^(3                   )))/(((((KpfkatpT_4)*(Kpfkf6pT_4))*((1                   +(amp)/(Kpfkamp_4))^(4                   )))*((1                   +((dn_4)*(atp))/(Kpfkiatp_4))^(4                   )))*(((1                   +(atp)/(Kpfkatp_4))*(1                   +(F6P)/(Kpfkf6p_4))+(FDP)/(Kpfkfdp_4)+((adp)*(1                   +(FDP)/(Kpfkfdp_4)))/(Kpfkadp_4))^(3                   )))))/((((Kpfkatp_4)*(Kpfkf6p_4))*((1                   +(atp)/(Kpfkatp_4))*(1                   +(F6P)/(Kpfkf6p_4))+(FDP)/(Kpfkfdp_4)+((adp)*(1                   +(FDP)/(Kpfkfdp_4)))/(Kpfkadp_4)))*(1                   +((((Lo_4)*((1                   +((en_4)*(amp))/(Kpfkamp_4))^(4                   )))*((1                   +(atp)/(Kpfkiatp_4))^(4                   )))*(((1                   +(atp)/(KpfkatpT_4))*(1                   +(F6P)/(Kpfkf6pT_4))+(FDP)/(KpfkfdpT_4)+((adp)*(1                   +(FDP)/(KpfkfdpT_4)))/(KpfkadpT_4))^(4                   )))/((((1                   +(amp)/(Kpfkamp_4))^(4                   ))*((1                   +((dn_4)*(atp))/(Kpfkiatp_4))^(4                   )))*(((1                   +(atp)/(Kpfkatp_4))*(1                   +(F6P)/(Kpfkf6p_4))+(FDP)/(Kpfkfdp_4)+((adp)*(1                   +(FDP)/(Kpfkfdp_4)))/(Kpfkadp_4))^(4                   )))))-(((((0.00411743          )*(Vfpfk_4))*(adp))*(FDP))*(1                   +((((((Kpfkatp_4)*(Kpfkf6p_4))*(Lo_4))*((1                   +((en_4)*(amp))/(Kpfkamp_4))^(4                   )))*((1                   +(atp)/(Kpfkiatp_4))^(4                   )))*(((1                   +(atp)/(KpfkatpT_4))*(1                   +(F6P)/(Kpfkf6pT_4))+(FDP)/(KpfkfdpT_4)+((adp)*(1                   +(FDP)/(KpfkfdpT_4)))/(KpfkadpT_4))^(3                   )))/(((((KpfkatpT_4)*(Kpfkf6pT_4))*((1                   +(amp)/(Kpfkamp_4))^(4                   )))*((1                   +((dn_4)*(atp))/(Kpfkiatp_4))^(4                   )))*(((1                   +(atp)/(Kpfkatp_4))*(1                   +(F6P)/(Kpfkf6p_4))+(FDP)/(Kpfkfdp_4)+((adp)*(1                   +(FDP)/(Kpfkfdp_4)))/(Kpfkadp_4))^(3                   )))))/((((Kpfkatp_4)*(Kpfkf6p_4))*((1                   +(atp)/(Kpfkatp_4))*(1                   +(F6P)/(Kpfkf6p_4))+(FDP)/(Kpfkfdp_4)+((adp)*(1                   +(FDP)/(Kpfkfdp_4)))/(Kpfkadp_4)))*(1                   +((((Lo_4)*((1                   +((en_4)*(amp))/(Kpfkamp_4))^(4                   )))*((1                   +(atp)/(Kpfkiatp_4))^(4                   )))*(((1                   +(atp)/(KpfkatpT_4))*(1                   +(F6P)/(Kpfkf6pT_4))+(FDP)/(KpfkfdpT_4)+((adp)*(1                   +(FDP)/(KpfkfdpT_4)))/(KpfkadpT_4))^(4                   )))/((((1                   +(amp)/(Kpfkamp_4))^(4                   ))*((1                   +((dn_4)*(atp))/(Kpfkiatp_4))^(4                   )))*(((1                   +(atp)/(Kpfkatp_4))*(1                   +(F6P)/(Kpfkf6p_4))+(FDP)/(Kpfkfdp_4)+((adp)*(1                   +(FDP)/(Kpfkfdp_4)))/(Kpfkadp_4))^(4                   )))))">
+					<listOfParameters>
+						<parameter name="Vfpfk_4" value="0.056"/>
+						<parameter name="Kpfkatp_4" value="8.000000000000001e-005"/>
+						<parameter name="Kpfkf6p_4" value="0.00018"/>
+						<parameter name="Lo_4" value="13"/>
+						<parameter name="en_4" value="0.01"/>
+						<parameter name="Kpfkamp_4" value="6e-005"/>
+						<parameter name="Kpfkiatp_4" value="0.00087"/>
+						<parameter name="KpfkatpT_4" value="0.00025"/>
+						<parameter name="Kpfkf6pT_4" value="0.02"/>
+						<parameter name="KpfkfdpT_4" value="0.0042"/>
+						<parameter name="KpfkadpT_4" value="0.00271"/>
+						<parameter name="dn_4" value="0.01"/>
+						<parameter name="Kpfkfdp_4" value="0.0042"/>
+						<parameter name="Kpfkadp_4" value="0.00271"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vald" reversible="true">
+				<listOfReactants>
+					<specieReference specie="FDP" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="DHAP" stoichiometry="1"/>
+					<specieReference specie="GAP" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(((Vfald_5)*(FDP))/(Kaldfdp_5)-((((((Vfald_5)*(Kaldgap_5))*(Kalddhap_5))/((Kaldfdp_5)*(9.5e-005            )))*(DHAP))*(GAP))/((Kaldgap_5)*(Kalddhap_5)))/(1                   +(FDP)/(Kaldfdp_5)+(GAP)/(Kaldgap_5)+(DHAP)/(Kalddhap_5))">
+					<listOfParameters>
+						<parameter name="Vfald_5" value="0.104"/>
+						<parameter name="Kaldfdp_5" value="0.0005"/>
+						<parameter name="Kaldgap_5" value="0.001"/>
+						<parameter name="Kalddhap_5" value="0.002"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vtpi" reversible="true">
+				<listOfReactants>
+					<specieReference specie="GAP" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="DHAP" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(((Vftpi_6)*(GAP))/(Ktpigap_6)-((((Vftpi_6)*(Ktpidhap_6))/((Ktpigap_6)*(19.2                )))*(DHAP))/(Ktpidhap_6))/(1                   +(GAP)/(Ktpigap_6)+(DHAP)/(Ktpidhap_6))">
+					<listOfParameters>
+						<parameter name="Vftpi_6" value="12"/>
+						<parameter name="Ktpigap_6" value="0.00032"/>
+						<parameter name="Ktpidhap_6" value="0.00061"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vgapdh" reversible="true">
+				<listOfReactants>
+					<specieReference specie="P" stoichiometry="1"/>
+					<specieReference specie="GAP" stoichiometry="1"/>
+					<specieReference specie="NAD" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="NADH" stoichiometry="1"/>
+					<specieReference specie="DPG" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(((((-(11.236              ))*(Vfgad_7))*(DPG))*(NADH))/(((Kgapdhgap_7)*(Kgapdhnad_7))*(Kgapdhpi_7))+((((Vfgad_7)*(GAP))*(NAD))*(P))/(((Kgapdhgap_7)*(Kgapdhnad_7))*(Kgapdhpi_7)))/(1                   +(DPG)/(Kgapdh13dpg_7)+(GAP)/(Kgapdhgap_7)+(NAD)/(Kgapdhnad_7)+((GAP)*(NAD))/((Kgapdhgap_7)*(Kgapdhnad_7))+(NADH)/(Kgapdhnadh_7)+((DPG)*(NADH))/((Kgapdh13dpg_7)*(Kgapdhnadh_7))+(P)/(Kgapdhpi_7)+(((GAP)*(NAD))*(P))/(((Kgapdhgap_7)*(Kgapdhnad_7))*(Kgapdhpi_7)))">
+					<listOfParameters>
+						<parameter name="Vfgad_7" value="1.65"/>
+						<parameter name="Kgapdhgap_7" value="2.5e-006"/>
+						<parameter name="Kgapdhnad_7" value="9.000000000000001e-005"/>
+						<parameter name="Kgapdhpi_7" value="0.00029"/>
+						<parameter name="Kgapdh13dpg_7" value="8e-007"/>
+						<parameter name="Kgapdhnadh_7" value="3.3e-006"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vpgk" reversible="true">
+				<listOfReactants>
+					<specieReference specie="adp" stoichiometry="1"/>
+					<specieReference specie="DPG" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="atp" stoichiometry="1"/>
+					<specieReference specie="P3G" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(((((57109               )*(Vbpgk_8))*(adp))*(DPG))/((Kpgk3pg_8)*(Kpgkatp_8))-(((Vbpgk_8)*(atp))*(P3G))/((Kpgk3pg_8)*(Kpgkatp_8)))/(1                   +(adp)/(Kpgkadp_8)+(atp)/(Kpgkatp_8)+(DPG)/(Kpgk13dpg_8)+((adp)*(DPG))/((Kpgk13dpg_8)*(Kpgkadp_8))+(P3G)/(Kpgk3pg_8)+((atp)*(P3G))/((Kpgk3pg_8)*(Kpgkatp_8)))">
+					<listOfParameters>
+						<parameter name="Vbpgk_8" value="1.12"/>
+						<parameter name="Kpgk3pg_8" value="0.0012"/>
+						<parameter name="Kpgkatp_8" value="0.00035"/>
+						<parameter name="Kpgkadp_8" value="8.3e-005"/>
+						<parameter name="Kpgk13dpg_8" value="1.9e-006"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vpgm" reversible="true">
+				<listOfReactants>
+					<specieReference specie="P3G" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="P2G" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(((Vfpgm_9)*(P3G))/(Kpgm3pg_9)-((((Vfpgm_9)*(Kpgm2pg_9))/((Kpgm3pg_9)*(0.18                )))*(P2G))/(Kpgm2pg_9))/(1                   +(P3G)/(Kpgm3pg_9)+(P2G)/(Kpgm2pg_9))">
+					<listOfParameters>
+						<parameter name="Vfpgm_9" value="1.12"/>
+						<parameter name="Kpgm3pg_9" value="0.0002"/>
+						<parameter name="Kpgm2pg_9" value="1.4e-005"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="ven" reversible="true">
+				<listOfReactants>
+					<specieReference specie="P2G" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="PEP" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(((Vfen_10)*(P2G))/(Ken2pg_10)-((((Vfen_10)*(Kenpep_10))/((Ken2pg_10)*(0.49                )))*(PEP))/(Kenpep_10))/(1                   +(P2G)/(Ken2pg_10)+(PEP)/(Kenpep_10))">
+					<listOfParameters>
+						<parameter name="Vfen_10" value="0.192"/>
+						<parameter name="Ken2pg_10" value="0.0001"/>
+						<parameter name="Kenpep_10" value="0.00037"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vpk" reversible="true">
+				<listOfReactants>
+					<specieReference specie="adp" stoichiometry="1"/>
+					<specieReference specie="PEP" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="atp" stoichiometry="1"/>
+					<specieReference specie="PYR" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((((Vfpk_11)*(PEP))*(adp))/((Kpkpep_11)*(Kpkadp_11))-((((((Vfpk_11)*(Kpkpyr_11))*(Kpkatp_11))/(((Kpkpep_11)*(Kpkadp_11))*(10304               )))*(PYR))*(atp))/((Kpkpyr_11)*(Kpkatp_11)))/(1                   +(PEP)/(Kpkpep_11)+(adp)/(Kpkadp_11)+((PEP)*(adp))/((Kpkpep_11)*(Kpkadp_11))+(atp)/(Kpkatp_11)+(PYR)/(Kpkpyr_11)+((PYR)*(atp))/((Kpkpyr_11)*(Kpkatp_11)))">
+					<listOfParameters>
+						<parameter name="Vfpk_11" value="1.44"/>
+						<parameter name="Kpkpep_11" value="8.000000000000001e-005"/>
+						<parameter name="Kpkadp_11" value="0.0003"/>
+						<parameter name="Kpkpyr_11" value="0.00705"/>
+						<parameter name="Kpkatp_11" value="0.00113"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vldh" reversible="true">
+				<listOfReactants>
+					<specieReference specie="NADH" stoichiometry="1"/>
+					<specieReference specie="PYR" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="LAC" stoichiometry="1"/>
+					<specieReference specie="NAD" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((((Vfldh_12)*(PYR))*(NADH))/((Kldhpyr_12)*(Kldhnadh_12))-((((((Vfldh_12)*(Kldhlac_12))*(Kldhnad_12))/(((Kldhpyr_12)*(Kldhnadh_12))*(16198               )))*(LAC))*(NAD))/((Kldhlac_12)*(Kldhnad_12)))/(1                   +(PYR)/(Kldhpyr_12)+(NADH)/(Kldhnadh_12)+((PYR)*(NADH))/((Kldhpyr_12)*(Kldhnadh_12))+(LAC)/(Kldhlac_12)+(NAD)/(Kldhnad_12)+((LAC)*(NAD))/((Kldhlac_12)*(Kldhnad_12)))">
+					<listOfParameters>
+						<parameter name="Vfldh_12" value="1.92"/>
+						<parameter name="Kldhpyr_12" value="0.000335"/>
+						<parameter name="Kldhnadh_12" value="2.167e-006"/>
+						<parameter name="Kldhlac_12" value="0.01717"/>
+						<parameter name="Kldhnad_12" value="0.000849"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vck" reversible="true">
+				<listOfReactants>
+					<specieReference specie="atp" stoichiometry="1"/>
+					<specieReference specie="Cr" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="adp" stoichiometry="1"/>
+					<specieReference specie="PCr" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((((VrevCK_13)*(atp))*(Cr))/((Kckiatp_13)*(Kckcr_13))-(((((VrevCK_13)*(KeqCK_13))/(((Kckiatp_13)*(Kckcr_13))/((Kckiadp_13)*(KckPCr_13))))*(adp))*(PCr))/((Kckiadp_13)*(KckPCr_13)))/(1                   +(adp)/(Kckiadp_13)+(PCr)/(KckiPCr_13)+((PCr)*(adp))/((Kckiadp_13)*(KckPCr_13))+(atp)/(Kckiatp_13)+((Cr)*(atp))/((Kckcr_13)*(Kckiatp_13)))">
+					<listOfParameters>
+						<parameter name="VrevCK_13" value="0.5"/>
+						<parameter name="Kckiatp_13" value="0.0035"/>
+						<parameter name="Kckcr_13" value="0.0038"/>
+						<parameter name="KeqCK_13" value="233"/>
+						<parameter name="Kckiadp_13" value="0.000135"/>
+						<parameter name="KckPCr_13" value="0.00111"/>
+						<parameter name="KckiPCr_13" value="0.0039"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vadk" reversible="true">
+				<listOfReactants>
+					<specieReference specie="atp" stoichiometry="1"/>
+					<specieReference specie="amp" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="adp" stoichiometry="2"/>
+				</listOfProducts>
+				<kineticLaw formula="((((Vfadk_14)*(atp))*(amp))/((Kadkatp_14)*(Kadkamp_14))-(((Vfadk_14)*((Kadkadp_14)^(2                   )))/(((Kadkamp_14)*(Kadkatp_14))*(2.21                )))*(((adp)/(Kadkadp_14))^(2                   )))/(1                   +(atp)/(Kadkatp_14)+(amp)/(Kadkamp_14)+((atp)*(amp))/((Kadkatp_14)*(Kadkamp_14))+((2                   )*(adp))/(Kadkadp_14)+((adp)^(2                   ))/((Kadkadp_14)^(2                   )))">
+					<listOfParameters>
+						<parameter name="Vfadk_14" value="0.88"/>
+						<parameter name="Kadkatp_14" value="0.00027"/>
+						<parameter name="Kadkamp_14" value="0.00032"/>
+						<parameter name="Kadkadp_14" value="0.00035"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vatpase" reversible="true">
+				<listOfReactants>
+					<specieReference specie="atp" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="adp" stoichiometry="1"/>
+					<specieReference specie="P" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(k_15)*(atp)">
+					<listOfParameters>
+						<parameter name="k_15" value="0.075"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vfout" reversible="true">
+				<listOfReactants>
+					<specieReference specie="LAC" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="LACo" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(kout_16)*(LAC)">
+					<listOfParameters>
+						<parameter name="kout_16" value="0.2"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+		</listOfReactions>
+	</model>
+</sbml>

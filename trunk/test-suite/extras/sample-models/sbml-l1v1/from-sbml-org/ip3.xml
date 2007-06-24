@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="1">
+<model name="IP3Receptor">
+	<notes>
+		<body xmlns="http://www.w3.org/1999/xhtml">
+			<h1>IP3 dependent Calcium Channel</h1>
+
+			<table border="0" cellspacing="0" cellpadding="2" >
+				<thead>
+					<tr>
+						<th align="left" valign="middle" bgcolor="#eeeeee">Citation</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>DeYoung GW,Keizer J (1992)
+							 A single pool IP3-
+							receptor based model for agonist simulated Ca2+
+							oscillations,PNAS89:9895-9899.
+						<a href="http://www.pnas.org/cgi/content/
+							abstract/89/20/9895">
+							http://www.pnas.org/cgi/content/abstract/89/20/
+							9895
+						</a></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<table border="0" cellspacing="0" cellpadding="2" >
+				<thead>
+					<tr>
+						<th align="left" valign="middle" bgcolor="#eeeeee">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>This model describes the IP3-
+							sensitive Calcium channel. The receptor has three binding sites,
+							denoted by three indices S[i,j,k],where i,j,
+							k are 0 or 1. A 0 indicates the binding site is empty;a 1 indicates the binding site is occupied. The first site (
+							index i) binds IP3 (Inositol 1,4,5-Trisphosphate)
+							; the second   site (j)
+							 binds Calcium and activates the channel; the third site (k)
+							 binds Calcium and inactivates the channel. The open channel probability can be computed as (
+							S[1,1,0]/(Sum of all S[i,j,k]))^
+							3 as described in the reference. The differential equations shown below treate C and P as dynamic variables. To reproduce the results in the original paper both C and P should be treated as constants and not as dynamic variables. </td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<table border="0" cellspacing="0" cellpadding="2" >
+				<thead>
+					<tr>
+						<th align="left" valign="middle" bgcolor="#eeeeee">Rate&#160;constant&#160;&#160;&#160;&#160;&#160;&#160;</th>
+						<th align="left" valign="middle" bgcolor="#eeeeee">Reaction</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>k1&#160;=&#160;400</td>
+						<td>P&#160;+&#160;S[0,&#160;0,&#160;0]&#160;->&#160;S[1,&#160;0,&#160;0]</td>
+					</tr>
+					<tr>
+						<td>k1&#160;=&#160;400</td>
+						<td>P&#160;+&#160;S[0,&#160;1,&#160;0]&#160;->&#160;S[1,&#160;1,&#160;0]</td>
+					</tr>
+					<tr>
+						<td>k2&#160;=&#160;0.2</td>
+						<td>C&#160;+&#160;S[1,&#160;0,&#160;0]&#160;->&#160;S[1,&#160;0,&#160;1]</td>
+					</tr>
+					<tr>
+						<td>k2&#160;=&#160;0.2</td>
+						<td>C&#160;+&#160;S[1,&#160;1,&#160;0]&#160;->&#160;S[1,&#160;1,&#160;1]</td>
+					</tr>
+					<tr>
+						<td>k3&#160;=&#160;400</td>
+						<td>P&#160;+&#160;S[0,&#160;0,&#160;1]&#160;->&#160;S[1,&#160;0,&#160;1]</td>
+					</tr>
+					<tr>
+						<td>k3&#160;=&#160;400</td>
+						<td>P&#160;+&#160;S[0,&#160;1,&#160;1]&#160;->&#160;S[1,&#160;1,&#160;1]</td>
+					</tr>
+					<tr>
+						<td>k4&#160;=&#160;0.2</td>
+						<td>C&#160;+&#160;S[0,&#160;0,&#160;0]&#160;->&#160;S[0,&#160;0,&#160;1]</td>
+					</tr>
+					<tr>
+						<td>k4&#160;=&#160;0.2</td>
+						<td>C&#160;+&#160;S[0,&#160;1,&#160;0]&#160;->&#160;S[0,&#160;1,&#160;1]</td>
+					</tr>
+					<tr>
+						<td>k5&#160;=&#160;20</td>
+						<td>C&#160;+&#160;S[0,&#160;0,&#160;0]&#160;->&#160;S[0,&#160;1,&#160;0]</td>
+					</tr>
+					<tr>
+						<td>k5&#160;=&#160;20</td>
+						<td>C&#160;+&#160;S[0,&#160;0,&#160;1]&#160;->&#160;S[0,&#160;1,&#160;1]</td>
+					</tr>
+					<tr>
+						<td>k5&#160;=&#160;20</td>
+						<td>C&#160;+&#160;S[1,&#160;0,&#160;0]&#160;->&#160;S[1,&#160;1,&#160;0]</td>
+					</tr>
+					<tr>
+						<td>k5&#160;=&#160;20</td>
+						<td>C&#160;+&#160;S[1,&#160;0,&#160;1]&#160;->&#160;S[1,&#160;1,&#160;1]</td>
+					</tr>
+					<tr>
+						<td>km1&#160;=&#160;52</td>
+						<td>S[1,&#160;0,&#160;0]&#160;->&#160;P&#160;+&#160;S[0,&#160;0,&#160;0]</td>
+					</tr>
+					<tr>
+						<td>km1&#160;=&#160;52</td>
+						<td>S[1,&#160;1,&#160;0]&#160;->&#160;P&#160;+&#160;S[0,&#160;1,&#160;0]</td>
+					</tr>
+					<tr>
+						<td>km2&#160;=&#160;0.21</td>
+						<td>S[1,&#160;0,&#160;1]&#160;->&#160;C&#160;+&#160;S[1,&#160;0,&#160;0]</td>
+					</tr>
+					<tr>
+						<td>km2&#160;=&#160;0.21</td>
+						<td>S[1,&#160;1,&#160;1]&#160;->&#160;C&#160;+&#160;S[1,&#160;1,&#160;0]</td>
+					</tr>
+					<tr>
+						<td>km3&#160;=&#160;377.2</td>
+						<td>S[1,&#160;0,&#160;1]&#160;->&#160;P&#160;+&#160;S[0,&#160;0,&#160;1]</td>
+					</tr>
+					<tr>
+						<td>km3&#160;=&#160;377.2</td>
+						<td>S[1,&#160;1,&#160;1]&#160;->&#160;P&#160;+&#160;S[0,&#160;1,&#160;1]</td>
+					</tr>
+					<tr>
+						<td>km4&#160;=&#160;0.029</td>
+						<td>S[0,&#160;0,&#160;1]&#160;->&#160;C&#160;+&#160;S[0,&#160;0,&#160;0]</td>
+					</tr>
+					<tr>
+						<td>km4&#160;=&#160;0.029</td>
+						<td>S[0,&#160;1,&#160;1]&#160;->&#160;C&#160;+&#160;S[0,&#160;1,&#160;0]</td>
+					</tr>
+					<tr>
+						<td>km5&#160;=&#160;1.64</td>
+						<td>S[0,&#160;1,&#160;0]&#160;->&#160;C&#160;+&#160;S[0,&#160;0,&#160;0]</td>
+					</tr>
+					<tr>
+						<td>km5&#160;=&#160;1.64</td>
+						<td>S[0,&#160;1,&#160;1]&#160;->&#160;C&#160;+&#160;S[0,&#160;0,&#160;1]</td>
+					</tr>
+					<tr>
+						<td>km5&#160;=&#160;1.64</td>
+						<td>S[1,&#160;1,&#160;0]&#160;->&#160;C&#160;+&#160;S[1,&#160;0,&#160;0]</td>
+					</tr>
+					<tr>
+						<td>km5&#160;=&#160;1.64</td>
+						<td>S[1,&#160;1,&#160;1]&#160;->&#160;C&#160;+&#160;S[1,&#160;0,&#160;1]</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table border="0" cellspacing="0" cellpadding="2" >
+				<thead>
+					<tr>
+						<th align="left" valign="middle" bgcolor="#eeeeee">Variable</th>
+						<th align="left" valign="middle" bgcolor="#eeeeee">IC&#160;&#160;</th>
+						<th align="left" valign="middle" bgcolor="#eeeeee">ODE</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>C</td>
+						<td>0</td>
+						<td>C'[t]&#160;==&#160;-(k4*C[t]*S[0,&#160;0,&#160;0][t])&#160;-&#160;k5*C[t]*S[
+							0,&#160;0,&#160;0][t]&#160;+&#160;km4*S[0,&#160;0,&#160;1][t]&#160;-&#160;k5*C[
+							t]*S[0,&#160;0,&#160;1][t]&#160;+&#160;km5*S[0,&#160;1,&#160;0][t]&#160;-
+							&#160;k4*C[t]*S[0,&#160;1,&#160;0][t]&#160;+&#160;km4*S[0,&#160;1,&#160;1][t]
+							&#160;+&#160;km5*S[0,&#160;1,&#160;1][t]&#160;-&#160;k2*C[t]*S[1,&#160;0,
+							&#160;0][t]&#160;-&#160;k5*C[t]*S[1,&#160;0,&#160;0][t]&#160;+&#160;km2*S[1,
+							&#160;0,&#160;1][t]&#160;-&#160;k5*C[t]*S[1,&#160;0,&#160;1][t]&#160;+&#160;km5*
+							S[1,&#160;1,&#160;0][t]&#160;-&#160;k2*C[t]*S[1,&#160;1,&#160;0][t]&#160;+
+							&#160;km2*S[1,&#160;1,&#160;1][t]&#160;+&#160;km5*S[1,&#160;1,&#160;1][t]</td>
+					</tr>
+					<tr>
+						<td>P</td>
+						<td>0</td>
+						<td>P'[t]&#160;==&#160;-(k1*P[t]*S[0,&#160;0,&#160;0][t])&#160;-&#160;k3*P[t]*S[
+							0,&#160;0,&#160;1][t]&#160;-&#160;k1*P[t]*S[0,&#160;1,&#160;0][t]&#160;-
+							&#160;k3*P[t]*S[0,&#160;1,&#160;1][t]&#160;+&#160;km1*S[1,&#160;0,&#160;0][t]
+							&#160;+&#160;km3*S[1,&#160;0,&#160;1][t]&#160;+&#160;km1*S[1,&#160;1,&#160;0][t]
+							&#160;+&#160;km3*S[1,&#160;1,&#160;1][t]</td>
+					</tr>
+					<tr>
+						<td>S[0,&#160;0,&#160;0]</td>
+						<td>1</td>
+						<td>(S[0,&#160;0,&#160;0])'[t]&#160;==&#160;-(k4*C[t]*S[0,&#160;0,&#160;0][t])
+							&#160;-&#160;k5*C[t]*S[0,&#160;0,&#160;0][t]&#160;-&#160;k1*P[t]*S[0,&#160;0,
+							&#160;0][t]&#160;+&#160;km4*S[0,&#160;0,&#160;1][t]&#160;+&#160;km5*S[0,&#160;1,
+							&#160;0][t]&#160;+&#160;km1*S[1,&#160;0,&#160;0][t]</td>
+					</tr>
+					<tr>
+						<td>S[0,&#160;0,&#160;1]</td>
+						<td>0</td>
+						<td>(S[0,&#160;0,&#160;1])'[t]&#160;==&#160;k4*C[t]*S[0,&#160;0,&#160;0][t]
+							&#160;-&#160;km4*S[0,&#160;0,&#160;1][t]&#160;-&#160;k5*C[t]*S[0,&#160;0,
+							&#160;1][t]&#160;-&#160;k3*P[t]*S[0,&#160;0,&#160;1][t]&#160;+&#160;km5*S[0,
+							&#160;1,&#160;1][t]&#160;+&#160;km3*S[1,&#160;0,&#160;1][t]</td>
+					</tr>
+					<tr>
+						<td>S[0,&#160;1,&#160;0]</td>
+						<td>0</td>
+						<td>(S[0,&#160;1,&#160;0])'[t]&#160;==&#160;k5*C[t]*S[0,&#160;0,&#160;0][t]
+							&#160;-&#160;km5*S[0,&#160;1,&#160;0][t]&#160;-&#160;k4*C[t]*S[0,&#160;1,
+							&#160;0][t]&#160;-&#160;k1*P[t]*S[0,&#160;1,&#160;0][t]&#160;+&#160;km4*S[0,
+							&#160;1,&#160;1][t]&#160;+&#160;km1*S[1,&#160;1,&#160;0][t]</td>
+					</tr>
+					<tr>
+						<td>S[0,&#160;1,&#160;1]</td>
+						<td>0</td>
+						<td>(S[0,&#160;1,&#160;1])'[t]&#160;==&#160;k5*C[t]*S[0,&#160;0,&#160;1][t]
+							&#160;+&#160;k4*C[t]*S[0,&#160;1,&#160;0][t]&#160;-&#160;km4*S[0,&#160;1,
+							&#160;1][t]&#160;-&#160;km5*S[0,&#160;1,&#160;1][t]&#160;-&#160;k3*P[t]*S[0,
+							&#160;1,&#160;1][t]&#160;+&#160;km3*S[1,&#160;1,&#160;1][t]</td>
+					</tr>
+					<tr>
+						<td>S[1,&#160;0,&#160;0]</td>
+						<td>0</td>
+						<td>(S[1,&#160;0,&#160;0])'[t]&#160;==&#160;k1*P[t]*S[0,&#160;0,&#160;0][t]
+							&#160;-&#160;km1*S[1,&#160;0,&#160;0][t]&#160;-&#160;k2*C[t]*S[1,&#160;0,
+							&#160;0][t]&#160;-&#160;k5*C[t]*S[1,&#160;0,&#160;0][t]&#160;+&#160;km2*S[1,
+							&#160;0,&#160;1][t]&#160;+&#160;km5*S[1,&#160;1,&#160;0][t]</td>
+					</tr>
+					<tr>
+						<td>S[1,&#160;0,&#160;1]</td>
+						<td>0</td>
+						<td>(S[1,&#160;0,&#160;1])'[t]&#160;==&#160;k3*P[t]*S[0,&#160;0,&#160;1][t]
+							&#160;+&#160;k2*C[t]*S[1,&#160;0,&#160;0][t]&#160;-&#160;km2*S[1,&#160;0,
+							&#160;1][t]&#160;-&#160;km3*S[1,&#160;0,&#160;1][t]&#160;-&#160;k5*C[t]*S[1,
+							&#160;0,&#160;1][t]&#160;+&#160;km5*S[1,&#160;1,&#160;1][t]</td>
+					</tr>
+					<tr>
+						<td>S[1,&#160;1,&#160;0]</td>
+						<td>0</td>
+						<td>(S[1,&#160;1,&#160;0])'[t]&#160;==&#160;k1*P[t]*S[0,&#160;1,&#160;0][t]
+							&#160;+&#160;k5*C[t]*S[1,&#160;0,&#160;0][t]&#160;-&#160;km1*S[1,&#160;1,
+							&#160;0][t]&#160;-&#160;km5*S[1,&#160;1,&#160;0][t]&#160;-&#160;k2*C[t]*S[1,
+							&#160;1,&#160;0][t]&#160;+&#160;km2*S[1,&#160;1,&#160;1][t]</td>
+					</tr>
+					<tr>
+						<td>S[1,&#160;1,&#160;1]</td>
+						<td>0</td>
+						<td>(S[1,&#160;1,&#160;1])'[t]&#160;==&#160;k3*P[t]*S[0,&#160;1,&#160;1][t]
+							&#160;+&#160;k5*C[t]*S[1,&#160;0,&#160;1][t]&#160;+&#160;k2*C[t]*S[1,&#160;1,
+							&#160;0][t]&#160;-&#160;km2*S[1,&#160;1,&#160;1][t]&#160;-&#160;km3*S[1,&#160;1,
+							&#160;1][t]&#160;-&#160;km5*S[1,&#160;1,&#160;1][t]</td>
+					</tr>
+				</tbody>
+			</table>
+			<p>Generated by Cellerator Version 1.0 update 2.1209 using Mathematica 4.2 for 
+				Mac OS X (June 4, 2002), December 12, 2002 10:51:26, using (PowerMac,PowerPC,
+				Mac OS X,MacOSX,Darwin)</p>
+			<p>author=B.E.Shapiro</p>
+
+		</body>
+	</notes>
+	<listOfCompartments>
+		<compartment name="cytoplasm"/>
+	</listOfCompartments>
+	<listOfSpecies>
+		<specie name="C" initialAmount="0.1" compartment="cytoplasm"/>
+		<specie name="P" initialAmount="1" compartment="cytoplasm"/>
+		<specie name="S_0_0_0" initialAmount="1" compartment="cytoplasm"/>
+		<specie name="S_0_0_1" initialAmount="0" compartment="cytoplasm"/>
+		<specie name="S_0_1_0" initialAmount="0" compartment="cytoplasm"/>
+		<specie name="S_0_1_1" initialAmount="0" compartment="cytoplasm"/>
+		<specie name="S_1_0_0" initialAmount="0" compartment="cytoplasm"/>
+		<specie name="S_1_0_1" initialAmount="0" compartment="cytoplasm"/>
+		<specie name="S_1_1_0" initialAmount="0" compartment="cytoplasm"/>
+		<specie name="S_1_1_1" initialAmount="0" compartment="cytoplasm"/>
+	</listOfSpecies>
+	<listOfReactions>
+		<reaction name="Reaction1" reversible="false">
+			<listOfReactants>
+				<specieReference specie="C" />
+				<specieReference specie="S_0_0_0" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="S_0_0_1" />
+			</listOfProducts>
+			<kineticLaw formula="C*k4*S_0_0_0">
+				<listOfParameters>
+					<parameter name="k4" value="0.2" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction2" reversible="false">
+			<listOfReactants>
+				<specieReference specie="S_0_0_1" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="C" />
+				<specieReference specie="S_0_0_0" />
+			</listOfProducts>
+			<kineticLaw formula="km4*S_0_0_1">
+				<listOfParameters>
+					<parameter name="km4" value="0.029" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction3" reversible="false">
+			<listOfReactants>
+				<specieReference specie="C" />
+				<specieReference specie="S_0_1_0" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="S_0_1_1" />
+			</listOfProducts>
+			<kineticLaw formula="C*k4*S_0_1_0">
+				<listOfParameters>
+					<parameter name="k4" value="0.2" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction4" reversible="false">
+			<listOfReactants>
+				<specieReference specie="S_0_1_1" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="C" />
+				<specieReference specie="S_0_1_0" />
+			</listOfProducts>
+			<kineticLaw formula="km4*S_0_1_1">
+				<listOfParameters>
+					<parameter name="km4" value="0.029" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction5" reversible="false">
+			<listOfReactants>
+				<specieReference specie="C" />
+				<specieReference specie="S_1_1_0" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="S_1_1_1" />
+			</listOfProducts>
+			<kineticLaw formula="C*k2*S_1_1_0">
+				<listOfParameters>
+					<parameter name="k2" value="0.2" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction6" reversible="false">
+			<listOfReactants>
+				<specieReference specie="S_1_1_1" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="C" />
+				<specieReference specie="S_1_1_0" />
+			</listOfProducts>
+			<kineticLaw formula="km2*S_1_1_1">
+				<listOfParameters>
+					<parameter name="km2" value="0.21" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction7" reversible="false">
+			<listOfReactants>
+				<specieReference specie="C" />
+				<specieReference specie="S_1_0_0" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="S_1_0_1" />
+			</listOfProducts>
+			<kineticLaw formula="C*k2*S_1_0_0">
+				<listOfParameters>
+					<parameter name="k2" value="0.2" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction8" reversible="false">
+			<listOfReactants>
+				<specieReference specie="S_1_0_1" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="C" />
+				<specieReference specie="S_1_0_0" />
+			</listOfProducts>
+			<kineticLaw formula="km2*S_1_0_1">
+				<listOfParameters>
+					<parameter name="km2" value="0.21" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction9" reversible="false">
+			<listOfReactants>
+				<specieReference specie="C" />
+				<specieReference specie="S_0_0_0" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="S_0_1_0" />
+			</listOfProducts>
+			<kineticLaw formula="C*k5*S_0_0_0">
+				<listOfParameters>
+					<parameter name="k5" value="20" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction10" reversible="false">
+			<listOfReactants>
+				<specieReference specie="S_0_1_0" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="C" />
+				<specieReference specie="S_0_0_0" />
+			</listOfProducts>
+			<kineticLaw formula="km5*S_0_1_0">
+				<listOfParameters>
+					<parameter name="km5" value="1.64" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction11" reversible="false">
+			<listOfReactants>
+				<specieReference specie="C" />
+				<specieReference specie="S_1_0_0" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="S_1_1_0" />
+			</listOfProducts>
+			<kineticLaw formula="C*k5*S_1_0_0">
+				<listOfParameters>
+					<parameter name="k5" value="20" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction12" reversible="false">
+			<listOfReactants>
+				<specieReference specie="S_1_1_0" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="C" />
+				<specieReference specie="S_1_0_0" />
+			</listOfProducts>
+			<kineticLaw formula="km5*S_1_1_0">
+				<listOfParameters>
+					<parameter name="km5" value="1.64" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction13" reversible="false">
+			<listOfReactants>
+				<specieReference specie="C" />
+				<specieReference specie="S_0_0_1" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="S_0_1_1" />
+			</listOfProducts>
+			<kineticLaw formula="C*k5*S_0_0_1">
+				<listOfParameters>
+					<parameter name="k5" value="20" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction14" reversible="false">
+			<listOfReactants>
+				<specieReference specie="S_0_1_1" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="C" />
+				<specieReference specie="S_0_0_1" />
+			</listOfProducts>
+			<kineticLaw formula="km5*S_0_1_1">
+				<listOfParameters>
+					<parameter name="km5" value="1.64" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction15" reversible="false">
+			<listOfReactants>
+				<specieReference specie="C" />
+				<specieReference specie="S_1_0_1" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="S_1_1_1" />
+			</listOfProducts>
+			<kineticLaw formula="C*k5*S_1_0_1">
+				<listOfParameters>
+					<parameter name="k5" value="20" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction16" reversible="false">
+			<listOfReactants>
+				<specieReference specie="S_1_1_1" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="C" />
+				<specieReference specie="S_1_0_1" />
+			</listOfProducts>
+			<kineticLaw formula="km5*S_1_1_1">
+				<listOfParameters>
+					<parameter name="km5" value="1.64" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction17" reversible="false">
+			<listOfReactants>
+				<specieReference specie="P" />
+				<specieReference specie="S_0_0_0" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="S_1_0_0" />
+			</listOfProducts>
+			<kineticLaw formula="k1*P*S_0_0_0">
+				<listOfParameters>
+					<parameter name="k1" value="400" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction18" reversible="false">
+			<listOfReactants>
+				<specieReference specie="S_1_0_0" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="P" />
+				<specieReference specie="S_0_0_0" />
+			</listOfProducts>
+			<kineticLaw formula="km1*S_1_0_0">
+				<listOfParameters>
+					<parameter name="km1" value="52" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction19" reversible="false">
+			<listOfReactants>
+				<specieReference specie="P" />
+				<specieReference specie="S_0_1_0" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="S_1_1_0" />
+			</listOfProducts>
+			<kineticLaw formula="k1*P*S_0_1_0">
+				<listOfParameters>
+					<parameter name="k1" value="400" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction20" reversible="false">
+			<listOfReactants>
+				<specieReference specie="S_1_1_0" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="P" />
+				<specieReference specie="S_0_1_0" />
+			</listOfProducts>
+			<kineticLaw formula="km1*S_1_1_0">
+				<listOfParameters>
+					<parameter name="km1" value="52" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction21" reversible="false">
+			<listOfReactants>
+				<specieReference specie="P" />
+				<specieReference specie="S_0_0_1" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="S_1_0_1" />
+			</listOfProducts>
+			<kineticLaw formula="k3*P*S_0_0_1">
+				<listOfParameters>
+					<parameter name="k3" value="400" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction22" reversible="false">
+			<listOfReactants>
+				<specieReference specie="S_1_0_1" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="P" />
+				<specieReference specie="S_0_0_1" />
+			</listOfProducts>
+			<kineticLaw formula="km3*S_1_0_1">
+				<listOfParameters>
+					<parameter name="km3" value="377.2" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction23" reversible="false">
+			<listOfReactants>
+				<specieReference specie="P" />
+				<specieReference specie="S_0_1_1" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="S_1_1_1" />
+			</listOfProducts>
+			<kineticLaw formula="k3*P*S_0_1_1">
+				<listOfParameters>
+					<parameter name="k3" value="400" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+		<reaction name="Reaction24" reversible="false">
+			<listOfReactants>
+				<specieReference specie="S_1_1_1" />
+			</listOfReactants>
+			<listOfProducts>
+				<specieReference specie="P" />
+				<specieReference specie="S_0_1_1" />
+			</listOfProducts>
+			<kineticLaw formula="km3*S_1_1_1">
+				<listOfParameters>
+					<parameter name="km3" value="377.2" />
+				</listOfParameters>
+			</kineticLaw>
+		</reaction>
+	</listOfReactions>
+</model>
+</sbml>

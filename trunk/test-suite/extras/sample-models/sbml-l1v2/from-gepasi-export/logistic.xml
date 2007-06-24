@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by Gepasi 3.30 on September 03, 2002, 23:58 -->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="2">
+	<model name="Logistic_growth">
+		<listOfCompartments>
+			<compartment name="compartment" volume="1"/>
+		</listOfCompartments>
+		<listOfSpecies>
+			<species name="A" compartment="compartment" initialAmount="1e-005" boundaryCondition="false"/>
+			<species name="_void_" compartment="compartment" initialAmount="0.0" boundaryCondition="true"/>
+		</listOfSpecies>
+		<listOfReactions>
+			<reaction name="R1" reversible="false">
+				<listOfReactants>
+					<speciesReference species="A" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="A" stoichiometry="2"/>
+				</listOfProducts>
+				<kineticLaw formula="k_1*A">
+					<listOfParameters>
+						<parameter name="k_1" value="1"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R2" reversible="false">
+				<listOfReactants>
+					<speciesReference species="A" stoichiometry="2"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="_void_" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="k_2*A*A">
+					<listOfParameters>
+						<parameter name="k_2" value="10"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+		</listOfReactions>
+	</model>
+</sbml>

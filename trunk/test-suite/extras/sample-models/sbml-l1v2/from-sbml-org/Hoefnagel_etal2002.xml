@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by Gepasi 3.30 on February 27, 2003, 09:18 -->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="2">
+	<model name="Pyruvate_branches_in_Lactococcus_lactis">
+		<listOfCompartments>
+			<compartment name="compartment" volume="1"/>
+		</listOfCompartments>
+		<listOfSpecies>
+			<species name="ADP" compartment="compartment" initialAmount="5" boundaryCondition="false"/>
+			<species name="NAD" compartment="compartment" initialAmount="10" boundaryCondition="false"/>
+			<species name="ATP" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<species name="NADH" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<species name="pyruvate" compartment="compartment" initialAmount="1e-012" boundaryCondition="false"/>
+			<species name="lactate" compartment="compartment" initialAmount="1" boundaryCondition="true"/>
+			<species name="CoA" compartment="compartment" initialAmount="1" boundaryCondition="false"/>
+			<species name="halfglucose" compartment="compartment" initialAmount="30" boundaryCondition="true"/>
+			<species name="AcCoA" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<species name="Pi" compartment="compartment" initialAmount="10" boundaryCondition="true"/>
+			<species name="AcP" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<species name="Ac" compartment="compartment" initialAmount="1" boundaryCondition="true"/>
+			<species name="AcO" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<species name="EtOH" compartment="compartment" initialAmount="1" boundaryCondition="true"/>
+			<species name="AcLac" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<species name="AcetoinIn" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<species name="AcetoinOut" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+			<species name="Butanediol" compartment="compartment" initialAmount="0.01" boundaryCondition="true"/>
+			<species name="O2" compartment="compartment" initialAmount="0.2" boundaryCondition="true"/>
+			<species name="ActoinIn" compartment="compartment" initialAmount="0" boundaryCondition="false"/>
+		</listOfSpecies>
+		<listOfReactions>
+			<reaction name="R1" reversible="false">
+				<listOfReactants>
+					<speciesReference species="ADP" stoichiometry="1"/>
+					<speciesReference species="NAD" stoichiometry="1"/>
+					<speciesReference species="halfglucose" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="ATP" stoichiometry="1"/>
+					<speciesReference species="NADH" stoichiometry="1"/>
+					<speciesReference species="pyruvate" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((((V_1)*((halfglucose)/(Kglc_1)))*((NAD)/(Knad_1)))*((ADP)/(Kadp_1)))/(((1                   +(halfglucose)/(Kglc_1)+(pyruvate)/(Kpyr_1))*(1                   +(NAD)/(Knad_1)+(NADH)/(Knadh_1)))*(1                   +(ADP)/(Kadp_1)+(ATP)/(Katp_1)))">
+					<listOfParameters>
+						<parameter name="V_1" value="2397"/>
+						<parameter name="Kglc_1" value="0.1"/>
+						<parameter name="Knad_1" value="0.14"/>
+						<parameter name="Kadp_1" value="0.047"/>
+						<parameter name="Kpyr_1" value="25"/>
+						<parameter name="Knadh_1" value="0.09"/>
+						<parameter name="Katp_1" value="0.019"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R2" reversible="false">
+				<listOfReactants>
+					<speciesReference species="NADH" stoichiometry="1"/>
+					<speciesReference species="pyruvate" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="NAD" stoichiometry="1"/>
+					<speciesReference species="lactate" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((V_2)*(((pyruvate)*(NADH)-((lactate)*(NAD))/(Keq_2))/((Kpyr_2)*(Knadh_2))))/((1                   +(pyruvate)/(Kpyr_2)+(lactate)/(Klac_2))*(1                   +(NADH)/(Knadh_2)+(NAD)/(Knad_2)))">
+					<listOfParameters>
+						<parameter name="V_2" value="5118"/>
+						<parameter name="Keq_2" value="21120.7"/>
+						<parameter name="Kpyr_2" value="1.5"/>
+						<parameter name="Knadh_2" value="0.08"/>
+						<parameter name="Klac_2" value="100"/>
+						<parameter name="Knad_2" value="2.4"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R3" reversible="false">
+				<listOfReactants>
+					<speciesReference species="NAD" stoichiometry="1"/>
+					<speciesReference species="pyruvate" stoichiometry="1"/>
+					<speciesReference species="CoA" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="NADH" stoichiometry="1"/>
+					<speciesReference species="AcCoA" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(((((V_3)*((pyruvate)/(Kpyr_3)))*((NAD)/(Knad_3)))*((CoA)/(Kcoa_3)))*((NAD)/(NAD+(Ki_3)*(NADH))))/(((1                   +(pyruvate)/(Kpyr_3))*(1                   +(NAD)/(Knad_3)+(NADH)/(Knadh_3)))*(1                   +(CoA)/(Kcoa_3)+(AcCoA)/(Kaccoa_3)))">
+					<listOfParameters>
+						<parameter name="V_3" value="259"/>
+						<parameter name="Kpyr_3" value="1"/>
+						<parameter name="Knad_3" value="0.4"/>
+						<parameter name="Kcoa_3" value="0.014"/>
+						<parameter name="Ki_3" value="46.4"/>
+						<parameter name="Knadh_3" value="0.1"/>
+						<parameter name="Kaccoa_3" value="0.008"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R4" reversible="false">
+				<listOfReactants>
+					<speciesReference species="AcCoA" stoichiometry="1"/>
+					<speciesReference species="Pi" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="CoA" stoichiometry="1"/>
+					<speciesReference species="AcP" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((V_4)*(((AcCoA)*(Pi)-((AcP)*(CoA))/(Keq_4))/((Kiaccoa_4)*(Kpi_4))))/(1                   +(AcCoA)/(Kiaccoa_4)+(Pi)/(Kipi_4)+(AcP)/(Kiacp_4)+(CoA)/(Kicoa_4)+((AcCoA)*(Pi))/((Kiaccoa_4)*(Kpi_4))+((AcP)*(CoA))/((Kacp_4)*(Kicoa_4)))">
+					<listOfParameters>
+						<parameter name="V_4" value="42"/>
+						<parameter name="Keq_4" value="0.0281"/>
+						<parameter name="Kiaccoa_4" value="0.2"/>
+						<parameter name="Kpi_4" value="2.6"/>
+						<parameter name="Kipi_4" value="2.6"/>
+						<parameter name="Kiacp_4" value="0.2"/>
+						<parameter name="Kicoa_4" value="0.029"/>
+						<parameter name="Kacp_4" value="0.7"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R5" reversible="false">
+				<listOfReactants>
+					<speciesReference species="ADP" stoichiometry="1"/>
+					<speciesReference species="AcP" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="ATP" stoichiometry="1"/>
+					<speciesReference species="Ac" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((V_5)*(((AcP)*(ADP)-((Ac)*(ATP))/(Keq_5))/((Kadp_5)*(Kacp_5))))/((1                   +(AcP)/(Kacp_5)+(Ac)/(Kac_5))*(1                   +(ADP)/(Kadp_5)+(ATP)/(Katp_5)))">
+					<listOfParameters>
+						<parameter name="V_5" value="2700"/>
+						<parameter name="Keq_5" value="174.2"/>
+						<parameter name="Kadp_5" value="0.5"/>
+						<parameter name="Kacp_5" value="0.16"/>
+						<parameter name="Kac_5" value="7"/>
+						<parameter name="Katp_5" value="0.07000000000000001"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R6" reversible="false">
+				<listOfReactants>
+					<speciesReference species="NADH" stoichiometry="1"/>
+					<speciesReference species="AcCoA" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="NAD" stoichiometry="1"/>
+					<speciesReference species="CoA" stoichiometry="1"/>
+					<speciesReference species="AcO" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((V_6)*(((AcCoA)*(NADH)-(((CoA)*(NAD))*(AcO))/(Keq_6))/((Kaccoa_6)*(Knadh_6))))/((1                   +(NAD)/(Knad_6)+(NADH)/(Knadh_6))*(1                   +(AcCoA)/(Kaccoa_6)+(CoA)/(Kcoa_6)+(AcO)/(Kaco_6)+((AcO)*(CoA))/((Kaco_6)*(Kcoa_6))))">
+					<listOfParameters>
+						<parameter name="V_6" value="97"/>
+						<parameter name="Keq_6" value="1"/>
+						<parameter name="Kaccoa_6" value="0.007"/>
+						<parameter name="Knadh_6" value="0.025"/>
+						<parameter name="Knad_6" value="0.08"/>
+						<parameter name="Kcoa_6" value="0.008"/>
+						<parameter name="Kaco_6" value="10"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R7" reversible="false">
+				<listOfReactants>
+					<speciesReference species="NADH" stoichiometry="1"/>
+					<speciesReference species="AcO" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="NAD" stoichiometry="1"/>
+					<speciesReference species="EtOH" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((V_7)*(((AcO)*(NADH)-((EtOH)*(NAD))/(Keq_7))/((Kaco_7)*(Knadh_7))))/((1                   +(NAD)/(Knad_7)+(NADH)/(Knadh_7))*(1                   +(AcO)/(Kaco_7)+(EtOH)/(Ketoh_7)))">
+					<listOfParameters>
+						<parameter name="V_7" value="162"/>
+						<parameter name="Keq_7" value="12354.9"/>
+						<parameter name="Kaco_7" value="0.03"/>
+						<parameter name="Knadh_7" value="0.05"/>
+						<parameter name="Knad_7" value="0.08"/>
+						<parameter name="Ketoh_7" value="1"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R8" reversible="false">
+				<listOfReactants>
+					<speciesReference species="pyruvate" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="AcLac" stoichiometry="2"/>
+				</listOfProducts>
+				<kineticLaw formula="((V_8)*((((pyruvate)/(Kpyr_8))*(1                   -(AcLac)/((pyruvate)*(Keq_8))))*(((pyruvate)/(Kpyr_8)+(AcLac)/(Kaclac_8))^(n_8-1                   ))))/(1                   +((pyruvate)/(Kpyr_8)+(AcLac)/(Kaclac_8))^(n_8))">
+					<listOfParameters>
+						<parameter name="V_8" value="600"/>
+						<parameter name="Kpyr_8" value="50"/>
+						<parameter name="Keq_8" value="9000000000000"/>
+						<parameter name="Kaclac_8" value="100"/>
+						<parameter name="n_8" value="2.4"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R9" reversible="false">
+				<listOfReactants>
+					<speciesReference species="AcLac" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="AcetoinIn" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((V_9)*((AcLac)/(Kaclac_9)))/(1                   +(AcLac)/(Kaclac_9)+(AcetoinIn)/(Kacet_9))">
+					<listOfParameters>
+						<parameter name="V_9" value="106"/>
+						<parameter name="Kaclac_9" value="10"/>
+						<parameter name="Kacet_9" value="100"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R10" reversible="false">
+				<listOfReactants>
+					<speciesReference species="AcetoinIn" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="AcetoinOut" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((V_10)*((AcetoinIn)/(Kacet_10)))/(1                   +(AcetoinIn)/(Kacet_10))">
+					<listOfParameters>
+						<parameter name="V_10" value="200"/>
+						<parameter name="Kacet_10" value="5"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R11" reversible="false">
+				<listOfReactants>
+					<speciesReference species="NADH" stoichiometry="1"/>
+					<speciesReference species="AcetoinIn" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="NAD" stoichiometry="1"/>
+					<speciesReference species="Butanediol" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((V_11)*(((AcetoinIn)*(NADH)-((Butanediol)*(NAD))/(Keq_11))/((Kacet_11)*(Knadh_11))))/((1                   +(AcetoinIn)/(Kacet_11)+(Butanediol)/(Kbut_11))*(1                   +(NADH)/(Knadh_11)+(NAD)/(Knad_11)))">
+					<listOfParameters>
+						<parameter name="V_11" value="105"/>
+						<parameter name="Keq_11" value="1400"/>
+						<parameter name="Kacet_11" value="0.06"/>
+						<parameter name="Knadh_11" value="0.02"/>
+						<parameter name="Kbut_11" value="2.6"/>
+						<parameter name="Knad_11" value="0.16"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R12" reversible="false">
+				<listOfReactants>
+					<speciesReference species="ATP" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="ADP" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((V_12)*(((ATP)/((ADP)*(Katp_12)))^(n_12)))/(1                   +((ATP)/((ADP)*(Katp_12)))^(n_12))">
+					<listOfParameters>
+						<parameter name="V_12" value="900"/>
+						<parameter name="Katp_12" value="6.2"/>
+						<parameter name="n_12" value="2.6"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R13" reversible="false">
+				<listOfReactants>
+					<speciesReference species="NADH" stoichiometry="1"/>
+					<speciesReference species="O2" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="NAD" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((V_13)*(((NADH)*(O2))/((Knadh_13)*(Ko_13))))/((1                   +(NADH)/(Knadh_13)+(NAD)/(Knad_13))*(1                   +(O2)/(Ko_13)))">
+					<listOfParameters>
+						<parameter name="V_13" value="118"/>
+						<parameter name="Knadh_13" value="0.041"/>
+						<parameter name="Ko_13" value="0.01"/>
+						<parameter name="Knad_13" value="1"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="R14" reversible="false">
+				<listOfReactants>
+					<speciesReference species="AcLac" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<speciesReference species="ActoinIn" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="k_14*AcLac">
+					<listOfParameters>
+						<parameter name="k_14" value="0.0003"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+		</listOfReactions>
+	</model>
+</sbml>

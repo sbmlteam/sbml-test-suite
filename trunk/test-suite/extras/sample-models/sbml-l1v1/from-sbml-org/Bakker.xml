@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by Gepasi 3.30 on March 13, 2003, 17:00 -->
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="1">
+	<model name="Bakker">
+		<listOfCompartments>
+			<compartment name="uVol" volume="1"/>
+		</listOfCompartments>
+		<listOfSpecies>
+			<specie name="GlcI" compartment="uVol" initialAmount="0.008333620999999999" boundaryCondition="false"/>
+			<specie name="Glc6P" compartment="uVol" initialAmount="0.507844749" boundaryCondition="false"/>
+			<specie name="Fru6P" compartment="uVol" initialAmount="0.125435562" boundaryCondition="false"/>
+			<specie name="Fru16BP" compartment="uVol" initialAmount="4.05324321" boundaryCondition="false"/>
+			<specie name="DHAP" compartment="uVol" initialAmount="22.22422807" boundaryCondition="false"/>
+			<specie name="GAP" compartment="uVol" initialAmount="0.009787554" boundaryCondition="false"/>
+			<specie name="BPGA13" compartment="uVol" initialAmount="0.00800852" boundaryCondition="false"/>
+			<specie name="Nb" compartment="uVol" initialAmount="9.09694" boundaryCondition="false"/>
+			<specie name="Pyr" compartment="uVol" initialAmount="26.04240174" boundaryCondition="false"/>
+			<specie name="NADH" compartment="uVol" initialAmount="0.010996142" boundaryCondition="false"/>
+			<specie name="Pg" compartment="uVol" initialAmount="1.872407136" boundaryCondition="false"/>
+			<specie name="Pc" compartment="uVol" initialAmount="35.55711106" boundaryCondition="false"/>
+			<specie name="NAD" compartment="uVol" initialAmount="0.969404814" boundaryCondition="false"/>
+			<specie name="GlcE" compartment="uVol" initialAmount="5" boundaryCondition="true"/>
+			<specie name="PyrE" compartment="uVol" initialAmount="0" boundaryCondition="true"/>
+			<specie name="Gly" compartment="uVol" initialAmount="0" boundaryCondition="true"/>
+		</listOfSpecies>
+		<listOfReactions>
+			<reaction name="vHK" reversible="true">
+				<listOfReactants>
+					<specieReference specie="GlcI" stoichiometry="1"/>
+					<specieReference specie="Pg" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="Glc6P" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(((Vm2_1)*(((GlcI)/(Vg_1))/(K2GlcI_1)))*((((Pg)/(Vg_1)-(((4                   )*(KeqAK_1))*(Pg))/(Vg_1)-sumAg_1+(((Pg)/(Vg_1))^(2                   )-((4                   )*(KeqAK_1))*(((Pg)/(Vg_1))^(2                   ))-((2                   )*((Pg)/(Vg_1)))*(sumAg_1)+(((8                   )*(KeqAK_1))*((Pg)/(Vg_1)))*(sumAg_1)+(sumAg_1)^(2                   ))^(0.5                 ))/(2                   -(8                   )*(KeqAK_1)))/(K2ATPg_1)))/((1                   +(((Pg)/(Vg_1)-(((4                   )*(KeqAK_1))*(Pg))/(Vg_1)-sumAg_1+(((Pg)/(Vg_1))^(2                   )-((4                   )*(KeqAK_1))*(((Pg)/(Vg_1))^(2                   ))-((2                   )*((Pg)/(Vg_1)))*(sumAg_1)+(((8                   )*(KeqAK_1))*((Pg)/(Vg_1)))*(sumAg_1)+(sumAg_1)^(2                   ))^(0.5                 ))/(2                   -(8                   )*(KeqAK_1)))/(K2ATPg_1)+((sumAg_1-(((Pg)/(Vg_1))^(2                   )-((4                   )*(KeqAK_1))*(((Pg)/(Vg_1))^(2                   ))-((2                   )*((Pg)/(Vg_1)))*(sumAg_1)+(((8                   )*(KeqAK_1))*((Pg)/(Vg_1)))*(sumAg_1)+(sumAg_1)^(2                   ))^(0.5                 ))/(1                   -(4                   )*(KeqAK_1)))/(K2ADPg_1))*(1                   +((GlcI)/(Vg_1))/(K2GlcI_1)+((Glc6P)/(Vg_1))/(K2Glc6P_1)))">
+					<listOfParameters>
+						<parameter name="Vm2_1" value="625"/>
+						<parameter name="Vg_1" value="0.2451"/>
+						<parameter name="K2GlcI_1" value="0.1"/>
+						<parameter name="KeqAK_1" value="0.442"/>
+						<parameter name="sumAg_1" value="6"/>
+						<parameter name="K2ATPg_1" value="0.116"/>
+						<parameter name="K2ADPg_1" value="0.126"/>
+						<parameter name="K2Glc6P_1" value="12"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vPGI" reversible="true">
+				<listOfReactants>
+					<specieReference specie="Glc6P" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="Fru6P" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((Vm3_2)*(((Glc6P)/(Vg_2))/(K3Glc6P_2)-((Fru6P)/(Vg_2))/(K3Fru6P_2)))/(1                   +((Glc6P)/(Vg_2))/(K3Glc6P_2)+((Fru6P)/(Vg_2))/(K3Fru6P_2))">
+					<listOfParameters>
+						<parameter name="Vm3_2" value="848"/>
+						<parameter name="Vg_2" value="0.2451"/>
+						<parameter name="K3Glc6P_2" value="0.4"/>
+						<parameter name="K3Fru6P_2" value="0.12"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vPFK" reversible="true">
+				<listOfReactants>
+					<specieReference specie="Fru6P" stoichiometry="1"/>
+					<specieReference specie="Pg" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="Fru16BP" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(((Vm4_3)*((K4i1Fru16BP_3)/(K4i1Fru16BP_3+(Fru16BP)/(Vg_3))))*((((Fru6P)/(Vg_3))/(K4Fru6P_3))*((((Pg)/(Vg_3)-((4                   )*(KeqAK_3))*((Pg)/(Vg_3))-sumAg_3+(((Pg)/(Vg_3))^(2                   )-((4                   )*(KeqAK_3))*(((Pg)/(Vg_3))^(2                   ))-((2                   )*((Pg)/(Vg_3)))*(sumAg_3)+(((8                   )*(KeqAK_3))*((Pg)/(Vg_3)))*(sumAg_3)+(sumAg_3)^(2                   ))^(0.5                 ))/(2                   -(8                   )*(KeqAK_3)))/(K4ATPg_3))))/((1                   +((Fru6P)/(Vg_3))/(K4Fru6P_3)+((Fru16BP)/(Vg_3))/(K4i2Fru16BP_3))*(1                   +(((Pg)/(Vg_3)-((4                   )*(KeqAK_3))*((Pg)/(Vg_3))-sumAg_3+(((Pg)/(Vg_3))^(2                   )-((4                   )*(KeqAK_3))*(((Pg)/(Vg_3))^(2                   ))-((2                   )*((Pg)/(Vg_3)))*(sumAg_3)+(((8                   )*(KeqAK_3))*((Pg)/(Vg_3)))*(sumAg_3)+(sumAg_3)^(2                   ))^(0.5                 ))/(2                   -(8                   )*(KeqAK_3)))/(K4ATPg_3)))">
+					<listOfParameters>
+						<parameter name="Vm4_3" value="780"/>
+						<parameter name="K4i1Fru16BP_3" value="15.8"/>
+						<parameter name="Vg_3" value="0.2451"/>
+						<parameter name="K4Fru6P_3" value="0.82"/>
+						<parameter name="KeqAK_3" value="0.442"/>
+						<parameter name="sumAg_3" value="6"/>
+						<parameter name="K4ATPg_3" value="0.026"/>
+						<parameter name="K4i2Fru16BP_3" value="10.7"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vALD" reversible="true">
+				<listOfReactants>
+					<specieReference specie="Fru16BP" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="DHAP" stoichiometry="1"/>
+					<specieReference specie="GAP" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(Vm5_4)*(((Vm5f_4)*(((Fru16BP)/(Vg_4))/((0.009               )*(1                   +(((Pg)/(Vg_4)-((4                   )*(KeqAK_4))*((Pg)/(Vg_4))-sumAg_4+(((Pg)/(Vg_4))^(2                   )-((4                   )*(KeqAK_4))*(((Pg)/(Vg_4))^(2                   ))-((2                   )*((Pg)/(Vg_4)))*(sumAg_4)+(((8                   )*(KeqAK_4))*((Pg)/(Vg_4)))*(sumAg_4)+(sumAg_4)^(2                   ))^(0.5                 ))/(2                   -(8                   )*(KeqAK_4)))/(0.68                )+((sumAg_4-(((Pg)/(Vg_4))^(2                   )-((4                   )*(KeqAK_4))*(((Pg)/(Vg_4))^(2                   ))-((2                   )*((Pg)/(Vg_4)))*(sumAg_4)+(((8                   )*(KeqAK_4))*((Pg)/(Vg_4)))*(sumAg_4)+(sumAg_4)^(2                   ))^(0.5                 ))/(1                   -(4                   )*(KeqAK_4)))/(1.51                )+(((Pg)/(Vg_4)-((4                   )*(KeqAK_4))*((Pg)/(Vg_4))-sumAg_4+((8                   )*(KeqAK_4))*(sumAg_4)-(((Pg)/(Vg_4))^(2                   )-((4                   )*(KeqAK_4))*(((Pg)/(Vg_4))^(2                   ))-((2                   )*((Pg)/(Vg_4)))*(sumAg_4)+(((8                   )*(KeqAK_4))*((Pg)/(Vg_4)))*(sumAg_4)+(sumAg_4)^(2                   ))^(0.5                 ))/(-(2                   )+(8                   )*(KeqAK_4)))/(3.65                )))-(((Vm5r_4)*((GAP)/(Vg_4)))*(((DHAP)/(Vt_4))*((Vc_4)/(Vg_4)+1                   )-(((((DHAPct0_4+Gly3Pct0_4)*((DHAP)/(Vt_4)))*((Vc_4)/(Vg_4)+1                   ))/(((DHAPct0_4+Gly3Pct0_4)*(Vc_4))/(Vg_4)+DHAPgt0_4+Gly3Pgt0_4))*(Vc_4))/(Vg_4)))/(((Vm5f_4)*(K5GAP_4))*(K5DHAP_4))))/(1                   +((Fru16BP)/(Vg_4))/((0.009               )*(1                   +(((Pg)/(Vg_4)-((4                   )*(KeqAK_4))*((Pg)/(Vg_4))-sumAg_4+(((Pg)/(Vg_4))^(2                   )-((4                   )*(KeqAK_4))*(((Pg)/(Vg_4))^(2                   ))-((2                   )*((Pg)/(Vg_4)))*(sumAg_4)+(((8                   )*(KeqAK_4))*((Pg)/(Vg_4)))*(sumAg_4)+(sumAg_4)^(2                   ))^(0.5                 ))/(2                   -(8                   )*(KeqAK_4)))/(0.68                )+((sumAg_4-(((Pg)/(Vg_4))^(2                   )-((4                   )*(KeqAK_4))*(((Pg)/(Vg_4))^(2                   ))-((2                   )*((Pg)/(Vg_4)))*(sumAg_4)+(((8                   )*(KeqAK_4))*((Pg)/(Vg_4)))*(sumAg_4)+(sumAg_4)^(2                   ))^(0.5                 ))/(1                   -(4                   )*(KeqAK_4)))/(1.51                )+(((Pg)/(Vg_4)-((4                   )*(KeqAK_4))*((Pg)/(Vg_4))-sumAg_4+((8                   )*(KeqAK_4))*(sumAg_4)-(((Pg)/(Vg_4))^(2                   )-((4                   )*(KeqAK_4))*(((Pg)/(Vg_4))^(2                   ))-((2                   )*((Pg)/(Vg_4)))*(sumAg_4)+(((8                   )*(KeqAK_4))*((Pg)/(Vg_4)))*(sumAg_4)+(sumAg_4)^(2                   ))^(0.5                 ))/(-(2                   )+(8                   )*(KeqAK_4)))/(3.65                )))+((GAP)/(Vg_4))/(K5GAP_4)+(((DHAP)/(Vt_4))*((Vc_4)/(Vg_4)+1                   )-(((((DHAPct0_4+Gly3Pct0_4)*((DHAP)/(Vt_4)))*((Vc_4)/(Vg_4)+1                   ))/(((DHAPct0_4+Gly3Pct0_4)*(Vc_4))/(Vg_4)+DHAPgt0_4+Gly3Pgt0_4))*(Vc_4))/(Vg_4))/(K5DHAP_4)+(((Fru16BP)/(Vg_4))*((GAP)/(Vg_4)))/(((0.009               )*(1                   +(((Pg)/(Vg_4)-((4                   )*(KeqAK_4))*((Pg)/(Vg_4))-sumAg_4+(((Pg)/(Vg_4))^(2                   )-((4                   )*(KeqAK_4))*(((Pg)/(Vg_4))^(2                   ))-((2                   )*((Pg)/(Vg_4)))*(sumAg_4)+(((8                   )*(KeqAK_4))*((Pg)/(Vg_4)))*(sumAg_4)+(sumAg_4)^(2                   ))^(0.5                 ))/(2                   -(8                   )*(KeqAK_4)))/(0.68                )+((sumAg_4-(((Pg)/(Vg_4))^(2                   )-((4                   )*(KeqAK_4))*(((Pg)/(Vg_4))^(2                   ))-((2                   )*((Pg)/(Vg_4)))*(sumAg_4)+(((8                   )*(KeqAK_4))*((Pg)/(Vg_4)))*(sumAg_4)+(sumAg_4)^(2                   ))^(0.5                 ))/(1                   -(4                   )*(KeqAK_4)))/(1.51                )+(((Pg)/(Vg_4)-((4                   )*(KeqAK_4))*((Pg)/(Vg_4))-sumAg_4+((8                   )*(KeqAK_4))*(sumAg_4)-(((Pg)/(Vg_4))^(2                   )-((4                   )*(KeqAK_4))*(((Pg)/(Vg_4))^(2                   ))-((2                   )*((Pg)/(Vg_4)))*(sumAg_4)+(((8                   )*(KeqAK_4))*((Pg)/(Vg_4)))*(sumAg_4)+(sumAg_4)^(2                   ))^(0.5                 ))/(-(2                   )+(8                   )*(KeqAK_4)))/(3.65                )))*(K5GAPi_4))+(((GAP)/(Vg_4))*(((DHAP)/(Vt_4))*((Vc_4)/(Vg_4)+1                   )-(((((DHAPct0_4+Gly3Pct0_4)*((DHAP)/(Vt_4)))*((Vc_4)/(Vg_4)+1                   ))/(((DHAPct0_4+Gly3Pct0_4)*(Vc_4))/(Vg_4)+DHAPgt0_4+Gly3Pgt0_4))*(Vc_4))/(Vg_4)))/((K5GAP_4)*(K5DHAP_4))))">
+					<listOfParameters>
+						<parameter name="Vm5_4" value="1"/>
+						<parameter name="Vm5f_4" value="184.5"/>
+						<parameter name="Vg_4" value="0.2451"/>
+						<parameter name="KeqAK_4" value="0.442"/>
+						<parameter name="sumAg_4" value="6"/>
+						<parameter name="Vm5r_4" value="219.555"/>
+						<parameter name="Vt_4" value="5.7"/>
+						<parameter name="Vc_4" value="5.4549"/>
+						<parameter name="DHAPct0_4" value="4.01536"/>
+						<parameter name="Gly3Pct0_4" value="0.984642"/>
+						<parameter name="DHAPgt0_4" value="1.30902"/>
+						<parameter name="Gly3Pgt0_4" value="0.320997"/>
+						<parameter name="K5GAP_4" value="0.067"/>
+						<parameter name="K5DHAP_4" value="0.015"/>
+						<parameter name="K5GAPi_4" value="0.098"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vTPI" reversible="true">
+				<listOfReactants>
+					<specieReference specie="DHAP" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="GAP" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((Vm6_5)*((((DHAP)/(Vt_5))*((Vc_5)/(Vg_5)+1                   )-(((((DHAPct0_5+Gly3Pct0_5)*((DHAP)/(Vt_5)))*((Vc_5)/(Vg_5)+1                   ))/(((DHAPct0_5+Gly3Pct0_5)*(Vc_5))/(Vg_5)+DHAPgt0_5+Gly3Pgt0_5))*(Vc_5))/(Vg_5))/(K6DHAPg_5)-((5.7                 )*((GAP)/(Vg_5)))/(K6GAP_5)))/(1                   +(((DHAP)/(Vt_5))*((Vc_5)/(Vg_5)+1                   )-(((((DHAPct0_5+Gly3Pct0_5)*((DHAP)/(Vt_5)))*((Vc_5)/(Vg_5)+1                   ))/(((DHAPct0_5+Gly3Pct0_5)*(Vc_5))/(Vg_5)+DHAPgt0_5+Gly3Pgt0_5))*(Vc_5))/(Vg_5))/(K6DHAPg_5)+((GAP)/(Vg_5))/(K6GAP_5))">
+					<listOfParameters>
+						<parameter name="Vm6_5" value="842"/>
+						<parameter name="Vt_5" value="5.7"/>
+						<parameter name="Vc_5" value="5.4549"/>
+						<parameter name="Vg_5" value="0.2451"/>
+						<parameter name="DHAPct0_5" value="4.01536"/>
+						<parameter name="Gly3Pct0_5" value="0.984642"/>
+						<parameter name="DHAPgt0_5" value="1.30902"/>
+						<parameter name="Gly3Pgt0_5" value="0.320997"/>
+						<parameter name="K6DHAPg_5" value="1.2"/>
+						<parameter name="K6GAP_5" value="0.25"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vGDH" reversible="true">
+				<listOfReactants>
+					<specieReference specie="DHAP" stoichiometry="1"/>
+					<specieReference specie="NADH" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="NAD" stoichiometry="1"/>
+					<specieReference specie="GlcE" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(Vm8_6)*(((Vm8f_6)*(((((DHAP)/(Vt_6))*((Vc_6)/(Vg_6)+1                   )-(((((DHAPct0_6+Gly3Pct0_6)*((DHAP)/(Vt_6)))*((Vc_6)/(Vg_6)+1                   ))/(((DHAPct0_6+Gly3Pct0_6)*(Vc_6))/(Vg_6)+DHAPgt0_6+Gly3Pgt0_6))*(Vc_6))/(Vg_6))*((NADH)/(Vg_6)))/((K8DHAPg_6)*(K8NADH_6))-((Vm8r_6)/(Vm8f_6))*((((NAD)/(Vg_6))*(DHAPgt0_6+Gly3Pgt0_6-((DHAP)/(Vt_6))*((Vc_6)/(Vg_6)+1                   )-(((((DHAPct0_6+Gly3Pct0_6)*((DHAP)/(Vt_6)))*((Vc_6)/(Vg_6)+1                   ))/(((DHAPct0_6+Gly3Pct0_6)*(Vc_6))/(Vg_6)+DHAPgt0_6+Gly3Pgt0_6))*(Vc_6))/(Vg_6)))/((K8NAD_6)*(K8Gly3Pg_6)))))/((1                   +(((DHAP)/(Vt_6))*((Vc_6)/(Vg_6)+1                   )-(((((DHAPct0_6+Gly3Pct0_6)*((DHAP)/(Vt_6)))*((Vc_6)/(Vg_6)+1                   ))/(((DHAPct0_6+Gly3Pct0_6)*(Vc_6))/(Vg_6)+DHAPgt0_6+Gly3Pgt0_6))*(Vc_6))/(Vg_6))/(K8DHAPg_6)+(DHAPgt0_6+Gly3Pgt0_6-((DHAP)/(Vt_6))*((Vc_6)/(Vg_6)+1                   )-(((((DHAPct0_6+Gly3Pct0_6)*((DHAP)/(Vt_6)))*((Vc_6)/(Vg_6)+1                   ))/(((DHAPct0_6+Gly3Pct0_6)*(Vc_6))/(Vg_6)+DHAPgt0_6+Gly3Pgt0_6))*(Vc_6))/(Vg_6))/(K8Gly3Pg_6))*(1                   +((NADH)/(Vg_6))/(K8NADH_6)+((NAD)/(Vg_6))/(K8NAD_6))))">
+					<listOfParameters>
+						<parameter name="Vm8_6" value="1"/>
+						<parameter name="Vm8f_6" value="533"/>
+						<parameter name="Vt_6" value="5.7"/>
+						<parameter name="Vc_6" value="5.4549"/>
+						<parameter name="Vg_6" value="0.2451"/>
+						<parameter name="DHAPct0_6" value="4.01536"/>
+						<parameter name="Gly3Pct0_6" value="0.984642"/>
+						<parameter name="DHAPgt0_6" value="1.30902"/>
+						<parameter name="Gly3Pgt0_6" value="0.320997"/>
+						<parameter name="K8DHAPg_6" value="0.1"/>
+						<parameter name="K8NADH_6" value="0.01"/>
+						<parameter name="Vm8r_6" value="149.24"/>
+						<parameter name="K8NAD_6" value="0.4"/>
+						<parameter name="K8Gly3Pg_6" value="2"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vGPO" reversible="true">
+				<listOfReactants>
+					<specieReference specie="GlcE" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="DHAP" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((Vm9_7)*((DHAPct0_7+Gly3Pct0_7-(((DHAPct0_7+Gly3Pct0_7)*((DHAP)/(Vt_7)))*((Vc_7)/(Vg_7)+1                   ))/(((DHAPct0_7+Gly3Pct0_7)*(Vc_7))/(Vg_7)+DHAPgt0_7+Gly3Pgt0_7))/(K9Gly3Pc_7)))/(1                   +(DHAPct0_7+Gly3Pct0_7-(((DHAPct0_7+Gly3Pct0_7)*((DHAP)/(Vt_7)))*((Vc_7)/(Vg_7)+1                   ))/(((DHAPct0_7+Gly3Pct0_7)*(Vc_7))/(Vg_7)+DHAPgt0_7+Gly3Pgt0_7))/(K9Gly3Pc_7))">
+					<listOfParameters>
+						<parameter name="Vm9_7" value="368"/>
+						<parameter name="DHAPct0_7" value="4.01536"/>
+						<parameter name="Gly3Pct0_7" value="0.984642"/>
+						<parameter name="Vt_7" value="5.7"/>
+						<parameter name="Vc_7" value="5.4549"/>
+						<parameter name="Vg_7" value="0.2451"/>
+						<parameter name="DHAPgt0_7" value="1.30902"/>
+						<parameter name="Gly3Pgt0_7" value="0.320997"/>
+						<parameter name="K9Gly3Pc_7" value="1.7"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vPyrTr" reversible="true">
+				<listOfReactants>
+					<specieReference specie="Pyr" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="PyrE" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((Vm10_8)*(((Pyr)/(Vc_8))/(K10Pyr_8)))/(1                   +((Pyr)/(Vc_8))/(K10Pyr_8))">
+					<listOfParameters>
+						<parameter name="Vm10_8" value="200"/>
+						<parameter name="Vc_8" value="5.4549"/>
+						<parameter name="K10Pyr_8" value="1.96"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vPGK" reversible="true">
+				<listOfReactants>
+					<specieReference specie="BPGA13" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="Nb" stoichiometry="1"/>
+					<specieReference specie="Pg" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(Vm11_9)*(((Vm11f_9)*((((BPGA13)/(Vg_9))*((sumAg_9-(((Pg)/(Vg_9))^(2                   )-((4                   )*(KeqAK_9))*(((Pg)/(Vg_9))^(2                   ))-((2                   )*((Pg)/(Vg_9)))*(sumAg_9)+(((8                   )*(KeqAK_9))*((Pg)/(Vg_9)))*(sumAg_9)+(sumAg_9)^(2                   ))^(0.5                 ))/(1                   -(4                   )*(KeqAK_9))))/((K11BPGA13_9)*(K11ADPg_9))-((Vm11r_9)/(Vm11f_9))*((((((Nb)/(Vt_9))*(1                   +(Vc_9)/(Vg_9)))/(1                   +((1                   +KeqPGM_9+(KeqPGM_9)*(KeqENO_9))*(Vc_9))/(Vg_9)))*(((Pg)/(Vg_9)-((4                   )*(KeqAK_9))*((Pg)/(Vg_9))-sumAg_9+(((Pg)/(Vg_9))^(2                   )-((4                   )*(KeqAK_9))*(((Pg)/(Vg_9))^(2                   ))-((2                   )*((Pg)/(Vg_9)))*(sumAg_9)+(((8                   )*(KeqAK_9))*((Pg)/(Vg_9)))*(sumAg_9)+(sumAg_9)^(2                   ))^(0.5                 ))/(2                   -(8                   )*(KeqAK_9))))/((K11PGA3_9)*(K11ATPg_9)))))/((1                   +((BPGA13)/(Vg_9))/(K11BPGA13_9)+((((Nb)/(Vt_9))*(1                   +(Vc_9)/(Vg_9)))/(1                   +((1                   +KeqPGM_9+(KeqPGM_9)*(KeqENO_9))*(Vc_9))/(Vg_9)))/(K11PGA3_9))*(1                   +((sumAg_9-(((Pg)/(Vg_9))^(2                   )-((4                   )*(KeqAK_9))*(((Pg)/(Vg_9))^(2                   ))-((2                   )*((Pg)/(Vg_9)))*(sumAg_9)+(((8                   )*(KeqAK_9))*((Pg)/(Vg_9)))*(sumAg_9)+(sumAg_9)^(2                   ))^(0.5                 ))/(1                   -(4                   )*(KeqAK_9)))/(K11ADPg_9)+(((Pg)/(Vg_9)-((4                   )*(KeqAK_9))*((Pg)/(Vg_9))-sumAg_9+(((Pg)/(Vg_9))^(2                   )-((4                   )*(KeqAK_9))*(((Pg)/(Vg_9))^(2                   ))-((2                   )*((Pg)/(Vg_9)))*(sumAg_9)+(((8                   )*(KeqAK_9))*((Pg)/(Vg_9)))*(sumAg_9)+(sumAg_9)^(2                   ))^(0.5                 ))/(2                   -(8                   )*(KeqAK_9)))/(K11ATPg_9))))">
+					<listOfParameters>
+						<parameter name="Vm11_9" value="1"/>
+						<parameter name="Vm11f_9" value="640"/>
+						<parameter name="Vg_9" value="0.2451"/>
+						<parameter name="sumAg_9" value="6"/>
+						<parameter name="KeqAK_9" value="0.442"/>
+						<parameter name="K11BPGA13_9" value="0.05"/>
+						<parameter name="K11ADPg_9" value="0.1"/>
+						<parameter name="Vm11r_9" value="18.56"/>
+						<parameter name="Vt_9" value="5.7"/>
+						<parameter name="Vc_9" value="5.4549"/>
+						<parameter name="KeqPGM_9" value="0.187"/>
+						<parameter name="KeqENO_9" value="6.7"/>
+						<parameter name="K11PGA3_9" value="1.62"/>
+						<parameter name="K11ATPg_9" value="0.29"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vPK" reversible="true">
+				<listOfReactants>
+					<specieReference specie="Nb" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="Pyr" stoichiometry="1"/>
+					<specieReference specie="Pc" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(((Vm12_10)*((((((((Nb)/(Vt_10))*(1                   +(Vc_10)/(Vg_10)))/(1                   +((1                   +KeqPGM_10+(KeqPGM_10)*(KeqENO_10))*(Vc_10))/(Vg_10)))*(KeqPGM_10))*(KeqENO_10))/((0.34                )*(1                   +(((Pc)/(Vc_10)-((4                   )*(KeqAK_10))*((Pc)/(Vc_10))-sumAc_10+(((Pc)/(Vc_10))^(2                   )-((4                   )*(KeqAK_10))*(((Pc)/(Vc_10))^(2                   ))-((2                   )*((Pc)/(Vc_10)))*(sumAc_10)+(((8                   )*(KeqAK_10))*((Pc)/(Vc_10)))*(sumAc_10)+(sumAc_10)^(2                   ))^(0.5                 ))/(2                   -(8                   )*(KeqAK_10)))/(0.57                )+((sumAc_10-(((Pc)/(Vc_10))^(2                   )-((4                   )*(KeqAK_10))*(((Pc)/(Vc_10))^(2                   ))-((2                   )*((Pc)/(Vc_10)))*(sumAc_10)+(((8                   )*(KeqAK_10))*((Pc)/(Vc_10)))*(sumAc_10)+(sumAc_10)^(2                   ))^(0.5                 ))/(1                   -(4                   )*(KeqAK_10)))/(0.64                ))))^(n12_10)))*(((sumAc_10-(((Pc)/(Vc_10))^(2                   )-((4                   )*(KeqAK_10))*(((Pc)/(Vc_10))^(2                   ))-((2                   )*((Pc)/(Vc_10)))*(sumAc_10)+(((8                   )*(KeqAK_10))*((Pc)/(Vc_10)))*(sumAc_10)+(sumAc_10)^(2                   ))^(0.5                 ))/(1                   -(4                   )*(KeqAK_10)))/(K12ADP_10)))/((1                   +(((((((Nb)/(Vt_10))*(1                   +(Vc_10)/(Vg_10)))/(1                   +((1                   +KeqPGM_10+(KeqPGM_10)*(KeqENO_10))*(Vc_10))/(Vg_10)))*(KeqPGM_10))*(KeqENO_10))/((0.34                )*(1                   +(((Pc)/(Vc_10)-((4                   )*(KeqAK_10))*((Pc)/(Vc_10))-sumAc_10+(((Pc)/(Vc_10))^(2                   )-((4                   )*(KeqAK_10))*(((Pc)/(Vc_10))^(2                   ))-((2                   )*((Pc)/(Vc_10)))*(sumAc_10)+(((8                   )*(KeqAK_10))*((Pc)/(Vc_10)))*(sumAc_10)+(sumAc_10)^(2                   ))^(0.5                 ))/(2                   -(8                   )*(KeqAK_10)))/(0.57                )+((sumAc_10-(((Pc)/(Vc_10))^(2                   )-((4                   )*(KeqAK_10))*(((Pc)/(Vc_10))^(2                   ))-((2                   )*((Pc)/(Vc_10)))*(sumAc_10)+(((8                   )*(KeqAK_10))*((Pc)/(Vc_10)))*(sumAc_10)+(sumAc_10)^(2                   ))^(0.5                 ))/(1                   -(4                   )*(KeqAK_10)))/(0.64                ))))^(n12_10))*(1                   +((sumAc_10-(((Pc)/(Vc_10))^(2                   )-((4                   )*(KeqAK_10))*(((Pc)/(Vc_10))^(2                   ))-((2                   )*((Pc)/(Vc_10)))*(sumAc_10)+(((8                   )*(KeqAK_10))*((Pc)/(Vc_10)))*(sumAc_10)+(sumAc_10)^(2                   ))^(0.5                 ))/(1                   -(4                   )*(KeqAK_10)))/(K12ADP_10)))">
+					<listOfParameters>
+						<parameter name="Vm12_10" value="2600"/>
+						<parameter name="Vt_10" value="5.7"/>
+						<parameter name="Vc_10" value="5.4549"/>
+						<parameter name="Vg_10" value="0.2451"/>
+						<parameter name="KeqPGM_10" value="0.187"/>
+						<parameter name="KeqENO_10" value="6.7"/>
+						<parameter name="KeqAK_10" value="0.442"/>
+						<parameter name="sumAc_10" value="3.9"/>
+						<parameter name="n12_10" value="2.5"/>
+						<parameter name="K12ADP_10" value="0.114"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vATPase" reversible="true">
+				<listOfReactants>
+					<specieReference specie="Pc" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="GlcE" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((K13_11)*(((Pc)/(Vc_11)-((4                   )*(KeqAK_11))*((Pc)/(Vc_11))-sumAc_11+(((Pc)/(Vc_11))^(2                   )-((4                   )*(KeqAK_11))*(((Pc)/(Vc_11))^(2                   ))-((2                   )*((Pc)/(Vc_11)))*(sumAc_11)+(((8                   )*(KeqAK_11))*((Pc)/(Vc_11)))*(sumAc_11)+(sumAc_11)^(2                   ))^(0.5                 ))/(2                   -(8                   )*(KeqAK_11))))/((sumAc_11-(((Pc)/(Vc_11))^(2                   )-((4                   )*(KeqAK_11))*(((Pc)/(Vc_11))^(2                   ))-((2                   )*((Pc)/(Vc_11)))*(sumAc_11)+(((8                   )*(KeqAK_11))*((Pc)/(Vc_11)))*(sumAc_11)+(sumAc_11)^(2                   ))^(0.5                 ))/(1                   -(4                   )*(KeqAK_11)))">
+					<listOfParameters>
+						<parameter name="K13_11" value="50"/>
+						<parameter name="Vc_11" value="5.4549"/>
+						<parameter name="KeqAK_11" value="0.442"/>
+						<parameter name="sumAc_11" value="3.9"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vGlyK" reversible="true">
+				<listOfReactants>
+					<specieReference specie="GlcE" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="Pg" stoichiometry="1"/>
+					<specieReference specie="Gly" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(Vm14_12)*(((Vm14f_12)*(((DHAPgt0_12+Gly3Pgt0_12-((DHAP)/(Vt_12))*((Vc_12)/(Vg_12)+1                   )-(((((DHAPct0_12+Gly3Pct0_12)*((DHAP)/(Vt_12)))*((Vc_12)/(Vg_12)+1                   ))/(((DHAPct0_12+Gly3Pct0_12)*(Vc_12))/(Vg_12)+DHAPgt0_12+Gly3Pgt0_12))*(Vc_12))/(Vg_12))*((sumAg_12-(((Pg)/(Vg_12))^(2                   )-((4                   )*(KeqAK_12))*(((Pg)/(Vg_12))^(2                   ))-((2                   )*((Pg)/(Vg_12)))*(sumAg_12)+(((8                   )*(KeqAK_12))*((Pg)/(Vg_12)))*(sumAg_12)+(sumAg_12)^(2                   ))^(0.5                 ))/(1                   -(4                   )*(KeqAK_12))))/((K14Gly3Pg_12)*(K14ADPg_12)))-(Vm14r_12)*(((Gly)*(((Pg)/(Vg_12)-((4                   )*(KeqAK_12))*((Pg)/(Vg_12))-sumAg_12+(((Pg)/(Vg_12))^(2                   )-((4                   )*(KeqAK_12))*(((Pg)/(Vg_12))^(2                   ))-((2                   )*((Pg)/(Vg_12)))*(sumAg_12)+(((8                   )*(KeqAK_12))*((Pg)/(Vg_12)))*(sumAg_12)+(sumAg_12)^(2                   ))^(0.5                 ))/(2                   -(8                   )*(KeqAK_12))))/((K14Gly_12)*(K14ATPg_12))))/((1                   +(DHAPgt0_12+Gly3Pgt0_12-((DHAP)/(Vt_12))*((Vc_12)/(Vg_12)+1                   )-(((((DHAPct0_12+Gly3Pct0_12)*((DHAP)/(Vt_12)))*((Vc_12)/(Vg_12)+1                   ))/(((DHAPct0_12+Gly3Pct0_12)*(Vc_12))/(Vg_12)+DHAPgt0_12+Gly3Pgt0_12))*(Vc_12))/(Vg_12))/(K14Gly3Pg_12)+(Gly)/(K14Gly_12))*(1                   +((sumAg_12-(((Pg)/(Vg_12))^(2                   )-((4                   )*(KeqAK_12))*(((Pg)/(Vg_12))^(2                   ))-((2                   )*((Pg)/(Vg_12)))*(sumAg_12)+(((8                   )*(KeqAK_12))*((Pg)/(Vg_12)))*(sumAg_12)+(sumAg_12)^(2                   ))^(0.5                 ))/(1                   -(4                   )*(KeqAK_12)))/(K14ADPg_12)+(((Pg)/(Vg_12)-((4                   )*(KeqAK_12))*((Pg)/(Vg_12))-sumAg_12+(((Pg)/(Vg_12))^(2                   )-((4                   )*(KeqAK_12))*(((Pg)/(Vg_12))^(2                   ))-((2                   )*((Pg)/(Vg_12)))*(sumAg_12)+(((8                   )*(KeqAK_12))*((Pg)/(Vg_12)))*(sumAg_12)+(sumAg_12)^(2                   ))^(0.5                 ))/(2                   -(8                   )*(KeqAK_12)))/(K14ATPg_12))))">
+					<listOfParameters>
+						<parameter name="Vm14_12" value="1"/>
+						<parameter name="Vm14f_12" value="200"/>
+						<parameter name="DHAPgt0_12" value="1.30902"/>
+						<parameter name="Gly3Pgt0_12" value="0.320997"/>
+						<parameter name="Vt_12" value="5.7"/>
+						<parameter name="Vc_12" value="5.4549"/>
+						<parameter name="Vg_12" value="0.2451"/>
+						<parameter name="DHAPct0_12" value="4.01536"/>
+						<parameter name="Gly3Pct0_12" value="0.984642"/>
+						<parameter name="sumAg_12" value="6"/>
+						<parameter name="KeqAK_12" value="0.442"/>
+						<parameter name="K14Gly3Pg_12" value="5.1"/>
+						<parameter name="K14ADPg_12" value="0.12"/>
+						<parameter name="Vm14r_12" value="33400"/>
+						<parameter name="K14Gly_12" value="0.12"/>
+						<parameter name="K14ATPg_12" value="0.19"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vGlcTr" reversible="true">
+				<listOfReactants>
+					<specieReference specie="GlcE" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="GlcI" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="((Vm1_13)*(GlcE-(GlcI)/(Vg_13)))/(K1Glc_13+GlcE+(GlcI)/(Vg_13)+(((afac_13)*(GlcE))*((GlcI)/(Vg_13)))/(K1Glc_13))">
+					<listOfParameters>
+						<parameter name="Vm1_13" value="106.2"/>
+						<parameter name="Vg_13" value="0.2451"/>
+						<parameter name="K1Glc_13" value="2"/>
+						<parameter name="afac_13" value="0.75"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+			<reaction name="vGAPdh" reversible="true">
+				<listOfReactants>
+					<specieReference specie="GAP" stoichiometry="1"/>
+					<specieReference specie="NAD" stoichiometry="1"/>
+				</listOfReactants>
+				<listOfProducts>
+					<specieReference specie="BPGA13" stoichiometry="1"/>
+					<specieReference specie="NADH" stoichiometry="1"/>
+				</listOfProducts>
+				<kineticLaw formula="(((Vm7_14)*(Vm7f_14))*((((GAP)/(Vg_14))*((NAD)/(Vg_14)))/((K7GAP_14)*(K7NAD_14))-((Vm7r_14)/(Vm7f_14))*((((BPGA13)/(Vg_14))*((NADH)/(Vg_14)))/((K7BPGA13_14)*(K7NADH_14)))))/((1                   +((GAP)/(Vg_14))/(K7GAP_14)+((BPGA13)/(Vg_14))/(K7BPGA13_14))*(1                   +((NAD)/(Vg_14))/(K7NAD_14)+((NADH)/(Vg_14))/(K7NADH_14)))">
+					<listOfParameters>
+						<parameter name="Vm7_14" value="1"/>
+						<parameter name="Vm7f_14" value="1470"/>
+						<parameter name="Vg_14" value="0.2451"/>
+						<parameter name="K7GAP_14" value="0.15"/>
+						<parameter name="K7NAD_14" value="0.45"/>
+						<parameter name="Vm7r_14" value="984.9"/>
+						<parameter name="K7BPGA13_14" value="0.1"/>
+						<parameter name="K7NADH_14" value="0.02"/>
+					</listOfParameters>
+				</kineticLaw>
+			</reaction>
+		</listOfReactions>
+	</model>
+</sbml>
