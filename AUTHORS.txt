@@ -1,0 +1,12 @@
+     The original code contained here was initially developed by:
+ 
+			    Andrew Finney
+		       with contributions from
+	       Bruce Shapiro, Mike Hucka, Sarah Keating
+		and many others in the SBML community.
+
+	       For more information about SBML contact:
+
+			    The SBML Team
+                         http://www.sbml.org/
+                     mailto:sbml-team@caltech.edu
