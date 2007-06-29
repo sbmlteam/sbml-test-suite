@@ -32,6 +32,9 @@
 * The contents of the previous directory "sample-models" have been
   moved to "extras/sample-models".
 
+* "extras/sample-models" now also contains samples from SBML Level 2
+  Versions 2 and 3.
+
 
 === Version 1.3 ===
 
