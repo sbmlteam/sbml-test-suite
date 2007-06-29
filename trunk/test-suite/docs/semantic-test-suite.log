@@ -1,16 +1,13 @@
-This is e-TeX, Version 3.141592-2.1 (MiKTeX 2.4) (preloaded format=latex 2004.3.8)  24 AUG 2004 09:14
+This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2007.1.7)  29 JUN 2007 13:40
 entering extended mode
-**semantic-test-suite.tex
-(semantic-test-suite.tex
-LaTeX2e <2001/06/01>
-Babel <v3.7m> and hyphenation patterns for english, french, german, ngerman, du
-mylang, nohyphenation, loaded.
-(C:\SFORGE_CVS\project\tex\cekarticle.cls
+**\nonstopmode\input{semantic-test-suite.tex}
+(./semantic-test-suite.tex
+(/Users/mhucka/projects/sysbio/sbml/cvs/project/tex/cekarticle.cls
 Document Class: cekarticle 2002/08/22 Caltech ERATO Kitano article class
-(C:\Programs\MIKTEX\tex\latex\base\article.cls
-Document Class: article 2001/04/21 v1.4e Standard LaTeX document class
-(C:\Programs\MIKTEX\tex\latex\base\size10.clo
-File: size10.clo 2001/04/21 v1.4e Standard LaTeX file (size option)
+(/sw/share/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2004/02/16 v1.4f Standard LaTeX document class
+(/sw/share/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2004/02/16 v1.4f Standard LaTeX file (size option)
 )
 \c@part=\count79
 \c@section=\count80
@@ -24,49 +21,42 @@ File: size10.clo 2001/04/21 v1.4e Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-(C:\Programs\MIKTEX\tex\latex\base\alltt.sty
-Package: alltt 1997/06/16 v2.0g defines alltt environment
-)
-(C:\Programs\MIKTEX\tex\latex\tools\verbatim.sty
-Package: verbatim 2001/03/12 v1.5p LaTeX2e package for verbatim enhancements
+(/Users/mhucka/Library/tex/z-old/alltt.sty)
+(/sw/share/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks14
 \verbatim@line=\toks15
 \verbatim@in@stream=\read1
 )
-(C:\Programs\MIKTEX\tex\latex\booktabs\booktabs.sty
-Package: booktabs 2003/03/28 v1.618 publication quality tables
+(/Users/mhucka/Library/tex/latex/z-old/booktabs/booktabs.sty
+Package: booktabs 1995/11/06 v1.00 publication quality tables
 \heavyrulewidth=\dimen103
 \lightrulewidth=\dimen104
 \cmidrulewidth=\dimen105
 \belowrulesep=\dimen106
-\belowbottomsep=\dimen107
-\aboverulesep=\dimen108
-\abovetopsep=\dimen109
-\cmidrulesep=\dimen110
-\cmidrulekern=\dimen111
-\defaultaddspace=\dimen112
-\@cmidla=\count87
-\@cmidlb=\count88
-\@aboverulesep=\dimen113
-\@belowrulesep=\dimen114
-\@thisruleclass=\count89
-\@lastruleclass=\count90
-\@thisrulewidth=\dimen115
+\aboverulesep=\dimen107
+\cmidrulesep=\dimen108
+\cmidrulekern=\dimen109
+\defaultaddspace=\dimen110
+\rulesflag=\count87
+\@cmidrulewidth=\dimen111
+\@cmidla=\count88
+\@cmidlb=\count89
 )
-(C:\Programs\MIKTEX\tex\latex\tools\multicol.sty
-Package: multicol 2000/07/10 v1.5z multicolumn formatting (FMi)
-\c@tracingmulticols=\count91
+(/sw/share/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2004/02/14 v1.6e multicolumn formatting (FMi)
+\c@tracingmulticols=\count90
 \mult@box=\box26
-\multicol@leftmargin=\dimen116
-\c@unbalance=\count92
-\c@collectmore=\count93
-\doublecol@number=\count94
-\multicoltolerance=\count95
-\multicolpretolerance=\count96
-\full@width=\dimen117
-\page@free=\dimen118
-\premulticols=\dimen119
-\postmulticols=\dimen120
+\multicol@leftmargin=\dimen112
+\c@unbalance=\count91
+\c@collectmore=\count92
+\doublecol@number=\count93
+\multicoltolerance=\count94
+\multicolpretolerance=\count95
+\full@width=\dimen113
+\page@free=\dimen114
+\premulticols=\dimen115
+\postmulticols=\dimen116
 \multicolsep=\skip43
 \multicolbaselineskip=\skip44
 \partial@page=\box27
@@ -92,80 +82,83 @@ Package: multicol 2000/07/10 v1.5z multicolumn formatting (FMi)
 \@tempa=\box47
 \@tempa=\box48
 \@tempa=\box49
-\c@columnbadness=\count97
-\c@finalcolumnbadness=\count98
-\last@try=\dimen121
-\multicolovershoot=\dimen122
-\multicolundershoot=\dimen123
+\c@columnbadness=\count96
+\c@finalcolumnbadness=\count97
+\last@try=\dimen117
+\multicolovershoot=\dimen118
+\multicolundershoot=\dimen119
 \mult@nat@firstbox=\box50
 \colbreak@box=\box51
 )
-(C:\Programs\MIKTEX\tex\latex\tools\array.sty
-Package: array 1998/05/13 v2.3m Tabular extension package (FMi)
-\col@sep=\dimen124
-\extrarowheight=\dimen125
+(/sw/share/texmf-dist/tex/latex/tools/array.sty
+Package: array 2003/12/17 v2.4a Tabular extension package (FMi)
+\col@sep=\dimen120
+\extrarowheight=\dimen121
 \NC@list=\toks16
 \extratabsurround=\skip45
 \backup@length=\skip46
 )
-(C:\Programs\MIKTEX\tex\latex\natbib\natbib.sty
+(/sw/share/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2003/06/06 7.1 (PWD)
 \bibhang=\skip47
 \bibsep=\skip48
 LaTeX Info: Redefining \cite on input line 518.
-\c@NAT@ctr=\count99
+\c@NAT@ctr=\count98
 )
-(C:\Programs\MIKTEX\tex\latex\latex2html\html.sty
-Package: html 1999/07/19 v1.38 hypertext commands for latex2html (nd, hws, rrm)
+(/Users/mhucka/projects/sysbio/sbml/cvs/project/tex/imported/html.sty
+Package: html 1999/03/12 v1.37 hypertext commands for latex2html (nd, hws, rrm)
 
-\c@lpart=\count100
-\c@lchapter=\count101
-\c@chapter=\count102
-\c@lsection=\count103
-\c@lsubsection=\count104
-\c@lsubsubsection=\count105
-\c@lparagraph=\count106
-\c@lsubparagraph=\count107
-\c@lsubsubparagraph=\count108
+\c@lpart=\count99
+\c@lchapter=\count100
+\c@chapter=\count101
+\c@lsection=\count102
+\c@lsubsection=\count103
+\c@lsubsubsection=\count104
+\c@lparagraph=\count105
+\c@lsubparagraph=\count106
+\c@lsubsubparagraph=\count107
 \ptrfile=\write3
 )
-(C:\Programs\MIKTEX\tex\latex\graphics\graphicx.sty
+(/sw/share/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-(C:\Programs\MIKTEX\tex\latex\graphics\keyval.sty
+(/sw/share/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks17
 )
-(C:\Programs\MIKTEX\tex\latex\graphics\graphics.sty
+(/sw/share/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2001/07/07 v1.0n Standard LaTeX Graphics (DPC,SPQR)
 
-(C:\Programs\MIKTEX\tex\latex\graphics\trig.sty
+(/sw/share/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(C:\Programs\MIKTEX\tex\latex\00miktex\graphics.cfg
-File: graphics.cfg 2003/03/12 v1.1 MiKTeX 'graphics' configuration
+(/sw/share/texmf-dist/tex/latex/graphics/graphics.cfg
+File: graphics.cfg 2005/02/03 v1.3 graphics configuration of teTeX/TeXLive
 )
-Package graphics Info: Driver file: dvips.def on input line 80.
+Package graphics Info: Driver file: pdftex.def on input line 80.
 
-(C:\Programs\MIKTEX\tex\latex\graphics\dvips.def
-File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+(/sw/share/texmf-dist/tex/latex/graphics/pdftex.def
+File: pdftex.def 2002/06/19 v0.03k graphics/color for pdftex
+\Gread@gobject=\count108
 ))
-\Gin@req@height=\dimen126
-\Gin@req@width=\dimen127
+\Gin@req@height=\dimen122
+\Gin@req@width=\dimen123
 )
-(C:\Programs\MIKTEX\tex\latex\hyperref\hyperref.sty
+(/sw/share/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2003/11/30 v6.74m Hypertext links for LaTeX
-\@linkdim=\dimen128
+\@linkdim=\dimen124
 \Hy@linkcounter=\count109
 \Hy@pagecounter=\count110
 
-(C:\Programs\MIKTEX\tex\latex\hyperref\pd1enc.def
+(/sw/share/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2003/11/30 v6.74m Hyperref: PDFDocEncoding definition (HO)
 )
-(C:\Programs\MIKTEX\tex\latex\00miktex\hyperref.cfg
-File: hyperref.cfg 2003/03/08 v1.0 MiKTeX 'hyperref' configuration
+(/sw/share/texmf-dist/tex/latex/hyperref/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive and teTeX
 )
 Package hyperref Info: Option `breaklinks' set `true' on input line 1830.
+Package hyperref Info: Option `bookmarks' set `true' on input line 1830.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 1830.
 Package hyperref Info: Hyper figures OFF on input line 1880.
 Package hyperref Info: Link nesting OFF on input line 1885.
 Package hyperref Info: Hyper index ON on input line 1888.
@@ -174,15 +167,15 @@ Package hyperref Info: Backreferencing OFF on input line 1900.
 
 Implicit mode ON; LaTeX internals redefined
 Package hyperref Info: Bookmarks ON on input line 2004.
-(C:\Programs\MIKTEX\tex\latex\ltxmisc\url.sty
-\Urlmuskip=\muskip10
-Package: url 2003/11/24  ver 3.0  Verb mode for urls, etc.
+(/sw/share/texmf-local/tex/latex/html/url.sty
+Package: url 1999/03/02  ver 1.4  Verb mode for urls, email addresses, and file
+ names
 )
 LaTeX Info: Redefining \url on input line 2143.
 LaTeX Info: Redefining \hyperref on input line 2154.
 \Fld@menulength=\count111
-\Field@Width=\dimen129
-\Fld@charsize=\dimen130
+\Field@Width=\dimen125
+\Fld@charsize=\dimen126
 \Choice@toks=\toks18
 \Field@toks=\toks19
 Package hyperref Info: Hyper figures OFF on input line 2618.
@@ -193,76 +186,88 @@ Package hyperref Info: Link coloring OFF on input line 2638.
 \c@Item=\count112
 \c@Hfootnote=\count113
 )
-*hyperref using default driver hypertex*
-(C:\Programs\MIKTEX\tex\latex\hyperref\hypertex.def
-File: hypertex.def 2003/11/30 v6.74m Hyperref driver for HyperTeX specials
+*hyperref using driver hpdftex*
+(/sw/share/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2003/11/30 v6.74m Hyperref driver for pdfTeX
+
+(/sw/share/texmf-dist/tex/latex/psnfss/pifont.sty
+Package: pifont 2004/09/15 PSNFSS-v9.2 Pi font support (SPQR) 
+LaTeX Font Info:    Try loading font information for U+pzd on input line 63.
+
+(/sw/share/texmf-dist/tex/latex/psnfss/upzd.fd
+File: upzd.fd 2001/06/04 font definitions for U/pzd.
+)
+LaTeX Font Info:    Try loading font information for U+psy on input line 64.
+
+(/sw/share/texmf-dist/tex/latex/psnfss/upsy.fd
+File: upsy.fd 2001/06/04 font definitions for U/psy.
+))
+\Fld@listcount=\count114
+\@outlinefile=\write4
 )
 \captionmargin=\skip49
 \as@captionbox=\box52
 \as@captionwidth=\skip50
 )
-(C:\Programs\MIKTEX\tex\latex\graphics\color.sty
+(/sw/share/texmf-dist/tex/latex/graphics/color.sty
 Package: color 1999/02/16 v1.0i Standard LaTeX Color (DPC)
 
-(C:\Programs\MIKTEX\tex\latex\00miktex\color.cfg
-File: color.cfg 2003/03/08 v1.0 MiKTeX 'color' configuration
+(/sw/share/texmf-dist/tex/latex/graphics/color.cfg
+File: color.cfg 2005/02/03 v1.3 color configuration of teTeX/TeXLive
 )
-Package color Info: Driver file: dvips.def on input line 125.
-
-(C:\Programs\MIKTEX\tex\latex\graphics\dvipsnam.def
-File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
-))
-(C:\Programs\MIKTEX\tex\latex\amsmath\amsmath.sty
+Package color Info: Driver file: pdftex.def on input line 125.
+)
+(/sw/share/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2000/07/18 v2.13 AMS math features
 \@mathmargin=\skip51
 
 For additional information on amsmath, use the `?' option.
-(C:\Programs\MIKTEX\tex\latex\amsmath\amstext.sty
+(/sw/share/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01
 
-(C:\Programs\MIKTEX\tex\latex\amsmath\amsgen.sty
+(/sw/share/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks20
-\ex@=\dimen131
+\ex@=\dimen127
 ))
-(C:\Programs\MIKTEX\tex\latex\amsmath\amsbsy.sty
+(/sw/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
-\pmbraise@=\dimen132
+\pmbraise@=\dimen128
 )
-(C:\Programs\MIKTEX\tex\latex\amsmath\amsopn.sty
+(/sw/share/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count114
+\inf@bad=\count115
 LaTeX Info: Redefining \frac on input line 211.
-\uproot@=\count115
-\leftroot@=\count116
+\uproot@=\count116
+\leftroot@=\count117
 LaTeX Info: Redefining \overline on input line 307.
-\classnum@=\count117
-\DOTSCASE@=\count118
+\classnum@=\count118
+\DOTSCASE@=\count119
 LaTeX Info: Redefining \ldots on input line 379.
 LaTeX Info: Redefining \dots on input line 382.
 LaTeX Info: Redefining \cdots on input line 467.
 \Mathstrutbox@=\box53
 \strutbox@=\box54
-\big@size=\dimen133
+\big@size=\dimen129
 LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
-\macc@depth=\count119
-\c@MaxMatrixCols=\count120
-\dotsspace@=\muskip11
-\c@parentequation=\count121
-\dspbrk@lvl=\count122
+\macc@depth=\count120
+\c@MaxMatrixCols=\count121
+\dotsspace@=\muskip10
+\c@parentequation=\count122
+\dspbrk@lvl=\count123
 \tag@help=\toks21
-\row@=\count123
-\column@=\count124
-\maxfields@=\count125
+\row@=\count124
+\column@=\count125
+\maxfields@=\count126
 \andhelp@=\toks22
-\eqnshift@=\dimen134
-\alignsep@=\dimen135
-\tagshift@=\dimen136
-\tagwidth@=\dimen137
-\totwidth@=\dimen138
-\lineht@=\dimen139
+\eqnshift@=\dimen130
+\alignsep@=\dimen131
+\tagshift@=\dimen132
+\tagwidth@=\dimen133
+\totwidth@=\dimen134
+\lineht@=\dimen135
 \@envbody=\toks23
 \multlinegap=\skip52
 \multlinetaggap=\skip53
@@ -270,16 +275,19 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 LaTeX Info: Redefining \[ on input line 2666.
 LaTeX Info: Redefining \] on input line 2667.
 )
-(C:\Programs\MIKTEX\tex\latex\amsfonts\amssymb.sty
+(/sw/share/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2002/01/22 v2.2d
 
-(C:\Programs\MIKTEX\tex\latex\amsfonts\amsfonts.sty
+(/sw/share/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2001/10/25 v2.2f
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 132.
-)) (semantic-test-suite.aux)
+))
+(./semantic-test-suite.aux)
+\openout1 = `semantic-test-suite.aux'.
+
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
@@ -294,77 +302,116 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
+ (/sw/share/texmf-dist/tex/context/base/supp-pdf.tex (/sw/share/texmf-dist/tex/
+context/base/supp-mis.tex
+loading : Context Support Macros / Miscellaneous (2004.10.26)
+\protectiondepth=\count127
+\scratchcounter=\count128
+\scratchtoks=\toks25
+\scratchdimen=\dimen136
+\scratchskip=\skip54
+\scratchmuskip=\muskip11
+\scratchbox=\box55
+\scratchread=\read2
+\scratchwrite=\write5
+\zeropoint=\dimen137
+\onepoint=\dimen138
+\onebasepoint=\dimen139
+\minusone=\count129
+\thousandpoint=\dimen140
+\onerealpoint=\dimen141
+\emptytoks=\toks26
+\nextbox=\box56
+\nextdepth=\dimen142
+\everyline=\toks27
+\!!counta=\count130
+\!!countb=\count131
+\recursecounter=\count132
+)
+loading : Context Support Macros / PDF (2004.03.26)
+\nofMPsegments=\count133
+\nofMParguments=\count134
+\MPscratchCnt=\count135
+\MPscratchDim=\dimen143
+\MPnumerator=\count136
+\everyMPtoPDFconversion=\toks28
+)
 Package hyperref Info: Link coloring OFF on input line 7.
-(C:\Programs\MIKTEX\tex\latex\hyperref\nameref.sty
+ (/sw/share/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2003/12/03 v2.21 Cross-referencing by name of section
-\c@section@level=\count126
+\c@section@level=\count137
 )
 LaTeX Info: Redefining \ref on input line 7.
 LaTeX Info: Redefining \pageref on input line 7.
-LaTeX Font Info:    Try loading font information for U+msa on input line 22.
 
-(C:\Programs\MIKTEX\tex\latex\amsfonts\umsa.fd
+(./semantic-test-suite.out) (./semantic-test-suite.out)
+\openout4 = `semantic-test-suite.out'.
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 21.
+
+(/sw/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2002/01/19 v2.2g AMS font definitions
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 22.
+LaTeX Font Info:    Try loading font information for U+msb on input line 21.
 
-(C:\Programs\MIKTEX\tex\latex\amsfonts\umsb.fd
+(/sw/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2002/01/19 v2.2g AMS font definitions
 )
 
 LaTeX Warning: No \address given.
 
 
-Overfull \hbox (17.24995pt too wide) in paragraph at lines 22--22
- [][] 
- []
-
-
 Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
-(hyperref)                removing `\\' on input line 22.
+(hyperref)                removing `\\' on input line 21.
 
-(semantic-test-suite.toc)
-\tf@toc=\write4
+(./semantic-test-suite.toc)
+\tf@toc=\write6
+\openout6 = `semantic-test-suite.toc'.
+
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/bx/sl' undefined
-(Font)              using `OT1/cmss/bx/n' instead on input line 29.
+(Font)              using `OT1/cmss/bx/n' instead on input line 28.
 
 [1
 
-]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 67.
- (C:\Programs\MIKTEX\tex\latex\base\omscmr.fd
+{/sw/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 66.
+
+(/sw/share/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 67.
- [2]
-Overfull \hbox (1.04631pt too wide) in paragraph at lines 223--229
-\OT1/cmtt/m/n/10 AUTOMATION \OT1/cmr/m/n/10 di-rec-tory on the \OT1/cmtt/m/n/10
- PATH \OT1/cmr/m/n/10 and in-vok-ing the com-mand \OT1/cmtt/m/n/10 runthroutest
-s.awk -vwrapper="<wrapper>"
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 66.
+ [2] [3]
+Overfull \hbox (24.856pt too wide) in paragraph at lines 241--246
+[]\OT1/cmr/m/n/10 Runs through a join file (see Sec-tion []3.2.2[] for more de-
+tails on the file for-mat), pro-duced by the \OT1/cmtt/m/n/10 cvs-comparator.bs
+h
  []
 
-[3]
-Overfull \hbox (24.856pt too wide) in paragraph at lines 242--247
-[][]\OT1/cmr/m/n/10 Runs through a join file (see Sec-tion []3.2.2[] for more d
-e-tails on the file for-mat), pro-duced by the \OT1/cmtt/m/n/10 cvs-comparator.
-bsh
- []
-
-[4] [5] [6] (semantic-test-suite.aux)
+[4] [5] [6] (./semantic-test-suite.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 4072 strings out of 95933
- 50097 string characters out of 1195358
- 100047 words of memory out of 1100527
- 6903 multiletter control sequences out of 35000
- 16440 words of font info for 62 fonts, out of 500000 for 1000
- 14 hyphenation exceptions out of 607
- 34i,8n,25p,235b,268s stack positions out of 1500i,500n,5000p,200000b,32768s
-
-Output written on semantic-test-suite.dvi (6 pages, 27784 bytes).
+ 4259 strings out of 94500
+ 54941 string characters out of 1176115
+ 113045 words of memory out of 1000000
+ 7327 multiletter control sequences out of 10000+50000
+ 17130 words of font info for 64 fonts, out of 500000 for 2000
+ 580 hyphenation exceptions out of 1000
+ 35i,6n,36p,255b,242s stack positions out of 1500i,500n,5000p,200000b,5000s
+PDF statistics:
+ 117 PDF objects out of 300000
+ 23 named destinations out of 131072
+ 81 words of extra memory for PDF output out of 65536
+</sw/share/texmf-dist/fonts/type1/bluesky/cm/cmbx10.pfb></sw/share/texmf-dist
+/fonts/type1/bluesky/cm/cmmi10.pfb></sw/share/texmf-dist/fonts/type1/bluesky/cm
+/cmsy10.pfb></sw/share/texmf-dist/fonts/type1/bluesky/cm/cmr10.pfb></sw/share/t
+exmf-dist/fonts/type1/bluesky/cm/cmr9.pfb></sw/share/texmf-dist/fonts/type1/blu
+esky/cm/cmss9.pfb></sw/share/texmf-dist/fonts/type1/bluesky/cm/cmtt10.pfb></sw/
+share/texmf-dist/fonts/type1/bluesky/cm/cmr12.pfb></sw/share/texmf-dist/fonts/t
+ype1/bluesky/cm/cmssbx10.pfb>
+Output written on semantic-test-suite.pdf (6 pages, 91817 bytes).
