@@ -1,0 +1,5 @@
+auto
+*.out
+*.aux
+*.log
+*.toc
