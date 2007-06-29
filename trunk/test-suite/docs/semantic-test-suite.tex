@@ -14,10 +14,9 @@
 
 \author{Andrew Finney}
 
-\authoremail{
-\begin{minipage}{\textwidth}\centering
-afinney@cds.caltech.edu
-\end{minipage}}
+\authoremail{afinney@caltech.edu}
+
+\date{Last update: 29 June 2007}
 
 \maketitlepage
 
@@ -42,16 +41,16 @@ test suite. This is provided by the suite's pages on the SBML
 wiki, see \url{http://sbml.org/wiki/}. However
 Section~\ref{sec:structure} describes in general terms how the
 suite is structured.  The suite and scripts to automate test
-application are available as a zip file at
-\url{http://www.cds.caltech.edu/~afinney/semantic-test-suite.tar.gz}.
+application are available from the SBML project CVS repository
+on SourceForge (\url{http://sourceforge.net/projects/sbml}.
 
 \section{Generic Structure of Semantic Test Suite}
 \label{sec:structure}
 
 The test suite is divided into categories with a top level
 directory for each category.  In addition there are two other top
-level directories: \texttt{DOCUMENTATION} and \texttt{AUTOMATION}
-containing documentation and automation scripts respectively. Each
+level directories: \texttt{docs} and \texttt{bin}
+containing documentation and automation scripts, respectively. Each
 category directory contains a subdirectory for each individual
 test.  The only exception to this is the \texttt{basic-reactions}
 category which is divided into models each of which has a set of
@@ -85,8 +84,8 @@ network.
 
 \item \texttt{<model>.m} Mathematica script used to generate the
 above files from the test model.  This script assumes that
-Mathematica has automatically loaded the MathSBML package.  (see
-\url{http://sbml.org/mathsbml.html}).
+Mathematica has automatically loaded the MathSBML package.  (See
+\url{http://sbml.org/software/mathsbml}).
 
 \item \texttt{<model>.test} file for driving test automation.
 Described in more detail in Section~\ref{sec:formats}.
@@ -148,9 +147,9 @@ The remaining columns should be species concentrations at that
 time in the order given in the arguments to the wrapper. The
 \texttt{*.CSV} files in the test directories are examples of the
 format required.  An example wrapper script for MathSBML is
-\texttt{AUTOMATION/wrappers/mathSBML-wrapper.bsh}.
+\texttt{bin/wrappers/mathSBML-wrapper.bsh}.
 
-To test your simulator wrapper first make sure the AUTOMATION
+To test your simulator wrapper, first make sure the Test Suite's \texttt{bin}
 directory is on the PATH and locate a specific \texttt{*.test}
 file.  You can then run that test on the simulator with the
 command \texttt{test.bsh <wrapper> <*.test file>}.  No output
@@ -211,7 +210,7 @@ detailed documentation on the test.
 
 It is possible to run subsets of the test suite in a custom order
 with a custom categorization.  Simply make a copy of the
-\texttt{AUTOMATION/testlist.txt} file and edit the copy to create
+\texttt{bin/testlist.txt} file and edit the copy to create
 your test list file. The format of this file should be self
 evident however see Section~\ref{sec:formats} for the details.
 Your test list file must have at least one category and there
@@ -221,7 +220,7 @@ any order. Categories don't have to correspond to the test suite
 directory structure.
 
 Once you have edited your test list file you can run the test
-sequence declared in that file by placing the \texttt{AUTOMATION}
+sequence declared in that file by placing the \texttt{bin}
 directory on the \texttt{PATH} and invoking the command
 \texttt{runthroutests.awk -vwrapper="<wrapper>" <test list file>}.
 If you add the argument \texttt{-vhaltOnFailure="true"} then the
@@ -234,8 +233,8 @@ test automation system and the file formats that they use.
 
 \subsubsection{Scripts}
 
-All the following scripts are located in the AUTOMATION directory
-of the test suite.
+All the following scripts are located in the \texttt{bin} directory
+of the Test Suite.
 
 \textbf{compare.awk} Argument: $<$.join file$>$
 
