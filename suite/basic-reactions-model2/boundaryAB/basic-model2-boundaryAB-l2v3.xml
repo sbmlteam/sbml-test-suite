@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level2/version3" level="2" version="3">
+  <model id="basic_model2_boundaryAB">
+    <listOfCompartments>
+      <compartment id="c" size="1"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="A" compartment="c" initialAmount="1e-15" boundaryCondition="true"/>
+      <species id="B" compartment="c" initialAmount="2e-15" boundaryCondition="true"/>
+      <species id="C" compartment="c" initialAmount="1e-15"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="R1" reversible="false">
+        <listOfReactants>
+          <speciesReference species="A"/>
+          <speciesReference species="B"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="C"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> kf </ci>
+              <ci> A </ci>
+              <ci> B </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="kf" value="0.75"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R2" reversible="false">
+        <listOfReactants>
+          <speciesReference species="C"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="A"/>
+          <speciesReference species="B"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> kr </ci>
+              <ci> C </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="kr" value="0.25"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
