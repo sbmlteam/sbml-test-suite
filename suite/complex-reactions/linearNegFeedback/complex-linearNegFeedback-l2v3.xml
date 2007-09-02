@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level2/version3" level="2" version="3">
+  <model id="complexReactions_linearNegFeedback">
+    <listOfCompartments>
+      <compartment id="compartment" size="1"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="Substrate" compartment="compartment" initialAmount="100" boundaryCondition="true"/>
+      <species id="Catalyst" compartment="compartment" initialAmount="100"/>
+      <species id="Complex" compartment="compartment" initialAmount="1"/>
+      <species id="Product" compartment="compartment" initialAmount="1"/>
+      <species id="IntermediateProduct1" compartment="compartment" initialAmount="0"/>
+      <species id="IntermediateProduct2" compartment="compartment" initialAmount="0"/>
+      <species id="IntermediateProduct3" compartment="compartment" initialAmount="0"/>
+      <species id="IntermediateProduct4" compartment="compartment" initialAmount="0"/>
+      <species id="ModifiedProduct" compartment="compartment" initialAmount="0"/>
+      <species id="Junk" compartment="compartment" initialAmount="100" boundaryCondition="true"/>
+      <species id="SequestrationComplex" compartment="compartment" initialAmount="0"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="complexFormation" reversible="false">
+        <listOfReactants>
+          <speciesReference species="Catalyst"/>
+          <speciesReference species="Substrate"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Complex"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> kf </ci>
+              <ci> Catalyst </ci>
+              <ci> Substrate </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="kf" value="0.005"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="Catalysis" reversible="false">
+        <listOfReactants>
+          <speciesReference species="Complex"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Product"/>
+          <speciesReference species="Catalyst"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> kcat </ci>
+              <ci> Complex </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="kcat" value="0.06"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="productPathway1" reversible="false">
+        <listOfReactants>
+          <speciesReference species="Product"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="IntermediateProduct1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> kpath1 </ci>
+              <ci> Product </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="kpath1" value="0.003"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="productPathway2" reversible="false">
+        <listOfReactants>
+          <speciesReference species="IntermediateProduct1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="IntermediateProduct2"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> kpath2 </ci>
+              <ci> IntermediateProduct1 </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="kpath2" value="0.003"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="productPathway3" reversible="false">
+        <listOfReactants>
+          <speciesReference species="IntermediateProduct2"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="IntermediateProduct3"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> kpath3 </ci>
+              <ci> IntermediateProduct2 </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="kpath3" value="0.003"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="productPathway4" reversible="false">
+        <listOfReactants>
+          <speciesReference species="IntermediateProduct3"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="IntermediateProduct4"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> kpath4 </ci>
+              <ci> IntermediateProduct3 </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="kpath4" value="0.003"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="productModification" reversible="false">
+        <listOfReactants>
+          <speciesReference species="IntermediateProduct4"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ModifiedProduct"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> kmod </ci>
+              <ci> IntermediateProduct4 </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="kmod" value="0.003"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="sequestration" reversible="false">
+        <listOfReactants>
+          <speciesReference species="Catalyst"/>
+          <speciesReference species="ModifiedProduct"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="SequestrationComplex"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> kseq </ci>
+              <ci> Catalyst </ci>
+              <ci> ModifiedProduct </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="kseq" value="0.5"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="Unsequestration" reversible="false">
+        <listOfReactants>
+          <speciesReference species="SequestrationComplex"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ModifiedProduct"/>
+          <speciesReference species="Catalyst"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> kunseq </ci>
+              <ci> SequestrationComplex </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="kunseq" value="0.01"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="complexSeperation" reversible="false">
+        <listOfReactants>
+          <speciesReference species="Complex"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Substrate"/>
+          <speciesReference species="Catalyst"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> kr </ci>
+              <ci> Complex </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="kr" value="0.01"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="degradation" reversible="false">
+        <listOfReactants>
+          <speciesReference species="ModifiedProduct"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Junk"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> kdeg </ci>
+              <ci> ModifiedProduct </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="kdeg" value="0.005"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
