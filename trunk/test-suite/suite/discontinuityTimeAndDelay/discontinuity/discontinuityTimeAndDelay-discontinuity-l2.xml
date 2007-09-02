@@ -18,6 +18,9 @@
       <species id="s3" compartment="c" initialAmount="10"/>
       <species id="s4" compartment="c" initialAmount="0"/>
     </listOfSpecies>
+    <listOfParameters>
+      <parameter id="p" value="1"/>
+    </listOfParameters>
     <listOfReactions>
       <reaction id="r1">
         <listOfReactants>
@@ -28,7 +31,11 @@
         </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <ci> s1 </ci>
+            <apply>
+              <times/>
+              <ci> s1 </ci>
+              <ci> p </ci>
+            </apply>
           </math>
         </kineticLaw>
       </reaction>
@@ -46,12 +53,12 @@
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <piecewise>
                 <piece>
+                    <cn>1.5</cn> 
                     <apply>
                         <gt/>
                         <ci> s2 </ci>
                         <cn> 4 </cn>
                     </apply> 
-                    <cn>1.5</cn> 
                 </piece>
                 <otherwise>
                     <cn>0.05</cn> 
