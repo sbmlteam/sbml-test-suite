@@ -28,8 +28,8 @@
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <piecewise>
                 <piece>
-                    <true/> 
                     <cn>0.05</cn> 
+                    <true/> 
                 </piece>
                 <otherwise>
                     <cn>1.5</cn> 
