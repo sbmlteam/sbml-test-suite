@@ -27,10 +27,17 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
+              <times/>
+              <ci> k_1 </ci>
+              <apply>
               <root/>
               <ci> S1 </ci>
+              </apply>
             </apply>
           </math>
+          <listOfParameters>
+            <parameter id="k_1" value="1"/>
+          </listOfParameters>
         </kineticLaw>
       </reaction>
     </listOfReactions>
