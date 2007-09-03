@@ -16,6 +16,9 @@
       <species id="s1" compartment="c" initialAmount="0" boundaryCondition="true"/>
       <species id="s2" compartment="c" initialAmount="0"/>
     </listOfSpecies>
+    <listOfParameters>
+      <parameter id="p" value="1"/>
+    </listOfParameters>
     <listOfRules>
       <rateRule variable="c">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -33,7 +36,11 @@
         </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <ci> s1 </ci>
+            <apply>
+              <times/>
+              <ci> s1 </ci>
+              <ci> p </ci>
+            </apply>
           </math>
         </kineticLaw>
       </reaction>

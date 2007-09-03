@@ -16,13 +16,20 @@
       <species id="s1" compartment="c" initialAmount="10"/>
       <species id="s2" compartment="c" initialAmount="0"/>
     </listOfSpecies>
+    <listOfParameters>
+      <parameter id="p" value="1"/>
+    </listOfParameters>
     <listOfRules>
       <assignmentRule variable="c">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
             <plus/>
             <cn type="integer"> 5 </cn>
-            <ci> s1 </ci>
+            <apply>
+              <times/>
+              <ci> s1 </ci>
+              <ci> p </ci>
+            </apply>
           </apply>
         </math>
       </assignmentRule>
@@ -40,7 +47,11 @@
             <apply>
                 <plus/>
                 <cn type="integer"> 5 </cn>
-                <ci> s1 </ci>
+                <apply>
+                  <times/>
+                  <ci> s1 </ci>
+                  <ci> p </ci>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
