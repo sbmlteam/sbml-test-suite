@@ -17,6 +17,9 @@
       <species id="S2" compartment="compartment" initialAmount="0"/>
       <species id="S3" compartment="compartment" initialAmount="0"/>
     </listOfSpecies>
+    <listOfParameters>
+      <parameter id="p" value="1"/>
+    </listOfParameters>
     <listOfReactions>
       <reaction id="R" reversible="false">
         <listOfReactants>
@@ -27,7 +30,11 @@
         </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
               <ci> S1 </ci>
+              <ci> p </ci>
+            </apply>
           </math>
         </kineticLaw>
       </reaction>
