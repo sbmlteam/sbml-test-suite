@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level2/version2" level="2" version="2">
+  <model id="discontinuityTimeAndDelay_or">
+    <listOfCompartments>
+      <compartment id="c" size="1"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="s1" compartment="c" initialAmount="10"/>
+      <species id="s2" compartment="c" initialAmount="0"/>
+      <species id="s3" compartment="c" initialAmount="10"/>
+      <species id="s4" compartment="c" initialAmount="0"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="p" value="1"/>
+    </listOfParameters>
+    <listOfReactions>
+      <reaction id="r1">
+        <listOfReactants>
+          <speciesReference species="s1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s2"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> s1 </ci>
+              <ci> p </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="r2">
+        <listOfReactants>
+          <speciesReference species="s3"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="s4"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="s2"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <piecewise>
+              <piece>
+                <cn>0.05</cn> 
+                <apply>
+                  <or/>
+                  <apply>
+                    <lt/>
+                    <ci> s2 </ci>
+                    <cn> 4 </cn>
+                  </apply>
+                  <apply>
+                    <gt/>
+                    <ci> s2 </ci>
+                    <cn> 8 </cn>
+                  </apply>
+                  <apply>
+                    <lt/>
+                    <ci> s2 </ci>
+                    <cn> 2 </cn>
+                  </apply>
+                </apply>
+              </piece>
+              <otherwise>
+                <cn> 1.5 </cn>
+              </otherwise>
+            </piecewise>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
