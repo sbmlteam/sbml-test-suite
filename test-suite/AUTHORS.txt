@@ -1,0 +1,11 @@
+	   The SBML Test Suite was initially developed by:
+ 
+     Sarah Keating, Kimberly Begley, Michael Hucka, Andrew Finney
+		       with contributions from
+	 Bruce Shapiro and many others in the SBML community.
+
+	       For more information about SBML contact:
+
+			    The SBML Team
+                         http://www.sbml.org/
+		     mailto:sbml-team@caltech.edu
