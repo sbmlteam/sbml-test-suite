@@ -1,5 +1,0 @@
-TIME 2
-STEPS 50
-SPECIES S1 S2
-URL MathML_ceiling_Semantic_Test
-REM Tests the MathML 'ceiling' operator 

@@ -1,6 +1,0 @@
-TIME 5
-STEPS 50
-SPECIES s
-URL Just_Species_Semantic_Test
-REM Tests whether a model which contains just a species and no reactions
-REM is interpreted correctly.

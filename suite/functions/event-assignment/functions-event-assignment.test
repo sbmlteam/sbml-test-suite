@@ -1,5 +1,0 @@
-TIME 5
-STEPS 50
-SPECIES S1 S2
-URL Function_Definition_used_in_Event_Assignment_Semantic_Test
-REM tests the use of a function in an event assignment expression

@@ -1,7 +1,0 @@
-TIME 8
-STEPS 40
-SPECIES A B C
-URL Base_Variant_-_Basic_Model_2_Semantic_Test
-REM This model tests simple interpretation of reactions.
-REM The model consists of 2 reactions with mass action kinetics
-REM One reaction has 2 reactants the other 2 products.

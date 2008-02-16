@@ -1,5 +1,0 @@
-TIME 0.4
-STEPS 50
-SPECIES S1 S2
-URL MathML_coth_Function_Semantic_Test
-REM tests the use of the coth MathML function in a kinetic law expression

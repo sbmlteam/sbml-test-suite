@@ -1,5 +1,0 @@
-TIME 5
-STEPS 50
-SPECIES S1 S2
-URL MathML_power_Operator_Semantic_Test
-REM tests the use of the power MathML operator in a kinetic law expression

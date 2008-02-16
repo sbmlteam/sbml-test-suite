@@ -1,10 +1,9 @@
+			 The SBML Test Suite
 
-			   SBML Test Suite
+     Sarah Keating, Kimberly Begley, Michael Hucka, Andrew Finney
 
-			    Andrew Finney
 		       with contributions from
-	       Bruce Shapiro, Mike Hucka, Sarah Keating
-		and many others in the SBML community.
+	 Bruce Shapiro and many others in the SBML community.
 
 	      For more information about SBML, contact:
 
@@ -23,6 +22,7 @@
   | Table of contents                                             |
   | 1. Introduction                                               |
   | 2. Sample models                                              |  
+  | 3. History                                                    |
    `--------------------------------------------------------------'
     Date of last update to this file: $Date$
 
@@ -31,14 +31,10 @@
 1. INTRODUCTION
 ---------------
 
-This is the emerging SBML Test Suite, based on earlier work by Andrew
-Finney on the "SBML Semantic Test Suite".  It is currently in the
-process of being completely revised and improved in many ways.
-
-What is currently available is the original version of the test suite,
-which provides test models and expected outputs for each, allowing
-developers and users to test the SBML support of software systems.
-
+The SBML Test Suite consists of (1) a collection of valid SBML models
+each with representative, simulated time course data; (2) a testing
+framework for running software tools through the suite; and (3) basic
+documentation on the test cases and the use of the suite.
 
 
 ----------------
@@ -51,13 +47,20 @@ as the SBML specification and different model repositories.  You will
 find these in the subdirectory "extras/sample-models".
 
 
+----------
+3. HISTORY
+----------
+
+The current SBML Test Suite is based on earlier work by Andrew Finney
+on the "SBML Semantic Test Suite".
+
+
+
 
 
 -------------------------------------------
-File author: M. Hucka, S. Keating
-Last Modified: $Date$
-Last Modified By: $Author$
-$Source$
+$Id$
+$HeadURL$
 -------------------------------------------
 
 # The following is for [X]Emacs users.  Please leave in place.

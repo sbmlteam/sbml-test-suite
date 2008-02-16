@@ -1,7 +1,0 @@
-#!/bin/bash
-
-for test in $(ls */*/*.test */*/*/*.test); do
- if ! grep $test $1 > /dev/null ; then
-    echo TEST $test
- fi
-done

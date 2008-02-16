@@ -1,6 +1,0 @@
-TIME 5
-STEPS 50
-SPECIES s
-URL Assignment_Rule_Provides_Initial_Conditions_Semantic_Test
-REM Tests whether an assignment rule for a variable that has no explicit initial value
-REM is handled correctly.  The assignment rule should provide the initial value.

@@ -1,5 +1,0 @@
-TIME 1
-STEPS 50
-SPECIES S1 S2
-URL MathML_ln_Function_Semantic_Test
-REM tests the use of the ln MathML function in a kinetic law expression

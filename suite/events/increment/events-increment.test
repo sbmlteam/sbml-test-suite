@@ -1,6 +1,0 @@
-TIME 10
-STEPS 50
-SPECIES S1 S2 X
-URL 1_Event_with_Incrementing_Assignment_Semantic_Test
-REM test of support for events in particular the semantics of event assignments
-REM which allow for example varibables to be incremented

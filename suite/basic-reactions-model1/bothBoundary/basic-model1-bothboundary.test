@@ -1,6 +1,0 @@
-TIME 25
-STEPS 50
-SPECIES S1 S2
-URL BothBoundary_Variant_-_Basic_Model_1_Semantic_Test
-REM This model tests the interpretation of boundary condition attributes.
-REM Both species in this model are boundary conditions and don't change.

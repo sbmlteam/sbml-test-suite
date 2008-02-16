@@ -1,7 +1,0 @@
-TIME 5
-STEPS 25
-SPECIES S1 S2
-URL StoichiometryIs2_Variant_-_Basic_Model_1_Semantic_Test
-REM This model tests interpretation of stoichiometry attributes.
-REM The model consists of 2 reactions with mass action kinetics.
-REM Both reactions have species with stoichiometry of 2.
