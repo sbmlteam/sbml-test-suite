@@ -1,10 +1,12 @@
 (*
 
-category: Basic reactions/Irreversible
-synopsis: Basic two reactions with two species in one compartment,
- with one reaction having a rate of zero.
-tags:     ZeroRate, InitialAmount
-testtype: TimeCourse
+category:      Test
+synopsis:      Basic two reactions with two species in one compartment,
+               with one reaction having a rate of zero.
+componentTags: Compartment, Species, Reaction, Parameter
+testTags:      InitialAmount, ZeroRate
+testtype:      TimeCourse
+levels:        1.2, 2.1, 2.2, 2.3
 
 This should produce identical results to 0001.  This model involves one 
 compartment named compartment, two species named S1 and S2, and two reactions.  
