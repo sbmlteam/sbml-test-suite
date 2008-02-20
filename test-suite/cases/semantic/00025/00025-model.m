@@ -1,11 +1,12 @@
 (*
 
-category: Basic reactions/Irreversible
-synopsis: Basic single forward reaction with two species in one
- compartment and nonzero initial amounts using a function to apply 
- the kinetic law.
-tags:     FunctionDefinition, InitialAmount
-testtype: TimeCourse
+category:      Test
+synopsis:      Basic single forward reaction with two species in one
+               compartment using a function to apply the kinetic law.
+componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition
+testTags:      InitialAmount
+testtype:      TimeCourse
+levels:        2.1, 2.2, 2.3
 
 This case is essentially identical to 00005, but here the rate law uses
 a functionDefinition.  This model involves one compartment named compartment, 

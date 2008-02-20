@@ -1,11 +1,13 @@
 (*
 
-category: Basic reactions/Irreversible
-synopsis: Basic two reactions involving two species in one
- compartment, with non-unity stoichiometries and non-unity rate
- constants.
-tags:     NonUnityStoichiometry, InitialAmount
-testtype: TimeCourse
+category:      Test
+synopsis:      Basic two reactions involving two species in one
+               compartment, with non-unity stoichiometries and non-unity rate
+               constants.
+componentTags: Compartment, Species, Reaction, Parameter
+testTags:      InitialAmount, NonUnityStoichiometry
+testtype:      TimeCourse
+levels:        1.2, 2.1, 2.2, 2.3
 
 This case is similar to 0002.  This model has one compartment named compartment, 
 two species named S1 and S2, and two reactions.  One reaction is $S1 -> S2$, 

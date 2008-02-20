@@ -1,9 +1,11 @@
 (*
 
-category: Basic rules
-synopsis: Basic rule that assigns value to a species.
-tags:     AssignmentRule, InitialAmount
-testtype: TimeCourse
+category:      Test
+synopsis:      Basic rule that assigns value to a species.
+componentTags: Compartment, Species, AssignmentRule
+testTags:      InitialAmount
+testtype:      TimeCourse
+levels:        1.2, 2.1, 2.2, 2.3
 
 This model involves one compartment named compartment, one species named S1, 
 and one assignmentRule that assigns a value to S1.  The species amount is 7 

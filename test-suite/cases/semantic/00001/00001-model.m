@@ -1,9 +1,11 @@
 (*
 
-category: Basic reactions/Irreversible
-synopsis: Basic single forward reaction with two species in one compartment
-tags:     InitialAmount
-testtype: TimeCourse
+category:      Test 
+synopsis:      Basic single forward reaction with two species in one compartment
+componentTags: Compartment, Species, Reaction, Parameter
+testTags:      InitialAmount
+testtype:      TimeCourse
+levels:        1.2, 2.1, 2.2, 2.3
 
 This model involves one compartment named compartment, two species named
 S1 and S2, and one reaction $S1 -> S2$, with the biochemical rate of

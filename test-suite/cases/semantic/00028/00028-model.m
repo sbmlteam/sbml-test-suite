@@ -1,10 +1,13 @@
 (*
 
-category: Basic reactions/Irreversible
-synopsis: Basic single forward reaction with two species in one
- compartment using a rate that causes a discontinuity in the output.
-tags:     InitialAmount, MathML, Discontinuity
-testtype: TimeCourse
+category:      Test
+synopsis:      Basic single forward reaction with two species in one
+               compartment using a rate that causes a discontinuity in 
+               the output.
+componentTags: Compartment, Species, Reaction, Parameter
+testTags:      InitialAmount, MathML, Discontinuity
+testtype:      TimeCourse
+levels:        2.1, 2.2, 2.3
 
 This model involves one compartment named compartment, two species named S1 
 and S2, and one reaction $S1 -> S2$. The biochemical rate of the reaction 

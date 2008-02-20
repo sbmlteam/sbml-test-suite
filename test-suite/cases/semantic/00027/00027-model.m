@@ -1,11 +1,12 @@
 (*
 
-category: Basic reactions/Irreversible
-synopsis: Basic single forward reaction with two species in one
- compartment using initialAssignment to set the compartment size.
-tags:     InitialAssignment, NonUnityCompartment, InitialAmount, 
- LocalParameters
-testtype: TimeCourse
+category:      Test
+synopsis:      Basic single forward reaction with two species in one
+               compartment using initialAssignment to set the compartment size.
+componentTags: Compartment, Species, Reaction, InitialAssignment
+testTags:      InitialAmount, NonUnityCompartment, LocalParameters
+testtype:      TimeCourse
+levels:        2.2, 2.3
 
 This model involves one compartment named compartment, two species named S1 
 and S2, and one reaction $S1 -> S2$, with the biochemical rate of the reaction 
