@@ -3,20 +3,33 @@
 category:      Test
 synopsis:      Basic two reactions with two species in one compartment,
                with one reaction having a rate of zero.
-componentTags: Compartment, Species, Reaction, Parameter
+componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, ZeroRate
 testtype:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
-This should produce identical results to 0001.  This model involves one 
-compartment named compartment, two species named S1 and S2, and two reactions.  
-One reaction is $S1 ->S2$, with the biochemical rate of the reaction being 
-$k1 * [S1]$.  The other reaction is $S2 -> S1$ with the biochemical rate of
-the reaction being $k2 * [S2]$.  The value of k2 is zero, which means the 
-reverse reaction should occur at zero rate (i.e. not at all).  The species 
-amounts are $1.5 * 10^{-15}$ for S1 and 0 for S2.  The units are the
-SBML defaults (mole for species, litre for volume) and the unit of k1 is 
-assumed to be second^-1^.
+The model contains one compartment named compartment.
+  There are two species named S1 and S2 and two parameters named k1 and k2.
+  The model contains two reactions defined as:
+[| | Reaction |||||| Rate                 |
+ | | S1 -> S2 |||||| $k1*S1*compartment$  |
+ | | S2 -> S1 |||||| $k2*S2*compartment$  |]
+
+  The value of k2 is zero, which means the 
+reverse reaction should occur at zero rate (i.e. not at all).  
+
+The initial conditions are as follows:
+[|                                  || Value            || Units          |
+|              Initial amount of S1:|| $1.5 \x 10^-15$  || mole           |
+|              Initial amount of S2:|| $0 \x$           || mole           |
+|             Value of parameter k1:|| $1$              || second^-1^     |
+|             Value of parameter k2:|| $0$              || second^-1^     |
+| Volume of compartment compartment:|| $1$              || litre          |]
+
+The species values are given as amounts of substance to make it easier to
+use the model in a discrete stochastic simulator, but (as per usual SBML
+principles) they must be treated as concentrations where they appear in
+expressions.
 
 *)
 

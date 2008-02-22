@@ -1,22 +1,31 @@
 (*
 
-category:      Test 
+category:      Test
 synopsis:      Basic single forward reaction with two species in one compartment
-componentTags: Compartment, Species, Reaction, Parameter
+componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount
 testtype:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
-This model involves one compartment named compartment, two species named
-S1 and S2, and one reaction $S1 -> S2$, with the biochemical rate of
-the reaction being $k1 * [S1]$.  The species initial amount values are
-given as amounts of substance to make it easier to use the model in a
-discrete stochastic simulator, but (as per usual SBML principles) the
-species' symbols must be treated as representing a concentration where they
-appear in expressions because their hasOnlySubstanceUnits attribute is not
-set to true.  The species amounts are $1.5 * 10^{-15}$ for S1 and 0 for S2.
-The units are the SBML defaults (mole for species, litre for volume) and
-the unit of k1 is assumed to be second.
+The model contains one compartment named compartment.
+  There are two species named S1 and S2 and one parameter named k1.
+  The model contains one reaction defined as:
+[| | Reaction |||||| Rate                 |
+ | | S1 -> S2 |||||| $k1*S1*compartment$  |]
+
+  The model does not contain any rules.
+
+The initial conditions are as follows:
+[|                                  || Value            || Units          |
+|              Initial amount of S1:|| $1.5 \x 10^-15$  || mole           |
+|              Initial amount of S2:|| $0 \x$           || mole           |
+|             Value of parameter k1:|| $1$              || second^-1^     |
+| Volume of compartment compartment:|| $1$              || litre          |]
+
+The species values are given as amounts of substance to make it easier to
+use the model in a discrete stochastic simulator, but (as per usual SBML
+principles) they must be treated as concentrations where they appear in
+expressions.
 
 *)
 
@@ -26,7 +35,7 @@ addCompartment[ compartment, size -> 1 ];
 addSpecies[ S1, initialAmount -> 1.5 10^-15 ];
 addSpecies[ S2, initialAmount -> 0 ];
 addParameter[ k1, value -> 1 ];
-addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> k1*S1*compartment ];
+addReaction[ S1 -> S2, reversible -> False, 
+                                        kineticLaw -> k1*S1*compartment ];
 
 makemodel[]
