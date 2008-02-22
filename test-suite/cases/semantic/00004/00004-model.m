@@ -4,21 +4,32 @@ category:      Test
 synopsis:      Basic two reactions involving two species in one
                compartment, with non-unity stoichiometries and non-unity rate
                constants.
-componentTags: Compartment, Species, Reaction, Parameter
+componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, NonUnityStoichiometry
 testtype:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
-This case is similar to 0002.  This model has one compartment named compartment, 
-two species named S1 and S2, and two reactions.  One reaction is $S1 -> S2$, 
-with the biochemical rate of the reaction being $k1 * [S1]$.  The other 
-reaction is $2 * S2 -> S1$ with the biochemical rate of the reaction being 
-$k2 * [S2]^2$.  The values of the constants are $k1 = 0.35$ and $k2 = 180$.  
-The species values are given as amounts of substance to make it easier to use 
-the model in a discrete stochastic simulator, but (as per usual SBML principles)
-they must be treated as concentrations where they appear in expressions.  The 
-units are the SBML defaults (mole for species, litre for volume) and the 
-units of k1 and k2 are assumed to be second^-1^.
+The model contains one compartment named compartment.
+  There are two species named S1 and S2 and two parameters named k1 and k2.
+  The model contains two reactions defined as:
+[| | Reaction   |||||| Rate                   |
+ | | S1 -> 2 S2 |||||| $k1*S1*compartment$    |
+ | | 2 S2 -> S1 |||||| $k2*S2*S2*compartment$ |]
+
+ Note the stoichiometry of S2 is 2.
+
+The initial conditions are as follows:
+[|                                  || Value            || Units                     |
+|              Initial amount of S1:|| $1.5 \x 10^-15$  || mole                      |
+|              Initial amount of S2:|| $0 \x$           || mole                      |
+|             Value of parameter k1:|| $0.35$           || second^-1^                |
+|             Value of parameter k2:|| $180$            || litre mole^-1^ second^-1^ |
+| Volume of compartment compartment:|| $1$              || litre                     |]
+
+The species values are given as amounts of substance to make it easier to
+use the model in a discrete stochastic simulator, but (as per usual SBML
+principles) they must be treated as concentrations where they appear in
+expressions.
 
 *)
 
