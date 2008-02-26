@@ -2,20 +2,35 @@
 
 category:      Test
 synopsis:      Basic single forward reaction with two species in one
-               compartment using a function to apply the kinetic law.
-componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition
+               compartment and nonzero initial amounts using a function to apply 
+               the kinetic law.
+componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      InitialAmount
 testtype:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
-This case is essentially identical to 00005, but here the rate law uses
-a functionDefinition.  This model involves one compartment named compartment, 
-two species named S1 and S2, one reaction $S1 -> S2$, with the biochemical 
-rate of the reaction being $multiply(k1, [S1])$ and one functionDefinition 
-named multiply which applies the formula $f(x, y) = x * y$.  The species 
-amounts are $1.5 x 10^{-15}$ for both S1 and S2.  The units are the SBML 
-defaults (mole for species, litre for volume) and the unit of k1 is assumed 
-to be second^-1^.
+The model contains one compartment named compartment.
+  There are two species named S1 and S2 and one parameter named k1.
+  The model contains one reaction defined as:
+[| | Reaction |||||| Rate                           |
+ | | S1 -> S2 |||||| $compartment*multiply(k1,S1)$  |]
+
+The reaction applies the functionDefinition defined as:
+[|| Id       | Arguments || Formula |
+ || multiply | x, y      || $x*y$   |]
+
+
+The initial conditions are as follows:
+[|                                  || Value            || Units          |
+|              Initial amount of S1:|| $1.5 \x 10^-15$  || mole           |
+|              Initial amount of S2:|| $1.5 \x 10^-15$  || mole           |
+|             Value of parameter k1:|| $1$              || second^-1^     |
+| Volume of compartment compartment:|| $1$              || litre          |]
+
+The species values are given as amounts of substance to make it easier to
+use the model in a discrete stochastic simulator, but (as per usual SBML
+principles) they must be treated as concentrations where they appear in
+expressions.
 
 *)
 
