@@ -3,26 +3,46 @@
 category:      Test
 synopsis:      Basic single forward reaction with two species in one
                compartment using initialAssignment to set the compartment size.
-componentTags: Compartment, Species, Reaction, InitialAssignment
-testTags:      InitialAmount, NonUnityCompartment, LocalParameters
+componentTags: Compartment, Species, Reaction, InitialAssignment, 
+testTags:      InitialAmount, NonUnityCompartment, LocalParameter
 testtype:      TimeCourse
 levels:        2.2, 2.3
 
-This model involves one compartment named compartment, two species named S1 
-and S2, and one reaction $S1 -> S2$, with the biochemical rate of the reaction 
-being $k * S1$.  The compartment has non-unity size which is determined
-using an initialAssignment.  In this case the compartment size is explicitly
-declared and consistent with the value returned by the initialAssignment.  
-The species amounts are $1.5 * 10^{-15}$ for S1 and 0 for S2.  The parameter 
-k used by the reaction is defined locally.  The units are the SBML defaults 
-(mole for species, litre for volume) and the unit of the k is assumed to be 
-second^-1^.
+The model contains one compartment named compartment.
+  There are two species named S1 and S2.
+  The model contains one reaction defined as:
+[| | Reaction |||||| Rate |
+ | | S1 -> S2 |||||| $compartment*k*S1$  |]
+
+Reaction S1 -> S2 defines one local parameter k.
+
+  The model contains one initialAssignment that assigns the initial value 
+for compartment:
+[|| Variable    || Formula      |
+ || compartment || $534*0.001$  |]
+
+  Note: InitialAssignments override any declared initial values.
+In this case the value from the initialAssignment is consistent with 
+the value attributed to the compartment by the model definition. 
+
+
+The initial conditions are as follows:
+[|                                  ||          Value  || Units                     |
+|              Initial amount of S1:|| $1.5 \x 10^-15$ || mole                      |
+|              Initial amount of S2:|| $          0.0$ || mole                      |
+|        Value of local parameter k:|| $          100$ || second^-1^                |
+| Volume of compartment compartment:|| $           53$ || litre                     |]
+
+The species values are given as amounts of substance to make it easier to
+use the model in a discrete stochastic simulator, but (as per usual SBML
+principles) they must be treated as concentrations where they appear in
+expressions.
 
 *)
 
 newcase[ "00027" ];
 
-addCompartment[ compartment, size -> 0.534];
+addCompartment[ compartment, size->0.534];
 addSpecies[ S1, initialAmount -> 1.5 10^-15 ];
 addSpecies[ S2, initialAmount -> 0.0 ];
 addInitialAssignment[ compartment, math -> 534*0.001];

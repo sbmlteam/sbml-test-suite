@@ -2,20 +2,30 @@
 
 category:      Test
 synopsis:      Basic single forward reaction with two species in one
-               compartment using a rate that causes a discontinuity in 
-               the output.
-componentTags: Compartment, Species, Reaction, Parameter
+               compartment using a rate that causes a discontinuity in the output.
+componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, MathML, Discontinuity
 testtype:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
-This model involves one compartment named compartment, two species named S1 
-and S2, and one reaction $S1 -> S2$. The biochemical rate of the reaction 
-is a mathematical formula, $ceil(S1*p1)!/p2$, that causes a discontinuity 
-within the simulation output.  The species amounts are 1.0 for S1 and 0 for 
-S2.  The parameters p1 and p2 have values 4 and 25 respectively.  The units 
-are the SBML defaults (mole for species, litre for volume), the units of p1 
-are assumed to be litre per mole and those of p2 to be second per mole.
+The model contains one compartment named compartment.
+  There are two species named S1 and S2 and two parameters named p1 and p2.
+  The model contains one reaction defined as:
+[| | Reaction |||||| Rate                  |
+ | | S1 -> S2 |||||| $Ceiling(S1*p1)!/p2$  |]
+
+The initial conditions are as follows:
+[|                                  ||          Value  || Units                     |
+|              Initial amount of S1:|| $          1.0$ || mole                      |
+|              Initial amount of S2:|| $          0.0$ || mole                      |
+|             Value of parameter p1:|| $            4$ || litre mole^-1^            |
+|             Value of parameter p2:|| $           25$ || second mole^-1^           |
+| Volume of compartment compartment:|| $            1$ || litre                     |]
+
+The species values are given as amounts of substance to make it easier to
+use the model in a discrete stochastic simulator, but (as per usual SBML
+principles) they must be treated as concentrations where they appear in
+expressions.
 
 *)
 
