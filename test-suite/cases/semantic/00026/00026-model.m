@@ -3,18 +3,33 @@
 category:      Test
 synopsis:      Single forward reaction with two species in one compartment 
                and one event that assigns value to a species.
-componentTags: Compartment, Species, Reaction, Parameter, EventNoDelay
+componentTags: Compartment, Species, Reaction, Parameter, Event 
 testTags:      InitialAmount
 testtype:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
-This model involves one compartment named compartment, two species named S1 
-and S2, one reaction $S1 -> S2$, with the biochemical rate of the reaction 
-being $k1 * S1$.  The model also contains one event that triggers when 
-$S1 < 0.1$; at which point the value of S1 is reset to 1.  The species 
-amounts are 1.0 for S1 and 0 for S2.  The units are the SBML defaults (mole 
-for species, litre for volume) and the unit of the parameter k1 is assumed 
-to be second^-1^.
+The model contains one compartment named compartment.
+  There are two species named S1 and S2 and one parameter named k1.
+  The model contains one reaction defined as:
+[| | Reaction |||||| Rate                 |
+ | | S1 -> S2 |||||| $compartment*S1*k1$  |]
+
+The model contains one event that assigns value to species S1 defined as:
+[||        | Trigger    | Delay || Assignments |
+ || Event1 | $S1 < 0.1$ | $-$   || $S1 = 1$    |]
+
+
+The initial conditions are as follows:
+[|                                  ||          Value  || Units                     |
+|              Initial amount of S1:|| $       1.0 \x$ || mole                      |
+|              Initial amount of S2:|| $       0.0 \x$ || mole                      |
+|             Value of parameter k1:|| $            1$ || second^-1^                |
+| Volume of compartment compartment:|| $            1$ || litre                     |]
+
+The species values are given as amounts of substance to make it easier to
+use the model in a discrete stochastic simulator, but (as per usual SBML
+principles) they must be treated as concentrations where they appear in
+expressions.
 
 *)
 
