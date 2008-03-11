@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Model using parameters and rules only.
 componentTags: Parameter, RateRule 
-testTags:      
+testTags:      NonConstantParameter    
 testtype:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
