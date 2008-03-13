@@ -1,0 +1,45 @@
+(*
+
+category:      Test
+synopsis:      Model using parameters and both rate and algebraic rules
+               with functionDefinitions.   
+componentTags: Parameter, FunctionDefinition, RateRule, AlgebraicRule 
+testTags:      NonConstantParameter
+testtype:      TimeCourse
+levels:        2.1, 2.2, 2.3
+
+The model contains four parameters named S1, S2, k1 and k2.
+  The model contains two rules:
+[|| Type      || Variable || Formula |
+ || Algebraic ||          || $add(S1, add(S2, -k1))$  |
+ || Rate      || S1       || $multiply(k2, S2)$  |]
+
+
+The model contains two functionDefinitions defined as:
+[|| Id       | Arguments || Formula |
+ || multiply | x, y      || $x*y$ |
+ || add      | x, y      || $x+y$ |]
+
+
+The initial conditions are as follows:
+[|                                  ||          Value  || Units                     |
+|             Value of parameter S1:|| $          0.5$ || any |
+|             Value of parameter S2:|| $          0.5$ || same as S1 |
+|             Value of parameter k1:|| $          1.0$ || same as S1 |
+|             Value of parameter k2:|| $          0.8$ || second^-1^ |]
+
+
+*)
+
+newcase[ "00184" ];
+
+addFunction[ multiply, arguments -> {x, y}, math -> x*y];
+addFunction[ add, arguments -> {x, y}, math -> x+y];
+addParameter[ S1, value -> 0.5, constant -> False ];
+addParameter[ S2, value -> 0.5, constant -> False  ];
+addParameter[ k1, value -> 1.0 ];
+addParameter[ k2, value -> 0.8 ];
+addRule[ type->AlgebraicRule, math -> add[S1,add[S2,-k1]]];
+addRule[ type->RateRule, variable -> S1, math -> multiply[k2,S2] ];
+
+makemodel[]
