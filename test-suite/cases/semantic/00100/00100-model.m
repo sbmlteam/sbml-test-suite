@@ -13,8 +13,8 @@ The model contains one compartment named compartment.
   Compartment compartment is 0-dimensional.
   The model contains two reactions defined as:
 [| | Reaction |||||| Rate |
- | | S1+S2 -> S3 |||||| $multiply(k1, S1, S2)*compartment$  |
- | | S3 -> S1+S2 |||||| $k2*S3*compartment$  |]
+ | | S1+S2 -> S3 |||||| $multiply(k1, S1, S2)$  |
+ | | S3 -> S1+S2 |||||| $k2*S3$  |]
 
 
 The model contains one functionDefinition defined as:
@@ -46,8 +46,8 @@ addSpecies[ S3, initialAmount -> 1.0 10^-15];
 addParameter[ k1, value -> 0.75 ];
 addParameter[ k2, value -> 0.25 ];
 addReaction[ S1+S2 -> S3, reversible -> False,
-	     kineticLaw -> multiply[k1, S1, S2]*compartment ];
+	     kineticLaw -> multiply[k1, S1, S2]];
 addReaction[ S3 -> S1+S2, reversible -> False,
-	     kineticLaw -> k2*S3*compartment ];
+	     kineticLaw -> k2*S3 ];
 
 makemodel[]
