@@ -93,14 +93,10 @@
     <kineticLaw>
      <math xmlns="http://www.w3.org/1998/Math/MathML">
       <apply>
-       <times/>
-       <ci>compartment</ci>
-       <apply>
-        <ci>multiply</ci>
-        <ci>k1</ci>
-        <ci>S1</ci>
-        <ci>S2</ci>
-       </apply>
+       <ci>multiply</ci>
+       <ci>k1</ci>
+       <ci>S1</ci>
+       <ci>S2</ci>
       </apply>
      </math>
      <!-- <listOfParameters/> -->
@@ -122,7 +118,6 @@
      <math xmlns="http://www.w3.org/1998/Math/MathML">
       <apply>
        <times/>
-       <ci>compartment</ci>
        <ci>k2</ci>
        <ci>S3</ci>
       </apply>
