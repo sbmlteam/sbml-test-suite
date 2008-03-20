@@ -1,7 +1,7 @@
 (*
 
 category:      Test
-synopsis:      Basic reaction with two species in a 0-dimensional compartment.
+synopsis:      Basic reactions with three species in a 0-dimensional compartment.
 componentTags: Compartment, Species, Reaction, Parameter
 testTags:      InitialAmount, 0D-Compartment
 testtype:      TimeCourse
