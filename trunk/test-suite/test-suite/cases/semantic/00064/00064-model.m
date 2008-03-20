@@ -1,8 +1,8 @@
 (*
 
 category:      Test
-synopsis:      Basic reaction with four species in a compartment 
-               where the one species is constant.
+synopsis:      Basic reactions with four species in a compartment 
+               where one species is constant.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, ConstantSpecies
 testtype:      TimeCourse
@@ -10,6 +10,8 @@ levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.
   There are four species named S1, S2, S3 and S4 and two parameters named k1 and k2.
+  Species S4 is labeled as constant and therefore cannot be changed 
+  by rules or reactions.
   The model contains two reactions defined as:
 [| | Reaction    |||||| Rate |
  | | S1+S2 -> S3 |||||| $k1*S1*S2*compartment$  |

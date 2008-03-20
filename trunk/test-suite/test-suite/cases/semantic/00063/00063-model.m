@@ -2,7 +2,7 @@
 
 category:      Test
 synopsis:      Basic single forward reaction with three species in a compartment 
-               where the one species is constant.
+               where one species is constant.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, ConstantSpecies
 testtype:      TimeCourse
@@ -10,6 +10,8 @@ levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.
   There are three species named S1, S2 and S3 and one parameter named k1.
+  Species S3 is labeled as constant and therefore cannot be changed 
+  by rules or reactions.
   The model contains one reaction defined as:
 [| | Reaction |||||| Rate |
  | | S1 -> S2 |||||| $k1*S1*S3*compartment$  |]

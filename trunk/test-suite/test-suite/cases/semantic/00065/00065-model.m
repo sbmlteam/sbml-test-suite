@@ -2,7 +2,7 @@
 
 category:      Test
 synopsis:      Basic two reactions with five species in a compartment 
-               where the one species is constant.
+               where one species is constant.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, ConstantSpecies
 testtype:      TimeCourse
@@ -10,6 +10,8 @@ levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.
   There are five species named S1, S2, S3, S4 and S5 and two parameters named k1 and k2.
+  Species S5 is labeled as constant and therefore cannot be changed 
+  by rules or reactions.
   The model contains two reactions defined as:
 [| | Reaction       |||||| Rate |
  | | S1+S2 -> S3+S4 |||||| $k1*S1*S2*compartment$  |
