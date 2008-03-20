@@ -1,15 +1,16 @@
 (*
 
 category:      Test
-synopsis:      Basic two reactions with five species in a compartment 
+synopsis:      Basic two reactions with five species in a 1 dimensional compartment 
                where one species is constant.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      InitialAmount, ConstantSpecies
+testTags:      InitialAmount, ConstantSpecies, 1D-Compartment
 testtype:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.
   There are five species named S1, S2, S3, S4 and S5 and two parameters named k1 and k2.
+  Compartment compartment is 1-dimensional.
   Species S5 is labeled as constant and therefore cannot be changed 
   by rules or reactions.
   The model contains two reactions defined as:
@@ -25,9 +26,9 @@ The initial conditions are as follows:
 |              Initial amount of S3:|| $ 2.0 \x 10^-6$ || mole                      |
 |              Initial amount of S4:|| $ 0.5 \x 10^-6$ || mole                      |
 |              Initial amount of S5:|| $ 1.0 \x 10^-6$ || mole                      |
-|             Value of parameter k1:|| $  1.3 \x 10^6$ || litre mole^-1^ second^-1^ |
-|             Value of parameter k2:|| $          0.3$ || litre mole^-1^ second^-1^ |
-| Volume of compartment compartment:|| $            1$ || litre                     |]
+|             Value of parameter k1:|| $  1.3 \x 10^6$ || metre mole^-1^ second^-1^ |
+|             Value of parameter k2:|| $          0.3$ || metre mole^-1^ second^-1^ |
+| Length of compartment compartment:|| $            1$ || metre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML
@@ -36,9 +37,9 @@ expressions.
 
 *)
 
-newcase[ "00065" ];
+newcase[ "00256" ];
 
-addCompartment[ compartment, size -> 1 ];
+addCompartment[ compartment, size -> 1, spatialDimensions -> 1 ];
 addSpecies[ S1, initialAmount -> 1.0 10^-6];
 addSpecies[ S2, initialAmount -> 1.5 10^-6];
 addSpecies[ S3, initialAmount -> 2.0 10^-6];
