@@ -21,8 +21,8 @@ The model contains one event that assigns value to species S1 defined as:
 
 The initial conditions are as follows:
 [|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $       1.0 \x$ || mole                      |
-|              Initial amount of S2:|| $       0.0 \x$ || mole                      |
+|              Initial amount of S1:|| $       1.0$ || mole                      |
+|              Initial amount of S2:|| $       0$ || mole                      |
 |             Value of parameter k1:|| $            1$ || second^-1^                |
 | Volume of compartment compartment:|| $            1$ || litre                     |]
 
