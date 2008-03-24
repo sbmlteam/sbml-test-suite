@@ -1,6 +1,6 @@
 start: 0
-duration: 30.0
+duration: 30
 steps: 50
 variables: S1, S2, S3
-absolute: 0.0001
+absolute: 1.000000e-018
 relative: 0.0001
