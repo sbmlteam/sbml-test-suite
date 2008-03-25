@@ -21,7 +21,7 @@ The model contains one compartment named compartment.
 The initial conditions are as follows:
 [|                                  || Value            || Units                     |
 |              Initial amount of S1:|| $1.5 \x 10^-15$  || mole                      |
-|              Initial amount of S2:|| $0 \x$           || mole                      |
+|              Initial amount of S2:|| $0$              || mole                      |
 |             Value of parameter k1:|| $0.35$           || second^-1^                |
 |             Value of parameter k2:|| $180$            || litre mole^-1^ second^-1^ |
 | Volume of compartment compartment:|| $1$              || litre                     |]
