@@ -112,143 +112,110 @@ public class sbmlTestselection  {
 
 
 	public void readModelFile(String filename) {
-	/* Read settings file for test into a hash table rea
-	   Input: is settings file name
-	   Output: nothing - it sets the class variables from the settings file
-	*/
-	File modelfile = new File(filename);
-	String line = null;
-	String text = null;
-	String nexttext = null;
-	Map<String, String> m = new HashMap<String, String>();
-	
-	try {
-		BufferedReader bRdr  = new BufferedReader(new FileReader(modelfile));
-		// skip the first two lines
-		line=bRdr.readLine();
-		line=bRdr.readLine();
-		int count = 0; // count the next 6 lines
-		Pattern categoryp = Pattern.compile("category:$");
-		Pattern synopsisp = Pattern.compile("synopsis:$");
-		Pattern ctagsp = Pattern.compile("componentTags:$");
-		Pattern ttagsp = Pattern.compile("testTags:$");
-		Pattern typep = Pattern.compile("testtype:$");
-		Pattern levelsp = Pattern.compile("levels:$");
-		
+               /* Read settings file for test into a hash table rea
+                Input: is settings file name
+                Output: nothing - it sets the class variables from the settings file
+                */
+               File modelfile = new File(filename);
+               String line = null;
+               String text = null;
+               String nexttext = null;
+               boolean cat_flag = false;
+               boolean syn_flag = false;
+               boolean ttype_flag = false;
+               boolean lev_flag = false;
+               boolean ct_flag = false;
+               boolean ttag_flag = false;
 
-		while((line = bRdr.readLine()) != null) {
-			
-			Matcher category_match = categoryp.matcher(line);
-			Matcher synopsis_match = synopsisp.matcher(line);
-			Matcher ctags_match = ctagsp.matcher(line);
-			Matcher ttags_match = ttagsp.matcher(line);
-			Matcher type_match = typep.matcher(line);
-			Matcher levels_match = levelsp.matcher(line);
+               try {
+                       BufferedReader bRdr  = new BufferedReader(new FileReader(modelfile));
+                       // skip the first two lines
 
-			if(category_match.find()) {
-				StringTokenizer st = new StringTokenizer(line,":");
-				while (st.hasMoreTokens()) { 
-					text = st.nextToken();
-					nexttext = st.nextToken();
-					nexttext = nexttext.trim();
-				}
-					
-				category=nexttext;
-			}
-			if(synopsis_match.find()) {
-				StringTokenizer st = new StringTokenizer(line,":");
-				while (st.hasMoreTokens()) { 
-					text = st.nextToken();
-					nexttext = st.nextToken();
-					nexttext = nexttext.trim();
-				}
-					
-				synopsis=nexttext;
-				// read the next line - if it doesn't match ctags append it to previous value
-				
-				while((line = bRdr.readLine()) != null && !(ctags_match.find())) {
-					// trim the line and append it to the previous one
-					line = line.trim();
-					synopsis = synopsis + line;
-				}	
-			}
-			if(ctags_match.find()) {
-				StringTokenizer st = new StringTokenizer(line,":");
-				while (st.hasMoreTokens()) { 
-					text = st.nextToken();
-					nexttext = st.nextToken();
-					nexttext = nexttext.trim();
-				}
-				Vector<String> ct = new Vector<String>();
-				StringTokenizer cvar = new StringTokenizer(nexttext,",");
-				
-				while (cvar.hasMoreTokens()) { 
-				//get next token and store it in the vector
-					String com = cvar.nextToken().trim();
-					ct.addElement(com);
-				}
-			componenttags = ct;
-					
-				
-			}
-			if(ttags_match.find()) {
-				StringTokenizer st = new StringTokenizer(line,":");
-				while (st.hasMoreTokens()) { 
-					text = st.nextToken();
-					nexttext = st.nextToken();
-					nexttext = nexttext.trim();
-				}
-				Vector<String> tt = new Vector<String>();
-				StringTokenizer tvar = new StringTokenizer(nexttext,",");
-				
-				while (tvar.hasMoreTokens()) { 
-				//get next token and store it in the vector
-					String test = tvar.nextToken().trim();
-					tt.addElement(test);
-				}
-			testtags = tt;
-			}
-			if(type_match.find()) {
-				StringTokenizer st = new StringTokenizer(line,":");
-				while (st.hasMoreTokens()) { 
-					text = st.nextToken();
-					nexttext = st.nextToken();
-					nexttext = nexttext.trim();
-				}
-					
-			testtype=nexttext;
-			}
-			if(levels_match.find()) {
-				StringTokenizer st = new StringTokenizer(line,":");
-				while (st.hasMoreTokens()) { 
-					text = st.nextToken();
-					nexttext = st.nextToken();
-					nexttext = nexttext.trim();
-				}
-				Vector<String> lev = new Vector<String>();
-				StringTokenizer lvar = new StringTokenizer(line,",");
-				
-				while (lvar.hasMoreTokens()) { 
-				//get next token and store it in the vector
-					String levs = lvar.nextToken().trim();
-					lev.addElement(levs);
-				}
-			levels = lev;
-			}
-				
-			
+                       int count = 0; // count the next 6 lines
+                       String lastparm = "NONE";
 
-				
-		} // end of while
-		bRdr.close();
-		
-	} // end of try
-	catch(IOException e) {
-		// catch possible io errors from readLine()
-			System.out.println("IOException error!");
-			e.printStackTrace();
-	} // end of catch
-	
-   } // end of readmodelfile
+                       boolean allread = false;
 
+                       while( ((line = bRdr.readLine()) != null) && !allread) {
+                               count++;
+
+                               if(count <= 2) {
+                                       continue;
+                               }
+                               else if(line.trim().length() == 0) {
+                                       allread = true;
+                               }
+                               else if(line.toLowerCase().startsWith("category:")) {
+                                       String[] splitline = line.split(":");
+                                       category=splitline[1].trim();
+                                       lastparm = "CATEGORY";
+                                       cat_flag = true;
+                               }
+                               if(line.toLowerCase().startsWith("synopsis:")) {
+                                       String[] splitline = line.split(":");
+                                       synopsis=splitline[1].trim();
+                                       lastparm = "SYNOPSIS";
+                                       syn_flag = true;
+                               }
+                               else if (lastparm.equalsIgnoreCase("SYNOPSIS") && line.toLowerCase().startsWith(" ") ) {
+                                       synopsis = synopsis + " " + line.trim();
+                               }
+
+                               else if(line.toLowerCase().startsWith("componenttags:")) {
+                                       String[] splitline = line.split(":");
+                                       String[] comp = splitline[1].split(",");
+                                       Vector<String> ct = new Vector<String>();
+                                       for(int i = 0; i < comp.length; i++)
+                                               ct.add(comp[i].trim());
+                                       componenttags = ct;   // you could skip the temporary vector and write it to directly to componenttags
+                                       lastparm = "COMPONENTTAGS";
+                                       ct_flag = true;
+                               }
+                               else if(line.toLowerCase().startsWith("testtags:")) {
+                                       String[] splitline = line.split(":");
+                                       String[] tags = splitline[1].split(",");
+                                       Vector<String> tt = new Vector<String>();
+                                       for(int i = 0; i < tags.length; i++)
+                                               tt.add(tags[i].trim());
+                                       testtags = tt; // see componenttags
+                                       lastparm = "TESTTAGS";
+                                       ttag_flag = true;
+                               }
+
+                               else if(line.toLowerCase().startsWith("testtype:")) {
+                                       String[] splitline = line.split(":");
+                                       testtype=splitline[1].trim();
+                                       lastparm = "TESTTYPE";
+                                       ttype_flag = true;
+                               }
+                               else if(line.toLowerCase().startsWith("levels:")) {
+                                       String[] splitline = line.split(":");
+                                       String[] levarr = splitline[1].split(",");
+                                       Vector<String> lev = new Vector<String>();
+                                       for(int i = 0; i < levarr.length; i++)
+                                               lev.add(levarr[i].trim());
+                                       levels = lev; // see componenttags
+                                       lastparm = "LEVELS";
+                                       lev_flag = true;
+                               }
+                               else {
+                                       // this should never happen, maybe put some error handling here
+					// if it is critical or leave
+                                       // empty to ignore other tags that are encountered
+                               }
+                       } // end of while
+                       bRdr.close();
+
+               } // end of try
+               catch(IOException e) {
+                       // catch possible io errors from readLine()
+                       System.out.println("IOException error!");
+                       e.printStackTrace();
+               } // end of catch
+
+               if( !(cat_flag && syn_flag && ttype_flag && lev_flag && ct_flag && ttag_flag)) {
+                       // there is at least one parameter missing
+               }
+
+       } // end of readmodelfile
 }// end of class
