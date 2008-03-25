@@ -1,15 +1,14 @@
+// FormBean.java
+//
+// Created by Kimberly Begley
+// Servlet to get selections from user test case selection web page.
+//
+
 
 package sbml.test;
-
 import java.io.*;
 import java.util.*;
 
-
-/**
- *
- * @author Kimberly Begley
- * Servlet to get selections from user test case selection web page.
- */
 public class FormBean {
    
     /** 

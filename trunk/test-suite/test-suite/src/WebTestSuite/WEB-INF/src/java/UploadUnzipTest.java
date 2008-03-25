@@ -119,12 +119,12 @@ public class UploadUnzipTest extends HttpServlet {
 					
 					}	
 					catch (FileNotFoundException e) {
-    						System.out.println("FileNotFoundException: " 
+    						System.err.println("FileNotFoundException: " 
                         				+ e.getMessage());
     						
     
 					} catch (IOException e) {
-    						System.out.println("Caught IOException: " 
+    						System.err.println("Caught IOException: " 
                         				+ e.getMessage());
 					}
         				boolean success = file.delete();
@@ -205,8 +205,7 @@ public class UploadUnzipTest extends HttpServlet {
 		//t3.writetestxml(output);
 		request.setAttribute("tests",output);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/web/showresults.jsp");
-		//RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("test_suite/web/showresults.jsp");
-		//RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/test_suite/web/showresults.jsp");
+		
 		dispatcher.forward(request,response);
 
 		} // end of try
