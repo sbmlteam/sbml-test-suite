@@ -12,8 +12,10 @@
 		String name;
 		String plot;
 		String description;
+		String warnings;
 		int result;
 		int fail_count;
+		int abort_count;
 		
 	%>
 
@@ -28,6 +30,7 @@
 		
 	<%
 		fail_count=0;
+		abort_count=0;
 		for(int i=0;i<results.size() ; i++) {	
 		  if(i % 30 == 0) {
 			// start a new row
@@ -40,13 +43,14 @@
 			plot = test.getPlot();
 			description = test.getDescription();
 			result = test.getResult();
+			warnings = test.getWarnings();
 		
 		
 			if(result>0) {			
 		
 				out.println("<TD>");
-				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot +"\" target=\"_blank\">");
-				out.println("<IMG SRC=\"/test_suite/web/red.jpg\" border=\"0\"/>");
+				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description  + "&warnings=" + warnings +"\" target=\"_blank\">");
+				out.println("<IMG SRC=\"/test_suite/web/images/red.jpg\"  border=\"0\"/>");
 				out.println("</a>");
 				out.println("</TD>");
 				fail_count++;
@@ -54,18 +58,27 @@
 			if(result == 0) {			
 		
 				out.println("<TD>");
-				out.println("<a href=\"" + plot + "\" target=\"_parent\">");
-				out.println("<IMG SRC=\"/test_suite/web/green.jpg\" border=\"0\"/>");
+				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings +"\" target=\"_blank\">");
+				out.println("<IMG SRC=\"/test_suite/web/images/green.jpg\" border=\"0\"/>");
 				out.println("</a>");
 				out.println("</TD>");
-			}	
+			}
+			if(result == -1) {			
+		
+				out.println("<TD>");
+				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings +"\" target=\"_blank\">");
+				out.println("<IMG SRC=\"/test_suite/web/images/red.jpg\" border=\"0\"/>");
+				out.println("</a>");
+				out.println("</TD>");
+				abort_count++;
+			}		
 	     } // end of for loop
 	     // if size of vector is not equally dividable by 30  - fill in in the remaining table with grey squares
 	     
 	     for(int m = results.size()%30; m<31; m++) {
 				
 			out.println("<TD>");
-			out.println("<IMG SRC=\"/test_suite/web/grey.jpg\" border=\"0\"/>");
+			out.println("<IMG SRC=\"/test_suite/web/images/grey.jpg\" border=\"0\"/>");
 			out.println("</TD>");
 	     }	
 	%>	
@@ -73,7 +86,8 @@
 	</TABLE>
 	<BR>
 	<BR>
-	Number of test taken : <%=results.size()%><BR>
-	Number of test failed: <%=fail_count%>
+	Number of tests taken  : <%=results.size()%><BR>
+	Number of tests failed : <%=fail_count%><BR>
+	Number of tests aborted: <%=abort_count%>
 	</BODY>
 	</HTML>

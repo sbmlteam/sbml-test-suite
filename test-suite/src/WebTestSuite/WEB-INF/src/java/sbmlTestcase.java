@@ -102,7 +102,7 @@ public class sbmlTestcase  {
 	}
 
 
-	public BigDecimal[][] readResults(String filename, int header, int steps, int variables_count) throws IOException, FileNotFoundException {
+	public BigDecimal[][] readResults(String filename, int header, int steps, int variables_count) throws IOException, FileNotFoundException, Exception {
 	/*  readResults - returns a csv file as a multidimensional array
 		Input:a cvs file (filename) along with whether it has a header (header=1/0), step count (steps), number of variables
 		(variables_count)  
@@ -111,7 +111,7 @@ public class sbmlTestcase  {
 		BigDecimal [][] value = new BigDecimal [steps+1][(variables_count+1)];
  
 		File testfile = new File(filename);
-		try{
+		/*try{ */
 			BufferedReader bufRdr  = new BufferedReader(new FileReader(testfile));
 			String line = null;
 			int row = 0;
@@ -126,47 +126,42 @@ public class sbmlTestcase  {
 			while((line = bufRdr.readLine()) != null && row < steps+2)
 			{	
 				String[] st = line.split(",");
-
+				if(st.length != variables_count+1) {
+					// file has too many variables - throw an exception
+					throw new Exception ("File has inconsistent number of variables");
+						
+				}
 				for(int i = 0; i < st.length; i++) {
-                                               value[row][col] = new BigDecimal(st[i].trim());
+                                               	value[row][col] = new BigDecimal(st[i].trim());
 						col++;
 				}
 				col = 0;
 				row++;
 			}
 			bufRdr.close();
-		}
-		catch (FileNotFoundException e) {
-    			System.err.println("FileNotFoundException: ");
-			e.printStackTrace();
-		}
-		catch(IOException e) {
-		// catch possible io errors from readLine()
-			System.err.println("IOException error - reading from results file");
-			e.printStackTrace();
-		}
+		
 		return value;
 	}
 	
-	public void validateResults(BigDecimal [][] resultdata, BigDecimal [][] userresultdata) throws IllegalArgumentException {
+	public void validateResults(BigDecimal [][] resultdata, BigDecimal [][] userresultdata) throws Exception {
 	/*  validateResults - makes sure that the users result file has the same timesteps etc as defined in the settings file
 		Input: user result mulitidimensional array
 		Output: none - returns an error if file not in correct format
 	*/
 	if(resultdata.length != userresultdata.length) {
-		throw new IllegalArgumentException ("Inconsistent number of time steps");
-		//System.err.println("Inconsistent number of time steps");
+		throw new Exception ("Inconsistent number of rows");
+		
 	}
 	for ( int i = 0; i < resultdata.length; i++ )
 	{
 		if((resultdata[i][0]).compareTo(userresultdata[i][0]) != 0) {
-			throw new IllegalArgumentException ("Time step values do not match up with test suite case");
-			//System.err.println("Time steps do not match up with test suite case");
+			throw new Exception ("Time step values do not match up with test suite case");
+			
 		}
 	}
 	}
 	
-	public BigDecimal[][] compareResults(BigDecimal [][] resultdata, BigDecimal [][] inputdata, int steps, int variables_count) throws IllegalArgumentException{
+	public BigDecimal[][] compareResults(BigDecimal [][] resultdata, BigDecimal [][] inputdata, int steps, int variables_count) throws Exception{
 	/*	compareResults  - subtracts each corresponding field to give the differences
 		Input: the multidimensional array from the control result data file and a multidimensional
 		array from the user data file   
@@ -178,8 +173,7 @@ public class sbmlTestcase  {
 	// check that the files are the same length
 	
 	if(resultdata.length != inputdata.length) {
-		throw new IllegalArgumentException ("Files are of different lengths - cannot compare them");
-		//System.err.println("Files are of different lengths - Cannot compare them");
+		throw new Exception ("Files are of different lengths - cannot compare them");
 	}
 	else {
 	 for ( int i = 0; i < resultdata.length; i++ )
@@ -247,7 +241,8 @@ public class sbmlTestcase  {
 		while((line = bRdr.readLine()) != null) {
 				//StringTokenizer st = new StringTokenizer(line,":");
 				String[] st = line.split(":");
-				for(int i = 0; i < st.length; i++)
+				
+				for(int i = 0; (i+1)< st.length; i++)
                                         m.put(st[i].trim(),st[i+1].trim());
 
 /*				while (st.hasMoreTokens()) { 
@@ -308,7 +303,7 @@ public class sbmlTestcase  {
 		}
 	
 	}
-public Map getUsertestlist(String dirname) throws IllegalArgumentException{
+public Map getUsertestlist(String dirname) throws Exception{
 	/* Gets the user file directory and checks the format of the files in the directory
 	   Input: is the directory path
 	   Output: a hashmap with the testname and user result file name as associated columns
@@ -334,7 +329,7 @@ public Map getUsertestlist(String dirname) throws IllegalArgumentException{
 			m.put(value,userfile);
 		}
 		else {
-			throw new IllegalArgumentException ("Incorrect file name format");
+			throw new Exception ("Incorrect file name format");
 			//System.err.println("User test files in incorrect file name format - please name files ending with nnnnn.csv - where nnnnn is the test number");
 			
 		}

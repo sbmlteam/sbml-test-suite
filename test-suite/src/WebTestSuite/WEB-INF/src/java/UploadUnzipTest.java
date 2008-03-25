@@ -154,9 +154,13 @@ public class UploadUnzipTest extends HttpServlet {
 
 			// use of hashmap here since the user filename could be anything but must contain the testnumber.csv at the end of it - so this returns a map with testname, userfilename so we can iterate through the tests
 			Map  userfiles = new HashMap();
-			
-			userfiles = t1.getUsertestlist(userdir);
-
+			try {
+				userfiles = t1.getUsertestlist(userdir);
+			}
+			catch(Exception e) {
+				System.err.println("Incorrect user file name format");
+				
+			}
 			String value = new String();
 			String userfile = new String();
 			Set set = userfiles.keySet();
@@ -172,23 +176,99 @@ public class UploadUnzipTest extends HttpServlet {
 				String control_settingsfile = t1.getSettingsFile(value,testdir);
 
 				String plot_file = t1.getPlotFile(value,testdir);
-
-				t1.readSettingsFile(control_settingsfile);
+				try {
+					t1.readSettingsFile(control_settingsfile);
+				}
+				catch(FileNotFoundException e) {
+					System.err.println("Filenotfound when reading control results");
+					continue;
+				}
+				catch(IOException e) {
+					System.err.println("IOException error while reading control results");
+					continue;
+				}
+				catch(Exception e) {
+					System.err.println("Control file has inconsistent number of variables for test");
+					continue;
+				}
 				int steps = t1.getSteps();
 				int vars  = t1.getVariables_count();
 				BigDecimal absd = t1.getAbs();
 				BigDecimal reld = t1.getRel();
 
 				BigDecimal [][] results = new BigDecimal [steps + header][];
-				results = t1.readResults(controlfile_results, header,steps,vars);
+				try {
+					results = t1.readResults(controlfile_results, header,steps,vars);
+				}
+				catch(FileNotFoundException e) {
+					System.err.println("Filenotfound when reading control results");
+					continue;
+				}
+				catch(IOException e) {
+					System.err.println("IOException error while reading control results");
+					continue;
+				}
+				catch(Exception e) {
+					System.err.println("Control file has inconsistent number of variables for test");
+					sbmlTestselection t3 = new sbmlTestselection();
+					String mfile = t3.getModelFile(value,testdir);
+					t3.readModelFile(mfile);
+					String desc = t3.getSynopsis();
+					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has inconsistent number of variables for test - Test Aborted",plot_file);
+					output.addElement(t2);
+					continue;
+				}
 
 				BigDecimal [][] user_results = new BigDecimal [steps + header][];
-				user_results = t1.readResults(userfile, header,steps,vars);
+				try {
+					user_results = t1.readResults(userfile, header,steps,vars);
+				}
+				catch(FileNotFoundException e) {
+					System.err.println("Filenotfound when reading user results");
+					continue;
+				}
+				catch(IOException e) {
+					System.err.println("IOException error while reading user results");
+					continue;
+				}
+				catch(Exception e) {
+					System.err.println("User file has inconsistent number of variables for test");
+					sbmlTestselection t3 = new sbmlTestselection();
+					String mfile = t3.getModelFile(value,testdir);
+					t3.readModelFile(mfile);
+					String desc = t3.getSynopsis();
+					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has inconsistent number of variables for test - Test Aborted",plot_file);
+					output.addElement(t2);
+					continue;
+				}
 			
-				t1.validateResults(results,user_results);
+				try {
+					t1.validateResults(results,user_results);
+				}
+				catch(Exception e) {
+					System.err.println("User file has too many rows for test");
+					sbmlTestselection t3 = new sbmlTestselection();
+					String mfile = t3.getModelFile(value,testdir);
+					t3.readModelFile(mfile);
+					String desc = t3.getSynopsis();
+					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has too many time steps for test - Test Aborted",plot_file);
+					output.addElement(t2);
+					continue;
+				}
 				BigDecimal [][] comp_results = new BigDecimal [steps+1][vars+1];
-				comp_results = t1.compareResults(results,user_results,steps,vars);
-			
+				try {
+					comp_results = t1.compareResults(results,user_results,steps,vars);
+				}
+				catch(Exception e) {
+					System.err.println("Files are different lengths - cannot compare them");
+					sbmlTestselection t3 = new sbmlTestselection();
+					String mfile = t3.getModelFile(value,testdir);
+					t3.readModelFile(mfile);
+					String desc = t3.getSynopsis();
+					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has inconsistent number of entries - Test Aborted",plot_file);
+					output.addElement(t2);
+					continue;
+				}
 				int pass_fail = t1.analyzeResults(results,comp_results,vars,absd,reld);
 
 				sbmlTestselection t3 = new sbmlTestselection();

@@ -10,6 +10,7 @@
 	String result = request.getParameter("result");
 	String plot = request.getParameter("plot");
 	String description = request.getParameter("description");
+	String warnings = request.getParameter("warnings");
 %>
 
 <HTML>
@@ -17,9 +18,13 @@
 	
 	<CENTER><BIG>SBML Test <%=testname%> Details</BIG></CENTER>
 
-	<IMG SRC="/test_suite/servlet/OpenFile?plot=<%=plot%>" align="left" ALT="plot">
-	Syhopsis: <%=description%><BR>
+	<IMG SRC="/test_suite/servlet/OpenFile?plot=<%=plot%>" width="300" height="200" align="left" ALT="plot">
+	Synopsis: <%=description%><BR>
 	Failed at <%=result%> points<BR>
+<%	if(warnings != "") {
+%>
+	Test Aborted due to: <%=warnings%>
+<% } %>
 	
 	
 
