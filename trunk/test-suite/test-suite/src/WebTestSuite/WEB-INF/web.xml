@@ -9,16 +9,16 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
   <servlet-class>sbml.test.UploadUnzipTest</servlet-class>
 </servlet>
 <servlet>
-  <servlet-name>simpleservlet</servlet-name>
-  <servlet-class>sbml.test.simpleservlet</servlet-class>
+  <servlet-name>OpenFile</servlet-name>
+  <servlet-class>sbml.test.OpenFile</servlet-class>
 </servlet>
 <servlet-mapping>
   <servlet-name>UploadUnzipTest</servlet-name>
   <url-pattern>/servlet/UploadUnzipTest</url-pattern>
 </servlet-mapping>  
 <servlet-mapping>
-  <servlet-name>simpleservlet</servlet-name>
-  <url-pattern>/servlet/simpleservlet</url-pattern>
+  <servlet-name>OpenFile</servlet-name>
+  <url-pattern>/servlet/OpenFile</url-pattern>
 </servlet-mapping>
 </web-app> 
 
