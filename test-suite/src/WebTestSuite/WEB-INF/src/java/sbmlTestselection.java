@@ -97,7 +97,7 @@ public class sbmlTestselection  {
 		}
 		catch(IOException e) {
 		// catch possible io errors from readLine()
-			System.out.println("IOException error!");
+			System.err.println("IOException error reading application config file");
 			e.printStackTrace();
 		}
 	return sbmltestdir;
@@ -131,7 +131,7 @@ public class sbmlTestselection  {
                        BufferedReader bRdr  = new BufferedReader(new FileReader(modelfile));
                        // skip the first two lines
 
-                       int count = 0; // count the next 6 lines
+                       int count = 0; 
                        String lastparm = "NONE";
 
                        boolean allread = false;
@@ -164,20 +164,20 @@ public class sbmlTestselection  {
                                else if(line.toLowerCase().startsWith("componenttags:")) {
                                        String[] splitline = line.split(":");
                                        String[] comp = splitline[1].split(",");
-                                       Vector<String> ct = new Vector<String>();
+                                       componenttags = new Vector<String>();
                                        for(int i = 0; i < comp.length; i++)
-                                               ct.add(comp[i].trim());
-                                       componenttags = ct;   // you could skip the temporary vector and write it to directly to componenttags
+                                               componenttags.add(comp[i].trim());
+                                   
                                        lastparm = "COMPONENTTAGS";
                                        ct_flag = true;
                                }
                                else if(line.toLowerCase().startsWith("testtags:")) {
                                        String[] splitline = line.split(":");
                                        String[] tags = splitline[1].split(",");
-                                       Vector<String> tt = new Vector<String>();
+                       		       testtags = new Vector<String>();
                                        for(int i = 0; i < tags.length; i++)
-                                               tt.add(tags[i].trim());
-                                       testtags = tt; // see componenttags
+                                               testtags.add(tags[i].trim());
+                                       
                                        lastparm = "TESTTAGS";
                                        ttag_flag = true;
                                }
@@ -191,10 +191,10 @@ public class sbmlTestselection  {
                                else if(line.toLowerCase().startsWith("levels:")) {
                                        String[] splitline = line.split(":");
                                        String[] levarr = splitline[1].split(",");
-                                       Vector<String> lev = new Vector<String>();
+                                       levels = new Vector<String>();
                                        for(int i = 0; i < levarr.length; i++)
-                                               lev.add(levarr[i].trim());
-                                       levels = lev; // see componenttags
+                                               levels.add(levarr[i].trim());
+                                       
                                        lastparm = "LEVELS";
                                        lev_flag = true;
                                }
@@ -209,7 +209,7 @@ public class sbmlTestselection  {
                } // end of try
                catch(IOException e) {
                        // catch possible io errors from readLine()
-                       System.out.println("IOException error!");
+                       System.err.println("IOException error while reading model file");
                        e.printStackTrace();
                } // end of catch
 
