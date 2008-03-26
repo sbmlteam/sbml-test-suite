@@ -53,7 +53,7 @@ public class sbmlTestcase  {
 		return rel;
 	}
 
-	public String getSbmlTestdir() {
+	public String getSbmlTestdir() throws IOException, FileNotFoundException {
 		String sbmltestdir = new String();
 		File sbmlconfigfile = new File("/usr/share/apache-tomcat-5.5.26/webapps/test_suite/WEB-INF/sbml_config_file.txt");
 		String[][] config = new String[1][1];
@@ -68,9 +68,13 @@ public class sbmlTestcase  {
 			}
 			bufRdr.close();
 		}
+		catch (FileNotFoundException e) {
+    			System.err.println("FileNotFoundException: ");
+			e.printStackTrace();
+		}
 		catch(IOException e) {
 		// catch possible io errors from readLine()
-			System.out.println("IOException error!");
+			System.err.println("IOException error reading application config file");
 			e.printStackTrace();
 		}
 	return sbmltestdir;
@@ -98,7 +102,7 @@ public class sbmlTestcase  {
 	}
 
 
-	public BigDecimal[][] readResults(String filename, int header, int steps, int variables_count) {
+	public BigDecimal[][] readResults(String filename, int header, int steps, int variables_count) throws IOException, FileNotFoundException, Exception {
 	/*  readResults - returns a csv file as a multidimensional array
 		Input:a cvs file (filename) along with whether it has a header (header=1/0), step count (steps), number of variables
 		(variables_count)  
@@ -107,7 +111,7 @@ public class sbmlTestcase  {
 		BigDecimal [][] value = new BigDecimal [steps+1][(variables_count+1)];
  
 		File testfile = new File(filename);
-		try{
+		/*try{ */
 			BufferedReader bufRdr  = new BufferedReader(new FileReader(testfile));
 			String line = null;
 			int row = 0;
@@ -121,45 +125,43 @@ public class sbmlTestcase  {
 			
 			while((line = bufRdr.readLine()) != null && row < steps+2)
 			{	
-				StringTokenizer st = new StringTokenizer(line,",");
-				
-				while (st.hasMoreTokens()) { 
-					//get next token and store it in the array
-					String num = st.nextToken();
-					value[row][col] = new BigDecimal(num);
-					// throw something here to catch the number format exception indicating problem with file formatting
-					col++;
+				String[] st = line.split(",");
+				if(st.length != variables_count+1) {
+					// file has too many variables - throw an exception
+					throw new Exception ("File has inconsistent number of variables");
+						
+				}
+				for(int i = 0; i < st.length; i++) {
+                                               	value[row][col] = new BigDecimal(st[i].trim());
+						col++;
 				}
 				col = 0;
 				row++;
 			}
 			bufRdr.close();
-		}
-		catch(IOException e) {
-		// catch possible io errors from readLine()
-			System.out.println("IOException error!");
-			e.printStackTrace();
-		}
+		
 		return value;
 	}
 	
-	public void validateResults(BigDecimal [][] resultdata, BigDecimal [][] userresultdata) {
+	public void validateResults(BigDecimal [][] resultdata, BigDecimal [][] userresultdata) throws Exception {
 	/*  validateResults - makes sure that the users result file has the same timesteps etc as defined in the settings file
 		Input: user result mulitidimensional array
 		Output: none - returns an error if file not in correct format
 	*/
 	if(resultdata.length != userresultdata.length) {
-		System.out.println("Inconsistent number of time steps");
+		throw new Exception ("Inconsistent number of rows");
+		
 	}
 	for ( int i = 0; i < resultdata.length; i++ )
 	{
 		if((resultdata[i][0]).compareTo(userresultdata[i][0]) != 0) {
-			System.out.println("Time steps do not match up with test suite case");
+			throw new Exception ("Time step values do not match up with test suite case");
+			
 		}
 	}
 	}
 	
-	public BigDecimal[][] compareResults(BigDecimal [][] resultdata, BigDecimal [][] inputdata, int steps, int variables_count) {
+	public BigDecimal[][] compareResults(BigDecimal [][] resultdata, BigDecimal [][] inputdata, int steps, int variables_count) throws Exception{
 	/*	compareResults  - subtracts each corresponding field to give the differences
 		Input: the multidimensional array from the control result data file and a multidimensional
 		array from the user data file   
@@ -171,7 +173,7 @@ public class sbmlTestcase  {
 	// check that the files are the same length
 	
 	if(resultdata.length != inputdata.length) {
-		System.out.println("Files are of different lengths - Cannot compare them");
+		throw new Exception ("Files are of different lengths - cannot compare them");
 	}
 	else {
 	 for ( int i = 0; i < resultdata.length; i++ )
@@ -195,21 +197,6 @@ public class sbmlTestcase  {
 		Input: differences array (from compareResults function), absolute difference, relative difference
 		Output: integer - number of failed comparisons in file - if 0 then passed the test 
 		*/
-		
-		// For testing purposes - remove after testing
-/*		System.out.println("control array is");
-		for (int k=0; k<control.length; k++){
-			for(int l=0;l<control[k].length; l++) {	
-				System.out.println(control[k][l]);
-			}
-		}
-		System.out.println("differences array is: ");
-		for (int m=0; m<differences.length; m++) {
-			for(int n=0;n<differences[m].length;n++) {
-				System.out.println(differences[m][n]);
-			}
-		} 
-*/	
 		
 		int pass_fail = 0;
 		for(int i = 0; i < differences.length; i++) {
@@ -238,7 +225,7 @@ public class sbmlTestcase  {
 		return pass_fail;
 	}
 	
-	public void readSettingsFile(String filename) {
+	public void readSettingsFile(String filename) throws IOException, FileNotFoundException {
 	/* Read settings file for test into a hash table rea
 	   Input: is settings file name
 	   Output: nothing - it sets the class variables from the settings file
@@ -252,8 +239,13 @@ public class sbmlTestcase  {
 	try {
 		BufferedReader bRdr  = new BufferedReader(new FileReader(settingsfile));
 		while((line = bRdr.readLine()) != null) {
-				StringTokenizer st = new StringTokenizer(line,":");
-				while (st.hasMoreTokens()) { 
+				//StringTokenizer st = new StringTokenizer(line,":");
+				String[] st = line.split(":");
+				
+				for(int i = 0; (i+1)< st.length; i++)
+                                        m.put(st[i].trim(),st[i+1].trim());
+
+/*				while (st.hasMoreTokens()) { 
 					//get text values and store in a hash table
 					// change this if settings becomes more than 2 columns
 					text = st.nextToken();
@@ -263,6 +255,7 @@ public class sbmlTestcase  {
 					//System.out.println("text,nexttext is " + text +" " + nexttext);
 					m.put(text,nexttext);
 				}
+*/
 		}
 		bRdr.close();
 		
@@ -274,15 +267,19 @@ public class sbmlTestcase  {
 		
 		// read variables value and return a count of the number of variables 
 		
-		int countv = 0;
-		StringTokenizer var = new StringTokenizer(variables,",");
-				
+		//int countv = 0;
+		//StringTokenizer var = new StringTokenizer(variables,",");
+		String[] var = variables.split(",");
+		/*for(int j = 0; j<var.length; j++) {
+					
 		while (var.hasMoreTokens()) { 
 			//get next token and store it in the array
 			String num = var.nextToken();
 			countv++;
 		}
-		variables_count = countv;
+*/
+		//variables_count = countv;
+		variables_count=var.length;
 		// get the steps variable from the settings file
 		String st = (String)m.get("steps");
 		steps = Integer.parseInt(st);
@@ -295,14 +292,18 @@ public class sbmlTestcase  {
 
 
 	}
+	catch(FileNotFoundException e) {
+    			System.err.println("FileNotFoundException reading settings file ");
+			e.printStackTrace();
+		}
 	catch(IOException e) {
 		// catch possible io errors from readLine()
-			System.out.println("IOException error!");
+			System.err.println("IOException error reading settings file");
 			e.printStackTrace();
 		}
 	
 	}
-public Map getUsertestlist(String dirname) {
+public Map getUsertestlist(String dirname) throws Exception{
 	/* Gets the user file directory and checks the format of the files in the directory
 	   Input: is the directory path
 	   Output: a hashmap with the testname and user result file name as associated columns
@@ -325,13 +326,12 @@ public Map getUsertestlist(String dirname) {
 		Matcher matcher = p.matcher(userfile);
 		if(matcher.find()) {
 			value = matcher.group().substring(0,matcher.group().indexOf("."));	
-			//System.out.println("Index is: " + value + " (String), "+Integer.valueOf(value).intValue()+" (int)");
-			//System.out.println("Test dir is: " + value);
 			m.put(value,userfile);
 		}
 		else {
-			System.err.println("User test files in incorrect file name format - please name files ending with nnnnn.csv - where nnnnn is the test number");
-			System.exit(0);
+			throw new Exception ("Incorrect file name format");
+			//System.err.println("User test files in incorrect file name format - please name files ending with nnnnn.csv - where nnnnn is the test number");
+			
 		}
 	}
 	}

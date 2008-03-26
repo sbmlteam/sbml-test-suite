@@ -55,7 +55,17 @@ public class command_test {
 			control_settingsfile = testdir + File.separator + value + File.separator + value + "-settings.txt";
 			
 			// Get variables from the settings file
-			t1.readSettingsFile(control_settingsfile);
+			try {
+				t1.readSettingsFile(control_settingsfile);
+			}
+			catch (FileNotFoundException e) {
+				System.out.println("Settings file not found");
+				break;
+			}
+			catch (IOException e){
+				System.out.println("IOException reading settings file");
+				break;
+			}
 			int steps = t1.getSteps();
 			int vars  = t1.getVariables_count();
 			
@@ -64,15 +74,55 @@ public class command_test {
 			
 			// Read the control results into a multidimensional array
 			BigDecimal [][] results = new BigDecimal [steps + header][];
-			results = t1.readResults(controlfile_results, header,steps,vars);
+			try {
+				results = t1.readResults(controlfile_results, header,steps,vars);
+			}
+			catch(FileNotFoundException e) {
+				System.out.println("Filenotfound when reading control results");
+				continue;
+			}
+			catch(IOException e) {
+				System.out.println("IOException error while reading control results");
+				continue;
+			}
+			catch(Exception e) {
+				System.out.println("Control file has too many variables for test");
+				continue;
+			}
 			// Read the user results into a multidimensional array
 			BigDecimal [][] user_results = new BigDecimal [steps + header][];
-			user_results = t1.readResults(userfile, header,steps,vars);
+			try {
+				user_results = t1.readResults(userfile, header,steps,vars);
+			}
+			catch(FileNotFoundException e) {
+				System.out.println("Filenotfound when reading user results");
+				continue;
+			}
+			catch(IOException e) {
+				System.out.println("IOException error while reading user results");
+				continue;
+			}
+			catch(Exception e) {
+				System.out.println("User file has inconsistent number of variables for test");
+				continue;
+			}
+			
 			// Compare the results file for same number of rows, columns etc
-			t1.validateResults(results,user_results);
+			try{
+				t1.validateResults(results,user_results);
+			}
+			catch(Exception e) {
+				System.out.println("User file has too many rows for test");
+				continue;
+			}
 			BigDecimal [][] comp_results = new BigDecimal [steps+1][vars+1];
 			// Get the differences between each column of results files
-			comp_results = t1.compareResults(results,user_results,steps,vars);
+			try{			
+				comp_results = t1.compareResults(results,user_results,steps,vars);
+			}
+			catch(Exception e) {
+				System.out.println("Files are different lengths - cannot compare them");
+			}
 
 			int pass_fail = 0;
 			
