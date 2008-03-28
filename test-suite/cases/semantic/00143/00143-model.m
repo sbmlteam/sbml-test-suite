@@ -11,25 +11,28 @@ levels:        1.2, 2.1, 2.2, 2.3
 The model contains one compartment named compartment.
   There are three species named S1, S2 and S3 and two parameters named k1 and k2.
   The model contains two reactions defined as:
-[| | Reaction |||||| Rate |
- | | S1+S2 -> S3 |||||| $k1*S1*S2*compartment$  |
- | | S3 -> S1+S2 |||||| $k2*S3*compartment$  |]
+
+[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+| S1+S2 -> S3 | $k1*S1*S2*compartment$  |
+| S3 -> S1+S2 | $k2*S3*compartment$  |]
 
   The model contains one rule which assigns value to compartment compartment:
-[|| Type || Variable || Formula |
- || Assignment || compartment || $1$  |]
+
+[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+ | Assignment | compartment | $1$  |]
 In this case the initial value declared for compartment compartment is inconsistent with the value
 calculated by the assignmentRule.  The calculated value should be used.
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $    1 \x 10^-5$ || mole                      |
-|              Initial amount of S2:|| $ 1.5 \x 10^-5$ || mole                      |
-|              Initial amount of S3:|| $   1 \x 10^-5$ || mole                      |
-|             Value of parameter k1:|| $  1.5 \x 10^5$ || litre mole^-1^ second^-1^ |
-|             Value of parameter k2:|| $           50$ || second^-1^ |
-| Volume of compartment compartment:|| $            5$ || litre                     |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $    1 \x 10^-5$ | mole                      |
+|              Initial amount of S2:| $ 1.5 \x 10^-5$ | mole                      |
+|              Initial amount of S3:| $   1 \x 10^-5$ | mole                      |
+|             Value of parameter k1:| $  1.5 \x 10^5$ | litre mole^-1^ second^-1^ |
+|             Value of parameter k2:| $           50$ | second^-1^ |
+| Volume of compartment compartment:| $            5$ | litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML

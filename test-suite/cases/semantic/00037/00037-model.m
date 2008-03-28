@@ -11,24 +11,27 @@ levels:        2.2, 2.3
 The model contains one compartment named compartment.
   There are two species named S1 and S2 and two parameters named k1 and k2.
   The model contains one reaction defined as:
-[| | Reaction |||||| Rate |
- | | S1 -> S2 |||||| $compartment*k2*S$  |]
+
+[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+| S1 -> S2 | $compartment*k2*S$  |]
 
   The model contains one initialAssignment:
-[|| Variable || Formula |
- || S1 || $k1*S2$  |]
+
+[{width:30em,left-margin:5em}| Variable | Formula |
+ | S1 | $k1*S2$  |]
 
   Note: InitialAssignments override any declared initial values.  In this case the initial
 value declared for species S1 is inconsistent with the value returned by the initialAssignment.
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $            1$ || mole                      |
-|              Initial amount of S2:|| $1.5 \x 10^-15$ || mole                      |
-|             Value of parameter k1:|| $         0.75$ || dimensionless             |
-|             Value of parameter k2:|| $           50$ || second^-1^                |
-| Volume of compartment compartment:|| $             $ || litre                     |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $            1$ | mole                      |
+|              Initial amount of S2:| $1.5 \x 10^-15$ | mole                      |
+|             Value of parameter k1:| $         0.75$ | dimensionless             |
+|             Value of parameter k2:| $           50$ | second^-1^                |
+| Volume of compartment compartment:| $             $ | litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML

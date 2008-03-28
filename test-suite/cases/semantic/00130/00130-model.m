@@ -11,25 +11,28 @@ levels:        2.1, 2.2, 2.3
 The model contains one compartment named compartment.
   There are three species named S1, S2 and S3 and three parameters named k1, k2 and p1.
   The model contains two reactions defined as:
-[| | Reaction |||||| Rate |
- | | S1+S2 -> S3 |||||| $k1*S1*S2*compartment$  |
- | | multiply(2, p1)S3 -> S1 + S2 |||||| $k2*S3*compartment$  |]
+
+[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+| S1+S2 -> S3 | $k1*S1*S2*compartment$  |
+| multiply(2, p1)S3 -> S1 + S2 | $k2*S3*compartment$  |]
 
 
 The model contains one functionDefinition defined as:
-[|| Id      | Arguments || Formula |
- || multiply | x, y || $x*y$ |]
+
+[{width:30em,left-margin:5em}| *Id* | *Arguments* | *Formula* |
+ | multiply | x, y | $x*y$ |]
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $1.0 \x 10^-12$ || mole                      |
-|              Initial amount of S2:|| $2.0 \x 10^-12$ || mole                      |
-|              Initial amount of S3:|| $1.0 \x 10^-12$ || mole                      |
-|             Value of parameter k1:|| $ 1.7 \x 10^10$ || litre mole^-1^ second^-1^ |
-|             Value of parameter k2:|| $          0.3$ || second^-1^ |
-|             Value of parameter p1:|| $            1$ ||  |
-| Volume of compartment compartment:|| $            1$ || litre                     |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $1.0 \x 10^-12$ | mole                      |
+|              Initial amount of S2:| $2.0 \x 10^-12$ | mole                      |
+|              Initial amount of S3:| $1.0 \x 10^-12$ | mole                      |
+|             Value of parameter k1:| $ 1.7 \x 10^10$ | litre mole^-1^ second^-1^ |
+|             Value of parameter k2:| $          0.3$ | second^-1^ |
+|             Value of parameter p1:| $            1$ |  |
+| Volume of compartment compartment:| $            1$ | litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML

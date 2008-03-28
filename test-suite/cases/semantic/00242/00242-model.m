@@ -13,17 +13,19 @@ The model contains one compartment named compartment.
   Compartment compartment is  0-dimensional.
   Both species S2 and S3 are labeled as an SBML boundary species.
   The model contains two reactions defined as:
-[| | Reaction    |||||| Rate |
- | | S1+S2 -> S3 |||||| $k1*S1*S2$  |
- | | S3 -> S1+S2 |||||| $k2*S3$  |]
+
+[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+| S1+S2 -> S3 | $k1*S1*S2$  |
+| S3 -> S1+S2 | $k2*S3$  |]
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $1.0 \x 10^-15$ || mole                      |
-|              Initial amount of S2:|| $2.0 \x 10^-15$ || mole                      |
-|              Initial amount of S3:|| $1.0 \x 10^-15$ || mole                      |
-|             Value of parameter k1:|| $         0.75$ || mole^-1^ second^-1^ |
-|             Value of parameter k2:|| $         0.25$ || second^-1^ |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $1.0 \x 10^-15$ | mole                      |
+|              Initial amount of S2:| $2.0 \x 10^-15$ | mole                      |
+|              Initial amount of S3:| $1.0 \x 10^-15$ | mole                      |
+|             Value of parameter k1:| $         0.75$ | mole^-1^ second^-1^ |
+|             Value of parameter k2:| $         0.25$ | second^-1^ |]
 
 In this example the compartment has spatialDimensions set to zero,
 i.e., it represents a point and therefore cannot have size or units.  The 

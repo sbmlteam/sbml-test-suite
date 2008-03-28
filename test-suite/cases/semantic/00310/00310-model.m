@@ -11,12 +11,14 @@ levels:        1.2, 2.1, 2.2, 2.3
 The model contains one compartment named compartment.
   There are two species named S1 and S2 and two parameters named k1 and p1.
   The model contains one reaction defined as:
-[| | Reaction |||||| Rate |
- | | S1 -> S2 |||||| $k1*S1*compartment$  |]
+
+[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+| S1 -> S2 | $k1*S1*compartment$  |]
 
   The model contains one rule which assigns value to compartment:
-[|| Type || Variable || Formula |
- || Assignment || compartment || $p1*S1$  |]
+
+[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+ | Assignment | compartment | $p1*S1$  |]
 In this case the initial value declared for compartment is consistent with that calculated
 by the assignmentRule.  Note that since this assignmentRule 
 must always remain true, it should be considered during
@@ -24,12 +26,13 @@ simulation.
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $          1.5$ || mole                      |
-|              Initial amount of S2:|| $            0$ || mole                      |
-|             Value of parameter k1:|| $          0.9$ || second^-1^ |
-|             Value of parameter p1:|| $          0.1$ || litre^2^ mole^-1^ |
-| Volume of compartment compartment:|| $         0.15$ || litre                     |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $          1.5$ | mole                      |
+|              Initial amount of S2:| $            0$ | mole                      |
+|             Value of parameter k1:| $          0.9$ | second^-1^ |
+|             Value of parameter p1:| $          0.1$ | litre^2^ mole^-1^ |
+| Volume of compartment compartment:| $         0.15$ | litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML

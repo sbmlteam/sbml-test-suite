@@ -10,21 +10,23 @@ levels:        2.1, 2.2, 2.3
 The model contains six parameters named S1, S2, S3, S4, k1 and k2.
 
   The model contains four rules:
-[|| Type || Variable || Formula |
- || Rate || S1       || $k2*S3*S4-k1*S1*S2$  |
- || Rate || S2       || $k2*S3*S4-k1*S1*S2$  |
- || Rate || S3       || $k1*S1*S2-k2*S3*S4$  |
- || Rate || S4       || $k1*S1*S2-k2*S3*S4$  |]
+
+[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+ | Rate | S1       | $k2*S3*S4-k1*S1*S2$  |
+ | Rate | S2       | $k2*S3*S4-k1*S1*S2$  |
+ | Rate | S3       | $k1*S1*S2-k2*S3*S4$  |
+ | Rate | S4       | $k1*S1*S2-k2*S3*S4$  |]
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|             Value of parameter S1:|| $1.0 \x 10^-15$ || any |
-|             Value of parameter S2:|| $1.0 \x 10^-15$ || same as S1 |
-|             Value of parameter S3:|| $2.0 \x 10^-15$ || same as S1 |
-|             Value of parameter S4:|| $1.0 \x 10^-15$ || same as S1 |
-|             Value of parameter k1:|| $0.75 \x 10^15$ || (units of S1)^-1^ second^-1^ |
-|             Value of parameter k2:|| $0.25 \x 10^15$ || (units of S1)^-1^ second^-1^ |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|             Value of parameter S1:| $1.0 \x 10^-15$ | any |
+|             Value of parameter S2:| $1.0 \x 10^-15$ | same as S1 |
+|             Value of parameter S3:| $2.0 \x 10^-15$ | same as S1 |
+|             Value of parameter S4:| $1.0 \x 10^-15$ | same as S1 |
+|             Value of parameter k1:| $0.75 \x 10^15$ | (units of S1)^-1^ second^-1^ |
+|             Value of parameter k2:| $0.25 \x 10^15$ | (units of S1)^-1^ second^-1^ |]
 
 
 *)

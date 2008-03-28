@@ -13,24 +13,27 @@ The model contains one compartment named compartment.
   Species S1 is labeled as constant and therefore cannot be changed 
   by rules or reactions.
   The model contains one reaction defined as:
-[| | Reaction |||||| Rate |
- | | S1 -> S2 |||||| $compartment*k2*S1$  |]
+
+[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+| S1 -> S2 | $compartment*k2*S1$  |]
 
   The model contains one rule:
-[|| Type       || Variable || Formula |
- || Assignment || S3       || $k1*S2$  |]
+
+[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+ | Assignment | S3       | $k1*S2$  |]
 
 In this case there is no initial value declared for species S3.  Thus the initial value
 must be calculated by the assignmentRule.
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $1.0 \x 10^-15$ || mole                      |
-|              Initial amount of S2:|| $1.5 \x 10^-15$ || mole                      |
-|              Initial amount of S3:|| $   undeclared$ || mole                      |
-|             Value of parameter k1:|| $         1.05$ || dimensionless             |
-|             Value of parameter k2:|| $         1.15$ || second^-1^                |
-| Volume of compartment compartment:|| $            1$ || litre                     |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $1.0 \x 10^-15$ | mole                      |
+|              Initial amount of S2:| $1.5 \x 10^-15$ | mole                      |
+|              Initial amount of S3:| $   undeclared$ | mole                      |
+|             Value of parameter k1:| $         1.05$ | dimensionless             |
+|             Value of parameter k2:| $         1.15$ | second^-1^                |
+| Volume of compartment compartment:| $            1$ | litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML

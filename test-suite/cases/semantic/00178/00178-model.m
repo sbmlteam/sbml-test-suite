@@ -10,24 +10,27 @@ levels:        2.1, 2.2, 2.3
 The model contains five parameters named S1, S2, S3, k1 and k2.
  
    The model contains three rules:
-[|| Type || Variable || Formula |
- || Rate || S3       || $multiply(k1, S1, S2)$  |
- || Rate || S1       || $k2*S3 - multiply(k1, S1, S2)$  |
- || Rate || S2       || $k2*S3 - multiply(k1, S1, S2)$  |]
+
+[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+ | Rate | S3       | $multiply(k1, S1, S2)$  |
+ | Rate | S1       | $k2*S3 - multiply(k1, S1, S2)$  |
+ | Rate | S2       | $k2*S3 - multiply(k1, S1, S2)$  |]
 
 
 The model contains one functionDefinition defined as:
-[|| Id      | Arguments || Formula |
- || multiply | x, y, z || $x*y*z$ |]
+
+[{width:30em,left-margin:5em}| *Id* | *Arguments* | *Formula* |
+ | multiply | x, y, z | $x*y*z$ |]
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|             Value of parameter S1:|| $1.0 \x 10^-15$ || any |
-|             Value of parameter S2:|| $2.0 \x 10^-15$ || same as S1 |
-|             Value of parameter S3:|| $1.0 \x 10^-15$ || same as S1 |
-|             Value of parameter k1:|| $         0.75$ || (units of S1)^-1^ second^-1^ |
-|             Value of parameter k2:|| $         0.25$ || second^-1^ |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|             Value of parameter S1:| $1.0 \x 10^-15$ | any |
+|             Value of parameter S2:| $2.0 \x 10^-15$ | same as S1 |
+|             Value of parameter S3:| $1.0 \x 10^-15$ | same as S1 |
+|             Value of parameter k1:| $         0.75$ | (units of S1)^-1^ second^-1^ |
+|             Value of parameter k2:| $         0.25$ | second^-1^ |]
 
 
 *)

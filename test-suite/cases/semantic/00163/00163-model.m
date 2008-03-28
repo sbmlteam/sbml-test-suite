@@ -10,17 +10,19 @@ levels:        2.1, 2.2, 2.3
 The model contains four parameters named S1, S2, k1 and k2.
 
   The model contains two rules:
-[|| Type || Variable || Formula |
- || Rate || S1       || $S2*k2-S1*k1$  |
- || Rate || S2       || $S1*k1-S2*k2$  |]
+
+[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+ | Rate | S1       | $S2*k2-S1*k1$  |
+ | Rate | S2       | $S1*k1-S2*k2$  |]
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units      |
-|             Value of parameter S1:|| $1.5 \x 10^-15$ || any        |
-|             Value of parameter S2:|| $            0$ || same as S1 |
-|             Value of parameter k1:|| $          0.5$ || second^-1^ |
-|             Value of parameter k2:|| $          0.5$ || second^-1^ |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|             Value of parameter S1:| $1.5 \x 10^-15$ | any        |
+|             Value of parameter S2:| $            0$ | same as S1 |
+|             Value of parameter k1:| $          0.5$ | second^-1^ |
+|             Value of parameter k2:| $          0.5$ | second^-1^ |]
 
 
 *)

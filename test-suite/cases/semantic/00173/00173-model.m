@@ -11,17 +11,19 @@ levels:        2.1, 2.2, 2.3
 The model contains four parameters named S1, S2, p1 and p2.
 
   The model contains two rules:
-[|| Type || Variable || Formula |
- || Rate || S1 || $-Ceiling(S1*p1)!/p2$  |
- || Rate || S2 || $Ceiling(S1*p1)!/p2$  |]
+
+[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+ | Rate | S1 | $-Ceiling(S1*p1)!/p2$  |
+ | Rate | S2 | $Ceiling(S1*p1)!/p2$  |]
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|             Value of parameter S1:|| $          1.0$ || any |
-|             Value of parameter S2:|| $          0.0$ || same as S1 |
-|             Value of parameter p1:|| $             $ || (units of S1)^-1^ |
-|             Value of parameter p2:|| $            2$ || second (units of S1)^-1^ |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|             Value of parameter S1:| $          1.0$ | any |
+|             Value of parameter S2:| $          0.0$ | same as S1 |
+|             Value of parameter p1:| $             $ | (units of S1)^-1^ |
+|             Value of parameter p2:| $            2$ | second (units of S1)^-1^ |]
 
 
 *)

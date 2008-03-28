@@ -10,13 +10,15 @@ levels:        2.1, 2.2, 2.3
 The model contains one parameter named S1.
 
   The model contains one rule:
-[|| Type || Variable || Formula |
- || Rate || S1 || $7$  |]
+
+[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+ | Rate | S1 | $7$  |]
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|             Value of parameter S1:|| $          0.0$ || any |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|             Value of parameter S1:| $          0.0$ | any |]
 
 
 *)

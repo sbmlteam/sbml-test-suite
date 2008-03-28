@@ -11,21 +11,24 @@ levels:        2.1, 2.2, 2.3
 The model contains one compartment named compartment.
   There are two species named S1 and S2 and two parameters named p1 and p2.
   The model contains one reaction defined as:
-[| | Reaction |||||| Rate |
- | | S1 -> S2 |||||| $calculate(p1, p2)$  |]
+
+[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+| S1 -> S2 | $calculate(p1, p2)$  |]
 
 The model contains one functionDefinition, which is used within the reaction, defined as:
-[|| Id      | Arguments || Formula |
- || calculate | x, y || $Piecewise({{x, False}}, y)$ |]
+
+[{width:30em,left-margin:5em}| *Id* | *Arguments* | *Formula* |
+ | calculate | x, y | $Piecewise({{x, False}}, y)$ |]
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $           10$ || mole                      |
-|              Initial amount of S2:|| $            0$ || mole                      |
-|             Value of parameter p1:|| $          1.5$ || mole second^-1^ |
-|             Value of parameter p2:|| $         0.05$ || mole second^-1^ |
-| Volume of compartment compartment:|| $           1.$ || litre                     |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $           10$ | mole                      |
+|              Initial amount of S2:| $            0$ | mole                      |
+|             Value of parameter p1:| $          1.5$ | mole second^-1^ |
+|             Value of parameter p2:| $         0.05$ | mole second^-1^ |
+| Volume of compartment compartment:| $           1.$ | litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML

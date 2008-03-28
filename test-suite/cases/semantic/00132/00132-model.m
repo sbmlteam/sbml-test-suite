@@ -11,9 +11,10 @@ levels:        2.1, 2.2, 2.3
 The model contains one compartment named compartment.
   There are three species named S1, S2 and S3.
   The model contains two reactions defined as:
-[| | Reaction |||||| Rate |
- | | S1 -> S2 |||||| $multiply(k,S1)*compartment,$  |
- | | S2 -> S3 |||||| $k*S2*compartment,$  |]
+
+[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+| S1 -> S2 | $multiply(k,S1)*compartment,$  |
+| S2 -> S3 | $k*S2*compartment,$  |]
 
 Reaction S1 -> S2 defines one local parameter k.
 
@@ -21,18 +22,20 @@ Reaction S2 -> S3 defines one local parameter k.
 
 
 The model contains one functionDefinition defined as:
-[|| Id      | Arguments || Formula |
- || multiply | x, y || $x*y$ |]
+
+[{width:30em,left-margin:5em}| *Id* | *Arguments* | *Formula* |
+ | multiply | x, y | $x*y$ |]
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $3.0 \x 10^-15$ || mole                      |
-|              Initial amount of S2:|| $            0$ || mole                      |
-|              Initial amount of S3:|| $            0$ || mole                      |
-|       Value of local parameter k:|| $            1$ || second^-1^ |
-|       Value of local parameter k:|| $            2$ || second^-1^ |
-| Volume of compartment compartment:|| $            1$ || litre                     |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $3.0 \x 10^-15$ | mole                      |
+|              Initial amount of S2:| $            0$ | mole                      |
+|              Initial amount of S3:| $            0$ | mole                      |
+|       Value of local parameter k:| $            1$ | second^-1^ |
+|       Value of local parameter k:| $            2$ | second^-1^ |
+| Volume of compartment compartment:| $            1$ | litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML
