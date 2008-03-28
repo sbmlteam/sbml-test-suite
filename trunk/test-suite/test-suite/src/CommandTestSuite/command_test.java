@@ -37,8 +37,12 @@ public class command_test {
 		sbmlTestcase t1 = new sbmlTestcase();
 		// Get the listing of tests in the user directory
 		Map  userfiles = new HashMap();
-		userfiles = t1.getUsertestlist(userdir);
-
+		try {
+			userfiles = t1.getUsertestlist(userdir);
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
 		String value = new String();
 		String userfile = new String();
 		Set set = userfiles.keySet();
@@ -95,15 +99,20 @@ public class command_test {
 				user_results = t1.readResults(userfile, header,steps,vars);
 			}
 			catch(FileNotFoundException e) {
-				System.out.println("Filenotfound when reading user results");
+				System.out.println(e.getMessage());
 				continue;
 			}
 			catch(IOException e) {
-				System.out.println("IOException error while reading user results");
+				System.out.println(e.getMessage());
+				continue;
+			}
+			catch(NumberFormatException e) {
+				System.out.println("Corrupt data entry - skipping test");
 				continue;
 			}
 			catch(Exception e) {
-				System.out.println("User file has inconsistent number of variables for test");
+				//System.out.println("User file has inconsistent number of variables for test");
+				System.out.println(e.getMessage());
 				continue;
 			}
 			
@@ -112,7 +121,7 @@ public class command_test {
 				t1.validateResults(results,user_results);
 			}
 			catch(Exception e) {
-				System.out.println("User file has too many rows for test");
+				System.out.println(e.getMessage());
 				continue;
 			}
 			BigDecimal [][] comp_results = new BigDecimal [steps+1][vars+1];
@@ -121,7 +130,7 @@ public class command_test {
 				comp_results = t1.compareResults(results,user_results,steps,vars);
 			}
 			catch(Exception e) {
-				System.out.println("Files are different lengths - cannot compare them");
+				System.out.println(e.getMessage());
 			}
 
 			int pass_fail = 0;
