@@ -5,7 +5,7 @@ synopsis:      Basic reactions using functionDefinitions with three species in a
                where the species have only substance units.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      InitialAmount, HasOnlySubstanceUnits
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

@@ -6,7 +6,7 @@ synopsis:      Basic single forward reaction with two species in a 2D
                the kinetic law.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      InitialAmount, 2D_Compartment, NonUnityCompartment
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

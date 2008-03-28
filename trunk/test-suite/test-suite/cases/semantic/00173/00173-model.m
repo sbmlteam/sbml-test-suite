@@ -5,7 +5,7 @@ synopsis:      Model using rules and parameters with a rate that causes a discon
                in the output.
 componentTags: Parameter, RateRule 
 testTags:      NonConstantParameter, Discontinuity
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains four parameters named S1, S2, p1 and p2.

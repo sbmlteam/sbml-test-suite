@@ -5,7 +5,7 @@ synopsis:      Basic two reactions with three species in one compartment,
                and all species labeled as a boundary condition
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, BoundaryCondition
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

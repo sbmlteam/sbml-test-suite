@@ -5,7 +5,7 @@ synopsis:      Basic two reactions using functionDefinitions in one compartment,
                with both species acting as a boundary condition.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition
 testTags:      InitialAmount, BoundaryCondition
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

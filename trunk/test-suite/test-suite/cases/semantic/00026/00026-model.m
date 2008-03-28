@@ -5,7 +5,7 @@ synopsis:      Single forward reaction with two species in one compartment
                and one event that assigns value to a species.
 componentTags: Compartment, Species, Reaction, Parameter, Event 
 testTags:      InitialAmount
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

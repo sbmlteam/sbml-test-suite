@@ -5,7 +5,7 @@ synopsis:      Basic single forward reaction with two species in one
                compartment using initialAssignment to set the compartment size.
 componentTags: Compartment, Species, Reaction, InitialAssignment, 
 testTags:      InitialAmount, NonUnityCompartment, LocalParameter
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.2, 2.3
 
 The model contains one compartment named compartment.

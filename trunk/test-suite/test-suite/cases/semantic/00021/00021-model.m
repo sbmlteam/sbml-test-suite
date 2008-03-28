@@ -5,7 +5,7 @@ synopsis:      Two reactions with two species in one compartment with a
                non-unit volume.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, NonUnityCompartment, NonUnityStoichiometry
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

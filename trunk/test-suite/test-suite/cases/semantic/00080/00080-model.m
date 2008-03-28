@@ -5,7 +5,7 @@ synopsis:      Two reactions with five species in one
                compartment using an assignmentRules with functionDefinitions to vary two species.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, AssignmentRule 
 testTags:      InitialAmount
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

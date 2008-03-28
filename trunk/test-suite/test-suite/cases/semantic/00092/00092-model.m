@@ -5,7 +5,7 @@ synopsis:      Two reactions with four species in one
                compartment using both an assignmentRule and a rateRule to vary species.
 componentTags: Compartment, Species, Reaction, Parameter, RateRule, AssignmentRule 
 testTags:      InitialAmount
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

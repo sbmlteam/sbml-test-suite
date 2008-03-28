@@ -5,7 +5,7 @@ synopsis:      Basic single forward reaction with two species in one
                compartment, nonzero initial amounts, and identical reaction rates.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

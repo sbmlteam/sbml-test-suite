@@ -5,7 +5,7 @@ synopsis:      Basic single forward reaction with two species in one
                compartment using a functionDefinition and a rateRule to vary compartment size.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, RateRule 
 testTags:      InitialAmount, NonConstantCompartment
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

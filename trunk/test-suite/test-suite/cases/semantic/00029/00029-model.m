@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic rule that assigns value to a species.
 componentTags: Compartment, Species, AssignmentRule 
 testTags:      InitialAmount
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

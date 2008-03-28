@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic reaction and rate rule with three species in a 1D compartment. 
 componentTags: Compartment, Species, Reaction, Parameter, RateRule 
 testTags:      InitialAmount, 1D-Compartment
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

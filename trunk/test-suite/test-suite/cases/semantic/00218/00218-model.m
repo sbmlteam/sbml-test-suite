@@ -5,7 +5,7 @@ synopsis:      Basic two reactions with four species in a 2-dimensional
                compartment, with one species acting as a boundary condition.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, 2D-Compartment, BoundaryCondition
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

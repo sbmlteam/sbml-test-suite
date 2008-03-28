@@ -5,7 +5,7 @@ synopsis:      Basic two reactions involving two species in one
                0 dimensional compartment, with non-unity stoichiometries.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, NonUnityStoichiometry, 0D-Compartment
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

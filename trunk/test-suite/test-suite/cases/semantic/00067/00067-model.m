@@ -5,7 +5,7 @@ synopsis:      Rate rule used to determine parameter value which is used
                in a reaction.
 componentTags: Compartment, Species, Reaction, Parameter, RateRule 
 testTags:      InitialAmount, NonConstantParameter
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

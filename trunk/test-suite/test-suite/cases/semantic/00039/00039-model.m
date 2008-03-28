@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Algebraic rule used to determine rate of species change.
 componentTags: Compartment, Species, Reaction, Parameter, AlgebraicRule 
 testTags:      InitialAmount
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

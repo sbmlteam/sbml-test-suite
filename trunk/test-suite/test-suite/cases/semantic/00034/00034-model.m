@@ -5,7 +5,7 @@ synopsis:      Basic two reactions with three species in one compartment
                and one functionDefinition used within a reaction.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      InitialAmount
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

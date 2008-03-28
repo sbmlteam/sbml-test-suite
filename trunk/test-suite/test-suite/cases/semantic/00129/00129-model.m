@@ -5,7 +5,7 @@ synopsis:      Basic single forward reaction involving two species and a
                stoichiometryMath element that uses a functionDefinition.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      InitialAmount, StoichiometryMath
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

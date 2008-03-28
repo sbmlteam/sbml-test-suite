@@ -5,7 +5,7 @@ synopsis:      Four reactions in one compartment, with different numbers of
                species participating in each reaction.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.
