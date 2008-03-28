@@ -29,7 +29,7 @@
               <piecewise>
                 <piece>
                   <ci> p1 </ci>
-                  <false/>
+                  <true/>
                 </piece>
                 <otherwise>
                   <ci> p2 </ci>
