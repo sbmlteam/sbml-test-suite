@@ -49,13 +49,9 @@
    <initialAssignment symbol="k1">
     <math xmlns="http://www.w3.org/1998/Math/MathML">
      <apply>
-      <times/>
+      <divide/>
       <ci>k2</ci>
-      <apply>
-       <power/>
-       <cn type="integer">100</cn>
-       <cn type="integer">-1</cn>
-      </apply>
+      <cn type="integer">100</cn>
      </apply>
     </math>
    </initialAssignment>
