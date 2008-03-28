@@ -5,7 +5,7 @@ synopsis:      Basic two reactions using functionDefinitions involving species i
                compartment, with non-unity stoichiometries.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      InitialAmount, NonUnityStoichiometry
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

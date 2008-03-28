@@ -5,7 +5,7 @@ synopsis:      Basic reactions using functionDefinitions with four species in a 
                where the one species is constant.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      InitialAmount, ConstantSpecies
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

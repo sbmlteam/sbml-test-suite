@@ -5,7 +5,7 @@ synopsis:      Basic two reactions with three species and parameters both global
                and local to reactions.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, LocalParameters
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

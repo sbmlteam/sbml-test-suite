@@ -5,7 +5,7 @@ synopsis:      Basic two reactions with four species in a 2-dimensional
                compartment, where the species have only substance units.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, 2D-Compartment, HasOnlySubstanceUnits
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

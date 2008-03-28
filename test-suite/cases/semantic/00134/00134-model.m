@@ -5,7 +5,7 @@ synopsis:      Basic two reactions using functionDefinitions with three species
                and parameters local to reactions.
 componentTags: Compartment, Species, Reaction, FunctionDefinition 
 testTags:      InitialAmount, LocalParameters
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

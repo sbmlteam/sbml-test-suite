@@ -5,7 +5,7 @@ synopsis:      Basic single forward reaction with three species in a compartment
                where one species is constant.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, ConstantSpecies
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

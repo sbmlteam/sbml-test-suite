@@ -5,7 +5,7 @@ synopsis:      Basic single reaction using functionDefinitions involving species
                with a non-unity stoichiometry.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      InitialAmount, NonUnityStoichiometry
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

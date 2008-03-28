@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Model with parameters and rules with a functionDefinition.
 componentTags: Parameter, FunctionDefinition, RateRule 
 testTags:      NonConstantParameter
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains five parameters named S1, S2, S3, k1 and k2.

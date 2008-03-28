@@ -5,7 +5,7 @@ synopsis:      Basic reaction and rate rule which applies a functionDefinition
                with three species in a compartment. 
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, RateRule 
 testTags:      InitialAmount
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

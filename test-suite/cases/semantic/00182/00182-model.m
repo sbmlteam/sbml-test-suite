@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Model using parameters and both rate and algebraic rules.   
 componentTags: Parameter, RateRule, AlgebraicRule 
 testTags:      NonConstantParameter
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains four parameters named S1, S2, k1 and k2.

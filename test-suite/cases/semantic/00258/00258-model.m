@@ -5,7 +5,7 @@ synopsis:      Basic reactions with four species in a 0 dimensional compartment
                where one species is constant.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, ConstantSpecies, 0D-Compartment
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

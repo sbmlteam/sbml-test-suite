@@ -5,7 +5,7 @@ synopsis:      Basic two reactions using functionDefinitions with three species
                in one compartment, with one species having a stoichiometry of 2.
 componentTags: Compartment, Species, FunctionDefinition
 testTags:      InitialAmount, NonUnityStoichiometry
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

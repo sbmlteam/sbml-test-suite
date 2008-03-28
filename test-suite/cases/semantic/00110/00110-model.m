@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Reactions occurring between two compartments with functionDefinitions.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      InitialAmount, MultiCompartment
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains two compartments named compartment and compartment1.

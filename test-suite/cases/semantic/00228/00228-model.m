@@ -5,7 +5,7 @@ synopsis:      Basic single forward reaction with two species in a 1-dimensional
                compartment, with both species acting as a boundary condition.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, 1D-Compartment, BoundaryCondition
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

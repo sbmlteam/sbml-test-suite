@@ -5,7 +5,7 @@ synopsis:      Three reactions with four species in one compartment, with
                one species labeled constant.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, ConstantSpecies, BoundaryCondition
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

@@ -5,7 +5,7 @@ synopsis:      Basic reactions with three species in a compartment
                involving a stoichiometryMath element that uses a functionDefinition.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      InitialAmount, StoichiometryMath
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

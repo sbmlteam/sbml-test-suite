@@ -5,7 +5,7 @@ synopsis:      A simple reaction during which the species values are reset
                by events.
 componentTags: Compartment, Species, Reaction, Parameter, EventNoDelay 
 testTags:      InitialAmount
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

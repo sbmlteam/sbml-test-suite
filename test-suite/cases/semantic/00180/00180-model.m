@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Model with parameters and rules with an initialAssignment.
 componentTags: Parameter, InitialAssignment, RateRule 
 testTags:      NonConstantParameter
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.2, 2.3
 
 The model contains four parameters named S1, S2, k1 and k2.

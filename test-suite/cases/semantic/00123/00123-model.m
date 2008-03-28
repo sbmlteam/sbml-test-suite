@@ -5,7 +5,7 @@ synopsis:      Rate rule using a functionDefinition used to determine value of p
                which is used in a reaction.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, RateRule 
 testTags:      InitialAmount, NonConstantParameter
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

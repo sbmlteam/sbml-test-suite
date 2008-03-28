@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with four species in one compartment
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic reactions with three species in a 0-dimensional compartment.
 componentTags: Compartment, Species, Reaction, Parameter
 testTags:      InitialAmount, 0D-Compartment
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

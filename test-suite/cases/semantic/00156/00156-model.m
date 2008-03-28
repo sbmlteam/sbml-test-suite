@@ -5,7 +5,7 @@ synopsis:      Basic single forward reaction with three species in one
                0-dimensional compartment using an assignmentRule to vary one species.
 componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule 
 testTags:      InitialAmount, 0D-Compartment
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.

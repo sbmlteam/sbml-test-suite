@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Model using rules and parameters with an event.
 componentTags: Parameter, RateRule, EventNoDelay 
 testTags:      NonConstantParameter
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains three parameters named S1, S2 and k1.

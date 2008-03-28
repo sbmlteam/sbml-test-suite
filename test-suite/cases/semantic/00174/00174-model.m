@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Model using rules and parameters only.
 componentTags: Parameter, AssignmentRule 
 testTags:      NonConstantParameter
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one parameter named S1.
