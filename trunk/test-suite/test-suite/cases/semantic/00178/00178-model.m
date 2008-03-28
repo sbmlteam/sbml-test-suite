@@ -11,9 +11,9 @@ The model contains five parameters named S1, S2, S3, k1 and k2.
  
    The model contains three rules:
 [|| Type || Variable || Formula |
- || Rate || S3       || $multiply(k1$  |
- || Rate || S1       || $k2*S3 - multiply(k1$  |
- || Rate || S2       || $k2*S3 - multiply(k1$  |]
+ || Rate || S3       || $multiply(k1, S1, S2)$  |
+ || Rate || S1       || $k2*S3 - multiply(k1, S1, S2)$  |
+ || Rate || S2       || $k2*S3 - multiply(k1, S1, S2)$  |]
 
 
 The model contains one functionDefinition defined as:
