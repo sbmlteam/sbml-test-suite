@@ -11,25 +11,28 @@ levels:        2.1, 2.2, 2.3
 The model contains one compartment named compartment.
   There are four species named S1, S2, S3 and S4 and three parameters named p1, p2 and k1.
   The model contains two reactions defined as:
-[| | Reaction |||||| Rate |
- | | S1 -> S2 |||||| $compartment*k1*S1$  |
- | | S3 -> S4 |||||| $calculate(S2, p1, p2)$  |]
+
+[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+| S1 -> S2 | $compartment*k1*S1$  |
+| S3 -> S4 | $calculate(S2, p1, p2)$  |]
 
 The model contains one functionDefinition, which is used within the reaction, defined as:
-[|| Id      | Arguments || Formula |
- || calculate | x, y, z || $Piecewise({{y, Not(x < 4)}}, z)$ |]
+
+[{width:30em,left-margin:5em}| *Id* | *Arguments* | *Formula* |
+ | calculate | x, y, z | $Piecewise({{y, Not(x < 4)}}, z)$ |]
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $           10$ || mole                      |
-|              Initial amount of S2:|| $            0$ || mole                      |
-|              Initial amount of S3:|| $           10$ || mole                      |
-|              Initial amount of S4:|| $            0$ || mole                      |
-|             Value of parameter p1:|| $          1.5$ || mole second^-1^ |
-|             Value of parameter p2:|| $         0.05$ || mole second^-1^ |
-|             Value of parameter k1:|| $          1.0$ || second^-1^ |
-| Volume of compartment compartment:|| $            1$ || litre                     |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $           10$ | mole                      |
+|              Initial amount of S2:| $            0$ | mole                      |
+|              Initial amount of S3:| $           10$ | mole                      |
+|              Initial amount of S4:| $            0$ | mole                      |
+|             Value of parameter p1:| $          1.5$ | mole second^-1^ |
+|             Value of parameter p2:| $         0.05$ | mole second^-1^ |
+|             Value of parameter k1:| $          1.0$ | second^-1^ |
+| Volume of compartment compartment:| $            1$ | litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML

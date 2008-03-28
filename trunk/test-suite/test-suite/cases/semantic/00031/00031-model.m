@@ -11,14 +11,16 @@ The model contains one compartment named compartment.
   There is one species named S1.
   The model does not contain any reactions.
   The model contains one rule:
-[|| Type || Variable || Formula |
- || Rate || S1       || $7$     |]
+
+[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+ | Rate | S1       | $7$     |]
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $            0$ || mole                      |
-| Volume of compartment compartment:|| $            1$ || litre                     |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $            0$ | mole                      |
+| Volume of compartment compartment:| $            1$ | litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML

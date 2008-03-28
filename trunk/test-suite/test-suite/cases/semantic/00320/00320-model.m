@@ -11,21 +11,24 @@ The model contains one compartment named compartment.
   There are three species named S1, S2 and S3 and one parameter named k1.
   Compartment compartment is 1-dimensional.
   The model contains one reaction defined as:
-[| | Reaction |||||| Rate |
- | | S1 -> S2 |||||| $k1*S1*compartment$  |]
+
+[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+| S1 -> S2 | $k1*S1*compartment$  |]
 
   The model contains one rule:
-[|| Type || Variable || Formula |
- || Rate || S3 || $0.65$  |]
+
+[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+ | Rate | S3 | $0.65$  |]
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $          1.5$ || mole                      |
-|              Initial amount of S2:|| $            0$ || mole                      |
-|              Initial amount of S3:|| $            0$ || mole                      |
-|             Value of parameter k1:|| $        1.546$ || second^-1^ |
-| length of compartment compartment:|| $            1$ || metre                     |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $          1.5$ | mole                      |
+|              Initial amount of S2:| $            0$ | mole                      |
+|              Initial amount of S3:| $            0$ | mole                      |
+|             Value of parameter k1:| $        1.546$ | second^-1^ |
+| length of compartment compartment:| $            1$ | metre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML

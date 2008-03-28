@@ -12,17 +12,19 @@ The model contains one compartment named compartment.
   There are three species named S1, S2 and S3 and two parameters named k1 and k2.
   Compartment compartment is 0-dimensional.
   The model contains two reactions defined as:
-[| | Reaction     |||||| Rate                       |
- | | 2S1+S2 -> S3 |||||| $k1*S1*S1*S2$  |
- | | S3 -> 2S1+S2 |||||| $k2*S3t$        |]
+
+[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+| 2S1+S2 -> S3 | $k1*S1*S1*S2$  |
+| S3 -> 2S1+S2 | $k2*S3t$        |]
 
 The initial conditions are as follows:
-[|                                  || Value            || Units                        |
-|              Initial amount of S1:|| $1.0 \x 10^-12$ || mole                      |
-|              Initial amount of S2:|| $0.5 \x 10^-12$ || mole                      |
-|              Initial amount of S3:|| $1.0 \x 10^-12$ || mole                      |
-|             Value of parameter k1:|| $ 1.6 \x 10^12$ || mole^-1^ second^-1^ |
-|             Value of parameter k2:|| $          0.7$ || second^-1^ |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $1.0 \x 10^-12$ | mole                      |
+|              Initial amount of S2:| $0.5 \x 10^-12$ | mole                      |
+|              Initial amount of S3:| $1.0 \x 10^-12$ | mole                      |
+|             Value of parameter k1:| $ 1.6 \x 10^12$ | mole^-1^ second^-1^ |
+|             Value of parameter k2:| $          0.7$ | second^-1^ |]
 
 In this example the compartment has spatialDimensions set to zero,
 i.e., it represents a point and therefore cannot have size or units.  The 

@@ -10,21 +10,24 @@ levels:        2.1, 2.2, 2.3
 The model contains three parameters named S1, S2 and k1.
 
   The model contains two rules:
-[|| Type || Variable || Formula |
- || Rate || S1 || $-multiply(k1, S1)$  |
- || Rate || S2 || $multiply(k1, S1)$  |]
+
+[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+ | Rate | S1 | $-multiply(k1, S1)$  |
+ | Rate | S2 | $multiply(k1, S1)$  |]
 
 
 The model contains one functionDefinition defined as:
-[|| Id      | Arguments || Formula |
- || multiply | x, y || $x*y$ |]
+
+[{width:30em,left-margin:5em}| *Id* | *Arguments* | *Formula* |
+ | multiply | x, y | $x*y$ |]
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|             Value of parameter S1:|| $1.5 \x 10^-15$ || any |
-|             Value of parameter S2:|| $1.5 \x 10^-15$ || same as S1 |
-|             Value of parameter k1:|| $            1$ || second^-1^ |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|             Value of parameter S1:| $1.5 \x 10^-15$ | any |
+|             Value of parameter S2:| $1.5 \x 10^-15$ | same as S1 |
+|             Value of parameter k1:| $            1$ | second^-1^ |]
 
 
 *)

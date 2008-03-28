@@ -11,17 +11,19 @@ levels:        1.2, 2.1, 2.2, 2.3
 The model contains one compartment named compartment.
   There are two species named S1 and S2 and two parameters named p1 and p2.
   The model contains one reaction defined as:
-[| | Reaction |||||| Rate |
- | | S1 -> S2 |||||| $Ceiling(S1*p1)/p2$  |]
+
+[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+| S1 -> S2 | $Ceiling(S1*p1)/p2$  |]
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $          1.0$ || mole                      |
-|              Initial amount of S2:|| $          0.0$ || mole                      |
-|             Value of parameter p1:|| $         10.5$ || litre |
-|             Value of parameter p2:|| $           10$ || second |
-| Volume of compartment compartment:|| $            1$ || litre                     |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $          1.0$ | mole                      |
+|              Initial amount of S2:| $          0.0$ | mole                      |
+|             Value of parameter p1:| $         10.5$ | litre |
+|             Value of parameter p2:| $           10$ | second |
+| Volume of compartment compartment:| $            1$ | litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML

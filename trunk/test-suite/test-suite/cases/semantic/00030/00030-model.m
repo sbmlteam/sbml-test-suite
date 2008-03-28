@@ -12,16 +12,18 @@ The model contains one compartment named compartment.
   The model does not contain any reactions.
   
   The model contains one rule:
-[|| Type || Variable || Formula |
-|| assignmentRule || S1 || $3+4$  |]
+
+[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+| assignmentRule | S1 | $3+4$  |]
 
 In the case there is no value attributed to the species by the model definition
 and thus the value must be calculated by the rule.
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $   undeclared$ || mole                      |
-| Volume of compartment compartment:|| $            1$ || litre                     |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $   undeclared$ | mole                      |
+| Volume of compartment compartment:| $            1$ | litre                     |]
 
 
 *)

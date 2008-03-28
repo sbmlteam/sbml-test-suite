@@ -13,15 +13,17 @@ The model contains one compartment named compartment.
   Compartment compartment is two-dimensional.
   Species S1 and S2 are declared to have only substance units.
   The model contains one reaction defined as:
-[| | Reaction |||||| Rate |
- | | S1 -> S2 |||||| $k1*S1$  |]
+
+[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+| S1 -> S2 | $k1*S1$  |]
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $1.5 \x 10^-15$ || mole                      |
-|              Initial amount of S2:|| $  1 \x 10^-15$ || mole                      |
-|             Value of parameter k1:|| $            1$ || second^-1^ |
-|   Area of compartment compartment:|| $            1$ || metre^2^                  |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $1.5 \x 10^-15$ | mole                      |
+|              Initial amount of S2:| $  1 \x 10^-15$ | mole                      |
+|             Value of parameter k1:| $            1$ | second^-1^ |
+|   Area of compartment compartment:| $            1$ | metre^2^                  |]
 
 The species have been declared as having substance units only. Thus they 
 must be treated as amounts where they appear in expressions.

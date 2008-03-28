@@ -11,23 +11,26 @@ The model contains one compartment named compartment.
   There are four species named S1, S2, S3 and S4 and two parameters named k1 and k2.
   Compartment compartment is 0-dimensional.
   The model contains one reaction defined as:
-[| | Reaction |||||| Rate |
- | | S1 -> S2 |||||| $k1*S1$  |]
+
+[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+| S1 -> S2 | $k1*S1$  |]
 
   The model contains two rules:
-[|| Type || Variable || Formula |
- || Rate || S3 || $k1 * 0.5$  |
- || Rate || S4 || $-k2 * 0.5$  |]
+
+[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+ | Rate | S3 | $k1 * 0.5$  |
+ | Rate | S4 | $-k2 * 0.5$  |]
 
 
 The initial conditions are as follows:
-[|                                  ||          Value  || Units                     |
-|              Initial amount of S1:|| $          1.5$ || mole                      |
-|              Initial amount of S2:|| $          2.0$ || mole                      |
-|              Initial amount of S3:|| $          1.5$ || mole                      |
-|              Initial amount of S4:|| $            4$ || mole                      |
-|             Value of parameter k1:|| $         0.75$ || second^-1^ |
-|             Value of parameter k2:|| $         0.25$ || second^-1^ |]
+
+[{width:30em,left-margin:5em}| | *Value* | *Units* |
+|              Initial amount of S1:| $          1.5$ | mole                      |
+|              Initial amount of S2:| $          2.0$ | mole                      |
+|              Initial amount of S3:| $          1.5$ | mole                      |
+|              Initial amount of S4:| $            4$ | mole                      |
+|             Value of parameter k1:| $         0.75$ | second^-1^ |
+|             Value of parameter k2:| $         0.25$ | second^-1^ |]
 
 In this example the compartment has spatialDimensions set to zero,
 i.e., it represents a point and therefore cannot have size or units.  The 
