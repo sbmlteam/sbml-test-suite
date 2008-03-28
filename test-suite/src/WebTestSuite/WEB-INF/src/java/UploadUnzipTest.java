@@ -45,9 +45,9 @@ public class UploadUnzipTest extends HttpServlet {
 
 			try {
 
-			
+			String systimestamp = String.valueOf(System.currentTimeMillis());
 
-    			String directory = "testsuite";
+    			String directory = "testsuite" + File.separator + systimestamp;
 
     			// Parse the request
     			List items = servletFileUpload.parseRequest(request);
@@ -138,6 +138,7 @@ public class UploadUnzipTest extends HttpServlet {
 			// add test stuff here
 			
 			String userdir = new String(base_directory  + File.separator + directory);
+			File u = new File(userdir);
 			sbmlTestcase t1 = new sbmlTestcase();
 			
 			String testdir = t1.getSbmlTestdir();
@@ -283,6 +284,10 @@ public class UploadUnzipTest extends HttpServlet {
 		} // end of while
 		//sbmlTestxml t3 = new sbmlTestxml();
 		//t3.writetestxml(output);
+
+		// delete temporary user file directory
+		t1.deleteDirectory(u);
+		
 		request.setAttribute("tests",output);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/web/showresults.jsp");
 		

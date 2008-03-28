@@ -102,7 +102,7 @@ public class sbmlTestcase  {
 	}
 
 
-	public BigDecimal[][] readResults(String filename, int header, int steps, int variables_count) throws IOException, FileNotFoundException, Exception {
+	public BigDecimal[][] readResults(String filename, int header, int steps, int variables_count) throws IOException, FileNotFoundException, NumberFormatException, Exception {
 	/*  readResults - returns a csv file as a multidimensional array
 		Input:a cvs file (filename) along with whether it has a header (header=1/0), step count (steps), number of variables
 		(variables_count)  
@@ -132,8 +132,11 @@ public class sbmlTestcase  {
 						
 				}
 				for(int i = 0; i < st.length; i++) {
+					
                                                	value[row][col] = new BigDecimal(st[i].trim());
 						col++;
+					
+																		
 				}
 				col = 0;
 				row++;
@@ -337,4 +340,19 @@ public Map getUsertestlist(String dirname) throws Exception{
 	}
 	return m;
 }
+
+public boolean deleteDirectory(File path) {
+    if( path.exists() ) {
+      File[] files = path.listFiles();
+      for(int i=0; i<files.length; i++) {
+         if(files[i].isDirectory()) {
+           deleteDirectory(files[i]);
+         }
+         else {
+           files[i].delete();
+         }
+      }
+    }
+    return( path.delete() );
+  }
 }
