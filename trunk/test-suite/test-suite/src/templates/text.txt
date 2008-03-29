@@ -1,0 +1,19 @@
+
+@file    <what's this file's name?>
+@brief   <what's the point of this?>
+@author  <who are you?>
+
+<your text here>
+
+
+
+----------------------------------------------------------------------
+Last Modified: $Date$
+Last Modified By: $Author$
+$HeadURL$
+
+The following lines are for [X]Emacs users.  Please leave in place.
+Local Variables:
+fill-column: 70
+End:
+----------------------------------------------------------------------
