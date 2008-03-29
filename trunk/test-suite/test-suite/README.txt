@@ -24,7 +24,7 @@
   | 2. Sample models                                              |  
   | 3. History                                                    |
    `--------------------------------------------------------------'
-    Last update to this file: $Date::                          $
+    Last update to this file: $Date::                           $
 
 
 ---------------
