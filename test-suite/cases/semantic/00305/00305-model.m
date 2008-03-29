@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic single forward reaction with three species in one
@@ -14,20 +14,20 @@ The model contains one compartment named compartment.
   by rules or reactions.
   The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1 -> S2 | $compartment*k2*S1$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 -> S2 | $compartment * k2 * S1$  |]
 
   The model contains one rule:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
- | Assignment | S3       | $k1*S2$  |]
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+ | Assignment | S3       | $k1 * S2$  |]
 
 In this case there is no initial value declared for species S3.  Thus the initial value
 must be calculated by the assignmentRule.
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $1.0 \x 10^-15$ | mole                      |
 |              Initial amount of S2:| $1.5 \x 10^-15$ | mole                      |
 |              Initial amount of S3:| $   undeclared$ | mole                      |
@@ -50,8 +50,8 @@ addSpecies[ S2, initialAmount -> 1.5 10^-15, constant->True, boundaryCondition -
 addSpecies[ S3 ];
 addParameter[ k1, value -> 1.05 ];
 addParameter[ k2, value -> 1.15 ];
-addRule[ type->AssignmentRule, variable -> S3, math ->k1*S2];
+addRule[ type->AssignmentRule, variable -> S3, math ->k1 * S2];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> compartment*k2*S1];
+	     kineticLaw -> compartment * k2 * S1];
 
 makemodel[]

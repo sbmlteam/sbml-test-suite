@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic single forward reaction with two species in one
@@ -12,17 +12,17 @@ The model contains one compartment named compartment.
   There are two species named S1 and S2 and two parameters named p1 and p2.
   The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $calculate(S1,p1,p2)$  |]
 
 The model contains one functionDefinition, which is used within the reaction, defined as:
 
-[{width:30em,left-margin:5em}| *Id* | *Arguments* | *Formula* |
- | calculate | x, y, z | $Ceiling(x*y)!/z$ |]
+[{width:30em,margin-left:5em}|  * Id *  |  * Arguments *  |  *Formula*  |
+ | calculate | x, y, z | $Ceiling(x * y)!/z$ |]
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $          1.0$ | mole                      |
 |              Initial amount of S2:| $          0.0$ | mole                      |
 |             Value of parameter p1:| $            4$ | litre mole^-1^            |
@@ -38,7 +38,7 @@ expressions.
 
 newcase[ "00269" ];
 
-addFunction[ calculate, arguments -> {x, y, z}, math -> Ceiling[x*y]!/z ];
+addFunction[ calculate, arguments -> {x, y, z}, math -> Ceiling[x * y]!/z ];
 addCompartment[ compartment, size -> 1.0];
 addSpecies[ S1, initialAmount -> 1.0 ];
 addSpecies[ S2, initialAmount -> 0.0 ];

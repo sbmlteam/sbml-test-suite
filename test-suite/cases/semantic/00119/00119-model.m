@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic single forward reaction using functionDefinitions
@@ -13,19 +13,19 @@ The model contains one compartment named compartment.
   Species S3 is labeled as constant and therefore does not vary.  
   The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1 -> S2 | $k1*multiply(S1,S3)*compartment$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 -> S2 | $k1 * multiply(S1,S3) * compartment$  |]
 
 
 The model contains one functionDefinition defined as:
 
-[{width:30em,left-margin:5em}| *Id* | *Arguments* | *Formula* |
- | multiply | x, y | $x*y$ |]
+[{width:30em,margin-left:5em}|  * Id *  |  * Arguments *  |  *Formula*  |
+ | multiply | x, y | $x * y$ |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $          1.5$ | mole                      |
 |              Initial amount of S2:| $            0$ | mole                      |
 |              Initial amount of S3:| $            2$ | mole                      |
@@ -41,13 +41,13 @@ expressions.
 
 newcase[ "00119" ];
 
-addFunction[ multiply, arguments -> {x, y}, math -> x*y];
+addFunction[ multiply, arguments -> {x, y}, math -> x * y];
 addCompartment[ compartment, size -> 1 ];
 addSpecies[ S1, initialAmount -> 1.5 ];
 addSpecies[ S2, initialAmount -> 0 ];
 addSpecies[ S3, initialAmount -> 2, constant->True ];
 addParameter[ k1, value -> 1.5 ];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> k1*multiply[S1,S3]*compartment ];
+	     kineticLaw -> k1 * multiply[S1,S3] * compartment ];
 
 makemodel[]

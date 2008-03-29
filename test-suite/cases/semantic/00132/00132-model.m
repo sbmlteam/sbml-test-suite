@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic two reactions using functionDefinitions with three species 
@@ -12,9 +12,9 @@ The model contains one compartment named compartment.
   There are three species named S1, S2 and S3.
   The model contains two reactions defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1 -> S2 | $multiply(k,S1)*compartment,$  |
-| S2 -> S3 | $k*S2*compartment,$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 -> S2 | $multiply(k,S1) * compartment,$  |
+| S2 -> S3 | $k * S2 * compartment,$  |]
 
 Reaction S1 -> S2 defines one local parameter k.
 
@@ -23,13 +23,13 @@ Reaction S2 -> S3 defines one local parameter k.
 
 The model contains one functionDefinition defined as:
 
-[{width:30em,left-margin:5em}| *Id* | *Arguments* | *Formula* |
- | multiply | x, y | $x*y$ |]
+[{width:30em,margin-left:5em}|  * Id *  |  * Arguments *  |  *Formula*  |
+ | multiply | x, y | $x * y$ |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $3.0 \x 10^-15$ | mole                      |
 |              Initial amount of S2:| $            0$ | mole                      |
 |              Initial amount of S3:| $            0$ | mole                      |
@@ -46,14 +46,14 @@ expressions.
 
 newcase[ "00132" ];
 
-addFunction[ multiply, arguments -> {x, y}, math -> x*y];
+addFunction[ multiply, arguments -> {x, y}, math -> x * y];
 addCompartment[ compartment, size -> 1 ];
 addSpecies[ S1, initialAmount -> 3.0 10^-15];
 addSpecies[ S2, initialAmount -> 0];
 addSpecies[ S3, initialAmount -> 0];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> multiply[k,S1]*compartment, parameters -> {k -> 1} ];
+	     kineticLaw -> multiply[k,S1] * compartment, parameters -> {k -> 1} ];
 addReaction[ S2 -> S3, reversible -> False,
-	     kineticLaw -> k*S2*compartment, parameters -> {k -> 2} ];
+	     kineticLaw -> k * S2 * compartment, parameters -> {k -> 2} ];
 
 makemodel[]

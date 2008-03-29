@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Two reactions with four species in one
@@ -13,19 +13,19 @@ The model contains one compartment named compartment.
   Species S1 is labeled as an SBML boundary species.
   The model contains two reactions defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1+S2 -> S3 | $k1*S1*S2*compartment$  |
-| S3 -> S1+S2 | $k2*S3*compartment$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 + S2 -> S3 | $k1 * S1 * S2 * compartment$  |
+| S3 -> S1 + S2 | $k2 * S3 * compartment$  |]
 
   The model contains one rule:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
- | Assignment | S4 | $k3*S2$  |]
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+ | Assignment | S4 | $k3 * S2$  |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $   1 \x 10^-5$ | mole                      |
 |              Initial amount of S2:| $ 1.5 \x 10^-5$ | mole                      |
 |              Initial amount of S3:| $   1 \x 10^-5$ | mole                      |
@@ -52,10 +52,10 @@ addSpecies[ S4, initialAmount -> 2.25 10^-5 ];
 addParameter[ k1, value -> 1.5 10^5];
 addParameter[ k2, value -> 50 ];
 addParameter[ k3, value -> 1.5 ];
-addRule[ type->AssignmentRule, variable -> S4, math ->k3*S2];
-addReaction[ S1+S2 -> S3, reversible -> False,
-	     kineticLaw -> k1*S1*S2*compartment ];
-addReaction[ S3 -> S1+S2, reversible -> False,
-	     kineticLaw -> k2*S3*compartment ];
+addRule[ type->AssignmentRule, variable -> S4, math ->k3 * S2];
+addReaction[ S1 + S2 -> S3, reversible -> False,
+	     kineticLaw -> k1 * S1 * S2 * compartment ];
+addReaction[ S3 -> S1 + S2, reversible -> False,
+	     kineticLaw -> k2 * S3 * compartment ];
 
 makemodel[]

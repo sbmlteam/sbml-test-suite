@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic two reactions with two species in one compartment,
@@ -13,13 +13,13 @@ The model contains one compartment named compartment.
   Species S1 is labeled as an SBML boundary species.  
   The model contains two reactions defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1 -> S2 | $k1*S1*compartment$  |
-| S2 -> S1 | $k2*S2*compartment$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 -> S2 | $k1 * S1 * compartment$  |
+| S2 -> S1 | $k2 * S2 * compartment$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $1.5 \x 10^-15$  | mole           |
 |              Initial amount of S2:| $1.5 \x 10^-15$  | mole           |
 |             Value of parameter k1:| $0.5$            | second^-1^     |
@@ -41,8 +41,8 @@ addSpecies[ S2, initialAmount -> 1.5 10^-15 ];
 addParameter[ k1, value -> 0.5 ];
 addParameter[ k2, value -> 0.25 ];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> k1*S1*compartment ];
+	     kineticLaw -> k1 * S1 * compartment ];
 addReaction[ S2 -> S1, reversible -> False,
-	     kineticLaw -> k2*S2*compartment ];
+	     kineticLaw -> k2 * S2 * compartment ];
 
 makemodel[]

@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic reaction and rate rule with three species in a compartment. 
@@ -12,18 +12,18 @@ The model contains one compartment named compartment.
   Species S1 is labeled as an SBML boundary species.
  The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1 -> S2 | $k1*S1*compartment$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 -> S2 | $k1 * S1 * compartment$  |]
 
   The model contains one rule:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
- | Rate | S3 | $k1*k2$  |]
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+ | Rate | S3 | $k1 * k2$  |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $1.5 \x 10^-12$ | mole                      |
 |              Initial amount of S2:| $1.0 \x 10^-12$ | mole                      |
 |              Initial amount of S3:| $1.0 \x 10^-12$ | mole                      |
@@ -46,8 +46,8 @@ addSpecies[ S2, initialAmount -> 1.0 10^-12 ];
 addSpecies[ S3, initialAmount -> 1.0 10^-12];
 addParameter[ k1, value -> 1.75 ];
 addParameter[ k2, value -> 1.5 10^-13 ];
-addRule[ type->RateRule, variable -> S3, math -> k1*k2];
+addRule[ type->RateRule, variable -> S3, math -> k1 * k2];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> k1*S1*compartment ];
+	     kineticLaw -> k1 * S1 * compartment ];
 
 makemodel[]

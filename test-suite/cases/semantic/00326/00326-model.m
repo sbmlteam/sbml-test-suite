@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      One reactions and two rate rules with four species in a 1D compartment. 
@@ -12,19 +12,19 @@ The model contains one compartment named compartment.
   Compartment compartment is 1-dimensional.
   The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1 -> S2 | $k1*S1*compartment$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 -> S2 | $k1 * S1 * compartment$  |]
 
   The model contains two rules:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
- | Rate | S3 | $k1 * 0.5$  |
- | Rate | S4 | $-k2 * 0.5$  |]
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+ | Rate | S3 | $k1  *  0.5$  |
+ | Rate | S4 | $-k2  *  0.5$  |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $          1.5$ | mole                      |
 |              Initial amount of S2:| $          2.0$ | mole                      |
 |              Initial amount of S3:| $          1.5$ | mole                      |
@@ -49,9 +49,9 @@ addSpecies[ S3, initialAmount -> 1.5];
 addSpecies[ S4, initialAmount -> 4];
 addParameter[ k1, value -> .75 ];
 addParameter[ k2, value -> .25 ];
-addRule[ type->RateRule, variable -> S3, math -> k1 * 0.5];
-addRule[ type->RateRule, variable -> S4, math -> -k2 * 0.5];
+addRule[ type->RateRule, variable -> S3, math -> k1  *  0.5];
+addRule[ type->RateRule, variable -> S4, math -> -k2  *  0.5];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> k1*S1*compartment ];
+	     kineticLaw -> k1 * S1 * compartment ];
 
 makemodel[]

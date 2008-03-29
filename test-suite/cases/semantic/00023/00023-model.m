@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Three reactions with four species in one compartment, with
@@ -13,15 +13,15 @@ The model contains one compartment named compartment.
   Species S2 is labeled a SBML boundary condition and is also labeled constant.
   The model contains four reactions defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1 -> S2    | $k1*S1*compartment$    |
-| S2 -> S1    | $k2*S2*compartment$    |
-| S2 -> S3+S4 | $k3*S2*compartment$    |
-| S3+S4 -> S2 | $k4*S3*S4*compartment$ |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 -> S2    | $k1 * S1 * compartment$    |
+| S2 -> S1    | $k2 * S2 * compartment$    |
+| S2 -> S3 + S4 | $k3 * S2 * compartment$    |
+| S3 + S4 -> S2 | $k4 * S3 * S4 * compartment$ |]
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $1.0 \x 10^-15$  | mole                       |
 |              Initial amount of S2:| $2.0 \x 10^-15$  | mole                       |
 |              Initial amount of S3:| $0$              | mole                       |
@@ -52,12 +52,12 @@ addParameter[ k2, value -> 0.25 ];
 addParameter[ k3, value -> 0.15 ];
 addParameter[ k4, value -> 0.1 ];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> k1*S1*compartment ];
+	     kineticLaw -> k1 * S1 * compartment ];
 addReaction[ S2 -> S1, reversible -> False,
-	     kineticLaw -> k2*S2*compartment ];
-addReaction[ S2 -> S3+S4, reversible -> False,
-	     kineticLaw -> k3*S2*compartment ];
-addReaction[ S3+S4 -> S2, reversible -> False,
-	     kineticLaw -> k4*S3*S4*compartment ];
+	     kineticLaw -> k2 * S2 * compartment ];
+addReaction[ S2 -> S3 + S4, reversible -> False,
+	     kineticLaw -> k3 * S2 * compartment ];
+addReaction[ S3 + S4 -> S2, reversible -> False,
+	     kineticLaw -> k4 * S3 * S4 * compartment ];
 
 

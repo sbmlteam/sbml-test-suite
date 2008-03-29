@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic two reactions with four species in one 0D compartment
@@ -15,18 +15,18 @@ parameters, k1 and k2.
 The model contains defines a function called "multiply" that takes two
 numerical arguments and multiplies them:
 
-[{width:25em,left-margin:5em}| *Id* | *Arguments* | *Formula* |
-| multiply | x, y | $x * y$ |]
+[{width:25em,margin-left:5em}|  * Id *  |  * Arguments *  |  *Formula*  |
+| multiply | x, y | $x  *  y$ |]
 
 The model contains two reactions defined as:
 
-[{width:25em,left-margin:5em}| *Reaction* | *Rate* |
-| S1 + S2 -> S3 + S4 | $multiply(k1, multiply(S1, S2))$ |
-| S3 + S4 -> S1 + S2 | $k2 * S3 * S4$                       |]
+[{width:25em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1  +  S2 -> S3  +  S4 | $multiply(k1, multiply(S1, S2))$ |
+| S3  +  S4 -> S1  +  S2 | $k2  *  S3  *  S4$                       |]
 
 The initial conditions are as follows:
 
-[{width:25em,left-margin:5em}||*Value*   |*Units*             |
+[{width:25em,margin-left:5em}|| *Value*    | *Units*              |
 |Initial amount of S1:  |$1.0 \x 10^-15$ |mole                |
 |Initial amount of S2:  |$1.0 \x 10^-15$ |mole                |
 |Initial amount of S3:  |$2.0 \x 10^-15$ |mole                |
@@ -44,7 +44,7 @@ concentrations.
 
 newcase[ "00103" ];
 
-addFunction[ multiply, arguments -> {x, y}, math -> x*y];
+addFunction[ multiply, arguments -> {x, y}, math -> x * y];
 addCompartment[ compartment, spatialDimensions-> 0 ];
 addSpecies[ S1, initialAmount -> 1.0 10^-15];
 addSpecies[ S2, initialAmount -> 1.0 10^-15];
@@ -52,9 +52,9 @@ addSpecies[ S3, initialAmount -> 2.0 10^-15];
 addSpecies[ S4, initialAmount -> 1.0 10^-15];
 addParameter[ k1, value -> 0.75 10^15 ];
 addParameter[ k2, value -> 0.25 10^15 ];
-addReaction[ S1+S2 -> S3+S4, reversible -> False,
+addReaction[ S1 + S2 -> S3 + S4, reversible -> False,
 	     kineticLaw -> multiply[k1,multiply[S1,S2]] ];
-addReaction[ S3+S4 -> S1+S2, reversible -> False,
-	     kineticLaw -> k2*S3*S4 ];
+addReaction[ S3 + S4 -> S1 + S2, reversible -> False,
+	     kineticLaw -> k2 * S3 * S4 ];
 
 makemodel[]

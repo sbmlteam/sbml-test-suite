@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic single forward reaction with three species in a 
@@ -15,13 +15,13 @@ The model contains one compartment named compartment.
   by rules or reactions.
   The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1 -> S2 | $k1*S1*S3$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 -> S2 | $k1 * S1 * S3$  |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $          1.5$ | mole                      |
 |              Initial amount of S2:| $          0.5$ | mole                      |
 |              Initial amount of S3:| $          1.2$ | mole                      |
@@ -41,6 +41,6 @@ addSpecies[ S2, initialAmount -> 0.5 ];
 addSpecies[ S3, initialAmount -> 1.2, constant->True ];
 addParameter[ k1, value -> 1.78 ];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> k1*S1*S3 ];
+	     kineticLaw -> k1 * S1 * S3 ];
 
 makemodel[]

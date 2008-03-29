@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Reactions occurring between two compartments. 
@@ -13,10 +13,10 @@ The model contains two compartments named compartment and compartment1.
   Compartment compartment1 contains species S3 and S4.
   The model contains three reactions defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1+S2 -> S2 + S2 | $k1*S1*S2*compartment$  |
-| S2 -> S3         | $k2*(S2-S3)*compartment1$  |
-| S3+S4 -> S4 + S4 | $k3*S3*S4*compartment$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 + S2 -> S2  +  S2 | $k1 * S1 * S2 * compartment$  |
+| S2 -> S3         | $k2 * (S2-S3) * compartment1$  |
+| S3 + S4 -> S4  +  S4 | $k3 * S3 * S4 * compartment$  |]
 
 The first reaction occurs entirely within compartment, the second reaction
 occurs between a species in compartment and a species in compartment1 and the
@@ -24,7 +24,7 @@ third reaction occurs entirely within compartment1.
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $          1.0$ | mole                      |
 |              Initial amount of S2:| $          1.0$ | mole                      |
 |              Initial amount of S3:| $            0$ | mole                      |
@@ -53,11 +53,11 @@ addSpecies[ S4, compartment->compartment1, initialAmount -> 0.1];
 addParameter[ k1, value -> 0.75 ];
 addParameter[ k2, value -> 7.5 ];
 addParameter[ k3, value -> 0.75 ];
-addReaction[ S1+S2 -> S2 + S2, reversible -> False,
-	     kineticLaw -> k1*S1*S2*compartment ];
+addReaction[ S1 + S2 -> S2  +  S2, reversible -> False,
+	     kineticLaw -> k1 * S1 * S2 * compartment ];
 addReaction[ S2 -> S3, reversible -> False,
-	     kineticLaw -> k2*(S2-S3)*compartment1 ];
-addReaction[ S3+S4 -> S4 + S4, reversible -> False,
-	     kineticLaw -> k3*S3*S4*compartment ];
+	     kineticLaw -> k2 * (S2-S3) * compartment1 ];
+addReaction[ S3 + S4 -> S4  +  S4, reversible -> False,
+	     kineticLaw -> k3 * S3 * S4 * compartment ];
 
 makemodel[]

@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic rule that assigns value to a species.
@@ -13,15 +13,15 @@ The model contains one compartment named compartment.
   
   The model contains one rule:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
-| assignmentRule | S1 | $3+4$  |]
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+| assignmentRule | S1 | $3 + 4$  |]
 
 The rule assigns a value to species S1 which is consistent with the value
 attributed to the species by the model definition.
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $            7$ | mole                      |
 | Volume of compartment compartment:| $            1$ | litre                     |]
 
@@ -36,6 +36,6 @@ newcase[ "00029" ];
 
 addCompartment[ compartment, size -> 1.0];
 addSpecies[ S1, initialAmount -> 7 ];
-addRule[ type -> assignmentRule, variable -> S1, math -> 3+4];
+addRule[ type -> assignmentRule, variable -> S1, math -> 3 + 4];
 
 makemodel[]

@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Two reactions and a rate rule that applies a functionDefinition
@@ -12,25 +12,25 @@ The model contains one compartment named compartment.
   There are four species named S1, S2, S3 and S4 and two parameters named k1 and k2.
   The model contains two reactions defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1+S2 -> S3 | $k1*S1*S2*compartment$  |
-| S3 -> S1+S2 | $k2*S3*compartment$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 + S2 -> S3 | $k1 * S1 * S2 * compartment$  |
+| S3 -> S1 + S2 | $k2 * S3 * compartment$  |]
 
   The model contains one rule:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S4 | $multiply(k2, 4 \x 10^-6$  |]
 
 
 The model contains one functionDefinition defined as:
 
-[{width:30em,left-margin:5em}| *Id* | *Arguments* | *Formula* |
- | multiply | x, y | $x*y$ |]
+[{width:30em,margin-left:5em}|  * Id *  |  * Arguments *  |  *Formula*  |
+ | multiply | x, y | $x * y$ |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $ 1.5 \x 10^-6$ | mole                      |
 |              Initial amount of S2:| $ 2.0 \x 10^-6$ | mole                      |
 |              Initial amount of S3:| $ 1.5 \x 10^-6$ | mole                      |
@@ -48,7 +48,7 @@ expressions.
 
 newcase[ "00085" ];
 
-addFunction[ multiply, arguments -> {x, y}, math -> x*y];
+addFunction[ multiply, arguments -> {x, y}, math -> x * y];
 addCompartment[ compartment, size -> 1 ];
 addSpecies[ S1, initialAmount -> 1.5 10^-6];
 addSpecies[ S2, initialAmount -> 2.0 10^-6];
@@ -57,9 +57,9 @@ addSpecies[ S4, initialAmount -> 1 10^-6 ];
 addParameter[ k1, value -> .75 10^6];
 addParameter[ k2, value -> .25 ];
 addRule[ type->RateRule, variable -> S4, math -> multiply[k2, 4 10^-6]];
-addReaction[ S1+S2 -> S3, reversible -> False,
-	     kineticLaw -> k1*S1*S2*compartment ];
-addReaction[ S3 -> S1+S2, reversible -> False,
-	     kineticLaw -> k2*S3*compartment ];
+addReaction[ S1 + S2 -> S3, reversible -> False,
+	     kineticLaw -> k1 * S1 * S2 * compartment ];
+addReaction[ S3 -> S1 + S2, reversible -> False,
+	     kineticLaw -> k2 * S3 * compartment ];
 
 makemodel[]

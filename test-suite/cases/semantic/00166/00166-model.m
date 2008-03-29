@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Model using parameters and rules only.
@@ -11,16 +11,16 @@ The model contains six parameters named S1, S2, S3, S4, k1 and k2.
 
   The model contains four rules:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
- | Rate | S1       | $k2*S3*S4-k1*S1*S2$  |
- | Rate | S2       | $k2*S3*S4-k1*S1*S2$  |
- | Rate | S3       | $k1*S1*S2-k2*S3*S4$  |
- | Rate | S4       | $k1*S1*S2-k2*S3*S4$  |]
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+ | Rate | S1       | $k2 * S3 * S4-k1 * S1 * S2$  |
+ | Rate | S2       | $k2 * S3 * S4-k1 * S1 * S2$  |
+ | Rate | S3       | $k1 * S1 * S2-k2 * S3 * S4$  |
+ | Rate | S4       | $k1 * S1 * S2-k2 * S3 * S4$  |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |             Value of parameter S1:| $1.0 \x 10^-15$ | any |
 |             Value of parameter S2:| $1.0 \x 10^-15$ | same as S1 |
 |             Value of parameter S3:| $2.0 \x 10^-15$ | same as S1 |
@@ -39,9 +39,9 @@ addParameter[ S3, value -> 2.0 10^-15, constant -> False];
 addParameter[ S4, value -> 1.0 10^-15, constant -> False];
 addParameter[ k1, value -> 0.75 10^15 ];
 addParameter[ k2, value -> 0.25 10^15 ];
-addRule[ type->RateRule, variable -> S1, math -> k2*S3*S4-k1*S1*S2];
-addRule[ type->RateRule, variable -> S2, math -> k2*S3*S4-k1*S1*S2];
-addRule[ type->RateRule, variable -> S3, math -> k1*S1*S2-k2*S3*S4];
-addRule[ type->RateRule, variable -> S4, math -> k1*S1*S2-k2*S3*S4];
+addRule[ type->RateRule, variable -> S1, math -> k2 * S3 * S4-k1 * S1 * S2];
+addRule[ type->RateRule, variable -> S2, math -> k2 * S3 * S4-k1 * S1 * S2];
+addRule[ type->RateRule, variable -> S3, math -> k1 * S1 * S2-k2 * S3 * S4];
+addRule[ type->RateRule, variable -> S4, math -> k1 * S1 * S2-k2 * S3 * S4];
 
 makemodel[]
