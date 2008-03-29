@@ -13,7 +13,7 @@ The model contains one compartment named compartment.
   Species S2 is labeled as an SBML boundary species.
   The model contains two reactions defined as:
 
-[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
 | S1 -> S2 | $multiply(k1,S1)*compartment$  |
 | S2 -> S1 | $multiply(k2,S2)*compartment$  |]
 

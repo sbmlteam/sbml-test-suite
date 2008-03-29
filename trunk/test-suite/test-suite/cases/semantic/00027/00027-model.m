@@ -12,7 +12,7 @@ The model contains one compartment named compartment.
   There are two species named S1 and S2.
   The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
 | S1 -> S2 | $compartment*k*S1$  |]
 
 Reaction S1 -> S2 defines one local parameter k.

@@ -12,7 +12,7 @@ The model contains one compartment named compartment.
   There are two species named S1 and S2 and two parameters named p1 and p2.
   The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
 | S1 -> S2 | $calculate(S1,p1,p2)$  |]
 
 The model contains one functionDefinition, which is used within the reaction, defined as:

@@ -13,7 +13,7 @@ The model contains two compartments named compartment and compartment1.
   Compartment compartment1 contains species S3 and S4.
   The model contains two reactions defined as:
 
-[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
 | S1+S2 -> S2 + S2 | $k1*S1*S2*compartment$  |
 | S2 -> S3         | $k2*(S2-S3)*compartment1$  |]
 

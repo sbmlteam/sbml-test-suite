@@ -13,7 +13,7 @@ The model contains one compartment named compartment.
   Species S5 is labeled as constant and therefore does not vary.  
   The model contains two reactions defined as:
 
-[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
 | S1+S2 -> S3+S4 | $k1*multiply(S1,S2)*compartment$  |
 | S3+S4 -> S1+S2 | $k2*S3*S4*compartment/S5$  |]
 

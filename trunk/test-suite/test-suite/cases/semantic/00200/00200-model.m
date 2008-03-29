@@ -12,7 +12,7 @@ The model contains one compartment named compartment.
   There are four species named S1, S2, S3 and S4 and three parameters named p1, p2 and k1.
   The model contains two reactions defined as:
 
-[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
 | S1 -> S2 | $compartment*k1*S1$  |
 | S3 -> S4 | $Piecewise({{p1, Or(S2 < 2, S2 > 4, S2 < 1)}}, p2)$  |]
 
