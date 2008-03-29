@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Reactions occurring between two compartments with functionDefinitions.
@@ -13,22 +13,22 @@ The model contains two compartments named compartment and compartment1.
   Compartment compartment1 contains species S3.
   The model contains two reactions defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1 -> S3  | $multiply(k1,S1)*compartment$  |
-| S3 -> S1 | $k2*(S3-S1)*compartment1$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 -> S3  | $multiply(k1,S1) * compartment$  |
+| S3 -> S1 | $k2 * (S3-S1) * compartment1$  |]
 
 The reactions occur between the species within different compartments:
 
 
 The model contains one functionDefinition defined as:
 
-[{width:30em,left-margin:5em}| *Id* | *Arguments* | *Formula* |
- | multiply | x, y | $x*y$ |]
+[{width:30em,margin-left:5em}|  * Id *  |  * Arguments *  |  *Formula*  |
+ | multiply | x, y | $x * y$ |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $          1.0$ | mole                      |
 |              Initial amount of S3:| $            0$ | mole                      |
 |             Value of parameter k1:| $         0.75$ | second^-1^ |
@@ -45,7 +45,7 @@ expressions.
 
 newcase[ "00112" ];
 
-addFunction[ multiply, arguments -> {x, y}, math -> x*y];
+addFunction[ multiply, arguments -> {x, y}, math -> x * y];
 addCompartment[ compartment, size -> 1 ];
 addCompartment[ compartment1, size -> 1 ];
 addSpecies[ S1, compartment->compartment, initialAmount -> 1.0];
@@ -53,8 +53,8 @@ addSpecies[ S3, compartment->compartment1, initialAmount -> 0];
 addParameter[ k1, value -> 0.75 ];
 addParameter[ k2, value -> 0.25 ];
 addReaction[ S1 -> S3 , reversible -> False,
-	     kineticLaw -> multiply[k1,S1]*compartment ];
+	     kineticLaw -> multiply[k1,S1] * compartment ];
 addReaction[ S3 -> S1, reversible -> False,
-	     kineticLaw -> k2*(S3-S1)*compartment1 ];
+	     kineticLaw -> k2 * (S3-S1) * compartment1 ];
 
 makemodel[]

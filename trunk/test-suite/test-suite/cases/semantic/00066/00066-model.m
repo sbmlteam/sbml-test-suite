@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Rate rule used to determine parameter value which is used 
@@ -12,20 +12,20 @@ The model contains one compartment named compartment.
   There are four species named S1, S2, S3 and S4 and two parameters named k1 and k2.
   The model contains two reactions defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1+S2 -> S3+S4 | $k1*S1*S2*compartment$  |
-| S3+S4 -> S1+S2 | $k2*S3*S4*compartment$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 + S2 -> S3 + S4 | $k1 * S1 * S2 * compartment$  |
+| S3 + S4 -> S1 + S2 | $k2 * S3 * S4 * compartment$  |]
 
   The model contains one rule which defines that rate at which parameter k1 
   varies:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | k1 | $10^6$  |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $ 1.0 \x 10^-6$ | mole                      |
 |              Initial amount of S2:| $ 1.5 \x 10^-6$ | mole                      |
 |              Initial amount of S3:| $ 2.0 \x 10^-6$ | mole                      |
@@ -51,9 +51,9 @@ addSpecies[ S4, initialAmount -> 0.5 10^-6];
 addParameter[ k1, value -> 1 10^6, constant->False ];
 addParameter[ k2, value -> 0.3 10^6 ];
 addRule[ type->RateRule, variable -> k1, math -> 10^6];
-addReaction[ S1+S2 -> S3+S4, reversible -> False,
-	     kineticLaw -> k1*S1*S2*compartment ];
-addReaction[ S3+S4 -> S1+S2, reversible -> False,
-	     kineticLaw -> k2*S3*S4*compartment ];
+addReaction[ S1 + S2 -> S3 + S4, reversible -> False,
+	     kineticLaw -> k1 * S1 * S2 * compartment ];
+addReaction[ S3 + S4 -> S1 + S2, reversible -> False,
+	     kineticLaw -> k2 * S3 * S4 * compartment ];
 
 makemodel[]

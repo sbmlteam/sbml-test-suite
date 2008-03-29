@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Model using rules and parameters only.
@@ -11,13 +11,13 @@ The model contains one parameter named S1.
 
   The model contains one rule:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
- | Assignment | S1 | $3+4$  |]
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+ | Assignment | S1 | $3 + 4$  |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |             Value of parameter S1:| $          0.0$ | any |]
 
 
@@ -26,6 +26,6 @@ The initial conditions are as follows:
 newcase[ "00174" ];
 
 addParameter[ S1, value -> 0.0, constant -> False ];
-addRule[ type -> assignmentRule, variable -> S1, math -> 3+4];
+addRule[ type -> assignmentRule, variable -> S1, math -> 3 + 4];
 
 makemodel[]

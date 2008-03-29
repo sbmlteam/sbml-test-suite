@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Model with parameters and rules with an initialAssignment.
@@ -10,14 +10,14 @@ levels:        2.2, 2.3
 The model contains four parameters named S1, S2, k1 and k2.
   The model contains two rules:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
- | Rate | S1       | $-k2*S1 $  |
- | Rate | S2       | $k2*S1 $  |]
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+ | Rate | S1       | $-k2 * S1 $  |
+ | Rate | S2       | $k2 * S1 $  |]
 
   The model contains one initialAssignment:
 
-[{width:30em,left-margin:5em}| Variable | Formula |
- | S1 | $k1*S2$  |]
+[{width:30em,margin-left:5em}| Variable | Formula |
+ | S1 | $k1 * S2$  |]
 
   Note: InitialAssignments override any declared initial values.  In this case the initial
 value of S1 has not been explicitly declared and must be calculated using the initialAssignment.
@@ -25,7 +25,7 @@ value of S1 has not been explicitly declared and must be calculated using the in
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |             Value of parameter S1:| $   undeclared$ | any |
 |             Value of parameter S2:| $2.0 \x 10^-15$ | same as S1 |
 |             Value of parameter k1:| $         0.75$ | dimensionless |
@@ -40,8 +40,8 @@ addParameter[ S1, constant -> False ];
 addParameter[ S2, value -> 2.0 10^-15, constant -> False ];
 addParameter[ k1, value -> 0.75 ];
 addParameter[ k2, value -> 0.25 ];
-addInitialAssignment[ S1, math -> k1*S2];
-addRule[ type->RateRule, variable -> S1, math -> -k2*S1 ];
-addRule[ type->RateRule, variable -> S2, math -> k2*S1 ];
+addInitialAssignment[ S1, math -> k1 * S2];
+addRule[ type->RateRule, variable -> S1, math -> -k2 * S1 ];
+addRule[ type->RateRule, variable -> S2, math -> k2 * S1 ];
 
 makemodel[]

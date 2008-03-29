@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Model using parameters and both rate and assignment rules
@@ -11,16 +11,16 @@ levels:        2.2, 2.3
 The model contains five parameters named S1, S2, S3, k1 and k2.
   The model contains three rules:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
- | Assignment | S3 | $1*S2$  |
- | Rate       | S1 | $-k2*S1 $  |
- | Rate       | S2 | $k2*S1 $  |]
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+ | Assignment | S3 | $1 * S2$  |
+ | Rate       | S1 | $-k2 * S1 $  |
+ | Rate       | S2 | $k2 * S1 $  |]
 
   The model contains two initialAssignments:
 
-[{width:30em,left-margin:5em}| Variable | Formula |
+[{width:30em,margin-left:5em}| Variable | Formula |
  | S1 | $k1/0.75$  |
- | S2 | $k2*3 \x 10^-17$  |]
+ | S2 | $k2 * 3 \x 10^-17$  |]
 
   Note: InitialAssignments override any declared initial values.  The initial values of
 parameters S1, S2 and S3 are undeclared and so must be calculated by the initialAssignments.
@@ -28,7 +28,7 @@ parameters S1, S2 and S3 are undeclared and so must be calculated by the initial
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |             Value of parameter S1:| $   undeclared$ | any |
 |             Value of parameter S2:| $   undeclared$ | same as S1 |
 |             Value of parameter S3:| $   undeclared$ | same as S1 |
@@ -46,9 +46,9 @@ addParameter[ S3, constant -> False  ];
 addParameter[ k1, value -> 0.75 ];
 addParameter[ k2, value -> 50 ];
 addInitialAssignment[ S1, math -> k1/0.75];
-addInitialAssignment[ S2, math -> k2*3 10^-17];
-addRule[ type->AssignmentRule, variable -> S3, math ->k1*S2];
-addRule[ type->RateRule, variable -> S1, math -> -k2*S1 ];
-addRule[ type->RateRule, variable -> S2, math -> k2*S1 ];
+addInitialAssignment[ S2, math -> k2 * 3 10^-17];
+addRule[ type->AssignmentRule, variable -> S3, math ->k1 * S2];
+addRule[ type->RateRule, variable -> S1, math -> -k2 * S1 ];
+addRule[ type->RateRule, variable -> S2, math -> k2 * S1 ];
 
 makemodel[]

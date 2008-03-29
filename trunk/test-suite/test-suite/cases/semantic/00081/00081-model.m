@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic reaction and rate rule with three species in a compartment. 
@@ -11,18 +11,18 @@ The model contains one compartment named compartment.
   There are three species named S1, S2 and S3 and one parameter named k1.
   The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1 -> S2 | $k1*S1*compartment$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 -> S2 | $k1 * S1 * compartment$  |]
 
   The model contains one rule:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S3 | $0.15$  |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $          1.5$ | mole                      |
 |              Initial amount of S2:| $            0$ | mole                      |
 |              Initial amount of S3:| $            0$ | mole                      |
@@ -45,6 +45,6 @@ addSpecies[ S3, initialAmount -> 0 ];
 addParameter[ k1, value -> 1.5 ];
 addRule[ type->RateRule, variable -> S3, math -> 0.15];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> k1*S1*compartment ];
+	     kineticLaw -> k1 * S1 * compartment ];
 
 makemodel[]

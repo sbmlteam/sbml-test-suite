@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Model using parameters and both rate and assignment rules
@@ -11,23 +11,23 @@ levels:        2.1, 2.2, 2.3
 The model contains five parameters named S1, S2, S3, k1 and k2.
   The model contains three rules:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | S3       | $multiply(k1, S2)$  |
  | Rate       | S1       | $-multiply(k2, S1)$  |
- | Rate       | S2       | $k2*S1 $  |]
+ | Rate       | S2       | $k2 * S1 $  |]
 
 
 The model contains one functionDefinition defined as:
 
-[{width:30em,left-margin:5em}| *Id* | *Arguments* | *Formula* |
- | multiply | x, y | $x*y$ |]
+[{width:30em,margin-left:5em}|  * Id *  |  * Arguments *  |  *Formula*  |
+ | multiply | x, y | $x * y$ |]
 
 Note the initial value for parameter S3 is undeclared and must be calculated using the 
 assignmentRule.
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |             Value of parameter S1:| $            1$ | any |
 |             Value of parameter S2:| $          0.5$ | same as S1 |
 |             Value of parameter S3:| $   undeclared$ | any |
@@ -39,7 +39,7 @@ The initial conditions are as follows:
 
 newcase[ "00183" ];
 
-addFunction[ multiply, arguments -> {x, y}, math -> x*y];
+addFunction[ multiply, arguments -> {x, y}, math -> x * y];
 addParameter[ S1, value -> 1, constant -> False ];
 addParameter[ S2, value -> 0.5, constant -> False  ];
 addParameter[ S3, constant -> False  ];
@@ -47,6 +47,6 @@ addParameter[ k1, value -> 0.7 ];
 addParameter[ k2, value -> 40 ];
 addRule[ type->AssignmentRule, variable -> S3, math ->multiply[k1,S2]];
 addRule[ type->RateRule, variable -> S1, math -> -multiply[k2,S1] ];
-addRule[ type->RateRule, variable -> S2, math -> k2*S1 ];
+addRule[ type->RateRule, variable -> S2, math -> k2 * S1 ];
 
 makemodel[]

@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic two reactions with four species in a 0-dimensional
@@ -13,13 +13,13 @@ The model contains one compartment named compartment.
   Compartment compartment is  0-dimensional.
   The model contains two reactions defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1+S2 -> S3+S4 | $k1*S1*S2$  |
-| S3+S4 -> S1+S2 | $k2*S3*S4$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 + S2 -> S3 + S4 | $k1 * S1 * S2$  |
+| S3 + S4 -> S1 + S2 | $k2 * S3 * S4$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $1.0 \x 10^-15$ | mole                      |
 |              Initial amount of S2:| $1.0 \x 10^-15$ | mole                      |
 |              Initial amount of S3:| $2.0 \x 10^-15$ | mole                      |
@@ -42,9 +42,9 @@ addSpecies[ S3, initialAmount -> 2.0 10^-15];
 addSpecies[ S4, initialAmount -> 1.0 10^-15];
 addParameter[ k1, value -> 0.75 10^15 ];
 addParameter[ k2, value -> 0.25 10^15 ];
-addReaction[ S1+S2 -> S3+S4, reversible -> False,
-	     kineticLaw -> k1*S1*S2 ];
-addReaction[ S3+S4 -> S1+S2, reversible -> False,
-	     kineticLaw -> k2*S3*S4 ];
+addReaction[ S1 + S2 -> S3 + S4, reversible -> False,
+	     kineticLaw -> k1 * S1 * S2 ];
+addReaction[ S3 + S4 -> S1 + S2, reversible -> False,
+	     kineticLaw -> k2 * S3 * S4 ];
 
 makemodel[]

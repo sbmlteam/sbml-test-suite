@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Model using rules and parameters only.
@@ -11,13 +11,13 @@ The model contains one parameter named S1.
 
   The model contains one rule:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S1 | $7$  |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |             Value of parameter S1:| $          0.0$ | any |]
 
 

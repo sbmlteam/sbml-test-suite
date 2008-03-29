@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic reactions with four species in one
@@ -12,14 +12,14 @@ The model contains one compartment named compartment.
   There are four species named S1, S2, S3 and S4 and three parameters named p1, p2 and k1.
   The model contains two reactions defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1 -> S2 | $compartment*k1*S1$  |
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 -> S2 | $compartment * k1 * S1$  |
 | S3 -> S4 | $Piecewise({{p1, S2 > 7}}, p2)$  |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $           10$ | mole                      |
 |              Initial amount of S2:| $            0$ | mole                      |
 |              Initial amount of S3:| $           10$ | mole                      |
@@ -47,7 +47,7 @@ addParameter[ p1, value -> 1.5 ];
 addParameter[ p2, value -> 0.05 ];
 addParameter[ k1, value -> 1.0 ];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> compartment*k1*S1 ];
+	     kineticLaw -> compartment * k1 * S1 ];
 addReaction[ S3 -> S4, reversible -> False,
 	     kineticLaw -> Piecewise[{{p1, S2 > 7}}, p2] ];
 

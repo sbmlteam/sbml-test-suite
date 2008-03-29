@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Two rate rules used to determine species value.
@@ -12,14 +12,14 @@ The model contains one compartment named compartment.
   The model does not contain any reactions.
   The model contains two rules:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
- | Rate | S1       | $-(k1*S1)$  |
- | Rate | S2       | $k1*S1$     |]
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+ | Rate | S1       | $-(k1 * S1)$  |
+ | Rate | S2       | $k1 * S1$     |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $1.5 \x 10^-15$ | mole                      |
 |              Initial amount of S2:| $            0$ | mole                      |
 |             Value of parameter k1:| $            1$ | second^-1^                |
@@ -38,7 +38,7 @@ addCompartment[ compartment, size -> 1 ];
 addSpecies[ S1, initialAmount -> 1.5 10^-15 ];
 addSpecies[ S2, initialAmount -> 0 ];
 addParameter[ k1, value -> 1 ];
-addRule[ type->RateRule, variable -> S1, math -> -(k1*S1)];
-addRule[ type->RateRule, variable -> S2, math -> k1*S1];
+addRule[ type->RateRule, variable -> S1, math -> -(k1 * S1)];
+addRule[ type->RateRule, variable -> S2, math -> k1 * S1];
 
 makemodel[]

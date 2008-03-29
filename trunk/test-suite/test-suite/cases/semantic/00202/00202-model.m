@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic single forward reaction with two species in a 2-dimensional
@@ -13,13 +13,13 @@ The model contains one compartment named compartment.
   Compartment compartment is 2-dimensional.
   The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1 -> S2 | $k1*S1*compartment$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 -> S2 | $k1 * S1 * compartment$  |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $ 1.5 \x 10^-6$ | mole                      |
 |              Initial amount of S2:| $            0$ | mole                      |
 |             Value of parameter k1:| $          1.1$ | second^-1^ |
@@ -39,6 +39,6 @@ addSpecies[ S1, initialAmount -> 1.5 10^-6 ];
 addSpecies[ S2, initialAmount -> 0 ];
 addParameter[ k1, value -> 1.1 ];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> k1*S1*compartment ];
+	     kineticLaw -> k1 * S1 * compartment ];
 
 makemodel[]

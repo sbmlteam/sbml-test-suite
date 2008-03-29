@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic single rate rule used to determine species value.
@@ -12,13 +12,13 @@ The model contains one compartment named compartment.
   The model does not contain any reactions.
   The model contains one rule:
 
-[{width:30em,left-margin:5em}| *Type* | *Variable* | *Formula* |
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S1       | $7$     |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $            0$ | mole                      |
 | Volume of compartment compartment:| $            1$ | litre                     |]
 

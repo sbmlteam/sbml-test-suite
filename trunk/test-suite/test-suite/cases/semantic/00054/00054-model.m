@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Reactions occurring between two compartments. 
@@ -13,16 +13,16 @@ The model contains two compartments named compartment and compartment1.
   Compartment compartment1 contains species S3.
   The model contains two reactions defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1+S2 -> S2 + S2 | $k1*S1*S2*compartment$  |
-| S2 -> S3         | $k2*(S2-S3)*compartment1$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 + S2 -> S2  +  S2 | $k1 * S1 * S2 * compartment$  |
+| S2 -> S3         | $k2 * (S2-S3) * compartment1$  |]
 
 The first reaction occurs entirely in compartment, whereas the second reaction
 occurs between a species in compartment and a species in compartment1.
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $          1.0$ | mole                      |
 |              Initial amount of S2:| $          1.0$ | mole                      |
 |              Initial amount of S3:| $            0$ | mole                      |
@@ -47,9 +47,9 @@ addSpecies[ S2, compartment->compartment, initialAmount -> 1.0];
 addSpecies[ S3, compartment->compartment1, initialAmount -> 0];
 addParameter[ k1, value -> 0.75 ];
 addParameter[ k2, value -> 0.25 ];
-addReaction[ S1+S2 -> S2 + S2, reversible -> False,
-	     kineticLaw -> k1*S1*S2*compartment ];
+addReaction[ S1 + S2 -> S2  +  S2, reversible -> False,
+	     kineticLaw -> k1 * S1 * S2 * compartment ];
 addReaction[ S2 -> S3, reversible -> False,
-	     kineticLaw -> k2*(S2-S3)*compartment1 ];
+	     kineticLaw -> k2 * (S2-S3) * compartment1 ];
 
 makemodel[]

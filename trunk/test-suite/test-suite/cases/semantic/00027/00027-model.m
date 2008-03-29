@@ -1,4 +1,4 @@
-(*
+(* 
 
 category:      Test
 synopsis:      Basic single forward reaction with two species in one
@@ -12,16 +12,16 @@ The model contains one compartment named compartment.
   There are two species named S1 and S2.
   The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
-| S1 -> S2 | $compartment*k*S1$  |]
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| S1 -> S2 | $compartment * k * S1$  |]
 
 Reaction S1 -> S2 defines one local parameter k.
 
   The model contains one initialAssignment that assigns the initial value 
 for compartment:
 
-[{width:30em,left-margin:5em}| Variable    | Formula      |
- | compartment | $534*0.001$  |]
+[{width:30em,margin-left:5em}| Variable    | Formula      |
+ | compartment | $534 * 0.001$  |]
 
   Note: InitialAssignments override any declared initial values.
 In this case the value from the initialAssignment is consistent with 
@@ -30,7 +30,7 @@ the value attributed to the compartment by the model definition.
 
 The initial conditions are as follows:
 
-[{width:30em,left-margin:5em}| | *Value* | *Units* |
+[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
 |              Initial amount of S1:| $1.5 \x 10^-15$ | mole                      |
 |              Initial amount of S2:| $          0.0$ | mole                      |
 |        Value of local parameter k:| $          100$ | second^-1^                |
@@ -48,8 +48,8 @@ newcase[ "00027" ];
 addCompartment[ compartment, size->0.534];
 addSpecies[ S1, initialAmount -> 1.5 10^-15 ];
 addSpecies[ S2, initialAmount -> 0.0 ];
-addInitialAssignment[ compartment, math -> 534*0.001];
+addInitialAssignment[ compartment, math -> 534 * 0.001];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> compartment*k*S1, parameters -> {k -> 100} ];
+	     kineticLaw -> compartment * k * S1, parameters -> {k -> 100} ];
 
 makemodel[]
