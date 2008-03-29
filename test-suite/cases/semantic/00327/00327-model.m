@@ -12,7 +12,7 @@ The model contains one compartment named compartment.
   Compartment compartment is 0-dimensional.
   The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
 | S1 -> S2 | $k1*S1$  |]
 
   The model contains two rules:

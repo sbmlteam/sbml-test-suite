@@ -12,7 +12,7 @@ The model contains one compartment named compartment.
   There are four species named S1, S2, S3 and S4 and three parameters named k1, k2 and p1.
   The model contains two reactions defined as:
 
-[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
 | S1+S2 -> S3+S4 | $k1*S1*S2*compartment$  |
 | S3+S4 -> S1+S2 | $k2*S3*S4*compartment$  |]
 

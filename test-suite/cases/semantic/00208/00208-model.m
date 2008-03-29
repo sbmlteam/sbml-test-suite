@@ -14,7 +14,7 @@ The model contains one compartment named compartment.
   Species S1 and S2 are declared to have only substance units.
   The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
 | S1 -> S2 | $k1*S1$  |]
 
 The initial conditions are as follows:

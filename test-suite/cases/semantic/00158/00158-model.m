@@ -12,7 +12,7 @@ The model contains one compartment named compartment.
   There are three species named S1, S2 and S3 and two parameters named k1 and k2.
   The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
 | S1 -> S2 | $compartment*k2*S1$  |]
 
   The model contains one rule which assigns value to species S3:

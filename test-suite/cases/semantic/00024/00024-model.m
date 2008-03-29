@@ -13,7 +13,7 @@ The model contains one compartment named compartment.
   Species S3 is labeled a SBML boundary condition and is also labeled constant.
   The model contains four reactions defined as:
 
-[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
 | S1 -> S2    | $k1*S1*compartment$     |
 | S2 -> S1    | $k2*S2*compartment$     |
 | S2 -> S3+S4 | $k3*S2*compartment$     |

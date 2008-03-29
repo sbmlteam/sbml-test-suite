@@ -14,7 +14,7 @@ The model contains one compartment named compartment.
   by rules or reactions.
   The model contains one reaction defined as:
 
-[{width:30em,left-margin:5em}| | *Reaction* | *Rate* |
+[{width:30em,left-margin:5em}| *Reaction* | *Rate* |
 | S1 -> S2 | $compartment*k2*S1$  |]
 
   The model contains one rule:
