@@ -24,7 +24,7 @@
   | 2. Sample models                                              |  
   | 3. History                                                    |
    `--------------------------------------------------------------'
-    Date of last update to this file: $Date$
+    Last update to this file: $Date::                          $
 
 
 ---------------
@@ -58,12 +58,12 @@ on the "SBML Semantic Test Suite".
 
 
 
--------------------------------------------
+----------------------------------------------------------------------
 $Id$
 $HeadURL$
--------------------------------------------
+----------------------------------------------------------------------
 
-# The following is for [X]Emacs users.  Please leave in place.
-# Local Variables:
-# fill-column: 70
-# End:
+The following is for [X]Emacs users.  Please leave in place.
+Local Variables:
+fill-column: 70
+End:
