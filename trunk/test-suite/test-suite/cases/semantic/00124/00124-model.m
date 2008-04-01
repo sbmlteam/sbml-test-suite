@@ -9,7 +9,7 @@ testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains one compartment named compartment.
-  There are three species named S1, S2 and S3 and three parameters named k1, k2 and k3.
+  There are three species named S1, S2 and S3 and five parameters named k1, k2, k3, p1 and p2.
   The model contains two reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
@@ -19,7 +19,7 @@ The model contains one compartment named compartment.
   The model contains one rule that determines the value of parameter k1:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
- | Rate | k1 | $add(1 * k2, k3)$  |]
+ | Rate | k1 | $p1* add(p2 * k2, k3)$  |]
 
 
 The model contains one functionDefinition defined as:
@@ -37,6 +37,8 @@ The initial conditions are as follows:
 |             Value of parameter k1:| $          1.7$ | litre mole^-1^ second^-1^ |
 |             Value of parameter k2:| $          0.3$ | second^-1^ |
 |             Value of parameter k3:| $         -0.1$ | litre mole^-1^ second^-1^ |
+|             Value of parameter p1:| $            1$ | second^-1^                |
+|             Value of parameter p2:| $            1$ | litre mole^-1^                 |
 | Volume of compartment compartment:| $            1$ | litre                     |]
 
 The species values are given as amounts of substance to make it easier to
@@ -56,7 +58,9 @@ addSpecies[ S3, initialAmount -> 1.0 ];
 addParameter[ k1, value -> 1.7 , constant->False];
 addParameter[ k2, value -> 0.3 ];
 addParameter[ k3, value -> -0.1 ];
-addRule[ type->RateRule, variable -> k1, math -> add[1 * k2, k3]];
+addParameter[ p1, value -> 1 ];
+addParameter[ p2, value -> 1 ];
+addRule[ type->RateRule, variable -> k1, math -> p1*add[p2*k2, k3]];
 addReaction[ S1 + S2 -> S3, reversible -> False,
 	     kineticLaw -> k1 * S1 * S2 * compartment ];
 addReaction[ S3 -> S1 + S2, reversible -> False,
