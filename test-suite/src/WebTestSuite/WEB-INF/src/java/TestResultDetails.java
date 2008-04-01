@@ -16,15 +16,17 @@ public class TestResultDetails {
 	private String description;
 	private String warnings;
 	private String plot;
+	private String html;
 	
 
 	// the TestResultDetails class has one constructor
-	public TestResultDetails(int output, String name, String desc, String warning, String plot_path) {
+	public TestResultDetails(int output, String name, String desc, String warning, String plot_path, String html_path) {
 		result = output;
 		testname = name;
 		description = desc;
 		warnings = warning;
 		plot = plot_path;
+		html = html_path;
 	}
 
 	// the TestResultDetails class has 4 methods
@@ -43,6 +45,9 @@ public class TestResultDetails {
 	public void setPlot(String newValue) {
 		plot = newValue;
 	}
+	public void setHtml(String newValue) {
+		html = newValue;
+	}
 	
 	public int getResult() {
 		return result;
@@ -55,6 +60,9 @@ public class TestResultDetails {
 	}
 	public String getPlot() {
 		return plot;
+	}
+	public String getHtml() {
+		return html;
 	}
 	public String getDescription() {
 		return description;

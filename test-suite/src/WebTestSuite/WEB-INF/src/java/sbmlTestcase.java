@@ -101,6 +101,13 @@ public class sbmlTestcase  {
 		return plotfile;
 	}
 
+	public String getHtmlFile(String value, String testdir) {
+		String htmlfile = new String();
+		htmlfile = testdir + File.separator + value + File.separator + value + "-model.html";
+
+		return htmlfile;
+	}
+
 
 	public BigDecimal[][] readResults(String filename, int header, int steps, int variables_count) throws IOException, FileNotFoundException, NumberFormatException, Exception {
 	/*  readResults - returns a csv file as a multidimensional array
