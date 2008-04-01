@@ -4,11 +4,14 @@
 <%@ page import="sbml.test.TestResultDetails" %>
 <%@ page import="sbml.test.sbmlTestcase" %>
 <%@ page import="java.io.*" %>
+<%@ page import="java.net.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 
 <% 
 	String testname = request.getParameter("testname"); 
 	String result = request.getParameter("result");
 	String plot = request.getParameter("plot");
+	String html = request.getParameter("html");
 	String description = request.getParameter("description");
 	String warnings = request.getParameter("warnings");
 %>
@@ -102,17 +105,28 @@
 				<div id='pagetitle'>
 					<h1 class='pagetitle'>SBML TEST <%=testname%></h1>
 				</div><!-- id='pagetitle' -->
-				<CENTER><BIG>SBML Test <%=testname%> Details</BIG></CENTER>
+				
 
-	<IMG SRC="/test_suite/servlet/OpenFile?plot=<%=plot%>" width="300" height="200" align="left" ALT="plot">
 	<p style="margin-left: 6px; margin-right: 6px">
 	Synopsis: <%=description%><BR>
 	Failed at <%=result%> points<BR>
+
 <%	if(warnings != "") {
 %>
-	Test Aborted due to: <%=warnings%>
+	Test skipped due to: <%=warnings%>
 <% } %>
 	</p>
+	
+
+	<IMG SRC="/test_suite/servlet/OpenFile?plot=<%=plot%>" align="center" ALT="plot"> 
+	
+	<%      String fileh = "file://" + html;
+%>
+	<c:import url="<%=fileh%>" />
+
+
+
+	
 				</div><!-- id='article' --> 
 			<br clear='all' />
 			

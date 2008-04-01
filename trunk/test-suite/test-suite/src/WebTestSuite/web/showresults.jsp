@@ -11,6 +11,7 @@
 	<%! 	TestResultDetails test;
 		String name;
 		String plot;
+		String html;
 		String description;
 		String warnings;
 		int result;
@@ -110,11 +111,11 @@
 				<div id='pagetitle'>
 					<h1 class='pagetitle'>SBML TEST SUITE RESULTS</h1>
 				</div><!-- id='pagetitle' -->
-				
+			
 	<TABLE BORDER="0" CELLSPACING="0" WIDTH="80%" ALIGN="center">
 	<TR>
 	<%-- For each test in the test vector - get the testname, description, plot path, result --%>
-		<%-- implement a counter and when counter mod 30 = 0 start a new row --%>
+		<%-- implement a counter and when counter mod 50 = 0 start a new row --%>
 		
 	<%
 		fail_count=0;
@@ -130,15 +131,15 @@
 			test = (TestResultDetails)results.elementAt(i);
 			name = test.getTestname();
 			plot = test.getPlot();
+			html = test.getHtml();
 			description = test.getDescription();
 			result = test.getResult();
 			warnings = test.getWarnings();
 		
-		
 			if(result>0) {			
 		
 				out.println("<TD>");
-				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description  + "&warnings=" + warnings +"\" target=\"_blank\">");
+				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description  + "&warnings=" + warnings + "&html=" +html +"\" target=\"_blank\">");
 				out.println("<IMG SRC=\"/test_suite/web/images/red.jpg\"  border=\"0\"/>");
 				out.println("</a>");
 				out.println("</TD>");
@@ -147,7 +148,7 @@
 			if(result == 0) {			
 		
 				out.println("<TD>");
-				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings +"\" target=\"_blank\">");
+				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html +"\" target=\"_blank\">");
 				out.println("<IMG SRC=\"/test_suite/web/images/green.jpg\" border=\"0\"/>");
 				out.println("</a>");
 				out.println("</TD>");
@@ -156,7 +157,7 @@
 			if(result == -1) {			
 		
 				out.println("<TD>");
-				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings +"\" target=\"_blank\">");
+				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html +"\" target=\"_blank\">");
 				out.println("<IMG SRC=\"/test_suite/web/images/red.jpg\" border=\"0\"/>");
 				out.println("</a>");
 				out.println("</TD>");

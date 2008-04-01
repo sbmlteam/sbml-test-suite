@@ -25,7 +25,6 @@ import java.util.zip.*;
 import sbml.test.sbmlTestcase;
 import sbml.test.TestResultDetails;
 import sbml.test.sbmlTestselection;
-import sbml.test.sbmlTestxml;
 import java.math.*;
 
 
@@ -177,6 +176,8 @@ public class UploadUnzipTest extends HttpServlet {
 				String control_settingsfile = t1.getSettingsFile(value,testdir);
 
 				String plot_file = t1.getPlotFile(value,testdir);
+				String html_file = t1.getHtmlFile(value,testdir);
+
 				try {
 					t1.readSettingsFile(control_settingsfile);
 				}
@@ -215,7 +216,7 @@ public class UploadUnzipTest extends HttpServlet {
 					String mfile = t3.getModelFile(value,testdir);
 					t3.readModelFile(mfile);
 					String desc = t3.getSynopsis();
-					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has inconsistent number of variables for test - Test Aborted",plot_file);
+					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has inconsistent number of variables for test - Test Aborted",plot_file,html_file);
 					output.addElement(t2);
 					continue;
 				}
@@ -238,7 +239,7 @@ public class UploadUnzipTest extends HttpServlet {
 					String mfile = t3.getModelFile(value,testdir);
 					t3.readModelFile(mfile);
 					String desc = t3.getSynopsis();
-					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has inconsistent number of variables for test - Test Aborted",plot_file);
+					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has inconsistent number of variables for test - Test Aborted",plot_file,html_file);
 					output.addElement(t2);
 					continue;
 				}
@@ -252,7 +253,7 @@ public class UploadUnzipTest extends HttpServlet {
 					String mfile = t3.getModelFile(value,testdir);
 					t3.readModelFile(mfile);
 					String desc = t3.getSynopsis();
-					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has too many time steps for test - Test Aborted",plot_file);
+					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has too many time steps for test - Test Aborted",plot_file,html_file);
 					output.addElement(t2);
 					continue;
 				}
@@ -266,7 +267,7 @@ public class UploadUnzipTest extends HttpServlet {
 					String mfile = t3.getModelFile(value,testdir);
 					t3.readModelFile(mfile);
 					String desc = t3.getSynopsis();
-					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has inconsistent number of entries - Test Aborted",plot_file);
+					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has inconsistent number of entries - Test Aborted",plot_file,html_file);
 					output.addElement(t2);
 					continue;
 				}
@@ -276,21 +277,18 @@ public class UploadUnzipTest extends HttpServlet {
 				String mfile = t3.getModelFile(value,testdir);
 				t3.readModelFile(mfile);
 				String desc = t3.getSynopsis();
-				TestResultDetails t2 = new TestResultDetails(pass_fail,value,desc,"",plot_file);
+				TestResultDetails t2 = new TestResultDetails(pass_fail,value,desc,"",plot_file,html_file);
 				output.addElement(t2);
 				
 
 			
 		} // end of while
-		//sbmlTestxml t3 = new sbmlTestxml();
-		//t3.writetestxml(output);
 
 		// delete temporary user file directory
 		t1.deleteDirectory(u);
 		
 		request.setAttribute("tests",output);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/web/showresults.jsp");
-		
 		dispatcher.forward(request,response);
 
 		} // end of try
@@ -298,12 +296,7 @@ public class UploadUnzipTest extends HttpServlet {
     			e.printStackTrace();
     			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
   		}
-      
-
-		
-                
-                
-			
+      	
 		} // end of if	
 
     
