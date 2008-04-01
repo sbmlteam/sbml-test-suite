@@ -33,14 +33,19 @@
       <parameter id="k1" name="k1" value="1000000" constant="false"/>
       <parameter id="k2" name="k2" value="300000"/>
       <parameter id="k3" name="k3" value="700000"/>
+      <parameter id="p1" name="p1" value="1"/>
     </listOfParameters>
     <listOfRules>
       <rateRule metaid="rule1" variable="k1">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <ci> add </ci>
-            <ci> k2 </ci>
-            <ci> k3 </ci>
+            <times/>
+            <ci> p1 </ci>
+            <apply>
+              <ci> add </ci>
+              <ci> k2 </ci>
+              <ci> k3 </ci>
+            </apply>
           </apply>
         </math>
       </rateRule>
