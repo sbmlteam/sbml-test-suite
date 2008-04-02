@@ -1,7 +1,7 @@
 (* 
 
 category:      Test
-synopsis:      Basic two reactions with four species in one compartment
+synopsis:      Basic two reactions with four species in one compartment.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount
 testType:      TimeCourse
