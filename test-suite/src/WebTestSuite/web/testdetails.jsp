@@ -14,6 +14,9 @@
 	String html = request.getParameter("html");
 	String description = request.getParameter("description");
 	String warnings = request.getParameter("warnings");
+	String ctags = request.getParameter("ctags");
+	String ttags = request.getParameter("ttags");
+	String tpoints = request.getParameter("tpoints");
 %>
 
 
@@ -108,13 +111,26 @@
 				
 
 	<p style="margin-left: 6px; margin-right: 6px">
-	Synopsis: <%=description%><BR>
-	Failed at <%=result%> points<BR>
-
-<%	if(warnings != "") {
+	
+<%
+	int r = Integer.parseInt(result);
+	if(r>0) {
 %>
-	Test skipped due to: <%=warnings%>
+	Failed at <%=result%> of <%=tpoints%> points<BR>
+<%	}
+	if(r==0) {
+%>
+	Passed!<BR>
+<%	}
+
+	if(warnings != "") {
+%>
+	Test skipped due to: <%=warnings%><BR>
 <% } %>
+	Component Tags: <%=ctags%> <BR>
+	Test Tags     : <%=ttags%> <BR>
+
+	Synopsis: <%=description%><BR>
 	</p>
 	
 

@@ -80,28 +80,6 @@ public class sbmlTestselection  {
 	}
 	
 
-	public String getSbmlTestdir() {
-		String sbmltestdir = new String();
-		File sbmlconfigfile = new File("/usr/share/apache-tomcat-5.5.26/webapps/test_suite/WEB-INF/sbml_config_file.txt");
-		String[][] config = new String[1][1];
-		try{
-			BufferedReader bufRdr  = new BufferedReader(new FileReader(sbmlconfigfile));
-			String line = null;
-			
-			while((line = bufRdr.readLine()) != null)
-			{	
-				line.trim();
-				sbmltestdir = line;	
-			}
-			bufRdr.close();
-		}
-		catch(IOException e) {
-		// catch possible io errors from readLine()
-			System.err.println("IOException error reading application config file");
-			e.printStackTrace();
-		}
-	return sbmltestdir;
-	}
 
 	public String getModelFile(String value, String testdir) {
 		String mapfile = new String();

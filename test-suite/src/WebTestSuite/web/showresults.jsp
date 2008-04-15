@@ -18,6 +18,11 @@
 		int fail_count;
 		int abort_count;
 		int pass_count;
+		int totalpoints;
+		Vector<String> ctags;
+		Vector<String> ttags;
+		Map<String, Integer> cmap = new HashMap<String, Integer>();
+		Map<String, Integer> tmap = new HashMap<String, Integer>();
 		
 	%>
 
@@ -121,6 +126,9 @@
 		fail_count=0;
 		abort_count=0;
 		pass_count=0;
+		cmap.clear();
+		tmap.clear();
+		
 		for(int i=0;i<results.size() ; i++) {	
 		  if(i % 50==0) {
 			// start a new row
@@ -135,11 +143,39 @@
 			description = test.getDescription();
 			result = test.getResult();
 			warnings = test.getWarnings();
+			ctags = test.getCtags();
+			ttags = test.getTtags();
+			totalpoints = test.getTotalpoints();
+
+			
+		  	String s = "";
+			for(int j=0;j<ctags.size();j++) {	
+				s= s + ctags.elementAt(j) + ", ";
+		  	}
+		  	String t = "";
+			for(int k=0;k<ttags.size();k++) {	
+				t= t + ttags.elementAt(k) + ", ";
+			}	
 		
-			if(result>0) {			
-		
+			if(result>0) {	
+				for(int j=0;j<ctags.size();j++) {
+					if(cmap.containsKey(ctags.elementAt(j))){
+						cmap.put(ctags.elementAt(j),(cmap.get(ctags.elementAt(j))+1));
+					}
+					else{
+						cmap.put((ctags.elementAt(j)),1);
+					}
+				}
+				for(int l=0;l<ttags.size();l++) {
+					if(tmap.containsKey(ttags.elementAt(l))){
+						tmap.put(ttags.elementAt(l),(tmap.get(ttags.elementAt(l))+1));
+					}
+					else{
+						tmap.put((ttags.elementAt(l)),1);
+					}			
+				} 
 				out.println("<TD>");
-				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description  + "&warnings=" + warnings + "&html=" +html +"\" target=\"_blank\">");
+				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description  + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
 				out.println("<IMG SRC=\"/test_suite/web/images/red.jpg\"  border=\"0\"/>");
 				out.println("</a>");
 				out.println("</TD>");
@@ -148,7 +184,7 @@
 			if(result == 0) {			
 		
 				out.println("<TD>");
-				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html +"\" target=\"_blank\">");
+				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
 				out.println("<IMG SRC=\"/test_suite/web/images/green.jpg\" border=\"0\"/>");
 				out.println("</a>");
 				out.println("</TD>");
@@ -157,8 +193,8 @@
 			if(result == -1) {			
 		
 				out.println("<TD>");
-				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html +"\" target=\"_blank\">");
-				out.println("<IMG SRC=\"/test_suite/web/images/red.jpg\" border=\"0\"/>");
+				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
+				out.println("<IMG SRC=\"/test_suite/web/images/black.jpg\" border=\"0\"/>");
 				out.println("</a>");
 				out.println("</TD>");
 				abort_count++;
@@ -179,9 +215,48 @@
 	<BR>
 	<BR>
 	Number of tests taken  : <%=results.size()%><BR>
-	Number of test passed  : <%=pass_count%><BR>
-	Number of tests failed : <%=fail_count%><BR>
-	Number of tests skipped: <%=abort_count%>
+	<IMG SRC="/test_suite/web/images/green.jpg" border="0"/>Number of test passed  : <%=pass_count%><BR>
+	<IMG SRC="/test_suite/web/images/red.jpg"  border="0"/>Number of tests failed : <%=fail_count%><BR>
+	<IMG SRC="/test_suite/web/images/black.jpg" border="0"/>Number of tests skipped: <%=abort_count%><BR>
+<%	if(fail_count>0){
+%>	
+	<BR>
+	Component tags and their associated counts in failed tests:<BR>
+
+<%	Set set = cmap.entrySet();
+	Iterator setIter = set.iterator();
+	
+	while(setIter.hasNext()) {
+		out.println(setIter.next()+ "<BR>");
+		
+		
+	}
+
+%>	<BR>
+	Test tags and their associated counts in failed tests: <BR>
+<% 	Set tset = tmap.entrySet();
+	Iterator tsetIter = tset.iterator();
+	while(tsetIter.hasNext()) {
+		out.println(tsetIter.next() + "<BR>");
+	}
+	}
+%>	<BR>
+<%
+
+//	String base_directory = System.getProperty("java.io.tmpdir");
+//	String systimestamp = String.valueOf(System.currentTimeMillis());
+ //   	String directory = "testsuite" + File.separator + systimestamp;
+//	FileOutputStream fos = new FileOutputStream(base_directory + File.separator+ directory + File.separator + "testsummary.txt");
+//	PrintWriter pw = new PrintWriter(fos);
+//	try {
+//		pw.println("Date: " + );
+//	}
+//	catch(IOException e) {
+//		out.println(e.getMessage());
+//	}
+%>
+
+
 				</div><!-- id='article' --> 
 			<br clear='all' />
 			

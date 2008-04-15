@@ -139,8 +139,33 @@ public class UploadUnzipTest extends HttpServlet {
 			String userdir = new String(base_directory  + File.separator + directory);
 			File u = new File(userdir);
 			sbmlTestcase t1 = new sbmlTestcase();
-			
-			String testdir = t1.getSbmlTestdir();
+			String testdir = new String();
+/*			try {
+			testdir = t1.getSbmlTestdir();
+			}
+			catch(FileNotFoundException e) {
+				System.out.println("where is the configuration file? " + e.getMessage());
+				
+			}
+			catch(IOException e) {
+				System.out.println("Can't read the configuration file " + e.getMessage());
+				
+			}
+*/		    
+			ServletContext context = getServletContext();
+			InputStream is = context.getResourceAsStream("/WEB-INF/classes/sbml_config_file.txt");
+		     try{
+			BufferedReader d = new BufferedReader(new InputStreamReader(is));
+			String line; 
+   			if  (   (  line = d.readLine (  )   )  != null  )   {  
+     				testdir=line ; 
+    			}  
+			}
+		     finally{
+			if(is != null) {
+				is.close();
+			}
+		     }
 			String testdir_listing [];
 
 			// get presence of a header line from the user when they upload maybe?
@@ -159,30 +184,40 @@ public class UploadUnzipTest extends HttpServlet {
 			}
 			catch(Exception e) {
 				System.err.println("Incorrect user file name format");
+				String error = "User test files in incorrect file name format - please name files ending with nnnnn.csv - where nnnnn is the test number"; 
+				String nextJSP = "/web/error.jsp";
+				request.setAttribute("error",error);
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+				dispatcher.forward(request,response);
 				
 			}
 			String value = new String();
 			String userfile = new String();
 			Set set = userfiles.keySet();
 			Iterator iter2 = set.iterator();
+			int totalpoints=0;
 			
 
 			while(iter2.hasNext()) {
 				
 				value = (String)iter2.next();
 				userfile = (String)userfiles.get(value);
+				System.out.println(userfile);
 				String controlfile_results = t1.getControlResults(value,testdir);
 
 				String control_settingsfile = t1.getSettingsFile(value,testdir);
 
 				String plot_file = t1.getPlotFile(value,testdir);
 				String html_file = t1.getHtmlFile(value,testdir);
+				
 
 				try {
 					t1.readSettingsFile(control_settingsfile);
+					totalpoints = t1.getVariables_count() * t1.getSteps();
 				}
 				catch(FileNotFoundException e) {
 					System.err.println("Filenotfound when reading control results");
+					
 					continue;
 				}
 				catch(IOException e) {
@@ -216,7 +251,9 @@ public class UploadUnzipTest extends HttpServlet {
 					String mfile = t3.getModelFile(value,testdir);
 					t3.readModelFile(mfile);
 					String desc = t3.getSynopsis();
-					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has inconsistent number of variables for test - Test Aborted",plot_file,html_file);
+					Vector<String> cvector = t3.getComponenttags();
+					Vector<String> tvector = t3.getTesttags();
+					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"Control file has inconsistent number of variables for test",plot_file,html_file,cvector,tvector,totalpoints);
 					output.addElement(t2);
 					continue;
 				}
@@ -239,7 +276,9 @@ public class UploadUnzipTest extends HttpServlet {
 					String mfile = t3.getModelFile(value,testdir);
 					t3.readModelFile(mfile);
 					String desc = t3.getSynopsis();
-					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has inconsistent number of variables for test - Test Aborted",plot_file,html_file);
+					Vector<String> cvector = t3.getComponenttags();
+					Vector<String> tvector = t3.getTesttags();
+					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has inconsistent number of variables for test - Test Skipped",plot_file,html_file,cvector,tvector,totalpoints);
 					output.addElement(t2);
 					continue;
 				}
@@ -253,7 +292,9 @@ public class UploadUnzipTest extends HttpServlet {
 					String mfile = t3.getModelFile(value,testdir);
 					t3.readModelFile(mfile);
 					String desc = t3.getSynopsis();
-					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has too many time steps for test - Test Aborted",plot_file,html_file);
+					Vector<String> cvector = t3.getComponenttags();
+					Vector<String> tvector = t3.getTesttags();
+					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has too many time steps for test - Test Skipped",plot_file,html_file,cvector,tvector,totalpoints);
 					output.addElement(t2);
 					continue;
 				}
@@ -267,7 +308,9 @@ public class UploadUnzipTest extends HttpServlet {
 					String mfile = t3.getModelFile(value,testdir);
 					t3.readModelFile(mfile);
 					String desc = t3.getSynopsis();
-					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has inconsistent number of entries - Test Aborted",plot_file,html_file);
+					Vector<String> cvector = t3.getComponenttags();
+					Vector<String> tvector = t3.getTesttags();
+					TestResultDetails t2 = new TestResultDetails(-1,value,desc,"User file has inconsistent number of entries - Test Skipped",plot_file,html_file,cvector,tvector,totalpoints);
 					output.addElement(t2);
 					continue;
 				}
@@ -277,7 +320,9 @@ public class UploadUnzipTest extends HttpServlet {
 				String mfile = t3.getModelFile(value,testdir);
 				t3.readModelFile(mfile);
 				String desc = t3.getSynopsis();
-				TestResultDetails t2 = new TestResultDetails(pass_fail,value,desc,"",plot_file,html_file);
+				Vector<String> cvector = t3.getComponenttags();
+				Vector<String> tvector = t3.getTesttags();
+				TestResultDetails t2 = new TestResultDetails(pass_fail,value,desc,"",plot_file,html_file,cvector,tvector,totalpoints);
 				output.addElement(t2);
 				
 
