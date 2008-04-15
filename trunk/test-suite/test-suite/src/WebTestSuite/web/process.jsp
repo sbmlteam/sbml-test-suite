@@ -9,16 +9,18 @@
 <%@ page import="java.lang.*" %>
 <%@ page import="sbml.test.sbmlTestselection" %>
 <%@ page import="java.io.*" %>
+<%@ page import="javax.servlet.*" %>
+<%@ page import="javax.servlet.http.*"%>
 
 <jsp:useBean id="formHandler" class="sbml.test.FormBean" scope="request">
     <jsp:setProperty name="formHandler" property="*"/>
 </jsp:useBean>
 
-<%!  String[] levels;
+<%!  
      String[] testtype;
      String[] ctags;
      String[] ttags;
-     Vector<String> levelvector;
+     String[] level;
      
      String testdir;
      String testdir_listing [];
@@ -27,25 +29,36 @@
 %>
 end of line 25
 <%
-    levels = formHandler.getLevels();
+    level = formHandler.getLevels();
     testtype = formHandler.getTesttype();
     ctags = formHandler.getCtags();
     ttags = formHandler.getTtags();
 
     
     sbmlTestselection t3 = new sbmlTestselection();
-    String testdir = t3.getSbmlTestdir();
+    
 
 %>
-<%--    testdir = "/home/kimberly/test-suite/cases/semantic"; --%>
+level is <%=level[0]%> testtype is <%=testtype[0]%> ctags are <%=ctags%> ttags are <%=ttags%>
 
-<%    testdir = t3.getSbmlTestdir(); %>
 
-just got the testdir it is <%= testdir %>
 
-<%  File f = new File(testdir); 
-     String mapfile;   
-     testdir_listing = f.list();
+<%  	String testdir = new String();
+	    
+	ServletContext context = getServletContext();
+	InputStream is = context.getResourceAsStream("/WEB-INF/classes/sbml_config_file.txt");
+	try{
+		BufferedReader d = new BufferedReader(new InputStreamReader(is));
+		String line; 
+   		if  (   (  line = d.readLine (  )   )  != null  )   {  
+     			testdir=line ; 
+    		}  
+	}
+	finally{
+		if(is != null) {
+			is.close();
+		}
+	}
 %>
-
+testdir is <%=testdir%>
 

@@ -8,25 +8,32 @@
 
 package sbml.test;
 import java.math.*;
+import java.util.*;
 
 public class TestResultDetails {
 	// the TestResultDetails class has 4 fields
 	private int result;
+	private int totalpoints;
 	private String testname;
 	private String description;
 	private String warnings;
 	private String plot;
 	private String html;
+	private Vector<String> ctags;
+	private Vector<String> ttags;
 	
 
 	// the TestResultDetails class has one constructor
-	public TestResultDetails(int output, String name, String desc, String warning, String plot_path, String html_path) {
+	public TestResultDetails(int output, String name, String desc, String warning, String plot_path, String html_path, Vector<String> c, Vector<String> t, int points) {
 		result = output;
 		testname = name;
 		description = desc;
 		warnings = warning;
 		plot = plot_path;
 		html = html_path;
+		ctags = c;
+		ttags = t;
+		totalpoints= points;
 	}
 
 	// the TestResultDetails class has 4 methods
@@ -48,6 +55,9 @@ public class TestResultDetails {
 	public void setHtml(String newValue) {
 		html = newValue;
 	}
+	public void setTotalpoints(int newValue) {
+		totalpoints = newValue;
+	}
 	
 	public int getResult() {
 		return result;
@@ -66,6 +76,29 @@ public class TestResultDetails {
 	}
 	public String getDescription() {
 		return description;
+	}
+	public Vector<String> getCtags() {
+		return ctags;
+	}
+	public Vector<String> getTtags() {
+		return ttags;
+	}
+	public int getTotalpoints() {
+		return totalpoints;
+	}
+	public String getCtagsString() {
+		String s = "";
+		for(int i=0;i<ctags.size();i++) {	
+			s= s + ctags.elementAt(i);
+		}	
+	  return s;		
+	}
+	public String getTtagsString() {
+		String t = "";
+		for(int i=0;i<ttags.size();i++) {	
+			t= t + ttags.elementAt(i);
+		}	
+	  return t;		
 	}
 		
 }
