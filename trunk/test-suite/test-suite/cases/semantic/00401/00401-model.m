@@ -17,7 +17,7 @@ The model contains one compartment called C.
 | S2 -> S3 | $k2 * S2 * C$  |
 | S3 -> S1 | $k3 * S3 * C$     |]
 
-The model contains one events, that assign value species S1, S2 and S3, defined as:
+The model contains one events, that assign value to species S1, S2 and S3, defined as:
 
 [{width:30em,margin-left:5em}|        | Trigger    | Delay | Assignments |
  | Event1 | $S1 < 0.75$ | $-$   | $S2 = S3$    |
