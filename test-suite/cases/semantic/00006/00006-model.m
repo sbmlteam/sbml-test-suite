@@ -37,6 +37,8 @@ Stochastic simulations will show fluctuations in the amounts of the
 species substances, but the total amount should not vary nor should the
 average concentration vary significantly over time.
 
+Note: The test data for this model was generated analytically.
+
 *)
 
 newcase[ "00006" ];
