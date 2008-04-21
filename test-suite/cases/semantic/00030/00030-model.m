@@ -26,6 +26,8 @@ The initial conditions are as follows:
 | Volume of compartment compartment:| $            1$ | litre                     |]
 
 
+Note: The test data for this model was generated analytically.
+
 *)
 
 newcase[ "00030" ];
