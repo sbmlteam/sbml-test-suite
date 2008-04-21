@@ -31,6 +31,8 @@ use the model in a discrete stochastic simulator, but (as per usual SBML
 principles) they must be treated as concentrations where they appear in
 expressions.
 
+Note: The test data for this model was generated analytically.
+
 *)
 
 newcase[ "00009" ];

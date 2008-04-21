@@ -29,6 +29,8 @@ make it easier to use the model in a discrete stochastic simulator, but (as
 per usual SBML principles) their symbols represent the value in
 concentration units where they appear in expressions.
 
+Note: The test data for this model was generated analytically.
+
 *)
 
 newcase[ "00001" ];
