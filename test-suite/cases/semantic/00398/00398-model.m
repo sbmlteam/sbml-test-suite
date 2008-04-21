@@ -2,7 +2,7 @@
 
 category:      Test
 synopsis:      Model using parameters and rules only with
-               one event that assigns value to a parameter.
+               one event that assigns value to two parameters.
 componentTags: Parameter, RateRule, EventNoDelay 
 testTags:      NonConstantParameter
 testType:      TimeCourse
@@ -20,7 +20,7 @@ The model contains two events, that assign value to parameters S2 and S1 respect
 
 [{width:30em,margin-left:5em}|        | Trigger    | Delay | Assignments |
  | Event1 | $S1 < 0.75$ | $-$   | $S2 = 1$    |
- | Event2 | $S3 > 1.4$ | $-$   | $S1 = 1$    |]
+ |  |  |    | $S1 = 1$    |]
 
 The initial conditions are as follows:
 

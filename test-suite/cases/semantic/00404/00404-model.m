@@ -2,7 +2,7 @@
 
 category:      Test
 synopsis:      Model using parameters and rules only with
-               and one events that assigns value to three parameters.
+               and one event that assigns value to three parameters.
 componentTags: Parameter, RateRule, EventNoDelay 
 testTags:      NonConstantParameter
 testType:      TimeCourse
