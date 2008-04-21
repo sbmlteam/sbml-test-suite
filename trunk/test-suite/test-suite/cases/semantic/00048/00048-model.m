@@ -27,6 +27,8 @@ In this example the compartment has spatialDimensions set to zero,
 i.e., it represents a point and therefore cannot have size or units.  The 
 species values must be treated as amounts and not concentrations.
 
+Note: The test data for this model was generated analytically.
+
 *)
 
 newcase[ "00048" ];
