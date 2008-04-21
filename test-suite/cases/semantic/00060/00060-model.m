@@ -26,6 +26,8 @@ The initial conditions are as follows:
 The species have been declared as having substance units only. Thus they 
 must be treated as amounts where they appear in expressions.
 
+Note: The test data for this model was generated analytically.
+
 *)
 
 newcase[ "00060" ];
