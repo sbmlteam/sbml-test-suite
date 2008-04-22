@@ -56,27 +56,21 @@ public class sbmlTestcase  {
 	public String getSbmlTestdir() throws IOException, FileNotFoundException {
 		String sbmltestdir = new String();
 		File sbmlconfigfile = new File("/usr/share/apache-tomcat-5.5.26/webapps/test_suite/WEB-INF/sbml_config_file.txt");
+//		File sbmlconfigfile = new File("sbml_config_file.txt");
+
 		String[][] config = new String[1][1];
-		try{
+//		try{
 			BufferedReader bufRdr  = new BufferedReader(new FileReader(sbmlconfigfile));
 			String line = null;
-			
+		
 			while((line = bufRdr.readLine()) != null)
 			{	
 				line.trim();
 				sbmltestdir = line;	
 			}
 			bufRdr.close();
-		}
-		catch (FileNotFoundException e) {
-    			System.err.println("FileNotFoundException: ");
-			e.printStackTrace();
-		}
-		catch(IOException e) {
-		// catch possible io errors from readLine()
-			System.err.println("IOException error reading application config file");
-			e.printStackTrace();
-		}
+//		}
+		
 	return sbmltestdir;
 	}
 
@@ -209,6 +203,8 @@ public class sbmlTestcase  {
 		*/
 		
 		int pass_fail = 0;
+		int fcof = -1;
+		int frof = -1;
 		for(int i = 0; i < differences.length; i++) {
 		
 			// first column will always be time so we start at second column
@@ -219,7 +215,7 @@ public class sbmlTestcase  {
 			then the absolute difference between the user and control files is allowable and therefore it passes the test for that row/column value
 			*/		
 				//if the absolute difference is greater than the allowable absolute value
-				if((((differences[i][j].abs()).max(absolute)).compareTo(absolute) != 0)) {
+			/*	if((((differences[i][j].abs()).max(absolute)).compareTo(absolute) != 0)) {
 					//System.out.println("Failed the absolute allowable difference- now testing the relative allowable difference at line " + i + "column " +j);
 					
 					// fails absolute difference test - now check if it passes relative test
@@ -228,6 +224,16 @@ public class sbmlTestcase  {
 						//System.out.println("Fails both relative and absolute tests here row " +i);
 						//return a fail
 						pass_fail++;
+					}
+				} */
+				// if the absolute value of the differences is greater than the relative allowable difference multiplied
+				// by the control value added to the absolute allowable difference - the test fails
+				if((differences[i][j].abs()).compareTo(relative.multiply(control[i][j]).add(absolute)) == 1) {
+					//fails test
+					pass_fail++;
+					if(frof == -1 && fcof == -1) {
+						frof=i;
+						fcof=j;
 					}
 				}
 			}	
@@ -319,7 +325,7 @@ public Map getUsertestlist(String dirname) throws Exception{
 	   Output: a hashmap with the testname and user result file name as associated columns
 	*/
 	
-	Map<String, String> m = new HashMap<String, String>();
+	Map<String, String> m = new HashMap<String, String>(1000);
 	String userdir_listing [];
 	String userfile = new String();
 	String value = new String();
@@ -327,6 +333,7 @@ public Map getUsertestlist(String dirname) throws Exception{
 	userdir_listing = u.list();
 	
 	if(userdir_listing.length>0) {
+		
 	for(int i = 0; i < userdir_listing.length; i++) {
 	
 		// set user result filename
@@ -339,8 +346,9 @@ public Map getUsertestlist(String dirname) throws Exception{
 			m.put(value,userfile);
 		}
 		else {
+			System.out.println("User test files in incorrect file name format - please name files ending with nnnnn.csv - where nnnnn is the test number " + userfile);
 			throw new Exception ("Incorrect file name format");
-			//System.err.println("User test files in incorrect file name format - please name files ending with nnnnn.csv - where nnnnn is the test number");
+			
 			
 		}
 	}

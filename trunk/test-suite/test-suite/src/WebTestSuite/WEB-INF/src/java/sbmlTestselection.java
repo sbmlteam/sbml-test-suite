@@ -90,7 +90,7 @@ public class sbmlTestselection  {
 
 
 	public void readModelFile(String filename) {
-               /* Read settings file for test into a hash table rea
+               /* Read model file for test 
                 Input: is settings file name
                 Output: nothing - it sets the class variables from the settings file
                 */

@@ -12,6 +12,10 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
   <servlet-name>OpenFile</servlet-name>
   <servlet-class>sbml.test.OpenFile</servlet-class>
 </servlet>
+<servlet>
+  <servlet-name>ZipServlet</servlet-name>
+  <servlet-class>sbml.test.ZipServlet</servlet-class>
+</servlet>
 <servlet-mapping>
   <servlet-name>UploadUnzipTest</servlet-name>
   <url-pattern>/servlet/UploadUnzipTest</url-pattern>
@@ -19,6 +23,10 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 <servlet-mapping>
   <servlet-name>OpenFile</servlet-name>
   <url-pattern>/servlet/OpenFile</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+  <servlet-name>ZipServlet</servlet-name>
+  <url-pattern>/servlet/ZipServlet</url-pattern>
 </servlet-mapping>
 <taglib>
     <taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
