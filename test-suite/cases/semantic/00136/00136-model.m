@@ -2,7 +2,7 @@
 
 category:      Test
 synopsis:      Basic single forward reaction with two species in one
-               compartment using initialAssignment to set the initial value of one species.
+               compartment using initialAssignment to set the initial value of one parameter.
 componentTags: Compartment, Species, Reaction, Parameter, InitialAssignment 
 testTags:      InitialAmount
 testType:      TimeCourse
