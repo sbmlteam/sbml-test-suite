@@ -21,6 +21,10 @@
 		int totalpoints;
 		Vector<String> ctags;
 		Vector<String> ttags;
+		String[] totals = new String[3];
+		Vector<String> failures = new Vector<String>();
+		Vector<String> skips = new Vector<String>();
+		
 		Map<String, Integer> cmap = new HashMap<String, Integer>();
 		Map<String, Integer> tmap = new HashMap<String, Integer>();
 		
@@ -116,7 +120,8 @@
 				<div id='pagetitle'>
 					<h1 class='pagetitle'>SBML TEST SUITE RESULTS</h1>
 				</div><!-- id='pagetitle' -->
-			
+	
+	<form name="resultreport" action="report.jsp" method=post>		
 	<TABLE BORDER="0" CELLSPACING="0" WIDTH="80%" ALIGN="center">
 	<TR>
 	<%-- For each test in the test vector - get the testname, description, plot path, result --%>
@@ -180,6 +185,8 @@
 				out.println("</a>");
 				out.println("</TD>");
 				fail_count++;
+				failures.addElement(name +"," + description + "," + result + "," +totalpoints);
+				
 			}	
 			if(result == 0) {			
 		
@@ -198,6 +205,8 @@
 				out.println("</a>");
 				out.println("</TD>");
 				abort_count++;
+				skips.addElement(name + "?" + description + "?" + warnings);
+				
 			}		
 	     } // end of for loop
 	     // if size of vector is not equally dividable by 30  - fill in in the remaining table with grey squares
@@ -209,9 +218,12 @@
 			out.println("<IMG SRC=\"/test_suite/web/images/grey.jpg\" border=\"0\"/>");
 			out.println("</TD>");
 	     }	
+
+	
+
 	%>	
 	</TR>
-	</TABLE>
+	</TABLE> 
 	<BR>
 	<BR>
 	Number of tests taken  : <%=results.size()%><BR>
@@ -243,20 +255,18 @@
 %>	<BR>
 <%
 
-//	String base_directory = System.getProperty("java.io.tmpdir");
-//	String systimestamp = String.valueOf(System.currentTimeMillis());
- //   	String directory = "testsuite" + File.separator + systimestamp;
-//	FileOutputStream fos = new FileOutputStream(base_directory + File.separator+ directory + File.separator + "testsummary.txt");
-//	PrintWriter pw = new PrintWriter(fos);
-//	try {
-//		pw.println("Date: " + );
-//	}
-//	catch(IOException e) {
-//		out.println(e.getMessage());
-//	}
-%>
+	totals[0] = (String.valueOf(pass_count));
+	totals[1] = (String.valueOf(fail_count));
+	totals[2] = (String.valueOf(abort_count));
 
-
+	
+	session.putValue("totals",totals);
+	session.putValue("failures",failures);
+	session.putValue("skips",skips);
+	
+%>	
+	 <input type="submit" value="View Report">
+	</form>
 				</div><!-- id='article' --> 
 			<br clear='all' />
 			
