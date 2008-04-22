@@ -6,12 +6,15 @@
 --%>
 
 <%@ page import="java.util.*" %>
+<%@ page import="java.util.regex.*" %>
+<%@ page import="java.awt.*" %>
 <%@ page import="java.lang.*" %>
 <%@ page import="sbml.test.sbmlTestselection" %>
 <%@ page import="sbml.test.sbmlTestcase" %>
 <%@ page import="java.io.*" %>
 <%@ page import="javax.servlet.*" %>
 <%@ page import="javax.servlet.http.*"%>
+<%@ page import="javax.swing.*" %>
 
 <jsp:useBean id="formHandler" class="sbml.test.FormBean" scope="request">
     <jsp:setProperty name="formHandler" property="*"/>
@@ -41,22 +44,7 @@
     
 
 %>
-Selected level is <%=level[0]%> <BR>
-Selected testtype is <%=testtype[0]%><BR> 
-Component tags to exclude are: 
-<%	String c = new String();
-  	for(int i=0;i<ctags.length;i++) {
-		c = ctags[i];
-%>	<%=c%>,
-<% } %>
-<BR>
-Test tags to exclude are: 
-<%	String t = new String();
-  	for(int i=0;i<ttags.length;i++) {
-		t = ttags[i];
-%>	<%=t%>,
-<% } %>
-<BR>
+
 
 
 <%  	String testdir = new String();
@@ -75,7 +63,8 @@ Test tags to exclude are:
 			is.close();
 		}
 	}
-
+%> 
+<%
 	String testdir_listing [];
 
 	// get presence of a header line from the user when they upload maybe?
@@ -89,35 +78,57 @@ Test tags to exclude are:
 	
 	for(int i=0;i<testdir_listing.length;i++) {	
   		tcase = testdir_listing[i];
-		tmodelfile = t1.getModelFile(tcase,testdir);
-		t1.readModelFile(tmodelfile);
-		int itsout = 0;
-		if(t1.containsTesttype(testtype[0]) && t1.containsLevel(level[0])) {
+		
+		// check here that the test name conforms
+		//Pattern p = Pattern.compile("\\d{5}+\\$");
+		//Matcher matcher = p.matcher(tcase);
+		//if(matcher.find()) {
+			//out.println("matched the pattern");
+			tmodelfile = t1.getModelFile(tcase,testdir);
+			t1.readModelFile(tmodelfile);
+			int itsout = 0;
+			if(t1.containsTesttype(testtype[0]) && t1.containsLevel(level[0])) {
 			
-			for(int j=0;j<ctags.length;j++) {
-				if(t1.containsComponent(ctags[j])) {
+				for(int j=0;j<ctags.length;j++) {
+					if(t1.containsComponent(ctags[j])) {
 					itsout++;
+					}
 				}
-			}
-			for(int k=0;k<ttags.length;k++) {
-				if(t1.containsTag(ttags[k])) {
+				for(int k=0;k<ttags.length;k++) {
+					if(t1.containsTag(ttags[k])) {
 					itsout++;
+					}
 				}
-			}
-			if(itsout==0) {
-				selected_cases.addElement(tcase);
-			}
+				if(itsout==0) {
+					selected_cases.addElement(tcase);
+					
+				}
 			
 
-		} // end of if
-		
+			} // end of if
+		//}
 	}
-	for(Iterator it = selected_cases.iterator(); it.hasNext();) {
-		out.println(it.next() + "<BR>");
-	}	
+
+
+	session.putValue("path",f);
+	session.putValue("tcases",selected_cases);
+	response.setHeader("Refresh", "1; URL=/test_suite/servlet/ZipServlet");
+
 
 		
 %>
+<html>
+   <head>
+       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+       <title>JSP Page</title>
+   </head>
+   <body>
+<%
+ out.println(testdir+"<br>");
+ out.println(selected_cases.toString());
 
+ %>
+   </body>
+</html>
 
 
