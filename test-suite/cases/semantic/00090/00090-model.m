@@ -2,42 +2,41 @@
 
 category:      Test
 synopsis:      Two reactions with four species in one
-               compartment using an assignmentRule to vary one species.
+compartment using an assignmentRule to vary one species.
 componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule 
 testTags:      InitialAmount
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
-The model contains one compartment named compartment.
-  There are four species named S1, S2, S3 and S4 and three parameters named k1, k2 and k3.
-  The model contains two reactions defined as:
+The model contains one compartment called "compartment".  There are four
+species named S1, S2, S3 and S4 and three parameters named k1, k2 and k3.
+The model contains two reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 * compartment$  |
 | S3 -> S1 + S2 | $k2 * S3 * compartment$  |]
 
-  The model contains one rule:
+The model contains one rule:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | S4 | $3 * S2$  |]
 
-
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|              Initial amount of S1:| $   1 \x 10^-5$ | mole                      |
-|              Initial amount of S2:| $ 1.5 \x 10^-5$ | mole                      |
-|              Initial amount of S3:| $   1 \x 10^-5$ | mole                      |
-|              Initial amount of S4:| $2.25 \x 10^-5$ | mole                      |
-|             Value of parameter k1:| $  1.5 \x 10^5$ | litre mole^-1^ second^-1^ |
-|             Value of parameter k2:| $           50$ | second^-1^ |
-|             Value of parameter k3:| $          1.5$ | dimensionless |
-| Volume of compartment compartment:| $            1$ | litre                     |]
+[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+|Initial amount of S1                |$   1 \x 10^-5$ |mole                      |
+|Initial amount of S2                |$ 1.5 \x 10^-5$ |mole                      |
+|Initial amount of S3                |$   1 \x 10^-5$ |mole                      |
+|Initial amount of S4                |$2.25 \x 10^-5$ |mole                      |
+|Value of parameter k1               |$  1.5 \x 10^5$ |litre mole^-1^ second^-1^ |
+|Value of parameter k2               |$           50$ |second^-1^ |
+|Value of parameter k3               |$          1.5$ |dimensionless |
+|Volume of compartment "compartment" |$            1$ |litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML
-principles) they must be treated as concentrations where they appear in
-expressions.
+principles) their symbols represent their values in concentration units
+where they appear in expressions.
 
 *)
 

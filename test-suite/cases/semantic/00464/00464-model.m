@@ -2,33 +2,34 @@
 
 category:      Test
 synopsis:      Basic single forward reaction with two species in one
-               compartment, nonzero initial concentrations, and identical reaction rates.
+compartment, nonzero initial concentrations, and identical reaction rates.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialConcentration
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
-The model contains one compartment called C.
-  There are two species called S1 and S2 and two parameters called k1 and k2.
-  The model contains two reactions defined as:
+The model contains one compartment called C.  There are two species called
+S1 and S2 and two parameters called k1 and k2.  The model contains two
+reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $k1 * S1 * C$  |
 | S2 -> S1 | $k2 * S2 * C$  |]
 
-The rate constants are identical in both directions, leading to a system where the
-species concentrations remain the same.  
+The rate constants are identical in both directions, leading to a system
+where the species concentrations remain the same.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|              Initial concentration of S1:| $1.5 \x 10^-15$ | mole litre^-1^         |
-|              Initial concentration of S2:| $1.5 \x 10^-15$ | mole litre^-1^         |
-|             Value of parameter k1:| $0.5$           | second^-1^     |
-|             Value of parameter k2:| $0.5$           | second^-1^     |
-| Volume of compartment C:| $1$             | litre          |]
+[{width:30em,margin-left:5em}| |*Value*       |*Units*        |
+|Initial concentration of S1 |$1.5 \x 10^-15$ |mole litre^-1^ |
+|Initial concentration of S2 |$1.5 \x 10^-15$ |mole litre^-1^ |
+|Value of parameter k1       |$0.5$           |second^-1^     |
+|Value of parameter k2       |$0.5$           |second^-1^     |
+|Volume of compartment C     |$1$             |litre          |]
 
-Note: The test data for this model was generated analytically.
+Note: The test data for this model was generated from an analytical
+solution of the system of equations.
 
 *)
 

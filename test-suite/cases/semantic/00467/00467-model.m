@@ -7,9 +7,9 @@ testTags:      InitialConcentration
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
-The model contains one compartment called C.
-  There are four species called S1, S2, S3 and S4 and three parameters called k1, k2 and k3.
-  The model contains three reactions defined as:
+The model contains one compartment called C.  There are four species called
+S1, S2, S3 and S4 and three parameters called k1, k2 and k3.  The model
+contains three reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 * C$  |
@@ -18,15 +18,15 @@ The model contains one compartment called C.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|              Initial concentration of S1:| $2.0 \x 10^-15$  | mole litre^-1^                      |
-|              Initial concentration of S2:| $2.0 \x 10^-15$  | mole litre^-1^                      |
-|              Initial concentration of S3:| $0$              | mole litre^-1^                      |
-|              Initial concentration of S4:| $0$              | mole litre^-1^                      |
-|             Value of parameter k1:| $1.0 \x 10^15$   | litre mole^-1^ second^-1^  |
-|             Value of parameter k2:| $0.9$            | second^-1^                 |
-|             Value of parameter k3:| $0.7$            | second^-1^                 |
-| Volume of compartment C:| $1$              | litre                      |]
+[{width:30em,margin-left:5em}| |*Value*        |*Units*        |
+|Initial concentration of S1 |$2.0 \x 10^-15$  |mole litre^-1^ |
+|Initial concentration of S2 |$2.0 \x 10^-15$  |mole litre^-1^ |
+|Initial concentration of S3 |$0$              |mole litre^-1^ |
+|Initial concentration of S4 |$0$              |mole litre^-1^ |
+|Value of parameter k1       |$1.0 \x 10^15$   |litre mole^-1^ second^-1^  |
+|Value of parameter k2       |$0.9$            |second^-1^                 |
+|Value of parameter k3       |$0.7$            |second^-1^                 |
+|Volume of compartment C     |$1$              |litre                      |]
 
 
 *)

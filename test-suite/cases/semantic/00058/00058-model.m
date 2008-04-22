@@ -8,9 +8,9 @@ testTags:      InitialAmount, LocalParameters
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
-The model contains one compartment named compartment.
-  There are three species named S1, S2 and S3 and one parameter named k.
-  The model contains two reactions defined as:
+The model contains one compartment called "compartment".  There are three
+species named S1, S2 and S3 and one global parameter named k.  The model
+contains two reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $k * S1 * compartmen$  |
@@ -18,23 +18,24 @@ The model contains one compartment named compartment.
 
 Reaction S2 -> S3 defines one local parameter k.
 
-Note that the id of the local parameter k shadows the global parameter k.  Within
-the defining reaction the value of the local parameter should be used.
+Note that the id of the local parameter k shadows the global parameter k.
+Within the defining reaction, the value of the locally-defined parameter k
+must be used.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|              Initial amount of S1:| $3.0 \x 10^-15$ | mole                      |
-|              Initial amount of S2:| $            0$ | mole                      |
-|              Initial amount of S3:| $            0$ | mole                      |
-|              Value of parameter k:| $            1$ | second^-1^ |
-|        Value of local parameter k:| $            2$ | second^-1^ |
-| Volume of compartment compartment:| $            1$ | litre                     |]
+[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+|Initial amount of S1                |$3.0 \x 10^-15$ |mole                      |
+|Initial amount of S2                |$            0$ |mole                      |
+|Initial amount of S3                |$            0$ |mole                      |
+|Value of parameter k                |$            1$ |second^-1^ |
+|Value of local parameter k          |$            2$ |second^-1^ |
+|Volume of compartment "compartment" |$            1$ |litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML
-principles) they must be treated as concentrations where they appear in
-expressions.
+principles) their symbols represent their values in concentration units
+where they appear in expressions.
 
 *)
 

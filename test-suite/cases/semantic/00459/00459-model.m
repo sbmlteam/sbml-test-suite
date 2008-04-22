@@ -9,30 +9,31 @@ testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains five parameters called S1, S2, S3, k1 and k2.
-  The model contains three rules defined as:
+The model contains three rules defined as:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S1  | $k2 * S3 - k1 * S1 * S2$  |
  | Rate | S2  | $k2 * S3 - k1 * S1 * S2$  |
  | Rate | S3  | $k1 * S1 * S2 - k2 * S3$  |]
 
-The model contains one events, that assign value both parameters S1 and S2, defined as:
+The model contains one event that assigns values to both parameters S1 and S2:
 
-[{width:30em,margin-left:5em}|        | Trigger    | Delay | Assignments |
- | Event1 | $S1 < 0.75$ | $2$   | $S2 = 1.5$    |
- |        |             |       | $S1 = S2$    |]
+[{width:30em,margin-left:5em}| | *Trigger*   | *Delay* | *Assignments* |
+ | Event1                      | $S1 < 0.75$ | $2$     | $S2 = 1.5$    |
+ |                             |             |         | $S1 = S2$     |]
  
-Note that the event assignments should happen simultaneously, not sequentially i.e. 
- the value of S2 assigned to S1 is the value at the point at which the event was triggered.
+Note that the event assignments should happen simultaneously, not
+sequentially; i.e., the value of S2 assigned to S1 is the value at the
+point at which the event was triggered.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|              Initial amount of S1:| $1.0$  | any                      |
-|              Initial amount of S2:| $2.0$  | same as S1                      |
-|              Initial amount of S3:| $1.0$  | same as S1                      |
-|             Value of parameter k1:| $0.75$           | (unit of S1)^-1^ second^-1^ |
-|             Value of parameter k2:| $0.25$           | second^-1^                |]
+[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+|Initial amount of S1  |$1.0$  |any                      |
+|Initial amount of S2  |$2.0$  |same as S1                      |
+|Initial amount of S3  |$1.0$  |same as S1                      |
+|Value of parameter k1 |$0.75$           |(unit of S1)^-1^ second^-1^ |
+|Value of parameter k2 |$0.25$           |second^-1^                |]
 
 
 *)

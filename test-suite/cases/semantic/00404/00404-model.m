@@ -9,32 +9,34 @@ testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains six parameters called S1, S2, S3, k1, k2 and k3.
-  The model contains three rules defined as:
+The model contains three rules defined as:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S1  | $k3 * S3 - k1 * S1$  |
  | Rate | S2  | $k1 * S1 - k2 * S2$  |
  | Rate | S3  | $k2 * S2 - k3 * S3$  |]
 
-The model contains one events, that assign value to parameters S1, S2 and S3, defined as:
+The model contains one event that assigns values to parameters S1, S2 and
+S3:
 
-[{width:30em,margin-left:5em}|        | Trigger    | Delay | Assignments |
+[{width:30em,margin-left:5em}| | *Trigger*    | *Delay* | *Assignments* |
  | Event1 | $S1 < 0.75$ | $-$   | $S2 = S3$    |
  |        |             |       | $S1 = S2$    |
  |        |             |       | $S3 = S1$    |]
  
-Note that the event assignments should happen simultaneously, not sequentially i.e. 
- the value of S2 assigned to S1 is the value at the point at which the event was triggered.
+Note that the event assignments should happen simultaneously, not
+sequentially; i.e., the value of S2 assigned to S1 is the value at the
+point at which the event was triggered.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|              Initial amount of S1:| $1.0$  | any                      |
-|              Initial amount of S2:| $2.0$  | same as S1                      |
-|              Initial amount of S3:| $1.0$  | same as S1                      |
-|             Value of parameter k1:| $0.75$           | second^-1^ |
-|             Value of parameter k2:| $0.55$           | second^-1^ |
-|             Value of parameter k3:| $0.25$           | second^-1^                |]
+[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+|Initial amount of S1  |$1.0$  |any                      |
+|Initial amount of S2  |$2.0$  |same as S1                      |
+|Initial amount of S3  |$1.0$  |same as S1                      |
+|Value of parameter k1 |$0.75$           |second^-1^ |
+|Value of parameter k2 |$0.55$           |second^-1^ |
+|Value of parameter k3 |$0.25$           |second^-1^                |]
 
 
 *)

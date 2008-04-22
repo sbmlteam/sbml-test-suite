@@ -8,33 +8,32 @@ testTags:      NonConstantParameter
 testType:      TimeCourse
 levels:        2.2, 2.3
 
-The model contains five parameters named S1, S2, S3, k1 and k2.
-  The model contains three rules:
+The model contains five parameters named S1, S2, S3, k1 and k2.  There are
+no compartments.  The model contains three rules:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | S3 | $1 * S2$  |
  | Rate       | S1 | $-k2 * S1 $  |
  | Rate       | S2 | $k2 * S1 $  |]
 
-  The model contains two initialAssignments:
+The model contains two initialAssignments:
 
 [{width:30em,margin-left:5em}| Variable | Formula |
  | S1 | $k1/0.75$  |
  | S2 | $k2 * 3 \x 10^-17$  |]
 
-  Note: InitialAssignments override any declared initial values.  The initial values of
-parameters S1, S2 and S3 are undeclared and so must be calculated by the initialAssignments.
-
+Note: InitialAssignments override any declared initial values.  The initial
+values of parameters S1, S2 and S3 are undeclared and so must be calculated
+by the initialAssignments.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|             Value of parameter S1:| $   undeclared$ | any |
-|             Value of parameter S2:| $   undeclared$ | same as S1 |
-|             Value of parameter S3:| $   undeclared$ | same as S1 |
-|             Value of parameter k1:| $         0.75$ | dimensionless |
-|             Value of parameter k2:| $           50$ | second^-1^ |]
-
+[{width:30em,margin-left:5em}|      |*Value*         |*Units*  |
+|Value of parameter S1              |$   undeclared$ |any |
+|Value of parameter S2              |$   undeclared$ |same as S1 |
+|Value of parameter S3              |$   undeclared$ |same as S1 |
+|Value of parameter k1              |$         0.75$ |dimensionless |
+|Value of parameter k2              |$           50$ |second^-1^ |]
 
 *)
 

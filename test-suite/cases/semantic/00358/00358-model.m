@@ -8,38 +8,38 @@ testTags:      InitialAmount
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
-The model contains one compartment called C.
-  There are three species called S1, S2 and S3 and two parameters called k1 and k2.
-  The model contains two reactions defined as:
+The model contains one compartment called C.  There are three species
+called S1, S2 and S3 and two parameters called k1 and k2.  The model
+contains two reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 * C$  |
 | S3 -> S1 + S2 | $k2 * S3 * C$     |]
 
-The model contains two events, that assign value to species S2 and S1 respectively, defined as:
+The model contains two events that assign values to species S2 and S1:
 
-[{width:30em,margin-left:5em}|        | Trigger    | Delay | Assignments |
+[{width:30em,margin-left:5em}| | *Trigger*    | *Delay* | *Assignments* |
  | Event1 | $lessthan(S1, 0.7)$ | $-$   | $S2 = 1.5$    |
  |  |  |   | $S1 = 1$    |]
 
 The event trigger uses the functionDefinition defined as:
-[{width:30em,margin-left:5em}|  * Id *  |  * Arguments *  |  *Formula*  |
+[{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
  | lessthan | x, y      | $x < y$   |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|              Initial amount of S1:| $1.0$  | mole                      |
-|              Initial amount of S2:| $2.0$  | mole                      |
-|              Initial amount of S3:| $1.0$  | mole                      |
-|             Value of parameter k1:| $0.75$           | litre mole^-1^ second^-1^ |
-|             Value of parameter k2:| $0.25$           | second^-1^                |
-|           Volume of compartment C:| $1$              | litre                     |]
+[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+|Initial amount of S1    |$1.0$  |mole                      |
+|Initial amount of S2    |$2.0$  |mole                      |
+|Initial amount of S3    |$1.0$  |mole                      |
+|Value of parameter k1   |$0.75$           |litre mole^-1^ second^-1^ |
+|Value of parameter k2   |$0.25$           |second^-1^                |
+|Volume of compartment C |$1$              |litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML
-principles) they must be treated as concentrations where they appear in
-expressions.
+principles) their symbols represent their values in concentration units
+where they appear in expressions.
 
 *)
 

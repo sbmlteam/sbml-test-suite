@@ -8,33 +8,32 @@ testTags:      InitialAmount, 0D-Compartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
-The model contains one compartment called C.
-  There are three species called S1, S2 and S3 and two parameters called k1 and k2.
-  Compartment C is 0-dimensional.
-  The model contains two reactions defined as:
+The model contains one compartment called C.  There are three species
+called S1, S2 and S3 and two parameters called k1 and k2.  Compartment C is
+0-dimensional.  The model contains two reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2$  |
 | S3 -> S1 + S2 | $k2 * S3$     |]
 
-The model contains one events, that assign value both species S1 and S2, defined as:
+The model contains one event that assigns values to both species S1 and S2:
 
-[{width:30em,margin-left:5em}|        | Trigger    | Delay | Assignments |
+[{width:30em,margin-left:5em}| | *Trigger*    | *Delay* | *Assignments* |
  | Event1 | $S1 < 0.45$ | $-$   | $S2 = 1.25$    |
  |        |             |       | $S1 = 0.6$    |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|              Initial amount of S1:| $1.0$  | mole                      |
-|              Initial amount of S2:| $2.0$  | mole                      |
-|              Initial amount of S3:| $1.0$  | mole                      |
-|             Value of parameter k1:| $0.75$           | mole^-1^ second^-1^ |
-|             Value of parameter k2:| $0.25$           | second^-1^                |]
+[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+|Initial amount of S1  |$1.0$  |mole                      |
+|Initial amount of S2  |$2.0$  |mole                      |
+|Initial amount of S3  |$1.0$  |mole                      |
+|Value of parameter k1 |$0.75$           |mole^-1^ second^-1^ |
+|Value of parameter k2 |$0.25$           |second^-1^                |]
 
-In this example the compartment has spatialDimensions set to zero,
-i.e., it represents a point and therefore cannot have size or units.  The 
-species values must be treated as amounts and not concentrations.
+In this example the compartment has its spatialDimensions attribute set to
+zero; i.e., it represents a point and therefore cannot have size or units.
+The species values must be treated as amounts and not concentrations.
 
 *)
 

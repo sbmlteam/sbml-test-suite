@@ -7,9 +7,10 @@ testTags:      NonConstantParameter
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
-The model contains five parameters named S1, S2, S3, k1 and k2.
+The model contains five parameters named S1, S2, S3, k1 and k2.  (Note that
+indeed S1, S2 and S3 are parameters and not species in this model.)
 
-  The model contains three rules:
+The model contains three rules:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S1       | $k2 * S3-k1 * S1 * S2$  |
@@ -19,12 +20,12 @@ The model contains five parameters named S1, S2, S3, k1 and k2.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|             Value of parameter S1:| $1.5 \x 10^-15$ | any                        |
-|             Value of parameter S2:| $  2 \x 10^-15$ | same as S1                 |
-|             Value of parameter S3:| $  1 \x 10^-15$ | same as S1                 |
-|             Value of parameter k1:| $          0.5$ | (units of S1)^-1^ second^-1^ |
-|             Value of parameter k2:| $          0.5$ | second^-1^                 |]
+[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+|Value of parameter S1 |$1.5 \x 10^-15$ |any                        |
+|Value of parameter S2 |$  2 \x 10^-15$ |same as S1                 |
+|Value of parameter S3 |$  1 \x 10^-15$ |same as S1                 |
+|Value of parameter k1 |$          0.5$ |(units of S1)^-1^ second^-1^ |
+|Value of parameter k2 |$          0.5$ |second^-1^                 |]
 
 
 *)

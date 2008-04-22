@@ -2,17 +2,17 @@
 
 category:      Test
 synopsis:      Basic two reactions with four species in a 1-dimensional
-               compartment, with two species acting as a boundary condition.
+compartment, with two species acting as a boundary condition.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, 1D-Compartment, BoundaryCondition
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
-The model contains one compartment named compartment.
-  There are four species named S1, S2, S3 and S4 and two parameters named k1 and k2.
-  Compartment compartment is  1-dimensional.
-  Both species S3 and S4 are labeled as an SBML boundary species.
-  The model contains two reactions defined as:
+The model contains one compartment called "compartment".  There are four
+species named S1, S2, S3 and S4 and two parameters named k1 and k2.
+Compartment "compartment" is 1-dimensional.  Both species S3 and S4 are
+labeled as an SBML boundary species.  The model contains two reactions
+defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 + S4 | $k1 * S1 * S2 * compartment$  |
@@ -20,19 +20,19 @@ The model contains one compartment named compartment.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|              Initial amount of S1:| $1.0 \x 10^-12$ | mole                      |
-|              Initial amount of S2:| $1.5 \x 10^-12$ | mole                      |
-|              Initial amount of S3:| $2.0 \x 10^-12$ | mole                      |
-|              Initial amount of S4:| $1.0 \x 10^-13$ | mole                      |
-|             Value of parameter k1:| $ 6.2 \x 10^12$ | mole^-1^ second^-1^ |
-|             Value of parameter k2:| $   5 \x 10^12$ | mole^-1^ second^-1^ |
-| Length of compartment compartment:| $            1$ | metre                     |]
+[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+|Initial amount of S1                |$1.0 \x 10^-12$ |mole                      |
+|Initial amount of S2                |$1.5 \x 10^-12$ |mole                      |
+|Initial amount of S3                |$2.0 \x 10^-12$ |mole                      |
+|Initial amount of S4                |$1.0 \x 10^-13$ |mole                      |
+|Value of parameter k1               |$ 6.2 \x 10^12$ |mole^-1^ second^-1^ |
+|Value of parameter k2               |$   5 \x 10^12$ |mole^-1^ second^-1^ |
+|Length of compartment "compartment" |$            1$ |metre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML
-principles) they must be treated as concentrations where they appear in
-expressions.
+principles) their symbols represent their values in concentration units
+where they appear in expressions.
 
 *)
 
