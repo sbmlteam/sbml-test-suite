@@ -8,10 +8,10 @@ testTags:      InitialAmount, NonUnityStoichiometry, 0D-Compartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
-The model contains one compartment named compartment.
-  There are three species named S1, S2 and S3 and two parameters named k1 and k2.
-  Compartment compartment is 0-dimensional.
-  The model contains two reactions defined as:
+The model contains one compartment called "compartment".  There are three
+species named S1, S2 and S3 and two parameters named k1 and k2.
+Compartment "compartment" is 0-dimensional.  The model contains two
+reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
 | 2S1 + S2 -> S3 | $k1 * S1 * S1 * S2$  |
@@ -19,16 +19,16 @@ The model contains one compartment named compartment.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|              Initial amount of S1:| $1.0 \x 10^-12$ | mole                      |
-|              Initial amount of S2:| $0.5 \x 10^-12$ | mole                      |
-|              Initial amount of S3:| $1.0 \x 10^-12$ | mole                      |
-|             Value of parameter k1:| $ 1.6 \x 10^12$ | mole^-1^ second^-1^ |
-|             Value of parameter k2:| $          0.7$ | second^-1^ |]
+[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+|Initial amount of S1  |$1.0 \x 10^-12$ |mole                      |
+|Initial amount of S2  |$0.5 \x 10^-12$ |mole                      |
+|Initial amount of S3  |$1.0 \x 10^-12$ |mole                      |
+|Value of parameter k1 |$ 1.6 \x 10^12$ |mole^-1^ second^-1^ |
+|Value of parameter k2 |$          0.7$ |second^-1^ |]
 
-In this example the compartment has spatialDimensions set to zero,
-i.e., it represents a point and therefore cannot have size or units.  The 
-species values must be treated as amounts and not concentrations.
+In this example the compartment has its spatialDimensions attribute set to
+zero; i.e., it represents a point and therefore cannot have size or units.
+The species values must be treated as amounts and not concentrations.
 
 *)
 

@@ -8,7 +8,7 @@ testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains four parameters named S1, S2, k1 and k2.
-  The model contains two rules:
+The model contains two rules:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Algebraic |          | $S1 + S2-k1$  |
@@ -17,11 +17,11 @@ The model contains four parameters named S1, S2, k1 and k2.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|             Value of parameter S1:| $          0.5$ | any |
-|             Value of parameter S2:| $          0.5$ | same as S1 |
-|             Value of parameter k1:| $          1.0$ | same as S1 |
-|             Value of parameter k2:| $          0.8$ | second^-1^ |]
+[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+|Value of parameter S1 |$          0.5$ |any |
+|Value of parameter S2 |$          0.5$ |same as S1 |
+|Value of parameter k1 |$          1.0$ |same as S1 |
+|Value of parameter k2 |$          0.8$ |second^-1^ |]
 
 
 *)

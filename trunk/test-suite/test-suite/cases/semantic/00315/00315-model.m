@@ -8,39 +8,39 @@ testTags:      InitialAmount, NonConstantCompartment
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 
-The model contains one compartment named compartment.
-  There are three species named S1, S2 and S3 and three parameters named k1, k2 and p1.
-  The model contains two reactions defined as:
+The model contains one compartment called "compartment".  There are three
+species named S1, S2 and S3 and three parameters named k1, k2 and p1.  The
+model contains two reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 * compartment$  |
 | S3 -> S1 + S2 | $k2 * S3 * compartment$  |]
 
-  The model contains one rule which assigns value to compartment:
+The model contains one rule which assigns value to compartment:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | compartment | $p1 * S1$  |]
-In this case the initial value is not declared for compartment and must be calculated
-by the assignmentRule.  Note that since this assignmentRule 
-must always remain true, it should be considered during
-simulation.
 
+In this case, the initial value is not declared for compartment
+"compartment" and must be calculated by the assignmentRule.  Note that
+since this assignmentRule must always remain true, it should be considered
+during simulation.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|              Initial amount of S1:| $          1.0$ | mole                      |
-|              Initial amount of S2:| $          2.0$ | mole                      |
-|              Initial amount of S3:| $          1.0$ | mole                      |
-|             Value of parameter k1:| $         0.75$ | litre mole^-1^ second^-1^ |
-|             Value of parameter k2:| $         0.25$ | second^-1^ |
-|             Value of parameter p1:| $          0.1$ | litre^2^ mole^-1^ |
-| Volume of compartment compartment:| $    undeclared$ | litre                     |]
+[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+|Initial amount of S1                |$          1.0$ |mole                      |
+|Initial amount of S2                |$          2.0$ |mole                      |
+|Initial amount of S3                |$          1.0$ |mole                      |
+|Value of parameter k1               |$         0.75$ |litre mole^-1^ second^-1^ |
+|Value of parameter k2               |$         0.25$ |second^-1^ |
+|Value of parameter p1               |$          0.1$ |litre^2^ mole^-1^ |
+|Volume of compartment "compartment" |$    undeclared$ |litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML
-principles) they must be treated as concentrations where they appear in
-expressions.
+principles) their symbols represent their values in concentration units
+where they appear in expressions.
 
 *)
 

@@ -9,30 +9,29 @@ testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 
 The model contains five parameters named S1, S2, S3, k1 and k2.
-  The model contains three rules:
+The model contains three rules:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | S3       | $multiply(k1, S2)$  |
  | Rate       | S1       | $-multiply(k2, S1)$  |
  | Rate       | S2       | $k2 * S1 $  |]
 
-
 The model contains one functionDefinition defined as:
 
-[{width:30em,margin-left:5em}|  * Id *  |  * Arguments *  |  *Formula*  |
+[{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
  | multiply | x, y | $x * y$ |]
 
-Note the initial value for parameter S3 is undeclared and must be calculated using the 
-assignmentRule.
+Note the initial value for parameter S3 is undeclared and must be
+calculated using the assignmentRule.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |  *Value*  |  *Units*  |
-|             Value of parameter S1:| $            1$ | any |
-|             Value of parameter S2:| $          0.5$ | same as S1 |
-|             Value of parameter S3:| $   undeclared$ | any |
-|             Value of parameter k1:| $          0.7$ | (units of S3) (units of S1)^-1^ |
-|             Value of parameter k2:| $           40$ | second^-1^ |]
+[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+|Value of parameter S1 |$            1$ |any |
+|Value of parameter S2 |$          0.5$ |same as S1 |
+|Value of parameter S3 |$   undeclared$ |any |
+|Value of parameter k1 |$          0.7$ |(units of S3) (units of S1)^-1^ |
+|Value of parameter k2 |$           40$ |second^-1^ |]
 
 
 *)

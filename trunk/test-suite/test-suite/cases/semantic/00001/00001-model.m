@@ -18,18 +18,19 @@ The model does not contain any rules.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|     |*Value*          |*Units*        |
-|Initial amount of S1              |$1.5 \x 10^-15$  |mole           |
-|Initial amount of S2              |$0$              |mole           |
-|Value of parameter k1             |$1$              |second^-1^     |
-|Volume of compartment compartment |$1$              |litre          |]
+[{width:30em,margin-left:5em}|       |*Value*          |*Units*        |
+|Initial amount of S1                |$1.5 \x 10^-15$  |mole           |
+|Initial amount of S2                |$0$              |mole           |
+|Value of parameter k1               |$1$              |second^-1^     |
+|Volume of compartment "compartment" |$1$              |litre          |]
 
 The species' initial quantities are given in terms of substance units to
 make it easier to use the model in a discrete stochastic simulator, but (as
-per usual SBML principles) their symbols represent the value in
+per usual SBML principles) their symbols represent their values in
 concentration units where they appear in expressions.
 
-Note: The test data for this model was generated analytically.
+Note: The test data for this model was generated from an analytical
+solution of the system of equations.
 
 *)
 
