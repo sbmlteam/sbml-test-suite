@@ -18,15 +18,15 @@ The model contains three reactions defined as:
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|              Initial concentration of S1:| $1.0 \x 10^-15$  | mole litre^-1^          |
-|              Initial concentration of S2:| $0$              | mole litre^-1^          |
-|              Initial concentration of S3:| $0$              | mole litre^-1^          |
-|              Initial concentration of S4:| $0$              | mole litre^-1^          |
-|             Value of parameter k1:| $0.7$            | second^-1^     |
-|             Value of parameter k2:| $0.5$            | second^-1^     |
-|             Value of parameter k3:| $1$              | second^-1^     |
-| Volume of compartment C:| $1$              | litre          |]
+[{width:30em,margin-left:5em}| |*Value*       |*Units*  |
+|Initial concentration of S1 |$1.0 \x 10^-15$ |mole litre^-1^          |
+|Initial concentration of S2 |$0$             |mole litre^-1^          |
+|Initial concentration of S3 |$0$             |mole litre^-1^          |
+|Initial concentration of S4 |$0$             |mole litre^-1^          |
+|Value of parameter k1       |$0.7$           |second^-1^     |
+|Value of parameter k2       |$0.5$           |second^-1^     |
+|Value of parameter k3       |$1$             |second^-1^     |
+|Volume of compartment C     |$1$             |litre          |]
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
