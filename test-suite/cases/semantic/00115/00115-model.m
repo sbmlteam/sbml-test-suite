@@ -43,10 +43,10 @@ newcase[ "00115" ];
 
 addFunction[ multiply, arguments -> {x, y}, math -> x * y];
 addCompartment[ compartment, size -> 1 ];
-addSpecies[ S1, initialAmount -> 1.0 10^-6];
-addSpecies[ S2, initialAmount -> 1.5 10^-6];
-addSpecies[ S3, initialAmount -> 2.0 10^-6];
-addSpecies[ S4, initialAmount -> 0.5 10^-6];
+addSpecies[ S1, initialAmount -> 1.0 10^-6, hasOnlySubstanceUnits->True ];
+addSpecies[ S2, initialAmount -> 1.5 10^-6, hasOnlySubstanceUnits->True ];
+addSpecies[ S3, initialAmount -> 2.0 10^-6, hasOnlySubstanceUnits->True ];
+addSpecies[ S4, initialAmount -> 0.5 10^-6, hasOnlySubstanceUnits->True ];
 addParameter[ k1, value -> 1.3 10^6 ];
 addParameter[ k2, value -> 0.3 10^6 ];
 addReaction[ S1 + S2 -> S3 + S4, reversible -> False,
