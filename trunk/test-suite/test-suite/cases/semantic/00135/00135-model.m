@@ -20,11 +20,9 @@ The model contains one initialAssignment:
 [{width:30em,margin-left:5em}| Variable | Formula |
  | S1 | $k1 * S2$  |]
 
-Note: InitialAssignments override any declared initial values.  In this
-case the initial value of the species is explicitly declared, but conflicts
-with the result of the initialAssignment.  The result of the
-initialAssignment should be used.
-
+Note: SBML's InitialAssignment construct override any declared initial
+values.  In this case the initial value declared for species S1 is
+consistent with the value returned by the InitialAssignment.
 
 The initial conditions are as follows:
 
