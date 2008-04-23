@@ -34,7 +34,6 @@
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
               <times/>
-              <ci> compartment </ci>
               <ci> k1 </ci>
               <ci> S1 </ci>
               <ci> S2 </ci>
@@ -54,7 +53,6 @@
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
               <times/>
-              <ci> compartment </ci>
               <ci> k2 </ci>
               <ci> S3 </ci>
             </apply>
