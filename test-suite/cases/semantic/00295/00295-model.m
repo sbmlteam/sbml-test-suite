@@ -13,7 +13,7 @@ species named S1, S2 and S3 and two parameters named k1 and k2.  The model
 contains one reaction defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-| S1 -> S2 | $compartment * k2 * S1$  |]
+| S1 -> S2 | $k2 * S1$  |]
 
 The model contains one rule:
 
@@ -48,6 +48,6 @@ addParameter[ k1, value -> 1.05 ];
 addParameter[ k2, value -> 1.15 ];
 addRule[ type->AssignmentRule, variable -> S3, math ->k1 * S2];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> compartment * k2 * S1];
+	     kineticLaw -> k2 * S1];
 
 makemodel[]

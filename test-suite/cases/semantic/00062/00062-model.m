@@ -13,8 +13,8 @@ species named S1, S2, S3 and S4 and two parameters named k1 and k2.  The
 model contains two reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-| S1 + S2 -> S3 + S4 | $k1 * S1 * S2 * compartment$  |
-| S3 + S4 -> S1 + S2 | $k2 * S3 * S4 * compartment$  |]
+| S1 + S2 -> S3 + S4 | $k1 * S1 * S2$  |
+| S3 + S4 -> S1 + S2 | $k2 * S3 * S4$  |]
 
 The initial conditions are as follows:
 
@@ -42,8 +42,8 @@ addSpecies[ S4, initialAmount -> 0.5 10^-6, hasOnlySubstanceUnits->True ];
 addParameter[ k1, value -> 1.3 10^6 ];
 addParameter[ k2, value -> 0.3 10^6 ];
 addReaction[ S1 + S2 -> S3 + S4, reversible -> False,
-	     kineticLaw -> k1 * S1 * S2 * compartment ];
+	     kineticLaw -> k1 * S1 * S2 ];
 addReaction[ S3 + S4 -> S1 + S2, reversible -> False,
-	     kineticLaw -> k2 * S3 * S4 * compartment ];
+	     kineticLaw -> k2 * S3 * S4 ];
 
 makemodel[]
