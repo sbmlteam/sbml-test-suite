@@ -15,7 +15,7 @@
       <parameter name="k2" value="0.00025"/>
     </listOfParameters>
     <listOfRules>
-      <speciesConcentrationRule formula="(1/10000000)" type="rate" species="S4"/>
+      <speciesConcentrationRule formula="1.000000e-007" type="rate" species="S4"/>
     </listOfRules>
     <listOfReactions>
       <reaction name="reaction1" reversible="false">

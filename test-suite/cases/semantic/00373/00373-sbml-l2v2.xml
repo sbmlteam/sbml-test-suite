@@ -72,7 +72,7 @@
         <listOfEventAssignments>
           <eventAssignment variable="S1">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <cn type="rational"> 1 <sep/> 15860417 </cn>
+              <cn type="e-notation"> 2 <sep/> -15 </cn>
             </math>
           </eventAssignment>
         </listOfEventAssignments>
@@ -83,14 +83,14 @@
             <apply>
               <gt/>
               <ci> S3 </ci>
-              <cn type="rational"> 9 <sep/> 15860417 </cn>
+              <cn type="e-notation"> 2.25 <sep/> -15 </cn>
             </apply>
           </math>
         </trigger>
         <listOfEventAssignments>
           <eventAssignment variable="S4">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <cn type="rational"> 1 <sep/> 15860417 </cn>
+              <cn type="e-notation"> 1 <sep/> -15 </cn>
             </math>
           </eventAssignment>
         </listOfEventAssignments>
