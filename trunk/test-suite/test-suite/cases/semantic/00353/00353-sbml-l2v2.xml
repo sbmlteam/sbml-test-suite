@@ -72,12 +72,12 @@
         <listOfEventAssignments>
           <eventAssignment variable="S1">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <cn type="rational"> 1 <sep/> 15860417 </cn>
+              <cn type="e-notation"> 2 <sep/> -15 </cn>
             </math>
           </eventAssignment>
           <eventAssignment variable="S4">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <cn type="rational"> 1 <sep/> 15860417 </cn>
+              <cn type="e-notation"> 5 <sep/> -16 </cn>
             </math>
           </eventAssignment>
         </listOfEventAssignments>

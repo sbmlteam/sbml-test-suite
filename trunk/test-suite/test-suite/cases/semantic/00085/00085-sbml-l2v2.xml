@@ -39,7 +39,7 @@
           <apply>
             <ci> multiply </ci>
             <ci> k2 </ci>
-            <cn type="rational"> 1 <sep/> 250000 </cn>
+            <cn type="e-notation"> 4 <sep/> -6 </cn>
           </apply>
         </math>
       </rateRule>

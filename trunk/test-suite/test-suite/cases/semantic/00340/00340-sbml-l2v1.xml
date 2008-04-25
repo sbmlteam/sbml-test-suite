@@ -17,7 +17,7 @@
     <listOfRules>
       <rateRule metaid="rule1" variable="S4">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <cn type="rational"> 1 <sep/> 10000000 </cn>
+          <cn type="e-notation"> 1 <sep/> -7 </cn>
         </math>
       </rateRule>
     </listOfRules>
