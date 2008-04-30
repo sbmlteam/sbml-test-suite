@@ -7,6 +7,7 @@ componentTags: Compartment, Species, Reaction, Parameter, RateRule, AssignmentRu
 testTags:      InitialAmount
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
+generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are four
 species named S1, S2, S3 and S and three parameters named k1, k2 and k3.

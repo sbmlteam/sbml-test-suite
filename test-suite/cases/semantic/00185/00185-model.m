@@ -7,6 +7,7 @@ componentTags: Parameter, InitialAssignment, RateRule, AssignmentRule
 testTags:      NonConstantParameter
 testType:      TimeCourse
 levels:        2.2, 2.3
+generatedBy:   Numeric
 
 The model contains five parameters named S1, S2, S3, k1 and k2.  There are
 no compartments.  The model contains three rules:

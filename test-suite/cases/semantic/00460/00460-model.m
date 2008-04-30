@@ -7,6 +7,7 @@ componentTags: Parameter, RateRule, EventWithDelay
 testTags:      NonConstantParameter
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
+generatedBy:   Numeric
 
 The model contains six parameters called S1, S2, S3, k1, k2 and k3.
 The model contains three rules defined as:

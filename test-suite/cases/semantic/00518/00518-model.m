@@ -7,6 +7,7 @@ componentTags: Compartment, Species, Reaction, Parameter, InitialAssignment
 testTags:      InitialAmount, StoichiometryMath
 testType:      TimeCourse
 levels:        2.2, 2.3
+generatedBy:   Numeric
 
 The model contains one compartment called C.  There are two
 species called S1 and S2 and three parameters called k1, k2 and p1.  The model contains 

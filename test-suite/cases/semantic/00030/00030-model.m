@@ -6,6 +6,7 @@ componentTags: Compartment, Species, AssignmentRule
 testTags:      InitialAmount
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
+generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There is one
 species named S1.  The model does not contain any reactions.

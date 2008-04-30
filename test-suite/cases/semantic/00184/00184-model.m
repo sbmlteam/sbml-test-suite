@@ -7,6 +7,7 @@ componentTags: Parameter, FunctionDefinition, RateRule, AlgebraicRule
 testTags:      NonConstantParameter
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
+generatedBy:   Numeric
 
 The model contains four parameters named S1, S2, k1 and k2.
 The model contains two rules:

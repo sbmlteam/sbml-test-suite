@@ -8,6 +8,7 @@ componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, As
 testTags:      InitialAmount
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
+generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are four
 species named S1, S2, S3 and S4 and three parameters named k1, k2 and p1.
