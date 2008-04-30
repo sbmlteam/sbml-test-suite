@@ -7,6 +7,7 @@ componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition
 testTags:      InitialAmount, 0D-Compartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
+generatedBy:   Numeric
 
 This model contains one 0-dimensional compartment called "compartment".
 There are four species, S1, S2, S3 and S4, and two parameters, k1 and k2.

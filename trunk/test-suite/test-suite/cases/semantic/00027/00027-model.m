@@ -7,6 +7,7 @@ componentTags: Compartment, Species, Reaction, InitialAssignment,
 testTags:      InitialAmount, NonUnityCompartment, LocalParameter
 testType:      TimeCourse
 levels:        2.2, 2.3
+generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are two
 species named S1 and S2.  The model contains one reaction defined as:

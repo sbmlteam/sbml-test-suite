@@ -6,6 +6,7 @@ componentTags: Compartment, Species, Reaction, Parameter
 testTags:      InitialAmount, MultiCompartment
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
+generatedBy:   Numeric
 
 The model contains two compartments called "compartment" and
 "compartment1".  There are three species named S1, S2 and S3 and two

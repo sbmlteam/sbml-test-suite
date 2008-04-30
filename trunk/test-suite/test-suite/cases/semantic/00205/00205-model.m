@@ -7,6 +7,7 @@ componentTags: Compartment, Species, Reaction, Parameter
 testTags:      InitialAmount, 1D-Compartment, NonUnityCompartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
+generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are two
 species named S1 and S2 and one parameter named k1.  Compartment

@@ -6,6 +6,7 @@ componentTags: Parameter, RateRule
 testTags:      NonConstantParameter
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
+generatedBy:   Numeric
 
 The model contains seven parameters named S1, S2, S3, S4, k1, k2 and k3.
 (Note that indeed S1, S2, S3, and S4 are parameters and not species in this

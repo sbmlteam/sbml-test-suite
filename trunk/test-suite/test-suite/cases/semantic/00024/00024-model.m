@@ -7,6 +7,7 @@ componentTags: Compartment, Species, Reaction, Parameter,
 testTags:      InitialAmount, ConstantSpecies, BoundaryCondition
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
+generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There are four
 species named S1, S2, S3 and S4 and four parameters named k1, k2, k3 and

@@ -6,6 +6,7 @@ componentTags: Parameter, AssignmentRule
 testTags:      NonConstantParameter
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
+generatedBy:   Numeric
 
 The model contains one parameter named S1.
 
