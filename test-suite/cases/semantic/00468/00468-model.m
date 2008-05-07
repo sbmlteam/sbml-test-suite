@@ -6,7 +6,7 @@ componentTags: Compartment, Species, Reaction, Parameter
 testTags:      InitialConcentration
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
-generatedBy:   Numeric
+generatedBy:   Analytic
 
 The model contains one compartment called C.
 There are four species called S1, S2, S3 and S4 and three parameters called k1, k2 and k3.
