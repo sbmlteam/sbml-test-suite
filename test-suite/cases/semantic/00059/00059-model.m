@@ -14,8 +14,8 @@ species named S1, S2 and S3 and one global parameter named k.  The model
 contains two reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-| S1 -> S2 | $k * S1 * compartmen$  |
-| S2 -> S3 | $S1 * S2 * compartment,$  |]
+| S1 -> S2 | $k * S1 * compartment$  |
+| S2 -> S3 | $S1 * S2 * compartment$  |]
 
 Reaction S2 -> S3 defines one local parameter S1.
 
