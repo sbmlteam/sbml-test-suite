@@ -14,17 +14,17 @@ species named S1, S2 and S3 and two parameters named k1 and k2.  The model
 contains one reaction defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-| S1 -> S2 | $compartment * k2 * S$  |]
+| S1 -> S2 | $compartment * k2 * S1$  |]
 
 The model contains one rule:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
- | Assignment | S3 | $1 * S2$  |]
+ | Assignment | S3 | $k1 * S2$  |]
 
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial amount of S1                |$             $ |mole                      |
+|Initial amount of S1                |$            1$ |mole                      |
 |Initial amount of S2                |$1.5 \x 10^-15$ |mole                      |
 |Initial amount of S3                |$            1$ |mole                      |
 |Value of parameter k1               |$         0.75$ |dimensionless |
