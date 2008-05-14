@@ -20,8 +20,8 @@ The model contains two reactions defined as:
 The model contains two rules:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
- | Assignment | S4 | $3 * S1$  |
- | Rate       | S2 | $2 * S3-k1 * S1$  |]
+ | Assignment | S4 | $k3 * S1$  |
+ | Rate       | S2 | $k2 * S3-k1 * S1$  |]
 
 Note that in this case the initial value declared for species S4 is inconsistent
 with the value calculated by the assignmentRule.  The calculated value should be used.  
