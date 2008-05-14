@@ -1,6 +1,6 @@
 start: 0
 duration: 2.0
 steps: 50
-variables: 
-absolute: 
+variables: S1
+absolute: 0.0001
 relative: 0.0001
