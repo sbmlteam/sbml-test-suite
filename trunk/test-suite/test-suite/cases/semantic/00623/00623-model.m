@@ -35,7 +35,7 @@ The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*         |*Units*  |
 |Initial amount of S1                |$            1$ |mole                      |
-|Initial amount of S2                |$            0$ |mole                      |
+|Initial amount of S2                |$          0.5$ |mole                      |
 |Initial amount of S3                |$        0.375$ |mole                      |
 |Value of parameter k1               |$         0.75$ |dimensionless |
 |Value of parameter k2               |$            5$ |second^-1^ |
