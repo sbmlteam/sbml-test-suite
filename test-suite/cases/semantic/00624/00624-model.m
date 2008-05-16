@@ -29,7 +29,7 @@ simulation.
 The model contains one event that assigns a value to species S2:
 
 [{width:30em,margin-left:5em}| | *Trigger*    | *Delay* | *Assignments* |
- | Event1 | $S1 < 0.1$ | $-$   | $S2 = 1$    |]
+ | Event1 | $S1 < 0.1$ | $0.5$   | $S2 = 1$    |]
 
 The initial conditions are as follows:
 
