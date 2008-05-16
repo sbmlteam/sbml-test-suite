@@ -8,12 +8,12 @@ testType:      TimeCourse
 levels:        2.2, 2.3
 generatedBy:   Numeric
 
-The model contains one compartment called "compartment".  There are four
-species named S1, S2, S3 and S4 and three parameters named k1, k2 and p1.  The
+The model contains one compartment called C.  There are four
+species called S1, S2, S3 and S4 and three parameters called k1, k2 and p1.  The
 model contains one reaction defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-| S1 -> S2 | $k1 * S1 * compartment$  |]
+| S1 -> S2 | $k1 * S1 * C$  |]
 
 The model contains two rules:
 
@@ -39,7 +39,7 @@ The initial conditions are as follows:
 |Value of parameter k1               |$         0.75$ |second^-1^ |
 |Value of parameter k2               |$         0.5$ |second^-1^ |
 |Value of parameter p                |$         0.75$ |mole litre^-1^ |
-|Volume of compartment "compartment" |$            1$ |litre                     |]
+|Volume of compartment C |$            1$ |litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML
@@ -50,7 +50,7 @@ where they appear in expressions.
 
 newcase[ "00642" ];
 
-addCompartment[ compartment, size -> 1 ];
+addCompartment[ C, size -> 1 ];
 addSpecies[ S1 ];
 addSpecies[ S2, initialAmount -> 2.0];
 addSpecies[ S3, initialAmount -> 1.5];
@@ -62,6 +62,6 @@ addInitialAssignment[ S1, math -> p1/0.5];
 addRule[ type->RateRule, variable -> S3, math -> k2  *  S4];
 addRule[ type->RateRule, variable -> S4, math -> -k2  *  S4];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> k1 * S1 * compartment ];
+	     kineticLaw -> k1 * S1 * C ];
 
 makemodel[]
