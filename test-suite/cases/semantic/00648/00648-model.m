@@ -2,11 +2,11 @@
 
 category:      Test
 synopsis:      One reactions and two rate rules with four species in a compartment. 
-componentTags: Compartment, Species, Reaction, Parameter, RateRule 
+componentTags: Compartment, Species, Reaction, Parameter, RateRule, EventNoDelay 
 testTags:      InitialAmount
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3
-generatedBy:   Analytic
+levels:        2.1, 2.2, 2.3
+generatedBy:   Numeric
 
 The model contains one compartment called C.  There are four
 species called S1, S2, S3 and S4 and two parameters called k1 and k2.  The
@@ -20,6 +20,11 @@ The model contains two rules:
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S3 | $k1  *  0.5$  |
  | Rate | S4 | $-k2  *  0.5$  |]
+
+The model contains one event that assigns a value to species S2:
+
+[{width:30em,margin-left:5em}| | *Trigger*    | *Delay* | *Assignments* |
+ | Event1 | $S1 < 0.5$ | $-$   | $S2 = 2$    |]
 
 The initial conditions are as follows:
 
@@ -36,9 +41,6 @@ The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML
 principles) their symbols represent their values in concentration units
 where they appear in expressions.
-
-Note: The test data for this model was generated from an analytical solution
-of the system of equations.
 
 *)
 
