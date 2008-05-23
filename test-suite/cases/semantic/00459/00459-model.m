@@ -9,7 +9,10 @@ testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 generatedBy:   Numeric
 
-The model contains five parameters called S1, S2, S3, k1 and k2.
+The model contains three varying parameters called S1, S2 and S3 and two constant
+parameters called k1 and k2.  (Note that indeed S1, S2 and S3 are parameters and 
+not species in this model.)
+
 The model contains three rules defined as:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |

@@ -9,8 +9,9 @@ testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 generatedBy:   Numeric
 
-The model contains four parameters named S1, S2, p1 and p2.  (Note that
-indeed S1 and S2 are parameters and not species in this model.)
+The model contains two varying parameters called S1 and S2 and two constant
+parameters called p1 and p2.  (Note that indeed S1 and S2 are parameters and 
+not species in this model.)
 
 The model contains two rules:
 

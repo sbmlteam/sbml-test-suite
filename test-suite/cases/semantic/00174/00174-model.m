@@ -8,7 +8,8 @@ testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 generatedBy:   Numeric
 
-The model contains one parameter named S1.
+The model contains one varying parameter called S1.  (Note that indeed 
+S1 is a parameter and not species in this model.)
 
 The model contains one rule:
 
