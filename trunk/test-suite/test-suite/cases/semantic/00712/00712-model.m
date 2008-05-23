@@ -10,7 +10,8 @@ levels:        2.1, 2.2, 2.3
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are two
-species called S1 and S2 and three parameters called k1, k2 and k3.  The
+species called S1 and S2; two constant parameters called k2 and k3 and one varying
+parameter called k1.  The
 model contains one reaction defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
