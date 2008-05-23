@@ -2,7 +2,7 @@
 <sbml xmlns="http://www.sbml.org/sbml/level2/version2" level="2" version="2">
   <model metaid="_case00740" id="case00740" name="case00740">
     <listOfFunctionDefinitions>
-      <functionDefinition id="multiply" name="multiply">
+      <functionDefinition id="add" name="add">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <lambda>
             <bvar>
@@ -12,7 +12,7 @@
               <ci> y </ci>
             </bvar>
             <apply>
-              <times/>
+              <plus/>
               <ci> x </ci>
               <ci> y </ci>
             </apply>
@@ -21,53 +21,34 @@
       </functionDefinition>
     </listOfFunctionDefinitions>
     <listOfCompartments>
-      <compartment id="C" name="C" size="12.5" units="volume"/>
+      <compartment id="C" name="C" size="2.5" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialConcentration="5e-016" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="C" initialConcentration="1e-015" substanceUnits="substance"/>
-      <species id="S3" name="S3" compartment="C" initialConcentration="2e-015" substanceUnits="substance"/>
-      <species id="S4" name="S4" compartment="C" initialConcentration="1.5e-015" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="C" initialConcentration="1.5e-015" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="C" initialConcentration="0" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter id="k1" name="k1" value="750000000000000"/>
-      <parameter id="k2" name="k2" value="250000000000000"/>
+      <parameter id="k1" name="k1" value="1" constant="false"/>
+      <parameter id="k2" name="k2" value="0.2"/>
+      <parameter id="k3" name="k3" value="0.3"/>
     </listOfParameters>
+    <listOfRules>
+      <rateRule metaid="rule1" variable="k1">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <ci> add </ci>
+            <ci> k2 </ci>
+            <ci> k3 </ci>
+          </apply>
+        </math>
+      </rateRule>
+    </listOfRules>
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" reversible="false" fast="false">
         <listOfReactants>
           <speciesReference species="S1"/>
-          <speciesReference species="S2"/>
         </listOfReactants>
         <listOfProducts>
-          <speciesReference species="S3"/>
-          <speciesReference species="S4"/>
-        </listOfProducts>
-        <kineticLaw>
-          <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply>
-              <times/>
-              <ci> C </ci>
-              <apply>
-                <ci> multiply </ci>
-                <ci> k1 </ci>
-                <apply>
-                  <ci> multiply </ci>
-                  <ci> S1 </ci>
-                  <ci> S2 </ci>
-                </apply>
-              </apply>
-            </apply>
-          </math>
-        </kineticLaw>
-      </reaction>
-      <reaction id="reaction2" name="reaction2" reversible="false" fast="false">
-        <listOfReactants>
-          <speciesReference species="S3"/>
-          <speciesReference species="S4"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="S1"/>
           <speciesReference species="S2"/>
         </listOfProducts>
         <kineticLaw>
@@ -75,9 +56,8 @@
             <apply>
               <times/>
               <ci> C </ci>
-              <ci> k2 </ci>
-              <ci> S3 </ci>
-              <ci> S4 </ci>
+              <ci> k1 </ci>
+              <ci> S1 </ci>
             </apply>
           </math>
         </kineticLaw>
