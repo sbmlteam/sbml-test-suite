@@ -21,21 +21,57 @@
       </functionDefinition>
     </listOfFunctionDefinitions>
     <listOfCompartments>
-      <compartment id="C" name="C" size="2.3" units="volume"/>
+      <compartment id="C" name="C" size="0.86" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialConcentration="1.5e-015" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="C" initialConcentration="1.5e-015" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="C" initialConcentration="1e-012" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="C" initialConcentration="2e-012" substanceUnits="substance"/>
+      <species id="S3" name="S3" compartment="C" initialConcentration="1.5e-012" substanceUnits="substance"/>
+      <species id="S4" name="S4" compartment="C" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter id="k1" name="k1" value="1"/>
+      <parameter id="k1" name="k1" value="750000000000"/>
+      <parameter id="k2" name="k2" value="2.5e-007"/>
+      <parameter id="p1" name="p1" value="0.75"/>
     </listOfParameters>
+    <listOfRules>
+      <assignmentRule metaid="rule1" variable="S4">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <ci> multiply </ci>
+            <ci> p1 </ci>
+            <ci> S2 </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+    </listOfRules>
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" reversible="false" fast="false">
         <listOfReactants>
           <speciesReference species="S1"/>
+          <speciesReference species="S2"/>
         </listOfReactants>
         <listOfProducts>
+          <speciesReference species="S3"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> C </ci>
+              <ci> k1 </ci>
+              <ci> S1 </ci>
+              <ci> S2 </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="reaction2" name="reaction2" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="S3"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S1"/>
           <speciesReference species="S2"/>
         </listOfProducts>
         <kineticLaw>
@@ -43,11 +79,8 @@
             <apply>
               <times/>
               <ci> C </ci>
-              <apply>
-                <ci> multiply </ci>
-                <ci> k1 </ci>
-                <ci> S1 </ci>
-              </apply>
+              <ci> k2 </ci>
+              <ci> S3 </ci>
             </apply>
           </math>
         </kineticLaw>
