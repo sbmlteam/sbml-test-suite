@@ -2,8 +2,7 @@
 
 category:      Test
 synopsis:      Two reactions with four species in one
-compartment using an assignmentRule with a 
-               functionDefinition to vary one species.
+compartment using an assignmentRule with a functionDefinition to vary one species.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, AssignmentRule 
 testTags:      InitialAmount
 testType:      TimeCourse

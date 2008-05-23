@@ -20,7 +20,7 @@ p1.  The model contains two reactions defined as:
 The model contains one rule that determines the value of parameter k1:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
- | Rate | k1 | $add(k2, k3) * 1$  |]
+ | Rate | k1 | $add(k2, k3) * p1$  |]
 
 
 The model contains one functionDefinition defined as:
