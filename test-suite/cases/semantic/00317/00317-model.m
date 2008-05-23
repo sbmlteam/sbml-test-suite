@@ -9,8 +9,8 @@ testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 generatedBy:   Numeric
 
-The model contains one compartment called "compartment".  There are four
-species named S1, S2, S3 and S4 and three parameters named k1, k2 and p1.
+The model contains one varying compartment called "compartment".  There are four
+species called S1, S2, S3 and S4 and three parameters called k1, k2 and p1.
 The model contains two reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
