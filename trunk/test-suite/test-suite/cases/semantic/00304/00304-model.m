@@ -11,8 +11,8 @@ generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are three
 species named S1, S2 and S3 and two parameters named k1 and k2.  Species S1
-is labeled as constant and therefore cannot be changed by rules or
-reactions.  The model contains one reaction defined as:
+is labeled as both constant and an SBML boundary condition, and therefore cannot 
+be changed by rules or reactions.  The model contains one reaction defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $compartment * k2 * S1$  |]
