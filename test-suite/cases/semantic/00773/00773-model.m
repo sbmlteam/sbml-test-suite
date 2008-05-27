@@ -29,7 +29,7 @@ The model contains one initialAssignment:
 
 Note: SBML's InitialAssignment construct override any declared initial
 values.  In this model, the initial value for the species S2 is consistent
-with the value be calculated using the InitialAssignment.
+with the value calculated using the InitialAssignment.
 
 The initial conditions are as follows:
 
