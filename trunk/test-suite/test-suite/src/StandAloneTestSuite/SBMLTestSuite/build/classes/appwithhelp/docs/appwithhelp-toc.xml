@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE toc PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 2.0//EN" "http://java.sun.com/products/javahelp/toc_2_0.dtd">
+<toc version="2.0">
+    <tocitem text="General Information">
+       <tocitem text="About SBML Test Suite" target="appwithhelp.about"/>
+       <tocitem text="Test Cases" target="appwithhelp.more"/>
+   </tocitem>
+</toc>
