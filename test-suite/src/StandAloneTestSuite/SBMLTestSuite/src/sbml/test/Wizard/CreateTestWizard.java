@@ -1,0 +1,323 @@
+package sbml.test.Wizard;
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.HashMap;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.KeyStroke;
+import javax.swing.border.EmptyBorder;
+import sbml.test.TestConfiguration;
+import sbml.test.TestRunnerView;
+
+
+public class CreateTestWizard {
+
+//        private WizardModel wizardModel;
+//    private WizardController wizardController;
+    private JDialog Wizard;
+    private JPanel cardPanel;
+    private CardLayout cardLayout;
+    private JButton backButton;
+    private JButton nextButton;
+    private JButton cancelButton;
+    private JButton finishButton;
+    private int returnCode;
+    private TestRunnerView owner;
+    private WizardPanelInterface[] panels;
+    private int currentPanel;
+    public static int shortcutKeyMask = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+    private Action nextAction,  previousAction,  cancelAction,  finishAction;
+    private JLabel[] overviewLabel;
+    public HashMap<String, Object> selections = new HashMap<String, Object>();
+//    I changed this to allow storing the path values in the same hashmap.
+//    Integer for the other ones is okay, but boolean would be the more elegant choice
+    private final PropertyChangeSupport propertyChangeSupport;
+
+    public CreateTestWizard(TestRunnerView owner) {
+
+        Wizard = new JDialog(owner, "Start new test", true);
+        this.owner = owner;
+        propertyChangeSupport = new PropertyChangeSupport(this);
+        propertyChangeSupport.addPropertyChangeListener(new PropertyChangeListener() {
+
+            public void propertyChange(PropertyChangeEvent e) {
+                updatePanels();
+                //System.out.println("inside the propertyChange");
+            }
+        });
+
+        initComponents();
+    }
+
+    private void updatePanels() {
+        // call the validate functions of all panels
+        //System.out.println("updating panels here soon");
+        panels[2].validateSelections(selections);
+        panels[3].validateSelections(selections);
+
+    }
+
+    public void initializeSelections(HashMap<String, Object> selections) {
+        selections.put("L1V2radiobutton", 0);
+        selections.put("L2V1radiobutton", 0);
+        selections.put("L2V2radiobutton", 0);
+        selections.put("L2V3radiobutton", 1);
+        // timecourse set to 1 initially since it is default as being checked
+        selections.put("timecourse", 1);
+        selections.put("FunctionDefinition", 0);
+        selections.put("UnitDefinition", 0);
+        selections.put("InitialAssignment", 0);
+        selections.put("AssignmentRule", 0);
+        selections.put("RateRule", 0);
+        selections.put("AlgebraicRule", 0);
+        selections.put("Constraint", 0);
+        selections.put("EventWithDelay", 0);
+        selections.put("EventNoDelay", 0);
+        selections.put("Compartment", 0);
+        selections.put("Species", 0);
+        selections.put("Reaction", 0);
+        selections.put("Parameter", 0);
+        selections.put("2D-Compartment", 0);
+        selections.put("1D-Compartment", 0);
+        selections.put("0D-Compartment", 0);
+        selections.put("NonConstantCompartment", 0);
+        selections.put("NonUnityCompartment", 0);
+        selections.put("MultiCompartment", 0);
+        selections.put("InitialAmount", 0);
+        selections.put("InitialConcentration", 0);
+        selections.put("HasOnlySubstanceUnits", 0);
+        selections.put("BoundaryCondition", 0);
+        selections.put("ConstantSpecies", 0);
+        selections.put("NonConstantParameter", 0);
+        selections.put("FastReaction", 0);
+        selections.put("ReversibleReaction", 0);
+        selections.put("ZeroRate", 0);
+        selections.put("NonUnityStoichiometry", 0);
+        selections.put("StoichiometryMath", 0);
+        selections.put("LocalParameters", 0);
+        selections.put("CSymbolDelay", 0);
+        selections.put("CSymbolTime", 0);
+        selections.put("MassUnits", 0);
+        selections.put("Units", 0);
+        selections.put("MathML", 0);
+        selections.put("Discontinuity", 0);
+    }
+
+    public HashMap<String, Object> getSelections() {
+        return selections;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    public void setSelections(HashMap<String, Object> newSelections) {
+
+        selections = newSelections;
+        this.propertyChangeSupport.firePropertyChange("selections", 0, 1);
+    }
+
+    private void initComponents() {
+
+// Code omitted
+        initializeSelections(selections);
+
+        JPanel buttonPanel = new JPanel();
+        Box buttonBox = new Box(BoxLayout.X_AXIS);
+
+        cardPanel = new JPanel();
+        cardPanel.setBorder(new EmptyBorder(new Insets(15, 15, 5, 15)));
+
+        cardLayout = new CardLayout();
+        cardPanel.setLayout(cardLayout);
+
+        nextAction = new nextActionClass("Next");
+        previousAction = new previousActionClass("Previous");
+        cancelAction = new cancelActionClass("Cancel");
+        finishAction = new finishActionClass("Finish");
+
+        backButton = new JButton(previousAction);
+        nextButton = new JButton(nextAction);
+        cancelButton = new JButton(cancelAction);
+        finishButton = new JButton(finishAction);
+
+//    backButton.addActionListener(wizardController);
+//    nextButton.addActionListener(wizardController);
+//    cancelButton.addActionListener(wizardController);
+
+        buttonPanel.setLayout(new BorderLayout());
+        buttonPanel.add(new JSeparator(), BorderLayout.NORTH);
+
+        buttonBox.setBorder(new EmptyBorder(new Insets(5, 10, 5, 10)));
+        buttonBox.add(backButton);
+        buttonBox.add(Box.createHorizontalStrut(10));
+        buttonBox.add(nextButton);
+        buttonBox.add(Box.createHorizontalStrut(30));
+        buttonBox.add(cancelButton);
+        buttonBox.add(Box.createHorizontalStrut(30));
+        buttonBox.add(finishButton);
+
+        buttonPanel.add(buttonBox, java.awt.BorderLayout.EAST);
+        Wizard.getContentPane().add(buttonPanel, java.awt.BorderLayout.SOUTH);
+        Wizard.getContentPane().add(cardPanel, java.awt.BorderLayout.CENTER);
+
+        JPanel overviewPanel = new JPanel(new BorderLayout());
+        overviewPanel.setPreferredSize(new Dimension(170, 100));
+        overviewPanel.setBackground(Color.gray);
+        JPanel innerOverviewPanel = new JPanel(new GridLayout(0, 1, 0, 15));
+        innerOverviewPanel.setOpaque(false);
+        overviewPanel.add(innerOverviewPanel, BorderLayout.NORTH);
+        overviewPanel.setBorder(BorderFactory.createEmptyBorder(15, 5, 0, 5));
+
+        Wizard.getContentPane().add(overviewPanel, BorderLayout.WEST);
+
+        panels = new WizardPanelInterface[5];
+        overviewLabel = new JLabel[5];
+
+
+        panels[0] = new LevelSelectorPanel(this);
+        panels[1] = new TestTypeSelectorPanel(this);
+        panels[2] = new ComponentTagsSelectorPanel(this);
+        panels[3] = new TestTagSelectionPanel(this);
+        panels[4] = new WrapperConfigurationPanel(this);
+
+
+        for (int i = 0; i < panels.length; i++) {
+            cardPanel.add(panels[i].getIdentifier(), (WizardPanel) panels[i]);
+            overviewLabel[i] = new JLabel("" + (i + 1) + ". " + panels[i].getQualifiedName());
+            innerOverviewPanel.add(overviewLabel[i]);
+            if (i == 0) {
+                overviewLabel[i].setForeground(Color.WHITE);
+            } else {
+                overviewLabel[i].setForeground(Color.BLACK);
+            }
+        }
+        currentPanel = 0;
+
+
+        Wizard.pack();
+
+        Wizard.setModal(true);
+        Wizard.setSize(new Dimension(750, 500));
+        Wizard.setResizable(false);
+        Wizard.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        Wizard.setLocationRelativeTo(null);
+    }
+
+    public void runWizard() {
+        Wizard.setVisible(true);
+
+    }
+
+    public void changeCard(String cardName) {
+        cardLayout.show(cardPanel, cardName);
+        if (panels[currentPanel].isLast()) {
+            nextAction.setEnabled(false);
+        } else {
+            nextAction.setEnabled(true);
+        }
+        if (panels[currentPanel].isFirst()) {
+            previousAction.setEnabled(false);
+        } else {
+            previousAction.setEnabled(true);
+        }
+
+        if (panels[currentPanel].mayFinish()) {
+            finishAction.setEnabled(true);
+        } else {
+            finishAction.setEnabled(false);
+        }
+        for (int i = 0; i < overviewLabel.length; i++) {
+            if (i == currentPanel) {
+                overviewLabel[i].setForeground(Color.WHITE);
+            } else {
+                overviewLabel[i].setForeground(Color.BLACK);
+            }
+        }
+
+    }
+
+    public class nextActionClass extends AbstractAction {
+
+        public nextActionClass(String text) {
+            super(text);
+            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N, shortcutKeyMask));
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            currentPanel++;
+            changeCard(panels[currentPanel].getIdentifier());
+        }
+    }
+
+    public class previousActionClass extends AbstractAction {
+
+        public previousActionClass(String text) {
+            super(text);
+            setEnabled(false);
+
+            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P, shortcutKeyMask));
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            currentPanel--;
+            changeCard(panels[currentPanel].getIdentifier());
+        }
+    }
+
+    public class cancelActionClass extends AbstractAction {
+
+        public cancelActionClass(String text) {
+            super(text);
+            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, shortcutKeyMask));
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            Wizard.setVisible(false);
+        }
+    }
+
+    public class finishActionClass extends AbstractAction {
+
+        public finishActionClass(String text) {
+            super(text);
+            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F, shortcutKeyMask));
+            setEnabled(false);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            selections.put("WrapperPath", ((WrapperConfigurationPanel) panels[4]).getWrapperPath());
+          //  selections.put("InputPath", ((WrapperConfigurationPanel) panels[4]).getInputPath());
+          //  selections.put("OutputPath", ((WrapperConfigurationPanel) panels[4]).getOutputPath());
+
+            Wizard.setVisible(false);
+            TestConfiguration testConfiguration = new TestConfiguration(selections);
+            owner.startTest(testConfiguration); // just for testing purposes
+
+        }
+    }
+}
