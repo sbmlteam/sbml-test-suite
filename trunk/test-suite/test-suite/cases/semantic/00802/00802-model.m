@@ -19,8 +19,8 @@ SBO:0000049):
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}| |*Value*       |*Units*  |
-|Initial concentration of S1        |$1.0$ |mole                      |
-|Initial concentration of S2        |$0$ |mole                      |
+|Initial amount of S1        |$1.0$ |mole                      |
+|Initial amount of S2        |$0$ |mole                      |
 |Value of parameter k       |$2.5$          |second^-1^ |
 |Volume of compartment C     |$1$             |litre                  |]
 
@@ -37,8 +37,8 @@ of the system of equations.
 newcase[ "00802" ];
 
 addCompartment[ C, size -> 1 ];
-addSpecies[ S1, initialConcentration -> 1.0];
-addSpecies[ S2, initialConcentration -> 0];
+addSpecies[ S1, initialAmount -> 1.0];
+addSpecies[ S2, initialAmount -> 0];
 addParameter[ k, value -> 2.5 ];
 addReaction[ S1 -> S2, reversible -> False,
 	     kineticLaw -> k * S1 * C ];

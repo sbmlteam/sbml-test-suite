@@ -25,7 +25,7 @@
        compartment="C"
        boundaryCondition="false"
        constant="false"
-       initialConcentration="1."
+       initialAmount="1."
        substanceUnits="substance"
        hasOnlySubstanceUnits="false"/>
    <species id="S2"
@@ -33,7 +33,7 @@
        compartment="C"
        boundaryCondition="false"
        constant="false"
-       initialConcentration="0"
+       initialAmount="0"
        substanceUnits="substance"
        hasOnlySubstanceUnits="false"/>
   </listOfSpecies>

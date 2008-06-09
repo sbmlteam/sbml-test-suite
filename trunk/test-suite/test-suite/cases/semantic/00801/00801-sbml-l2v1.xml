@@ -5,8 +5,8 @@
       <compartment id="C" name="C" size="1" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialConcentration="1" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="C" initialConcentration="0" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="C" initialAmount="1" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="C" initialAmount="0" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k" name="k" value="0.075"/>
