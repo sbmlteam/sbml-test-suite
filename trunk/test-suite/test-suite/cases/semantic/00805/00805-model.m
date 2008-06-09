@@ -21,7 +21,7 @@ The initial conditions are as follows:
 [{width:30em,margin-left:5em}| |*Value*       |*Units*  |
 |Initial concentration of S1        |$1.0$ |mole                      |
 |Initial concentration of S2        |$0.5$ |mole                      |
-|Initial concentration of S2        |$0$ |mole                      |
+|Initial concentration of S3        |$0$ |mole                      |
 |Value of parameter k       |$1.1$          |litre mole^-1^ second^-1^ |
 |Volume of compartment C     |$1$             |litre                  |]
 
