@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Model using rules and parameters with a rate that causes a discontinuity
                in the output.
 componentTags: Parameter, RateRule 
-testTags:      NonConstantParameter, Discontinuity
+testTags:      NonConstantParameter
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 generatedBy:   Numeric

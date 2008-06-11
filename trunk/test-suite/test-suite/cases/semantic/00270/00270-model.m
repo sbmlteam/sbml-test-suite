@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic reactions with four species in one
 compartment using a rate that causes a discontinuity in the output.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
-testTags:      InitialAmount, MathML, Discontinuity
+testTags:      InitialAmount
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 generatedBy:   Numeric
