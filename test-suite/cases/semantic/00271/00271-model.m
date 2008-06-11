@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic single forward reaction with two species in one
 compartment using MathML in the rate equation.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
-testTags:      InitialAmount, MathML
+testTags:      InitialAmount
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 generatedBy:   Numeric
