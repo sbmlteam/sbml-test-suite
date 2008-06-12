@@ -47,11 +47,11 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
         fd_button = new JCheckBox("FunctionDefinition");
         rr_button = new JCheckBox("RateRule");
         cmpt_button = new JCheckBox("Compartment");
-        ud_button = new JCheckBox("UnitDefinition");
+     //   ud_button = new JCheckBox("UnitDefinition");
         ar_button = new JCheckBox("AlgebraicRule");
         spe_button = new JCheckBox("Species");
         ia_button = new JCheckBox("InitialAssignment");
-        cst_button = new JCheckBox("Constraint");
+    //    cst_button = new JCheckBox("Constraint");
         rct_button = new JCheckBox("Reaction");
         asr_button = new JCheckBox("AssignmentRule");
         ewd_button = new JCheckBox("EventWithDelay");
@@ -63,10 +63,10 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
         cmpt_button.addItemListener(this);
         rct_button.addItemListener(this);
         rr_button.addItemListener(this);
-        ud_button.addItemListener(this);
+    //    ud_button.addItemListener(this);
         ar_button.addItemListener(this);
         ia_button.addItemListener(this);
-        cst_button.addItemListener(this);
+    //    cst_button.addItemListener(this);
         asr_button.addItemListener(this);
         ewd_button.addItemListener(this);
         end_button.addItemListener(this);
@@ -79,16 +79,16 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
         }
      */   // put listeners on the checkboxes that call the validate function 
       
-        JPanel contentPanel1 = new JPanel(new GridLayout(0,3,10,10)); 
+        JPanel contentPanel1 = new JPanel(new GridLayout(0,2,10,10)); 
         
         contentPanel1.add(fd_button);
         contentPanel1.add(rr_button);
         contentPanel1.add(cmpt_button);
-        contentPanel1.add(ud_button);
+     //   contentPanel1.add(ud_button);
         contentPanel1.add(ar_button);
         contentPanel1.add(spe_button);
         contentPanel1.add(ia_button);
-        contentPanel1.add(cst_button);
+     //   contentPanel1.add(cst_button);
         contentPanel1.add(rct_button);
         contentPanel1.add(asr_button);
         contentPanel1.add(ewd_button);
@@ -187,7 +187,7 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
               createTestWizard.setSelections(selections);
           }
       }
-      if (source == ud_button){
+/*      if (source == ud_button){
           if(state == ItemEvent.SELECTED){
               updateSelections("UnitDefinition",1);
               createTestWizard.setSelections(selections);
@@ -196,7 +196,7 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
               updateSelections("UnitDefinition",0);
               createTestWizard.setSelections(selections);
           }
-      }
+      } */
       if (source == ar_button){
           if(state == ItemEvent.SELECTED){
               updateSelections("AlgebraicRule",1);
@@ -217,7 +217,7 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
               createTestWizard.setSelections(selections);
           }
       }
-      if (source == cst_button){
+/*      if (source == cst_button){
           if(state == ItemEvent.SELECTED){
               updateSelections("Constraint",1);
               createTestWizard.setSelections(selections);
@@ -226,7 +226,7 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
               updateSelections("Constraint",0);
               createTestWizard.setSelections(selections);
           }
-      }
+      } */
       if (source == asr_button){
           if(state == ItemEvent.SELECTED){
               updateSelections("AssignmentRule",1);
@@ -288,9 +288,9 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
             selections.put("InitialAssignment", 0);
             ia_button.setSelected(false);
             ia_button.setEnabled(false);
-            selections.put("Constraint", 0);
-            cst_button.setSelected(false);
-            cst_button.setEnabled(false);
+       //     selections.put("Constraint", 0);
+       //     cst_button.setSelected(false);
+       //     cst_button.setEnabled(false);
             selections.put("EventWithDelay", 0);
             ewd_button.setSelected(false);
             ewd_button.setEnabled(false);
@@ -303,9 +303,9 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
             selections.put("InitialAssignment", 0);
             ia_button.setSelected(false);
             ia_button.setEnabled(false);
-            selections.put("Constraint", 0);
-            cst_button.setSelected(false);
-            cst_button.setEnabled(false);
+       //     selections.put("Constraint", 0);
+       //     cst_button.setSelected(false);
+       //     cst_button.setEnabled(false);
             
             fd_button.setEnabled(true);
             ewd_button.setEnabled(true);
@@ -314,19 +314,19 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
         else {
             fd_button.setEnabled(true);
             ia_button.setEnabled(true);
-            cst_button.setEnabled(true);
+       //     cst_button.setEnabled(true);
             ewd_button.setEnabled(true);
             end_button.setEnabled(true);
         }
         
-        
+ /*       
         
         if((Integer)selections.get("FunctionDefinition")==0 && (Integer)selections.get("InitialAssignment")==1 && (Integer)selections.get("AssignmentRule")==1 && (Integer)selections.get("RateRule")==1 && (Integer)selections.get("AlgebraicRule")==1 && (Integer)selections.get("Constraint")==1 && (Integer)selections.get("EventWithDelay")==1 && (Integer)selections.get("EventNoDelay")==1 && (Integer)selections.get("Reaction")==1) {
             // show an alert here that to test function definition one of the others needs to be present as well
             JOptionPane.showMessageDialog(null,"To test FunctionDefinition one of InitialAssignment, AssignmentRule, RateRule, AlgebraicRule, Constraint, EventWithDelay, EventNoDelay or Reaction must be present.","WARNING",JOptionPane.WARNING_MESSAGE);
         }
          
-/*        if((Integer)selections.get("InitialAssignment")==0 && (Integer)selections.get("Compartment")==1 && (Integer)selections.get("Species")==1 && (Integer)selections.get("Parameter")==1) {
+        if((Integer)selections.get("InitialAssignment")==0 && (Integer)selections.get("Compartment")==1 && (Integer)selections.get("Species")==1 && (Integer)selections.get("Parameter")==1) {
             // show an alert here that to test initialassignment at least one of compartment, species or parameter must be present
             JOptionPane.showMessageDialog(null, "To test InitialAssignment at least one of Compartment, Species or Parameter must be present.","WARNING",JOptionPane.WARNING_MESSAGE);
         }

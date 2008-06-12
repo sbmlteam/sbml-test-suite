@@ -28,6 +28,7 @@ import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import sbml.test.TestConfiguration;
 import sbml.test.TestRunnerView;
+import sbml.test.TestTabPane;
 
 
 public class CreateTestWizard {
@@ -43,6 +44,7 @@ public class CreateTestWizard {
     private JButton finishButton;
     private int returnCode;
     private TestRunnerView owner;
+    private TestTabPane testTabPane;
     private WizardPanelInterface[] panels;
     private int currentPanel;
     public static int shortcutKeyMask = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
@@ -85,12 +87,12 @@ public class CreateTestWizard {
         // timecourse set to 1 initially since it is default as being checked
         selections.put("timecourse", 1);
         selections.put("FunctionDefinition", 0);
-        selections.put("UnitDefinition", 0);
+    //    selections.put("UnitDefinition", 0);
         selections.put("InitialAssignment", 0);
         selections.put("AssignmentRule", 0);
         selections.put("RateRule", 0);
         selections.put("AlgebraicRule", 0);
-        selections.put("Constraint", 0);
+    //    selections.put("Constraint", 0);
         selections.put("EventWithDelay", 0);
         selections.put("EventNoDelay", 0);
         selections.put("Compartment", 0);
@@ -111,16 +113,15 @@ public class CreateTestWizard {
         selections.put("NonConstantParameter", 0);
         selections.put("FastReaction", 0);
         selections.put("ReversibleReaction", 0);
-        selections.put("ZeroRate", 0);
         selections.put("NonUnityStoichiometry", 0);
         selections.put("StoichiometryMath", 0);
         selections.put("LocalParameters", 0);
-        selections.put("CSymbolDelay", 0);
+ //       selections.put("CSymbolDelay", 0);
         selections.put("CSymbolTime", 0);
-        selections.put("MassUnits", 0);
-        selections.put("Units", 0);
-        selections.put("MathML", 0);
-        selections.put("Discontinuity", 0);
+ //       selections.put("MassUnits", 0);
+ //       selections.put("Units", 0);
+        selections.put("logging",0);
+        
     }
 
     public HashMap<String, Object> getSelections() {
@@ -316,7 +317,10 @@ public class CreateTestWizard {
 
             Wizard.setVisible(false);
             TestConfiguration testConfiguration = new TestConfiguration(selections);
-            owner.startTest(testConfiguration); // just for testing purposes
+            owner.setSelections(selections); 
+            owner.setStartButton();
+            //owner.startTest(testConfiguration); // just for testing purposes
+           // TestTabPane.startActionClass = 
 
         }
     }

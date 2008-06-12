@@ -28,23 +28,14 @@ public class TestResultMap extends JPanel implements ListDataListener, ItemSelec
 		setBorder(BorderFactory.createLineBorder(Color.black,1));
 		grids = new Vector<JPanel>();
 		
-	/*	for (int i = 0; i < 200; i++) {
-			grids.add(new JPanel());
-
-			grids.get(i).setBackground(Color.white);
-			add(grids.get(i));
-			grids.get(i).setToolTipText("Element " + (i+1));
-			
-		} */
-		
 	}
 	
 
 //	
 	public void resetDisplay() {
-
-            
-		
+            if(grids.size() > 0){
+                grids.removeAllElements();
+            }
 	}
 
     public void intervalAdded(ListDataEvent e) {
@@ -57,13 +48,14 @@ public class TestResultMap extends JPanel implements ListDataListener, ItemSelec
 
     public void intervalRemoved(ListDataEvent e) {
         for (int i = e.getIndex1(); i >= e.getIndex0(); i--) {
+            System.out.println("removing an element");
             this.removeMapElement(i);
 
         }
     }
 
     public void contentsChanged(ListDataEvent e) {
-
+        System.out.println("inside contents changed - testresultmap");
     }
 
     private void addMapElement(int result, int index) {
@@ -103,7 +95,7 @@ public class TestResultMap extends JPanel implements ListDataListener, ItemSelec
     private void removeMapElement(int index) {
         remove(grids.get(index));
         grids.remove(index);
-        if (getMapSize() < 200) {
+     /*   if (getMapSize() < 200) {
             grids.add(new JPanel());
 
             grids.get(getMapSize()-1).setBackground(Color.white);
@@ -111,7 +103,7 @@ public class TestResultMap extends JPanel implements ListDataListener, ItemSelec
         }
         else
             ((GridLayout) getLayout()).setRows(4);
-
+*/
     }
     
     

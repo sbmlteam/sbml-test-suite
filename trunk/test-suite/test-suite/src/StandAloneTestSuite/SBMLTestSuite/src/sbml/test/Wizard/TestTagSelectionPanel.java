@@ -55,16 +55,15 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
         ncp_button = new JCheckBox("NonConstantParameter");
         fr_button = new JCheckBox("FastReaction");
         rr_button = new JCheckBox("ReversibleReaction");
-        zr_button = new JCheckBox("ZeroRate");
+       
         nus_button = new JCheckBox("NonUnitStoichiometry");
         sm_button = new JCheckBox("StoichiometryMath");
         lp_button = new JCheckBox("LocalParameters");
-        csd_button = new JCheckBox("CSymbolDelay");
+       // csd_button = new JCheckBox("CSymbolDelay");
         cst_button = new JCheckBox("CSymbolTime");
-        mu_button = new JCheckBox("MassUnits");
-        u_button = new JCheckBox("Units");
-        mml_button = new JCheckBox("MathML");
-        d_button = new JCheckBox("Discontinuity");
+       // mu_button = new JCheckBox("MassUnits");
+        //u_button = new JCheckBox("Units");
+       
         
         // Add the Item listeners
         tdc_button.addItemListener(this);
@@ -81,16 +80,15 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
         ncp_button.addItemListener(this);
         fr_button.addItemListener(this);
         rr_button.addItemListener(this);
-        zr_button.addItemListener(this);
+       
         nus_button.addItemListener(this);
         sm_button.addItemListener(this);
         lp_button.addItemListener(this);
-        csd_button.addItemListener(this);
+      //  csd_button.addItemListener(this);
         cst_button.addItemListener(this);
-        mu_button.addItemListener(this);
-        u_button.addItemListener(this);
-        mml_button.addItemListener(this);
-        d_button.addItemListener(this);
+      //  mu_button.addItemListener(this);
+      //  u_button.addItemListener(this);
+       
         
         
         
@@ -102,7 +100,7 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
       //  }
 
 
-        JPanel contentPanel1 = new JPanel(new GridLayout(0, 3, 10, 10));
+        JPanel contentPanel1 = new JPanel(new GridLayout(0, 2, 10, 10));
 
       //  for (int i = 0; i < buttonNames.length; i++) {
       //      contentPanel1.add(buttons[i]);
@@ -122,16 +120,15 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
         contentPanel1.add(ncp_button);
         contentPanel1.add(fr_button); 
         contentPanel1.add(rr_button);
-        contentPanel1.add(zr_button);
+     
         contentPanel1.add(nus_button);
         contentPanel1.add(sm_button); 
         contentPanel1.add(lp_button); 
-        contentPanel1.add(csd_button); 
+     //   contentPanel1.add(csd_button); 
         contentPanel1.add(cst_button); 
-        contentPanel1.add(mu_button); 
-        contentPanel1.add(u_button); 
-        contentPanel1.add(mml_button); 
-        contentPanel1.add(d_button); 
+     //   contentPanel1.add(mu_button); 
+     //   contentPanel1.add(u_button); 
+     
 
 
         JPanel contentPanel2 = new JPanel(new BorderLayout());
@@ -281,16 +278,7 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
               createTestWizard.setSelections(selections);
           }
       }
-       if (source == zr_button){
-          if(state == ItemEvent.SELECTED){
-              updateSelections("ZeroRate",1);
-              createTestWizard.setSelections(selections);
-          }
-          if(state == ItemEvent.DESELECTED){
-              updateSelections("ZeroRate",0);
-              createTestWizard.setSelections(selections);
-          }
-      }
+      
        if (source == nus_button){
           if(state == ItemEvent.SELECTED){
               updateSelections("NonUnitStoichiometry",1);
@@ -321,7 +309,7 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
               createTestWizard.setSelections(selections);
           }
       }
-       if (source == csd_button){
+ /*      if (source == csd_button){
           if(state == ItemEvent.SELECTED){
               updateSelections("CSymbolDelay",1);
               createTestWizard.setSelections(selections);
@@ -330,7 +318,7 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
               updateSelections("CSymbolDelay",0);
               createTestWizard.setSelections(selections);
           }
-      }
+      } */
        if (source == cst_button){
           if(state == ItemEvent.SELECTED){
               updateSelections("CSymbolTime",1);
@@ -341,7 +329,7 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
               createTestWizard.setSelections(selections);
           }
       }
-       if (source == mu_button){
+ /*      if (source == mu_button){
           if(state == ItemEvent.SELECTED){
               updateSelections("MassUnits",1);
               createTestWizard.setSelections(selections);
@@ -360,27 +348,8 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
               updateSelections("Units",0);
               createTestWizard.setSelections(selections);
           }
-      }
-       if (source == mml_button){
-          if(state == ItemEvent.SELECTED){
-              updateSelections("MathML",1);
-              createTestWizard.setSelections(selections);
-          }
-          if(state == ItemEvent.DESELECTED){
-              updateSelections("MathML",0);
-              createTestWizard.setSelections(selections);
-          }
-      }
-       if (source == d_button){
-          if(state == ItemEvent.SELECTED){
-              updateSelections("Discontinuity",1);
-              createTestWizard.setSelections(selections);
-          }
-          if(state == ItemEvent.DESELECTED){
-              updateSelections("Discontinuity",0);
-              createTestWizard.setSelections(selections);
-          }
-      } 
+      } */
+      
         
     }
     
@@ -407,12 +376,11 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
             sm_button.setEnabled(false);
             selections.put("CSymbolTime",0);
             cst_button.setEnabled(false);
-            selections.put("CSymbolDelay",0);
-            csd_button.setEnabled(false);
-            selections.put("MassUnits",0);
-            mu_button.setEnabled(false);
-            selections.put("MathML",0);
-            mml_button.setEnabled(false);
+          //  selections.put("CSymbolDelay",0);
+          //  csd_button.setEnabled(false);
+          //  selections.put("MassUnits",0);
+          //  mu_button.setEnabled(false);
+           
     }
         if((Integer)selections.get("Compartment") == 1) {
             selections.put("2D-Compartment",0);
@@ -446,8 +414,7 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
             fr_button.setEnabled(false);
             selections.put("ReversibleReaction", 0);
             rr_button.setEnabled(false);
-            selections.put("ZeroRate", 0);
-            zr_button.setEnabled(false);
+            
             selections.put("NonUnitStoichiometry", 0);
             nus_button.setEnabled(false);
             selections.put("StoichiometryMath", 0);
