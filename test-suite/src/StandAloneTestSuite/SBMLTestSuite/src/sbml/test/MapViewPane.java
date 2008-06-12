@@ -106,7 +106,9 @@ public class MapViewPane extends JPanel implements ItemListener {
        
     }
 
-
+  public void updateMap() {
+      resultMap.resetDisplay();
+  }
 
   public void itemStateChanged(ItemEvent evt) {
         int index = (Integer)evt.getItem();

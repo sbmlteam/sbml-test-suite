@@ -53,12 +53,13 @@ public class WrapperConfigurationPanel extends WizardPanel {
         contentPanel2.add(contentPanel1, BorderLayout.WEST);
         JPanel messagePanel = new JPanel(new BorderLayout());
         messagePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
-        messagePanel.add(new JLabel("Please enter the wrapper command for this test:"), BorderLayout.NORTH);
+        messagePanel.add(new JLabel("<html>Please enter the wrapper command for this test substituting <b>%d</b> for the test case path,</html>"), BorderLayout.NORTH);
+        messagePanel.add(new JLabel("<html> <b>%n</b> for the test case and <b>%o</b> for the output path:</html>"), BorderLayout.WEST);
         contentPanel2.add(messagePanel, BorderLayout.NORTH);
         
-        
-  /*      JPanel inputPathPanel1 = new JPanel(new GridLayout(0, 2, 80, 0));
-        inputPathPanel1.add(inputPath);
+   /*     
+        JPanel inputPathPanel1 = new JPanel(new GridLayout(0, 2, 80, 0));
+        //inputPathPanel1.add(inputPath);
         JPanel inputPathPanel2 = new JPanel(new BorderLayout());
         inputPathPanel2.add(inputPathPanel1, BorderLayout.WEST);
         JPanel inputPathPanel3 = new JPanel(new BorderLayout());

@@ -12,15 +12,18 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.ImageIcon;
 import java.net.URL;
+import java.util.HashMap;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 
@@ -40,6 +43,7 @@ public class TestRunnerView extends JFrame implements WindowListener {
     public static FailedTestCaseListModel failedTestCaseListModel;
     public static PassedTestCaseListModel passedTestCaseListModel;
     public static SkippedTestCaseListModel skippedTestCaseListModel;
+    public static boolean logging;
     
     private void initComponents() {
         testCaseListModel = new TestCaseListModel();
@@ -54,9 +58,12 @@ public class TestRunnerView extends JFrame implements WindowListener {
         //helpMenu = new JMenu("Help");
         helpAction = new helpActionClass("Help");
         helpMenuItem = new JMenuItem(helpAction);
-        
-        preferencesMenuItem = new JMenuItem("Preferences");
-        preferencesMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, shortcutKeyMask));
+        //preferencesAction = new preferencesActionClass("Preferences");
+        preferencesMenu = new JMenu("Preferences");
+       // preferencesMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, shortcutKeyMask));
+        loggingMenuItem = new JCheckBoxMenuItem("Generate Debugging log");
+        preferencesMenu.add(loggingMenuItem);
+        loggingMenuItem.addActionListener(loggingListener);
        // aboutMenuItem = new JMenuItem("About");
         aboutAction = new aboutActionClass("About");
         aboutMenuItem = new JMenu(aboutAction);
@@ -73,6 +80,8 @@ public class TestRunnerView extends JFrame implements WindowListener {
         newAction = new newActionClass("New test", this);
         newMenuItem = new JMenuItem(newAction);
         fileMenu.add(newMenuItem);
+        fileMenu.addSeparator();
+        fileMenu.add(preferencesMenu);
 
         checkUpdatesAction = new checkUpdatesActionClass("Check for test case updates");
         checkUpdatesMenuItem = new JMenuItem(checkUpdatesAction);
@@ -80,16 +89,18 @@ public class TestRunnerView extends JFrame implements WindowListener {
         fileMenu.add(checkUpdatesMenuItem);
         fileMenu.addSeparator();
         fileMenu.add(helpMenuItem);
+        
 
         //  newMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, shortcutKeyMask));
 
 
 
         if (!MAC_OS_X) {
-            fileMenu.add(preferencesMenuItem);
+            fileMenu.add(preferencesMenu);
             fileMenu.addSeparator();
             fileMenu.add(quitMenuItem);
 
+            
             menuBar.add(helpMenuItem);
             menuBar.add(aboutMenuItem);
         }
@@ -109,15 +120,15 @@ public class TestRunnerView extends JFrame implements WindowListener {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         mainPane.add(tabbedPane, BorderLayout.CENTER);
-
+        // omitted the Test Catalog for now - uncomment it to bring it back
         //    JPanel testTabPane = new JPanel(new BorderLayout());
         //    testTabPane.setOpaque(false);
-        testTabPane = new TestTabPane();
-        JPanel testCatalogTabPane = new JPanel(new BorderLayout());
-        testCatalogTabPane.setOpaque(false);
+        testTabPane = new TestTabPane(this);
+      //  JPanel testCatalogTabPane = new JPanel(new BorderLayout());
+      //  testCatalogTabPane.setOpaque(false);
 
         tabbedPane.add("Test", testTabPane);
-        tabbedPane.add("Test case catalog", testCatalogTabPane);
+      //  tabbedPane.add("Test case catalog", testCatalogTabPane);
 
 
         addWindowListener(this);
@@ -127,6 +138,24 @@ public class TestRunnerView extends JFrame implements WindowListener {
         setLocationRelativeTo(null);
     }// </editor-fold>
 
+    ActionListener loggingListener = new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+          Object source = e.getSource();
+          if(source == loggingMenuItem){
+              if(loggingMenuItem.isSelected()){
+                  // set the logging value to 1               
+                  logging = true;
+              }
+              else {
+                  // set the logging value to 0                  
+                  logging = false;
+                  
+              }
+              
+          }
+      }  
+    };
+    
     /**
      * @param args the command line arguments
      */
@@ -153,12 +182,12 @@ public class TestRunnerView extends JFrame implements WindowListener {
         //    aboutBox.setVisible(true);
         // Display the about box here
         ImageIcon icon = new ImageIcon(getClass().getResource("resources/SBML.png"));
-        JOptionPane.showMessageDialog(this, "<html><p>SBML Test Suite V1.0 2008</p><p>The stand alone SBML Test Suite was written <br>by Kimberly Begley. It is an interface to the <br>full SBML Test Suite written by Sarah M. Keating,<br> Kimberly Begley and Micheal Hucka</p></html>", "About SBML Test Suite", JOptionPane.PLAIN_MESSAGE, icon);
+        JOptionPane.showMessageDialog(this, "<html><p>SBML Test Suite V1.0 2008</p></html>", "About SBML Test Suite", JOptionPane.PLAIN_MESSAGE, icon);
     }
     
     public void openHelp() {
        
-    String pathToHS = "/appwithhelp/docs/appwithhelp-hs.xml";
+    String pathToHS = "/testsuitehelp/docs/testsuitehelp-hs.xml";
         //Create a URL for the location of the help set
     
         try {
@@ -184,10 +213,12 @@ public class TestRunnerView extends JFrame implements WindowListener {
     public void preferences() {
         //    prefs.setLocation((int)this.getLocation().getX() + 22, (int)this.getLocation().getY() + 22);
         //    prefs.setVisible(true);
+        System.out.println("inside the preferences");
+        // we want this to contain a checkbox for logging along with editable path for log file
     }
 
     public void performUpdate() {
-        // 
+        // connect to server and get latest copy of zip file if newer than packaged copy
     }
 
     public void windowOpened(WindowEvent e) {
@@ -202,11 +233,19 @@ public class TestRunnerView extends JFrame implements WindowListener {
     //throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void updateProgress(int progress, int failed, int skipped, int passed) {
-        testTabPane.updateProgress(progress, failed, skipped, passed);
+    public void updateProgress(int progress, int failed, int skipped, int passed, int finish) {
        
+            testTabPane.updateProgress(progress, failed, skipped, passed, finish); 
     }
-
+    public void setSelections(HashMap<String, Object> tconfiguration){
+        testTabPane.setConfigurations(tconfiguration);
+    }
+    public void setStartButton() {
+        testTabPane.enableStart();
+    }
+    public void disableStartButton() {
+        testTabPane.disableStart();
+    }
     public void windowClosed(WindowEvent e) {
         //  throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -228,7 +267,9 @@ public class TestRunnerView extends JFrame implements WindowListener {
     }
     // Variables declaration
     // End of variables declaration
-
+ //   public static TestRunnerView getApplication() {
+ //       return Application.getInstance(TestRunnerView.class);
+  //  }
     public void registerForMacOSXEvents() {
         if (MAC_OS_X) {
             try {
@@ -236,7 +277,7 @@ public class TestRunnerView extends JFrame implements WindowListener {
                 // use as delegates for various com.apple.eawt.ApplicationListener methods
                 OSXAdapter.setQuitHandler(this, getClass().getDeclaredMethod("quit", (Class[]) null));
                 OSXAdapter.setAboutHandler(this, getClass().getDeclaredMethod("about", (Class[]) null));
-                OSXAdapter.setPreferencesHandler(this, getClass().getDeclaredMethod("preferences", (Class[]) null));
+               // OSXAdapter.setPreferencesHandler(this, getClass().getDeclaredMethod("preferences", (Class[]) null));
             //           OSXAdapter.setFileHandler(this, getClass().getDeclaredMethod("loadImageFile", new Class[]{String.class}));
             } catch (Exception e) {
                 System.err.println("Error while loading the OSXAdapter:");
@@ -253,6 +294,10 @@ public class TestRunnerView extends JFrame implements WindowListener {
         failedTestCaseListModel.removeAllElements();
         passedTestCaseListModel.removeAllElements();
         skippedTestCaseListModel.removeAllElements();
+        if(logging){
+            testConfiguration.set("logging", 1);
+        }
+        else testConfiguration.set("logging",0);
         TestRunnerWorker worker = new TestRunnerWorker(this, testConfiguration);
         worker.start();
     }
@@ -319,17 +364,21 @@ public class TestRunnerView extends JFrame implements WindowListener {
             openHelp();
         }
     }
+     
+    
     private newActionClass newAction;
     private quitActionClass quitAction;
     private aboutActionClass aboutAction;
     private helpActionClass helpAction;
     private checkUpdatesActionClass checkUpdatesAction;
+   
     private JMenu fileMenu;
     private JMenu editMenu;
     //private JMenu helpMenu;
     private JMenuBar menuBar;
     private JMenuItem quitMenuItem;
-    private JMenuItem preferencesMenuItem;
+    private JMenu preferencesMenu;
+    private JCheckBoxMenuItem loggingMenuItem;
     private JMenuItem aboutMenuItem;
     private JMenuItem helpMenuItem;
     private JMenuItem newMenuItem;

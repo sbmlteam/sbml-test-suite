@@ -22,9 +22,20 @@ import java.util.zip.ZipInputStream;
 import java.io.FileOutputStream;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.LogManager;
+import java.util.logging.SimpleFormatter;
 
 
 public class TestRunnerWorker extends SwingWorker {
+    
+    private static Logger logger = Logger.getLogger(TestRunnerWorker.class.getName());
+    private static FileHandler fh;
     
     TestRunnerView testRunnerView;
     TestConfiguration testConfiguration;
@@ -34,8 +45,8 @@ public class TestRunnerWorker extends SwingWorker {
     SkippedTestCaseListModel skippedTestCaseListModel;
     final int BUFFER = 2048;
     String tempdir;
-    String tdir = new String("No test directory available before running a test.");
-    String odir = new String("No output directory available before running a test.");
+
+    
     
     public TestRunnerWorker(TestRunnerView testRunnerView, TestConfiguration testConfiguration) {
         super();
@@ -55,29 +66,35 @@ public class TestRunnerWorker extends SwingWorker {
             int failed=0;
             int skipped=0;
             int totals = 0;
+            int finish = 0;
             Vector<TestResultDetails> output = new Vector<TestResultDetails>();
             SBMLTestCase t2 = new SBMLTestCase();
             
            
-        
+            
             // Look for a test case directory - if it does not exist unzip the zipped test case files
             String dirpath = null;
-            File tests = new File("sbmltestrunner");
+            String userpath = System.getProperty("user.home");
+            File tests = new File(userpath+"/.sbmltestrunner");
+            
+          //  File tests = new File("sbmltestrunner");
             if(!tests.exists()){
                 tests.mkdir();
                 dirpath = tests.getAbsolutePath();
-                tdir = tests.getAbsolutePath();
+                
           //  if(getClass().getResource("testcases") == null) {
-                System.out.println("I couldn't find the test directory...");
+                System.out.println("Test directory does not exist in user home directory - creating now...");
                 if(getClass().getResource("resources" + File.separator + "sbml-test-suite.zip") == null) {
-                    System.out.println("I couldn't find the zip file either");
+                    System.out.println("Zipped Test cases are not found with application - unable to run.");
                 }
+               
                 else {
                 try {
                     // unzip the file
                     ZipInputStream zipFile = new ZipInputStream(getClass().getResourceAsStream("resources" +  File.separator + "sbml-test-suite.zip"));
                     ZipEntry entry;
-                    String destinationDirectory = "sbmltestrunner";
+                    //String destinationDirectory = "sbmltestrunner";
+                    String destinationDirectory = dirpath;
                     
                     
                     while ((entry = zipFile.getNextEntry()) != null) {
@@ -100,92 +117,7 @@ public class TestRunnerWorker extends SwingWorker {
                         
                         
                     }
-            //        String[] cmd = new String[3];
-                 //   URL makedirloc = getClass().getResource("sbmltestrunner" + File.separator + "sbml-test-suite");
-                  //  String makedir = URLDecoder.decode(makedirloc.getPath(), "UTF-8");
-                 //   System.out.println("the directory to cd into is " + makedir);
-            /*        File makedirloc = new File("sbmltestrunner" + File.separator + "sbml-test-suite");
-                    String makedir = null;
-                    if(makedirloc.exists()){
-                         makedir = makedirloc.getAbsolutePath();
-                         System.out.println("the abs path to dir is " + makedir);
-                    }
-                    try {
-                        if(osName.equals("windows nt") || osName.equals("windows xp") || osName.equals("windows 2000") || osName.equals("windows vista")) {
-                            cmd[0] = "cmd.exe";
-                            cmd[1] = "/C";
-                            cmd[2] = "make html";
-                        }
-                        else if(osName.equals("windows 95")){
-                            cmd[0] = "command.exe";
-                            cmd[1] = "/C";
-                            cmd[2] = "make html";
-                        }
-                        else if(osName.equals("mac os x") || osName.indexOf("linux") != -1){
-                            String newmakedir = makedir.replaceAll("[ ]", "\\\\ ");
-                            System.out.println(newmakedir);
-                            String makedirinquotes = "'" + newmakedir + "'";
-                            System.out.println("makedirinquotes = " + makedirinquotes);
-                            cmd[0] = "/bin/bash";
-                            cmd[1] = "-c";
-                            cmd[2] = newmakedir + File.separator + "makescript "  + makedirinquotes;
-                            //cmd[3] = "make html";
-                        }
-                        
-                        Runtime runtime = Runtime.getRuntime();
-                        Process process = runtime.exec(cmd);
-                        // any error message?
-                        StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), "ERROR");            
-            
-                        // any output?
-                        StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), "OUTPUT");
-                
-                        // kick them off
-                        errorGobbler.start();
-                        outputGobbler.start();
-                                    
-                        // any error???
-                        int exitVal = process.waitFor();
-                        System.out.println("ExitValue: " + exitVal);      
-                            
-                    }
-                    catch(Throwable t){
-                        t.printStackTrace();
-                    } 
-             */
-                    // run the make file to creat the html 
-                   //     URL make = getClass().getResource("sbmltestrunner" + File.separator + "sbml-test-suite" + File.separator +  "Makefile");
-                    //    String makefile = URLDecoder.decode(make.getPath(),"UTF-8");
-                     //   System.out.println("the makefile path is " + makefile);
-              
-                    //String makefile = "sbmltestrunner" + File.separator + "sbml-test-suite" + File.separator +  "Makefile";
-      /*              String makefile = "sbmltestrunner" + File.separator + "sbml-test-suite" + File.separator + "make html"; 
-                    //String makefile = "make html";   
-                    Runtime runtime = Runtime.getRuntime();
-                          
-                            Process process = null;
-                            try {    
-                            process = runtime.exec(makefile);
-                        } catch (IOException ex) {
-                            Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, ex);
-                            System.out.println("threw an exception");
-                        }
-                            InputStream stdout = process.getInputStream();
-                            InputStreamReader inputsr = new InputStreamReader(stdout);
-                            BufferedReader breader = new BufferedReader(inputsr);
-                            try {
-                            String l = breader.readLine();
-                            int exit = process.waitFor();
-                            if(exit != 0){
-                                System.out.println("error running makefile");
-                            }
-                            }
-                            catch (InterruptedException ex) {
-                            Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, ex);
-                            System.out.println("got an interruptedexception");
-                        }  
-                            
-                       */
+            //   
                         
                 } catch (IOException ex) {
                     Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, ex);
@@ -194,10 +126,39 @@ public class TestRunnerWorker extends SwingWorker {
                 
             }
             else {
-                System.out.println("The test directory already exists");
+                System.out.println("The test case directory already exists in user home directory.");
                 dirpath = tests.getAbsolutePath();
-                tdir = tests.getAbsolutePath();
+                
                //t2.deleteDirectory()
+            }
+            
+             String logfile = new String(userpath+"/.sbmltestrunner/sbml-test-suite.log");
+                int log = (Integer)this.testConfiguration.hashMap.get("logging");
+                boolean append = true;
+                
+                try {
+                
+                    fh = new FileHandler(logfile, append);
+                    fh.setFormatter(new SimpleFormatter());
+                    logger.addHandler(fh); // send logger output to FileHandler
+                    
+                    
+                 /*   DateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    java.util.Date date = new java.util.Date();
+                    logger.info(dateformat.format(date));
+                */
+                } catch (IOException ex) {
+                    Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SecurityException ex) {
+                    Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+           if(log == 1){
+             logger.setLevel(Level.ALL); // request that every detail gets logged
+           }
+            else {
+                    System.out.println("the log equals false");
+                    logger.setLevel(Level.WARNING);
             }
         
         // Get the selected level
@@ -242,10 +203,10 @@ public class TestRunnerWorker extends SwingWorker {
             if (functiondefinition == 1) {
                 ctags.addElement("FunctionDefinition");
             }
-            int unitdefinition = (Integer)this.testConfiguration.hashMap.get("UnitDefinition");
+      /*      int unitdefinition = (Integer)this.testConfiguration.hashMap.get("UnitDefinition");
             if (unitdefinition == 1) {
                 ctags.addElement("UnitDefinition");
-            }
+            } */
             int initialassignment = (Integer)this.testConfiguration.hashMap.get("InitialAssignment");
             if (initialassignment == 1) {
                 ctags.addElement("InitialAssignment");
@@ -262,10 +223,10 @@ public class TestRunnerWorker extends SwingWorker {
             if (algebraicrule == 1) {
                 ctags.addElement("AlgebraicRule");
             }
-            int constraint = (Integer)this.testConfiguration.hashMap.get("Constraint");
+   /*         int constraint = (Integer)this.testConfiguration.hashMap.get("Constraint");
             if (constraint == 1) {
                 ctags.addElement("Constraint");
-            }
+            } */
             int eventwithdelay = (Integer)this.testConfiguration.hashMap.get("EventWithDelay");
             if (eventwithdelay == 1) {
                 ctags.addElement("EventWithDelay");
@@ -344,10 +305,10 @@ public class TestRunnerWorker extends SwingWorker {
             if (reversiblereaction == 1) {
                 ttags.addElement("ReversibleReaction");
             }
-            int zerorate = (Integer)this.testConfiguration.hashMap.get("ZeroRate");
+   /*         int zerorate = (Integer)this.testConfiguration.hashMap.get("ZeroRate");
             if (zerorate == 1) {
                 ttags.addElement("ZeroRate");
-            }
+            } */
             int nonunitystoichiometry = (Integer)this.testConfiguration.hashMap.get("NonUnityStoichiometry");
             if (nonunitystoichiometry == 1) {
                 ttags.addElement("NonUnityStoichiometry");
@@ -360,30 +321,30 @@ public class TestRunnerWorker extends SwingWorker {
             if (localparameters == 1) {
                 ttags.addElement("LocalParameters");
             }
-            int csymboldelay = (Integer)this.testConfiguration.hashMap.get("CSymbolDelay");
+    /*        int csymboldelay = (Integer)this.testConfiguration.hashMap.get("CSymbolDelay");
             if (csymboldelay == 1) {
                 ttags.addElement("CSymbolDelay");
-            }
+            } */
             int csymboltime = (Integer)this.testConfiguration.hashMap.get("CSymbolTime");
             if (csymboltime == 1) {
                 ttags.addElement("CSymbolTime");
             }
-            int massunits = (Integer)this.testConfiguration.hashMap.get("MassUnits");
+    /*        int massunits = (Integer)this.testConfiguration.hashMap.get("MassUnits");
             if (massunits == 1) {
                 ttags.addElement("MassUnits");
             }
             int units = (Integer)this.testConfiguration.hashMap.get("Units");
             if (units == 1) {
                 ttags.addElement("Units");
-            }
-            int mathml = (Integer)this.testConfiguration.hashMap.get("MathML");
+            } */
+    /*        int mathml = (Integer)this.testConfiguration.hashMap.get("MathML");
             if (mathml == 1) {
                 ttags.addElement("MathML");
             }
             int discontinuity = (Integer)this.testConfiguration.hashMap.get("Discontinuity");
             if (discontinuity == 1) {
                 ttags.addElement("Discontinuity");
-            }
+            } */
             
           //  String testdir = (String)this.testConfiguration.hashMap.get("InputPath");
             String testdir = tests + File.separator + "sbml-test-suite" + File.separator + "cases" + File.separator + "semantic";
@@ -393,12 +354,14 @@ public class TestRunnerWorker extends SwingWorker {
             File o = new File(outdir);
             if(!o.exists()){
                 o.mkdir();
-                odir = o.getAbsolutePath();
+                logger.info("Created wrapper output file directory: " + outdir);
+                
             }
             else {
                 t2.deleteDirectory(o);
                 o.mkdir();
-                odir = o.getAbsolutePath();
+                logger.info("Removed old output directory and created new one: " + outdir);
+                
             }
             
             String wrappercommand = command.replaceAll("(?:\\%d)+", testdir);
@@ -418,6 +381,9 @@ public class TestRunnerWorker extends SwingWorker {
             Vector<String> selected_cases = new Vector<String>();
 
             for (int i = 0; i < testdir_listing.length; i++) {
+                if(i == testdir_listing.length -1){
+                    finish = 1;
+                }
                 tcase = testdir_listing[i];
                 Pattern p = Pattern.compile("\\d{5}$");
                 Matcher matcher = p.matcher(tcase);
@@ -445,7 +411,7 @@ public class TestRunnerWorker extends SwingWorker {
                         }
                         if (itsout == 0) {
                             String wrapperwcase = wrappercommand.replaceAll("(?:\\%n)+", tcase);
-                          
+                           // logger.info("Wrapper command to run is: " + wrapperwcase);
                             selected_cases.addElement(tcase);
                             String osName = System.getProperty("os.name").toLowerCase();                      
                             String[] cmd = new String[3];
@@ -471,8 +437,10 @@ public class TestRunnerWorker extends SwingWorker {
                                 //proc = rt.exec(wrapperwcase);
                                 proc = rt.exec(cmd);
                             } catch (IOException ex) {
-                                Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, ex);
-                                System.out.println("threw an exception");
+                               // Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, ex);
+                                logger.log(Level.SEVERE, "Attempt to run wrapper caused an IOException", ex);
+                                //System.out.println("threw an exception");
+                                
                             }
                             InputStream stdout = proc.getInputStream();
                             InputStreamReader isr = new InputStreamReader(stdout);
@@ -499,10 +467,12 @@ public class TestRunnerWorker extends SwingWorker {
                                     totalpoints = t2.getVariables_count() * t2.getSteps();
                                 }
                                 catch(FileNotFoundException e) {
-                                    System.err.println("FileNotFound when reading control settings file");
+                                    String msg = "Control settings file was not found for case " + tcase+ " " + e;
+                                    logger.severe(msg);                                    
                                 }
                                 catch(IOException e){
-                                    System.err.println("IOException error while reading control settings file");
+                                    String msg = "IOException while reading control settings file for case " +tcase + " "  +e;
+                                    logger.severe(msg);
                                 }
                                int steps = t2.getSteps(); 
                                 int vars = t2.getVariables_count();
@@ -513,13 +483,16 @@ public class TestRunnerWorker extends SwingWorker {
                                        results = t2.readResults(control_results, header, steps, vars);
                                }
                                catch(FileNotFoundException e){
-                                   System.err.println("File not found when reading control results");
+                                   String msg = "Control results file was not found for case " + tcase+ " " + e;
+                                    logger.severe(msg);     
                                }
                                catch(IOException e) {
-                                   System.err.println("IOException error while reading control results");
+                                   String msg = "IOException while reading control results file for case " +tcase + " "  +e;
+                                    logger.severe(msg);
                                }
                                catch(Exception e){
-                                   System.err.println("Control file has inconsistent number of variables for test");
+                                   String msg = "Control file has inconsistent number of variables for test when compared to settings file for case " +tcase;
+                                   logger.warning(msg);
                                    String mfile = t1.getModelFile(tcase , testdir);
                                    t1.readModelFile(mfile);
                                    String desc = t1.getSynopsis();
@@ -529,7 +502,7 @@ public class TestRunnerWorker extends SwingWorker {
                                    
                                    skipped++;
                                    totals++;
-                                   updateDetails(totals,failed,passed,skipped,t3);
+                                   updateDetails(totals,failed,passed,skipped,t3, finish);
 
                                    continue;
                                }
@@ -538,14 +511,17 @@ public class TestRunnerWorker extends SwingWorker {
                                        userresults = t2.readResults(user_results, header, steps, vars);
                                }
                                catch(FileNotFoundException e){
-                                   System.err.println("File not found when reading user results");
+                                    String msg = "User results file was not found for case " + tcase+ " " + e;
+                                    logger.severe(msg);                                       
                                }
                                catch(IOException e) {
-                                   System.err.println("IOException error while reading user results");
+                                   String msg = "IOException while reading user results file for case " +tcase + " "  +e;
+                                   logger.severe(msg);                                 
                                }
                                catch(Exception e){
-                                   String message = e.getMessage();
-                                   System.err.println(message);
+                                   String message = e.getMessage() + "for case" + tcase;
+                                   logger.info(message);
+                                   
                                    String mfile = t1.getModelFile(tcase , testdir);
                                    t1.readModelFile(mfile);
                                    String desc = t1.getSynopsis();
@@ -555,7 +531,7 @@ public class TestRunnerWorker extends SwingWorker {
                                  
                                    skipped++;
                                    totals++;
-                                   updateDetails(totals,failed,passed,skipped,t3);
+                                   updateDetails(totals,failed,passed,skipped,t3, finish);
 
                                    continue;
                                }
@@ -563,8 +539,9 @@ public class TestRunnerWorker extends SwingWorker {
                                    t2.validateResults(results,userresults);
                                }
                                catch(Exception e){
-                                   String message = e.getMessage();
-                                   System.err.println(message);
+                                   String message = e.getMessage() + "for case" + tcase;
+                                   logger.info(message);
+                                   
                                    String mfile = t1.getModelFile(tcase,testdir);
                                    t1.readModelFile(mfile);
                                    String desc = t1.getSynopsis();
@@ -573,7 +550,7 @@ public class TestRunnerWorker extends SwingWorker {
                                    TestResultDetails t3 = new TestResultDetails(-1,tcase,desc,message,plot_file,html_file,cvector, tvector,totalpoints);
                                    skipped++;
                                    totals++;
-                                   updateDetails(totals,failed,passed,skipped,t3);
+                                   updateDetails(totals,failed,passed,skipped,t3, finish);
 
                                    continue;
                                }
@@ -582,8 +559,8 @@ public class TestRunnerWorker extends SwingWorker {
                                    comp_results = t2.compareResults(results,userresults,steps,vars);
                                }
                                catch(Exception e){
-                                   String message = e.getMessage();
-                                   System.err.println(message);
+                                   String message = e.getMessage() + "for case" + tcase;
+                                   logger.info(message);
                                    String mfile = t1.getModelFile(tcase,testdir);
                                    t1.readModelFile(mfile);
                                    String desc = t1.getSynopsis();
@@ -592,7 +569,7 @@ public class TestRunnerWorker extends SwingWorker {
                                    TestResultDetails t3 = new TestResultDetails(-1,tcase,desc,message,plot_file,html_file,cvector, tvector,totalpoints);
                                    skipped++;
                                    totals++;
-                                   updateDetails(totals,failed,passed,skipped,t3);
+                                   updateDetails(totals,failed,passed,skipped,t3, finish);
 
                                    continue;
                                }
@@ -607,31 +584,38 @@ public class TestRunnerWorker extends SwingWorker {
                                if(pass_fail == 0) passed++;
                                else failed++;
                                
-                               try {
+                      /*         try {
                                     Thread.sleep(150);
                                 } catch (InterruptedException e) {
                                     return null;
-                                }
-                               updateDetails(totals,failed,passed,skipped,t3);
+                                } */
+                               updateDetails(totals,failed,passed,skipped,t3, finish);
                                
                             }
-                            }
-                        catch (InterruptedException ex) {
-                            Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, ex);
-                            System.out.println("got an interruptedexception");
-                        }                            
-                        catch(IOException ex){
-                                System.out.println("got an io exception");
+                            else {
+                        String msg = "Wrapper executed with error - exit value was " + exitVal + "and error message was " + line;
+                        logger.severe(msg);
+                        
                             }
                         }
+                        catch (InterruptedException ex) {
+                            
+                            logger.log(Level.SEVERE, "Wrapper execution caused an InterupptedException", ex);
+                            
+                        }                            
+                        catch(IOException ex){
+                            logger.log(Level.SEVERE, "Reading wrapper error message caused and IOException", ex);
+                        }
+                      }
                         
-                    } else {
-                        
-                    }
+                    } 
                 }
             } // end of for loop
-          
-
+        finish = 1;
+        System.out.println("at the end");
+        testRunnerView.updateProgress(totals, failed, skipped, passed, finish); 
+        testRunnerView.disableStartButton();
+        logger.info("Completed testing");
         if (Thread.currentThread().isInterrupted()) {
             return null;
         } else {
@@ -641,38 +625,38 @@ public class TestRunnerWorker extends SwingWorker {
    // }
     
     }
-     public void updateDetails(int totals, int failed, int passed, int skipped, TestResultDetails t3) {
+     public void updateDetails(int totals, int failed, int passed, int skipped, TestResultDetails t3, int finish) {
         final int total = totals;
         final int skip = skipped;
         final int fail = failed;
         final int pass = passed;
+        final int finished = finish;
         final TestResultDetails t = t3;
         SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
                 // update totals
-                testRunnerView.updateProgress(total, fail, skip, pass);
-                testCaseListModel.addElement(t);
-                if(t.getResult() > 0){
-                    failedTestCaseListModel.addElement(t);
+                testRunnerView.updateProgress(total, fail, skip, pass, finished);
+                if(finished == 1){
+                    testRunnerView.disableStartButton();
                 }
-                else if(t.getResult() == 0){
-                    passedTestCaseListModel.addElement(t);
-                }
-                else if(t.getResult() == -1){
-                    skippedTestCaseListModel.addElement(t);
+                if(t!=null){
+                    testCaseListModel.addElement(t);
+                    if(t.getResult() > 0){
+                        failedTestCaseListModel.addElement(t);
+                    }
+                    else if(t.getResult() == 0){
+                        passedTestCaseListModel.addElement(t);
+                    }
+                    else if(t.getResult() == -1){
+                        skippedTestCaseListModel.addElement(t);
+                    }
                 }
             }
         });
     }
      
-    public String getOdir() {
-        return odir;
-    }
     
-    public String getTdir() {
-        return tdir;
-    }
 
     @Override
     public void finished() {
@@ -680,31 +664,5 @@ public class TestRunnerWorker extends SwingWorker {
 
     }
     
-    class StreamGobbler extends Thread
-{
-    InputStream is;
-    String type;
-    
-    StreamGobbler(InputStream is, String type)
-    {
-        this.is = is;
-        this.type = type;
-    }
-    
-        @Override
-    public void run()
-    {
-        try
-        {
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
-            String line=null;
-            while ( (line = br.readLine()) != null)
-                System.out.println(type + ">" + line);    
-            } catch (IOException ioe)
-              {
-                ioe.printStackTrace();  
-              }
-    }
-}
+
 }

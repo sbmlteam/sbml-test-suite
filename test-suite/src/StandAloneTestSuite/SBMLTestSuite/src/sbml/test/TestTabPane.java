@@ -4,6 +4,7 @@ package sbml.test;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
 import javax.swing.event.*;
 import javax.swing.JOptionPane;
 // import java.awt.Desktop;
@@ -15,15 +16,18 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
     private MapViewPane mapViewPane;
     private ListViewPane listViewPane;
     TestRunnerWorker testRunnerWorker;
+    JButton startButton;
+    private TestConfiguration testConfiguration;
+    private TestRunnerView owner;
   //  TestCaseListModel testCaseListModel = new TestCaseListModel();
    // JList testList;
     private JLabel passedLabel,  skippedLabel,  failedLabel;
     JProgressBar progressBar;
     public static boolean MAC_OS_X = (System.getProperty("os.name").toLowerCase().startsWith("mac os x"));
    
-    public TestTabPane() {
+    public TestTabPane(TestRunnerView owner) {
         super();
-
+        this.owner = owner;
         createGUI();
         setPreferredSize(new Dimension(850, 700));
 
@@ -64,15 +68,18 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
 
         configureButton.setAction(new settingsActionClass("", new ImageIcon(getClass().getResource("resources/config.png"))));
 
-        JButton startButton = new JButton(new ImageIcon(getClass().getResource("resources/start.png")));
+       // JButton startButton = new JButton(new ImageIcon(getClass().getResource("resources/start.png")));
+        
+        startButton = new JButton(new ImageIcon(getClass().getResource("resources/start.png")));
 
         if (MAC_OS_X) {
             startButton.putClientProperty("JButton.buttonType", "segmentedCapsule");
             startButton.putClientProperty("JButton.segmentPosition", "first");
             startButton.putClientProperty("JComponent.sizeVariant", "regular");
         }
-        startButton.setToolTipText("Resume");
+        startButton.setToolTipText("Start");
         startButton.setAction(new startActionClass("", new ImageIcon(getClass().getResource("resources/start.png"))));
+        startButton.setEnabled(false);
 
         JButton stopButton = new JButton(new ImageIcon(getClass().getResource("resources/stop.png")));
 
@@ -106,12 +113,12 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
 
         progressBar = new JProgressBar();
         progressBar.setString("0%");
-        //     progressBar.setValue(100);
+        //progressBar.setValue(100);
         progressBar.setStringPainted(true);
 
         //  progressBar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        progressBar.setIndeterminate(true);
+        progressBar.setIndeterminate(false);
         if (MAC_OS_X) {
             //    progressBar.putClientProperty("JComponent.sizeVariant", "mini");
         }
@@ -160,6 +167,16 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
         buttonPanel.add(infoPane);
 
     }
+    public void enableStart() {
+        this.startButton.setEnabled(true);
+    }
+    public void disableStart() {
+        this.startButton.setEnabled(false);
+    }
+    public void setConfigurations(HashMap<String, Object> tconfiguration) {
+        System.out.println("inside the setconfigs");
+        this.testConfiguration = new TestConfiguration(tconfiguration);
+    }
 
     private void updateDisplay(TestResultDetails data) {
         //      resultMap.updateData(data);
@@ -195,40 +212,55 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
 //        }
     }
 
-    public void updateProgress(int progress, int failed, int skipped, int passed) {
-        progressBar.setValue(progress);
-        progressBar.setString(Integer.toString(progress)+"%");
+    public void updateProgress(int progress, int failed, int skipped, int passed, int finish) {
+        if(finish == 1){
+            progressBar.setIndeterminate(false);
+            progressBar.setValue(100);
+            progressBar.setString("100%");
+        }
+        else{
+            progressBar.setIndeterminate(true);
+        }
+        //progressBar.setValue(progress);
+        //progressBar.setString(Integer.toString(progress)+"%");
         failedLabel.setText(Integer.toString(failed) + " ("+ Integer.toString(100*failed/(failed+passed+skipped))+"%)");
         skippedLabel.setText(Integer.toString(skipped) + " ("+ Integer.toString(100*skipped/(failed+passed+skipped))+"%)");
         passedLabel.setText(Integer.toString(passed) + " ("+ Integer.toString(100*passed/(failed+passed+skipped))+"%)"); 
     }
 
     public class settingsActionClass extends AbstractAction {
-
+      //  private TestRunnerView owner;
+      
         public settingsActionClass(String text, Icon icon) {
             super(text, icon);
+          //  this.owner = owner;
+            
         //         putValue(ACCELERATOR_KEY, shortcut);
         }
 
         public void actionPerformed(ActionEvent e) {
-            //  JFrame mainFrame = TestRunnerApp.getApplication().getMainFrame();
-            String outputdir = testRunnerWorker.getOdir();
-            String testdir = testRunnerWorker.getTdir();
-            String message = "<html><p>Settings</p><p>Test Case Directory: " + testdir + "</p><p>Wrapper Output Directory: " + outputdir + "</p></html>";
-            JOptionPane.showMessageDialog(null, message, "Settings...", JOptionPane.INFORMATION_MESSAGE);
+           
+            Thread.currentThread().interrupt();
+            sbml.test.Wizard.CreateTestWizard wizard = new sbml.test.Wizard.CreateTestWizard(owner);
+            wizard.runWizard();
         }
     }
 
     public class startActionClass extends AbstractAction {
-
+       // TestConfiguration testConfiguration;
+        
         public startActionClass(String text, Icon icon) {
             super(text, icon);
+          //  this.testConfiguration = testConfiguration;
         //         putValue(ACCELERATOR_KEY, shortcut);
         }
 
         public void actionPerformed(ActionEvent e) {
             //     JFrame mainFrame = TestRunnerApp.getApplication().getMainFrame();
-            JOptionPane.showMessageDialog(null, "Nothing to resume.", "Resume...", JOptionPane.WARNING_MESSAGE);
+            // want this to call the start method in TestRunnerView which calls start in testrunnerworker
+            //JOptionPane.showMessageDialog(null, "Nothing to resume.", "Resume...", JOptionPane.WARNING_MESSAGE);
+           // mapViewPane.updateMap();
+            owner.startTest(testConfiguration);
         }
     }
 
@@ -241,7 +273,8 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
 
         public void actionPerformed(ActionEvent e) {
             //   JFrame mainFrame = TestRunnerApp.getApplication().getMainFrame();
-            JOptionPane.showMessageDialog(null, "Nothing to stop.", "Stop...", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Test Stopped.", "Stop...", JOptionPane.WARNING_MESSAGE);
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -254,7 +287,11 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
 
         public void actionPerformed(ActionEvent e) {
             //     JFrame mainFrame = TestRunnerApp.getApplication().getMainFrame();
-            JOptionPane.showMessageDialog(null, "Nothing to reset.", "Reset...", JOptionPane.WARNING_MESSAGE);
+            // want this to pull up wizard to reset selections
+            Thread.currentThread().interrupt();
+            // start a new thread and start test with previously saved selections
+            owner.startTest(testConfiguration);
+            //JOptionPane.showMessageDialog(null, "Nothing to reset.", "Reset...", JOptionPane.WARNING_MESSAGE);
         }
     }
 
