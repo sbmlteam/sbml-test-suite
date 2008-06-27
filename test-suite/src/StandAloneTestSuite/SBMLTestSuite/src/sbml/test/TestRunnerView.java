@@ -1,5 +1,28 @@
+// @file    TestRunnerView.java
+// @brief   TestRunnerView class for SBML Standalone application
+// @author  Kimberly Begley
+// 
 
+//
+//<!---------------------------------------------------------------------------
+// This file is part of the SBML Test Suite.  Please visit http://sbml.org for
+// more information about SBML, and the latest version of the SBML Test Suite.
+// 
+// Copyright 2008      California Institute of Technology.
+// Copyright 2004-2007 California Institute of Technology (USA) and
+//                     University of Hertfordshire (UK).
+// 
+// The SBML Test Suite is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation.  A copy of the license
+// agreement is provided in the file named "LICENSE.txt" included with
+// this software distribution and also available at
+// http://sbml.org/Software/SBML_Test_Suite/license.html
+//------------------------------------------------------------------------- -->
+// Creates menu items etc for application.
+//
 package sbml.test;
+
 
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
@@ -13,6 +36,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JMenu;
@@ -24,8 +48,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.ImageIcon;
 import java.net.URL;
 import java.util.HashMap;
-import javax.help.HelpBroker;
-import javax.help.HelpSet;
+//import javax.help.HelpBroker;
+//import javax.help.HelpSet;
 
 
 
@@ -44,12 +68,21 @@ public class TestRunnerView extends JFrame implements WindowListener {
     public static PassedTestCaseListModel passedTestCaseListModel;
     public static SkippedTestCaseListModel skippedTestCaseListModel;
     public static boolean logging;
+    public static HashMap<String,Object> currentvalues;
+  //  public static HelpDialog helpdialog;
+    TestRunnerWorker worker;
     
     private void initComponents() {
         testCaseListModel = new TestCaseListModel();
         failedTestCaseListModel = new FailedTestCaseListModel();
         passedTestCaseListModel = new PassedTestCaseListModel();
         skippedTestCaseListModel = new SkippedTestCaseListModel();
+        
+        currentvalues = new HashMap<String,Object>();
+        currentvalues.put("logging",false);
+        String userdir = System.getProperty("user.home") + File.separator + ".sbmltestrunner" + File.separator + "sbml-test-suite.log";
+        currentvalues.put("configpath", userdir);
+        
         menuBar = new JMenuBar();
         fileMenu = new JMenu();
         quitAction = new quitActionClass("Quit");
@@ -58,12 +91,11 @@ public class TestRunnerView extends JFrame implements WindowListener {
         //helpMenu = new JMenu("Help");
         helpAction = new helpActionClass("Help");
         helpMenuItem = new JMenuItem(helpAction);
-        //preferencesAction = new preferencesActionClass("Preferences");
-        preferencesMenu = new JMenu("Preferences");
-       // preferencesMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, shortcutKeyMask));
-        loggingMenuItem = new JCheckBoxMenuItem("Generate Debugging log");
-        preferencesMenu.add(loggingMenuItem);
-        loggingMenuItem.addActionListener(loggingListener);
+        helpMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H,shortcutKeyMask));
+        
+        preferencesAction = new preferencesActionClass("Preferences");
+        preferencesMenuItem = new JMenuItem(preferencesAction);
+        preferencesMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,shortcutKeyMask));
        // aboutMenuItem = new JMenuItem("About");
         aboutAction = new aboutActionClass("About");
         aboutMenuItem = new JMenu(aboutAction);
@@ -76,12 +108,15 @@ public class TestRunnerView extends JFrame implements WindowListener {
 
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
+        
+       // editMenu.add(preferencesAction);
+        
 
-        newAction = new newActionClass("New test", this);
+        newAction = new newActionClass("New Test Run", this);
         newMenuItem = new JMenuItem(newAction);
         fileMenu.add(newMenuItem);
-        fileMenu.addSeparator();
-        fileMenu.add(preferencesMenu);
+        //fileMenu.addSeparator();
+        //fileMenu.add(preferencesMenu);
 
         checkUpdatesAction = new checkUpdatesActionClass("Check for test case updates");
         checkUpdatesMenuItem = new JMenuItem(checkUpdatesAction);
@@ -96,7 +131,7 @@ public class TestRunnerView extends JFrame implements WindowListener {
 
 
         if (!MAC_OS_X) {
-            fileMenu.add(preferencesMenu);
+            fileMenu.add(preferencesMenuItem);
             fileMenu.addSeparator();
             fileMenu.add(quitMenuItem);
 
@@ -187,34 +222,18 @@ public class TestRunnerView extends JFrame implements WindowListener {
     
     public void openHelp() {
        
-    String pathToHS = "/testsuitehelp/docs/testsuitehelp-hs.xml";
-        //Create a URL for the location of the help set
-    
-        try {
-            
-            URL hsURL = getClass().getResource(pathToHS);
-            HelpSet hs = new HelpSet(null, hsURL);
-            // Create a HelpBroker object for manipulating the help set
-            HelpBroker hb = hs.createHelpBroker();
-            //Display help set
-            hb.setDisplayed(true);
-        } catch (Exception ee) {
-            // Print info to the console if there is an exception
-            System.out.println("HelpSet " + ee.getMessage());
-            System.out.println("Help Set " + pathToHS + " not found");
-            return;
-        }
-
-        
+        HelpDialog displayHelp = new HelpDialog(this);   
     }
 
     // General preferences dialog; fed to the OSXAdapter as the method to call when
     // "Preferences..." is selected from the application menu
     public void preferences() {
-        //    prefs.setLocation((int)this.getLocation().getX() + 22, (int)this.getLocation().getY() + 22);
-        //    prefs.setVisible(true);
-        System.out.println("inside the preferences");
-        // we want this to contain a checkbox for logging along with editable path for log file
+        
+        currentvalues = PreferencesDialog.getValue(this, currentvalues);
+        
+    }
+    public HashMap<String,Object> getLoggingInfo () {
+        return currentvalues;
     }
 
     public void performUpdate() {
@@ -245,6 +264,21 @@ public class TestRunnerView extends JFrame implements WindowListener {
     }
     public void disableStartButton() {
         testTabPane.disableStart();
+    }
+    public void setStopButton() {
+        testTabPane.enableStop();
+    }
+    public void disableStopButton() {
+        testTabPane.disableStop();
+    }
+    public void setResetButton() {
+        testTabPane.enableReset();
+    }
+    public void disableResetButton() {
+        testTabPane.disableReset();
+    }
+    public void displayWrapperError() {
+        testTabPane.wrapperError();
     }
     public void windowClosed(WindowEvent e) {
         //  throw new UnsupportedOperationException("Not supported yet.");
@@ -277,7 +311,7 @@ public class TestRunnerView extends JFrame implements WindowListener {
                 // use as delegates for various com.apple.eawt.ApplicationListener methods
                 OSXAdapter.setQuitHandler(this, getClass().getDeclaredMethod("quit", (Class[]) null));
                 OSXAdapter.setAboutHandler(this, getClass().getDeclaredMethod("about", (Class[]) null));
-               // OSXAdapter.setPreferencesHandler(this, getClass().getDeclaredMethod("preferences", (Class[]) null));
+                OSXAdapter.setPreferencesHandler(this, getClass().getDeclaredMethod("preferences", (Class[]) null));
             //           OSXAdapter.setFileHandler(this, getClass().getDeclaredMethod("loadImageFile", new Class[]{String.class}));
             } catch (Exception e) {
                 System.err.println("Error while loading the OSXAdapter:");
@@ -290,6 +324,8 @@ public class TestRunnerView extends JFrame implements WindowListener {
         
       //  final TestConfiguration finalTestConfig = testConfiguration;
    //    TestCaseListModel list = new TestCaseListModel();
+        setStopButton();
+        setResetButton();
         testCaseListModel.removeAllElements();
         failedTestCaseListModel.removeAllElements();
         passedTestCaseListModel.removeAllElements();
@@ -298,8 +334,12 @@ public class TestRunnerView extends JFrame implements WindowListener {
             testConfiguration.set("logging", 1);
         }
         else testConfiguration.set("logging",0);
-        TestRunnerWorker worker = new TestRunnerWorker(this, testConfiguration);
+        worker = new TestRunnerWorker(this, testConfiguration);
         worker.start();
+    }
+    
+    public void stopTest() {
+        worker.interrupt();
     }
 
     public class newActionClass extends AbstractAction {
@@ -364,6 +404,15 @@ public class TestRunnerView extends JFrame implements WindowListener {
             openHelp();
         }
     }
+    public class preferencesActionClass extends AbstractAction {
+        public preferencesActionClass(String text){
+            super(text);
+            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P,shortcutKeyMask));
+        }
+        public void actionPerformed(ActionEvent e){
+          preferences();
+        }
+    }
      
     
     private newActionClass newAction;
@@ -371,13 +420,14 @@ public class TestRunnerView extends JFrame implements WindowListener {
     private aboutActionClass aboutAction;
     private helpActionClass helpAction;
     private checkUpdatesActionClass checkUpdatesAction;
-   
+    private preferencesActionClass preferencesAction;
+    
     private JMenu fileMenu;
     private JMenu editMenu;
     //private JMenu helpMenu;
     private JMenuBar menuBar;
     private JMenuItem quitMenuItem;
-    private JMenu preferencesMenu;
+    private JMenuItem preferencesMenuItem;
     private JCheckBoxMenuItem loggingMenuItem;
     private JMenuItem aboutMenuItem;
     private JMenuItem helpMenuItem;

@@ -1,4 +1,26 @@
+// @file    ComponentTagSelectorPanel.java
+// @brief   ComponentTagSelectorPanel class for SBML Standalone application
+// @author  Kimberly Begley
+// 
 
+//
+//<!---------------------------------------------------------------------------
+// This file is part of the SBML Test Suite.  Please visit http://sbml.org for
+// more information about SBML, and the latest version of the SBML Test Suite.
+// 
+// Copyright 2008      California Institute of Technology.
+// Copyright 2004-2007 California Institute of Technology (USA) and
+//                     University of Hertfordshire (UK).
+// 
+// The SBML Test Suite is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation.  A copy of the license
+// agreement is provided in the file named "LICENSE.txt" included with
+// this software distribution and also available at
+// http://sbml.org/Software/SBML_Test_Suite/license.html
+//------------------------------------------------------------------------- -->
+// Class and methods for the component tag selection from the new test wizard.
+//
 
 package sbml.test.Wizard;
 
@@ -113,7 +135,7 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
         contentPanel2.add(contentPanel1, BorderLayout.WEST);
         JPanel messagePanel = new JPanel(new BorderLayout());
         messagePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
-        messagePanel.add(new JLabel("Select component tags you would like to exclude:"), BorderLayout.NORTH);
+        messagePanel.add(new JLabel("<html>By default all SBML components are tested, to <b>exclude</b> specific components select the comoponent tag to be excluded from the following list:</html>"), BorderLayout.NORTH);
         contentPanel2.add(messagePanel, BorderLayout.NORTH);
         
         if(selections.size() > 0 ){
@@ -128,32 +150,32 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
       if (source == spe_button){
           if(state == ItemEvent.SELECTED){
               updateSelections("Species",1);
-              cmpt_button.setSelected(true);
-              updateSelections("Compartment",1);
+              rct_button.setSelected(true);
+              updateSelections("Reaction",1);
               createTestWizard.setSelections(selections);
           }
           if(state == ItemEvent.DESELECTED){
-              updateSelections("Species",0);
-              cmpt_button.setSelected(false);
-              updateSelections("Compartment",0);
-              createTestWizard.setSelections(selections);
+              if(!cmpt_button.isSelected()){
+                updateSelections("Species",0);
+                createTestWizard.setSelections(selections);
+              }
+              else{
+                  spe_button.setSelected(true);
+              }
+              
+              
+              
           }
       }
       if (source == rct_button){
           if(state == ItemEvent.SELECTED){
               updateSelections("Reaction",1);
-              cmpt_button.setSelected(true);
-              updateSelections("Compartment",1);
-              spe_button.setSelected(true);
-              updateSelections("Species",1);
-              createTestWizard.setSelections(selections);
+              
+              
           }
           if(state == ItemEvent.DESELECTED){
               updateSelections("Reaction",0);
-              cmpt_button.setSelected(false);
-              updateSelections("Compartment",0);
-              spe_button.setSelected(false);
-              updateSelections("Species",0);
+              
               createTestWizard.setSelections(selections);
           }
       }
@@ -170,11 +192,17 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
       if (source == cmpt_button){
           if(state == ItemEvent.SELECTED){
               updateSelections("Compartment",1);
+              spe_button.setSelected(true);
+              updateSelections("Species",1);
+              rct_button.setSelected(true);
+              updateSelections("Reaction",1);
               createTestWizard.setSelections(selections);
           }
           if(state == ItemEvent.DESELECTED){
-              updateSelections("Compartment",0);
-              createTestWizard.setSelections(selections);
+              if((Integer)selections.get("Species")==0){
+                updateSelections("Compartment",0);
+                createTestWizard.setSelections(selections);
+              }
           }
       }
       if (source == rr_button){
@@ -319,7 +347,11 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
             end_button.setEnabled(true);
         }
         
- /*       
+  /*      if((Integer)selections.get("Compartment")==1 && (Integer)selections.get("Species")==0) {
+            spe_button.setSelected(true);
+            updateSelections("Species",1);
+        }
+ /      
         
         if((Integer)selections.get("FunctionDefinition")==0 && (Integer)selections.get("InitialAssignment")==1 && (Integer)selections.get("AssignmentRule")==1 && (Integer)selections.get("RateRule")==1 && (Integer)selections.get("AlgebraicRule")==1 && (Integer)selections.get("Constraint")==1 && (Integer)selections.get("EventWithDelay")==1 && (Integer)selections.get("EventNoDelay")==1 && (Integer)selections.get("Reaction")==1) {
             // show an alert here that to test function definition one of the others needs to be present as well
@@ -344,12 +376,12 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
         if((Integer)selections.get("EventWithDelay")==0 && (Integer)selections.get("Compartment")==1 && (Integer)selections.get("Species")==1 && (Integer)selections.get("Parameter")==1) {
             // show an alert here that to test eventwithdelay at least one of compartment, species or parameter must be present
             JOptionPane.showMessageDialog(null, "To test EventWithDelay at least one of Compartment, Species or Parameter must be present.","WARNING",JOptionPane.WARNING_MESSAGE);
-        }
-        if((Integer)selections.get("EventNoDelay")==0 && (Integer)selections.get("Compartment")==1 && (Integer)selections.get("Species")==1 && (Integer)selections.get("Parameter")==1) {
+        } */
+        if((Integer)selections.get("Compartment")==1 && (Integer)selections.get("Species")==1 && (Integer)selections.get("Parameter")==1 && (Integer)selections.get("Reaction")==1) {
             // show an alert here that to test eventnodelay at least one of compartment, species or parameter must be present
-            JOptionPane.showMessageDialog(null, "To test EventNoDelay at least one of Compartment, Species or Parameter must be present.","WARNING",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "To test at least one of Compartment, Species or Parameter must be present.","WARNING",JOptionPane.WARNING_MESSAGE);
         } 
-        */
+        
     }
 
     public String getQualifiedName() {

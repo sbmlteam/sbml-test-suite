@@ -1,6 +1,30 @@
 
 package sbml.test;
 
+// @file    ListViewPane.java
+// @brief   ListViewPane class for SBML Standalone application
+// @author  Kimberly Begley
+// 
+
+//
+//<!---------------------------------------------------------------------------
+// This file is part of the SBML Test Suite.  Please visit http://sbml.org for
+// more information about SBML, and the latest version of the SBML Test Suite.
+// 
+// Copyright 2008      California Institute of Technology.
+// Copyright 2004-2007 California Institute of Technology (USA) and
+//                     University of Hertfordshire (UK).
+// 
+// The SBML Test Suite is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation.  A copy of the license
+// agreement is provided in the file named "LICENSE.txt" included with
+// this software distribution and also available at
+// http://sbml.org/Software/SBML_Test_Suite/license.html
+//------------------------------------------------------------------------- -->
+// Creates the list view pane for the main Stand alone application view.
+//
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,14 +53,14 @@ import javax.swing.event.ListSelectionListener;
 
 public class ListViewPane extends JPanel implements ListSelectionListener, ItemListener {
 
-    private JPanel bottomLeftPanel,  selectPanel,  detailPane,  findPanel;
-    private String[] panelTitles = {"Listing selection", "Details", "Find test case result"};
+    private JPanel bottomLeftPanel,  selectPanel,  detailPane,  findPanel, detailContainer;
+    private String[] panelTitles = {"Listing selection", "Details", "Jump to test case result"};
     
     PassedTestCaseListModel passedList;
     FailedTestCaseListModel failedList;
     SkippedTestCaseListModel skippedList;
     
-    JScrollPane scrollList;
+    JScrollPane scrollList, scrollPane;
     JTextPane summaryLabel;
 
     JTextField searchField;
@@ -56,17 +80,24 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
         bottomLeftPanel = new JPanel();
         findPanel = new JPanel();
 
+        
+        
         detailPane = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(detailPane);
+        detailContainer = new JPanel(new BorderLayout());
+        
+        scrollPane = new JScrollPane(detailPane);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getViewport().setViewPosition(new java.awt.Point(0,0));
         this.setLayout(new BorderLayout(7, 7));
+        
+        detailContainer.add(scrollPane, BorderLayout.CENTER);
 
         bottomLeftPanel.setLayout(new BorderLayout(7, 7));
         this.add(bottomLeftPanel, BorderLayout.CENTER);
         bottomLeftPanel.add(selectPanel, BorderLayout.PAGE_START);
-        bottomLeftPanel.add(scrollPane, BorderLayout.CENTER);
+       // bottomLeftPanel.add(scrollPane, BorderLayout.CENTER);
+        bottomLeftPanel.add(detailContainer, BorderLayout.CENTER);
         this.add(findPanel, BorderLayout.LINE_START);
 
         bottomLeftPanel.setOpaque(false);
@@ -90,25 +121,29 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
         scrollList.setPreferredSize(new Dimension(150, 80));
 
         findPanel.add(scrollList, BorderLayout.CENTER);
-        findPanel.add(new JLabel("<html>Case list</html>"), BorderLayout.PAGE_START);
+       // findPanel.add(new JLabel("<html>Jump to test case result</html>"), BorderLayout.PAGE_START);
 
 
         shortDetailLabel = new JLabel("No dataset selected");
+        
+        
         detailPane.setLayout(new BorderLayout(10, 10));
         plotLabel = new JLabel("");
         synopsisLabel = new JLabel("");
         
         summaryLabel = new JTextPane();
-        summaryLabel.setPreferredSize(new Dimension(525,400));
-
+        summaryLabel.setPreferredSize(new Dimension(525,600));
+        
+        //detailPane.add(sdlPanel,BorderLayout.PAGE_START);
         detailPane.add(shortDetailLabel, BorderLayout.PAGE_START);
         //detailPane.add(synopsisLabel, BorderLayout.PAGE_END);
         detailPane.add(plotLabel, BorderLayout.WEST);
         detailPane.add(summaryLabel, BorderLayout.PAGE_END);
+        detailPane.setBackground(Color.white);
        
         JPanel[] namedPanel = new JPanel[3];
         namedPanel[0] = selectPanel;
-        namedPanel[1] = detailPane;
+        namedPanel[1] = detailContainer;
         namedPanel[2] = findPanel;
 
         for (int i = 0; i < 3; i++) {
@@ -209,6 +244,7 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
       detailPane.add(summaryLabel, BorderLayout.PAGE_END);
      // detailPane.add(synopsisLabel, BorderLayout.PAGE_END);
       detailPane.add(plotLabel, BorderLayout.WEST);
+      scrollPane.getViewport().setViewPosition(new java.awt.Point(0,0));
       
   }
 

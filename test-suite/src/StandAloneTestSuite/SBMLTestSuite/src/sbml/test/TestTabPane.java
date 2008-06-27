@@ -1,3 +1,27 @@
+// @file    TestTabPane.java
+// @brief   TestTabPane class for SBML Standalone application
+// @author  Kimberly Begley
+// 
+
+//
+//<!---------------------------------------------------------------------------
+// This file is part of the SBML Test Suite.  Please visit http://sbml.org for
+// more information about SBML, and the latest version of the SBML Test Suite.
+// 
+// Copyright 2008      California Institute of Technology.
+// Copyright 2004-2007 California Institute of Technology (USA) and
+//                     University of Hertfordshire (UK).
+// 
+// The SBML Test Suite is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation.  A copy of the license
+// agreement is provided in the file named "LICENSE.txt" included with
+// this software distribution and also available at
+// http://sbml.org/Software/SBML_Test_Suite/license.html
+//------------------------------------------------------------------------- -->
+// Creates the test main view of application.
+//
+
 
 package sbml.test;
 
@@ -16,7 +40,7 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
     private MapViewPane mapViewPane;
     private ListViewPane listViewPane;
     TestRunnerWorker testRunnerWorker;
-    JButton startButton;
+    JButton startButton, stopButton, resetButton;
     private TestConfiguration testConfiguration;
     private TestRunnerView owner;
   //  TestCaseListModel testCaseListModel = new TestCaseListModel();
@@ -34,6 +58,7 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
     }
 
     private void createGUI() {
+        ToolTipManager.sharedInstance().setInitialDelay(5);
         setOpaque(false);
         setLayout(new BorderLayout());
         if (!MAC_OS_X) {
@@ -67,8 +92,6 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
         configureButton.setToolTipText("Configure");
 
         configureButton.setAction(new settingsActionClass("", new ImageIcon(getClass().getResource("resources/config.png"))));
-
-       // JButton startButton = new JButton(new ImageIcon(getClass().getResource("resources/start.png")));
         
         startButton = new JButton(new ImageIcon(getClass().getResource("resources/start.png")));
 
@@ -81,7 +104,7 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
         startButton.setAction(new startActionClass("", new ImageIcon(getClass().getResource("resources/start.png"))));
         startButton.setEnabled(false);
 
-        JButton stopButton = new JButton(new ImageIcon(getClass().getResource("resources/stop.png")));
+        stopButton = new JButton(new ImageIcon(getClass().getResource("resources/stop.png")));
 
         if (MAC_OS_X) {
             stopButton.putClientProperty("JButton.buttonType", "segmentedCapsule");
@@ -91,8 +114,9 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
 
         stopButton.setToolTipText("Stop");
         stopButton.setAction(new stopActionClass("", new ImageIcon(getClass().getResource("resources/stop.png"))));
+        stopButton.setEnabled(false);
 
-        JButton resetButton = new JButton(new ImageIcon(getClass().getResource("resources/reset.png")));
+        resetButton = new JButton(new ImageIcon(getClass().getResource("resources/reset.png")));
 
         if (MAC_OS_X) {
             resetButton.putClientProperty("JButton.buttonType", "segmentedCapsule");
@@ -102,6 +126,7 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
 
         resetButton.setToolTipText("Reset");
         resetButton.setAction(new resetActionClass("", new ImageIcon(getClass().getResource("resources/reset.png"))));
+        resetButton.setEnabled(false);
 
 
         controlButtons.add(startButton);
@@ -169,9 +194,27 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
     }
     public void enableStart() {
         this.startButton.setEnabled(true);
+        
     }
     public void disableStart() {
         this.startButton.setEnabled(false);
+    }
+    public void enableStop() {
+        this.stopButton.setEnabled(true);
+        
+    }
+    public void disableStop() {
+        this.stopButton.setEnabled(false);
+    }
+    public void enableReset() {
+        this.resetButton.setEnabled(true);
+        
+    }
+    public void disableReset() {
+        this.resetButton.setEnabled(false);
+    }
+    public void wrapperError() {
+        JOptionPane.showMessageDialog(null, "Wrapper did not execute successfully - edit it and try again", "Wrapper error...", JOptionPane.WARNING_MESSAGE);
     }
     public void setConfigurations(HashMap<String, Object> tconfiguration) {
         System.out.println("inside the setconfigs");
@@ -212,20 +255,26 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
 //        }
     }
 
-    public void updateProgress(int progress, int failed, int skipped, int passed, int finish) {
-        if(finish == 1){
-            progressBar.setIndeterminate(false);
-            progressBar.setValue(100);
-            progressBar.setString("100%");
-        }
-        else{
-            progressBar.setIndeterminate(true);
-        }
-        //progressBar.setValue(progress);
-        //progressBar.setString(Integer.toString(progress)+"%");
-        failedLabel.setText(Integer.toString(failed) + " ("+ Integer.toString(100*failed/(failed+passed+skipped))+"%)");
-        skippedLabel.setText(Integer.toString(skipped) + " ("+ Integer.toString(100*skipped/(failed+passed+skipped))+"%)");
-        passedLabel.setText(Integer.toString(passed) + " ("+ Integer.toString(100*passed/(failed+passed+skipped))+"%)"); 
+    public void updateProgress(int total, int failed, int skipped, int passed, int finish) {
+      //  if(finish == 1){
+      //      progressBar.setIndeterminate(false);
+      //      progressBar.setValue(100);
+      //      progressBar.setString("100%");
+      //  }
+       // else{
+       //     progressBar.setIndeterminate(true);
+       // }
+        
+        
+       //int progress = total +skipped+failed+passed;
+       int progress = 100*(failed+skipped+passed)/total;
+       //String progress = Integer.toString(100*((failed+skipped+passed)/total));
+        
+        progressBar.setValue(progress);
+        progressBar.setString(Integer.toString(progress)+"%");
+        failedLabel.setText(Integer.toString(failed) + "/"+ Integer.toString(total)+" ("+ Integer.toString(100*failed/(failed+passed+skipped))+"%)");
+        skippedLabel.setText(Integer.toString(skipped) + "/"+ Integer.toString(total)+" ("+ Integer.toString(100*skipped/(failed+passed+skipped))+"%)");
+        passedLabel.setText(Integer.toString(passed) +"/"+ Integer.toString(total)+ " ("+ Integer.toString(100*passed/(failed+passed+skipped))+"%)"); 
     }
 
     public class settingsActionClass extends AbstractAction {
@@ -273,8 +322,10 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
 
         public void actionPerformed(ActionEvent e) {
             //   JFrame mainFrame = TestRunnerApp.getApplication().getMainFrame();
-            JOptionPane.showMessageDialog(null, "Test Stopped.", "Stop...", JOptionPane.WARNING_MESSAGE);
-            Thread.currentThread().interrupt();
+           // JOptionPane.showMessageDialog(null, "Test Stopped.", "Stop...", JOptionPane.WARNING_MESSAGE);
+           // testRunnerWorker.interruptWorkerThread();
+            //Thread.currentThread().interrupt();
+            owner.stopTest();
         }
     }
 
@@ -290,8 +341,9 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
             // want this to pull up wizard to reset selections
             Thread.currentThread().interrupt();
             // start a new thread and start test with previously saved selections
-            owner.startTest(testConfiguration);
+            //owner.startTest(testConfiguration);
             //JOptionPane.showMessageDialog(null, "Nothing to reset.", "Reset...", JOptionPane.WARNING_MESSAGE);
+            enableStart();
         }
     }
 
