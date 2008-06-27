@@ -1,5 +1,0 @@
-TIME 3600
-STEPS 50
-SPECIES S1 S2 S3
-URL Model_Containing_a_Reaction_with_a_Inhibiting_Modifier_Semantic_Test
-REM Model contains a modifier element.

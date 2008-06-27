@@ -1,5 +1,0 @@
-TIME 2
-STEPS 50
-SPECIES S1 S2
-URL MathML_floor_Constant_Semantic_Test
-REM Tests the MathML 'floor' function 

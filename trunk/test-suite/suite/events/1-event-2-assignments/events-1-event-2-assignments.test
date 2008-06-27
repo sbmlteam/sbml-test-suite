@@ -1,6 +1,0 @@
-TIME 5
-STEPS 50
-SPECIES S1 S2
-URL 1_Event_with_1_Assignment_Semantic_Test
-REM simple test of basic support for events.
-REM model contains one event with 2 assignments

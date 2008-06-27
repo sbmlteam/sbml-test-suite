@@ -1,8 +1,0 @@
-TIME 3
-STEPS 50
-SPECIES S1 S2 S3 S4
-URL Stoichiometry2S4_Variant_-_Basic_Model_3_Semantic_Test
-REM This model tests simple interpretation of reactions and stoichiometry.
-REM The model consists of 2 reactions with mass action kinetics
-REM Both reactions have 2 reactants and 2 products.
-REM One species has stoichiomtry of 2 on both reactions.

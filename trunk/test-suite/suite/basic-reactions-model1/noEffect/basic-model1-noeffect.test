@@ -1,8 +1,0 @@
-TIME 5
-STEPS 50
-SPECIES S1 S2
-URL NoEffect_Variant_-_Basic_Model_1_Semantic_Test
-REM This model tests the simple interpretation of reactions.
-REM The model consists of 2 reactions with mass action kinetics.
-REM The model doesn't change the values of its species because the forward and
-REM reverse reactions cancel out.

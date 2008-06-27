@@ -1,8 +1,0 @@
-TIME 3
-STEPS 50
-SPECIES S1 S2 S3 S4
-URL BoundaryS4_Variant_-_Basic_Model_3_Semantic_Test
-REM This model tests simple interpretation of reactions and boundary conditions
-REM The model consists of 2 reactions with mass action kinetics
-REM Both reactions have 2 reactants and 2 products.
-REM One species is a boundary condition.

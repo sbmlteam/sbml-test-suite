@@ -1,6 +1,0 @@
-TIME 5
-STEPS 50
-SPECIES S1 S2 S3
-URL Local_Parameter_Scope_Semantic_Test
-REM This model tests that different local parameters with the same name are
-interpreted correctly.

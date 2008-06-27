@@ -1,5 +1,0 @@
-TIME 10
-STEPS 50
-SPECIES X0 S1 S2 S3 S4 X1
-URL Competitive_Feedback_Model_Complex_Reaction_Semantic_Test
-REM Tests simulator's ability to solve a mathematically complex model

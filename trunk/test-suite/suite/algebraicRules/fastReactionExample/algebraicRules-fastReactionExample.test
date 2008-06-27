@@ -1,6 +1,0 @@
-TIME 40
-STEPS 50
-SPECIES X0 X1 T S1 S2
-URL Fast_Reaction_Algebraic_Rule_Semantic_Test
-REM Tests support for algebraic rules in models representing fast reactions
-REM (this model doesn't test the fast attribute)

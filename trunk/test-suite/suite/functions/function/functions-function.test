@@ -1,5 +1,0 @@
-TIME 50
-STEPS 50
-SPECIES S1 S2
-URL Function_Definition_used_in_Function_Definition_Semantic_Test
-REM tests the use of a function with in a function definition

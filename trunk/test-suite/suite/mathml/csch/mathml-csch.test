@@ -1,5 +1,0 @@
-TIME 0.5
-STEPS 50
-SPECIES S1 S2
-URL MathML_csch_Function_Semantic_Test
-REM tests the use of the csch MathML function in a kinetic law expression

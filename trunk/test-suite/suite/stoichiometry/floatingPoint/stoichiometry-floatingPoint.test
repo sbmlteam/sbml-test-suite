@@ -1,5 +1,0 @@
-TIME 25
-STEPS 50
-SPECIES A B
-URL Non-integer_constant_stoichiometry_Semantic_Test
-REM Model contains a floating point stoichiometry attribute value

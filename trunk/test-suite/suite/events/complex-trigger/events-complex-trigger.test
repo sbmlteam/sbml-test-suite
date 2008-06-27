@@ -1,6 +1,0 @@
-TIME 2
-STEPS 50
-SPECIES S1 S2
-URL Event_with_Complex_Trigger_Semantic_Test
-REM test of support for events.
-REM model contains 3 events, one with a complex boolean trigger expression

@@ -1,5 +1,0 @@
-TIME 2000
-STEPS 50
-SPECIES S1 S2
-URL MathML_cn_e-notation_Token_Semantic_Test
-REM tests the use of the cn e-notation MathML token in a kinetic law expression

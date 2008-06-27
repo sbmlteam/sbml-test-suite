@@ -1,5 +1,0 @@
-TIME 4.5
-STEPS 50
-SPECIES S1 S2
-URL MathML_arccoth_Function_Semantic_Test
-REM tests the use of the arccoth MathML function in a kinetic law expression

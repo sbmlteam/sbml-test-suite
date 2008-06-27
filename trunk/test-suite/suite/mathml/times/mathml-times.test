@@ -1,5 +1,0 @@
-TIME 1
-STEPS 50
-SPECIES S1 S2
-URL MathML_times_Operator_Semantic_Test
-REM tests the use of the times MathML operator in a kinetic law expression

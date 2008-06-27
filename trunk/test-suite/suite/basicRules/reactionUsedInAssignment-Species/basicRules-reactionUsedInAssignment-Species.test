@@ -1,7 +1,0 @@
-TIME 1.5
-STEPS 50
-SPECIES s1 s2
-URL Reaction_used_in_Assignment_Semantic_Test
-REM Tests whether an assignment rule containing
-REM a species which is the product or reactant of a reaction
-REM is interpreted correctly 

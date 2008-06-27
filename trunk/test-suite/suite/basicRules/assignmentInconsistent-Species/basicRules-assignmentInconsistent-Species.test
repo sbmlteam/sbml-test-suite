@@ -1,7 +1,0 @@
-TIME 5
-STEPS 50
-SPECIES s
-URL Inconsistent_Assignment_Rule_Semantic_Test
-REM Tests whether an assignment rule for a variable that is inconsistent with
-REM the initial condition for that variable is handled correctly.
-REM The assignment rule should overide the initial condition.

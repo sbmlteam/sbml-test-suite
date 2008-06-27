@@ -1,5 +1,0 @@
-TIME 40
-STEPS 50
-SPECIES X0 X1 T S1 S2
-URL Function_Definition_used_in_Algebraic_Rule_Semantic_Test
-REM tests the use of a function in an algebraic rule

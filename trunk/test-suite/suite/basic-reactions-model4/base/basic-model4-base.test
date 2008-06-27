@@ -1,6 +1,0 @@
-TIME 8
-STEPS 40
-SPECIES S1 S2 S3 S4
-URL Base_Variant_-_Basic_Model_4_Semantic_Test
-REM This model tests simple interpretation of reactions.
-REM The model consists of 4 reactions with mass action kinetics

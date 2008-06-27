@@ -1,9 +1,0 @@
-CATEGORY basic reactions
-TEST basic-reactions/model1/forward/basic-model1-forward.test
-TEST basic-reactions/model1/forward-from-zero/basic-model1-forward-from-zero.test
-TEST basic-reactions/model1/NoEffect/basic-model1-noeffect.test
-TEST basic-reactions/model1/Boundary/basic-model1-boundary.test
-CATEGORY FOO
-TEST basic-reactions/model1/Boundary2/basic-model1-boundary2.test
-TEST basic-reactions/model1/BothBoundary/basic-model1-bothboundary.test
-TEST basic-reactions/model1/StoichiometryIs2/basic-model1-stoichiometryIs2.test

@@ -1,5 +1,0 @@
-TIME 0.4
-STEPS 50
-SPECIES S1 S2
-URL MathML_plus_Operator_Semantic_Test
-REM tests the use of the plus MathML operator in a kinetic law expression

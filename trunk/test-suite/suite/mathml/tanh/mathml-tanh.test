@@ -1,5 +1,0 @@
-TIME 2.5
-STEPS 50
-SPECIES S1 S2
-URL MathML_tanh_Function_Semantic_Test
-REM tests the use of the tanh MathML function in a kinetic law expression

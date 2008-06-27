@@ -1,6 +1,0 @@
-TIME 5
-STEPS 50
-SPECIES s1 s2
-URL Rate_Rule_used_in_Rate_Rule_Semantic_Test
-REM Tests whether a rate rule that contains a variable
-REM whose rate is determined by another rate rule is interpreted correctly.
