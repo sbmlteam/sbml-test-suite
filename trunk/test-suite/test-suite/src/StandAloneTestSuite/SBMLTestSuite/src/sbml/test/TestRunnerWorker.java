@@ -1,7 +1,30 @@
+// @file    TestRunnerWorker.java
+// @brief   TestRunnerWorker class for SBML Standalone application
+// @author  Kimberly Begley
+// 
+
+//
+//<!---------------------------------------------------------------------------
+// This file is part of the SBML Test Suite.  Please visit http://sbml.org for
+// more information about SBML, and the latest version of the SBML Test Suite.
+// 
+// Copyright 2008      California Institute of Technology.
+// Copyright 2004-2007 California Institute of Technology (USA) and
+//                     University of Hertfordshire (UK).
+// 
+// The SBML Test Suite is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation.  A copy of the license
+// agreement is provided in the file named "LICENSE.txt" included with
+// this software distribution and also available at
+// http://sbml.org/Software/SBML_Test_Suite/license.html
+//------------------------------------------------------------------------- -->
+// Main testing class for the application - all logic for testing is here.
+//
+
 
 package sbml.test;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,15 +43,11 @@ import java.util.zip.ZipEntry;
 import javax.swing.SwingUtilities;
 import java.util.zip.ZipInputStream;
 import java.io.FileOutputStream;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.logging.FileHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.LogManager;
 import java.util.logging.SimpleFormatter;
 
 
@@ -36,6 +55,7 @@ public class TestRunnerWorker extends SwingWorker {
     
     private static Logger logger = Logger.getLogger(TestRunnerWorker.class.getName());
     private static FileHandler fh;
+    volatile boolean stopper = false;
     
     TestRunnerView testRunnerView;
     TestConfiguration testConfiguration;
@@ -43,6 +63,7 @@ public class TestRunnerWorker extends SwingWorker {
     FailedTestCaseListModel failedTestCaseListModel;
     PassedTestCaseListModel passedTestCaseListModel;
     SkippedTestCaseListModel skippedTestCaseListModel;
+    //PreferencesDialog preferencesDialog;
     final int BUFFER = 2048;
     String tempdir;
 
@@ -56,6 +77,7 @@ public class TestRunnerWorker extends SwingWorker {
             this.failedTestCaseListModel = TestRunnerView.failedTestCaseListModel;
             this.passedTestCaseListModel = TestRunnerView.passedTestCaseListModel;
             this.skippedTestCaseListModel = TestRunnerView.skippedTestCaseListModel;
+            
 
  }
     
@@ -131,9 +153,17 @@ public class TestRunnerWorker extends SwingWorker {
                 
                //t2.deleteDirectory()
             }
+            HashMap<String,Object> logginginfo = new HashMap<String,Object>();
+            logginginfo = testRunnerView.getLoggingInfo();
+            Boolean log = (Boolean)logginginfo.get("logging");
+            String conf = (String)logginginfo.get("configpath");
             
-             String logfile = new String(userpath+"/.sbmltestrunner/sbml-test-suite.log");
-                int log = (Integer)this.testConfiguration.hashMap.get("logging");
+            System.out.println("the logging is set to " + log);
+            System.out.println("the path is set to " + conf);
+            
+            // String logfile = new String(userpath+"/.sbmltestrunner/sbml-test-suite.log");
+            String logfile = new String(conf);
+                //int log = (Integer)this.testConfiguration.hashMap.get("logging");
                 boolean append = true;
                 
                 try {
@@ -153,7 +183,7 @@ public class TestRunnerWorker extends SwingWorker {
                     Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-           if(log == 1){
+           if(log == true){
              logger.setLevel(Level.ALL); // request that every detail gets logged
            }
             else {
@@ -381,6 +411,8 @@ public class TestRunnerWorker extends SwingWorker {
             Vector<String> selected_cases = new Vector<String>();
 
             for (int i = 0; i < testdir_listing.length; i++) {
+             // while(stopper == false){
+               // System.out.println("thread is " + Thread.currentThread().getName());
                 if(i == testdir_listing.length -1){
                     finish = 1;
                 }
@@ -409,10 +441,22 @@ public class TestRunnerWorker extends SwingWorker {
                                
                             }
                         }
-                        if (itsout == 0) {
-                            String wrapperwcase = wrappercommand.replaceAll("(?:\\%n)+", tcase);
-                           // logger.info("Wrapper command to run is: " + wrapperwcase);
+                        if(itsout==0){
+                            // add the case to the testingcaselist
                             selected_cases.addElement(tcase);
+                        }
+                    }
+                }
+            }
+                        // end check for tests here and add to a vector then loop through the vector
+            Iterator it = selected_cases.iterator();
+            totals=selected_cases.size();
+            while(it.hasNext()) {
+                String testcase=(String)it.next();
+                       
+                            String wrapperwcase = wrappercommand.replaceAll("(?:\\%n)+", testcase);
+                           // logger.info("Wrapper command to run is: " + wrapperwcase);
+                            //selected_cases.addElement(testcase);
                             String osName = System.getProperty("os.name").toLowerCase();                      
                             String[] cmd = new String[3];
                             Runtime rt = Runtime.getRuntime();
@@ -448,18 +492,21 @@ public class TestRunnerWorker extends SwingWorker {
                             try {
                             String line = br.readLine();
                             int exitVal = proc.waitFor();
+                            if (Thread.currentThread().isInterrupted()) {
+                                return null;
+                            }
                            
                             if(exitVal == 0){
                                 // compare output results
                                
-                                String user_results = outdir + File.separator + "results" + tcase + ".csv";
+                                String user_results = outdir + File.separator + "results" + testcase + ".csv";
                                 int totalpoints = 0;
                               //  SBMLTestCase t2 = new SBMLTestCase();
                                 
-                                String control_results = t2.getControlResults(tcase, testdir); 
-                                String control_settings = t2.getSettingsFile(tcase, testdir); 
-                                String plot_file = t2.getPlotFile(tcase, testdir);
-                                String html_file = t2.getHtmlFile(tcase, testdir);
+                                String control_results = t2.getControlResults(testcase, testdir); 
+                                String control_settings = t2.getSettingsFile(testcase, testdir); 
+                                String plot_file = t2.getPlotFile(testcase, testdir);
+                                String html_file = t2.getHtmlFile(testcase, testdir);
                                 
                              
                                 try {
@@ -467,11 +514,11 @@ public class TestRunnerWorker extends SwingWorker {
                                     totalpoints = t2.getVariables_count() * t2.getSteps();
                                 }
                                 catch(FileNotFoundException e) {
-                                    String msg = "Control settings file was not found for case " + tcase+ " " + e;
+                                    String msg = "Control settings file was not found for case " + testcase+ " " + e;
                                     logger.severe(msg);                                    
                                 }
                                 catch(IOException e){
-                                    String msg = "IOException while reading control settings file for case " +tcase + " "  +e;
+                                    String msg = "IOException while reading control settings file for case " +testcase + " "  +e;
                                     logger.severe(msg);
                                 }
                                int steps = t2.getSteps(); 
@@ -483,25 +530,25 @@ public class TestRunnerWorker extends SwingWorker {
                                        results = t2.readResults(control_results, header, steps, vars);
                                }
                                catch(FileNotFoundException e){
-                                   String msg = "Control results file was not found for case " + tcase+ " " + e;
+                                   String msg = "Control results file was not found for case " + testcase+ " " + e;
                                     logger.severe(msg);     
                                }
                                catch(IOException e) {
-                                   String msg = "IOException while reading control results file for case " +tcase + " "  +e;
+                                   String msg = "IOException while reading control results file for case " +testcase + " "  +e;
                                     logger.severe(msg);
                                }
                                catch(Exception e){
-                                   String msg = "Control file has inconsistent number of variables for test when compared to settings file for case " +tcase;
+                                   String msg = "Control file has inconsistent number of variables for test when compared to settings file for case " +testcase;
                                    logger.warning(msg);
-                                   String mfile = t1.getModelFile(tcase , testdir);
+                                   String mfile = t1.getModelFile(testcase , testdir);
                                    t1.readModelFile(mfile);
                                    String desc = t1.getSynopsis();
                                    Vector<String> cvector = t1.getComponenttags();
                                    Vector<String> tvector = t1.getTesttags();
-                                   TestResultDetails t3 = new TestResultDetails(-1,tcase,desc,"Control file has inconsistent number of variables for test",plot_file,html_file,cvector, tvector,totalpoints);
+                                   TestResultDetails t3 = new TestResultDetails(-1,testcase,desc,"Control file has inconsistent number of variables for test",plot_file,html_file,cvector, tvector,totalpoints);
                                    
                                    skipped++;
-                                   totals++;
+                                   //totals++;
                                    updateDetails(totals,failed,passed,skipped,t3, finish);
 
                                    continue;
@@ -511,26 +558,26 @@ public class TestRunnerWorker extends SwingWorker {
                                        userresults = t2.readResults(user_results, header, steps, vars);
                                }
                                catch(FileNotFoundException e){
-                                    String msg = "User results file was not found for case " + tcase+ " " + e;
+                                    String msg = "User results file was not found for case " + testcase+ " " + e;
                                     logger.severe(msg);                                       
                                }
                                catch(IOException e) {
-                                   String msg = "IOException while reading user results file for case " +tcase + " "  +e;
+                                   String msg = "IOException while reading user results file for case " +testcase + " "  +e;
                                    logger.severe(msg);                                 
                                }
                                catch(Exception e){
-                                   String message = e.getMessage() + "for case" + tcase;
+                                   String message = e.getMessage() + "for case" + testcase;
                                    logger.info(message);
                                    
-                                   String mfile = t1.getModelFile(tcase , testdir);
+                                   String mfile = t1.getModelFile(testcase , testdir);
                                    t1.readModelFile(mfile);
                                    String desc = t1.getSynopsis();
                                    Vector<String> cvector = t1.getComponenttags();
                                    Vector<String> tvector = t1.getTesttags();
-                                   TestResultDetails t3 = new TestResultDetails(-1,tcase,desc,message,plot_file,html_file,cvector, tvector,totalpoints);
+                                   TestResultDetails t3 = new TestResultDetails(-1,testcase,desc,message,plot_file,html_file,cvector, tvector,totalpoints);
                                  
                                    skipped++;
-                                   totals++;
+                                  // totals++;
                                    updateDetails(totals,failed,passed,skipped,t3, finish);
 
                                    continue;
@@ -539,17 +586,17 @@ public class TestRunnerWorker extends SwingWorker {
                                    t2.validateResults(results,userresults);
                                }
                                catch(Exception e){
-                                   String message = e.getMessage() + "for case" + tcase;
+                                   String message = e.getMessage() + "for case" + testcase;
                                    logger.info(message);
                                    
-                                   String mfile = t1.getModelFile(tcase,testdir);
+                                   String mfile = t1.getModelFile(testcase,testdir);
                                    t1.readModelFile(mfile);
                                    String desc = t1.getSynopsis();
                                    Vector<String> cvector = t1.getComponenttags();
                                    Vector<String> tvector = t1.getTesttags();
-                                   TestResultDetails t3 = new TestResultDetails(-1,tcase,desc,message,plot_file,html_file,cvector, tvector,totalpoints);
+                                   TestResultDetails t3 = new TestResultDetails(-1,testcase,desc,message,plot_file,html_file,cvector, tvector,totalpoints);
                                    skipped++;
-                                   totals++;
+                                  // totals++;
                                    updateDetails(totals,failed,passed,skipped,t3, finish);
 
                                    continue;
@@ -559,62 +606,71 @@ public class TestRunnerWorker extends SwingWorker {
                                    comp_results = t2.compareResults(results,userresults,steps,vars);
                                }
                                catch(Exception e){
-                                   String message = e.getMessage() + "for case" + tcase;
+                                   String message = e.getMessage() + "for case" + testcase;
                                    logger.info(message);
-                                   String mfile = t1.getModelFile(tcase,testdir);
+                                   String mfile = t1.getModelFile(testcase,testdir);
                                    t1.readModelFile(mfile);
                                    String desc = t1.getSynopsis();
                                    Vector<String> cvector = t1.getComponenttags();
                                    Vector<String> tvector = t1.getTesttags();
-                                   TestResultDetails t3 = new TestResultDetails(-1,tcase,desc,message,plot_file,html_file,cvector, tvector,totalpoints);
+                                   TestResultDetails t3 = new TestResultDetails(-1,testcase,desc,message,plot_file,html_file,cvector, tvector,totalpoints);
                                    skipped++;
-                                   totals++;
+                                  // totals++;
                                    updateDetails(totals,failed,passed,skipped,t3, finish);
 
                                    continue;
                                }
                                int pass_fail = t2.analyzeResults(results, comp_results, vars, absd, reld);
-                               String mfile = t1.getModelFile(tcase,testdir);
+                               String mfile = t1.getModelFile(testcase,testdir);
                                t1.readModelFile(mfile);
                                String desc = t1.getSynopsis();
                                Vector<String> cvector = t1.getComponenttags();
                                Vector<String> tvector = t1.getTesttags();
-                               TestResultDetails t3 = new TestResultDetails(pass_fail,tcase,desc,"",plot_file,html_file, cvector, tvector,totalpoints);
-                               totals++;
+                               TestResultDetails t3 = new TestResultDetails(pass_fail,testcase,desc,"",plot_file,html_file, cvector, tvector,totalpoints);
+                              // totals++;
                                if(pass_fail == 0) passed++;
                                else failed++;
                                
-                      /*         try {
-                                    Thread.sleep(150);
+                               try {
+                                    Thread.sleep(1);
                                 } catch (InterruptedException e) {
                                     return null;
-                                } */
+                                } 
                                updateDetails(totals,failed,passed,skipped,t3, finish);
-                               
+                               if (Thread.currentThread().isInterrupted()) {
+                                    return null;
+                                }
                             }
                             else {
-                        String msg = "Wrapper executed with error - exit value was " + exitVal + "and error message was " + line;
-                        logger.severe(msg);
+                                String msg = "Wrapper executed with error - exit value was " + exitVal + " and error message was " + line;
+                                logger.severe(msg);
+                                // display a wrapper execution error and exit
+                                testRunnerView.displayWrapperError();
+                                Thread.currentThread().interrupt();
                         
                             }
                         }
                         catch (InterruptedException ex) {
                             
                             logger.log(Level.SEVERE, "Wrapper execution caused an InterupptedException", ex);
+                            return null;
                             
                         }                            
                         catch(IOException ex){
                             logger.log(Level.SEVERE, "Reading wrapper error message caused and IOException", ex);
+                            return null;
                         }
-                      }
-                        
-                    } 
+                      
+                if (Thread.currentThread().isInterrupted()) {
+                        return null;
                 }
+            //  } // end of while
             } // end of for loop
         finish = 1;
-        System.out.println("at the end");
+       
         testRunnerView.updateProgress(totals, failed, skipped, passed, finish); 
         testRunnerView.disableStartButton();
+        testRunnerView.disableStopButton();
         logger.info("Completed testing");
         if (Thread.currentThread().isInterrupted()) {
             return null;

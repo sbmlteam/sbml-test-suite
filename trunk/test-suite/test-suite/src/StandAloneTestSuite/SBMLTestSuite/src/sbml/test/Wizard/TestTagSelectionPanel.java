@@ -1,3 +1,27 @@
+// @file    TestTagSelectionPanel.java
+// @brief   SkippedTestCaseListModel class for SBML Standalone application
+// @author  Kimberly Begley
+// 
+
+//
+//<!---------------------------------------------------------------------------
+// This file is part of the SBML Test Suite.  Please visit http://sbml.org for
+// more information about SBML, and the latest version of the SBML Test Suite.
+// 
+// Copyright 2008      California Institute of Technology.
+// Copyright 2004-2007 California Institute of Technology (USA) and
+//                     University of Hertfordshire (UK).
+// 
+// The SBML Test Suite is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation.  A copy of the license
+// agreement is provided in the file named "LICENSE.txt" included with
+// this software distribution and also available at
+// http://sbml.org/Software/SBML_Test_Suite/license.html
+//------------------------------------------------------------------------- -->
+// Generate panel for the test tag selection in the new test wizard.
+//
+
 
 package sbml.test.Wizard;
 
@@ -136,7 +160,7 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
         contentPanel2.add(contentPanel1, BorderLayout.WEST);
         JPanel messagePanel = new JPanel(new BorderLayout());
         messagePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
-        messagePanel.add(new JLabel("Select test tags you would like to exclude:"), BorderLayout.NORTH);
+        messagePanel.add(new JLabel("<html>By default all SBML tests are tested to <b>exclude</b> specific tests, select the test tag to be excluded from the following list:"), BorderLayout.NORTH);
         contentPanel2.add(messagePanel, BorderLayout.NORTH);
         
         // call validateSelections
@@ -381,7 +405,17 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
           //  selections.put("MassUnits",0);
           //  mu_button.setEnabled(false);
            
-    }
+        }
+        else {
+            tdc_button.setEnabled(true);
+            odc_button.setEnabled(true);
+            zdc_button.setEnabled(true);
+            ic_button.setEnabled(true);
+            hosu_button.setEnabled(true);
+            cs_button.setEnabled(true);
+            sm_button.setEnabled(true);
+            cst_button.setEnabled(true);
+        }
         if((Integer)selections.get("Compartment") == 1) {
             selections.put("2D-Compartment",0);
             tdc_button.setEnabled(false);
@@ -396,6 +430,23 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
             selections.put("MultiCompartment",0);
             mc_button.setEnabled(false);
         }
+        else if((Integer)selections.get("Compartment") ==0 && (Integer)selections.get("L1V2radiobutton") == 1) {
+            tdc_button.setEnabled(false);
+            odc_button.setEnabled(false);
+            zdc_button.setEnabled(false);
+            ncc_button.setEnabled(true);
+            nuc_button.setEnabled(true);
+            mc_button.setEnabled(true);
+            
+        }
+        else if((Integer)selections.get("Compartment") ==0 && (Integer)selections.get("L1V2radiobutton") == 0) {
+            tdc_button.setEnabled(true);
+            odc_button.setEnabled(true);
+            zdc_button.setEnabled(true);
+            ncc_button.setEnabled(true);
+            nuc_button.setEnabled(true);
+            mc_button.setEnabled(true);
+        }
         if((Integer)selections.get("Species") == 1) {
             selections.put("InitialAmount", 0);
             ia_button.setEnabled(false);
@@ -408,6 +459,20 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
             selections.put("ConstantSpecies", 0);
             cs_button.setEnabled(false);
             
+        }
+        else if((Integer)selections.get("Species") == 0 && (Integer)selections.get("L1V2radiobutton") == 1) {
+            ia_button.setEnabled(true);
+            cs_button.setEnabled(true);
+            bc_button.setEnabled(true);
+            hosu_button.setEnabled(false);
+            ic_button.setEnabled(false);
+        }
+        else if((Integer)selections.get("Species") == 0 && (Integer)selections.get("L1V2radiobutton") == 0) {
+            ia_button.setEnabled(true);
+            cs_button.setEnabled(true);
+            bc_button.setEnabled(true);
+            hosu_button.setEnabled(true);
+            ic_button.setEnabled(true);
         }
         if((Integer)selections.get("Reaction")==1){
             selections.put("FastReaction", 0);
@@ -422,9 +487,49 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
             selections.put("LocalParameters", 0);
             lp_button.setEnabled(false);
         }
+        else if ((Integer)selections.get("Reaction") == 0 && (Integer)selections.get("L1V2radiobutton") == 0) {
+            fr_button.setEnabled(true);
+            rr_button.setEnabled(true);
+            nus_button.setEnabled(true);
+            sm_button.setEnabled(true);
+            lp_button.setEnabled(true);
+            
+        }
+         else if ((Integer)selections.get("Reaction") == 0 && (Integer)selections.get("L1V2radiobutton") == 1) {
+            fr_button.setEnabled(true);
+            rr_button.setEnabled(true);
+            nus_button.setEnabled(true);
+            sm_button.setEnabled(false);
+            lp_button.setEnabled(true);
+            
+        }
         if((Integer)selections.get("Parameter")==1){
             selections.put("NonConstantParameter", 0);
             ncp_button.setEnabled(false);
+        }
+        else {
+            ncp_button.setEnabled(true);
+        }
+        if((Integer)selections.get("Compartment")==1 && (Integer)selections.get("Species")==1 && (Integer)selections.get("Reaction")==1 && (Integer)selections.get("Parameter")==1){
+            // Disable all test tags is compartment, species, reaction and parameter are omitted
+            tdc_button.setEnabled(false);
+            odc_button.setEnabled(false);
+            zdc_button.setEnabled(false);
+            ncc_button.setEnabled(false);
+            nuc_button.setEnabled(false);
+            mc_button.setEnabled(false);
+            ia_button.setEnabled(false);
+            ic_button.setEnabled(false);
+            hosu_button.setEnabled(false);
+            bc_button.setEnabled(false);
+            cs_button.setEnabled(false);
+            ncp_button.setEnabled(false);
+            fr_button.setEnabled(false);
+            rr_button.setEnabled(false);
+            nus_button.setEnabled(false);
+            sm_button.setEnabled(false);
+            lp_button.setEnabled(false);
+            cst_button.setEnabled(false);
         }
         
         

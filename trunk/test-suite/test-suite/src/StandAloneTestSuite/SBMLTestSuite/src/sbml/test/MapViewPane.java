@@ -1,6 +1,30 @@
 
 package sbml.test;
 
+// @file    MapViewPane.java
+// @brief   MapViewPane class for SBML Standalone application
+// @author  Kimberly Begley
+// 
+
+//
+//<!---------------------------------------------------------------------------
+// This file is part of the SBML Test Suite.  Please visit http://sbml.org for
+// more information about SBML, and the latest version of the SBML Test Suite.
+// 
+// Copyright 2008      California Institute of Technology.
+// Copyright 2004-2007 California Institute of Technology (USA) and
+//                     University of Hertfordshire (UK).
+// 
+// The SBML Test Suite is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation.  A copy of the license
+// agreement is provided in the file named "LICENSE.txt" included with
+// this software distribution and also available at
+// http://sbml.org/Software/SBML_Test_Suite/license.html
+//------------------------------------------------------------------------- -->
+// Creates the map view for the main page of the SBML stand alone application.
+//
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,7 +47,7 @@ import javax.swing.border.LineBorder;
 
 public class MapViewPane extends JPanel implements ItemListener {
 
-    private JPanel mainPanel,  bottomLeftPanel,  testResultMapPanel,  detailPane, upperFindPanel;
+    private JPanel mainPanel,  bottomLeftPanel,  testResultMapPanel,  detailPane, upperFindPanel, detailContainer;
     private String[] panelTitles = {"Test result map", "Details", "Find test case result"};
     TestCaseListModel testCaseListModel;
     
@@ -45,20 +69,27 @@ public class MapViewPane extends JPanel implements ItemListener {
         testResultMapPanel = new JPanel();
         bottomLeftPanel = new JPanel();
         detailPane = new JPanel();
+        detailContainer = new JPanel(new BorderLayout());
+        
         scrollPane = new JScrollPane(detailPane);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getViewport().setViewPosition(new java.awt.Point(0,0));
+        //this.setLayout(new BorderLayout(7, 7));
         
         //detailPane.setPreferredSize(new Dimension(150,800));
         //add(scrollPane, BorderLayout.CENTER);
+        //detailContainer.setLayout(new BorderLayout(10,10));
+        detailContainer.add(scrollPane, BorderLayout.CENTER);
+       // detailContainer.setOpaque(false);
         
         mainPanel.setLayout(new BorderLayout(7, 7));
         mainPanel.add(bottomLeftPanel, BorderLayout.CENTER);
         
         bottomLeftPanel.setLayout(new BorderLayout(7, 7));
         bottomLeftPanel.add(testResultMapPanel, BorderLayout.PAGE_START);
-        bottomLeftPanel.add(scrollPane, BorderLayout.CENTER);
+      //  bottomLeftPanel.add(scrollPane, BorderLayout.CENTER);
+        bottomLeftPanel.add(detailContainer, BorderLayout.CENTER);
 
         bottomLeftPanel.setOpaque(false);
         mainPanel.setOpaque(false);
@@ -76,13 +107,15 @@ public class MapViewPane extends JPanel implements ItemListener {
         
         shortDetailLabel = new JLabel("No dataset selected");
         plotLabel = new JLabel("");
-        detailPane.setLayout(new BorderLayout(10, 10));
+        detailPane.setLayout(new BorderLayout(1, 1));
+      //  detailContainer.setLayout(new BorderLayout(10,10));
         
         summaryLabel = new JTextPane();
-        summaryLabel.setPreferredSize(new Dimension(725,400));
+        summaryLabel.setPreferredSize(new Dimension(725,600));
         detailPane.add(shortDetailLabel, BorderLayout.PAGE_START);
         detailPane.add(plotLabel,BorderLayout.WEST);
         detailPane.add(summaryLabel,BorderLayout.PAGE_END);
+        detailPane.setBackground(Color.white);
         // add the plot when the user clicks on a square
         //detailPane.add(new JLabel(new ImageIcon(getClass().getResource("resources/testgraph.jpg"))), BorderLayout.PAGE_END);
         
@@ -91,10 +124,24 @@ public class MapViewPane extends JPanel implements ItemListener {
 
         JPanel[] namedPanel = new JPanel[3];
         namedPanel[0] = testResultMapPanel;
-        namedPanel[1] = detailPane;
+        namedPanel[1] = detailContainer;
+     //   namedPanel[1] = detailPane;
      //   namedPanel[2] = findPanel;
+        //namedPanel[1] = scrollPane;
+        Border lineborder = new LineBorder(Color.gray, 1, true);
+        testResultMapPanel.setBorder(
+                    BorderFactory.createCompoundBorder(
+                    BorderFactory.createTitledBorder(lineborder, "Test Result Map"),
+                    BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+            testResultMapPanel.setOpaque(false);
+   
+        detailContainer.setBorder(
+                    BorderFactory.createCompoundBorder(
+                    BorderFactory.createTitledBorder(lineborder, "Details"),
+                    BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+            detailContainer.setOpaque(false);
 
-        for (int i = 0; i < 2; i++) {
+/*        for (int i = 0; i < 2; i++) {
             Border lineborder = new LineBorder(Color.gray, 1, true);
             namedPanel[i].setBorder(
                     BorderFactory.createCompoundBorder(
@@ -102,7 +149,7 @@ public class MapViewPane extends JPanel implements ItemListener {
                     BorderFactory.createEmptyBorder(10, 10, 10, 10)));
             namedPanel[i].setOpaque(false);
         }
-
+*/
        
     }
 
