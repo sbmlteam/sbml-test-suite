@@ -9,17 +9,17 @@ testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
 generatedBy:   Numeric
 
-The model contains one varying compartment called "compartment".  There are two
+The model contains one varying compartment called C.  There are two
 species called S1 and S2 and two parameters called k1 and p1.  The model
 contains one reaction defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-| S1 -> S2 | $compartment * multiply(k1,S1)$  |]
+| S1 -> S2 | $C * multiply(k1,S1)$  |]
 
 The model contains one rule:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
- | Rate | compartment | $-p1 * compartment$  |]
+ | Rate | C | $-p1 * C$  |]
 
 
 The model contains one functionDefinition defined as:
@@ -35,7 +35,7 @@ The initial conditions are as follows:
 |Initial amount of S2                |$1.5 \x 10^-15$ |mole                      |
 |Value of parameter k1               |$            1$ |second^-1^ |
 |Value of parameter p1               |$0.1 \x 10^-12$ |second^-1^ |
-|Volume of compartment "compartment" |$            1$ |litre                     |]
+|Volume of compartment C |$            1$ |litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML
@@ -47,13 +47,13 @@ where they appear in expressions.
 newcase[ "00104" ];
 
 addFunction[ multiply, arguments -> {x, y}, math -> x * y];
-addCompartment[ compartment, size -> 1, constant -> False ];
+addCompartment[ C, size -> 1, constant -> False ];
 addSpecies[ S1, initialAmount -> 1.5 10^-15 ];
 addSpecies[ S2, initialAmount -> 1.5 10^-15 ];
 addParameter[ k1, value -> 1 ];
-addParameter[ p1, value -> 0.1 10^-12 ];
-addRule[ type->RateRule, variable -> compartment, math -> -p1 * compartment];
+addParameter[ p1, value -> 0.01 ];
+addRule[ type->RateRule, variable -> C, math -> -p1 * C];
 addReaction[ S1 -> S2, reversible -> False,
-	     kineticLaw -> compartment * multiply[k1,S1] ];
+	     kineticLaw -> C * multiply[k1,S1] ];
 
 makemodel[]
