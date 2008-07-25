@@ -69,12 +69,13 @@ fi
 
 $GNUPLOT 2> /dev/null 1> /dev/null -<<EOF
 set datafile separator ","
-set key height 1
+set key spacing 1.2
+set key height 3
 set key width 10
 set key below
 set rmargin 3
-set bmargin 5
-set lmargin 20
+set bmargin 8
+set lmargin 15
 set size 0.97,0.97
 set terminal jpeg
 set output "${INPUTFILE/%.csv}.jpg"
