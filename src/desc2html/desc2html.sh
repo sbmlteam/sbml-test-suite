@@ -5,7 +5,7 @@
 # @author  Michael Hucka <mhucka@caltech.edu>
 # 
 # $Id$
-# $Source$
+# $HeadURL$
 #
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 # This file is part of the SBML Test Suite.  Please visit http://sbml.org for
