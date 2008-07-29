@@ -37,6 +37,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
+/**
+ * ComponentTagsSelectorPanel is the class responsible for the component tag selection for the test wizard.
+ * @author Kimberly Begley
+ * @version 2.0
+ */
+
 public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListener {
     
     private JCheckBox[] buttons;
@@ -46,13 +52,18 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
     public HashMap<String, Object> selections = new HashMap <String, Object>();
     private CreateTestWizard createTestWizard;
     
-    
+    /**
+     * ComponentTagSelectorPanel has one constructor that initializes the components for the wizard interface
+     * @param createTestWizard the createTestWizard instance associated with the ComponentTagSelectorPanel
+     */
     public ComponentTagsSelectorPanel(CreateTestWizard createTestWizard) {
         this.createTestWizard = createTestWizard;
         initComponents();
 
     }
-
+    /**
+     * initComponents sets the display for the Component tag selection pane of the wizard.
+     */
     private void initComponents() {
         setLayout(new BorderLayout());
 
@@ -143,6 +154,10 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
             System.out.println("the hash is bigger than nothing!");
         }
     }
+    /**
+     * itemStateChanged is called when the user selects or deselects the checkboxes in the component tag selector panel of the wizard.
+     * @param ie
+     */
     public void itemStateChanged (ItemEvent ie) {
       selections =  createTestWizard.getSelections();
       Object source = ie.getItemSelectable();
@@ -297,11 +312,18 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
       }
         
     }
-    
+    /**
+     * updateSelections updates the selections hashmap that contains all of the tags and test details.
+     * @param field the field to update
+     * @param value the value to set the field to
+     */
     public void updateSelections (String field, Integer value){
         selections.put(field, value);
     }
-    
+    /**
+     * validateSelections updates the panel as required based on the user selections - the selection logic goes in here for the component tags.
+     * @param selections the hashmap of test configurations
+     */
     public  void validateSelections(HashMap<String,Object> selections){
         // call validateselections during initialization - then each time a button is selected - and then when the user hits next
        // System.out.println("at least inside the validate");
@@ -383,31 +405,52 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
         } 
         
     }
-
+    /**
+     * getQualifiedName 
+     * @return returns the text "Component Tags"
+     */
     public String getQualifiedName() {
         return "Component Tags";
     }
-
+    /**
+     * getIdentifier
+     * @return returns the text "CTSELECTOR"
+     */
     public String getIdentifier() {
         return "CTSELECTOR";
     }
-
+    /**
+     * getPrevious
+     * @return returns the name of previous pane in the wizard - TESTTYPE
+     */
     public String getPrevious() {
         return "TESTTYPE";
     }
-
+    /**
+     * getNext
+     * @return returns name of the next pane in the wizard - TTSELECTOR
+     */
     public String getNext() {
         return "TTSELECTOR";
     }
-
+    /**
+     * 
+     * @return returns false since it is not the last pane in the selection wizard
+     */
     public boolean isLast() {
         return false;
     }
-
+    /**
+     * 
+     * @return returns false since it is not the first pane in the wizard
+     */
     public boolean isFirst() {
         return false;
     }
-
+    /**
+     * 
+     * @return returns false as it will not activate the finish button
+     */
     public boolean mayFinish() {
         return false;
     }

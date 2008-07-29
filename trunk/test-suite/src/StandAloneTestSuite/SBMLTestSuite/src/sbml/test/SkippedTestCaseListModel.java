@@ -29,30 +29,47 @@ import java.util.Vector;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+/**
+ * SkippedTestCaseListModel is a class that creates a list model for the skipped test cases.
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 
 public class SkippedTestCaseListModel extends AbstractListModel implements ListDataListener{
     
     
     Vector<TestResultDetails> skippedData;
     
-    
+    /**
+     * SkippedTestCaseListModel has one constructor that creates a vector of skipped test cases.
+     */
     SkippedTestCaseListModel() {
         
         skippedData = new Vector<TestResultDetails>();        
 
     }
-    
+    /**
+     * addElement - adds an element to the skipped list and fires an interval change.
+     * @param o the skipped test case to be added
+     */
      public void addElement(TestResultDetails o) {
         skippedData.add(o);
         fireIntervalAdded(this, getSize() - 1, getSize() - 1);
 
     }
+     /**
+      * remove - removes a test case from the skpped test case list model.
+      * @param index index of the item to be removed from the list
+      * @return returns the removed item.
+      */
     public TestResultDetails remove(int index) {
         TestResultDetails o = skippedData.remove(index);
         fireContentsChanged(this, getSize() - 1, getSize() - 1);
         return o;
     }
-    
+    /**
+     * removeAllElements removes all elements from the skipped test case list model. 
+     */
     public void removeAllElements() {
         if (getSize() > 0  ) {
             this.fireIntervalRemoved(this, 0, getSize() - 1);
@@ -60,19 +77,33 @@ public class SkippedTestCaseListModel extends AbstractListModel implements ListD
 
         }
     }
-
+    /**
+     * Gets the size of the skipped list
+     * @return the size of the list
+     */
     public int getSize() {
         return skippedData.size();
     }
-
+    /**
+     * getElementAt gets the test name of the test case in the list a the specified index
+     * @param index index of the test case to retrieve
+     * @return the testname of the oject in the list
+     */
     public Object getElementAt(int index) {
         return (skippedData.get(index)).getTestname();
     }
-    
+    /**
+     * getRawElementAt gets the whole TestResultDetails object from the list
+     * @param index the index of the list
+     * @return the TestResultDetails object to be returned
+     */
     public TestResultDetails getRawElementAt(int index) {
         return skippedData.get(index);
     }
-
+    /**
+     * 
+     * @param e
+     */
     public void intervalAdded(ListDataEvent e) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

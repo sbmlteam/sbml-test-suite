@@ -35,8 +35,9 @@ import java.util.regex.*;
 import java.applet.*;
 
 /**
- *
- * @author kimberlybegley
+ * This class gets various test case elements from test case model files.
+ * @author Kimberly Begley
+ * @version 2.0
  */
 public class SBMLTestSelection {
     
@@ -49,25 +50,53 @@ public class SBMLTestSelection {
 	public Vector<String> levels;
 	
 	
-	
+	/**
+         * Gets the test name of a test case
+         * @return a string representation of a test case.
+         */
 	public String getTestname() {
 		return testname;
 	}
+        /**
+         * Gets the synopsis line of a test case
+         * @return a string representation of the synopsis line of a test case.
+         */
 	public String getSynopsis() {
 		return synopsis;
 	}
+        /**
+         * Gets the component tags of a test case
+         * @return a vector containing the component tags of a test case
+         */
 	public Vector<String> getComponenttags() {
 		return componenttags;
 	}
+        /**
+         * Gets the test tags of a test case
+         * @return a vector containing the test tags of a test case
+         */
 	public Vector<String> getTesttags() {
 		return testtags;
 	}
+        /**
+         * Gets the test type of a test case
+         * @return the test type of a test case
+         */
 	public String getTesttype() {
 		return testtype;
 	}
+        /**
+         * Gets the SBML levels of a test case
+         * @return a vector of the levels a test case applies to
+         */
 	public Vector<String> getLevels() {
 		return levels;
 	}
+        /**
+         * Returns a boolean value as to whether a test case contains a specified component
+         * @param component the component to be tested for
+         * @return a boolean value indicating the presence of the component tag in the test case
+         */
 
 	public Boolean containsComponent(String component) {
 		
@@ -76,6 +105,11 @@ public class SBMLTestSelection {
 		}
 		else return false;
 	}
+        /**
+         * Returns a boolean value as to whether a test case contains a specified tag
+         * @param tag the tag to be tested for
+         * @return a boolean value indicating the presence of the test tag in the test case
+         */
 	public Boolean containsTag(String tag) {
 		
 		if(testtags.contains(tag)) {
@@ -83,6 +117,11 @@ public class SBMLTestSelection {
 		}
 		else return false;
 	}
+        /**
+         * Returns a boolean value as to whether a test case contains a specified level
+         * @param level the level to be tested for
+         * @return a boolean value indicating the presence of the level in the test case
+         */
 	public Boolean containsLevel(String level) {
 		
 		if(levels.contains(level)) {
@@ -90,6 +129,11 @@ public class SBMLTestSelection {
 		}
 		else return false;
 	}
+        /**
+         * Returns a boolean value as to whether a test case contains the specified test type
+         * @param type the type of test to be tested for
+         * @return a boolean value indicating the presence of the test type in the test case
+         */
 	public Boolean containsTesttype(String type) {
 		
 		if(testtype.contentEquals(type)) {
@@ -98,7 +142,12 @@ public class SBMLTestSelection {
 		else return false;
 	}
 	
-
+        /**
+         * Gets the model file for a particular test case
+         * @param value the test case name
+         * @param testdir the test case directory
+         * @return a string containing the path of the test case model file
+         */
 
 	public String getModelFile(String value, String testdir) {
 		String mapfile = new String();
@@ -107,7 +156,10 @@ public class SBMLTestSelection {
 		return mapfile;
 	}
 
-
+        /**
+         * Reads the model file for a test
+         * @param filename the model file for a specifc test case
+         */
 	public void readModelFile(String filename) {
                /* Read model file for test 
                 Input: is settings file name

@@ -27,11 +27,17 @@ package sbml.test.Wizard;
 import java.beans.PropertyChangeSupport;
 import javax.swing.JPanel;
 
-
+/**
+ * WizardPanel creates a new wizard panel for the new test wizard.
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 public abstract class WizardPanel extends JPanel implements WizardPanelInterface {
     
     protected final PropertyChangeSupport propertyChangeSupport;
-    
+    /**
+     * Wizard Panel has one constructor that creates a property change listener for the wizard.
+     */
     public WizardPanel() {
         propertyChangeSupport = new PropertyChangeSupport(this);
     }

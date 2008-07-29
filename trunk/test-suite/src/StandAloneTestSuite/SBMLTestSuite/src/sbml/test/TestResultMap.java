@@ -34,16 +34,20 @@ import java.util.Vector;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-
+/**
+ * TestResultMap class is the class repsonsible for the display of the map view option in the stand alone SBML Test Suite.
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 public class TestResultMap extends JPanel implements ListDataListener, ItemSelectable  {
 	
 	Vector<JPanel> grids;
 	TestCaseListModel testCaseListModel;
         int selectedindex;
         
-	// the number of squares is static in this example. if you need it to be dynamic
-	// you can just modify the constructor and/or the updateData method
-	
+	/**
+         * TestResultMap constructor creates a testcaselistmodel and adds a listener to it for mouse clicks, it creates the grid and vector initially at zero elements.
+         */
 	TestResultMap(){
             this.testCaseListModel = TestRunnerView.testCaseListModel;
             testCaseListModel.addListDataListener(this);
@@ -55,13 +59,18 @@ public class TestResultMap extends JPanel implements ListDataListener, ItemSelec
 	}
 	
 
-//	
+        /**
+         * resetDisplay removes all elements from the grid
+         */
 	public void resetDisplay() {
             if(grids.size() > 0){
                 grids.removeAllElements();
             }
 	}
-
+        /**
+         * intervalAdded listens for the addition of an object to the list and calls the addMapElement function
+         * @param e the list data event when an item is added to the list
+         */
     public void intervalAdded(ListDataEvent e) {
         for (int i = e.getIndex0(); i <= e.getIndex1(); i++) {
             this.addMapElement(testCaseListModel.getRawElementAt(i).getResult(), i);
@@ -69,7 +78,10 @@ public class TestResultMap extends JPanel implements ListDataListener, ItemSelec
         }
 
     }
-
+/**
+ * intervalRemoved listens for the removal of an object from the list and calls the removeMapElement function
+ * @param e the list data event when an item is removed from the list
+ */
     public void intervalRemoved(ListDataEvent e) {
         for (int i = e.getIndex1(); i >= e.getIndex0(); i--) {
             System.out.println("removing an element");
@@ -77,17 +89,20 @@ public class TestResultMap extends JPanel implements ListDataListener, ItemSelec
 
         }
     }
-
+    /**
+     * contentsChanged - currently has no function
+     * @param e
+     */
     public void contentsChanged(ListDataEvent e) {
-        System.out.println("inside contents changed - testresultmap");
+       
     }
-
+    /**
+     * addMapElement function adds a new item to the grid
+     * @param result integer value of number of failed tests - it determines what colour of square to add to the grid - red=failed, green=passed, blue=skipped
+     * @param index
+     */
     private void addMapElement(int result, int index) {
-    /*    while(index > getMapSize()-1) {
-            grids.add(new JPanel());
-            ((GridLayout) getLayout()).setRows(getMapSize()/4+1);
-
-        } */
+    
         grids.add(new JPanel());
         add(grids.get(index));
         grids.get(index).setToolTipText("Test case " + (testCaseListModel.getRawElementAt(index).getTestname()));
@@ -111,72 +126,105 @@ public class TestResultMap extends JPanel implements ListDataListener, ItemSelec
 
     }
 
-
+    /**
+     * getMapSize gets the size of the grid
+     * @return an integer indicating size of the grid
+     */
     private int getMapSize() {
         return grids.size();
     }
-
+    /**
+     * removeMapElement
+     * @param index is the index at which to remove the element
+     */
     private void removeMapElement(int index) {
         remove(grids.get(index));
         grids.remove(index);
-     /*   if (getMapSize() < 200) {
-            grids.add(new JPanel());
-
-            grids.get(getMapSize()-1).setBackground(Color.white);
-            add(grids.get(getMapSize()-1));
-        }
-        else
-            ((GridLayout) getLayout()).setRows(4);
-*/
     }
     
-    
+    /**
+     * FieldListener - listener class for mouse clicks on the grid
+     */
     public class FieldListener implements MouseListener {
         int index;
-        
+        /**
+         * FieldListener constructor
+         * @param index integer value of the index of the item that has been selected
+         */
         FieldListener (int index) {
             this.index = index;
         }
-        
+        /**
+         * mouseClicked method to be invoked when an item is clicked on in the grid
+         * @param e MouseEvent fired when the mouse clicks on an item
+         */
         public void mouseClicked(MouseEvent e) {
             selectedindex = index;
             fireItemEvent(index,true);
         }
-
+        /**
+         * mousePressed - not in use
+         * @param e
+         */
         public void mousePressed(MouseEvent e) {
         }
-
+        /**
+         * mouseReleased - not in use
+         * @param e
+         */
         public void mouseReleased(MouseEvent e) {
         }
-
+        /**
+         * mouseEntered - not in use
+         * @param e
+         */
         public void mouseEntered(MouseEvent e) {
         }
-
+        /**
+         * mouseExited - not in use
+         * @param e
+         */
         public void mouseExited(MouseEvent e) {
         }
         
     }
-
+    /**
+     * getSelectedObjects gets a list of selected objects
+     * @return an array of selected objects
+     */
     public Object[] getSelectedObjects() {
         Object[] returnvalue = new Object[1];
         returnvalue[1] = testCaseListModel.getRawElementAt(selectedindex);
         return returnvalue;
     }
-    
+    /**
+     * getSelectedObject gets an element of the list
+     * @return returns a TestResultDetails object of the selected index
+     */
     public Object getSelectedObject() {
         return testCaseListModel.getRawElementAt(selectedindex);
     }
-
+    /**
+     * addItemListener - adds an item listener to the list
+     * @param l the itemlistener to add
+     */
     public void addItemListener(ItemListener l) {
         listenerList.add(ItemListener.class, l);
     }
-
+    /**
+     * removeItemListener - removes an item listener from the list
+     * @param l the itemlistener to remove
+     */
     public void removeItemListener(ItemListener l) {
         listenerList.remove(ItemListener.class, l);
     }
-
+    /**
+     * fireItemEvent - fires an item event to listeners
+     * @param item the index of hte item that was selected
+     * @param sel the true/false value of being selected or not
+     */
     void fireItemEvent(Object item, boolean sel) {
-        //System.out.println("Mouse event fired in field "+item);
+        
         ItemEvent evt = new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED,
                 item, sel ? ItemEvent.SELECTED : ItemEvent.DESELECTED);
 

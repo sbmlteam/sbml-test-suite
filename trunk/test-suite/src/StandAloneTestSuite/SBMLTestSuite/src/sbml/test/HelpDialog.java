@@ -41,7 +41,18 @@ import java.io.*;
 
 
 public class HelpDialog extends JDialog implements ActionListener{
+    
+/**
+ * This class provides help dialog for the Standalone SBML Test Suite.
+ * 
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 
+    /**
+     * HelpDialog has one constructor to create and fill the content of the frame that contains the help dialog.
+     * @param parent the parent JFrame of the calling class.
+     */
 	public HelpDialog(JFrame parent) {
 		super(parent, "Help", false);
 		setVisible(true);
@@ -107,8 +118,11 @@ public class HelpDialog extends JDialog implements ActionListener{
 		setLocationRelativeTo(getParent());
 		
 		backButton.addActionListener(this);
-	}
-*/	
+	} */
+/**
+ * actionPerformed Listener that listens for the close action of the help dialog 
+ * @param e the actionEvent called when the close button is selected.
+ */
 	
 	public void actionPerformed (ActionEvent e) {
 	//	this.hide();

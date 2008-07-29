@@ -31,28 +31,45 @@ import java.util.Vector;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+/**
+ * PassedTestCaseListModel is a class that creates a list model of the passed test cases.
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 public class PassedTestCaseListModel extends AbstractListModel implements ListDataListener {
 
     Vector<TestResultDetails> passedData;
   
-
+/**
+ * PassedTestCaseListModel has one constructor that creates a new vector of TestResultDetails for the test case that have passed.
+ */
     PassedTestCaseListModel() {
        
         passedData = new Vector<TestResultDetails>();
 
     }
-
+/**
+ * addElement adds a TestResultDetails object to the list anf fires an event to record this.
+ * @param o the TestResultDetails object to add to the list.
+ */
     public void addElement(TestResultDetails o) {
         passedData.add(o);
         fireIntervalAdded(this, getSize() - 1, getSize() - 1);
 
     }
+    /**
+     * remove removes a TestResultObject from the passed test case list model at the specified index.
+     * @param index Index of the item to remove
+     * @return returns the TestResultDetails object that was removed.
+     */
     public TestResultDetails remove(int index) {
         TestResultDetails o = passedData.remove(index);
         fireContentsChanged(this, getSize() - 1, getSize() - 1);
         return o;
     }
-    
+    /**
+     * removeAllElements removes all elements from the PassedTestCaseListModel list.
+     */
     public void removeAllElements() {
         if (getSize() > 0  ) {
             this.fireIntervalRemoved(this, 0, getSize() - 1);
@@ -60,26 +77,47 @@ public class PassedTestCaseListModel extends AbstractListModel implements ListDa
 
         }
     }
+    /**
+     * getSize returns the size of the passed result list.
+     * @return returns an integer value of the size of the PassedTestCaseListModel.
+     */
     public int getSize() {
         return passedData.size();
     }
-
+    /**
+     * getElementAt returns the string value of the testname of the object at the specified index.
+     * @param index the index of the list 
+     * @return returns a string value of the test name.
+     */
     public Object getElementAt(int index) {
         return (passedData.get(index)).getTestname();
     }
-
+    /**
+     * getRawElementAt returns the TestResultDetails object at the selected index.
+     * @param index the index for the item in the list.
+     * @return returns a TestResultDetails object of the specified index value.
+     */
     public TestResultDetails getRawElementAt(int index) {
         return passedData.get(index);
     }
-
+    /**
+     * 
+     * @param e
+     */
     public void intervalAdded(ListDataEvent e) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    /**
+     * 
+     * @param e
+     */
     public void intervalRemoved(ListDataEvent e) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    /**
+     * 
+     * @param e
+     */
     public void contentsChanged(ListDataEvent e) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
