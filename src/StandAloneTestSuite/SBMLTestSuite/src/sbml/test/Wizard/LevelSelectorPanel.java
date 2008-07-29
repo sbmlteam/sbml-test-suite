@@ -39,7 +39,11 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 
-
+/**
+ * LevelSelectorPanel generates the panel for level selection in the test suite wizard.
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 public class LevelSelectorPanel extends WizardPanel implements ItemListener {
 
     private JRadioButton L1V2radioButton,  L2V1radioButton,  L2V2radioButton,  L2V3radioButton;
@@ -47,13 +51,18 @@ public class LevelSelectorPanel extends WizardPanel implements ItemListener {
     String level;
     private CreateTestWizard createTestWizard;
     private HashMap<String, Object> selections = new HashMap<String, Object>();
-
+    /**
+     * LevelSelectorPanel has one constructor that initializes the components for the panel.
+     * @param createTestWizard is the createTestWizard instance passed as input to the constructor.
+     */
     public LevelSelectorPanel(CreateTestWizard createTestWizard) {
         this.createTestWizard = createTestWizard;
         initComponents();
 
     }
-
+    /**
+     * initComponents initializes the compoenents for the level selector panel.
+     */
     private void initComponents() {
         selections = createTestWizard.getSelections();
         System.out.println("hash map in levels is on initialization: " + selections.values());
@@ -144,42 +153,70 @@ public class LevelSelectorPanel extends WizardPanel implements ItemListener {
      createTestWizard.setSelections(selections);
 
     } 
-   
+   /**
+    * updateSelections sets a field and value in the hashmap
+    * @param field the string field to set
+    * @param value the integer value to set the field to.
+    */
     public void updateSelections(String field, Integer value){
         // get the selection hashmap, and replace the field with the new value and write it back
         selections.put(field, value);
     }
   
-
+    /**
+     * getQualifiedName returns the name for the panel
+     * @return returns the text "Select Levels"
+     */
     public String getQualifiedName() {
         return "Select Levels";
     }
-
+    /**
+     * getIdentifier returns the identifier for the panel
+     * @return returns the text "LEVELSELECTOR"
+     */
     public String getIdentifier() {
         return "LEVELSELECTOR";
     }
-
+    /**
+     * getPrevious indicates the previous panel
+     * @return returns null in this case as it is the first panel.
+     */
     public String getPrevious() {
         return null;
     }
-
+    /**
+     * getNext indicates the next panel in sequence
+     * @return the text of the next panel - "TESTTYPE"
+     */
     public String getNext() {
         
         return "TESTTYPE";
     }
-
+    /**
+     * isLast indicates if the levelseletor panel is the last panel in the wizard.
+     * @return boolean - returns false.
+     */
     public boolean isLast() {
         return false;
     }
-
+    /**
+     * isFirst indicates if the levelselectorpanel is the first panel in the wizard.
+     * @return boolean returns true
+     */
     public boolean isFirst() {
         return true;
     }
-
+    /**
+     * mayFinish indicates if the panel may allow the user to use the finish button
+     * @return returns false
+     */
     public boolean mayFinish() {
         return false;
     }
-
+    /**
+     * not in use yet
+     * @param selections
+     */
     public void validateSelections(HashMap<String, Object> selections) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

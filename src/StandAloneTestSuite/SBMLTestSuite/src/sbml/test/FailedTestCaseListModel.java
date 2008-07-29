@@ -36,7 +36,7 @@ import javax.swing.event.ListDataListener;
  * list view of the SBML Test Suite.
  * 
  * @author Kimberly Begley
- * @version 1.0
+ * @version 2.0
  */
 
 public class FailedTestCaseListModel extends AbstractListModel implements ListDataListener{
@@ -69,9 +69,9 @@ public class FailedTestCaseListModel extends AbstractListModel implements ListDa
 
     }
     /**
-     * 
-     * @param index
-     * @return
+     * remove - Function to remove a list item.
+     * @param index Index of list item to be removed
+     * @return nothing
      */
     public TestResultDetails remove(int index) {
         TestResultDetails o = failedData.remove(index);
@@ -80,7 +80,7 @@ public class FailedTestCaseListModel extends AbstractListModel implements ListDa
     }
     
     /**
-     * 
+     * removeAllElements - Function to remove all items in a list.
      */
     public void removeAllElements() {
         if (getSize() > 0  ) {
@@ -90,24 +90,24 @@ public class FailedTestCaseListModel extends AbstractListModel implements ListDa
         }
     }
     /**
-     * 
-     * @return
+     * getSize - Get the size of the list.
+     * @return - Returns an integer value of the size of the list.
      */
     public int getSize() {
         return failedData.size();
     }
     /**
-     * 
-     * @param index
-     * @return
+     * getElementAt - Returns the element at specified index.
+     * @param index Index of element to return
+     * @return returns the String representation of the test name of the elemnent requested
      */
     public Object getElementAt(int index) {
         return (failedData.get(index)).getTestname();
     }
     /**
-     * 
-     * @param index
-     * @return
+     * getRawElementAt - Gets the TestResultDetails object at the specified index.
+     * @param index Index of the element to return.
+     * @return returns a TestResultDetails object.
      */
     public TestResultDetails getRawElementAt(int index) {
         return failedData.get(index);

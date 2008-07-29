@@ -32,7 +32,11 @@ import java.util.HashMap;
 import javax.swing.event.*;
 import javax.swing.JOptionPane;
 // import java.awt.Desktop;
-
+/**
+ * TestTabPane class creates the main test window
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 public class TestTabPane extends JPanel implements DocumentListener, ListSelectionListener {
 
     private JPanel buttonPanel;
@@ -49,6 +53,10 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
     JProgressBar progressBar;
     public static boolean MAC_OS_X = (System.getProperty("os.name").toLowerCase().startsWith("mac os x"));
    
+    /**
+     * TestTabPane has one constructor creates the GUI for the main test window
+     * @param owner the instance of TestRunnerView for this thread
+     */
     public TestTabPane(TestRunnerView owner) {
         super();
         this.owner = owner;
@@ -56,7 +64,9 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
         setPreferredSize(new Dimension(850, 700));
 
     }
-
+    /**
+     * createGUI creates the main frame in which the test views reside. It creates the start, stop, configuration and reset buttons as well as the progress bar.
+     */
     private void createGUI() {
         ToolTipManager.sharedInstance().setInitialDelay(5);
         setOpaque(false);
@@ -192,58 +202,99 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
         buttonPanel.add(infoPane);
 
     }
+    /**
+     * enableStart enables the start button
+     */
     public void enableStart() {
         this.startButton.setEnabled(true);
         
     }
+    /**
+     * disableStart disables the start button
+     */
     public void disableStart() {
         this.startButton.setEnabled(false);
     }
+    /**
+     * enableStop enables the stop button
+     */
     public void enableStop() {
         this.stopButton.setEnabled(true);
         
     }
+    /**
+     * disableStop disables the stop button
+     */
     public void disableStop() {
         this.stopButton.setEnabled(false);
     }
+    /**
+     * enableReset enables the reset button
+     */
     public void enableReset() {
         this.resetButton.setEnabled(true);
         
     }
+    /**
+     * disableReset disables the reset button
+     */
     public void disableReset() {
         this.resetButton.setEnabled(false);
     }
+    /**
+     * wrapperError pops up a dialog box indicating a wrapper error
+     */
     public void wrapperError() {
         JOptionPane.showMessageDialog(null, "Wrapper did not execute successfully - edit it and try again", "Wrapper error...", JOptionPane.WARNING_MESSAGE);
     }
+    /**
+     * setConfigurations sets the testConfiguration hashmap equal to the input test configurations
+     * @param tconfiguration a hashmap of configurations for the tests
+     */
     public void setConfigurations(HashMap<String, Object> tconfiguration) {
-        System.out.println("inside the setconfigs");
         this.testConfiguration = new TestConfiguration(tconfiguration);
     }
-
+    /**
+     * updateDisplay - no longer in use
+     * @param data
+     */
     private void updateDisplay(TestResultDetails data) {
         //      resultMap.updateData(data);
         //       shortDetailLabel.setText("You are viewing dataset no. " + data.getName());
     }
-
+    /**
+     * updateData - no longer in use
+     * @param data
+     */
     public void updateData(TestResultDetails[] data) {
             //  testCaseListModel.updateData(data);
     }
-
+    /**
+     * insertUpdate - no longer in use
+     * @param ev
+     */
     public void insertUpdate(DocumentEvent ev) {
-        System.out.println("inside the insertupdate - testtabpane");
+        
         //     testCaseListModel.setSearchString(searchField.getText());
     }
-
+    /**
+     * removeUpdate - not in use
+     */ 
     public void removeUpdate(DocumentEvent ev) {
         //     testCaseListModel.setSearchString(searchField.getText());
     }
-
+    /**
+     * changedUpdate - not in use
+     * @param ev
+     */
     public void changedUpdate(DocumentEvent ev) {
     }
-
+    /**
+     * valueChanged - not in use
+     * @param e
+     */
     public void valueChanged(ListSelectionEvent e) {
-        System.out.println("inside the valuechanged - testtabpane");
+        
 //        if (e.getValueIsAdjusting() == false) {
 //
 //            if (testList.getSelectedIndex() == -1) {
@@ -254,7 +305,14 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
 //            }
 //        }
     }
-
+    /**
+     * updateProgress passes values to update the progress bar details
+     * @param total total number of tests taken so far  
+     * @param failed total number of failed tests so far
+     * @param skipped total number of skipped tests so far
+     * @param passed total number of passed tests so far
+     * @param finish - 1 if test if finished, 0 otherwise - no longer in use
+     */
     public void updateProgress(int total, int failed, int skipped, int passed, int finish) {
       //  if(finish == 1){
       //      progressBar.setIndeterminate(false);
@@ -276,17 +334,26 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
         skippedLabel.setText(Integer.toString(skipped) + "/"+ Integer.toString(total)+" ("+ Integer.toString(100*skipped/(failed+passed+skipped))+"%)");
         passedLabel.setText(Integer.toString(passed) +"/"+ Integer.toString(total)+ " ("+ Integer.toString(100*passed/(failed+passed+skipped))+"%)"); 
     }
-
+    /**
+     * settingsActionClass is the class for the configration button
+     */
     public class settingsActionClass extends AbstractAction {
       //  private TestRunnerView owner;
-      
+      /**
+       * settingsActionClass constructor
+       * @param text text for configuration button
+       * @param icon
+       */
         public settingsActionClass(String text, Icon icon) {
             super(text, icon);
           //  this.owner = owner;
             
         //         putValue(ACCELERATOR_KEY, shortcut);
         }
-
+        /**
+         * actionPerformed - action performed when the configuration button is pushed - it launches a new test wizard
+         * @param e the action event when the configuation button is selected
+         */
         public void actionPerformed(ActionEvent e) {
            
             Thread.currentThread().interrupt();
@@ -294,16 +361,25 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
             wizard.runWizard();
         }
     }
-
+    /**
+     * startActionClass is the class for the start button
+     */
     public class startActionClass extends AbstractAction {
        // TestConfiguration testConfiguration;
-        
+        /**
+         * startActionClass constructor - sets the text for the start button
+         * @param text
+         * @param icon
+         */
         public startActionClass(String text, Icon icon) {
             super(text, icon);
           //  this.testConfiguration = testConfiguration;
         //         putValue(ACCELERATOR_KEY, shortcut);
         }
-
+        /**
+         * actionPerformed - sets the action for the start button - it starts a new test with the same configurations as indicated in the wizard
+         * @param e the action event when the start button is pressed
+         */
         public void actionPerformed(ActionEvent e) {
             //     JFrame mainFrame = TestRunnerApp.getApplication().getMainFrame();
             // want this to call the start method in TestRunnerView which calls start in testrunnerworker
@@ -312,14 +388,23 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
             owner.startTest(testConfiguration);
         }
     }
-
+    /**
+     * stopActionClass the class responsible for the stop button
+     */
     public class stopActionClass extends AbstractAction {
-
+        /**
+         * stopActionClass has one constructor that sets the text for the stop button
+         * @param text
+         * @param icon
+         */
         public stopActionClass(String text, Icon icon) {
             super(text, icon);
         //         putValue(ACCELERATOR_KEY, shortcut);
         }
-
+        /**
+         * actionPerformed - sets the action for the stop button - by calling the stopTest method.
+         * @param e
+         */
         public void actionPerformed(ActionEvent e) {
             //   JFrame mainFrame = TestRunnerApp.getApplication().getMainFrame();
            // JOptionPane.showMessageDialog(null, "Test Stopped.", "Stop...", JOptionPane.WARNING_MESSAGE);
@@ -328,14 +413,23 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
             owner.stopTest();
         }
     }
-
+    /**
+     * resetActionClass is the class responsible for the reset button
+     */
     public class resetActionClass extends AbstractAction {
-
+        /**
+         * resetActionClass is the constructor - it sets the text for the reset button
+         * @param text
+         * @param icon
+         */
         public resetActionClass(String text, Icon icon) {
             super(text, icon);
         //         putValue(ACCELERATOR_KEY, shortcut);
         }
-
+        /**
+         * actionPerformed for the reset button - it stops the current thread and enables the start button
+         * @param e
+         */
         public void actionPerformed(ActionEvent e) {
             //     JFrame mainFrame = TestRunnerApp.getApplication().getMainFrame();
             // want this to pull up wizard to reset selections
@@ -346,7 +440,9 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
             enableStart();
         }
     }
-
+    /** not in use
+     * 
+     */
     public class openBrowserActionClass extends AbstractAction {
 
         public openBrowserActionClass(String text, Icon icon) {
@@ -358,7 +454,7 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
             //       JFrame mainFrame = TestRunnerApp.getApplication().getMainFrame();
             JOptionPane.showMessageDialog(null, "Not implemented.", "Open Webbrowser...", JOptionPane.WARNING_MESSAGE);
 //            try {
-//                Desktop.browse(new URL("http://www.mindprod.com/index.html"));
+//                Desktop.browse(new URL("http://sbml.org"));
 //            } catch (MalformedURLException e1) {
 //                e1.printStackTrace();
 //            } catch (DesktopException e2) {

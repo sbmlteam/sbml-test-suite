@@ -36,18 +36,27 @@ import javax.swing.JSeparator;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-
+/**
+ * TestTypeSelectorPanel generates the test type selection panel for the new test wizard.
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 public class TestTypeSelectorPanel extends WizardPanel implements ItemListener {
 
     JCheckBox timeCourseCheckBox;
     private CreateTestWizard createTestWizard;
     public HashMap<String, Object> selections = new HashMap <String, Object>();
-
+    /**
+     * TestTypeSelectorPanel has one constructor that initializes the components for the TestTypeSelectorPanel
+     * @param createTestWizard the createTestWizard instance associated with the wizard.
+     */
     public TestTypeSelectorPanel(CreateTestWizard createTestWizard) {
         this.createTestWizard = createTestWizard;
         initComponents();
     }
-
+    /**
+     * initComponents initializes the components for the Test Type Selector Panel in the new test wizard.
+     */
     private void initComponents() {
         setLayout(new BorderLayout());
 
@@ -80,7 +89,11 @@ public class TestTypeSelectorPanel extends WizardPanel implements ItemListener {
         messagePanel.add(new JLabel("Please select the desired Test Class:"), BorderLayout.NORTH);
         contentPanel2.add(messagePanel, BorderLayout.NORTH);
     }
-    
+    /**
+     * itemStateChanged gets called as a result of the listener on the test type checkbox at the moment there is only one test type to choose from
+     * so if the user deselects the test type it automatically selects itself again.
+     * @param ie the itemEvent associated with the selection/deselection of the checkbox.
+     */
     public void itemStateChanged (ItemEvent ie) {
       selections =  createTestWizard.getSelections();
       Object source = ie.getItemSelectable();
@@ -92,7 +105,7 @@ public class TestTypeSelectorPanel extends WizardPanel implements ItemListener {
               createTestWizard.setSelections(selections);
           }
           if(state == ItemEvent.DESELECTED){
-              System.out.println("You must select timecourse at this point");
+              //System.out.println("You must select timecourse at this point");
               timeCourseCheckBox.setSelected(true);
               updateSelections("timecourse",1);
               createTestWizard.setSelections(selections);
@@ -103,39 +116,68 @@ public class TestTypeSelectorPanel extends WizardPanel implements ItemListener {
           }
       }
     }
-
+    /**
+     * getQualifiedName gets the name of the test type panel
+     * @return returns text "Select Test Type"
+     */
     public String getQualifiedName() {
         return "Select Test Type";
     }
-
+    /**
+     * getIdentifier gets the identifier for the test type panel.
+     *
+     * @return returns the text "TESTTYPE"
+     */
     public String getIdentifier() {
         return "TESTTYPE";
     }
-
+    /**
+     * getPrevious gets the previous panel in the wizard
+     * @return returns the text "LEVELSELECTOR"
+     */
     public String getPrevious() {
         return "LEVELSELECTOR";
     }
-
+    /**
+     * getNext gets the next panel in the wizard
+     * @return returns the text "CTSELECTOR"
+     */
     public String getNext() {
         return "CTSELECTOR";
     }
-
+    /**
+     * isLast indicates if the test type panel is the last in the sequence for the new test wizard.
+     * @return returns false.
+     */
     public boolean isLast() {
         return false;
     }
-
+    /**
+     * isFirst indicates if the test type panel is the first in the sequence for the new text wizard
+     * @return returns false
+     */
     public boolean isFirst() {
         return false;
     }
-
+    /**
+     * mayFinish indicates if the test type panel may activate the finish button in the new test wizard
+     * @return returns false
+     */
     public boolean mayFinish() {
         return false;
     }
-
+    /**
+     * not in use 
+     * @param selections
+     */
     public void validateSelections(HashMap<String, Object> selections) {
    //     throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    /**
+     * updateSelections updates the fields in the selections hashmap as needed.
+     * @param field the field to update.
+     * @param value the value to update the field to.
+     */
     private void updateSelections(String field, Integer value) {
         selections.put(field, value);
     }

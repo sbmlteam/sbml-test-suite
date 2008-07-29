@@ -23,7 +23,6 @@
 //
 package sbml.test;
 
-
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -50,9 +49,6 @@ import java.net.URL;
 import java.util.HashMap;
 //import javax.help.HelpBroker;
 //import javax.help.HelpSet;
-
-
-
 public class TestRunnerView extends JFrame implements WindowListener {
 
     /** Creates new form TestRunnerView */
@@ -64,41 +60,42 @@ public class TestRunnerView extends JFrame implements WindowListener {
     public static boolean MAC_OS_X = (System.getProperty("os.name").toLowerCase().startsWith("mac os x"));
     public static int shortcutKeyMask = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
     public static TestCaseListModel testCaseListModel;
+   // TestCaseUpdater testCaseUpdater;
     public static FailedTestCaseListModel failedTestCaseListModel;
     public static PassedTestCaseListModel passedTestCaseListModel;
     public static SkippedTestCaseListModel skippedTestCaseListModel;
     public static boolean logging;
-    public static HashMap<String,Object> currentvalues;
-  //  public static HelpDialog helpdialog;
+    public static HashMap<String, Object> currentvalues;
+    //  public static HelpDialog helpdialog;
     TestRunnerWorker worker;
-    
+
     private void initComponents() {
         testCaseListModel = new TestCaseListModel();
         failedTestCaseListModel = new FailedTestCaseListModel();
         passedTestCaseListModel = new PassedTestCaseListModel();
         skippedTestCaseListModel = new SkippedTestCaseListModel();
-        
-        currentvalues = new HashMap<String,Object>();
-        currentvalues.put("logging",false);
+
+        currentvalues = new HashMap<String, Object>();
+        currentvalues.put("logging", false);
         String userdir = System.getProperty("user.home") + File.separator + ".sbmltestrunner" + File.separator + "sbml-test-suite.log";
         currentvalues.put("configpath", userdir);
-        
+
         menuBar = new JMenuBar();
         fileMenu = new JMenu();
         quitAction = new quitActionClass("Quit");
         quitMenuItem = new JMenuItem(quitAction);
         editMenu = new JMenu("Edit");
-        //helpMenu = new JMenu("Help");
+        JMenu helpMenu = new JMenu("Help");
         helpAction = new helpActionClass("Help");
         helpMenuItem = new JMenuItem(helpAction);
-        helpMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H,shortcutKeyMask));
-        
+        helpMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, shortcutKeyMask));
+
         preferencesAction = new preferencesActionClass("Preferences");
         preferencesMenuItem = new JMenuItem(preferencesAction);
-        preferencesMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,shortcutKeyMask));
-       // aboutMenuItem = new JMenuItem("About");
+        preferencesMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, shortcutKeyMask));
+        // aboutMenuItem = new JMenuItem("About");
         aboutAction = new aboutActionClass("About");
-        aboutMenuItem = new JMenu(aboutAction);
+        aboutMenuItem = new JMenuItem(aboutAction);
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -108,9 +105,9 @@ public class TestRunnerView extends JFrame implements WindowListener {
 
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
-        
-       // editMenu.add(preferencesAction);
-        
+        menuBar.add(helpMenu);
+        // editMenu.add(preferencesAction);
+
 
         newAction = new newActionClass("New Test Run", this);
         newMenuItem = new JMenuItem(newAction);
@@ -122,9 +119,11 @@ public class TestRunnerView extends JFrame implements WindowListener {
         checkUpdatesMenuItem = new JMenuItem(checkUpdatesAction);
         fileMenu.addSeparator();
         fileMenu.add(checkUpdatesMenuItem);
-        fileMenu.addSeparator();
-        fileMenu.add(helpMenuItem);
-        
+//        fileMenu.addSeparator();
+        menuBar.add(helpMenu);
+        helpMenu.add(helpMenuItem);
+
+
 
         //  newMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, shortcutKeyMask));
 
@@ -135,9 +134,7 @@ public class TestRunnerView extends JFrame implements WindowListener {
             fileMenu.addSeparator();
             fileMenu.add(quitMenuItem);
 
-            
-            menuBar.add(helpMenuItem);
-            menuBar.add(aboutMenuItem);
+            helpMenu.add(aboutMenuItem);
         }
 
 
@@ -159,11 +156,11 @@ public class TestRunnerView extends JFrame implements WindowListener {
         //    JPanel testTabPane = new JPanel(new BorderLayout());
         //    testTabPane.setOpaque(false);
         testTabPane = new TestTabPane(this);
-      //  JPanel testCatalogTabPane = new JPanel(new BorderLayout());
-      //  testCatalogTabPane.setOpaque(false);
+        //  JPanel testCatalogTabPane = new JPanel(new BorderLayout());
+        //  testCatalogTabPane.setOpaque(false);
 
         tabbedPane.add("Test", testTabPane);
-      //  tabbedPane.add("Test case catalog", testCatalogTabPane);
+        //  tabbedPane.add("Test case catalog", testCatalogTabPane);
 
 
         addWindowListener(this);
@@ -172,25 +169,24 @@ public class TestRunnerView extends JFrame implements WindowListener {
         setSize(new Dimension(850, 600));
         setLocationRelativeTo(null);
     }// </editor-fold>
-
     ActionListener loggingListener = new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-          Object source = e.getSource();
-          if(source == loggingMenuItem){
-              if(loggingMenuItem.isSelected()){
-                  // set the logging value to 1               
-                  logging = true;
-              }
-              else {
-                  // set the logging value to 0                  
-                  logging = false;
-                  
-              }
-              
-          }
-      }  
+
+        public void actionPerformed(ActionEvent e) {
+            Object source = e.getSource();
+            if (source == loggingMenuItem) {
+                if (loggingMenuItem.isSelected()) {
+                    // set the logging value to 1               
+                    logging = true;
+                } else {
+                    // set the logging value to 0                  
+                    logging = false;
+
+                }
+
+            }
+        }
     };
-    
+
     /**
      * @param args the command line arguments
      */
@@ -219,29 +215,33 @@ public class TestRunnerView extends JFrame implements WindowListener {
         ImageIcon icon = new ImageIcon(getClass().getResource("resources/SBML.png"));
         JOptionPane.showMessageDialog(this, "<html><p>SBML Test Suite V1.0 2008</p></html>", "About SBML Test Suite", JOptionPane.PLAIN_MESSAGE, icon);
     }
-    
+
     public void openHelp() {
-       
-        HelpDialog displayHelp = new HelpDialog(this);   
+
+        HelpDialog displayHelp = new HelpDialog(this);
     }
 
     // General preferences dialog; fed to the OSXAdapter as the method to call when
     // "Preferences..." is selected from the application menu
     public void preferences() {
-        
+
         currentvalues = PreferencesDialog.getValue(this, currentvalues);
-        
+
     }
-    public HashMap<String,Object> getLoggingInfo () {
+
+    public HashMap<String, Object> getLoggingInfo() {
         return currentvalues;
     }
 
     public void performUpdate() {
-        // connect to server and get latest copy of zip file if newer than packaged copy
+    // connect to server and get latest copy of zip file if newer than packaged copy
+        TestCaseUpdater testCaseUpdater = new TestCaseUpdater(this, false);
+        testCaseUpdater.checkForUpdates();
+        testCaseUpdater.setModal(true);
     }
 
     public void windowOpened(WindowEvent e) {
-        performUpdate();
+       // performUpdate();
     //   throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -253,57 +253,66 @@ public class TestRunnerView extends JFrame implements WindowListener {
     }
 
     public void updateProgress(int progress, int failed, int skipped, int passed, int finish) {
-       
-            testTabPane.updateProgress(progress, failed, skipped, passed, finish); 
+
+        testTabPane.updateProgress(progress, failed, skipped, passed, finish);
     }
-    public void setSelections(HashMap<String, Object> tconfiguration){
+
+    public void setSelections(HashMap<String, Object> tconfiguration) {
         testTabPane.setConfigurations(tconfiguration);
     }
+
     public void setStartButton() {
         testTabPane.enableStart();
     }
+
     public void disableStartButton() {
         testTabPane.disableStart();
     }
+
     public void setStopButton() {
         testTabPane.enableStop();
     }
+
     public void disableStopButton() {
         testTabPane.disableStop();
     }
+
     public void setResetButton() {
         testTabPane.enableReset();
     }
+
     public void disableResetButton() {
         testTabPane.disableReset();
     }
+
     public void displayWrapperError() {
         testTabPane.wrapperError();
     }
+
     public void windowClosed(WindowEvent e) {
-        //  throw new UnsupportedOperationException("Not supported yet.");
+    //  throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void windowIconified(WindowEvent e) {
-        //   throw new UnsupportedOperationException("Not supported yet.");
+    //   throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void windowDeiconified(WindowEvent e) {
-        //   throw new UnsupportedOperationException("Not supported yet.");
+    //   throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void windowActivated(WindowEvent e) {
-        //  throw new UnsupportedOperationException("Not supported yet.");
+    //  throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void windowDeactivated(WindowEvent e) {
-        //   throw new UnsupportedOperationException("Not supported yet.");
+    //   throw new UnsupportedOperationException("Not supported yet.");
     }
     // Variables declaration
     // End of variables declaration
- //   public static TestRunnerView getApplication() {
- //       return Application.getInstance(TestRunnerView.class);
-  //  }
+    //   public static TestRunnerView getApplication() {
+    //       return Application.getInstance(TestRunnerView.class);
+    //  }
     public void registerForMacOSXEvents() {
         if (MAC_OS_X) {
             try {
@@ -321,23 +330,24 @@ public class TestRunnerView extends JFrame implements WindowListener {
     }
 
     public void startTest(TestConfiguration testConfiguration) {
-        
-      //  final TestConfiguration finalTestConfig = testConfiguration;
-   //    TestCaseListModel list = new TestCaseListModel();
+
+        //  final TestConfiguration finalTestConfig = testConfiguration;
+        //    TestCaseListModel list = new TestCaseListModel();
         setStopButton();
         setResetButton();
         testCaseListModel.removeAllElements();
         failedTestCaseListModel.removeAllElements();
         passedTestCaseListModel.removeAllElements();
         skippedTestCaseListModel.removeAllElements();
-        if(logging){
+        if (logging) {
             testConfiguration.set("logging", 1);
+        } else {
+            testConfiguration.set("logging", 0);
         }
-        else testConfiguration.set("logging",0);
         worker = new TestRunnerWorker(this, testConfiguration);
         worker.start();
     }
-    
+
     public void stopTest() {
         worker.interrupt();
     }
@@ -368,7 +378,10 @@ public class TestRunnerView extends JFrame implements WindowListener {
 
         public void actionPerformed(ActionEvent e) {
             System.out.println("New...");
-            // connect to sever here and look for updated tests
+        // connect to sever here and look for updated tests
+          // boolean itworked = testCaseUpdater.checkForUpdates();
+           // if(itworked) { System.out.println("the update worked");}
+            performUpdate();
         }
     }
 
@@ -383,45 +396,48 @@ public class TestRunnerView extends JFrame implements WindowListener {
             quit();
         }
     }
-    
+
     public class aboutActionClass extends AbstractAction {
-        
+
         public aboutActionClass(String text) {
             super(text);
             putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_A, shortcutKeyMask));
         }
-        
-        public void actionPerformed(ActionEvent e){
+
+        public void actionPerformed(ActionEvent e) {
             about();
         }
     }
+
     public class helpActionClass extends AbstractAction {
-        public helpActionClass(String text){
+
+        public helpActionClass(String text) {
             super(text);
-            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_H,shortcutKeyMask));
+            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_H, shortcutKeyMask));
         }
-        public void actionPerformed(ActionEvent e){
+
+        public void actionPerformed(ActionEvent e) {
             openHelp();
         }
     }
+
     public class preferencesActionClass extends AbstractAction {
-        public preferencesActionClass(String text){
+
+        public preferencesActionClass(String text) {
             super(text);
-            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P,shortcutKeyMask));
+            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P, shortcutKeyMask));
         }
-        public void actionPerformed(ActionEvent e){
-          preferences();
+
+        public void actionPerformed(ActionEvent e) {
+            preferences();
         }
     }
-     
-    
     private newActionClass newAction;
     private quitActionClass quitAction;
     private aboutActionClass aboutAction;
     private helpActionClass helpAction;
     private checkUpdatesActionClass checkUpdatesAction;
     private preferencesActionClass preferencesAction;
-    
     private JMenu fileMenu;
     private JMenu editMenu;
     //private JMenu helpMenu;

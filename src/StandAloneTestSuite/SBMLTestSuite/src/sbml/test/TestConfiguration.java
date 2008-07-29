@@ -26,19 +26,34 @@ package sbml.test;
 
 import java.util.HashMap;
 
-
+/**
+ * TestConfiguration is a class that contains the user level, type, component tags, test tags and wrapper configuration from the wizard.
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 public class TestConfiguration {
     HashMap<String, Object> hashMap;
     
-    
+    /**
+     * Test configuration has one constructor that takes one argument 
+     * @param selections is a hashmap that contains the values of the options available from the wizard.
+     */
     public TestConfiguration(HashMap<String, Object> selections) {
         hashMap = selections;
     }    
-    
+    /**
+     * get - gets a value from the selections hashmap 
+     * @param key the key to retrieve from the hashmap
+     * @return returns the object associated with the key in the hashmap
+     */
     public Object get(String key) {
         return hashMap.get(key);
     }
-    
+    /**
+     * set - sets a value in the hashmap
+     * @param key - the key at which to set in the hashmap
+     * @param value - the value to set with the associated key in the hashmap
+     */
     public void set(String key, Integer value) {
         hashMap.put(key, value);
     }

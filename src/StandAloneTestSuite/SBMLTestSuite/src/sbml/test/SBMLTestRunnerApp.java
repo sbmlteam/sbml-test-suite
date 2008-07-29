@@ -26,7 +26,11 @@ package sbml.test;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-
+/**
+ * The class containing the main method for the stand alone application
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 public class SBMLTestRunnerApp {
 
     static {
@@ -64,7 +68,10 @@ public class SBMLTestRunnerApp {
 
 
     }
-
+/**
+ * Starts the gui
+ * @param args
+ */
     @SuppressWarnings("static-access")
     private void startGui(String[] args) {
         try {
@@ -84,12 +91,17 @@ public class SBMLTestRunnerApp {
         TestRunnerView testRunnerView = new TestRunnerView();
         testRunnerView.showGui(args);
     }
-
+/**
+ * Shows the usage for calling the test suite jar file
+ */
     private static void showUsage() {
         System.out.println("Usage: java -jar SBMLTestRunner.jar [OPTIONS]");
         System.out.println("-nogui       Start without GUI (javavm needs to be in headless mode");
     }
-
+/**
+ * Starts the command line version
+ * @param args
+ */
     private static void startCLI(String[] args) {
         System.out.println("Starting without Gui...");
     }

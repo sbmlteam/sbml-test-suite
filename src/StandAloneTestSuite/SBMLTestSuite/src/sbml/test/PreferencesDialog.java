@@ -6,10 +6,20 @@ import java.io.File;
 import java.util.HashMap;
 import javax.swing.JDialog;
 
+/**
+ * This class creates the diaglog for the preferences menu item.
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 
 public class PreferencesDialog extends JDialog {
     HashMap<String, Object> settings;
     /** Creates new form PreferencesDialog */
+    /**
+     * PreferencesDialog creates a new form for Preferences menu item. It has one constructor.
+     * @param parent The parent frame 
+     * @param currentsettings A hashmap of the current preferences settings.
+     */
     public PreferencesDialog(Frame parent, HashMap<String, Object> currentsettings) {
         super(parent, "Preferences",true);
         initComponents();
@@ -23,7 +33,9 @@ public class PreferencesDialog extends JDialog {
         this.setLocationRelativeTo(parent);
     }
 
-
+/**
+ * initComponents Initializes the components for the preferences dialog.
+ */
     @SuppressWarnings("unchecked")
     private void initComponents() {
 
@@ -117,24 +129,38 @@ public class PreferencesDialog extends JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+ * applyButtonActionPerformed - gets the values of the varibles set in the dialog and closes the diaglog.
+ * @param evt ActionEvent indicating the Apply button has been selected.
+ */
 private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
     settings.put("logging", loggingCheckBox.isSelected());
     settings.put("configpath", pathTextField.getText());
     
     this.setVisible(false);// TODO add your handling code here:
 }//GEN-LAST:event_applyButtonActionPerformed
-
+/**
+ * cancelButtonActionEvent - closes the dialog
+ * @param evt ActionEvent indicating the Cancel button has been selected.
+ */
 private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
     this.setVisible(false);// TODO add your handling code here:
 }//GEN-LAST:event_cancelButtonActionPerformed
-
+/**
+ * getValue returns the preferences dialog variable settings. It is a static method.
+ * @param parent Frame from which the request is coming
+ * @param currentsettings hashmap of the current variable settings
+ * @return returns the current variable settings
+ */
     public static HashMap<String,Object> getValue(Frame parent, HashMap<String, Object> currentsettings) {
         PreferencesDialog dlg = new PreferencesDialog(parent, currentsettings);
         dlg.setVisible(true);
         return dlg.getReturnValue();
     }
-
+/**
+ * getReturnValue is the private function to get the settings hashmap
+ * @return returns the settings in a hashmap
+ */
     private HashMap<String,Object> getReturnValue() {
         return settings;
     }

@@ -54,7 +54,11 @@ import sbml.test.TestConfiguration;
 import sbml.test.TestRunnerView;
 import sbml.test.TestTabPane;
 
-
+/**
+ * CreateTestWizard is the main class for creating a new test wizard
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 public class CreateTestWizard {
 
 //        private WizardModel wizardModel;
@@ -75,10 +79,12 @@ public class CreateTestWizard {
     private Action nextAction,  previousAction,  cancelAction,  finishAction;
     private JLabel[] overviewLabel;
     public HashMap<String, Object> selections = new HashMap<String, Object>();
-//    I changed this to allow storing the path values in the same hashmap.
-//    Integer for the other ones is okay, but boolean would be the more elegant choice
     private final PropertyChangeSupport propertyChangeSupport;
 
+    /**
+     * CreateTestWizard constructor initializes componenet for the wizard and adds a listener for the selections
+     * @param owner the TestRunnerView instance
+     */
     public CreateTestWizard(TestRunnerView owner) {
 
         Wizard = new JDialog(owner, "Start new test", true);
@@ -94,7 +100,9 @@ public class CreateTestWizard {
 
         initComponents();
     }
-
+    /**
+     * updatePanels is called by the propertychange event to validate the selections as changes are made on the hashmap
+     */
     private void updatePanels() {
         // call the validate functions of all panels
         //System.out.println("updating panels here soon");
@@ -102,7 +110,11 @@ public class CreateTestWizard {
         panels[3].validateSelections(selections);
 
     }
-
+    /**
+     * initializeSelections initializes the selection hashmap for the wizard
+     * @param selections a hashmap of all the selectable options of the wizard - set to one or zero for being selected or not
+     * One idea was to set to -1 for tags that were not yet implemented that would eliminate having to comment them out 
+     */
     public void initializeSelections(HashMap<String, Object> selections) {
         selections.put("L1V2radiobutton", 0);
         selections.put("L2V1radiobutton", 0);
@@ -147,28 +159,42 @@ public class CreateTestWizard {
         selections.put("logging",0);
         
     }
-
+    /**
+     * getSelections gets the selection hashmap
+     * @return returns the selections hashmap
+     */
     public HashMap<String, Object> getSelections() {
         return selections;
     }
-
+    /**
+     * addPropertyChangeListener - adds a new propertychangelistener
+     * @param listener the listener to add
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.propertyChangeSupport.addPropertyChangeListener(listener);
     }
-
+    /**
+     * removePropertyChangeListener - removes a propertychangelistener
+     * @param listener the listener to remove
+     */
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         this.propertyChangeSupport.removePropertyChangeListener(listener);
     }
-
+    /**
+     * setSelections sets the selections hashmap to a new hashmap and fires a property change so that the new map can be validated
+     * @param newSelections the new hashmap to replace the selections hashmap with
+     */
     public void setSelections(HashMap<String, Object> newSelections) {
 
         selections = newSelections;
         this.propertyChangeSupport.firePropertyChange("selections", 0, 1);
     }
-
+    /**
+     * initComoponentents initializes the components for the test wizard
+     */
     private void initComponents() {
 
-// Code omitted
+
         initializeSelections(selections);
 
         JPanel buttonPanel = new JPanel();
@@ -252,12 +278,17 @@ public class CreateTestWizard {
         Wizard.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         Wizard.setLocationRelativeTo(null);
     }
-
+    /**
+     * runWizard sets the wizard to run
+     */
     public void runWizard() {
         Wizard.setVisible(true);
 
     }
-
+    /**
+     * changeCard changes the viewable pages on the wizard
+     * @param cardName
+     */
     public void changeCard(String cardName) {
         cardLayout.show(cardPanel, cardName);
         if (panels[currentPanel].isLast()) {
@@ -285,7 +316,9 @@ public class CreateTestWizard {
         }
 
     }
-
+    /**
+     * nextActionClass sets the next page on the wizard
+     */
     public class nextActionClass extends AbstractAction {
 
         public nextActionClass(String text) {
@@ -298,7 +331,9 @@ public class CreateTestWizard {
             changeCard(panels[currentPanel].getIdentifier());
         }
     }
-
+    /**
+     * previousActionClass sets the previous page on the wizard
+     */
     public class previousActionClass extends AbstractAction {
 
         public previousActionClass(String text) {
@@ -313,7 +348,9 @@ public class CreateTestWizard {
             changeCard(panels[currentPanel].getIdentifier());
         }
     }
-
+    /**
+     * cancelActionClass - closes the wizard
+     */
     public class cancelActionClass extends AbstractAction {
 
         public cancelActionClass(String text) {
@@ -325,7 +362,9 @@ public class CreateTestWizard {
             Wizard.setVisible(false);
         }
     }
-
+    /**
+     * finishActionClass completes the wizard and closes it and passes variables onto the test.
+     */
     public class finishActionClass extends AbstractAction {
 
         public finishActionClass(String text) {

@@ -34,27 +34,33 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
-
+/**
+ * WrapperConfigurationPanel creates the panel for the wrapper details in the wizard.
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 public class WrapperConfigurationPanel extends WizardPanel {
 
     JTextField wrapCommand;
     JTextField inputPath;
     JTextField outputPath;
-
+    /**
+     * WrapperConfigurationPanel initializes the components for the wrapper panel
+     * @param createTestWizard the createTestWizard instance for the wizard.
+     */
     public WrapperConfigurationPanel(CreateTestWizard createTestWizard) {
         initComponents();
     }
-
+    /**
+     * initComponents initializes the components for the wrapper panel 
+     */
     private void initComponents() {
         setLayout(new BorderLayout());
 
         wrapCommand = new JTextField(40);
-      //  inputPath = new JTextField(40);
-      //  outputPath = new JTextField(40);
-        
+      
         wrapCommand.setText("/Users/kimberlybegley/bin/my_wrapper %d %n %o");
-      //  inputPath.setText("/Users/kimberlybegley/Desktop/caltech/test-suite/cases/semantic");
-      //  outputPath.setText("/Users/kimberlybegley/Desktop/output");
+      
         
 
         JPanel topPanel = new JPanel(new BorderLayout());
@@ -108,48 +114,81 @@ public class WrapperConfigurationPanel extends WizardPanel {
 
 
     }
-    
+    /**
+     * getWrapperPath gets the text value of the wrapper path
+     * @return returns the text for the wrapper command
+     */
     public String getWrapperPath() {
         return wrapCommand.getText();
     }
-    
+    /**
+     * no longer in use
+     * @return
+     */
     public String getInputPath() {
         return inputPath.getText();
     }    
-    
+    /**
+     * no longer in use
+     * @return
+     */
     public String getOutputPath() {
         return outputPath.getText();
     }    
     
-    
+    /**
+     * getQualifiedName gets the name of the panel
+     * @return returns the text "Configure Wrapper"
+     */
     public String getQualifiedName() {
         return "Configure Wrapper";
     }
-
+    /**
+     * getIdentifier gets the identifier for the panel
+     * @return returns "WRAPPER"
+     */
     public String getIdentifier() {
         return "WRAPPER";
     }
-
+    /**
+     * getPrevious gets the previous panel for the new test wizard
+     * @return returns the text "LEVELSELECTOR"
+     */
     public String getPrevious() {
         return "LEVELSELECTOR";
     }
-
+    /**
+     * getNext gets the next panel for the new test wizard
+     * @return returns null as this is the last panel.
+     */
     public String getNext() {
         return null;
     }
-
+    /**
+     * isLast indicates if this is the last panel in the wizard
+     * @return returns true
+     */
     public boolean isLast() {
         return true;
     }
-
+    /**
+     * isFirst indicates if this is the first panel in the wizard
+     * @return returns false 
+     */
     public boolean isFirst() {
         return false;
     }
-
+    /**
+     * mayFInish indicates if the finish button may be activated on this panel.
+     * @return returns true
+     */
     public boolean mayFinish() {
         return true;
     }
-
+    /**
+     * validateSelections - not in use here
+     * @param selections
+     */
     public void validateSelections(HashMap<String, Object> selections) {
         //  throw new UnsupportedOperationException("Not supported yet.");
     }

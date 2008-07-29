@@ -26,7 +26,11 @@ package sbml.test.Wizard;
 
 import java.util.HashMap;
 
-
+/**
+ * WizardPanelInterface creates the interface for the wizard panels.
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 public interface WizardPanelInterface {
  public void validateSelections(HashMap<String, Object> selections);
     

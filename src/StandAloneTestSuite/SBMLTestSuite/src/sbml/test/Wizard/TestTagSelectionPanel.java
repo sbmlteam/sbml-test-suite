@@ -37,7 +37,11 @@ import javax.swing.JPanel;
 import javax.swing.JCheckBox;
 import javax.swing.JSeparator;
 
-
+/**
+ * TestTagSelectionPanel generates teh panel for the test tag selection in the new test wizard.
+ * @author Kimberly Begley
+ * @version 2.0
+ */
 public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
 
 //    private JCheckBox[] buttons;
@@ -45,13 +49,19 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
     private CreateTestWizard createTestWizard;
 //    private final String[] buttonNames = {"2D-Compartment", "HasOnlySubstanceUnits", "StoichiometryMath", "1D-Compartment", "BoundaryCondition", "LocalParameters", "0D-Compartment", "ConstantSpecies", "CSymbolDelay", "NonConstantCompartment", "NonConstantParameter", "CSymbolTime", "NonUnityCompartment", "FastReaction", "MassUnits", "MultiCompartment", "ReversibleReaction", "Units", "InitialAmount", "ZeroRate", "MathML", "InitialConcentration", "NonUnityStoichiometry", "Discontinuity"};
     public HashMap<String, Object> selections = new HashMap <String, Object>();
-    
+    /**
+     * TestTagSelectionPanel has one constructor that initializes the components for the TestTagSelectionPanel.
+     * @param createTestWizard is the createTestWizard instance associated with the wizard run.
+     */
     public TestTagSelectionPanel(CreateTestWizard createTestWizard) {
         this.createTestWizard = createTestWizard;
         initComponents();
 
     }
-
+    /**
+     * initComponents initializes the components for the TestTagSelectionPanel. It creates all the checkboxes for the test tags and sets up the listeners
+     * for each checkbox.
+     */
     private void initComponents() {
         setLayout(new BorderLayout());
 
@@ -166,7 +176,10 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
         // call validateSelections
 
     }
-    
+    /**
+     * itemStateChanged gets called when the checkboxes on the Test Tag Selection Panel are selected or deselected.
+     * @param ie is the ItemEvent associated with the checking/unchecking of checkboxes.
+     */
     public void itemStateChanged (ItemEvent ie) {
       selections =  createTestWizard.getSelections();
       Object source = ie.getItemSelectable();
@@ -376,11 +389,18 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
       
         
     }
-    
+    /**
+     * updateSelections updates a field with the corresponding value in the selections hashmap
+     * @param field the field to update
+     * @param value the value to update the field to.
+     */
     public void updateSelections(String field, Integer value){
         selections.put(field, value);
     }
-    
+    /**
+     * validateSelections follows the tag dependencies document and enables or disables tags as appropriate.
+     * @param selections is the hashmap of all the selections for a new test.
+     */
     public void validateSelections(HashMap<String, Object> selections){
         if((Integer)selections.get("L1V2radiobutton") == 1) {
          // these are all for test tags - should add them there instead
@@ -511,7 +531,7 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
             ncp_button.setEnabled(true);
         }
         if((Integer)selections.get("Compartment")==1 && (Integer)selections.get("Species")==1 && (Integer)selections.get("Reaction")==1 && (Integer)selections.get("Parameter")==1){
-            // Disable all test tags is compartment, species, reaction and parameter are omitted
+            // Disable all test tags if compartment, species, reaction and parameter are omitted
             tdc_button.setEnabled(false);
             odc_button.setEnabled(false);
             zdc_button.setEnabled(false);
@@ -534,32 +554,53 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
         
         
     }
-
+    /**
+     * getQualifiedName returns the name of the panel
+     * @return returns text "Test Tags"
+     */
     public String getQualifiedName() {
         return "Test Tags";
     }
-
+    /**
+     * getIdentifier returns the identifier of the panel
+     * @return returns the text "TTSELECTOR"
+     */
     public String getIdentifier() {
         return "TTSELECTOR";
     }
-
+    /**
+     * getPrevious returns the identifier to the previous panel
+     * @return returns the text "CTSELECTOR"
+     */
     public String getPrevious() {
         return "CTSELECTOR";
     }
-
+    /**
+     * getNext returns the identifier to the next panel
+     * @return returns the text "WRAPPER"
+     */
     public String getNext() {
         
         return "WRAPPER";
     }
-
+    /**
+     * isLast indicates if the test tag selection panel is the last panel in the wizard
+     * @return returns false
+     */
     public boolean isLast() {
         return false;
     }
-
+    /**
+     * isFirst indicates if the test tag selection panel is the first panel in the wizard
+     * @return returns false
+     */
     public boolean isFirst() {
         return false;
     }
-
+    /**
+     * mayFinish indicates if the test tag selection panel has the ability to enable the finish button.
+     * @return returns false
+     */
     public boolean mayFinish() {
         return false;
     }

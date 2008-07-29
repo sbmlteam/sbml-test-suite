@@ -35,8 +35,9 @@ import java.util.regex.*;
 import java.applet.*;
 
 /**
- *
- * @author kimberlybegley
+ *This class contains most of the logic for the testing included in the SBML Test Suite.
+ * @author Kimberly Begley
+ * @version 2.0
  */
 public class SBMLTestCase {
     
@@ -48,29 +49,61 @@ public class SBMLTestCase {
 	public BigDecimal abs;
 	public BigDecimal rel;
 	
-	
+	/**
+         * Gets the start time interval
+         * @return The start time interval
+         */
 	public int getStart() {
 		return start;
 	}
+        /**
+         * Gets the test name
+         * @return The test name
+         */
 	public String getTestname() {
 		return testname;
 	}
+        /**
+         * Gets the duration of the test
+         * @return The duration of the test
+         */
 	public double getDuration() {
 		return duration;
 	}
+        /**
+         * Gets the number of steps
+         * @return The number of steps
+         */
 	public int getSteps() {
 		return steps;
 	}
+        /**
+         * Gets the number of variables
+         * @return The number of varaibles in the test
+         */
 	public int getVariables_count() {
 		return variables_count;
 	}
+        /**
+         * Gets the Absolute allowable difference
+         * @return the absolute allowable difference
+         */
 	public BigDecimal getAbs() {
 		return abs;
 	}
+        /**
+         * Gets the relative allowable difference
+         * @return the relative allowable difference
+         */
 	public BigDecimal getRel() {
 		return rel;
 	}
-
+        /**
+         * Gets the test case directory
+         * @return A string containing the path to the test case directory - Used in web application only
+         * @throws java.io.IOException if the config file cannot be opened
+         * @throws java.io.FileNotFoundException if the config file cannot be found
+         */
 	public String getSbmlTestdir() throws IOException, FileNotFoundException {
 		String sbmltestdir = new String();
 		File sbmlconfigfile = new File("/usr/share/apache-tomcat-5.5.26/webapps/test_suite/WEB-INF/sbml_config_file.txt");
@@ -91,28 +124,48 @@ public class SBMLTestCase {
 		
 	return sbmltestdir;
 	}
-
+        /**
+         * Gets the appropriate settings file for a given test case.
+         * @param value the test case name
+         * @param testdir the test case directory
+         * @return returns a path to the settings file
+         */
 	public String getSettingsFile(String value, String testdir) {
 		String settingsfile = new String();
 		settingsfile = testdir + File.separator + value + File.separator + value + "-settings.txt";
 
 		return settingsfile;
 	}
-
+        /**
+         * Gets the control results for a given test case.
+         * @param value the test case name
+         * @param testdir the test case directory
+         * @return returns a path to the test case control results file
+         */
 	public String getControlResults(String value, String testdir) {
 		String resultfile = new String();
 		resultfile = testdir + File.separator + value + File.separator + value + "-results.csv";
 
 		return resultfile;
 	}
-	
+	/**
+         * Gets the plot file path for a given test case
+         * @param value the test case name
+         * @param testdir the test case directory
+         * @return returns a path to the test case plot file
+         */
 	public String getPlotFile(String value, String testdir) {
 		String plotfile = new String();
 		plotfile = testdir + File.separator + value + File.separator + value + "-plot.jpg";
 
 		return plotfile;
 	}
-
+        /**
+         * Gets the html file path for a given test case
+         * @param value the test case name
+         * @param testdir the test case directory
+         * @return returns a path to the html file of test case details 
+         */
 	public String getHtmlFile(String value, String testdir) {
 		String htmlfile = new String();
 		htmlfile = testdir + File.separator + value + File.separator + value + "-model.html";
@@ -120,7 +173,18 @@ public class SBMLTestCase {
 		return htmlfile;
 	}
 
-
+        /**
+         * Reads the results of a test case result file into a two dimensional bigdecimal array 
+         * @param filename filename to read
+         * @param header 1 or 0 indicates the presence of a header - at this time it is always set to 1 expecting all files to have a header
+         * @param steps the number of steps as given in the settings file
+         * @param variables_count the number of variables as giving in the settings file
+         * @return a 2D BigDecimal array of results.
+         * @throws java.io.IOException
+         * @throws java.io.FileNotFoundException
+         * @throws java.lang.NumberFormatException
+         * @throws java.lang.Exception returns an exception if the file does not have the indicated number of variables as read from the settings fiel
+         */
 	public BigDecimal[][] readResults(String filename, int header, int steps, int variables_count) throws IOException, FileNotFoundException, NumberFormatException, Exception {
 	/*  readResults - returns a csv file as a multidimensional array
 		Input:a cvs file (filename) along with whether it has a header (header=1/0), step count (steps), number of variables
@@ -164,7 +228,12 @@ public class SBMLTestCase {
 		
 		return value;
 	}
-	
+	/**
+         * Makes sure the user result file has the same number of timesteps etc as defined in the settings file
+         * @param resultdata control result multidimensional array
+         * @param userresultdata user result multidimensional array
+         * @throws java.lang.Exception throws an exception if there are an inconsistant number of rows between the two input files and if the time step values do not match up
+         */
 	public void validateResults(BigDecimal [][] resultdata, BigDecimal [][] userresultdata) throws Exception {
 	/*  validateResults - makes sure that the users result file has the same timesteps etc as defined in the settings file
 		Input: user result mulitidimensional array
@@ -182,7 +251,15 @@ public class SBMLTestCase {
 		}
 	}
 	}
-	
+	/**
+         * Subtracts the corresponding fields to give the difference between the values in the user and control result files
+         * @param resultdata control result data multidimensional array
+         * @param inputdata  user result data multidimensional array
+         * @param steps the number of steps in the test
+         * @param variables_count the number of variables in the test
+         * @return returns a multidimensional array containing the differences of the compared files.
+         * @throws java.lang.Exception if the files are of different lengths it returns an exception
+         */
 	public BigDecimal[][] compareResults(BigDecimal [][] resultdata, BigDecimal [][] inputdata, int steps, int variables_count) throws Exception{
 	/*	compareResults  - subtracts each corresponding field to give the differences
 		Input: the multidimensional array from the control result data file and a multidimensional
@@ -214,6 +291,15 @@ public class SBMLTestCase {
 	  }
 	  return result;
 	} 
+        /**
+         * Looks at the allowable difference and how it compares to the differences of the user and control files
+         * @param control control file results multidimensional array
+         * @param differences differences mulitdimensional array (from the compareResults function) 
+         * @param variables number of variables
+         * @param absolute the absolute allowable difference from the settings file
+         * @param relative the relative allowable difference from the settings file
+         * @return and integer - the number of failed comparisons in the file - if equal to zero then the test passed.
+         */
 	public int analyzeResults(BigDecimal [][] control, BigDecimal [][] differences, int variables, BigDecimal absolute, BigDecimal relative) {
 	/*	anaylzeResults - looks at the allowable difference and how it compares to the differences of the user and control files
 		Input: differences array (from compareResults function), absolute difference, relative difference
@@ -258,7 +344,12 @@ public class SBMLTestCase {
 		}
 		return pass_fail;
 	}
-	
+	/**
+         * Reads the values in the settings file 
+         * @param filename path to the settings file
+         * @throws java.io.IOException thrown if the settings file cannot be opened.
+         * @throws java.io.FileNotFoundException thrown if the settings file cannot be found.
+         */
 	public void readSettingsFile(String filename) throws IOException, FileNotFoundException {
 	/* Read settings file for test into a hash table rea
 	   Input: is settings file name
@@ -337,6 +428,12 @@ public class SBMLTestCase {
 		}
 	
 	}
+        /**
+         * Gets the user test file directory and checks the format of the files in the directory - only used in web version of test suite.
+         * @param dirname path to the test case directory
+         * @return a hashmap of the testname and user result file name 
+         * @throws java.lang.Exception thrown if the user test file has an incorrect name format.
+         */
 public Map getUsertestlist(String dirname) throws Exception{
 	/* Gets the user file directory and checks the format of the files in the directory
 	   Input: is the directory path
@@ -373,7 +470,11 @@ public Map getUsertestlist(String dirname) throws Exception{
 	}
 	return m;
 }
-
+/**
+ * Deletes a directory containing uploaded test cases.
+ * @param path path to test case files
+ * @return boolean value indicating success of deletion.
+ */
 public boolean deleteDirectory(File path) {
     if( path.exists() ) {
       File[] files = path.listFiles();
