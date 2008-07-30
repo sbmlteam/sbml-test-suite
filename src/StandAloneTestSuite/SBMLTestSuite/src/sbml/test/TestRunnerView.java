@@ -47,11 +47,12 @@ import javax.swing.JTabbedPane;
 import javax.swing.ImageIcon;
 import java.net.URL;
 import java.util.HashMap;
-//import javax.help.HelpBroker;
-//import javax.help.HelpSet;
+
 public class TestRunnerView extends JFrame implements WindowListener {
 
-    /** Creates new form TestRunnerView */
+    /** 
+     * Creates new form for TestRunnerView
+     */
     public TestRunnerView() {
         super("SBML TestRunner");
         initComponents();
@@ -68,7 +69,9 @@ public class TestRunnerView extends JFrame implements WindowListener {
     public static HashMap<String, Object> currentvalues;
     //  public static HelpDialog helpdialog;
     TestRunnerWorker worker;
-
+    /**
+     * initComponents - initializes the components for the TestRunnerView
+     */
     private void initComponents() {
         testCaseListModel = new TestCaseListModel();
         failedTestCaseListModel = new FailedTestCaseListModel();
@@ -198,7 +201,10 @@ public class TestRunnerView extends JFrame implements WindowListener {
             }
         });
     }
-
+    /**
+     * quit - closes the application
+     * @return returns a boolean value if user wants to quit
+     */
     public boolean quit() {
         int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to quit?", "Quit?", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
@@ -207,92 +213,137 @@ public class TestRunnerView extends JFrame implements WindowListener {
 
         return (option == JOptionPane.YES_OPTION);
     }
-
+    /**
+     * about - sets the about box contents
+     */
     public void about() {
         //    aboutBox.setLocation((int)this.getLocation().getX() + 22, (int)this.getLocation().getY() + 22);
         //    aboutBox.setVisible(true);
         // Display the about box here
         ImageIcon icon = new ImageIcon(getClass().getResource("resources/SBML.png"));
-        JOptionPane.showMessageDialog(this, "<html><p>SBML Test Suite V1.0 2008</p></html>", "About SBML Test Suite", JOptionPane.PLAIN_MESSAGE, icon);
+        JOptionPane.showMessageDialog(this, "<html><p>SBML Test Suite V2.0 2008</p></html>", "About SBML Test Suite", JOptionPane.PLAIN_MESSAGE, icon);
     }
-
+    /**
+     * openHelp opens the help dialog
+     */
     public void openHelp() {
 
         HelpDialog displayHelp = new HelpDialog(this);
     }
 
-    // General preferences dialog; fed to the OSXAdapter as the method to call when
-    // "Preferences..." is selected from the application menu
+    
+    /**
+     * General preferences dialog; fed to the OSXAdapter as the method to call when
+     * "Preferences..." is selected from the application menu
+     */
     public void preferences() {
 
         currentvalues = PreferencesDialog.getValue(this, currentvalues);
 
     }
-
+    /**
+     * getLoggingInfo - gets the hashmap containing the logging info from the dialog
+     * @return
+     */
     public HashMap<String, Object> getLoggingInfo() {
         return currentvalues;
     }
-
+    /**
+     * performUpdate - is run when the user selects to "check for new test cases" from the menu
+     */
     public void performUpdate() {
     // connect to server and get latest copy of zip file if newer than packaged copy
         TestCaseUpdater testCaseUpdater = new TestCaseUpdater(this, false);
         testCaseUpdater.checkForUpdates();
         testCaseUpdater.setModal(true);
     }
-
+    /**
+     * windowOpened - can uncomment the performUpdate line to have it automatically check for updates as soon as the app is started
+     * @param e
+     */
     public void windowOpened(WindowEvent e) {
        // performUpdate();
     //   throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    /**
+     * windowClosing - exits the program
+     * @param e
+     */
     public void windowClosing(WindowEvent e) {
         if (quit()) {
             System.exit(0);
         }
     //throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    /**
+     * updateProgress updates the progess bar information
+     * @param progress total number of tests taken so far
+     * @param failed number of failed tests so far
+     * @param skipped number of skipped tests so far
+     * @param passed number of passed tests so far
+     * @param finish indicates whether at the end of test set or not
+     */
     public void updateProgress(int progress, int failed, int skipped, int passed, int finish) {
 
         testTabPane.updateProgress(progress, failed, skipped, passed, finish);
     }
-
+    /**
+     * sets the selections hashmap
+     * @param tconfiguration hashmap to set
+     */
     public void setSelections(HashMap<String, Object> tconfiguration) {
         testTabPane.setConfigurations(tconfiguration);
     }
-
+    /**
+     * setStartButton - enables the start button
+     */
     public void setStartButton() {
         testTabPane.enableStart();
     }
-
+    /**
+     * disableStartButton - disables the start button
+     */
     public void disableStartButton() {
         testTabPane.disableStart();
     }
-
+    /**
+     * setStopButton - sets the stop button
+     */
     public void setStopButton() {
         testTabPane.enableStop();
     }
-
+    /**
+     * disableStopButton - disables the stop button
+     */
     public void disableStopButton() {
         testTabPane.disableStop();
     }
-
+    /**
+     * setResetButton - sets the reset button
+     */
     public void setResetButton() {
         testTabPane.enableReset();
     }
-
+    /**
+     * disableResetButton - disables the reset button
+     */
     public void disableResetButton() {
         testTabPane.disableReset();
     }
-
+    /** 
+     * displayWrapperError - displays the wrapper error diaglog
+     */
     public void displayWrapperError() {
         testTabPane.wrapperError();
     }
-
+    /**
+     * windowClosed event - nothing happens yet
+     * @param e
+     */
     public void windowClosed(WindowEvent e) {
     //  throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
     public void windowIconified(WindowEvent e) {
     //   throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -313,6 +364,9 @@ public class TestRunnerView extends JFrame implements WindowListener {
     //   public static TestRunnerView getApplication() {
     //       return Application.getInstance(TestRunnerView.class);
     //  }
+    /**
+     * registerForMacOSXEvents - sets the mac os look and feel for the quit, about and preferences menu items
+     */
     public void registerForMacOSXEvents() {
         if (MAC_OS_X) {
             try {
@@ -328,7 +382,10 @@ public class TestRunnerView extends JFrame implements WindowListener {
             }
         }
     }
-
+    /**
+     * startTest - starts a test
+     * @param testConfiguration test parameters for the test
+     */
     public void startTest(TestConfiguration testConfiguration) {
 
         //  final TestConfiguration finalTestConfig = testConfiguration;
@@ -347,11 +404,15 @@ public class TestRunnerView extends JFrame implements WindowListener {
         worker = new TestRunnerWorker(this, testConfiguration);
         worker.start();
     }
-
+    /**
+     * stopTest sends an interrupt to the worker thread
+     */
     public void stopTest() {
         worker.interrupt();
     }
-
+    /**
+     * newActionClass is called when a new test is selected from the menu
+     */
     public class newActionClass extends AbstractAction {
 
         TestRunnerView parent;
@@ -368,7 +429,9 @@ public class TestRunnerView extends JFrame implements WindowListener {
             wizard.runWizard();
         }
     }
-
+    /**
+     * checkUpdatesActionClass is called when the menu is selected to check for new test cases
+     */
     public class checkUpdatesActionClass extends AbstractAction {
 
         public checkUpdatesActionClass(String text) {
@@ -384,7 +447,9 @@ public class TestRunnerView extends JFrame implements WindowListener {
             performUpdate();
         }
     }
-
+    /**
+     * quitActionClass is called when the quit menu is selected
+     */
     public class quitActionClass extends AbstractAction {
 
         public quitActionClass(String text) {
@@ -396,7 +461,9 @@ public class TestRunnerView extends JFrame implements WindowListener {
             quit();
         }
     }
-
+    /**
+     * aboutActionClass is called when about is selected from the menu
+     */
     public class aboutActionClass extends AbstractAction {
 
         public aboutActionClass(String text) {
@@ -408,7 +475,9 @@ public class TestRunnerView extends JFrame implements WindowListener {
             about();
         }
     }
-
+    /**
+     * helpActionClass is called when help is selected from the menu
+     */
     public class helpActionClass extends AbstractAction {
 
         public helpActionClass(String text) {
@@ -420,7 +489,9 @@ public class TestRunnerView extends JFrame implements WindowListener {
             openHelp();
         }
     }
-
+    /**
+     * preferencesActionClass is called when the preferences are selected from the menu
+     */
     public class preferencesActionClass extends AbstractAction {
 
         public preferencesActionClass(String text) {
