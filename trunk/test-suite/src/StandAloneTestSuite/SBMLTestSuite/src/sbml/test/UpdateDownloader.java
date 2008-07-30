@@ -1,7 +1,26 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+// @file    UpdateDownloader.java
+// @brief   UpdateDownloader class for SBML Standalone application
+// @author  Kimberly Begley
+// 
+
+//
+//<!---------------------------------------------------------------------------
+// This file is part of the SBML Test Suite.  Please visit http://sbml.org for
+// more information about SBML, and the latest version of the SBML Test Suite.
+// 
+// Copyright 2008      California Institute of Technology.
+// Copyright 2004-2007 California Institute of Technology (USA) and
+//                     University of Hertfordshire (UK).
+// 
+// The SBML Test Suite is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation.  A copy of the license
+// agreement is provided in the file named "LICENSE.txt" included with
+// this software distribution and also available at
+// http://sbml.org/Software/SBML_Test_Suite/license.html
+//------------------------------------------------------------------------- -->
+// UpdateDownloader will download new SBML test case files from SourceForge.net
+//
 package sbml.test;
 
 import java.io.BufferedInputStream;
@@ -28,7 +47,7 @@ import java.util.zip.ZipInputStream;
 import javax.swing.SwingUtilities;
 
 /**
- * UpdateDownloader will download new TestCase files from SourceForge.net
+ * UpdateDownloader will download new SBML test case files from SourceForge.net
  * 
  * 
  * @author Kimberly Begley
@@ -41,7 +60,10 @@ public class UpdateDownloader extends SwingWorker {
     private DataInputStream in;
     private static String timestampURL = "http://sbml.svn.sf.net/viewvc/*checkout*/sbml/trunk/test-suite/.cases-archive-date";
     private TestCaseUpdater tcu;
-
+    /**
+     * UpdateDownloader has one constructor
+     * @param tcu takes a TestCaseUpdater as input
+     */
     public UpdateDownloader(TestCaseUpdater tcu) {
         super();
         this.tcu = tcu;
@@ -59,6 +81,7 @@ public class UpdateDownloader extends SwingWorker {
         });
 
         try {
+            // Looks for the timestamp file in the .sbmltestrunner directory - this should have the timestamp for the latest installed version of cases
             File localtimestampfile = new File(((String) System.getProperty("user.home")) + File.separator + ".sbmltestrunner" + File.separator + "sbml-test-suite" + File.separator + "timestamp");
             BufferedReader br = new BufferedReader(new FileReader(localtimestampfile));
             localtimestamp = br.readLine();
@@ -188,7 +211,7 @@ public class UpdateDownloader extends SwingWorker {
 
                 
                 try {
-                    // unzip the file
+                    // unzip the files
                     FileInputStream newcasesfile = new FileInputStream(((String) System.getProperty("java.io.tmpdir")) + File.separator + "testoutputfile.zip");
                     ZipInputStream zipFile = new ZipInputStream(new BufferedInputStream(newcasesfile));
                     ZipEntry entry;
@@ -271,7 +294,10 @@ public class UpdateDownloader extends SwingWorker {
         return true;
 
     }
-
+    /** 
+     * reportToDialog - appends the string to the dialog
+     * @param message the string to append
+     */
     private void reportToDialog(String message) {
         final String m = message;
         SwingUtilities.invokeLater(new Runnable() {
@@ -280,7 +306,13 @@ public class UpdateDownloader extends SwingWorker {
             }
         });
     }
-
+    /**
+     * checkIfUpdateNecessary
+     * @param servertimestamp
+     * @param localtimestamp
+     * @return
+     * @throws java.lang.NumberFormatException
+     */
     private boolean checkIfUpdateNecessary(String servertimestamp, String localtimestamp) throws NumberFormatException {
 
         Calendar localdate = new GregorianCalendar();
@@ -290,7 +322,12 @@ public class UpdateDownloader extends SwingWorker {
 
         return serverdate.after(localdate);
     }
-
+    /**
+     * getReaderOnURL
+     * @param inputurl
+     * @return
+     * @throws java.io.IOException
+     */
     private BufferedReader getReaderOnURL(URL inputurl) throws IOException {
         HttpURLConnection urlConn = null;
         InputStreamReader inStream = null;
@@ -308,7 +345,12 @@ public class UpdateDownloader extends SwingWorker {
 
         return buff;
     }
-
+    /**
+     * getHttpURLConnectionFromURL
+     * @param inputurl
+     * @return
+     * @throws java.io.IOException
+     */
     private HttpURLConnection getHttpURLConnectionFromURL(URL inputurl) throws IOException {
         HttpURLConnection urlConn = null;
         URL url = inputurl;

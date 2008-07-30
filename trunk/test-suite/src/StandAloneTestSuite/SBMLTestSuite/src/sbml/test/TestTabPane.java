@@ -92,7 +92,7 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
         ButtonGroup controlButtons = new ButtonGroup();
 
     
-        JButton configureButton = new JButton(new ImageIcon(getClass().getResource("resources/config.png")));
+        JButton configureButton = new JButton(new ImageIcon(getClass().getResource("resources/configure3.png")));
 
         if (MAC_OS_X) {
             configureButton.putClientProperty("JButton.buttonType", "segmentedCapsule");
@@ -101,7 +101,7 @@ public class TestTabPane extends JPanel implements DocumentListener, ListSelecti
         }
         configureButton.setToolTipText("Configure");
 
-        configureButton.setAction(new settingsActionClass("", new ImageIcon(getClass().getResource("resources/config.png"))));
+        configureButton.setAction(new settingsActionClass("", new ImageIcon(getClass().getResource("resources/configure3.png"))));
         
         startButton = new JButton(new ImageIcon(getClass().getResource("resources/start.png")));
 
