@@ -35,7 +35,7 @@
     <listOfParameters>
       <parameter id="k1" name="k1" value="0.75"/>
       <parameter id="k2" name="k2" value="0.25"/>
-      <parameter id="p1" name="p1" value="1e-016"/>
+      <parameter id="p1" name="p1" value="0.01"/>
     </listOfParameters>
     <listOfRules>
       <rateRule metaid="rule1" variable="C">
