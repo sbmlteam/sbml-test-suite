@@ -32,7 +32,7 @@
     <listOfParameters>
       <parameter id="k1" name="k1" value="750000000000000"/>
       <parameter id="k2" name="k2" value="250000000000000"/>
-      <parameter id="p1" name="p1" value="1e-016"/>
+      <parameter id="p1" name="p1" value="0.001"/>
     </listOfParameters>
     <listOfRules>
       <rateRule metaid="rule1" variable="C">

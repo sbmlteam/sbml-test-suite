@@ -58,7 +58,7 @@ addSpecies[ S3, initialAmount -> 2.0 10^-15];
 addSpecies[ S4, initialAmount -> 1.5 10^-15];
 addParameter[ k1, value -> 0.75 10^15 ];
 addParameter[ k2, value -> 0.25 10^15 ];
-addParameter[ p1, value -> 0.1 10^-15];
+addParameter[ p1, value -> 0.001];
 addRule[ type->RateRule, variable -> C, math -> -p1 * C];
 addReaction[ S1 + S2 -> S3 + S4, reversible -> False,
 	     kineticLaw -> multiply[k1,multiply[S1,S2]] * C ];
