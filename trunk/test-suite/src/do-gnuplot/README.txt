@@ -1,16 +1,16 @@
 
 			   SBML Test Suite
-    "do-gnuplot":  a program for plotting simulation case results
+      "plotresults":  plot simulation case results using gnuplot
 
 			    Michael Hucka
 			 http://www.sbml.org/
 		     mailto:sbml-team@caltech.edu
 
-
-This is a simple pogram for plotting the results of semantic case
+This is a simple program for plotting the results of semantic case
 simulations using gnuplot.  The results are stored in comma-separated
-value ASCII files.  This script assumes gnuplot version 4.2, and 
-that gnuplot has been compiled with the --enable-datastrings option.
+value format in plain-text files.  This script assumes gnuplot version
+4.2, and that gnuplot has been compiled with the --enable-datastrings
+option.
 
 Copyright 2008 California Institute of Technology.
 
