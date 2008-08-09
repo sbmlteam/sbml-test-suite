@@ -1,7 +1,7 @@
 #!/bin/sh
 #
-# @file    do-gnuplot.sh
-# @brief   Program for plotting simulation case results using gnuplot
+# @file    plotresults.sh
+# @brief   Program for plotting SBML Test Suite case results using gnuplot
 # @author  Michael Hucka <mhucka@caltech.edu>
 # 
 # $Id$
