@@ -1,7 +1,10 @@
 
-@file    src/imported/wiky/documentation/README.txt
-@brief   Documentation for Wiky
-@author  Michael Hucka
+			Documentation for Wiky
+	      (Originally obtained from the Wiky website)
+
+			    Michael Hucka
+			 http://www.sbml.org/
+		     mailto:sbml-team@caltech.edu
 
 This directory contains copies of certain web pages for Wiky website
 as they appeared circa Feb. 2008, http://goessner.net/articles/wiky/.
@@ -17,8 +20,7 @@ Stefan Goessner.
 
 
 ----------------------------------------------------------------------
-Last Modified: $Date$
-Last Modified By: $Author$
+$Id$
 $HeadURL$
 
 The following lines are for [X]Emacs users.  Please leave in place.
