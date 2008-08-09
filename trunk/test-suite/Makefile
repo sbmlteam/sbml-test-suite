@@ -22,7 +22,8 @@
 ##------------------------------------------------------------------------- -->
 
 #
-# Generate case descriptions in HTML format.
+# Commads for generating case descriptions in HTML format.
+# Run 'make html' for regenerating HTML documentation of every test case.
 #
 
 define make_html
@@ -34,15 +35,17 @@ cases-html-files = $(addsuffix .html,$(basename $(cases-m-files)))
 
 to_make_html     = $(addprefix make-,$(cases-html-files))
 
-# 'make html' for generating HTML documentation of each test case
-
 html: $(to_make_html)
 
 $(to_make_html):
 	$(call make_html,$(subst make-,,$@))
 
+#
 # 'make cases-dist' for generating the zip archive of just the test
-# cases, for update distributions by the test runner.
+# cases, for update distributions by the test runner.   The file
+# ".zipexcludes" in this directory contains a list of files to be
+# excluded from the zip archive created.
+#
 
 today    = $(shell date +"%F")
 ts-file  = .cases-archive-date
@@ -51,10 +54,11 @@ contents = cases/semantic \
            COPYING.txt    \
            LICENSE.txt
 
-cases-dist: 
+cases-dist: html
 	zip -r sbml-test-cases-$(today).zip $(contents) -x@.zipexcludes
 	rm -f $(ts-file)
 	@echo $(today) > $(ts-file)
 	@echo "---------------------------------------------------------------"
+	@echo "Next: upload zip file to SourceForge as updated test cases dist."
 	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
 	@echo "---------------------------------------------------------------"
