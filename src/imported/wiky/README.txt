@@ -1,7 +1,9 @@
 
-@file    src/imported/wiky/README.txt
-@brief   Explanation of this directory's purpose
-@author  Michael Hucka
+	       Explanation of this directory's purpose
+
+			    Michael Hucka
+			 http://www.sbml.org/
+		     mailto:sbml-team@caltech.edu
 
 This directory contains a version of the Wiky program available from
 http://goessner.net/articles/wiky/.  Wiky was written by Stefan
@@ -29,8 +31,7 @@ at http://creativecommons.org/licenses/LGPL/2.1/
 
 
 ----------------------------------------------------------------------
-Last Modified: $Date$
-Last Modified By: $Author$
+$Id$
 $HeadURL$
 
 The following lines are for [X]Emacs users.  Please leave in place.
