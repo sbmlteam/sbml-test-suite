@@ -17,8 +17,6 @@ The usage for the program is described at the beginning of the file
 desc2html.sh.
 
 Copyright 2008      California Institute of Technology.
-Copyright 2004-2007 California Institute of Technology (USA) and
-                    University of Hertfordshire (UK).
 
 The SBML Test Suite is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public License as
