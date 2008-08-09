@@ -1,6 +1,9 @@
-@file    src/imported/rhino/README.txt
-@brief   Explanation of this directory's purpose
-@author  Michael Hucka
+
+	       Explanation of this directory's purpose
+
+			    Michael Hucka
+			 http://www.sbml.org/
+		     mailto:sbml-team@caltech.edu
 
 This directory contains the unmodified Rhino version 1.6 R7
 distribution.  Rhino is an implementation of a JavaScript interpreter
@@ -23,8 +26,7 @@ at http://www.mozilla.org/MPL/MPL-1.1.html
 
 
 ----------------------------------------------------------------------
-Last Modified: $Date$
-Last Modified By: $Author$
+$Id$
 $HeadURL$
 
 The following lines are for [X]Emacs users.  Please leave in place.
