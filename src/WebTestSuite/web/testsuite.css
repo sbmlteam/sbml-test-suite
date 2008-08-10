@@ -1,0 +1,15 @@
+table.borderless-table {  
+  font-size: 9pt;
+}
+
+table.borderless-table td,
+table.borderless-table tr {  
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+}
+
+/* I don't understand why this is needed. -- MH */
+#searchbox input { 
+  height: 19px;
+}
