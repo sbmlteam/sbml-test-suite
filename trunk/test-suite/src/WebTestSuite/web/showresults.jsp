@@ -1,235 +1,202 @@
+<%-- 
+ * @file    showresults.jsp
+ * @brief   Display a summary map of the user's test results
+ * @author  Kimberly Begley
+ * @date    Created Jul 30, 2008, 9:25:21 AM
+ *
+ * $Id$
+ * $HeadURL$
+ * ----------------------------------------------------------------------------
+ * This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
+ * more information about SBML, and the latest version of the SBML Test Suite.
+ *
+ * Copyright 2008      California Institute of Technology.
+ * Copyright 2004-2007 California Institute of Technology (USA) and
+ *                     University of Hertfordshire (UK).
+ * 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation.  A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available at http://sbml.org/Software/SBML_Test_Suite/License
+ * ----------------------------------------------------------------------------
+--%>
+
 <%@ page import="java.util.*" %>
+<%@ page import="java.text.*" %>
 <%@ page import="java.lang.*" %>
 <%@ page import="sbml.test.sbmlTestselection" %>
 <%@ page import="sbml.test.TestResultDetails" %>
 <%@ page import="sbml.test.sbmlTestcase" %>
 <%@ page import="java.io.*" %>
+
+<%
+Vector results = (Vector)request.getAttribute("tests");
+%>
+<%! 	TestResultDetails test;
+	String name;
+	String plot;
+	String html;
+	String description;
+	String warnings;
+	int result;
+	int fail_count;
+	int abort_count;
+	int pass_count;
+	int totalpoints;
+	Vector<String> ctags;
+	Vector<String> ttags;
+	String[] totals = new String[3];
+	Vector<String> failures = new Vector<String>();
+	Vector<String> skips = new Vector<String>();
 	
-	<%
-	Vector results = (Vector)request.getAttribute("tests");
-	%>
-	<%! 	TestResultDetails test;
-		String name;
-		String plot;
-		String html;
-		String description;
-		String warnings;
-		int result;
-		int fail_count;
-		int abort_count;
-		int pass_count;
-		int totalpoints;
-		Vector<String> ctags;
-		Vector<String> ttags;
-		String[] totals = new String[3];
-		Vector<String> failures = new Vector<String>();
-		Vector<String> skips = new Vector<String>();
-		
-		Map<String, Integer> cmap = new HashMap<String, Integer>();
-		Map<String, Integer> tmap = new HashMap<String, Integer>();
-		
-	%>
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" >
-<head>
-	<base href="http://localhost:8080/test_suite/web/">
-	<title>Software/SBMLTestSuite - SBML.org</title>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="Software/SBMLToolbox,Software/SBMLToolbox/SBMLToolbox License,Software/SBMLToolbox/SBMLToolbox Screenshots,Software/libSBML" />
-	<link rel="shortcut icon" href="skins/common/images/favicon.ico" />
-	<link rel="search" type="application/opensearchdescription+xml" href="opensearch_desc.php" title="SBML.org (English)" />
-	<link rel='stylesheet' type='text/css' media='print' href='skins/common/wikiprintable.css?97' />                   
-		<script type= "text/javascript">/*<![CDATA[*/
-			var skin = "SBML";
-			var stylepath = "skins";
-			var wgArticlePath = "/$1";
-			var wgScriptPath = "/index/";
-			var wgScript = "index.php";
-			var wgServer = "http://sbml.org";
-			var wgCanonicalNamespace = "";
-			var wgCanonicalSpecialPageName = false;
-			var wgNamespaceNumber = 0;
-			var wgPageName = "Software/SBMLToolbox";
-			var wgTitle = "Software/SBMLToolbox";
-			var wgAction = "view";
-			var wgRestrictionEdit = [];
-			var wgRestrictionMove = [];
-			var wgArticleId = "317";
-			var wgIsArticle = true;
-			var wgUserName = null;
-			var wgUserGroups = null;
-			var wgUserLanguage = "en";
-			var wgContentLanguage = "en";
-			var wgBreakFrames = false;
-			var wgCurRevisionId = "2013";  
-		/*]]>*/</script>
-		<script type="text/javascript" src="skins/common/wikibits.js?97"></script>
-
-		<script type="text/javascript" src="skins/common/Common.js"></script>
-		<script type="text/javascript" src="skins/SBML/corner/corner.js"></script>
-		<script type="text/javascript" src="skins/SBML/rounded_corners_lite.inc.js"></script>
-		<script type="text/javascript" src="skins/SBML/SBML.js"></script>                                 
-		<!--[if IE 7]><link rel="stylesheet" type="text/css" href="skins/SBML/IE70Fixes.css" /><![endif]-->
-	<style type='text/css'>
-		/*/*/ /*<![CDATA[*/
-		@import "skins/common/oldshared.css?97";
-		@import "skins/SBML/sbml.css?97";
-
-		/*]]>*/ /* */
-	</style>    
-	</head>         
-
-<body bgcolor='#FFFFFF' class='ns-0 ltr page-Software_SBMLToolbox'>
-
-	<div id='background'>
-		<div id='topbar' class='iradius12'>
-			<a name='top' href='/Main_Page'><img class='corner iradius12' src='skins/SBML/banner-3.jpg'></a>
-		</div>                                                                                   
-		<div id='navbar'>
-			<table class='top' cellspacing='0' cellpadding='0'>
-				<tr>
-					<td class='navbar' valign='middle'>
-						<div id='navbartext'><ul>
-							<li><a href='/' title='SBML.org Home Page'><img src='skins/SBML/icon-sbml.png' align='middle' alt='SBML.org Home Page' border='0'/></a></li>
-							<li><a href="/News" title="News">News</a></li>
-							<li><a href="/Documents" title="Documents">Documents</a></li>
-							<li><a href="/Downloads" title="Downloads">Downloads</a></li>
-							<li><a href='/Forums' title='Forums'>Forums</a></li>
-							<li><a href="/Facilities" title="Facilities">Facilities</a></li>
-
-							<li><a href="/Community" title="Community">Community</a></li>
-							<li><a href="/Events" title="Events">Events</a></li>
-							<li><a href="/SBML.org:About" title="SBML.org:About">About</a></li>
-							<li><a href='/index.php?title=News&action=feed' title='RSS Feed'><img src='skins/SBML/icon-rss.gif' width='13' height='13' align='top' alt='RSS Feed' border='0'/></a></li>
-							</ul>   
-						</div><!-- id='navbartext' --> 
-						<div id='searchbox'><img src='skins/SBML/osx-searchbox/srch_l.gif' /><form class="searchform" method="get" action="/Special:Search"><input class='srch_fld' placeholder='Search...' autosave='applestyle_srch' results='5' onkeyup="applesearch.onChange('srch_fld','srch_clear')" name='search' /></form><img src='skins/SBML/osx-searchbox/srch_r.gif' /></div><!-- id='searchbox' -->
-					</td> 
-				</tr>      
-			</table> 
-		</div><!-- id='navbar' -->
-		<div id='content' class='rounded12'>
-			<div id='breadcrumbs'>
-				<span class='breadcrumbs'>Parent pages: <a href='http://sbml.org'>SBML.org</a>&nbsp;/&nbsp;<a href="/Software" title="Software">Software</a></span>
-
-			</div><!-- id='breadcrumbs' --> 
-			<div id='article'>
-				<div id='pagetitle'>
-					<h1 class='pagetitle'>SBML TEST SUITE RESULTS</h1>
-				</div><!-- id='pagetitle' -->
+	Map<String, Integer> cmap = new HashMap<String, Integer>();
+	Map<String, Integer> tmap = new HashMap<String, Integer>();
 	
-	<form name="resultreport" action="report.jsp" method=post>		
-	<TABLE BORDER="0" CELLSPACING="0" WIDTH="80%" ALIGN="center">
-	<TR>
-	<%-- For each test in the test vector - get the testname, description, plot path, result --%>
-		<%-- implement a counter and when counter mod 50 = 0 start a new row --%>
-		
-	<%
-		fail_count=0;
-		abort_count=0;
-		pass_count=0;
-		cmap.clear();
-		tmap.clear();
-		
-		for(int i=0;i<results.size() ; i++) {	
-		  if(i % 50==0) {
-			// start a new row
-			out.println("</TR>");
-			out.println("<TR>");
-		  }
-		
-			test = (TestResultDetails)results.elementAt(i);
-			name = test.getTestname();
-			plot = test.getPlot();
-			html = test.getHtml();
-			description = test.getDescription();
-			result = test.getResult();
-			warnings = test.getWarnings();
-			ctags = test.getCtags();
-			ttags = test.getTtags();
-			totalpoints = test.getTotalpoints();
+	SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy 'at' KK:mm a (z)");
+	String now = sdf.format(new Date());
+%>
 
-			
-		  	String s = "";
-			for(int j=0;j<ctags.size();j++) {	
-				s= s + ctags.elementAt(j) + ", ";
-		  	}
-		  	String t = "";
-			for(int k=0;k<ttags.size();k++) {	
-				t= t + ttags.elementAt(k) + ", ";
-			}	
+<%@ include file="sbml-head.html"%>
+<%@ include file="sbml-top.html"%>
+
+<div id='pagetitle'><h1 class='pagetitle'>Outcome of tests</h1>
+</div><!-- id='pagetitle' -->
+<div style="float: right; margin-top: 0; padding: 0 0 0 5px">
+  <img src="/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
+</div>
+
+<p> The archive of test results was successfully uploaded and analyzed on
+<%= now.toCharArray() %>.
+</p>
+
+<p>
+The following map summaries the outcome of comparing each uploaded test case
+result to the expected results for that particular test case.  A <b><font
+color="green">green</font></b> icon indicates it passed, a <b><font
+color="darkred">red</font></b> icon indicates it failed, a <b><font
+color="black">black</font></b> icon indicates a test was skipped, and a
+<b><font color="#555">gray</font></b> icon is a space filler.
+</p>
+
+<p> You may click on any of the green, red or black icons in the map to see
+details about the specific test case involved.  The information will be
+presented in a new window.
+</p>
+	
+<div style="margin: 2em 3em 2em 3em">
+<form name="resultreport" action="http://sbml.org:8080/test_suite/web/report.jsp" method=post>
+<TABLE class="borderless-table" CELLSPACING="0" WIDTH="90%" ALIGN="center">
+<TR>
+<%-- For each test in the test vector - get the testname, description, plot path, result --%>
+	<%-- implement a counter and when counter mod 45 = 0 start a new row --%>
+	
+<%
+	fail_count=0;
+	abort_count=0;
+	pass_count=0;
+	cmap.clear();
+	tmap.clear();
+	failures.clear();
+	skips.clear();
+	
+	for(int i=0;i<results.size() ; i++) {	
+	  if(i % 45 ==0) {
+		// start a new row
+		out.println("</TR>");
+		out.println("<TR>");
+	  }
+	
+		test = (TestResultDetails)results.elementAt(i);
+		name = test.getTestname();
+		plot = test.getPlot();
+		html = test.getHtml();
+		description = test.getDescription();
+		result = test.getResult();
+		warnings = test.getWarnings();
+		ctags = test.getCtags();
+		ttags = test.getTtags();
+		totalpoints = test.getTotalpoints();
+
 		
-			if(result>0) {	
-				for(int j=0;j<ctags.size();j++) {
-					if(cmap.containsKey(ctags.elementAt(j))){
-						cmap.put(ctags.elementAt(j),(cmap.get(ctags.elementAt(j))+1));
-					}
-					else{
-						cmap.put((ctags.elementAt(j)),1);
-					}
+	  	String s = "";
+		for(int j=0;j<ctags.size();j++) {	
+			s= s + ctags.elementAt(j) + ", ";
+	  	}
+	  	String t = "";
+		for(int k=0;k<ttags.size();k++) {	
+			t= t + ttags.elementAt(k) + ", ";
+		}	
+	
+		if(result>0) {	
+			for(int j=0;j<ctags.size();j++) {
+				if(cmap.containsKey(ctags.elementAt(j))){
+					cmap.put(ctags.elementAt(j),(cmap.get(ctags.elementAt(j))+1));
 				}
-				for(int l=0;l<ttags.size();l++) {
-					if(tmap.containsKey(ttags.elementAt(l))){
-						tmap.put(ttags.elementAt(l),(tmap.get(ttags.elementAt(l))+1));
-					}
-					else{
-						tmap.put((ttags.elementAt(l)),1);
-					}			
-				} 
-				out.println("<TD>");
-				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description  + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
-				out.println("<IMG SRC=\"/test_suite/web/images/red.jpg\"  border=\"0\"/>");
-				out.println("</a>");
-				out.println("</TD>");
-				fail_count++;
-				failures.addElement(name +"," + description + "," + result + "," +totalpoints);
-				
-			}	
-			if(result == 0) {			
-		
-				out.println("<TD>");
-				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
-				out.println("<IMG SRC=\"/test_suite/web/images/green.jpg\" border=\"0\"/>");
-				out.println("</a>");
-				out.println("</TD>");
-				pass_count++;
+				else{
+					cmap.put((ctags.elementAt(j)),1);
+				}
 			}
-			if(result == -1) {			
-		
-				out.println("<TD>");
-				out.println("<a href=\"/test_suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
-				out.println("<IMG SRC=\"/test_suite/web/images/black.jpg\" border=\"0\"/>");
-				out.println("</a>");
-				out.println("</TD>");
-				abort_count++;
-				skips.addElement(name + "?" + description + "?" + warnings);
-				
-			}		
-	     } // end of for loop
-	     // if size of vector is not equally dividable by 30  - fill in in the remaining table with grey squares
-	     
-	     
-		for(int m = results.size()%50; m<50; m++) {
-				
+			for(int l=0;l<ttags.size();l++) {
+				if(tmap.containsKey(ttags.elementAt(l))){
+					tmap.put(ttags.elementAt(l),(tmap.get(ttags.elementAt(l))+1));
+				}
+				else{
+					tmap.put((ttags.elementAt(l)),1);
+				}			
+			} 
 			out.println("<TD>");
-			out.println("<IMG SRC=\"/test_suite/web/images/grey.jpg\" border=\"0\"/>");
+			out.println("<a title=" + name + " href=\"/test-suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description  + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
+			out.println("<IMG SRC=\"/test-suite/web/images/red.jpg\"  border=\"0\"/>");
+			out.println("</a>");
 			out.println("</TD>");
-	     }	
-
+			fail_count++;
+			failures.addElement(name +"," + description + "," + result + "," +totalpoints);
+			
+		}	
+		if(result == 0) {			
 	
+			out.println("<TD>");
+			out.println("<a title=" +name +" href=\"/test-suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
+			out.println("<IMG SRC=\"/test-suite/web/images/green.jpg\" border=\"0\"/>");
+			out.println("</a>");
+			out.println("</TD>");
+			pass_count++;
+		}
+		if(result == -1) {			
+	
+			out.println("<TD>");
+			out.println("<a title=" +name +" href=\"/test-suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
+			out.println("<IMG SRC=\"/test-suite/web/images/black.jpg\" border=\"0\"/>");
+			out.println("</a>");
+			out.println("</TD>");
+			abort_count++;
+			skips.addElement(name + "?" + description + "?" + warnings);
+			
+		}		
+     } // end of for loop
+     // if size of vector is not equally dividable by 45  - fill in in the remaining table with grey squares
+     
+     
+	for(int m = results.size()%45; m<45; m++) {
+			
+		out.println("<TD BGCOLOR=\"white\">");
+	//	out.println("<IMG SRC=\"/test-suite/web/images/grey.jpg\" border=\"0\"/>");
+		
+		out.println("</TD>");
+     }	
+%>	
+</TR>
+</TABLE> 
 
-	%>	
-	</TR>
-	</TABLE> 
-	<BR>
-	<BR>
-	Number of tests taken  : <%=results.size()%><BR>
-	<IMG SRC="/test_suite/web/images/green.jpg" border="0"/>Number of test passed  : <%=pass_count%><BR>
-	<IMG SRC="/test_suite/web/images/red.jpg"  border="0"/>Number of tests failed : <%=fail_count%><BR>
-	<IMG SRC="/test_suite/web/images/black.jpg" border="0"/>Number of tests skipped: <%=abort_count%><BR>
+<p style="margin-top: 2em">
+	Total number of test cases analyzed: <b><%=results.size()%></b>
+</p>
+<p>
+	<IMG SRC="/test-suite/web/images/green.jpg" border="0" valign="top"/> Number of test cases passed: <%=pass_count%><BR>
+	<IMG SRC="/test-suite/web/images/red.jpg"  border="0" valign="top"/> Number of test cases failed: <%=fail_count%><BR>
+	<IMG SRC="/test-suite/web/images/black.jpg" border="0" valign="top"/> Number of test cases skipped: <%=abort_count%><BR>
+
 <%	if(fail_count>0){
 %>	
 	<BR>
@@ -240,8 +207,6 @@
 	
 	while(setIter.hasNext()) {
 		out.println(setIter.next()+ "<BR>");
-		
-		
 	}
 
 %>	<BR>
@@ -252,61 +217,47 @@
 		out.println(tsetIter.next() + "<BR>");
 	}
 	}
-%>	<BR>
+%>
 <%
 
 	totals[0] = (String.valueOf(pass_count));
 	totals[1] = (String.valueOf(fail_count));
 	totals[2] = (String.valueOf(abort_count));
 
-	
-	session.putValue("totals",totals);
-	session.putValue("failures",failures);
-	session.putValue("skips",skips);
-	
+	session.setAttribute("totals",totals);
+	session.setAttribute("failures",failures);
+	session.setAttribute("skips",skips);
+
 %>	
-	 <input type="submit" value="View Report">
-	</form>
-				</div><!-- id='article' --> 
-			<br clear='all' />
-			
-			<div id='footer'>
-				<div id='bottomlinks' class='rounded6'>
-					<a href="index.php?title=Software/SBMLToolbox&amp;action=history" title="Software/SBMLToolbox">History</a>&nbsp;&nbsp;&#124;&nbsp;&nbsp;<a href="index.php?title=Special:Userlogin&amp;returnto=Software/SBMLToolbox" title="Special:Userlogin">Log in</a>
-				</div><!-- id='bottomlinks' -->
-	 			<br clear='all' />
-					<div id='pagestats'>
-				 		This page was last modified 01:06, 27 February 2008. 
-					</div><!-- id='pagestats' -->                            
-	 		</div><!-- id='footer' --> 
-		</div><!-- id='content' --> 
-		
-		<div id='siteAttribution'>
-			Please contact <email><b>sbml-team@sbml.org</b></email> with any questions or suggestions about this website.
-		</div><!-- id='siteAttribution' -->  
-		<div id='flashyicons'>
-			<table class='icons'>
-			   	<tr>
-					<td class='icon'>
-						<a class='mediawiki-icon' href='http://www.mediawiki.org' title='Powered by MediaWiki'>&nbsp;</a>
-					</td><td class='icon'>
-						<a class='php-icon' href='http://www.php.net' title='Powered by PHP'>&nbsp;</a>
-					</td><td class='icon'>
-						<a class='gnu-icon' href='http://www.gnu.org' title='Powered by GNU'>&nbsp;</a>
 
-					</td><td class='icon'>
-						<a class='linux-icon' href='http://www.linux.org' title='Powered by Linux'>&nbsp;</a>
-					</td><td class='icon'>
-						<a class='osi-icon' href='http://opensource.org' title='Open Source'>&nbsp;</a>
-					</td><td class='icon'>
-						<a class='rss-icon' href='/index.php?title=News&action=feed' title='RSS Feed'>&nbsp;</a>
-					</td>   
-				</tr>
-			</table>   
-		</div><!-- id='flashyicons' -->
-	</div><!-- id='background' -->
+<%-- <form name="resultreport" action=<%=response.encodeURL("http://sbml.org/test-suite/web/report.jsp")%> method=post>
+--%>
+<input type="submit" value="View Report"> (The report summarizes the results in a more convenient format for printing.) 
+</form>
+</div>
 
-			<script type="text/javascript">if (window.runOnloadHook) runOnloadHook();</script>
+<p> This concludes the test run.  To upload another set of results without
+selecting and downloading a different set of test cases, please return to the
+upload page, select another zip archive on your computer, and upload it.
+<p>
 
-	</body>
-</html>
+<center style="margin:1em">
+  <a href="/test-suite/web/uploadresults.jsp">
+    <img border="0" align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
+    Return to the test results upload page.
+  </a>
+</center>
+
+<p> To start over afresh, please return to the front page of the Online SBML
+Test Suite.
+</p>
+
+<center style="margin:1em">
+  <a href="/Facilities/Online_SBML_Test_Suite">
+    <img border="0" align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
+    Return to the front page for the Online SBML Test Suite.
+  </a>
+</center>
+
+
+<%@ include file="sbml-bottom.html"%>
