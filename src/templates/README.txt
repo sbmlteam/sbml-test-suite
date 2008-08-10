@@ -23,9 +23,9 @@ agreement is provided in the file named "LICENSE.txt" included with
 this software distribution and also available at
 http://sbml.org/Software/SBML_Test_Suite/license.html
 ---------------------------------------------------------------------
-Last Modified: $Date$
-Last Modified By: $Author$
-$HeadURL$
+Last Modified: $Date: 2008-08-09 09:57:13 -0700 (Sat, 09 Aug 2008) $
+Last Modified By: $Author: mhucka $
+$HeadURL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/test-suite/src/templates/README.txt $
 
 The following lines are for [X]Emacs users.  Please leave in place.
 Local Variables:

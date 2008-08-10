@@ -3,8 +3,8 @@
  * @brief   
  * @author  
  *
- * $Id$
- * $HeadURL$
+ * $Id: javascript.txt 7836 2008-08-09 16:57:13Z mhucka $
+ * $HeadURL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/test-suite/src/templates/javascript.txt $
  *
  *<!---------------------------------------------------------------------------
  * This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
