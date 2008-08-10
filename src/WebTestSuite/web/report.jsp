@@ -1,8 +1,25 @@
 <%-- 
-    Document   : process.jsp
-    Created on : Feb 27, 2008, 9:25:21 AM
-    Author     : Kimberly Begley
-    Description: JSP file to take user selections from html form.
+ * @file    report.jsp
+ * @brief   Produce a report page summarizing the user's test results.
+ * @author  Kimberly Begley
+ * @date    Created Feb 27, 2008, 9:25:21 AM
+ *
+ * $Id$
+ * $HeadURL$
+ * ----------------------------------------------------------------------------
+ * This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
+ * more information about SBML, and the latest version of the SBML Test Suite.
+ *
+ * Copyright 2008      California Institute of Technology.
+ * Copyright 2004-2007 California Institute of Technology (USA) and
+ *                     University of Hertfordshire (UK).
+ * 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation.  A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available at http://sbml.org/Software/SBML_Test_Suite/License
+ * ----------------------------------------------------------------------------
 --%>
 
 <%@ page import="java.util.*" %>
@@ -16,37 +33,28 @@
 <%@ page import="javax.servlet.http.*"%>
 <%@ page import="javax.swing.*" %>
 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<head>
+<base href="http://sbml.org">
+<link rel="Stylesheet" href="/skins/SBML/sbml.css">
+<style type='text/css'><!--
+body { background: #ffffff; }
+--></style>
+</head>
 
 <%
 
-        String[] totals = (String[]) session.getValue("totals");
-	Vector<String> failures = (Vector<String>) session.getValue("failures");
-	Vector<String> skips = (Vector<String>) session.getValue("skips");
 
-    
-%>
+	String[] totals = (String[])session.getAttribute("totals");
+	Vector<String> failures = (Vector<String>)session.getAttribute("failures");
+	Vector<String> skips = (Vector<String>)session.getAttribute("skips");
 
-<%
+
 	Iterator it = failures.iterator(); 
-	
-
 	Iterator is = skips.iterator(); 
-	
-	
+
 %>
-    
 
-    
-    
-    
-
-
-<html>
-   <head>
-       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-       <title>SBML Test Suite Results Report Page</title>
-   </head>
-   <body>
 	SBML Test Suite Report <BR>
 	<BR>
 <%
@@ -59,7 +67,7 @@
 	<BR>
 	<BR>
 	Failed Cases Detailed<BR>
-	<TABLE border="1">
+	<TABLE border="1" class="sm-padding">
 	<TR><TH>Case<TH>Synopsis<TH>Failed points count<TH>Total points</TR>
 <%
 	while(it.hasNext()) {
@@ -72,7 +80,7 @@
 <BR>
 	<BR>
 	Skipped Cases Detailed<BR>
-	<TABLE border="1">
+	<TABLE border="1" class="sm-padding">
 	<TR><TH>Case<TH>Synopsis<TH>Warnings</TR>
 <%	while(is.hasNext()) {
 		String skipped = (String)is.next();
@@ -83,7 +91,5 @@
 %>
 	</TABLE>
 	
-   </body>
-</html>
 
 

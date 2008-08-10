@@ -1,8 +1,25 @@
 <%-- 
-    Document   : process.jsp
-    Created on : Feb 27, 2008, 9:25:21 AM
-    Author     : Kimberly Begley
-    Description: JSP file to take user selections from html form.
+ * @file    process.jsp
+ * @brief   JSP file to process user's test results.
+ * @author  Kimberly Begley
+ * @date    Created Feb 27, 2008, 9:25:21 AM
+ *
+ * $Id$
+ * $HeadURL$
+ * ----------------------------------------------------------------------------
+ * This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
+ * more information about SBML, and the latest version of the SBML Test Suite.
+ *
+ * Copyright 2008      California Institute of Technology.
+ * Copyright 2004-2007 California Institute of Technology (USA) and
+ *                     University of Hertfordshire (UK).
+ * 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation.  A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available at http://sbml.org/Software/SBML_Test_Suite/License
+ * ----------------------------------------------------------------------------
 --%>
 
 <%@ page import="java.util.*" %>
@@ -15,6 +32,8 @@
 <%@ page import="javax.servlet.*" %>
 <%@ page import="javax.servlet.http.*"%>
 <%@ page import="javax.swing.*" %>
+
+<%@ include file="sbml-head.html"%>
 
 <jsp:useBean id="formHandler" class="sbml.test.FormBean" scope="request">
     <jsp:setProperty name="formHandler" property="*"/>
@@ -75,20 +94,19 @@
 	String tcase = new String(); 
 	String tmodelfile = new String();
 	Vector<String> selected_cases = new Vector<String>();
-	
 	for(int i=0;i<testdir_listing.length;i++) {	
   		tcase = testdir_listing[i];
 		
 		// check here that the test name conforms
-		//Pattern p = Pattern.compile("\\d{5}+\\$");
-		//Matcher matcher = p.matcher(tcase);
-		//if(matcher.find()) {
-			//out.println("matched the pattern");
+		Pattern p = Pattern.compile("\\d{5}$");
+		Matcher matcher = p.matcher(tcase);
+		if(matcher.find()) {
 			tmodelfile = t1.getModelFile(tcase,testdir);
 			t1.readModelFile(tmodelfile);
-			int itsout = 0;
-			if(t1.containsTesttype(testtype[0]) && t1.containsLevel(level[0])) {
 			
+			int itsout = 0;
+	//		if(t1.containsTesttype(testtype[0]) && t1.containsLevel(level[0])) {
+			if(t1.containsLevel(level[0])) {
 				for(int j=0;j<ctags.length;j++) {
 					if(t1.containsComponent(ctags[j])) {
 					itsout++;
@@ -106,29 +124,34 @@
 			
 
 			} // end of if
-		//}
+		}
 	}
 
 
 	session.putValue("path",f);
 	session.putValue("tcases",selected_cases);
-	response.setHeader("Refresh", "1; URL=/test_suite/servlet/ZipServlet");
-
-
-		
+	response.setHeader("Refresh", "1; URL=http://sbml.org:8080/test_suite/servlet/ZipServlet");
+//	response.setHeader("Refresh", "1; URL=/test_suite/servlet/ZipServlet");		
 %>
-<html>
-   <head>
-       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-       <title>JSP Page</title>
-   </head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<head>
+<base href="http://sbml.org">
+<link rel="Stylesheet" href="/skins/SBML/sbml.css">
+<style type='text/css'><!--
+body { background: #ffffff; }
+--></style>
+</head>
+
    <body>
-<%
- out.println(testdir+"<br>");
- out.println(selected_cases.toString());
+<p>
 
- %>
-   </body>
-</html>
-
+<center style="margin: 1.5em">
+  <a href="/Software/SBML_Test_Suite/Step_2:_Running_the_tests">
+    <img border="0" align="center" src="/images/e/ec/Icon-red-right-arrow.jpg">
+    Go to the instructions for Step 2 (running the tests).
+  </a>
+</center>
+</p>
+</body>
+<%@ include file="sbml-bottom.html"%>
 
