@@ -34,10 +34,10 @@ ZeroRate
 NonUnityStoichiometry
 StoichiometryMath
 LocalParameters
-Delay
+Delay - removed this as a tag as this is covered by EventWithDelay and CSymbolDelay 
 CSymbolDelay
 CSymbolTime
 MassUnits
 Units
-MathML
-Discontinuity
+MathML - removed this as a tag as it isnt really a test case on its own
+Discontinuity - removed this as a tag as it ties in with events anyway
