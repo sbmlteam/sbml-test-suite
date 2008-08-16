@@ -43,7 +43,8 @@ body { background: #ffffff; }
 </head>
 
 <%
-
+// This file writes a summary of the skipped and failed cases during a test suitable for printing.
+// Get the session values from the previous page showresults.jsp
 
 	String[] totals = (String[])session.getAttribute("totals");
 	Vector<String> failures = (Vector<String>)session.getAttribute("failures");
