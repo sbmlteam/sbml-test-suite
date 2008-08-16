@@ -1,13 +1,30 @@
+
+// 
+// @file    UploadUnzipoTest.java
+// @brief   Called to upload a zip file , unzip the contents and test the uploaded data.
+// @author  Kimberly Begley
+// @date    Created Jul 30, 2008, 9:25:21 AM
 //
 //
-// UploadUnzipTest.java
-// Created by Kimberly Begley
+//----------------------------------------------------------------------------
+//This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
+//more information about SBML, and the latest version of the SBML Test Suite.
+//
+// Copyright 2008      California Institute of Technology.
+// Copyright 2004-2007 California Institute of Technology (USA) and
+//                     University of Hertfordshire (UK).
+// 
+// This library is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation.  A copy of the license agreement is provided
+// in the file named "LICENSE.txt" included with this software distribution
+// and also available at http://sbml.org/Software/SBML_Test_Suite/License
+// ----------------------------------------------------------------------------
+//
 // This is the main servlet file in the web application. It is called by the web form when a user uploads
 // a zip file to the server. It performs the upload, unzips the file, writes the files to a temporary folder,
 // analyzes the results and places the test-suite details in a vector of TestResultDetails and calls a jsp
 // to display the results.
-// Changing every day as well.
-//
 
 
 

@@ -47,27 +47,21 @@
      
      String testdir;
      String testdir_listing [];
-     String test;
-     
-     
+     String test;   
 %>
 
 <%
+    // Get the input from the test selections form
     level = formHandler.getLevels();
     testtype = formHandler.getTesttype();
     ctags = formHandler.getCtags();
     ttags = formHandler.getTtags();
 
-    
     sbmlTestselection t1 = new sbmlTestselection();
-    
-
 %>
 
-
-
 <%  	String testdir = new String();
-	    
+	// Get the local directory for the test cases from the configuration file    
 	ServletContext context = getServletContext();
 	InputStream is = context.getResourceAsStream("/WEB-INF/classes/sbml_config_file.txt");
 	try{
@@ -94,6 +88,7 @@
 	String tcase = new String(); 
 	String tmodelfile = new String();
 	Vector<String> selected_cases = new Vector<String>();
+       // for each test case check if it should be included in the download for the user
 	for(int i=0;i<testdir_listing.length;i++) {	
   		tcase = testdir_listing[i];
 		
@@ -106,6 +101,7 @@
 			
 			int itsout = 0;
 	//		if(t1.containsTesttype(testtype[0]) && t1.containsLevel(level[0])) {
+			// Check the test is of the right level specification
 			if(t1.containsLevel(level[0])) {
 				for(int j=0;j<ctags.length;j++) {
 					if(t1.containsComponent(ctags[j])) {
@@ -117,6 +113,7 @@
 					itsout++;
 					}
 				}
+				// if it hasn't been eliminated add it to the vector of cases to download
 				if(itsout==0) {
 					selected_cases.addElement(tcase);
 					
@@ -127,7 +124,7 @@
 		}
 	}
 
-
+	// add the variables to pass along to the next page - zipservlet
 	session.putValue("path",f);
 	session.putValue("tcases",selected_cases);
 	response.setHeader("Refresh", "1; URL=http://sbml.org:8080/test_suite/servlet/ZipServlet");

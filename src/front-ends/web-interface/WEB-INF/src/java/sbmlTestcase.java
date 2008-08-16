@@ -1,16 +1,32 @@
+// 
+// @file    sbmlTestcase.java
+// @brief   Main class of the application - contains methods to get test case information, read input data, compare and analyze results.
+// @author  Kimberly Begley
+// @date    Created Jul 30, 2008, 9:25:21 AM
 //
-//  sbmlTestcase.java
-//  
 //
-//  Created by Kimberly Begley 
+//----------------------------------------------------------------------------
+//This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
+//more information about SBML, and the latest version of the SBML Test Suite.
+//
+// Copyright 2008      California Institute of Technology.
+// Copyright 2004-2007 California Institute of Technology (USA) and
+//                     University of Hertfordshire (UK).
+// 
+// This library is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation.  A copy of the license agreement is provided
+// in the file named "LICENSE.txt" included with this software distribution
+// and also available at http://sbml.org/Software/SBML_Test_Suite/License
+// ----------------------------------------------------------------------------
+//
+
 //  Main class for all applications - contains a constructor with testname,start,duration,steps,number of variables
 //  absolute allowable difference and relative allowable difference regarding a test.
 //  Contains methods: getStart,getTestname,getDuration,getSteps,getVariables_count,getAbs,getRel,getSbmlTestdir,
 //  getSettingsFile,getControlResults,getPlotFile,readResults,validateResults,compareResults,analyzeResults,
 //  readSettingsFile,getUsertestlist
-//  Still very much work in progress - gets updated daily - still needs alot of testing and error handling added to it
-//  Also needs to be updated soon replacing BigDecimals with Doubles.
-//
+
 package sbml.test;
 import java.io.*;
 import java.util.*;

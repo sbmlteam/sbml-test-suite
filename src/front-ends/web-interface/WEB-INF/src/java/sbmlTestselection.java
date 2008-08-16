@@ -1,14 +1,29 @@
+// 
+// @file    sbmlTestselection.java
+// @brief   Main class of the application - contains methods to get test case information from the model file - used in selecting tests.
+// @author  Kimberly Begley
+// @date    Created Jul 30, 2008, 9:25:21 AM
 //
-//  sbmlTestselection.java
-//  
 //
-//  Created by Kimberly Begley 
+//----------------------------------------------------------------------------
+//This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
+//more information about SBML, and the latest version of the SBML Test Suite.
+//
+// Copyright 2008      California Institute of Technology.
+// Copyright 2004-2007 California Institute of Technology (USA) and
+//                     University of Hertfordshire (UK).
+// 
+// This library is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation.  A copy of the license agreement is provided
+// in the file named "LICENSE.txt" included with this software distribution
+// and also available at http://sbml.org/Software/SBML_Test_Suite/License
+// ----------------------------------------------------------------------------
+//
 //  This class contains a constructor with testname,category,synopsis,a vector of componenttags, a vector of testtags
 //  testtype and a vector of levels
 //  Contains methods to getTestname,getSynopsis,getTesttags,getTesttype,getComponenttags,getLevels, getSbmltestdir,
 //  getModelfile and readModelfile
-//  Methods need to be written and added to this class to incorporate the control logic to selecting test cases.
-//  Still very much work in progress
 //
 package sbml.test;
 import java.io.*;
