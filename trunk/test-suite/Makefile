@@ -5,7 +5,7 @@
 ## $Id$
 ## $HeadURL$
 ##
-##<!---------------------------------------------------------------------------
+## ----------------------------------------------------------------------------
 ## This file is part of the SBML Test Suite.  Please visit http://sbml.org for
 ## more information about SBML, and the latest version of the SBML Test Suite.
 ## 
@@ -19,12 +19,12 @@
 ## agreement is provided in the file named "LICENSE.txt" included with
 ## this software distribution and also available at
 ## http://sbml.org/Software/SBML_Test_Suite/license.html
-##------------------------------------------------------------------------- -->
+## ----------------------------------------------------------------------------
 
-#
+# -----------------------------------------------------------------------------
 # Commads for generating case descriptions in HTML format.
+# -----------------------------------------------------------------------------
 # Run 'make html' for regenerating HTML documentation of every test case.
-#
 
 define make_html
   ./src/desc2html/desc2html.sh $(addsuffix .m,$(basename $(1))) $(1)
@@ -40,12 +40,14 @@ html: $(to_make_html)
 $(to_make_html):
 	$(call make_html,$(subst make-,,$@))
 
-#
-# 'make cases-dist' for generating the zip archive of just the test
-# cases, for update distributions by the test runner.   The file
-# ".zipexcludes" in this directory contains a list of files to be
-# excluded from the zip archive created.
-#
+
+# -----------------------------------------------------------------------------
+# Case archive, for the test runner
+# -----------------------------------------------------------------------------
+# Use 'make cases-dist' for generating the zip archive of just the test
+# cases, for update distributions by the test runner.  The file
+# ".zipexcludes" in this directory contains a list of files to be excluded
+# from the zip archive created.
 
 today    = $(shell date +"%F")
 ts-file  = .cases-archive-date
@@ -62,3 +64,34 @@ cases-dist: html
 	@echo "Next: upload zip file to SourceForge as updated test cases dist."
 	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
 	@echo "---------------------------------------------------------------"
+
+
+# -----------------------------------------------------------------------------
+# make docs
+# -----------------------------------------------------------------------------
+# This generates user & programmer documentation for the test suite.
+
+docs:; 
+ifneq "$(MAKEFLAGS)" "" 
+	$(MAKE) -w -C docs/src -$(MAKEFLAGS) $(MAKECMDGOALS) 
+else 
+	$(MAKE) -w -C docs/src $(MAKECMDGOALS) 
+endif 
+
+
+# -----------------------------------------------------------------------------
+# Common special targets
+# -----------------------------------------------------------------------------
+
+.PHONY: docs
+
+
+# ----------------------------------------------------------------------------- 
+# End. 
+# ----------------------------------------------------------------------------- 
+ 
+## The following is for [X]Emacs users.  Please leave in place. 
+## Local Variables: 
+## mode: Makefile 
+## End: 
+ 
