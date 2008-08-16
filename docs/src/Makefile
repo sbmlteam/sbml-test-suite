@@ -39,9 +39,9 @@ docs-software: docs-standalone
 sa-src-dir        = ../../src/front-ends/standalone/src
 sa-doc-output-dir = ../formatted/standalone
  
-sa-doctitle       = SBML Test Suite Standalone Application
+sa-doctitle       = SBML Test Suite<BR>Standalone Application
 sa-header         = <B>$(sa-doctitle) version $(version)<B>
-sa-footer         = `cat api/javadoc-footer.html`
+sa-footer         = `cat api/standalone-footer.html`
 sa-windowtitle    = $(sa-doctitle) Programmer's Manual
 
 docs-standalone:
@@ -50,8 +50,11 @@ docs-standalone:
 	    -bottom "$(sa-footer)" \
 	    -windowtitle "$(sa-windowtitle)" \
 	    -doctitle "$(sa-doctitle)" \
+	    -stylesheetfile api/standalone.css \
 	    -d $(sa-doc-output-dir) \
 	    -sourcepath $(sa-src-dir) sbml.test
+	cp -f api/sbml-logo-long-124x56.gif $(sa-doc-output-dir)/sbml/test
+	cp -f api/standalone.css $(sa-doc-output-dir)
 
 # ----------------------------------------------------------------------------- 
 # End. 
