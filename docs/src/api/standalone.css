@@ -1,0 +1,19 @@
+.NavBarCell1 {
+  font-family: Helvetica, Arial, Geneva, Sans, sans-serif;
+}
+
+.footer {
+  font-family: Helvetica, Arial, Geneva, Sans, sans-serif;
+  font-size: 12px;
+}
+
+TD.footer {
+  font-family: Helvetica, Arial, Geneva, Sans, sans-serif;
+  font-size: 12px;
+}
+
+.footercomment {
+  font-family: Helvetica, Arial, Geneva, Sans, sans-serif;
+  font-size: x-small;
+  font-style: italic;
+  color: #555555;
