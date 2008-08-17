@@ -206,7 +206,11 @@ public class TestRunnerView extends JFrame implements WindowListener {
      * @return returns a boolean value if user wants to quit
      */
     public boolean quit() {
-        int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to quit?", "Quit?", JOptionPane.YES_NO_OPTION);
+        ImageIcon icon = new ImageIcon(getClass().getResource("resources/question.png"));
+        int option = JOptionPane.showConfirmDialog(this, 
+                "Quit the SBML Test Suite?", "Quit?", 
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                icon);
         if (option == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
@@ -221,7 +225,13 @@ public class TestRunnerView extends JFrame implements WindowListener {
         //    aboutBox.setVisible(true);
         // Display the about box here
         ImageIcon icon = new ImageIcon(getClass().getResource("resources/SBML.png"));
-        JOptionPane.showMessageDialog(this, "<html><p>SBML Test Suite V2.0 2008</p></html>", "About SBML Test Suite", JOptionPane.PLAIN_MESSAGE, icon);
+        JOptionPane.showMessageDialog(this, 
+                "<html><p>SBML Test Suite V2.0.0a <em>Standalone Application</em><p><br>"
+                + "<p>Written by Kimberly Begley.</p><br>"
+                + "<p>For more information about the SBML Test Suite,<br>please "
+                + "visit the project website at <br><a href='http://sbml.org/Software/SBML_Test_Suite'>"
+                + "http://sbml.org/Software/SBML_Test_Suite</a>.</p><br>"
+                + "</html>", "About the SBML Test Suite", JOptionPane.PLAIN_MESSAGE, icon);
     }
     /**
      * openHelp opens the help dialog
