@@ -111,7 +111,8 @@ public class LevelSelectorPanel extends WizardPanel implements ItemListener {
         contentPanel2.add(contentPanel1, BorderLayout.WEST);
         JPanel messagePanel = new JPanel(new BorderLayout());
         messagePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
-        messagePanel.add(new JLabel("Please select the desired SBML Level:"), BorderLayout.NORTH);
+        messagePanel.add(new JLabel("Please select the SBML Level and Version " +
+                "for the tests:"), BorderLayout.NORTH);
         contentPanel2.add(messagePanel, BorderLayout.NORTH);       
     }
     
@@ -168,7 +169,7 @@ public class LevelSelectorPanel extends WizardPanel implements ItemListener {
      * @return returns the text "Select Levels"
      */
     public String getQualifiedName() {
-        return "Select Levels";
+        return "SBML Level & Version";
     }
     /**
      * getIdentifier returns the identifier for the panel
