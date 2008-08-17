@@ -40,9 +40,14 @@ sa-src-dir        = ../../src/front-ends/standalone/src
 sa-doc-output-dir = ../formatted/standalone
  
 sa-doctitle       = SBML Test Suite<BR>Standalone Application
-sa-header         = <B>$(sa-doctitle) version $(version)<B>
+sa-header         = <B>$(sa-doctitle)<BR>version $(version)<B>
 sa-footer         = `cat api/standalone-footer.html`
 sa-windowtitle    = $(sa-doctitle) Programmer's Manual
+
+define merge_html
+  cat api/standalone-top.html $(1) api/standalone-bottom.html api/standalone-footer.html \
+  | sed -e "s/%%version%%/$(version)/g" > $(2)
+endef
 
 docs-standalone:
 	javadoc -use -public -version -author -sourcetab 4 -keywords \
@@ -50,11 +55,13 @@ docs-standalone:
 	    -bottom "$(sa-footer)" \
 	    -windowtitle "$(sa-windowtitle)" \
 	    -doctitle "$(sa-doctitle)" \
+	    -overview api/standalone-fake-overview.html \
 	    -stylesheetfile api/standalone.css \
 	    -d $(sa-doc-output-dir) \
 	    -sourcepath $(sa-src-dir) sbml.test
 	cp -f api/sbml-logo-long-124x56.gif $(sa-doc-output-dir)/sbml/test
 	cp -f api/standalone.css $(sa-doc-output-dir)
+	$(call merge_html,api/standalone-overview.html,$(sa-doc-output-dir)/overview-summary.html)
 
 # ----------------------------------------------------------------------------- 
 # End. 
