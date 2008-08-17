@@ -82,8 +82,14 @@ public class WrapperConfigurationPanel extends WizardPanel {
         contentPanel2.add(contentPanel1, BorderLayout.WEST);
         JPanel messagePanel = new JPanel(new BorderLayout());
         messagePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
-        messagePanel.add(new JLabel("<html>Please enter the wrapper command for this test substituting <b>%d</b> for the test case path,</html>"), BorderLayout.NORTH);
-        messagePanel.add(new JLabel("<html> <b>%n</b> for the test case and <b>%o</b> for the output path:</html>"), BorderLayout.WEST);
+        messagePanel.add(new JLabel("<html>Please provide the full command " +
+                "line for a wrapper program that interfaces to the SBML-compatible" +
+                "application being tested.<br><br>You can use the following codes " +
+                "in the command line:<br>" +
+                "<b>%d</b> = path to the directory containing the test cases<br> " +
+                "<b>%n</b> = current test case number (of the form NNNNN)<br>" +
+                "<b>%o</b> = directory where the CSV output file should be written.</html>"), BorderLayout.NORTH);
+ //       messagePanel.add(new JLabel("<html> <b>%n</b> for the test case and <b>%o</b> for the output path:</html>"), BorderLayout.WEST);
         contentPanel2.add(messagePanel, BorderLayout.NORTH);
         
    /*     
@@ -141,7 +147,7 @@ public class WrapperConfigurationPanel extends WizardPanel {
      * @return returns the text "Configure Wrapper"
      */
     public String getQualifiedName() {
-        return "Configure Wrapper";
+        return "Program wrapper";
     }
     /**
      * getIdentifier gets the identifier for the panel
