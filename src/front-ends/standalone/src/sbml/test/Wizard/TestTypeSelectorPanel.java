@@ -75,7 +75,7 @@ public class TestTypeSelectorPanel extends WizardPanel implements ItemListener {
 
         JPanel contentPanel1 = new JPanel(new GridLayout(0, 2, 80, 0));
 
-        timeCourseCheckBox = new JCheckBox("TimeCourse");
+        timeCourseCheckBox = new JCheckBox("Time-course simulation");
         timeCourseCheckBox.setSelected(true);
         
         timeCourseCheckBox.addItemListener(this);
@@ -86,7 +86,7 @@ public class TestTypeSelectorPanel extends WizardPanel implements ItemListener {
         contentPanel2.add(contentPanel1, BorderLayout.WEST);
         JPanel messagePanel = new JPanel(new BorderLayout());
         messagePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
-        messagePanel.add(new JLabel("Please select the desired Test Class:"), BorderLayout.NORTH);
+        messagePanel.add(new JLabel("Please select the desired classes of tests:"), BorderLayout.NORTH);
         contentPanel2.add(messagePanel, BorderLayout.NORTH);
     }
     /**
@@ -121,7 +121,7 @@ public class TestTypeSelectorPanel extends WizardPanel implements ItemListener {
      * @return returns text "Select Test Type"
      */
     public String getQualifiedName() {
-        return "Select Test Type";
+        return "Classes of tests";
     }
     /**
      * getIdentifier gets the identifier for the test type panel.
