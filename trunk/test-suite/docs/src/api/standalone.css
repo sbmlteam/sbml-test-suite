@@ -1,15 +1,24 @@
+body		{ font-size: 12pt; }
+h1		{ font-size: 150%; }
+h2		{ font-size: 120%; }
+h3		{ font-size: 110%; font-style: italic }
+em		{ font-size: 100%; }
+tt, code, pre	{ font-size: 90%; }
+font[size="-1"] { font-size: 100%; }
+
 .NavBarCell1 {
   font-family: Helvetica, Arial, Geneva, Sans, sans-serif;
+  font-size: 90%;
 }
 
 .footer {
   font-family: Helvetica, Arial, Geneva, Sans, sans-serif;
-  font-size: 12px;
+  font-size: 90%;
 }
 
 TD.footer {
   font-family: Helvetica, Arial, Geneva, Sans, sans-serif;
-  font-size: 12px;
+  font-size: 90%;
 }
 
 .footercomment {
