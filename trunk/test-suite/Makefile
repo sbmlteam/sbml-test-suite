@@ -27,7 +27,7 @@
 # Run 'make html' for regenerating HTML documentation of every test case.
 
 define make_html
-  ./src/desc2html/desc2html.sh $(addsuffix .m,$(basename $(1))) $(1)
+  ./src/utilities/desc2html/desc2html.sh $(addsuffix .m,$(basename $(1))) $(1)
 endef
 
 cases-m-files    = $(wildcard cases/semantic/*/*-model.m)
