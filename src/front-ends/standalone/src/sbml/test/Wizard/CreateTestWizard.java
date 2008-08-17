@@ -237,7 +237,7 @@ public class CreateTestWizard {
         Wizard.getContentPane().add(cardPanel, java.awt.BorderLayout.CENTER);
 
         JPanel overviewPanel = new JPanel(new BorderLayout());
-        overviewPanel.setPreferredSize(new Dimension(170, 100));
+        overviewPanel.setPreferredSize(new Dimension(190, 100));
         overviewPanel.setBackground(Color.gray);
         JPanel innerOverviewPanel = new JPanel(new GridLayout(0, 1, 0, 15));
         innerOverviewPanel.setOpaque(false);
@@ -273,7 +273,7 @@ public class CreateTestWizard {
         Wizard.pack();
 
         Wizard.setModal(true);
-        Wizard.setSize(new Dimension(750, 500));
+        Wizard.setSize(new Dimension(800, 500));
         Wizard.setResizable(false);
         Wizard.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         Wizard.setLocationRelativeTo(null);
