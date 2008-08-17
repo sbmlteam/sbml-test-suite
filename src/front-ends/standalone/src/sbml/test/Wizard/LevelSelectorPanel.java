@@ -65,7 +65,7 @@ public class LevelSelectorPanel extends WizardPanel implements ItemListener {
      */
     private void initComponents() {
         selections = createTestWizard.getSelections();
-        System.out.println("hash map in levels is on initialization: " + selections.values());
+        
         setLayout(new BorderLayout());
 
         JPanel topPanel = new JPanel(new BorderLayout());

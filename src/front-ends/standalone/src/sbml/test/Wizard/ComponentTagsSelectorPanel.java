@@ -80,17 +80,17 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
         fd_button = new JCheckBox("FunctionDefinition");
         rr_button = new JCheckBox("RateRule");
         cmpt_button = new JCheckBox("Compartment");
-     //   ud_button = new JCheckBox("UnitDefinition");
+        //   ud_button = new JCheckBox("UnitDefinition");
         ar_button = new JCheckBox("AlgebraicRule");
         spe_button = new JCheckBox("Species");
         ia_button = new JCheckBox("InitialAssignment");
-    //    cst_button = new JCheckBox("Constraint");
+        //    cst_button = new JCheckBox("Constraint");
         rct_button = new JCheckBox("Reaction");
         asr_button = new JCheckBox("AssignmentRule");
         ewd_button = new JCheckBox("EventWithDelay");
         end_button = new JCheckBox("EventNoDelay");
         par_button = new JCheckBox("Parameter");
-        
+       
         fd_button.addItemListener(this);
         spe_button.addItemListener(this);
         cmpt_button.addItemListener(this);
@@ -151,7 +151,7 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
         
         if(selections.size() > 0 ){
           //  validateSelections(CreateTestWizard.wselections);
-            System.out.println("the hash is bigger than nothing!");
+            //System.out.println("the hash is bigger than nothing!");
         }
     }
     /**
@@ -185,13 +185,19 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
       if (source == rct_button){
           if(state == ItemEvent.SELECTED){
               updateSelections("Reaction",1);
-              
+              createTestWizard.setSelections(selections);
               
           }
           if(state == ItemEvent.DESELECTED){
-              updateSelections("Reaction",0);
-              
-              createTestWizard.setSelections(selections);
+              if(!spe_button.isSelected()) {
+                    updateSelections("Reaction", 0);
+                    createTestWizard.setSelections(selections);
+              }
+              else {
+                    rct_button.setSelected(true);
+                    updateSelections("Reaction",1);
+                    createTestWizard.setSelections(selections);
+              }
           }
       }
        if (source == fd_button){
@@ -214,10 +220,10 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
               createTestWizard.setSelections(selections);
           }
           if(state == ItemEvent.DESELECTED){
-              if((Integer)selections.get("Species")==0){
+             // if((Integer)selections.get("Species")==0){
                 updateSelections("Compartment",0);
                 createTestWizard.setSelections(selections);
-              }
+             // }
           }
       }
       if (source == rr_button){
@@ -349,7 +355,7 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
             end_button.setEnabled(false);
         }
         else if((Integer)selections.get("L2V1radiobutton") == 1) {
-            System.out.println("inside the l2v1 button in validate");
+            
             selections.put("InitialAssignment", 0);
             ia_button.setSelected(false);
             ia_button.setEnabled(false);
