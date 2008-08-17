@@ -45,9 +45,16 @@ import javax.swing.JSeparator;
 public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
 
 //    private JCheckBox[] buttons;
-    private JCheckBox tdc_button, odc_button, zdc_button, ncc_button, nuc_button, mc_button, ia_button, ic_button, hosu_button, bc_button, cs_button, ncp_button, fr_button, rr_button, zr_button, nus_button, sm_button, lp_button, csd_button, cst_button, mu_button, u_button, mml_button, d_button;
+    private JCheckBox tdc_button, odc_button, zdc_button, ncc_button, nuc_button, 
+            mc_button, ia_button, ic_button, hosu_button, bc_button, cs_button, 
+            ncp_button, fr_button, rr_button, zr_button, nus_button, sm_button, 
+            lp_button, csd_button, cst_button, mu_button, u_button, mml_button, d_button;
     private CreateTestWizard createTestWizard;
-//    private final String[] buttonNames = {"2D-Compartment", "HasOnlySubstanceUnits", "StoichiometryMath", "1D-Compartment", "BoundaryCondition", "LocalParameters", "0D-Compartment", "ConstantSpecies", "CSymbolDelay", "NonConstantCompartment", "NonConstantParameter", "CSymbolTime", "NonUnityCompartment", "FastReaction", "MassUnits", "MultiCompartment", "ReversibleReaction", "Units", "InitialAmount", "ZeroRate", "MathML", "InitialConcentration", "NonUnityStoichiometry", "Discontinuity"};
+//    private final String[] buttonNames = {"2D-Compartment", "HasOnlySubstanceUnits", "StoichiometryMath", 
+//    "1D-Compartment", "BoundaryCondition", "LocalParameters", "0D-Compartment", "ConstantSpecies", "CSymbolDelay", 
+//    "NonConstantCompartment", "NonConstantParameter", "CSymbolTime", "NonUnityCompartment", "FastReaction", 
+//    "MassUnits", "MultiCompartment", "ReversibleReaction", "Units", "InitialAmount", "ZeroRate", "MathML", 
+//    "InitialConcentration", "NonUnityStoichiometry", "Discontinuity"};
     public HashMap<String, Object> selections = new HashMap <String, Object>();
     /**
      * TestTagSelectionPanel has one constructor that initializes the components for the TestTagSelectionPanel.
@@ -59,7 +66,8 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
 
     }
     /**
-     * initComponents initializes the components for the TestTagSelectionPanel. It creates all the checkboxes for the test tags and sets up the listeners
+     * initComponents() initializes the components for the TestTagSelectionPanel. 
+     * It creates all the checkboxes for the test tags and sets up the listeners
      * for each checkbox.
      */
     private void initComponents() {
@@ -75,26 +83,26 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
         JPanel contentPanel = new JPanel(new BorderLayout());
         add(contentPanel, BorderLayout.CENTER);
 
-        tdc_button = new JCheckBox("2D-Compartment");
-        odc_button = new JCheckBox("1D-Compartment");
-        zdc_button = new JCheckBox("0D-Compartment");
-        ncc_button = new JCheckBox("NonConstantCompartment");
-        nuc_button = new JCheckBox("NonUnityCompartment");
-        mc_button = new JCheckBox("MultiCompartment");
-        ia_button = new JCheckBox("InitialAmount");
-        ic_button = new JCheckBox("InitialConcentration");
-        hosu_button = new JCheckBox("HasOnlySubstanceUnits");
-        bc_button = new JCheckBox("BoundaryCondition");
-        cs_button = new JCheckBox("ConstantSpecies");
-        ncp_button = new JCheckBox("NonConstantParameter");
-        fr_button = new JCheckBox("FastReaction");
-        rr_button = new JCheckBox("ReversibleReaction");
+        tdc_button = new JCheckBox("2-D compartments");
+        odc_button = new JCheckBox("1-D compartments");
+        zdc_button = new JCheckBox("0-D compartments");
+        ncc_button = new JCheckBox("Varying-size compartments");
+        nuc_button = new JCheckBox("Compartments with size != 1");
+        mc_button = new JCheckBox("Multiple compartments in same model");
+        ia_button = new JCheckBox("Species using initial amounts");
+        ic_button = new JCheckBox("Species using initial concentrations");
+        hosu_button = new JCheckBox("Species using 'HasOnlySubstanceUnits'");
+        bc_button = new JCheckBox("Species as boundary conditions");
+        cs_button = new JCheckBox("Species declared as constant");
+        ncp_button = new JCheckBox("Parameters declared non-constant");
+        fr_button = new JCheckBox("'Fast' reactions");
+        rr_button = new JCheckBox("Reversible reactions");
        
-        nus_button = new JCheckBox("NonUnitStoichiometry");
-        sm_button = new JCheckBox("StoichiometryMath");
-        lp_button = new JCheckBox("LocalParameters");
+        nus_button = new JCheckBox("Stoichiometries != 1");
+        sm_button = new JCheckBox("Use of formulas in stoichiometries");
+        lp_button = new JCheckBox("Reactions with local parameter declarations");
        // csd_button = new JCheckBox("CSymbolDelay");
-        cst_button = new JCheckBox("CSymbolTime");
+        cst_button = new JCheckBox("Use of csymbol for 'time'");
        // mu_button = new JCheckBox("MassUnits");
         //u_button = new JCheckBox("Units");
        
@@ -164,15 +172,16 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
      //   contentPanel1.add(u_button); 
      
 
-
         JPanel contentPanel2 = new JPanel(new BorderLayout());
         contentPanel.add(contentPanel2, BorderLayout.NORTH);
-        contentPanel2.add(contentPanel1, BorderLayout.WEST);
         JPanel messagePanel = new JPanel(new BorderLayout());
         messagePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
-        messagePanel.add(new JLabel("<html>By default all SBML tests are tested to <b>exclude</b> specific tests, select the test tag to be excluded from the following list:"), BorderLayout.NORTH);
+        messagePanel.add(new JLabel("<html>By default, all tests are " +
+                "performed. To <b>exclude</b> particular tests, please select " +
+                "them from the following list:"), BorderLayout.NORTH);
         contentPanel2.add(messagePanel, BorderLayout.NORTH);
-        
+        contentPanel2.add(contentPanel1, BorderLayout.WEST);
+       
         // call validateSelections
 
     }
@@ -561,7 +570,7 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
      * @return returns text "Test Tags"
      */
     public String getQualifiedName() {
-        return "Test Tags";
+        return "Types of tests";
     }
     /**
      * getIdentifier returns the identifier of the panel

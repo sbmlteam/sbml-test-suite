@@ -77,33 +77,33 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
         JPanel contentPanel = new JPanel(new BorderLayout());
         add(contentPanel, BorderLayout.CENTER);
         
-        fd_button = new JCheckBox("FunctionDefinition");
-        rr_button = new JCheckBox("RateRule");
-        cmpt_button = new JCheckBox("Compartment");
+        fd_button = new JCheckBox("Function definitions");
+        rr_button = new JCheckBox("Rate rules");
+        cmpt_button = new JCheckBox("Compartments");
         //   ud_button = new JCheckBox("UnitDefinition");
-        ar_button = new JCheckBox("AlgebraicRule");
+        ar_button = new JCheckBox("Algebraic rules");
         spe_button = new JCheckBox("Species");
-        ia_button = new JCheckBox("InitialAssignment");
+        ia_button = new JCheckBox("Initial assignments");
         //    cst_button = new JCheckBox("Constraint");
-        rct_button = new JCheckBox("Reaction");
-        asr_button = new JCheckBox("AssignmentRule");
-        ewd_button = new JCheckBox("EventWithDelay");
-        end_button = new JCheckBox("EventNoDelay");
-        par_button = new JCheckBox("Parameter");
+        rct_button = new JCheckBox("Reactions");
+        asr_button = new JCheckBox("Assignment rules");
+        ewd_button = new JCheckBox("Events with delays");
+        end_button = new JCheckBox("Events without delays");
+        par_button = new JCheckBox("Parameters");
        
         fd_button.addItemListener(this);
         spe_button.addItemListener(this);
         cmpt_button.addItemListener(this);
-        rct_button.addItemListener(this);
+        ewd_button.addItemListener(this);
+        par_button.addItemListener(this);
         rr_button.addItemListener(this);
     //    ud_button.addItemListener(this);
         ar_button.addItemListener(this);
         ia_button.addItemListener(this);
     //    cst_button.addItemListener(this);
+        rct_button.addItemListener(this);
         asr_button.addItemListener(this);
-        ewd_button.addItemListener(this);
         end_button.addItemListener(this);
-        par_button.addItemListener(this);
         
      /*   buttons = new JCheckBox[buttonNames.length];
         for(int i = 0; i < buttonNames.length; i++) {
@@ -120,14 +120,13 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
      //   contentPanel1.add(ud_button);
         contentPanel1.add(ar_button);
         contentPanel1.add(spe_button);
-        contentPanel1.add(ia_button);
-     //   contentPanel1.add(cst_button);
-        contentPanel1.add(rct_button);
         contentPanel1.add(asr_button);
-        contentPanel1.add(ewd_button);
+        contentPanel1.add(rct_button);
+     //   contentPanel1.add(cst_button);
         contentPanel1.add(end_button);
-        contentPanel1.add(new JLabel());
         contentPanel1.add(par_button);
+        contentPanel1.add(ewd_button);
+        contentPanel1.add(ia_button);
         
 
      /*    for(int i = 0; i < buttonNames.length; i++) {
@@ -146,8 +145,12 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
         contentPanel2.add(contentPanel1, BorderLayout.WEST);
         JPanel messagePanel = new JPanel(new BorderLayout());
         messagePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
-        messagePanel.add(new JLabel("<html>By default all SBML components are tested, to <b>exclude</b> specific components select the comoponent tag to be excluded from the following list:</html>"), BorderLayout.NORTH);
-        contentPanel2.add(messagePanel, BorderLayout.NORTH);
+        messagePanel.add(new JLabel("<html>By default, all SBML components are " +
+                "tested. To <b>exclude</b> particular SBML components, please " +
+                "select them from the following list. (Note that choices made " +
+                "here will also affect options available in later forms.)"), 
+                BorderLayout.NORTH);
+       contentPanel2.add(messagePanel, BorderLayout.NORTH);
         
         if(selections.size() > 0 ){
           //  validateSelections(CreateTestWizard.wselections);
@@ -416,7 +419,7 @@ public class ComponentTagsSelectorPanel extends WizardPanel implements ItemListe
      * @return returns the text "Component Tags"
      */
     public String getQualifiedName() {
-        return "Component Tags";
+        return "SBML Components";
     }
     /**
      * getIdentifier
