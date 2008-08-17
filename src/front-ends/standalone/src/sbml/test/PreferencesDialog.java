@@ -111,7 +111,7 @@ public class PreferencesDialog extends JDialog {
         jPanel7.setName("jPanel7"); // NOI18N
         jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        jLabel2.setText("<html>" + "Enter a path for log file.<br>Settings will take effect when the<br>next test is started."); // NOI18N
+        jLabel2.setText("<html>" + "Enter a path for the log file.<br>Settings will take effect when<br>the next test is started."); // NOI18N
         jLabel2.setName("jLabel2"); // NOI18N
         jPanel7.add(jLabel2);
 
