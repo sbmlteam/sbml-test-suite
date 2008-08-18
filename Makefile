@@ -52,14 +52,14 @@ $(to_make_html):
 today    = $(shell date +"%F")
 ts-file  = .cases-archive-date
 contents = cases/semantic \
+	   $(ts-file)     \
            COPYING.html   \
            COPYING.txt    \
            LICENSE.txt
 
 cases-dist: html
-	zip -r sbml-test-cases-$(today).zip $(contents) -x@.zipexcludes
-	rm -f $(ts-file)
 	@echo $(today) > $(ts-file)
+	zip -r sbml-test-cases-$(today).zip $(contents) -x@.zipexcludes
 	@echo "---------------------------------------------------------------"
 	@echo "Next: upload zip file to SourceForge as updated test cases dist."
 	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
