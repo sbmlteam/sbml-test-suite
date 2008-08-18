@@ -14,8 +14,20 @@
                      mailto:sbml-team@caltech.edu
 
 This directory is the source directory for the Online SBML Test Suite.
-It can be used to produce a .war file to be loaded into a Tomcat 5 web
-application server.
+On the server for sbml.org, it is /var/lib/tomcat5/webapps/test_suite/.
+
+The NORMAL way of installing a web application for Tomcat is to
+produce and deploy a .war file.  The directory contents here are set
+up so that you can do that, but it is ALSO set up so that this whole
+directory can be checked out from SVN as the web application directory
+itself on the server (i.e., /var/lib/tomcat5/webapps/test_suite/), so
+that file updates & java class recompilation and other things can be
+done directly on the server.  Beware that if you do this, DO NOT
+DELETE THE .war file (/var/lib/tomcat5/webapps/test_suite.war).  If
+you remove the .war file, Tomcat will delete the application directory
+too (/var/lib/tomcat5/webapps/test_suite), taking with it any of your
+changes :-(.
+
 
 ---------------------------------
 Explanation of directory contents
@@ -46,17 +58,27 @@ the /var/lib/tomcat5/webapps/test_suite/ directory should have
     WEB-INF/
     index.html
     web/
-    test-cases/           <<< must be added
+    test-cases/           <<< symbolic link that must be added
 
-The test-cases is NOT a link to the test cases directory in SVN.  We
-have to control the specific release snapshot of the test cases
+We use a symbolic link for test-cases that points to the actual
+collection of test cases.  Note that it is purposefully NOT simply a
+link to the cases/semantic directory in the SVN repository for the
+test suite.  We have to control the specific release of the test cases
 provided online and in the standalone application, so a separate copy
 of the test cases directory must be made when we make a public release
-or update of the Test Suite.  (Programmer's note: if the directory
+or update of the Test Suite.  (Programmer's note: if the symlink name
 "test-cases" is moved or renamed, make sure to change the references
 to the directory in WEB-INF/src/sbml/test/UploadUnzipTest.java and
 web/process.jsp.)
     
+------------
+Installation
+------------
+
+Once this directory is checked out on the server in place as
+/var/lib/tomcat5/webapps/test_suite/, run "make classes" to compile
+the Java classes, create the symlink "test-cases" as described above,
+and run the command "touch WEB-INF/web.xml".
 
 
 ----------------------------------------------------------------------
