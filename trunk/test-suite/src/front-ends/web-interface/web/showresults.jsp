@@ -74,9 +74,8 @@ Vector results = (Vector)request.getAttribute("tests");
 The following map summaries the outcome of comparing each uploaded test case
 result to the expected results for that particular test case.  A <b><font
 color="green">green</font></b> icon indicates it passed, a <b><font
-color="darkred">red</font></b> icon indicates it failed, a <b><font
-color="black">black</font></b> icon indicates a test was skipped, and a
-<b><font color="#555">gray</font></b> icon is a space filler.
+color="darkred">red</font></b> icon indicates it failed, and a <b><font
+color="black">black</font></b> icon indicates a test was skipped.
 </p>
 
 <p> You may click on any of the green, red or black icons in the map to see
@@ -84,9 +83,9 @@ details about the specific test case involved.  The information will be
 presented in a new window.
 </p>
 	
-<div style="margin: 2em 3em 2em 3em">
+<div style="margin: 1em 3em 2em 3em">
 <form name="resultreport" action="http://sbml.org:8080/test_suite/web/report.jsp" method=post>
-<TABLE class="borderless-table" CELLSPACING="0" WIDTH="90%" ALIGN="center">
+<TABLE id="resultsmap" class="borderless-table">
 <TR>
 <%-- For each test in the test vector - get the testname, description, plot path, result --%>
 	<%-- implement a counter and when counter mod 45 = 0 start a new row --%>
@@ -103,8 +102,8 @@ presented in a new window.
 	for(int i=0;i<results.size() ; i++) {	
 	  if(i % 45 ==0) {
 		// start a new row
-		out.println("</TR>");
-		out.println("<TR>");
+		out.print("</TR>");
+		out.print("<TR>");
 	  }
 	
 		test = (TestResultDetails)results.elementAt(i);
@@ -145,31 +144,31 @@ presented in a new window.
 					tmap.put((ttags.elementAt(l)),1);
 				}			
 			} 
-			out.println("<TD>");
-			out.println("<a title=" + name + " href=\"/test-suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description  + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
-			out.println("<IMG SRC=\"/test-suite/web/images/red.jpg\"  border=\"0\"/>");
-			out.println("</a>");
-			out.println("</TD>");
+			out.print("<TD>");
+			out.print("<a title=" + name + " href=\"/test-suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description  + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
+			out.print("<IMG SRC=\"/test-suite/web/images/red.jpg\"/>");
+			out.print("</a>");
+			out.print("</TD>");
 			fail_count++;
 			failures.addElement(name +"," + description + "," + result + "," +totalpoints);
 			
 		}	
 		if(result == 0) {			
 	
-			out.println("<TD>");
-			out.println("<a title=" +name +" href=\"/test-suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
-			out.println("<IMG SRC=\"/test-suite/web/images/green.jpg\" border=\"0\"/>");
-			out.println("</a>");
-			out.println("</TD>");
+			out.print("<TD>");
+			out.print("<a title=" +name +" href=\"/test-suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
+			out.print("<IMG SRC=\"/test-suite/web/images/green.jpg\"/>");
+			out.print("</a>");
+			out.print("</TD>");
 			pass_count++;
 		}
 		if(result == -1) {			
 	
-			out.println("<TD>");
-			out.println("<a title=" +name +" href=\"/test-suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
-			out.println("<IMG SRC=\"/test-suite/web/images/black.jpg\" border=\"0\"/>");
-			out.println("</a>");
-			out.println("</TD>");
+			out.print("<TD>");
+			out.print("<a title=" +name +" href=\"/test-suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
+			out.print("<IMG SRC=\"/test-suite/web/images/black.jpg\"/>");
+			out.print("</a>");
+			out.print("</TD>");
 			abort_count++;
 			skips.addElement(name + "?" + description + "?" + warnings);
 			
@@ -180,10 +179,9 @@ presented in a new window.
      
 	for(int m = results.size()%45; m<45; m++) {
 			
-		out.println("<TD BGCOLOR=\"white\">");
-	//	out.println("<IMG SRC=\"/test-suite/web/images/grey.jpg\" border=\"0\"/>");
-		
-		out.println("</TD>");
+		out.print("<TD BGCOLOR=\"white\">");
+	//	out.println("<IMG SRC=\"/test-suite/web/images/grey.jpg\"/>");
+		out.print("</TD>");
      }	
 %>	
 </TR>
@@ -193,9 +191,9 @@ presented in a new window.
 	Total number of test cases analyzed: <b><%=results.size()%></b>
 </p>
 <p>
-	<IMG SRC="/test-suite/web/images/green.jpg" border="0" valign="top"/> Number of test cases passed: <%=pass_count%><BR>
-	<IMG SRC="/test-suite/web/images/red.jpg"  border="0" valign="top"/> Number of test cases failed: <%=fail_count%><BR>
-	<IMG SRC="/test-suite/web/images/black.jpg" border="0" valign="top"/> Number of test cases skipped: <%=abort_count%><BR>
+	<IMG SRC="/test-suite/web/images/green.jpg" valign="top"/> Number of test cases passed: <%=pass_count%><BR>
+	<IMG SRC="/test-suite/web/images/red.jpg"  valign="top"/> Number of test cases failed: <%=fail_count%><BR>
+	<IMG SRC="/test-suite/web/images/black.jpg" valign="top"/> Number of test cases skipped: <%=abort_count%><BR>
 
 <%	if(fail_count>0){
 %>	
@@ -232,18 +230,22 @@ presented in a new window.
 
 <%-- <form name="resultreport" action=<%=response.encodeURL("http://sbml.org/test-suite/web/report.jsp")%> method=post>
 --%>
+<p>
 <input type="submit" value="View Report"> (The report summarizes the results in a more convenient format for printing.) 
 </form>
 </div>
 
-<p> This concludes the test run.  To upload another set of results without
-selecting and downloading a different set of test cases, please return to the
-upload page, select another zip archive on your computer, and upload it.
+<hr>
+
+<p style="margin-top: 1em"> This concludes the test run.  To upload
+another set of results without selecting and downloading a different set of
+test cases, please return to the upload page, select another zip archive on
+your computer, and upload it.
 <p>
 
 <center style="margin:1em">
   <a href="/test-suite/web/uploadresults.jsp">
-    <img border="0" align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
+    <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
     Return to the test results upload page.
   </a>
 </center>
@@ -254,7 +256,7 @@ Test Suite.
 
 <center style="margin:1em">
   <a href="/Facilities/Online_SBML_Test_Suite">
-    <img border="0" align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
+    <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
     Return to the front page for the Online SBML Test Suite.
   </a>
 </center>
