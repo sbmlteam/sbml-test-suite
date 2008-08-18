@@ -91,7 +91,7 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
         mc_button = new JCheckBox("Multiple compartments in same model");
         ia_button = new JCheckBox("Species using initial amounts");
         ic_button = new JCheckBox("Species using initial concentrations");
-        hosu_button = new JCheckBox("Species using 'HasOnlySubstanceUnits'");
+        hosu_button = new JCheckBox("Species using 'hasOnlySubstanceUnits'");
         bc_button = new JCheckBox("Species as boundary conditions");
         cs_button = new JCheckBox("Species declared as constant");
         ncp_button = new JCheckBox("Parameters declared non-constant");
