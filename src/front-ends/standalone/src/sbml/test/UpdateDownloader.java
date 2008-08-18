@@ -76,7 +76,7 @@ public class UpdateDownloader extends SwingWorker {
 
             public void run() {
                 tcu.setProgressBarIndeterminate(true);
-                tcu.appendToLog("Starting Update\n");
+                tcu.appendToLog("Starting update ...\n");
             }
         });
 
@@ -90,17 +90,17 @@ public class UpdateDownloader extends SwingWorker {
                 SwingUtilities.invokeLater(new Runnable() {
 
                     public void run() {
-                        tcu.appendToLog("Local Timestamp: " + ts + "\n");
+                        tcu.appendToLog("Local time stamp: " + ts + "\n");
                         tcu.setLocalTimestamp(ts);
                     }
                 });
             }
         } catch (FileNotFoundException e) {
-            reportToDialog("Cannot read local timestamp"); 
+            reportToDialog("Cannot read local time stamp"); 
             e.printStackTrace();
             return false;
         } catch (IOException e) {
-            reportToDialog("Cannot read local timestamp");
+            reportToDialog("Cannot read local time stamp");
             e.printStackTrace();
             return false;
         }
@@ -124,9 +124,9 @@ public class UpdateDownloader extends SwingWorker {
 
                 public void run() {
                     if (logLine != null) {
-                        tcu.appendToLog("Server Timestamp: " + logLine);
+                        tcu.appendToLog("Server time stamp: " + logLine);
                     } else {
-                        tcu.appendToLog("Unable to fetch timestamp, check log file for errors");
+                        tcu.appendToLog("Unable to fetch time stamp -- check log file for errors");
                     }
                     tcu.setNewTimestamp(logLine);
                 }
@@ -139,7 +139,7 @@ public class UpdateDownloader extends SwingWorker {
                 SwingUtilities.invokeLater(new Runnable() {
 
                     public void run() {
-                        tcu.setFinished("\nCould not parse timestamps\nUpdate failed");
+                        tcu.setFinished("\nCould not parse time stamp\nUpdate failed.");
                     }
                 });
 
@@ -152,7 +152,6 @@ public class UpdateDownloader extends SwingWorker {
                    String relativeURL = "sbml-test-cases-" + timestamp +".zip";
                    URL cf = new URL(cases_base, relativeURL);
 
-               
 
                 System.out.println(cf.toString());
 
@@ -177,7 +176,7 @@ public class UpdateDownloader extends SwingWorker {
                 SwingUtilities.invokeLater(new Runnable() {
 
                     public void run() {
-                        tcu.appendToLog("\nStarting download of " + downloadfilesize / (1024 * 1024) + "MB");
+                        tcu.appendToLog("\nDownloading " + downloadfilesize / (1024 * 1024) + "MB ...");
                         tcu.setProgressBarIndeterminate(false);
 
                     }
@@ -208,7 +207,9 @@ public class UpdateDownloader extends SwingWorker {
                 in.close();
                 fOut.flush();
                 fOut.close();
-
+                
+                tcu.appendToLog("\nDownload complete.");
+                tcu.appendToLog("\nUnpacking archive ...");
                 
                 try {
                     // unzip the files
@@ -249,19 +250,18 @@ public class UpdateDownloader extends SwingWorker {
                         timestampout.write(timestamp);
                         timestampout.close();
                     } catch (IOException e) {
-                        System.out.println("Caught IO Exception while trying to create timestamp file in user directory");
+                        System.out.println("Encountered IO exception while trying to create timestamp file in user directory");
                     }
 
                 } catch (IOException ex) {
-                    System.out.println("Caught IOException while trying to unzip caes.");
+                    System.out.println("Encountered IO exception while trying to unzip cases archive.");
                 } 
                 
                 SwingUtilities.invokeLater(new Runnable() {
 
                     public void run() {
-                        tcu.appendToLog("\nDownload complete");
                         tcu.setProgressBarIndeterminate(false);
-                        tcu.appendToLog("\nCases Unzipped");
+                        tcu.appendToLog("\nCases unpacked.");
 
 
                     }
@@ -286,7 +286,7 @@ public class UpdateDownloader extends SwingWorker {
             e.printStackTrace();
             return false;
         } catch (IOException e) {
-            reportToDialog("\nCan't read from the Internet:\n" + e.toString());
+            reportToDialog("\nUnable to connect to server:\n" + e.toString());
             return false;
         }
 
