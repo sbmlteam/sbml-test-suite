@@ -34,13 +34,14 @@
 <%@ page import="javax.swing.*" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
-<head>
-<base href="http://sbml.org">
-<link rel="Stylesheet" href="/skins/SBML/sbml.css">
-<style type='text/css'><!--
-body { background: #ffffff; }
---></style>
-</head>
+<html>
+  <head>
+    <base href="http://sbml.org">
+    <link rel="Stylesheet" href="/skins/SBML/sbml.css">
+    <style type='text/css'><!--
+    body { background: #ffffff; margin: 5px;}
+    --></style>
+  </head>
 
 <%
 // This file writes a summary of the skipped and failed cases during a test suitable for printing.
@@ -50,40 +51,50 @@ body { background: #ffffff; }
 	Vector<String> failures = (Vector<String>)session.getAttribute("failures");
 	Vector<String> skips = (Vector<String>)session.getAttribute("skips");
 
-
 	Iterator it = failures.iterator(); 
 	Iterator is = skips.iterator(); 
-
 %>
 
-	SBML Test Suite Report <BR>
+<body>
+	<a href="http://sbml.org/Facilities/Online_SBML_Test_Suite">Online SBML Test Suite Report</a><BR>
 	<BR>
 <%
- out.println("Date:" +  new java.util.Date() + "<br>");
- %>
-	TOTALS<BR>
-	Number of passed cases:<%=totals[0]%><BR>
-	Number of failed cases:<%=totals[1]%><BR>
-	Number of skipped cases:<%=totals[2]%><BR>
+ out.println("Date: " +  new java.util.Date() + "<br>");
+%>
+        <BR>
+	<b>Summary</b>:<BR>
+	Number of passed cases: <%=totals[0]%><BR>
+	Number of failed cases: <%=totals[1]%><BR>
+	Number of skipped cases: <%=totals[2]%><BR>
 	<BR>
 	<BR>
-	Failed Cases Detailed<BR>
+	<b>Details of failed cases</b>:<BR>
 	<TABLE border="1" class="sm-padding">
-	<TR><TH>Case<TH>Synopsis<TH>Failed points count<TH>Total points</TR>
+	<TR>
+           <TH width="60px">Case #</TH>
+	   <TH>Synopsis of what is being tested</TH>
+           <TH>Data points failed</TH>
+           <TH width="100px">Total data points in test</TH>
+        </TR>
 <%
-	while(it.hasNext()) {
+	while (it.hasNext()) {
 		String failed = (String)it.next();
 		String[] field = failed.split(",");
 %>		
 		<TR><TD><%=field[0]%></TD><TD><%=field[1]%></TD><TD><%=field[2]%></TD><TD><%=field[3]%></TD></TR>
 <%	}
-%>	</TABLE>
-<BR>
+%>
+	</TABLE>
 	<BR>
-	Skipped Cases Detailed<BR>
+	<BR>
+	<b>Details of skipped cases</b>:<BR>
 	<TABLE border="1" class="sm-padding">
-	<TR><TH>Case<TH>Synopsis<TH>Warnings</TR>
-<%	while(is.hasNext()) {
+	<TR>
+          <TH width="60px">Case #</TH>
+          <TH>Synopsis of what is being tested</TH>
+          <TH>Reason for skipping case</TH>
+        </TR>
+<% 	while (is.hasNext()) {
 		String skipped = (String)is.next();
 		String[] sfield = skipped.split("\\?");
 %>
@@ -91,6 +102,6 @@ body { background: #ffffff; }
 <%	}
 %>
 	</TABLE>
-	
 
-
+</body>
+</html>
