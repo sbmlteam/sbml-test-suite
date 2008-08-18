@@ -127,6 +127,5 @@ and unpacking the archive, proceed to Step 2.
 sbml-team@caltech.edu</a> and please provide information about the
 operating system and web browser you are using.
 
-</body>
 <%@ include file="sbml-bottom.html"%>
 
