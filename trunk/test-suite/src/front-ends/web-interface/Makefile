@@ -33,6 +33,7 @@ javac-flags = -g -d WEB-INF/classes -sourcepath WEB-INF/src
 
 classes:  $(class-dir)/sbmlTestcase.class \
           $(class-dir)/sbmlTestselection.class \
+	  $(class-dir)/FormBean.class \
 	  $(class-dir)/OpenFile.class \
           $(class-dir)/TestResultDetails.class \
           $(class-dir)/UploadUnzipTest.class \
