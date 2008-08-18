@@ -99,7 +99,7 @@
         } // if matcher.find
     }
 
-    session.putValue("path", testdir_path);
+    session.putValue("path", testdir);
     session.putValue("tcases", selected_cases);
     response.setHeader("Refresh", "1; URL=http://sbml.org:8080/test_suite/servlet/ZipServlet");
 %>
