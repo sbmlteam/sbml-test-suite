@@ -1,1 +1,0 @@
-/home/kimberly/test-suite/cases/semantic
