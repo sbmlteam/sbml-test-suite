@@ -40,7 +40,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="current version"/>
+            <Property name="text" type="java.lang.String" value="Current version:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="currentVersionLabel">
@@ -50,7 +50,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
-            <Property name="text" type="java.lang.String" value="latest version"/>
+            <Property name="text" type="java.lang.String" value="Latest version available:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="latestVersionLabel">
@@ -112,6 +112,9 @@
           </SubComponents>
         </Container>
         <Component class="javax.swing.JProgressBar" name="jProgressBar1">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;i&gt;Download progress&lt;/i&gt;&lt;/html&gt;" noResource="true"/>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
               <BorderConstraints direction="First"/>
