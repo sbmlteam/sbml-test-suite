@@ -170,9 +170,9 @@ public class UploadUnzipTest extends HttpServlet {
                     userfiles = t1.getUsertestlist(userdir);
                 } catch (Exception e) {
                     System.err.println("Incorrect user file name format");
-                    String error = "User test files in incorrect file name format " +
-                        " -- please name files with the ending 'nnnnn.csv', " +
-                        "where nnnnn is the test case number."; 
+                    String error = "Result files have incorrect file name format " +
+                        " -- Please name each file such that it ends in " +
+                        "'nnnnn.csv', where 'nnnnn' is the test case number."; 
                     String nextJSP = "/web/error.jsp";
                     request.setAttribute("error", error);
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
