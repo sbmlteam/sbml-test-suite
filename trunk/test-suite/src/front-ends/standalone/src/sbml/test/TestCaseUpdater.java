@@ -134,13 +134,13 @@ public class TestCaseUpdater extends javax.swing.JDialog {
 
         jPanel1.setLayout(new java.awt.GridLayout(2, 2, 10, 10));
 
-        jLabel1.setText("current version");
+        jLabel1.setText("Current version:");
         jPanel1.add(jLabel1);
 
         currentVersionLabel.setText("--");
         jPanel1.add(currentVersionLabel);
 
-        jLabel3.setText("latest version");
+        jLabel3.setText("Latest version available:");
         jPanel1.add(jLabel3);
 
         latestVersionLabel.setText("--");
@@ -165,6 +165,8 @@ public class TestCaseUpdater extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jTextArea1);
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jProgressBar1.setToolTipText("<html><i>Download progress</i></html>"); // NOI18N
         jPanel2.add(jProgressBar1, java.awt.BorderLayout.PAGE_START);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
