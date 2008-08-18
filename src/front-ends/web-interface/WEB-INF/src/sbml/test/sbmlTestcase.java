@@ -317,41 +317,42 @@ public class sbmlTestcase  {
 		}
 	
 	}
-public Map getUsertestlist(String dirname) throws Exception{
-	/* Gets the user file directory and checks the format of the files in the directory
-	   Input: is the directory path
-	   Output: a hashmap with the testname and user result file name as associated columns
-	*/
+public Map getUsertestlist(String dirname) throws Exception {
+    /* Gets the user file directory and checks the format of the files in the directory
+       Input: is the directory path
+       Output: a hashmap with the testname and user result file name as associated columns
+    */
 	
-	Map<String, String> m = new HashMap<String, String>(1000);
-	String userdir_listing [];
-	String userfile = new String();
-	String value = new String();
-	File u = new File(dirname);
-	userdir_listing = u.list();
+    Map<String, String> m = new HashMap<String, String>(1000);
+    String userdir_listing [];
+    String userfile = new String();
+    String value = new String();
+    File u = new File(dirname);
+    userdir_listing = u.list();
 	
-	if(userdir_listing.length>0) {
-		
-	for(int i = 0; i < userdir_listing.length; i++) {
+    if (userdir_listing.length > 0) {
+
+	for (int i = 0; i < userdir_listing.length; i++) {
 	
-		// set user result filename
-		userfile=dirname + File.separator + userdir_listing[i];
-		// Match test case identifier
-		Pattern p = Pattern.compile("\\d{5}+\\.csv$");
-		Matcher matcher = p.matcher(userfile);
-		if(matcher.find()) {
-			value = matcher.group().substring(0,matcher.group().indexOf("."));	
-			m.put(value,userfile);
-		}
-		else {
-			System.out.println("User test files in incorrect file name format - please name files ending with nnnnn.csv - where nnnnn is the test number " + userfile);
-			throw new Exception ("Incorrect file name format");
-			
-			
-		}
+            // set user result filename
+            userfile=dirname + File.separator + userdir_listing[i];
+            // Match test case identifier
+            Pattern p = Pattern.compile("\\d{5}+\\.csv$");
+            Matcher matcher = p.matcher(userfile);
+            if (matcher.find()) {
+                value = matcher.group().substring(0,matcher.group().indexOf("."));	
+                m.put(value,userfile);
+            }
+            else {
+                System.out.println("Result files have incorrect file name format: '"
+                                   + userfile + "' -- Please name each file " +
+                                   "such that it ends in 'nnnnn.csv', where " +
+                                   "'nnnnn' is the test case number.");
+                throw new Exception ("Incorrect file name format");
+            }
 	}
-	}
-	return m;
+    }
+    return m;
 }
 
 public boolean deleteDirectory(File path) {
