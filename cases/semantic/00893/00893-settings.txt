@@ -1,0 +1,6 @@
+start: 0
+duration: 8.0
+steps: 50
+variables: P1, P2, P3
+absolute: 1.000000e-018
+relative: 0.0001
