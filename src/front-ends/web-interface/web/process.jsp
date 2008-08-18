@@ -39,109 +39,81 @@
     <jsp:setProperty name="formHandler" property="*"/>
 </jsp:useBean>
 
-<%!  
-     String[] testtype;
-     String[] ctags;
-     String[] ttags;
-     String[] level;
-     
-     String testdir;
-     String testdir_listing [];
-     String test;   
+<%!
+    String[] testtype;
+    String[] ctags;
+    String[] ttags;
+    String[] level;
 %>
 
 <%
-    // Get the input from the test selections form
-    level = formHandler.getLevels();
+    // Get the user's selection from the previous screen.
+
+    level    = formHandler.getLevels();
     testtype = formHandler.getTesttype();
-    ctags = formHandler.getCtags();
-    ttags = formHandler.getTtags();
+    ctags    = formHandler.getCtags();
+    ttags    = formHandler.getTtags();
 
-    sbmlTestselection t1 = new sbmlTestselection();
+    // Get the listing from the test cases directory and build the list
+    // of test cases to hand off to ZipServlet.
+
+    File testdir = new File(getServletContext().getRealPath("/test-cases"));
+    String testdir_path = testdir.toString();
+    String testdir_listing [] = testdir.list();
+
+    sbmlTestselection t1          = new sbmlTestselection();
+    Vector<String> selected_cases = new Vector<String>();
+    String tcase                  = new String(); 
+    String tmodelfile             = new String();
+
+    for (int i = 0; i < testdir_listing.length; i++) {
+        tcase = testdir_listing[i];
+        
+        // check here that the test name conforms
+        Pattern p = Pattern.compile("\\d{5}$");
+        Matcher matcher = p.matcher(tcase);
+        if (matcher.find()) {
+            tmodelfile = t1.getModelFile(tcase, testdir_path);
+            t1.readModelFile(tmodelfile);
+
+            int itsout = 0;
+
+            if (t1.containsLevel(level[0])) {
+
+                for (int j = 0; j < ctags.length; j++) {
+                    if (t1.containsComponent(ctags[j])) {
+                        itsout++;
+                    }
+                }
+                
+                for (int k = 0; k < ttags.length; k++) {
+                    if (t1.containsTag(ttags[k])) {
+                        itsout++;
+                    }
+                }
+                        
+                if (itsout == 0) {
+                    selected_cases.addElement(tcase);
+                }
+            } // if t1.containsLevel
+        } // if matcher.find
+    }
+
+    session.putValue("path", testdir_path);
+    session.putValue("tcases", selected_cases);
+    response.setHeader("Refresh", "1; URL=http://sbml.org:8080/test_suite/servlet/ZipServlet");
 %>
 
-<%  	String testdir = new String();
-	// Get the local directory for the test cases from the configuration file    
-	ServletContext context = getServletContext();
-	InputStream is = context.getResourceAsStream("/WEB-INF/classes/sbml_config_file.txt");
-	try{
-		BufferedReader d = new BufferedReader(new InputStreamReader(is));
-		String line; 
-   		if  (   (  line = d.readLine (  )   )  != null  )   {  
-     			testdir=line ; 
-    		}  
-	}
-	finally{
-		if(is != null) {
-			is.close();
-		}
-	}
-%> 
-<%
-	String testdir_listing [];
+<%@ include file="sbml-top.html"%>
 
-	// get presence of a header line from the user when they upload maybe?
-	int header = 1; 
-	// Get directory listings 
-	File f = new File(testdir);
-	testdir_listing = f.list();
-	String tcase = new String(); 
-	String tmodelfile = new String();
-	Vector<String> selected_cases = new Vector<String>();
-       // for each test case check if it should be included in the download for the user
-	for(int i=0;i<testdir_listing.length;i++) {	
-  		tcase = testdir_listing[i];
-		
-		// check here that the test name conforms
-		Pattern p = Pattern.compile("\\d{5}$");
-		Matcher matcher = p.matcher(tcase);
-		if(matcher.find()) {
-			tmodelfile = t1.getModelFile(tcase,testdir);
-			t1.readModelFile(tmodelfile);
-			
-			int itsout = 0;
-	//		if(t1.containsTesttype(testtype[0]) && t1.containsLevel(level[0])) {
-			// Check the test is of the right level specification
-			if(t1.containsLevel(level[0])) {
-				for(int j=0;j<ctags.length;j++) {
-					if(t1.containsComponent(ctags[j])) {
-					itsout++;
-					}
-				}
-				for(int k=0;k<ttags.length;k++) {
-					if(t1.containsTag(ttags[k])) {
-					itsout++;
-					}
-				}
-				// if it hasn't been eliminated add it to the vector of cases to download
-				if(itsout==0) {
-					selected_cases.addElement(tcase);
-					
-				}
-			
-
-			} // end of if
-		}
-	}
-
-	// add the variables to pass along to the next page - zipservlet
-	session.putValue("path",f);
-	session.putValue("tcases",selected_cases);
-	response.setHeader("Refresh", "1; URL=http://sbml.org:8080/test_suite/servlet/ZipServlet");
-//	response.setHeader("Refresh", "1; URL=/test_suite/servlet/ZipServlet");		
-%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
-<head>
-<base href="http://sbml.org">
-<link rel="Stylesheet" href="/skins/SBML/sbml.css">
-<style type='text/css'><!--
-body { background: #ffffff; }
---></style>
-</head>
-
-   <body>
+<div id='pagetitle'><h1 class='pagetitle'>Downloading selected test cases</h1></div><!-- id='pagetitle' -->
+<div style="float: right; margin-top: 0; padding: 0 0 0 5px">
+  <img src="/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
+</div>
 <p>
-
+Based on your selections, an archive containing the selected SBML test
+should begin downloading automatically in a few seconds.  After receiving
+and unpacking the archive, proceed to Step 2.
 <center style="margin: 1.5em">
   <a href="/Software/SBML_Test_Suite/Step_2:_Running_the_tests">
     <img border="0" align="center" src="/images/e/ec/Icon-red-right-arrow.jpg">
@@ -149,6 +121,12 @@ body { background: #ffffff; }
   </a>
 </center>
 </p>
+
+<p> If an archive does not begin downloading, <b>please</b> let us know by
+<a href="mailto:sbml-team@caltech.edu">sending mail to
+sbml-team@caltech.edu</a> and please provide information about the
+operating system and web browser you are using.
+
 </body>
 <%@ include file="sbml-bottom.html"%>
 
