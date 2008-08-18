@@ -364,21 +364,21 @@ possible tests.
 <table class="borderless-table" width="100%"> 
   <tr>
     <td width="33%" valign="top" style="padding: 0 0 1em 1em">
-        <input type="checkbox" name="ctags" value="FunctionDefinition" onchange="Validate()">FunctionDefinition<br> 
-        <input type="checkbox" name="ctags" value="InitialAssignment" onchange="Validate()">InitialAssignment<br>
-        <input type="checkbox" name="ctags" value="AssignmentRule" onchange="Validate()">AssignmentRule<br>
+        <input type="checkbox" name="ctags" value="FunctionDefinition" onchange="Validate()">Function definition<br> 
+        <input type="checkbox" name="ctags" value="InitialAssignment" onchange="Validate()">Initial assignment<br>
+        <input type="checkbox" name="ctags" value="AssignmentRule" onchange="Validate()">Assignment rules<br>
     </td>
     <td width="33%" valign="top" style="padding: 0 0 1em 1em">
-        <input type="checkbox" name="ctags" value="RateRule" onchange="Validate()">RateRule<br>
-        <input type="checkbox" name="ctags" value="AlgebraicRule" onchange="Validate()">AlgebraicRule<br>
-        <input type="checkbox" name="ctags" value="EventWithDelay" onchange="Validate()">EventWithDelay<br>
-	<input type="checkbox" name="ctags" value="EventNoDelay" onchange="Validate()">EventNoDelay<br>
+        <input type="checkbox" name="ctags" value="RateRule" onchange="Validate()">Rate rules<br>
+        <input type="checkbox" name="ctags" value="AlgebraicRule" onchange="Validate()">Algebraic rules<br>
+        <input type="checkbox" name="ctags" value="EventWithDelay" onchange="Validate()">Events with delays<br>
+	<input type="checkbox" name="ctags" value="EventNoDelay" onchange="Validate()">Events without delays<br>
     </td>
     <td width="33%" valign="top" style="padding: 0 0 1em 1em">
-        <input type="checkbox" name="ctags" value="Compartment" onchange="Validate()">Compartment<br>
+        <input type="checkbox" name="ctags" value="Compartment" onchange="Validate()">Compartments<br>
         <input type="checkbox" name="ctags" value="Species" onchange="Validate()">Species<br>
-        <input type="checkbox" name="ctags" value="Reaction" onchange="Validate()">Reaction<br>
-        <input type="checkbox" name="ctags" value="Parameter" onchange="Validate()">Parameter<br>
+        <input type="checkbox" name="ctags" value="Reaction" onchange="Validate()">Reactions<br>
+        <input type="checkbox" name="ctags" value="Parameter" onchange="Validate()">Parameters<br>
     </td>   
   </tr>
 </table> 
@@ -393,28 +393,28 @@ possible tests.
 <table class="borderless-table" width="100%">
   <tr>
     <td width="33%" valign="top" style="padding: 0 0 1em 1em">
-        <input type="checkbox" name="ttags" value="2D-Compartment" onchange="Validate()">2D-Compartment<br>
-        <input type="checkbox" name="ttags" value="1D-Compartment" onchange="Validate()">1D-Compartment<br>
-        <input type="checkbox" name="ttags" value="0D-Compartment" onchange="Validate()">0D-Compartment<br>
-        <input type="checkbox" name="ttags" value="NonConstantCompartment" onchange="Validate()">NonConstantCompartment<br>
-        <input type="checkbox" name="ttags" value="NonUnityCompartment" onchange="Validate()">NonUnityCompartment<br>
-        <input type="checkbox" name="ttags" value="MultiCompartment" onchange="Validate()">MultiCompartment<br>
-        <input type="checkbox" name="ttags" value="InitialAmount" onchange="Validate()">InitialAmount<br>
-        <input type="checkbox" name="ttags" value="InitialConcentration" onchange="Validate()">InitialConcentration 
+        <input type="checkbox" name="ttags" value="2D-Compartment" onchange="Validate()">2-D compartments<br>
+        <input type="checkbox" name="ttags" value="1D-Compartment" onchange="Validate()">1-D compartments<br>
+        <input type="checkbox" name="ttags" value="0D-Compartment" onchange="Validate()">0-D compartments<br>
+        <input type="checkbox" name="ttags" value="NonConstantCompartment" onchange="Validate()">Varying-size compartments<br>
+        <input type="checkbox" name="ttags" value="NonUnityCompartment" onchange="Validate()">Compartments with size &ne; 1<br>
+        <input type="checkbox" name="ttags" value="MultiCompartment" onchange="Validate()">Multiple compartments<br>
+        <input type="checkbox" name="ttags" value="InitialAmount" onchange="Validate()">Species using initial amounts<br>
+        <input type="checkbox" name="ttags" value="InitialConcentration" onchange="Validate()">Species using initial concentration</br>
     </td>
     <td width="33%" valign="top" style="padding: 0 0 1em 1em">
-        <input type="checkbox" name="ttags" value="HasOnlySubstanceUnits" onchange="Validate()">HasOnlySubstanceUnits<br>
-        <input type="checkbox" name="ttags" value="BoundaryCondition" onchange="Validate()">BoundaryCondition<br>
-        <input type="checkbox" name="ttags" value="ConstantSpecies" onchange="Validate()">ConstantSpecies<br>
-        <input type="checkbox" name="ttags" value="NonConstantParameter" onchange="Validate()">NonConstantParameter<br>
-        <input type="checkbox" name="ttags" value="FastReaction" onchange="Validate()">FastReaction<br>
-        <input type="checkbox" name="ttags" value="ReversibleReaction" onchange="Validate()">ReversibleReaction<br>
-        <input type="checkbox" name="ttags" value="NonUnityStoichiometry" onchange="Validate()">NonUnityStoichiometry
+        <input type="checkbox" name="ttags" value="HasOnlySubstanceUnits" onchange="Validate()">Species with <font size='-2'>'hasOnlySubstanceUnits'</font><br>
+        <input type="checkbox" name="ttags" value="BoundaryCondition" onchange="Validate()">Species as boundary conditions<br>
+        <input type="checkbox" name="ttags" value="ConstantSpecies" onchange="Validate()">Species declared as constant<br>
+        <input type="checkbox" name="ttags" value="NonConstantParameter" onchange="Validate()">Parameters declared non-constant<br>
+        <input type="checkbox" name="ttags" value="FastReaction" onchange="Validate()">'Fast' reactions<br>
+        <input type="checkbox" name="ttags" value="ReversibleReaction" onchange="Validate()">Reversible reactions<br>
+        <input type="checkbox" name="ttags" value="NonUnityStoichiometry" onchange="Validate()">Stoichiometries &ne; 1<br>
     </td>
     <td width="33%" valign="top" style="padding: 0 0 1em 1em">
-        <input type="checkbox" name="ttags" value="StoichiometryMath" onchange="Validate()">StoichiometryMath<br>
-        <input type="checkbox" name="ttags" value="LocalParameters" onchange="Validate()">LocalParameters<br>
-        <input type="checkbox" name="ttags" value="CSymbolTime" onchange="Validate()">CSymbolTime<br>
+        <input type="checkbox" name="ttags" value="StoichiometryMath" onchange="Validate()">Use of formulas in stoichiometries<br>
+        <input type="checkbox" name="ttags" value="LocalParameters" onchange="Validate()">Reactions with local parameters<br>
+        <input type="checkbox" name="ttags" value="CSymbolTime" onchange="Validate()">Use of csymbol for 'time'<br>
     </td>         
   </tr>
 </table> 
