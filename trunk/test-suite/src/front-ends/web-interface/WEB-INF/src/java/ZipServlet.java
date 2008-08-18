@@ -53,8 +53,9 @@ public class ZipServlet extends HttpServlet {
             
             HttpSession session = request.getSession(true);
 
-            File path = (File) session.getValue("path");
-            Vector<String> selectedCases = (Vector<String>) session.getValue("tcases");
+            File path = (File) session.getAttribute("path");
+            @SuppressWarnings("unchecked") // FIXME
+            Vector<String> selectedCases = (Vector<String>) session.getAttribute("tcases");
             
             
             if (path == null) {
