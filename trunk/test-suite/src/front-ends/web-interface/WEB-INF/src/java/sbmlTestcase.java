@@ -1,13 +1,13 @@
 // 
 // @file    sbmlTestcase.java
-// @brief   Main class of the application - contains methods to get test case information, read input data, compare and analyze results.
+// @brief   Main class of the application.  Contains methods to get test case
+//          information, read input data, compare and analyze results.
 // @author  Kimberly Begley
 // @date    Created Jul 30, 2008, 9:25:21 AM
 //
-//
 //----------------------------------------------------------------------------
-//This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
-//more information about SBML, and the latest version of the SBML Test Suite.
+// This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
+// more information about SBML, and the latest version of the SBML Test Suite.
 //
 // Copyright 2008      California Institute of Technology.
 // Copyright 2004-2007 California Institute of Technology (USA) and
@@ -20,22 +20,25 @@
 // and also available at http://sbml.org/Software/SBML_Test_Suite/License
 // ----------------------------------------------------------------------------
 //
+// Main class for all applications - contains a constructor with
+// testname,start,duration,steps,number of variables absolute allowable
+// difference and relative allowable difference regarding a test.
 
-//  Main class for all applications - contains a constructor with testname,start,duration,steps,number of variables
-//  absolute allowable difference and relative allowable difference regarding a test.
-//  Contains methods: getStart,getTestname,getDuration,getSteps,getVariables_count,getAbs,getRel,getSbmlTestdir,
-//  getSettingsFile,getControlResults,getPlotFile,readResults,validateResults,compareResults,analyzeResults,
-//  readSettingsFile,getUsertestlist
+// Contains methods: getStart, getTestname, getDuration, getSteps,
+// getVariables_count, getAbs, getRel, getSettingsFile, getControlResults,
+// getPlotFile, readResults, validateResults, compareResults,
+// analyzeResults, readSettingsFile, getUsertestlist
 
 package sbml.test;
-import java.io.*;
-import java.util.*;
+
+import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import java.math.*;
-import javax.swing.*;
+import java.util.*;
 import java.util.regex.*;
-import java.applet.*;
+import javax.swing.*;
 
 public class sbmlTestcase  {
 	public String testname;
@@ -67,27 +70,6 @@ public class sbmlTestcase  {
 	}
 	public BigDecimal getRel() {
 		return rel;
-	}
-
-	public String getSbmlTestdir() throws IOException, FileNotFoundException {
-		String sbmltestdir = new String();
-		File sbmlconfigfile = new File("/usr/share/apache-tomcat-5.5.26/webapps/test_suite/WEB-INF/sbml_config_file.txt");
-//		File sbmlconfigfile = new File("sbml_config_file.txt");
-
-		String[][] config = new String[1][1];
-//		try{
-			BufferedReader bufRdr  = new BufferedReader(new FileReader(sbmlconfigfile));
-			String line = null;
-		
-			while((line = bufRdr.readLine()) != null)
-			{	
-				line.trim();
-				sbmltestdir = line;	
-			}
-			bufRdr.close();
-//		}
-		
-	return sbmltestdir;
 	}
 
 	public String getSettingsFile(String value, String testdir) {
