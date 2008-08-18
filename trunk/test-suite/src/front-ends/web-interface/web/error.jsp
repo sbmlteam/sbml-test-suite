@@ -30,11 +30,35 @@
 <%@ page import="java.net.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 
+<%@ include file="sbml-head.html"%>
+
 <% 
-	String error = (String)request.getAttribute("error"); 
-	
+    String error = (String)request.getAttribute("error"); 
 %>
 
+<%@ include file="sbml-top.html"%>
 
-	Error reported: <%=error%><br>
-	Please try again.
+
+<div id='pagetitle'><h1 class='pagetitle'>Upload Error</h1></div><!-- id='pagetitle' -->
+<div style="float: right; margin-top: 0; padding: 0 0 0 5px">
+  <img src="/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
+</div>
+<p>
+The Online SBML Test Suite system could not complete this step because it
+encountered the following problem:
+</p>
+
+<blockquote class="error">
+<%=error%><br>
+</blockquote>
+
+<p> You can use your browser's back button to return the previous page and
+try again.
+</p>
+
+<p> If the problem persists or does not appear to be due to something about
+the input you provided, please let us know by <a
+href="mailto:sbml-team@caltech.edu">sending mail to
+sbml-team@caltech.edu</a>.  </p>
+
+<%@ include file="sbml-bottom.html"%>
