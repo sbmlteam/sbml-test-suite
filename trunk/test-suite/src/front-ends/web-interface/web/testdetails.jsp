@@ -92,11 +92,14 @@ table {
 	</p>
 
 <center>
-	<IMG SRC="http://sbml.org:8080/test_suite/servlet/OpenFile?plot=<%=plot%>" align="center" ALT="plot"> 
+	<IMG style="margin-left: -80px" SRC="http://sbml.org:8080/test_suite/servlet/OpenFile?plot=<%=plot%>" align="center" ALT="plot"> 
 </center>
 
 <p>
-	
+<style type='text/css'>
+table { width: 75% !important; }
+</style>
+
 <%      String fileh = "file://" + html;
 %>
 	<c:import url="<%=fileh%>" />
