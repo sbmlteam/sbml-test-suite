@@ -51,14 +51,29 @@ fi
 
 # Does it look like we were provided with a .csv file?
 
-INPUTFILE=$1
+CSV_FILE=$1
 
-if [ ! "${INPUTFILE/*./}" = "csv" ]; then
+if [ ! "${CSV_FILE/*./}" = "csv" ]; then
     echo \"$1\" does not appear to be a CSV file.
     echo ""
     echo "$USAGE_TEXT"
     exit 1
 fi
+
+INPUTFILE="`echo $CSV_FILE | sed -e 's/-results/-plot/'`"
+
+trap "rm -f $INPUTFILE; exit" INT TERM EXIT
+
+# 1) Windows line-ending conventions screw up gnuplot, which reads the ^M
+# at the end of the title line and ends up thinking it's a character in a
+# column name.  (You end up with this weird little angle-bracket character
+# as part of the last column's title.)  The following removes trailing
+# ^M's.
+#
+# 2) While we're mucking with the content, let's rename the column titles
+# from the Mathematica pattern of, e.g., "case00350`S1" to just "S1".
+
+sed -e 's/case[0-9][0-9][0-9][0-9][0-9]\`//g' < $CSV_FILE | tr -d '\015' > $INPUTFILE
 
 # OK, run gnuplot.  The last line (the plot command) is hackacious,
 # but without more work, it's hard to see how to limit the number of
