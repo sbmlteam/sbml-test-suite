@@ -60,6 +60,21 @@ if [ ! "${CSV_FILE/*./}" = "csv" ]; then
     exit 1
 fi
 
+# Make sure we have a sufficient version of gnuplot
+
+VERS=`gnuplot --version | tr -d '\015'`
+major_vers=`expr "$VERS" : 'gnuplot \([0-9]*\)\.[0-9]*'`
+minor_vers=`expr "$VERS" : 'gnuplot [0-9]*\.\([0-9]*\)'`
+
+if test 4 -gt $major_vers || test $major_vers -eq 4 && test 2 -gt $minor_vers
+then
+    echo Very sorry, but this script needs gnuplot version 4.2 or higher.
+    echo Quitting.
+    exit 1
+fi
+
+# OK, let's get started.
+
 INPUTFILE="`echo $CSV_FILE | sed -e 's/-results/-plot/'`"
 
 trap "rm -f $INPUTFILE; exit" INT TERM EXIT
