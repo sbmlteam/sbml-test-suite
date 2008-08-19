@@ -25,6 +25,11 @@
 # Commads for generating case descriptions in HTML format.
 # -----------------------------------------------------------------------------
 # Run 'make html' for regenerating HTML documentation of every test case.
+# Run 'make plots' for regenerating the JPG plot images from CSV files.
+
+#
+# make html code.
+#
 
 define make_html
   ./src/utilities/desc2html/desc2html.sh $(addsuffix .m,$(basename $(1))) $(1)
@@ -33,12 +38,26 @@ endef
 cases-m-files    = $(wildcard cases/semantic/*/*-model.m)
 cases-html-files = $(addsuffix .html,$(basename $(cases-m-files)))
 
-to_make_html     = $(addprefix make-,$(cases-html-files))
+html: $(cases-html-files)
 
-html: $(to_make_html)
+$(cases-html-files):
+	$(call make_html,$@)
 
-$(to_make_html):
-	$(call make_html,$(subst make-,,$@))
+#
+# make plots code.
+#
+
+define make_plot
+  ./src/utilities/plotresults/plotresults.sh $(addsuffix .csv,$(basename $(1)))
+endef
+
+cases-csv-files = $(wildcard cases/semantic/*/*-results.csv)
+cases-jpg-files = $(patsubst %-results.csv,%-plot.jpg,$(cases-csv-files))
+
+plots: $(cases-jpg-files)
+
+$(cases-jpg-files):
+	$(call make_plot,$(patsubst %-plot.jpg,%-results.csv,$@))
 
 
 # -----------------------------------------------------------------------------
@@ -83,7 +102,7 @@ endif
 # Common special targets
 # -----------------------------------------------------------------------------
 
-.PHONY: docs
+.PHONY: docs html plots
 
 
 # ----------------------------------------------------------------------------- 
