@@ -30,7 +30,7 @@ ConstantSpecies
 NonConstantParameter
 FastReaction
 ReversibleReaction
-ZeroRate
+ZeroRate - removed this as a tag as it isnt really a test case on its own
 NonUnityStoichiometry
 StoichiometryMath
 LocalParameters
