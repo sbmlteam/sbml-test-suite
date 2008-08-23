@@ -43,6 +43,7 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import javax.swing.SwingUtilities;
 
@@ -82,7 +83,7 @@ public class UpdateDownloader extends SwingWorker {
 
         try {
             // Looks for the timestamp file in the .sbmltestrunner directory - this should have the timestamp for the latest installed version of cases
-            File localtimestampfile = new File(((String) System.getProperty("user.home")) + File.separator + ".sbmltestrunner" + File.separator + "sbml-test-suite" + File.separator + "timestamp");
+            File localtimestampfile = new File(((String) System.getProperty("user.home")) + File.separator + ".sbmltestrunner" +  File.separator + "timestamp");
             BufferedReader br = new BufferedReader(new FileReader(localtimestampfile));
             localtimestamp = br.readLine();
             final String ts = localtimestamp;
@@ -96,11 +97,11 @@ public class UpdateDownloader extends SwingWorker {
                 });
             }
         } catch (FileNotFoundException e) {
-            reportToDialog("Cannot read local time stamp"); 
+            reportToDialog("Cannot read local time stamp - File not found"); 
             e.printStackTrace();
             return false;
         } catch (IOException e) {
-            reportToDialog("Cannot read local time stamp");
+            reportToDialog("Cannot read local time stamp - IO Exception");
             e.printStackTrace();
             return false;
         }
@@ -212,12 +213,23 @@ public class UpdateDownloader extends SwingWorker {
                 tcu.appendToLog("\nUnpacking archive ...");
                 
                 try {
+                    ZipFile zf = new ZipFile(getClass().getResource("resources/sbml-test-suite.zip").getFile());
+                    ZipEntry ze = zf.getEntry("sbml-test-suite/.cases-archive-date");
+                    
+                    BufferedReader bzr = new BufferedReader(new InputStreamReader(zf.getInputStream(ze)));
+                    String ts = bzr.readLine();
+                    
+                    ts.trim();
+                    //String destinationDirectory = tests + File.separator + ts;
+                    //File ddir = new File(destinationDirectory);
+                    
+                    
                     // unzip the files
                     FileInputStream newcasesfile = new FileInputStream(((String) System.getProperty("java.io.tmpdir")) + File.separator + "testoutputfile.zip");
                     ZipInputStream zipFile = new ZipInputStream(new BufferedInputStream(newcasesfile));
                     ZipEntry entry;
                     String userpath = System.getProperty("user.home");
-                    File tests = new File(userpath + File.separator + ".sbmltestrunner");
+                    File tests = new File(userpath + File.separator + ".sbmltestrunner" + ts);
                     String destinationDirectory = tests.getAbsolutePath();
 
 

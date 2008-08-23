@@ -112,26 +112,31 @@ public class FailedTestCaseListModel extends AbstractListModel implements ListDa
     public TestResultDetails getRawElementAt(int index) {
         return failedData.get(index);
     }
+    
+    public boolean isEmpty() {
+        if(failedData.size() == 0) { return true; }
+        else return false;
+    }
     /**
      * 
      * @param e
      */
     public void intervalAdded(ListDataEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
     /**
      * 
      * @param e
      */
     public void intervalRemoved(ListDataEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
     /**
      * 
      * @param e
      */
     public void contentsChanged(ListDataEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

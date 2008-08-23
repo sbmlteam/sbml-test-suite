@@ -65,6 +65,7 @@ public class PassedTestCaseListModel extends AbstractListModel implements ListDa
     public TestResultDetails remove(int index) {
         TestResultDetails o = passedData.remove(index);
         fireContentsChanged(this, getSize() - 1, getSize() - 1);
+        
         return o;
     }
     /**
@@ -74,6 +75,7 @@ public class PassedTestCaseListModel extends AbstractListModel implements ListDa
         if (getSize() > 0  ) {
             this.fireIntervalRemoved(this, 0, getSize() - 1);
             passedData.removeAllElements();
+            
 
         }
     }
@@ -100,26 +102,33 @@ public class PassedTestCaseListModel extends AbstractListModel implements ListDa
     public TestResultDetails getRawElementAt(int index) {
         return passedData.get(index);
     }
+    
+    public boolean isEmpty() {
+        if(passedData.size() == 0) { return true; }
+        else return false;
+    }
     /**
      * 
      * @param e
      */
     public void intervalAdded(ListDataEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+       //throw new UnsupportedOperationException("Not supported yet.");
+        
     }
     /**
      * 
      * @param e
      */
     public void intervalRemoved(ListDataEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+       // throw new UnsupportedOperationException("Not supported yet.");
+        
     }
     /**
      * 
      * @param e
      */
     public void contentsChanged(ListDataEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 }
 

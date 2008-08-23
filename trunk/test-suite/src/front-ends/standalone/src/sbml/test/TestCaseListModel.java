@@ -96,6 +96,11 @@ public class TestCaseListModel extends AbstractListModel implements ListDataList
     TestResultDetails getRawElementAt(int index) {
         return rawData.get(index);
     }
+    
+    public boolean isEmpty() {
+        if(rawData.size() ==0){ return true; }
+        else return false;
+    }
     /**
      * 
      * @param e
@@ -110,5 +115,6 @@ public class TestCaseListModel extends AbstractListModel implements ListDataList
 
     public void contentsChanged(ListDataEvent e) {
        // throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 }
