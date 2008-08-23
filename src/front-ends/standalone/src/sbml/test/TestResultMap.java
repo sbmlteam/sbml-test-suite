@@ -84,7 +84,6 @@ public class TestResultMap extends JPanel implements ListDataListener, ItemSelec
  */
     public void intervalRemoved(ListDataEvent e) {
         for (int i = e.getIndex1(); i >= e.getIndex0(); i--) {
-            System.out.println("removing an element");
             this.removeMapElement(i);
 
         }

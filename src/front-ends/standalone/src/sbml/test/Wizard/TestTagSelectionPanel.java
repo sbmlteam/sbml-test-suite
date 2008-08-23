@@ -469,7 +469,7 @@ public class TestTagSelectionPanel extends WizardPanel implements ItemListener{
             
         }
         else if((Integer)selections.get("Compartment") ==0 && (Integer)selections.get("L1V2radiobutton") == 0) {
-            System.out.println("the compartment is 0 and the l1v2 is 0 too!");
+           
             tdc_button.setEnabled(true);
             odc_button.setEnabled(true);
             zdc_button.setEnabled(true);

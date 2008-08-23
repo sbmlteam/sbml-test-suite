@@ -170,6 +170,7 @@ public class MapViewPane extends JPanel implements ItemListener {
      * updateMap resets the map display.
      */
     public void updateMap() {
+        summaryEditorPane.setText("<html>No dataset selected</html>");
         resultMap.resetDisplay();
     }
 

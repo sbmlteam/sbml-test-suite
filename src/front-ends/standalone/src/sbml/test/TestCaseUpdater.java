@@ -40,6 +40,7 @@ public class TestCaseUpdater extends javax.swing.JDialog {
     public TestCaseUpdater(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(parent);
         this.setVisible(true);
     }
     /**
@@ -67,6 +68,8 @@ public class TestCaseUpdater extends javax.swing.JDialog {
         jProgressBar1.setValue(100);
         jProgressBar1.setString(message);
         jProgressBar1.setStringPainted(true);
+        jButton1.setEnabled(false);
+        jButton2.setEnabled(true);
     }
     /**
      * setLocalTimestamp sets the local timestamp
@@ -124,6 +127,7 @@ public class TestCaseUpdater extends javax.swing.JDialog {
         latestVersionLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -156,6 +160,15 @@ public class TestCaseUpdater extends javax.swing.JDialog {
         });
         jPanel3.add(jButton1);
 
+        jButton2.setText("Ok");
+        jButton2.setEnabled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton2);
+
         getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
         jPanel2.setLayout(new java.awt.BorderLayout(10, 10));
@@ -182,11 +195,16 @@ public class TestCaseUpdater extends javax.swing.JDialog {
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel currentVersionLabel;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

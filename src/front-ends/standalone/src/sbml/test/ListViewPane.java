@@ -208,9 +208,12 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
     public void valueChanged(ListSelectionEvent e) {
 
         if (e.getValueIsAdjusting() == false) {
+            
             JList list = (JList) e.getSource();
-            int index = list.getSelectedIndex();
+            int index = list.getSelectedIndex();              
             updateDetails(index, list);
+                
+            
         }
     }
 
@@ -220,7 +223,7 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
      * @param list The name of the list in the list selections - ie passed, failed or skipped.
      */
     public void updateDetails(int index, JList list) {
-
+        
         String html_content = "";
         String plotpath = "";
         String description_path = "";
@@ -228,6 +231,8 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
         StringBuffer buffer = new StringBuffer();
 
         if (list == passList) {
+          if(index>0){
+              
             //    shortDetailLabel.setText("<html><p>Test Case " + passedList.getElementAt(index) + "</p><p>Passed!</p></html>");
             buffer.append("<p><b>Test Case</b> " + passedList.getElementAt(index) + "</p><p>Passed!</p>");
             //      detailPane.add(shortDetailLabel, BorderLayout.PAGE_START);
@@ -235,8 +240,13 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
             synopsisLabel.setText(synopsis);
             plotpath = passedList.getRawElementAt(index).getPlot();
             description_path = passedList.getRawElementAt(index).getHtml();
+          }
+          else{
+              buffer.append("<p>No dataset selected!</p>");
+          }
 
         } else if (list == failList) {
+           if(index>0) {
             //     shortDetailLabel.setText("<html><p>Test Case " + failedList.getElementAt(index) + "</p><p>Failed at " + failedList.getRawElementAt(index).getResult() + " points</p></html>");
             buffer.append("<p>Test Case " + failedList.getElementAt(index) + "</p><p>Failed at " + failedList.getRawElementAt(index).getResult() + " points</p>");
             //     detailPane.add(shortDetailLabel, BorderLayout.PAGE_START);
@@ -244,8 +254,12 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
             synopsisLabel.setText(synopsis);
             plotpath = failedList.getRawElementAt(index).getPlot();
             description_path = failedList.getRawElementAt(index).getHtml();
+           } else {
+               buffer.append("<p>No dataset selected!</p>");
+           }
 
         } else if (list == skipList) {
+           if(index>0){
             //     shortDetailLabel.setText("<html><p>Test Case " + skippedList.getRawElementAt(index).getTestname() + " </p><p>Skipped: " + skippedList.getRawElementAt(index).getWarnings() + "</p></html>");
             buffer.append("<p>Test Case " + skippedList.getRawElementAt(index).getTestname() + " </p><p>Skipped: " + skippedList.getRawElementAt(index).getWarnings() + "</p>");
 
@@ -254,9 +268,13 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
             synopsisLabel.setText(synopsis);
             plotpath = skippedList.getRawElementAt(index).getPlot();
             description_path = skippedList.getRawElementAt(index).getHtml();
+           }
+           else {
+               buffer.append("<p>No dataset selected.</p>");
+           }
 
         }
-
+       if(index >0){
         try {
             FileInputStream fis = new FileInputStream(description_path);
             int x = fis.available();
@@ -272,6 +290,7 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
 
         buffer.append("<br><p><img src=\"file://" + convertPathToHTML(plotpath) + "\"></img></p><br>");
         buffer.append(html_content);
+       }
         summaryEditorPane.setText("<html>" + buffer.toString() + "</html>");
 
 

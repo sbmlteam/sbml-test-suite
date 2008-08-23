@@ -100,20 +100,26 @@ public class SkippedTestCaseListModel extends AbstractListModel implements ListD
     public TestResultDetails getRawElementAt(int index) {
         return skippedData.get(index);
     }
+    
+    public boolean isEmpty() {
+        if(skippedData.size() == 0) { return true; }
+        else return false;
+    }
     /**
      * 
      * @param e
      */
     public void intervalAdded(ListDataEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+       // throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void intervalRemoved(ListDataEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     public void contentsChanged(ListDataEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

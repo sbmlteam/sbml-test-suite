@@ -42,13 +42,16 @@ import java.util.zip.ZipEntry;
 import javax.swing.SwingUtilities;
 import java.util.zip.ZipInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.RandomAccessFile;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import java.util.zip.ZipFile;
 
 /**
  * TestRunnerWorker class contains the testing logic of the Stand Alone SBML Test Suite.
@@ -102,6 +105,8 @@ public class TestRunnerWorker extends SwingWorker {
 
 
         // Look for a test case directory - if it does not exist unzip the zipped test case files
+        File test = null;
+        String testdir = null;
         String dirpath = null;
         String userpath = System.getProperty("user.home");
         //File tests = new File(userpath + "/.sbmltestrunner");
@@ -111,94 +116,170 @@ public class TestRunnerWorker extends SwingWorker {
         if (!tests.exists()) {
             tests.mkdir();
             dirpath = tests.getAbsolutePath();
+        }
+        File localtimestampcases = new File(userpath + File.separator + ".sbmltestrunner" + File.separator +  "timestamp");
+        if(!localtimestampcases.exists()){
             
-            
-         //   String ziplogfile = new String(userpath + File.separator + ".sbmltestrunner" + File.separator +"unzip.log");
-            //int log = (Integer)this.testConfiguration.hashMap.get("logging");
-         //   boolean append = true;
-
-         /*   try {
-
-                zfh = new FileHandler(ziplogfile, append);
-                zfh.setFormatter(new SimpleFormatter());
-                ziplogger.addHandler(zfh); // send logger output to FileHandler
-
-
-            /*   DateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            java.util.Date date = new java.util.Date();
-            logger.info(dateformat.format(date));
-             
-            } catch (IOException ex) {
-                Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SecurityException ex) {
-                Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, ex);
-            } */
-
-            //  if(getClass().getResource("testcases") == null) {
-            System.out.println("Test directory does not exist in user home directory - creating now...");
-           // ziplogger.info("Test directory does not exist in user home directory - creating now...");
+            String ts = "";
             if (getClass().getResource("resources/sbml-test-suite.zip") == null) {
                 System.out.println("Zipped Test cases are not found with application - unable to run.");
                // ziplogger.warning("Zipped test cases are not found with application - unable ro tun.");
             } else {
                 try {
                     // unzip the file
-                    ZipInputStream zipFile = new ZipInputStream(getClass().getResourceAsStream("resources/sbml-test-suite.zip"));
-                    ZipEntry entry;
-                    //String destinationDirectory = "sbmltestrunner";
-                    String destinationDirectory = dirpath;
+                    
+                    ZipFile zf = new ZipFile(getClass().getResource("resources/sbml-test-suite.zip").getFile());
+                    ZipEntry ze = zf.getEntry("sbml-test-suite/.cases-archive-date");
+                    
+                    BufferedReader bzr = new BufferedReader(new InputStreamReader(zf.getInputStream(ze)));
+                    ts = bzr.readLine();
+                    
+                    ts.trim();
+                    String destinationDirectory = tests + File.separator + ts;
+                    File ddir = new File(destinationDirectory);
+                    
+                    if(!ddir.exists()){
+                    //System.out.println("test dir does not exist");
 
+                        ZipInputStream zipFile = new ZipInputStream(getClass().getResourceAsStream("resources/sbml-test-suite.zip"));
+                        ZipEntry entry;
+                    
+                        while ((entry = zipFile.getNextEntry()) != null) {
+                            int count;
+                            byte data[] = new byte[2048];
+                            BufferedOutputStream dest;
+                            File destFile = new File(destinationDirectory, entry.getName());
+                            File destinationParent = destFile.getParentFile();
+                            destinationParent.mkdirs();
+                            if (!entry.isDirectory()) {
 
-                    while ((entry = zipFile.getNextEntry()) != null) {
-                        int count;
-                        byte data[] = new byte[2048];
-                        BufferedOutputStream dest;
-                        File destFile = new File(destinationDirectory, entry.getName());
-                        File destinationParent = destFile.getParentFile();
-                        destinationParent.mkdirs();
-                        if (!entry.isDirectory()) {
-
-                            FileOutputStream fout = new FileOutputStream(destFile);
-                            dest = new BufferedOutputStream(fout, 2048);
-                            while ((count = zipFile.read(data, 0, 2048)) != -1) {
-                                dest.write(data, 0, count);
+                                FileOutputStream fout = new FileOutputStream(destFile);
+                                dest = new BufferedOutputStream(fout, 2048);
+                                while ((count = zipFile.read(data, 0, 2048)) != -1) {
+                                    dest.write(data, 0, count);
+                                }
+                                dest.flush();
+                                dest.close();
                             }
-                            dest.flush();
-                            dest.close();
-                        }
-
-
-                    }
-                // write the timestamp file for these cases - hardcoded right now but can edit to look up later
-                    try {
-                        File localtimestampcases = new File(userpath + File.separator + ".sbmltestrunner" + File.separator + "sbml-test-suite" + File.separator + "timestamp");
+                        zipFile.closeEntry();
+                    }   
+                     } // end of if dest dir does not exist
+                // write the timestamp file for these cases 
+                    try {                  
                         //Create file if it does not exist
                         BufferedWriter timestampout = new BufferedWriter(new FileWriter(localtimestampcases));
-                        timestampout.write("2008-02-28");
+                        timestampout.write(ts);
                         timestampout.close();
                     } catch (IOException e) {
                         System.out.println("Caught IO Exception while trying to create timestamp file in user directory");
                     }   
-
+               
+                } catch (IOException io) {
+                    Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, io);
+                }
+            
+            test = new File(tests + File.separator + ts);
+            //System.out.println("test dir is " + test);
+    }
+        } else {
+            // the timestamp file already exists - set the test directory
+            //System.out.println("timestamp dir does exist");
+            BufferedReader btsr = null;
+            String localtimestamp = "";
+            dirpath = tests.getAbsolutePath();
+            try {
+                btsr = new BufferedReader(new FileReader(localtimestampcases));
+                localtimestamp = btsr.readLine();
+                //System.out.println("timestamp is " + localtimestamp);
+                
+                //t2.deleteDirectory()
+            } catch (FileNotFoundException fnf) {
+                Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, fnf);
+            } catch (IOException ioe){
+                Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, ioe);
+            } 
+            finally {
+                try {
+                    btsr.close();
                 } catch (IOException ex) {
                     Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            String testsdir  = tests + File.separator + localtimestamp;
+           
+            File tdir = new File(testsdir);
+            // if the timestamp file contains a timestamp for which there is no directory
+            if(!tdir.exists()){
+                
+                String ts = "";
+                if (getClass().getResource("resources/sbml-test-suite.zip") == null) {
+                    System.out.println("Zipped Test cases are not found with application - unable to run.");
+                // ziplogger.warning("Zipped test cases are not found with application - unable ro tun.");
+                } else {
+                    try {
+                        // unzip the file
 
-        } else {
-            System.out.println("The test case directory already exists in user home directory.");
-          //  ziplogger.info("the test case directory already exists in the user home directory.");
-            dirpath = tests.getAbsolutePath();
+                        ZipFile zf = new ZipFile(getClass().getResource("resources/sbml-test-suite.zip").getFile());
+                        ZipEntry ze = zf.getEntry("sbml-test-suite/.cases-archive-date");
 
-        //t2.deleteDirectory()
+                        BufferedReader bzr = new BufferedReader(new InputStreamReader(zf.getInputStream(ze)));
+                        ts = bzr.readLine();
+
+                        ts.trim();
+                        String destinationDirectory = tests + File.separator + ts;
+                        File ddir = new File(destinationDirectory);
+                       
+                        if (!ddir.exists()) {
+
+
+                            ZipInputStream zipFile = new ZipInputStream(getClass().getResourceAsStream("resources/sbml-test-suite.zip"));
+                            ZipEntry entry;
+
+                            while ((entry = zipFile.getNextEntry()) != null) {
+                                int count;
+                                byte data[] = new byte[2048];
+                                BufferedOutputStream dest;
+                                File destFile = new File(destinationDirectory, entry.getName());
+                                File destinationParent = destFile.getParentFile();
+                                destinationParent.mkdirs();
+                                if (!entry.isDirectory()) {
+
+                                    FileOutputStream fout = new FileOutputStream(destFile);
+                                    dest = new BufferedOutputStream(fout, 2048);
+                                    while ((count = zipFile.read(data, 0, 2048)) != -1) {
+                                        dest.write(data, 0, count);
+                                    }
+                                    dest.flush();
+                                    dest.close();
+                                }
+                                zipFile.closeEntry();
+                            }
+                            // write the timestamp file for these cases 
+                            try {
+                                //Create file if it does not exist
+                                BufferedWriter timestampout = new BufferedWriter(new FileWriter(localtimestampcases));
+                                timestampout.write(ts);
+                                timestampout.close();
+                            } catch (IOException e) {
+                                System.out.println("Caught IO Exception while trying to create timestamp file in user directory");
+                            }
+                        } // end of if dest dir does not exist
+                    } catch (IOException io) {
+                        Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, io);
+                    }
+
+            }
+            }
+            test = new File(dirpath + File.separator + localtimestamp);
+        
         }
         HashMap<String, Object> logginginfo = new HashMap<String, Object>();
         logginginfo = testRunnerView.getLoggingInfo();
         Boolean log = (Boolean) logginginfo.get("logging");
         String conf = (String) logginginfo.get("configpath");
 
-        System.out.println("the logging is set to " + log);
-        System.out.println("the path is set to " + conf);
+        //System.out.println("the logging is set to " + log);
+        //System.out.println("the path is set to " + conf);
 
         // String logfile = new String(userpath+"/.sbmltestrunner/sbml-test-suite.log");
         String logfile = new String(conf);
@@ -225,7 +306,7 @@ public class TestRunnerWorker extends SwingWorker {
         if (log == true) {
             logger.setLevel(Level.ALL); // request that every detail gets logged
         } else {
-            System.out.println("the log equals false");
+           // System.out.println("the log equals false");
             logger.setLevel(Level.WARNING);
         }
 
@@ -414,17 +495,17 @@ public class TestRunnerWorker extends SwingWorker {
         ttags.addElement("Discontinuity");
         } */
         
-        logger.info("about to start all this string mess");
+        
          String osName = System.getProperty("os.name").toLowerCase();
        // String windowsuserpath = userpath.replaceAll("\\\\", "\\\\\\");
        //  logger.info("windowsuserpath is : " +windowsuserpath);
         //  String testdir = (String)this.testConfiguration.hashMap.get("InputPath");
-        String testdir = tests + File.separator + "sbml-test-suite" + File.separator + "cases" + File.separator + "semantic";
+        testdir = test + File.separator + "sbml-test-suite" + File.separator + "cases" + File.separator + "semantic";
        // String windowstestdir = testdir.replaceAll("\\", "\\\\");
        // logger.info("testdir for windows is : " + windowstestdir);
         String command = (String) this.testConfiguration.hashMap.get("WrapperPath");
         //String outdir = (String)this.testConfiguration.hashMap.get("OutputPath");
-        String outdir = tests + File.separator + "wrapperOutput";
+        String outdir = test + File.separator + "wrapperOutput";
         //String windowsoutdir = outdir.replaceAll("\\", "\\\\");
         //logger.info("outdir for windows is : " + windowsoutdir);
         File o = new File(outdir);
@@ -536,7 +617,7 @@ public class TestRunnerWorker extends SwingWorker {
                 } catch (IOException ex) {
                     // Logger.getLogger(TestRunnerWorker.class.getName()).log(Level.SEVERE, null, ex);
                     logger.log(Level.SEVERE, "Attempt to run wrapper caused an IOException", ex);
-                //System.out.println("threw an exception");
+               
 
                 }
                 InputStream stdout = proc.getInputStream();
