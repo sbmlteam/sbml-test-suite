@@ -37,11 +37,22 @@
 
 <script type="text/javascript">
 <!--
-function uncheckAll(field) {
-	for(i=0;i<field.length;i++) {
-		field[i].checked = false;
-	}
+function uncheck(field, both) {
+  if (both) {
+    uncheckAll(document.testselect.ctags);
+    uncheckAll(document.testselect.ttags);
+  } else {
+    uncheckAll(field);
+  }
+  Validate();
 }
+
+function uncheckAll(field) {
+  for (i = 0; i < field.length; i++) {
+    field[i].checked = false;
+  }
+}
+
 function checkme() {
   if (document.testselect.testtype.checked == false) {
       document.testselect.testtype.checked = true;
@@ -140,24 +151,24 @@ function ValidateLevels() {
   }
 
 }
+
 function Validate() {
 
-if(document.testselect.ctags[7].checked == true && document.testselect.ctags[8].checked == false) {
-        document.testselect.ctags[8].checked = true;
-  }
- if(document.testselect.ctags[7].checked == true ) { 
-// If compartment is omitted then species is omitted and reaction is omitted
-       document.testselect.ctags[8].checked = true;
-       document.testselect.ctags[9].checked = true;
+  if(document.testselect.ctags[7].checked == true && document.testselect.ctags[8].checked == false) {
+          document.testselect.ctags[8].checked = true;
   }
 
-if(document.testselect.ctags[8].checked == true && document.testselect.ctags[9].checked == false) { 
-// If species is omitted then reaction is omitted
-        document.testselect.ctags[9].checked = true;
+  if(document.testselect.ctags[7].checked == true ) { 
+  // If compartment is omitted then species is omitted and reaction is omitted
+         document.testselect.ctags[8].checked = true;
+         document.testselect.ctags[9].checked = true;
   }
-
-
-
+  
+  if(document.testselect.ctags[8].checked == true && document.testselect.ctags[9].checked == false) { 
+  // If species is omitted then reaction is omitted
+          document.testselect.ctags[9].checked = true;
+  }
+  
   if(document.testselect.ctags[7].checked == true) {i // Compartment
         document.testselect.ttags[0].checked = false; // 2D-Compartment
       	document.testselect.ttags[0].disabled = true;
@@ -357,7 +368,7 @@ possible tests.
 
 <h3>Select the component tags you would like to exclude
   <a style="margin-left: 1.5em; font-style: normal;"
-     href="javascript:uncheckAll(document.testselect.ctags)">[Clear all checked]</a>            
+     href="javascript:uncheck(document.testselect.ctags, true)">[Clear all checked]</a>            
 </h3>
 
 <p>
@@ -386,7 +397,7 @@ possible tests.
 
 <h3>Select the test tags you would like to exclude
   <a style="margin-left: 2em; font-style: normal;"
-     href="javascript:uncheckAll(document.testselect.ttags)">[Clear all checked]</a>            
+     href="javascript:uncheck(document.testselect.ttags, true)">[Clear all checked]</a>            
 </h3>
 
 <p>
