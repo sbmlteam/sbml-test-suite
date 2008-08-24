@@ -21,17 +21,17 @@
 ## http://sbml.org/Software/SBML_Test_Suite/license.html
 ## ----------------------------------------------------------------------------
 
-docs: docs-software docs-suite
+docs: docs-standalone docs-online
 
 version = `cat ../../VERSION.txt`
 
 # Overall SBML Test Suite documentation
 
-docs-suite: # (Not yet done.)
+docs-online: # (Not yet done.)
 
 # Application documentation
 
-docs-software: docs-standalone
+docs-standalone: docs-standalone-api
 
 # This runs Javadoc on the .java files in src/front-ends/standalone and
 # doesn't need doxygen at all.
@@ -53,7 +53,7 @@ define merge_html
   | sed -e "s/%%version%%/$(version)/g" > $(2)
 endef
 
-docs-standalone:
+docs-standalone-api:
 	javadoc -use -public -version -author -sourcetab 4 -keywords \
 	    -header "$(sa-header)" \
 	    -bottom "$(sa-footer)" \
