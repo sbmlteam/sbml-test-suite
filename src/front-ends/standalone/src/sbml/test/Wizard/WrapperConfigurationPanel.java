@@ -83,12 +83,22 @@ public class WrapperConfigurationPanel extends WizardPanel {
         JPanel messagePanel = new JPanel(new BorderLayout());
         messagePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
         messagePanel.add(new JLabel("<html>Please provide the full command " +
-                "line for a wrapper program that interfaces to the SBML-compatible" +
+                "line for a wrapper program that interfaces to the SBML-compatible " +
                 "application being tested.<br><br>You can use the following codes " +
                 "in the command line:<br>" +
-                "<b>%d</b> = path to the directory containing the test cases<br> " +
+                "<b>%d</b> = path to the directory containing all test cases<br> " +
                 "<b>%n</b> = current test case number (of the form NNNNN)<br>" +
-                "<b>%o</b> = directory where the CSV output file should be written.</html>"), BorderLayout.NORTH);
+                "<b>%o</b> = directory where the CSV output file should be written." +
+                "<br><br>The current test case SBML file will be located in the " +
+                "directory %d/%n and be named <tt>%n-sbml-l<b>X</b>v<b>Y</b>.xml</tt>, " +
+                "where <b>X</b> is the Level and <b>Y</b> is the Version of the " +
+                "SBML file (for example, \"<tt>00123-sbml-l2v3.xml</tt>\").  The test " +
+                "settings file will be named <tt>%d-settings.txt</tt> in the " +
+                "same directory (for example, \"<tt>00123-settings.txt</tt>\"). " +
+                "The application must be instructed to write out the results " +
+                "into a file named <tt>%o/%n.csv</tt> (for example, " +
+                "\"<tt>00123.csv</tt>\")."
+                ), BorderLayout.NORTH);
  //       messagePanel.add(new JLabel("<html> <b>%n</b> for the test case and <b>%o</b> for the output path:</html>"), BorderLayout.WEST);
         contentPanel2.add(messagePanel, BorderLayout.NORTH);
         
