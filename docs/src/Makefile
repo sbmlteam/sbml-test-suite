@@ -25,13 +25,24 @@ docs: docs-standalone docs-online
 
 version = `cat ../../VERSION.txt`
 
+#
 # Overall SBML Test Suite documentation
+#
 
 docs-online: # (Not yet done.)
 
+#
 # Application documentation
+#
 
-docs-standalone: docs-standalone-api
+docs-standalone:  docs-standalone-user docs-standalone-api
+
+user-doc-src-dir    = standalone-user-manual
+user-doc-output-dir = ../formatted/standalone-user-manual
+
+docs-standalone-user:
+	mkdir -p $(user-doc-output-dir)
+	cp $(user-doc-src-dir)/standalone-test-suite-user-guide.pdf $(user-doc-output-dir)
 
 # This runs Javadoc on the .java files in src/front-ends/standalone and
 # doesn't need doxygen at all.
