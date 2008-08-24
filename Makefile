@@ -96,16 +96,15 @@ dist-files = README.txt \
 	     COPYING.txt \
 	     FUNDING.txt \
 	     LICENSE.txt \
-	     Makefile \
 	     NEWS-OLD.txt \
 	     NEWS.txt \
-	     README.txt \
-	     VERSION.txt
+	     VERSION.txt \
+	     docs/formatted/standalone-user-manual
 dist-jar   = src/front-ends/standalone/dist/SBMLTestSuite.jar
 
 standalone-dist:
 	mkdir -p $(dist-dir)
-	cp $(dist-files) $(dist-dir)
+	cp -r $(dist-files) $(dist-dir)
 	cp $(dist-jar) $(dist-dir)
 	zip -r $(dist-dir).zip $(dist-dir)
 
