@@ -86,6 +86,30 @@ cases-dist: html
 
 
 # -----------------------------------------------------------------------------
+# Standalone Application distribution
+# -----------------------------------------------------------------------------
+
+dist-dir   = SBMLTestSuite-$(shell cat VERSION.txt)
+dist-files = README.txt \
+	     AUTHORS.txt \
+	     COPYING.html \
+	     COPYING.txt \
+	     FUNDING.txt \
+	     LICENSE.txt \
+	     Makefile \
+	     NEWS-OLD.txt \
+	     NEWS.txt \
+	     README.txt \
+	     VERSION.txt
+dist-jar   = src/front-ends/standalone/dist/SBMLTestSuite.jar
+
+standalone-dist:
+	mkdir -p $(dist-dir)
+	cp $(dist-files) $(dist-dir)
+	cp $(dist-jar) $(dist-dir)
+	zip -r $(dist-dir).zip $(dist-dir)
+
+# -----------------------------------------------------------------------------
 # make docs
 # -----------------------------------------------------------------------------
 # This generates user & programmer documentation for the test suite.
