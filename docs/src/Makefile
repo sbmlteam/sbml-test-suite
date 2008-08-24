@@ -37,15 +37,19 @@ docs-software: docs-standalone
 # doesn't need doxygen at all.
  
 sa-src-dir        = ../../src/front-ends/standalone/src
-sa-doc-output-dir = ../formatted/standalone
+sa-doc-output-dir = ../formatted/standalone-api
  
+sa-doc-src        = standalone-api
 sa-doctitle       = SBML Test Suite<BR>Standalone Application
 sa-header         = <B>$(sa-doctitle)<BR>version $(version)<B>
-sa-footer         = `cat api/standalone-footer.html`
+sa-footer         = `cat $(sa-doc-src)/standalone-footer.html`
 sa-windowtitle    = $(sa-doctitle) Programmer's Manual
 
 define merge_html
-  cat api/standalone-top.html $(1) api/standalone-bottom.html api/standalone-footer.html \
+  cat $(sa-doc-src)/standalone-top.html \
+    $(1) \
+    $(sa-doc-src)/standalone-bottom.html \
+    $(sa-doc-src)/standalone-footer.html \
   | sed -e "s/%%version%%/$(version)/g" > $(2)
 endef
 
@@ -55,12 +59,12 @@ docs-standalone:
 	    -bottom "$(sa-footer)" \
 	    -windowtitle "$(sa-windowtitle)" \
 	    -doctitle "$(sa-doctitle)" \
-	    -overview api/standalone-fake-overview.html \
-	    -stylesheetfile api/standalone.css \
+	    -overview $(sa-doc-src)/standalone-fake-overview.html \
+	    -stylesheetfile $(sa-doc-src)/standalone.css \
 	    -d $(sa-doc-output-dir) \
 	    -sourcepath $(sa-src-dir) sbml.test
-	cp -f api/sbml-logo-long-124x56.gif $(sa-doc-output-dir)/sbml/test
-	cp -f api/standalone.css $(sa-doc-output-dir)
+	cp -f $(sa-doc-src)/sbml-logo-long-124x56.gif $(sa-doc-output-dir)/sbml/test
+	cp -f $(sa-doc-src)/standalone.css $(sa-doc-output-dir)
 	$(call merge_html,api/standalone-overview.html,$(sa-doc-output-dir)/overview-summary.html)
 
 # ----------------------------------------------------------------------------- 
