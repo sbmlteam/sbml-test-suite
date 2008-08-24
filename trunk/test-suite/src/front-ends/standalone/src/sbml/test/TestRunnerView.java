@@ -54,7 +54,7 @@ public class TestRunnerView extends JFrame implements WindowListener {
      * Creates new form for TestRunnerView
      */
     public TestRunnerView() {
-        super("SBML TestRunner");
+        super("SBML Test Runner");
         initComponents();
 
     }
