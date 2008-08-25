@@ -45,6 +45,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.RandomAccessFile;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.FileHandler;
@@ -125,16 +127,29 @@ public class TestRunnerWorker extends SwingWorker {
                 System.out.println("Zipped Test cases are not found with application - unable to run.");
                // ziplogger.warning("Zipped test cases are not found with application - unable ro tun.");
             } else {
+               // ZipFile zf;
+               // ZipEntry ze;
                 try {
-                    // unzip the file
                     
-                    ZipFile zf = new ZipFile(getClass().getResource("resources/sbml-test-suite.zip").getFile());
-                    ZipEntry ze = zf.getEntry("sbml-test-suite/.cases-archive-date");
+                    ZipInputStream zis = new ZipInputStream(getClass().getResourceAsStream("resources/sbml-test-suite.zip"));
+                    ZipEntry zise;
+                    String s=null;
+                    while((zise = zis.getNextEntry()) != null){
+                        if(zise.getName().equals("sbml-test-suite/.cases-archive-date")){
+                            BufferedReader bzr = new BufferedReader(new InputStreamReader(zis));
+                            
+                            while((s=bzr.readLine()) != null){
+                                
+                                s.trim();
+                                break;
+                            }
+                        }
+                    }
                     
-                    BufferedReader bzr = new BufferedReader(new InputStreamReader(zf.getInputStream(ze)));
-                    ts = bzr.readLine();
+              //      BufferedReader bzr = new BufferedReader(zis);
+              //      ts = bzr.readLine();
                     
-                    ts.trim();
+                    ts = s;
                     String destinationDirectory = tests + File.separator + ts;
                     File ddir = new File(destinationDirectory);
                     
@@ -216,16 +231,29 @@ public class TestRunnerWorker extends SwingWorker {
                     System.out.println("Zipped Test cases are not found with application - unable to run.");
                 // ziplogger.warning("Zipped test cases are not found with application - unable ro tun.");
                 } else {
-                    try {
+                    
                         // unzip the file
+                  //  ZipFile zf;
+                  //  ZipEntry ze;
+                    try {
+                    
+                        ZipInputStream zis = new ZipInputStream(getClass().getResourceAsStream("resources/sbml-test-suite.zip"));
+                        ZipEntry zise;
+                        String s=null;
+                        while((zise = zis.getNextEntry()) != null){
+                            if(zise.getName().equals("sbml-test-suite/.cases-archive-date")){
+                                BufferedReader bzr = new BufferedReader(new InputStreamReader(zis));
+                            
+                                while((s=bzr.readLine()) != null){
+                                
+                                    s.trim();
+                                    break;
+                                }
+                            }
+                        }
+                    
 
-                        ZipFile zf = new ZipFile(getClass().getResource("resources/sbml-test-suite.zip").getFile());
-                        ZipEntry ze = zf.getEntry("sbml-test-suite/.cases-archive-date");
-
-                        BufferedReader bzr = new BufferedReader(new InputStreamReader(zf.getInputStream(ze)));
-                        ts = bzr.readLine();
-
-                        ts.trim();
+                        ts = s;
                         String destinationDirectory = tests + File.separator + ts;
                         File ddir = new File(destinationDirectory);
                        
