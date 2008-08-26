@@ -155,7 +155,7 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
 
 
         scrollPane = new JScrollPane(summaryEditorPane);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getViewport().setViewPosition(new java.awt.Point(0, 0));
         detailContainer.add(scrollPane, BorderLayout.CENTER);

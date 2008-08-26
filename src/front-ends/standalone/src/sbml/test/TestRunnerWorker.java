@@ -540,7 +540,7 @@ public class TestRunnerWorker extends SwingWorker {
        // logger.info("testdir for windows is : " + windowstestdir);
         String command = (String) this.testConfiguration.hashMap.get("WrapperPath");
         //String outdir = (String)this.testConfiguration.hashMap.get("OutputPath");
-        String outdir = test + File.separator + "wrapperOutput";
+        String outdir = tests + File.separator + "wrapperOutput";
         //String windowsoutdir = outdir.replaceAll("\\", "\\\\");
         //logger.info("outdir for windows is : " + windowsoutdir);
         File o = new File(outdir);
