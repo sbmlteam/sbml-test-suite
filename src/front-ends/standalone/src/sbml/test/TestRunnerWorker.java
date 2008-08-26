@@ -135,11 +135,11 @@ public class TestRunnerWorker extends SwingWorker {
                     ZipEntry zise;
                     String s=null;
                     while((zise = zis.getNextEntry()) != null){
-                        if(zise.getName().equals("sbml-test-suite/.cases-archive-date")){
+                        if(zise.getName().equals(".cases-archive-date")){
                             BufferedReader bzr = new BufferedReader(new InputStreamReader(zis));
-                            
+                           // System.out.println("Found the entry");
                             while((s=bzr.readLine()) != null){
-                                
+                               // System.out.println("the entry is not null");
                                 s.trim();
                                 break;
                             }
@@ -148,8 +148,13 @@ public class TestRunnerWorker extends SwingWorker {
                     
               //      BufferedReader bzr = new BufferedReader(zis);
               //      ts = bzr.readLine();
-                    
-                    ts = s;
+                    if(s !=null){
+                        ts = s;
+                        //System.out.println("Found the .cases-archive-date file and it wasn't empty");
+                    }
+                    else {
+                        //System.out.println("Unable to find the timestamp in the zip file");
+                    }
                     String destinationDirectory = tests + File.separator + ts;
                     File ddir = new File(destinationDirectory);
                     
@@ -241,7 +246,8 @@ public class TestRunnerWorker extends SwingWorker {
                         ZipEntry zise;
                         String s=null;
                         while((zise = zis.getNextEntry()) != null){
-                            if(zise.getName().equals("sbml-test-suite/.cases-archive-date")){
+                           
+                            if(zise.getName().equals(".cases-archive-date")){
                                 BufferedReader bzr = new BufferedReader(new InputStreamReader(zis));
                             
                                 while((s=bzr.readLine()) != null){
@@ -528,7 +534,8 @@ public class TestRunnerWorker extends SwingWorker {
        // String windowsuserpath = userpath.replaceAll("\\\\", "\\\\\\");
        //  logger.info("windowsuserpath is : " +windowsuserpath);
         //  String testdir = (String)this.testConfiguration.hashMap.get("InputPath");
-        testdir = test + File.separator + "sbml-test-suite" + File.separator + "cases" + File.separator + "semantic";
+       // testdir = test + File.separator + "sbml-test-suite" + File.separator + "cases" + File.separator + "semantic";
+         testdir = test + File.separator + "cases" + File.separator + "semantic";
        // String windowstestdir = testdir.replaceAll("\\", "\\\\");
        // logger.info("testdir for windows is : " + windowstestdir);
         String command = (String) this.testConfiguration.hashMap.get("WrapperPath");
@@ -570,6 +577,7 @@ public class TestRunnerWorker extends SwingWorker {
         String tcase = new String();
         String tmodelfile = new String();
         Vector<String> selected_cases = new Vector<String>();
+      //  System.out.println("testdir is " +testdir);
 
         try {
 
@@ -580,6 +588,7 @@ public class TestRunnerWorker extends SwingWorker {
                     finish = 1;
                 }
                 tcase = testdir_listing[i];
+               // System.out.println("tcase is " +tcase);
                 Pattern p = Pattern.compile("\\d{5}$");
                 Matcher matcher = p.matcher(tcase);
                 if (matcher.find()) {
