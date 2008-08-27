@@ -401,7 +401,7 @@ public class TestRunnerView extends JFrame implements WindowListener {
         //  final TestConfiguration finalTestConfig = testConfiguration;
         //    TestCaseListModel list = new TestCaseListModel();
         setStopButton();
-        setResetButton();
+        disableResetButton();
         testCaseListModel.removeAllElements();
         failedTestCaseListModel.removeAllElements();
         passedTestCaseListModel.removeAllElements();
@@ -418,6 +418,7 @@ public class TestRunnerView extends JFrame implements WindowListener {
      * stopTest sends an interrupt to the worker thread
      */
     public void stopTest() {
+        setResetButton();
         worker.interrupt();
     }
     /**
