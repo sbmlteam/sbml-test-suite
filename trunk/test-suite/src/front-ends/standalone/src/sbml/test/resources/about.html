@@ -1,0 +1,90 @@
+
+<html>
+    <head>
+        <title>SBML Test Suite Help - Standalone Application</title>
+        <link rel="stylesheet" href="nbdocs:/org/netbeans/modules/usersguide/ide.css" type="text/css">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+       
+        <h2>Contents</h2>
+       
+        How do I run a test?<BR>
+        Where are my files?<BR>
+        Test Case Contents<BR>
+        How do I update test cases?<BR>
+         About the SBML Test Suite Runner<BR>
+        
+        
+        
+        <h2>How do I run a test?</h2>
+        <p>
+            When the Test Suite is loaded go to the File menu and select "New Test".
+        </P><P>A wizard will start where you 
+            can set the configurations for the test you'd like to run by selecting level, test type, component tags and 
+            test tags to exclude and the path/command for your wrapper. 
+        </P><P>Turn logging on or off via the checkbox in the 
+            preferences submenu item "Generate debugging log". Severe messages are always logged while warning and info level messages are only 
+            logged if the "Generate debugging log" item is selected.
+        </P><p>
+            Then select "Finish". The wizard will close and the green start button in the main test window will be active - select this button to begin your test. 
+            You can choose to view the results via the list view or the map view. 
+        </p>
+        
+        <h2>Where are my files?</h2>
+        <p>
+            The first time the stand alone SBML Test Suite is run it creates a hidden directory in the user home directory
+            called .sbmltestrunner. During the first run the SBML test cases are unzipped into userhome/.sbmltestrunner/sbml-test-suite/cases.
+        </P><P>
+            The output from your wrapper can be found in userhome/.sbmltestrunner/wrapperOutput with filenames in the format of
+            resultsnnnnn.csv where nnnnn is the specific test case that was run through your wrapper.
+            </P><P>
+            The log file can be found at userhome/.sbmltestrunner/sbml-test-suite.log. Only severe messages are logged unless 
+            the debugging log is selected in the preferences menu at which point all messages will be printed to the log file.
+        </p>
+        
+        <h2>Test Cases</h2>
+        <p>
+            Each test case directory is named according to the test case it represents following a naming scheme of 5 digits. Each directory contains:
+<br><br>
+XXXXX-model.m - which contains the tags, the description and the MathSBML code used to create the model.
+<br><br>
+XXXXX-plot.jpg and XXXXX-plot.eps - graphs of the expected output
+<br><br>
+XXXXX-results.csv - the data used in the testing
+<br><br>
+XXXXX-sbml-l1v2.xml<br>
+XXXXX-sbml-l2v1.xml<br>
+XXXXX-sbml-l2v2.xml<br>
+XXXXX-sbml-l2v3.xml<br>
+The SBML files; directories will only contain relevant levels/versions so will always have l2v2 and l2v3 but will only have l1v2 and l2v1 where appropriate.
+<br><br>
+XXXXX-settings.txt The settings file. These all inlcude:<br>
+start:0<br>
+duration:5.0<br>
+steps:50<br>
+variables: S1,S2<br>
+absolute: 0.000000000000001<br>
+relative: 0.0001<br>
+These variables map to the start time of simulation, duration and number of points (steps) expected in the output, the variables that should ouptput in the order in which we expect them to occur, the tolerances that we will use to determine pass/fail. The absolute tolerance is 0.0001 times the maximum initial variable value within the model. (In the case above the initial amount used was 1e-15) The relative tolerance is always 0.0001.
+<br><br>
+</P>
+ <h2>How do I update the test cases</h2>
+        <p>
+            Update test cases by the test suite menu by selecting "Update test cases". The program will then connect to the interenet and check sourceforge to see if there is 
+            a newer version of the test cases available than the one that shipped with your application. If there is it will automatically update your copy - if not it will
+            notify you that you have the most current version available.
+        </p>
+        <h2>About the SBML Test Suite Runner</h2>
+        <p>
+            The SBML Test Suite allows anyone to evaluate the degree of SBML support implemented in 
+            an SBML-compatible software package. This stand alone service allows you to evalute your 
+            command line invokable software program with SBML test cases through a self written wrapper.
+        </p>
+        <p> The stand alone SBML Test Suite Runner  
+            is an interface to the full SBML Test Suite, written by Sarah M. Keating, Kimberly Begley 
+            and Michael Hucka.
+        </p>       
+    </body>
+</html>
+
