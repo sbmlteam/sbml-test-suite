@@ -841,6 +841,7 @@ public class TestRunnerWorker extends SwingWorker {
             testRunnerView.updateProgress(totals, failed, skipped, passed, finish);
             testRunnerView.disableStartButton();
             testRunnerView.disableStopButton();
+            testRunnerView.setResetButton();
             logger.info("Completed testing");
 
         } catch (InterruptedException ex) {
