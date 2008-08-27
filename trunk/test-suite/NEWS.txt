@@ -1,6 +1,12 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
+=== Version 2.0.0 alpha 3 (limited release 2008-08-27) ===
+
+* Fixed a problem in the Standalone Application in unpackaging the
+  archive of test cases.
+
+
 === Version 2.0.0 alpha 1 (limited release 2008-08-22) ===
 
 * We redesigned and reimplemented the SBML Test Suite from the ground
