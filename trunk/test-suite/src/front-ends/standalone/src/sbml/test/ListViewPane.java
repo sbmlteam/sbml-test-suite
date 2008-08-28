@@ -231,7 +231,7 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
         StringBuffer buffer = new StringBuffer();
 
         if (list == passList) {
-          if(index>0){
+          if(index>=0){
               
             //    shortDetailLabel.setText("<html><p>Test Case " + passedList.getElementAt(index) + "</p><p>Passed!</p></html>");
             buffer.append("<p><b>Test Case</b> " + passedList.getElementAt(index) + "</p><p>Passed!</p>");
@@ -246,7 +246,7 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
           }
 
         } else if (list == failList) {
-           if(index>0) {
+           if(index>=0) {
             //     shortDetailLabel.setText("<html><p>Test Case " + failedList.getElementAt(index) + "</p><p>Failed at " + failedList.getRawElementAt(index).getResult() + " points</p></html>");
             buffer.append("<p>Test Case " + failedList.getElementAt(index) + "</p><p>Failed at " + failedList.getRawElementAt(index).getResult() + " points</p>");
             //     detailPane.add(shortDetailLabel, BorderLayout.PAGE_START);
@@ -259,7 +259,7 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
            }
 
         } else if (list == skipList) {
-           if(index>0){
+           if(index>=0){
             //     shortDetailLabel.setText("<html><p>Test Case " + skippedList.getRawElementAt(index).getTestname() + " </p><p>Skipped: " + skippedList.getRawElementAt(index).getWarnings() + "</p></html>");
             buffer.append("<p>Test Case " + skippedList.getRawElementAt(index).getTestname() + " </p><p>Skipped: " + skippedList.getRawElementAt(index).getWarnings() + "</p>");
 
@@ -274,7 +274,7 @@ public class ListViewPane extends JPanel implements ListSelectionListener, ItemL
            }
 
         }
-       if(index >0){
+       if(index >=0){
         try {
             FileInputStream fis = new FileInputStream(description_path);
             int x = fis.available();

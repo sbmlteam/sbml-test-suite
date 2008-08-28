@@ -59,10 +59,8 @@ public class WrapperConfigurationPanel extends WizardPanel {
 
         wrapCommand = new JTextField(40);
       
-        wrapCommand.setText("/Users/kimberlybegley/bin/my_wrapper %d %n %o");
+        wrapCommand.setText("/Users/kimberlybegley/my_wrapper %d %n %o");
       
-        
-
         JPanel topPanel = new JPanel(new BorderLayout());
         JLabel nameLabel = new JLabel(getQualifiedName());
         nameLabel.setFont(new Font("Helvetica", Font.BOLD, 16));

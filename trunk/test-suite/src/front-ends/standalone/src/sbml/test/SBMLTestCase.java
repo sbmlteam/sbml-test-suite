@@ -244,11 +244,24 @@ public class SBMLTestCase {
 		
 	}
 	for ( int i = 0; i < resultdata.length; i++ )
-	{
+	{       
+          //   Added code for rounding of timestep column in result files when doing comparisons
+          //   Uncomment the lines below to add rounding and comment out lines 261-264  
+         /*      BigDecimal rdata = resultdata[i][0].setScale(1,BigDecimal.ROUND_HALF_UP);
+                BigDecimal urdata = userresultdata[i][0].setScale(1,BigDecimal.ROUND_HALF_UP);
+                
+                System.out.println("rdata is " + rdata + "user r data is " + urdata);
+                
+                if(rdata.compareTo(urdata) != 0) {
+                    throw new Exception ("Time step values do not match up with test suite case");
+             
+                }
+          */ 
+             
 		if((resultdata[i][0]).compareTo(userresultdata[i][0]) != 0) {
 			throw new Exception ("Time step values do not match up with test suite case");
 			
-		}
+		} 
 	}
 	}
 	/**

@@ -670,7 +670,8 @@ public class TestRunnerWorker extends SwingWorker {
                     if (exitVal == 0) {
                         // compare output results
 
-                        String user_results = outdir + File.separator + "results" + testcase + ".csv";
+                      //  String user_results = outdir + File.separator + "results" + testcase + ".csv";
+                        String user_results = outdir + File.separator + testcase + ".csv";
                         int totalpoints = 0;
                         //  SBMLTestCase t2 = new SBMLTestCase();
 
@@ -733,7 +734,7 @@ public class TestRunnerWorker extends SwingWorker {
                         } catch (InterruptedException e) {
                             throw e;
                         } catch (Exception e) {
-                            String message = e.getMessage() + "for case" + testcase;
+                            String message = e.getMessage() + " for case " + testcase;
                             logger.info(message);
 
                             String mfile = t1.getModelFile(testcase, testdir);
@@ -754,7 +755,7 @@ public class TestRunnerWorker extends SwingWorker {
                         } catch (InterruptedException e) {
                             throw e;
                         } catch (Exception e) {
-                            String message = e.getMessage() + "for case" + testcase;
+                            String message = e.getMessage() + " for case " + testcase;
                             logger.info(message);
 
                             String mfile = t1.getModelFile(testcase, testdir);
@@ -775,7 +776,7 @@ public class TestRunnerWorker extends SwingWorker {
                         } catch (InterruptedException e) {
                             throw e;
                         } catch (Exception e) {
-                            String message = e.getMessage() + "for case" + testcase;
+                            String message = e.getMessage() + " for case " + testcase;
                             logger.info(message);
                             String mfile = t1.getModelFile(testcase, testdir);
                             t1.readModelFile(mfile);
