@@ -566,8 +566,7 @@ public class TestRunnerWorker extends SwingWorker {
         logger.info("wrappercommand is: " + wrappercommand);
         
         
-        Enumeration enumerator1 = ctags.elements();
-        Enumeration enumerator2 = ttags.elements();
+        
 
         SBMLTestSelection t1 = new SBMLTestSelection();
 
@@ -592,18 +591,24 @@ public class TestRunnerWorker extends SwingWorker {
                 Pattern p = Pattern.compile("\\d{5}$");
                 Matcher matcher = p.matcher(tcase);
                 if (matcher.find()) {
+                    Enumeration enumerator1 = ctags.elements();
+                    Enumeration enumerator2 = ttags.elements();
 
                     tmodelfile = t1.getModelFile(tcase, testdir);
+                    
 
                     t1.readModelFile(tmodelfile);
                     int itsout = 0;
                     if (t1.containsTesttype(ttype) && t1.containsLevel(level)) {
+                        
                         while (enumerator1.hasMoreElements()) {
                             String c = (String) enumerator1.nextElement();
                             c.trim();
+                            
 
                             if (t1.containsComponent(c)) {
                                 itsout++;
+                               
 
                             }
                         }
