@@ -7,7 +7,7 @@ componentTags: Compartment, Species, Reaction, Parameter
 testTags:      InitialAmount, 2D-Compartment, BoundaryCondition
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
-generatedBy:   Numeric
+generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There are three
 species named S1, S2 and S3 and two parameters named k1 and k2.
@@ -33,6 +33,9 @@ The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML
 principles) their symbols represent their values in concentration units
 where they appear in expressions.
+
+Note: The test data for this model was generated from an analytical solution
+of the system of equations.
 
 *)
 

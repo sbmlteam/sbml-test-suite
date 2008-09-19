@@ -7,7 +7,7 @@ componentTags: Compartment, Species, Reaction, Parameter
 testTags:      InitialAmount, 1D-Compartment, HasOnlySubstanceUnits
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
-generatedBy:   Numeric
+generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There are two
 species named S1 and S2 and one parameter named k1.  Compartment
@@ -27,6 +27,9 @@ The initial conditions are as follows:
 
 The species have been declared as having substance units only. Thus, they
 must be treated as amounts where they appear in expressions.
+
+Note: The test data for this model was generated from an analytical solution
+of the system of equations.
 
 *)
 
