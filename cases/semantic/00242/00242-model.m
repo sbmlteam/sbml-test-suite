@@ -7,7 +7,7 @@ componentTags: Compartment, Species, Reaction, Parameter
 testTags:      InitialAmount, 0D-Compartment, BoundaryCondition
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
-generatedBy:   Numeric
+generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There are three
 species named S1, S2 and S3 and two parameters named k1 and k2.
@@ -31,6 +31,9 @@ The initial conditions are as follows:
 In this example the compartment has its spatialDimensions attribute set to
 zero; i.e., it represents a point and therefore cannot have size or units.
 The species values must be treated as amounts and not concentrations.
+
+Note: The test data for this model was generated from an analytical solution
+of the system of equations.
 
 *)
 
