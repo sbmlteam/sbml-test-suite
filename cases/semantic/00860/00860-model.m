@@ -7,7 +7,7 @@ componentTags: Compartment, Species, Reaction, Parameter
 testTags:      InitialConcentration, CSymbolTime
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
-generatedBy:   Numeric
+generatedBy:   Analytic
 
 The model contains one compartment called C.  There are two
 species called S1 and S2 and one parameter called k1.  The model contains
@@ -24,6 +24,9 @@ The initial conditions are as follows:
 |Initial concentration of S2                |$0$              |mole litre^-1^           |
 |Value of parameter k1               |$1$              |second^-2^     |
 |Volume of compartment C |$0.9$              |litre          |]
+
+Note: The test data for this model was generated from an analytical solution
+of the system of equations.
 
 *)
 
