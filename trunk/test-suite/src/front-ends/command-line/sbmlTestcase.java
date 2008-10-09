@@ -199,25 +199,18 @@ public class sbmlTestcase  {
 		*/
 		
 		int pass_fail = 0;
+		int fcof = -1;
+		int frof = -1;
 		for(int i = 0; i < differences.length; i++) {
 		
 			// first column will always be time so we start at second column
 			for( int j = 1; j < (differences[i].length); j++) {
-				
-				//System.out.println("differences at i length is " + differences[i].length);
-			/*Check out which is greater absolute value or differences value if((((differences[i][j].abs()).max(absolute)).compareTo(absolute) == 0
-			then the absolute difference between the user and control files is allowable and therefore it passes the test for that row/column value
-			*/		
-				//if the absolute difference is greater than the allowable absolute value
-				if((((differences[i][j].abs()).max(absolute)).compareTo(absolute) != 0)) {
-					//System.out.println("Failed the absolute allowable difference- now testing the relative allowable difference at line " + i + "column " +j);
-					
-					// fails absolute difference test - now check if it passes relative test
-					if(((((differences[i][j].abs())).max((relative).multiply(control[i][j]))).compareTo(relative)) != 0) {
-						// fails both relative and absolute tests
-						//System.out.println("Fails both relative and absolute tests here row " +i);
-						//return a fail
-						pass_fail++;
+				if((differences[i][j].abs()).compareTo(relative.multiply(control[i][j]).add(absolute)) == 1) {
+					//fails test
+					pass_fail++;
+					if(frof == -1 && fcof == -1) {
+						frof=i;
+						fcof=j;
 					}
 				}
 			}	
