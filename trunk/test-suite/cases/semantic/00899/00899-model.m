@@ -29,7 +29,7 @@ The initial conditions are as follows:
 |Value of parameter k1               |$0.7$            |second^-2^     |
 |Value of parameter k2               |$0.5$            |second^-2^     |
 |Value of parameter k3               |$1$              |second^-2^     |
-|Value of parameter p1               |$1$              |     |
+|Value of parameter p1               |$1$              |dimensionless |
 |Volume of compartment C |$1$              |litre          |]
 
 The species values are given as amounts of substance to make it easier to

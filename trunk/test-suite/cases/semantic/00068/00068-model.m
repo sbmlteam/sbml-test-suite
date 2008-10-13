@@ -22,7 +22,7 @@ The initial conditions are as follows:
 |Initial amount of S1                |$          1.5$ |mole                      |
 |Initial amount of S2                |$            0$ |mole                      |
 |Value of parameter k1               |$          1.5$ |second^-1^ |
-|Value of parameter p1               |$            1$ | |
+|Value of parameter p1               |$            1$ |dimensionless |
 |Volume of compartment "compartment" |$            1$ |litre                     |]
 
 The species values are given as amounts of substance to make it easier to

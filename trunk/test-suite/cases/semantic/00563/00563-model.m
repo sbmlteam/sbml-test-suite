@@ -33,7 +33,7 @@ The initial conditions are as follows:
 |Initial amount of S4                |$1.0 \x 10^-15$  |mole                      |
 |Value of parameter k1               |$0.75$           |litre mole^-1^ second^-1^ |
 |Value of parameter k2               |$0.25$           |second^-1^                |
-|Value of parameter p1               |$0.5$   |                |
+|Value of parameter p1               |$0.5$   |dimensionless      |
 |Volume of compartment C             |$1$              |litre                     |]
 
 The species values are given as amounts of substance to make it easier to

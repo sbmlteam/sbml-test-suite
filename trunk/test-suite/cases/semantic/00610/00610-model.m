@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Two reactions with four species in one
 compartment using an assignmentRule to vary one species.
 componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule 
-testTags:      InitialAmount
+testTags:      InitialAmount, StoichiometryMath
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 generatedBy:   Numeric
@@ -35,7 +35,7 @@ The initial conditions are as follows:
 |Value of parameter k1               |$  1.5 \x 10^4$ |litre mole^-1^ second^-1^ |
 |Value of parameter k2               |$            5$ |second^-1^ |
 |Value of parameter k3               |$          1.5$ |dimensionless |
-|Value of parameter p1               |$          0.5$ | |
+|Value of parameter p1               |$          0.5$ |dimensionless |
 |Volume of compartment C             |$            1$ |litre                     |]
 
 The species values are given as amounts of substance to make it easier to
