@@ -32,7 +32,7 @@ The initial conditions are as follows:
 |Initial amount of S3                |$1.0 \x 10^-12$ |mole                      |
 |Value of parameter k1               |$ 1.7 \x 10^10$ |litre mole^-1^ second^-1^ |
 |Value of parameter k2               |$          0.3$ |second^-1^ |
-|Value of parameter p1               |$            1$ | |
+|Value of parameter p1               |$            1$ |dimensionless |
 |Volume of compartment "compartment" |$            1$ |litre                     |]
 
 The species values are given as amounts of substance to make it easier to

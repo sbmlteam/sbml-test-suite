@@ -31,7 +31,7 @@ The initial conditions are as follows:
 |Initial amount of S3                |$0$              |mole                       |
 |Initial amount of S4                |$0$              |mole                       |
 |Value of parameter k1               |$1.0$   |litre mole^-1^ second^-2^  |
-|Value of parameter p1               |$1.0$   |  |
+|Value of parameter p1               |$1.0$   |dimensionless  |
 |Value of local parameter k1 (R2)               |$0.9$            |second^-2^                 |
 |Value of local parameter k1 (R3)               |$0.7$            |second^-2^                 |
 |Volume of compartment C |$1$              |litre                      |]
