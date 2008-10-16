@@ -6,7 +6,7 @@ componentTags: Compartment, Species, Reaction, Parameter, RateRule
 testTags:      InitialConcentration, NonUnityCompartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3
-generatedBy:   Numeric
+generatedBy:   Analytic
 
 The model contains one compartment called C.  There are three
 species called S1, S2 and S3 and one parameter called k1.  The model contains
@@ -29,6 +29,9 @@ The initial conditions are as follows:
 |Initial concentration of S3                |$            0$ |mole litre^-1^                      |
 |Value of parameter k1               |$          1.5$ |second^-1^ |
 |Volume of compartment C |$         1.75$ |litre                     |]
+
+Note: The test data for this model was generated from an analytical solution
+of the system of equations.
 
 *)
 
