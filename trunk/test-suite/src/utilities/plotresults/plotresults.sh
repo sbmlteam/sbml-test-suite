@@ -88,7 +88,7 @@ trap "rm -f $INPUTFILE; exit" INT TERM EXIT
 # 2) While we're mucking with the content, let's rename the column titles
 # from the Mathematica pattern of, e.g., "case00350`S1" to just "S1".
 
-sed -e 's/case[0-9][0-9][0-9][0-9][0-9]\`//g' < $CSV_FILE | tr -d '\015' > $INPUTFILE
+sed -e 's/case[0-9][0-9][0-9][0-9][0-9][`]//g' < $CSV_FILE | tr -d '\015' > $INPUTFILE
 
 # OK, run gnuplot.  The last line (the plot command) is hackacious,
 # but without more work, it's hard to see how to limit the number of
