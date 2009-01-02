@@ -3,23 +3,25 @@
 category:      Test
 synopsis:      Basic single forward reaction with two species in a compartment
                whose volume is varying.
-componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule 
-testTags:      InitialAmount, NonConstantCompartment
+componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule, RateRule 
+testTags:      InitialAmount, NonConstantCompartment, NonConstantParameter
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 generatedBy:   Numeric
 
 The model contains one varying compartment called "compartment".  There are two
-species called S1 and S2 and two parameters called k1 and p1.  The model
+species called S1 and S2 and three parameters called k1, p1 and p2.  The model
 contains one reaction defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $k1 * S1 * compartment$  |]
 
-The model contains one rule which assigns value to compartment:
+The model contains two rules. The assignmentRule assigns value to compartment
+and the rateRule determines the rate at which p2 is varying:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
- | Assignment | compartment | $p1 * S1$  |]
+ | Assignment | compartment | $p1 * p2$  |
+ | Rate       |     p2      | $0.1       |]
 
 In this case, the initial value declared for compartment "compartment" is
 inconsistent with that calculated by the assignmentRule; the calculated
@@ -32,7 +34,8 @@ The initial conditions are as follows:
 |Initial amount of S1                |$          1.5$ |mole                      |
 |Initial amount of S2                |$            0$ |mole                      |
 |Value of parameter k1               |$          0.9$ |second^-1^ |
-|Value of parameter p1               |$          0.1$ |litre^2^ mole^-1^ |
+|Value of parameter p1               |$          0.1$ |litre mole^-1^ |
+|Value of parameter p2               |$          1.5$ |mole second^-1^ |
 |Volume of compartment "compartment" |$            1$ |litre                     |]
 
 The species values are given as amounts of substance to make it easier to
@@ -49,7 +52,9 @@ addSpecies[ S1, initialAmount -> 1.5 ];
 addSpecies[ S2, initialAmount -> 0 ];
 addParameter[ k1, value -> 0.9 ];
 addParameter[ p1, value -> 0.1 ];
-addRule[ type->AssignmentRule, variable -> compartment, math -> p1 * S1];
+addParameter[ p2, value-> 1.5, constant -> False];
+addRule[ type->AssignmentRule, variable -> compartment, math -> p1 * p2];
+addRule[ type->RateRule, variable -> p2, math -> 0.1];
 addReaction[ S1 -> S2, reversible -> False,
 	     kineticLaw -> k1 * S1 * compartment ];
 
