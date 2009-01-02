@@ -11,9 +11,11 @@
     <listOfParameters>
       <parameter name="k1" value="0.9"/>
       <parameter name="p1" value="0.1"/>
+      <parameter name="p2" value="1.5"/>
     </listOfParameters>
     <listOfRules>
-      <compartmentVolumeRule formula="p1 * S1" compartment="compartment"/>
+      <compartmentVolumeRule formula="p1 * p2" compartment="compartment"/>
+      <parameterRule formula="0.1" type="rate" name="p2"/>
     </listOfRules>
     <listOfReactions>
       <reaction name="reaction1" reversible="false">

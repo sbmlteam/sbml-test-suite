@@ -9,20 +9,22 @@ testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3
 generatedBy:   Numeric
 
-The model contains one varying compartment called "compartment".  There are three
-species called S1, S2 and S3 and three parameters called k1, k2 and p1.  The
+The model contains one varying compartment called C.  There are three
+species called S1, S2 and S3 and four parameters called k1, k2, p1 and p2.  The
 model contains two reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-| S1 + S2 -> S3 | $k1 * S1 * S2 * compartment$  |
-| S3 -> S1 + S2 | $k2 * S3 * compartment$  |]
+| S1 + S2 -> S3 | $k1 * S1 * S2 * C$  |
+| S3 -> S1 + S2 | $k2 * S3 * C$  |]
 
-The model contains one rule which assigns value to compartment:
+The model contains two rules. The assignmentRule assigns value to C
+and the rateRule determines the rate at which p2 is varying:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
- | Assignment | compartment | $p1 * S1$  |]
+ | Assignment |  C  | $p1 * p2$  |
+ | Rate       | p2  | $0.1       |]
 
-In this case, the initial value declared for compartment "compartment" is
+In this case, the initial value declared for compartment C is
 inconsistent with that calculated by the assignmentRule; the calculated
 value should be used.  Note that since this assignmentRule must always
 remain true, it should be considered during simulation.
@@ -35,8 +37,9 @@ The initial conditions are as follows:
 |Initial amount of S3                |$          1.0$ |mole                      |
 |Value of parameter k1               |$         0.75$ |litre mole^-1^ second^-1^ |
 |Value of parameter k2               |$         0.25$ |second^-1^ |
-|Value of parameter p1               |$          0.1$ |litre^2^ mole^-1^ |
-|Volume of compartment "compartment" |$            1$ |litre                     |]
+|Value of parameter p1               |$          0.1$ |litre mole^-1^ |
+|Value of parameter p2               |$          1.0$ |mole second^-1^ |
+|Volume of compartment C |$            1$ |litre                     |]
 
 The species values are given as amounts of substance to make it easier to
 use the model in a discrete stochastic simulator, but (as per usual SBML
@@ -47,17 +50,19 @@ where they appear in expressions.
 
 newcase[ "00313" ];
 
-addCompartment[ compartment, constant->False, size -> 1 ];
+addCompartment[ C, constant->False, size -> 1 ];
 addSpecies[ S1, initialAmount -> 1.0];
 addSpecies[ S2, initialAmount -> 2.0];
 addSpecies[ S3, initialAmount -> 1.0];
 addParameter[ k1, value -> 0.75 ];
 addParameter[ k2, value -> 0.25 ];
 addParameter[ p1, value -> 0.1 ];
-addRule[ type->AssignmentRule, variable -> compartment, math -> p1 * S1];
+addParameter[ p2, value -> 1.0, constant -> False ];
+addRule[ type->AssignmentRule, variable -> C, math -> p1 * p2];
+addRule[ type->RateRule, variable -> p2, math -> 0.1];
 addReaction[ S1 + S2 -> S3, reversible -> False,
-	     kineticLaw -> k1 * S1 * S2 * compartment ];
+	     kineticLaw -> k1 * S1 * S2 * C ];
 addReaction[ S3 -> S1 + S2, reversible -> False,
-	     kineticLaw -> k2 * S3 * compartment ];
+	     kineticLaw -> k2 * S3 * C ];
 
 makemodel[]
