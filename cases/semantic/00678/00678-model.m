@@ -35,7 +35,7 @@ value of species S1 is consisent with the value declared by the model definition
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial amount of S1                |$0.66$    |mole                      |
+|Initial amount of S1                |$0.1$    |mole                      |
 |Initial amount of S2                |$         0.15$ |mole                      |
 |Value of parameter k1               |$   undeclared$ |second^-1^ |
 |Volume of compartment C |$            6.6$ |litre                     |]
@@ -50,7 +50,7 @@ where they appear in expressions.
 newcase[ "00678" ];
 
 addCompartment[ C, size -> 6.6];
-addSpecies[ S1, initialAmount -> 0.66 ];
+addSpecies[ S1, initialAmount -> 0.1 ];
 addSpecies[ S2, initialAmount -> .15 ];
 addParameter[ k1, constant -> False ];
 addInitialAssignment[ S1, math -> k1/7.5];

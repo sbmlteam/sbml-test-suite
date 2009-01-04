@@ -36,9 +36,9 @@ of the system of equations.
 
 newcase[ "00802" ];
 
-addCompartment[ C, size -> 1.5 ];
-addSpecies[ S1, initialConcentration -> 0.666667];
-addSpecies[ S2, initialConcentration -> 0];
+addCompartment[ C, size -> 1 ];
+addSpecies[ S1, initialAmount -> 1.0];
+addSpecies[ S2, initialAmount -> 0];
 addParameter[ k, value -> 2.5 ];
 addReaction[ S1 -> S2, reversible -> False,
 	     kineticLaw -> k * S1 * C ];
