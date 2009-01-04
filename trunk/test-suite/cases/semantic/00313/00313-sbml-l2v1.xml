@@ -2,34 +2,28 @@
 <sbml xmlns="http://www.sbml.org/sbml/level2" level="2" version="1">
   <model metaid="_case00313" id="case00313" name="case00313">
     <listOfCompartments>
-      <compartment id="C" name="C" size="1" units="volume" constant="false"/>
+      <compartment id="compartment" name="compartment" size="1" units="volume" constant="false"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialAmount="1" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="C" initialAmount="2" substanceUnits="substance"/>
-      <species id="S3" name="S3" compartment="C" initialAmount="1" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="compartment" initialAmount="1" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="compartment" initialAmount="2" substanceUnits="substance"/>
+      <species id="S3" name="S3" compartment="compartment" initialAmount="1" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" name="k1" value="0.75"/>
       <parameter id="k2" name="k2" value="0.25"/>
       <parameter id="p1" name="p1" value="0.1"/>
-      <parameter id="p2" name="p2" value="1" constant="false"/>
     </listOfParameters>
     <listOfRules>
-      <assignmentRule metaid="rule1" variable="C">
+      <assignmentRule metaid="rule1" variable="compartment">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
             <times/>
             <ci> p1 </ci>
-            <ci> p2 </ci>
+            <ci> S1 </ci>
           </apply>
         </math>
       </assignmentRule>
-      <rateRule metaid="rule2" variable="p2">
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <cn> 0.1 </cn>
-        </math>
-      </rateRule>
     </listOfRules>
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" reversible="false" fast="false">
@@ -44,7 +38,7 @@
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
               <times/>
-              <ci> C </ci>
+              <ci> compartment </ci>
               <ci> k1 </ci>
               <ci> S1 </ci>
               <ci> S2 </ci>
@@ -64,7 +58,7 @@
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
               <times/>
-              <ci> C </ci>
+              <ci> compartment </ci>
               <ci> k2 </ci>
               <ci> S3 </ci>
             </apply>
