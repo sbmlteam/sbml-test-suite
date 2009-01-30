@@ -22,13 +22,8 @@
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
             <times/>
-            <cn type="integer"> 3 </cn>
-            <ci> k2 </ci>
-            <apply>
-              <power/>
-              <cn type="integer"> 0 </cn>
-              <cn type="integer"> -1 </cn>
-            </apply>
+            <ci>k2</ci>
+            <cn type="e-notation"> 3 <sep/> -17 </cn>
           </apply>
         </math>
       </initialAssignment>
