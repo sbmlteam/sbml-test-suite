@@ -23,8 +23,8 @@ The model contains three rules:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
-|Value of parameter S1 |$1.0 \x 10^-15$ |any                       |
-|Value of parameter S2 |$2.0 \x 10^-15$ |any |
+|Value of parameter S1 |$1.0 \x 10^-4$ |any                       |
+|Value of parameter S2 |$2.0 \x 10^-4$ |any |
 |Value of parameter S3 |$            0$ |any |
 |Value of parameter S4 |$            0$ |same as S3 |
 |Value of parameter k1 |$         0.75$ |second^-1^ |
@@ -37,8 +37,8 @@ The initial conditions are as follows:
 
 newcase[ "00170" ];
 
-addParameter[ S1, value -> 1.0 10^-15, constant -> False];
-addParameter[ S2, value -> 2.0 10^-15, constant -> False];
+addParameter[ S1, value -> 1.0 10^-4, constant -> False];
+addParameter[ S2, value -> 2.0 10^-4, constant -> False];
 addParameter[ S3, value -> 0, constant -> False];
 addParameter[ S4, value -> 0, constant -> False];
 addParameter[ k1, value -> 0.75];
