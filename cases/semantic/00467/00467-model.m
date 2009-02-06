@@ -20,11 +20,11 @@ contains three reactions defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}| |*Value*        |*Units*        |
-|Initial concentration of S1 |$2.0 \x 10^-15$  |mole litre^-1^ |
-|Initial concentration of S2 |$2.0 \x 10^-15$  |mole litre^-1^ |
+|Initial concentration of S1 |$2.0 \x 10^-1$  |mole litre^-1^ |
+|Initial concentration of S2 |$2.0 \x 10^-1$  |mole litre^-1^ |
 |Initial concentration of S3 |$0$              |mole litre^-1^ |
 |Initial concentration of S4 |$0$              |mole litre^-1^ |
-|Value of parameter k1       |$1.0 \x 10^15$   |litre mole^-1^ second^-1^  |
+|Value of parameter k1       |$1.0 \x 10^1$   |litre mole^-1^ second^-1^  |
 |Value of parameter k2       |$0.9$            |second^-1^                 |
 |Value of parameter k3       |$0.7$            |second^-1^                 |
 |Volume of compartment C     |$1$              |litre                      |]
@@ -35,11 +35,11 @@ The initial conditions are as follows:
 newcase[ "00467" ];
 
 addCompartment[ C, size -> 1 ];
-addSpecies[ S1, initialConcentration -> 2.0 10^-15];
-addSpecies[ S2, initialConcentration -> 2.0 10^-15];
+addSpecies[ S1, initialConcentration -> 2.0 10^-1];
+addSpecies[ S2, initialConcentration -> 2.0 10^-1];
 addSpecies[ S3, initialConcentration -> 0];
 addSpecies[ S4, initialConcentration -> 0];
-addParameter[ k1, value -> 1.0 10^15 ];
+addParameter[ k1, value -> 1.0 10^1 ];
 addParameter[ k2, value -> 0.9 ];
 addParameter[ k3, value -> 0.7 ];
 addReaction[ S1 + S2 -> S3, reversible -> False,
