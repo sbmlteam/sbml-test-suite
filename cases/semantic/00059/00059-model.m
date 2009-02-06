@@ -26,7 +26,7 @@ used.
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial amount of S1                |$3.0 \x 10^-15$ |mole                      |
+|Initial amount of S1                |$3.0 \x 10^-4$ |mole                      |
 |Initial amount of S2                |$            0$ |mole                      |
 |Initial amount of S3                |$            0$ |mole                      |
 |Value of parameter k                |$            2$ |second^-1^ |
@@ -43,7 +43,7 @@ where they appear in expressions.
 newcase[ "00059" ];
 
 addCompartment[ compartment, size -> 1 ];
-addSpecies[ S1, initialAmount -> 3.0 10^-15];
+addSpecies[ S1, initialAmount -> 3.0 10^-4];
 addSpecies[ S2, initialAmount -> 0];
 addSpecies[ S3, initialAmount -> 0];
 addParameter[ k, value -> 2];
