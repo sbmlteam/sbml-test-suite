@@ -21,12 +21,12 @@
       </functionDefinition>
     </listOfFunctionDefinitions>
     <listOfParameters>
-      <parameter id="S1" name="S1" value="1e-015" constant="false"/>
-      <parameter id="S2" name="S2" value="2e-015" constant="false"/>
-      <parameter id="S3" name="S3" value="1e-015" constant="false"/>
-      <parameter id="S4" name="S4" value="1e-015" constant="false"/>
-      <parameter id="k1" name="k1" value="750000000000000"/>
-      <parameter id="k2" name="k2" value="250000000000000"/>
+      <parameter id="S1" name="S1" value="0.1" constant="false"/>
+      <parameter id="S2" name="S2" value="0.2" constant="false"/>
+      <parameter id="S3" name="S3" value="0.1" constant="false"/>
+      <parameter id="S4" name="S4" value="0.1" constant="false"/>
+      <parameter id="k1" name="k1" value="7.5"/>
+      <parameter id="k2" name="k2" value="2.5"/>
     </listOfParameters>
     <listOfRules>
       <rateRule metaid="rule1" variable="S3">
