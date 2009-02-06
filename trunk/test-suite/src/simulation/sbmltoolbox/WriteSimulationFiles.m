@@ -57,6 +57,11 @@ for i=num1:num2
   num = files(i).name(1:5);
   sbml = strcat(toplevel,'/cases/semantic/', num, '/', num, '-sbml-l2v3.xml');
   m = TranslateSBML(sbml);
-  WriteODEFunction(m);
+  try
+    WriteODEFunction(m);
+    disp(sprintf('%s ODE file written', num));
+  catch ME
+    disp(sprintf('%s failed to write', num));
+  end;
 end;
 cd ..;
