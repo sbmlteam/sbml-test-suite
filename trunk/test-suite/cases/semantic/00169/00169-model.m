@@ -24,7 +24,7 @@ The model contains four rules:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
-|Value of parameter S1 |$1.0 \x 10^-15$ |any |
+|Value of parameter S1 |$1.0 \x 10^-2$ |any |
 |Value of parameter S2 |$            0$ |same as S1 |
 |Value of parameter S3 |$            0$ |same as S1 |
 |Value of parameter S4 |$            0$ |same as S1 |
@@ -37,7 +37,7 @@ The initial conditions are as follows:
 
 newcase[ "00169" ];
 
-addParameter[ S1, value -> 1.0 10^-15, constant -> False];
+addParameter[ S1, value -> 1.0 10^-2, constant -> False];
 addParameter[ S2, value -> 0, constant -> False];
 addParameter[ S3, value -> 0, constant -> False];
 addParameter[ S4, value -> 0, constant -> False];

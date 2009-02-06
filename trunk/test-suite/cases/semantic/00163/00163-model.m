@@ -21,7 +21,7 @@ The model contains two rules:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
-|Value of parameter S1 |$1.5 \x 10^-15$ |any        |
+|Value of parameter S1 |$1.5 \x 10^-2$ |any        |
 |Value of parameter S2 |$            0$ |same as S1 |
 |Value of parameter k1 |$          0.5$ |second^-1^ |
 |Value of parameter k2 |$          0.5$ |second^-1^ |]
@@ -31,7 +31,7 @@ The initial conditions are as follows:
 
 newcase[ "00163" ];
 
-addParameter[ S1, value -> 1.5 10^-15, constant -> False ];
+addParameter[ S1, value -> 1.5 10^-2, constant -> False ];
 addParameter[ S2, value -> 0, constant -> False ];
 addParameter[ k1, value -> 0.5 ];
 addParameter[ k2, value -> 0.5 ];
