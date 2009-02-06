@@ -3,7 +3,7 @@
   <model metaid="_case00170" id="case00170" name="case00170">
     <listOfParameters>
       <parameter id="S1" name="S1" value="1e-015" constant="false"/>
-      <parameter id="S2" name="S2" value="2e-015"/>
+      <parameter id="S2" name="S2" value="2e-015" constant="false"/>
       <parameter id="S3" name="S3" value="0" constant="false"/>
       <parameter id="S4" name="S4" value="0" constant="false"/>
       <parameter id="k1" name="k1" value="0.75"/>

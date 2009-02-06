@@ -21,8 +21,8 @@
       </functionDefinition>
     </listOfFunctionDefinitions>
     <listOfParameters>
-      <parameter id="S1" name="S1" value="1.5e-015" constant="false"/>
-      <parameter id="S2" name="S2" value="1.5e-015" constant="false"/>
+      <parameter id="S1" name="S1" value="0.015" constant="false"/>
+      <parameter id="S2" name="S2" value="0.015" constant="false"/>
       <parameter id="k1" name="k1" value="1"/>
     </listOfParameters>
     <listOfRules>

@@ -2,8 +2,8 @@
 <sbml xmlns="http://www.sbml.org/sbml/level2" level="2" version="1">
   <model metaid="_case00164" id="case00164" name="case00164">
     <listOfParameters>
-      <parameter id="S1" name="S1" value="1.5e-015" constant="false"/>
-      <parameter id="S2" name="S2" value="1.5e-015" constant="false"/>
+      <parameter id="S1" name="S1" value="0.015" constant="false"/>
+      <parameter id="S2" name="S2" value="0.015" constant="false"/>
       <parameter id="k1" name="k1" value="0.5"/>
       <parameter id="k2" name="k2" value="0.5"/>
     </listOfParameters>
