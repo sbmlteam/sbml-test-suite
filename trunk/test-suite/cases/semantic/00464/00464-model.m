@@ -23,8 +23,8 @@ where the species concentrations remain the same.
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}| |*Value*       |*Units*        |
-|Initial concentration of S1 |$1.5 \x 10^-15$ |mole litre^-1^ |
-|Initial concentration of S2 |$1.5 \x 10^-15$ |mole litre^-1^ |
+|Initial concentration of S1 |$1.5 \x 10^-3$ |mole litre^-1^ |
+|Initial concentration of S2 |$1.5 \x 10^-3$ |mole litre^-1^ |
 |Value of parameter k1       |$0.5$           |second^-1^     |
 |Value of parameter k2       |$0.5$           |second^-1^     |
 |Volume of compartment C     |$1$             |litre          |]
@@ -37,8 +37,8 @@ solution of the system of equations.
 newcase[ "00464" ];
 
 addCompartment[ C, size -> 1 ];
-addSpecies[ S1, initialConcentration -> 1.5 10^-15 ];
-addSpecies[ S2, initialConcentration -> 1.5 10^-15 ];
+addSpecies[ S1, initialConcentration -> 1.5 10^-3 ];
+addSpecies[ S2, initialConcentration -> 1.5 10^-3 ];
 addParameter[ k1, value -> 0.5 ];
 addParameter[ k2, value -> 0.5 ];
 addReaction[ S1 -> S2, reversible -> False,
