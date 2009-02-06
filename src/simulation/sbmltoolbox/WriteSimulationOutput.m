@@ -59,9 +59,14 @@ for i=num1:num2
   sbml = strcat(toplevel, '/cases/semantic/', num, '/', num, '-sbml-l2v3.xml');
   output = strcat(mydir, '/simulationFiles/case', num, '.csv');
   output1 = strcat(mydir, '/simulationOutput/case', num, '.csv');
-  m = TranslateSBML(sbml);
-  OutputODEFunction(m, 0, time, 50, 1);
-  copyfile(output, output1);
+  try
+    m = TranslateSBML(sbml);
+    OutputODEFunction(m, 0, time, 50, 1);
+    copyfile(output, output1);
+    disp(sprintf('%s output written', num));
+  catch ME
+    disp(sprintf('%s output failed', num));
+  end;
 end;
 cd ..;
 
