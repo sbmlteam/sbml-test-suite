@@ -30,11 +30,11 @@ The initial conditions are as follows:
 
 [{width 30em,margin-left 5em}| |*Value*        |*Units*  |
 |Initial amount of S1        |$undeclared$     |mole                      |
-|Initial amount of S2        |$2.0 \x 10^-15$  |mole                      |
-|Initial amount of S3        |$1.0 \x 10^-15$  |mole                      |
+|Initial amount of S2        |$2.0 \x 10^-1$  |mole                      |
+|Initial amount of S3        |$1.0 \x 10^-1$  |mole                      |
 |Value of parameter k1       |$0.75$           |mole^-1^ second^-1^ |
 |Value of parameter k2       |$0.25$           |second^-1^                |
-|Value of parameter p1       |$1.25 \x 10^-16$ |mole                |]
+|Value of parameter p1       |$1.25 \x 10^-2$ |mole                |]
 
 In this example, the compartment has its spatialDimensions attribute set to
 zero, i.e., it represents a point and therefore cannot have size or units.
@@ -46,11 +46,11 @@ newcase[ "00491" ];
 
 addCompartment[ C, spatialDimensions -> 0 ];
 addSpecies[ S1];
-addSpecies[ S2, initialAmount -> 2.0 10^-15];
-addSpecies[ S3, initialAmount -> 1.0 10^-15];
+addSpecies[ S2, initialAmount -> 2.0 10^-1];
+addSpecies[ S3, initialAmount -> 1.0 10^-1];
 addParameter[ k1, value -> 0.75 ];
 addParameter[ k2, value -> 0.25 ];
-addParameter[ p1, value -> 0.125 10^-15 ];
+addParameter[ p1, value -> 0.125 10^-1 ];
 addInitialAssignment[ S1, math -> p1*2];
 addReaction[ S1 + S2 -> S3, reversible -> False,
 	     kineticLaw -> k1 * S1 * S2 ];
