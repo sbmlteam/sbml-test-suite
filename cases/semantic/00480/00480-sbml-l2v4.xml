@@ -2,12 +2,12 @@
 <sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
   <model metaid="_case00480" id="case00480" name="case00480">
     <listOfCompartments>
-      <compartment id="C" name="C" size="1" units="volume"/>
+      <compartment id="C" name="C" size="1" units="volume" constant="false"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialAmount="1e-015" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="C" initialAmount="2e-015" substanceUnits="substance"/>
-      <species id="S3" name="S3" compartment="C" initialAmount="1e-015" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="C" initialAmount="0.1" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="C" initialAmount="0.2" substanceUnits="substance"/>
+      <species id="S3" name="S3" compartment="C" initialAmount="0.1" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" name="k1" value="0.75"/>

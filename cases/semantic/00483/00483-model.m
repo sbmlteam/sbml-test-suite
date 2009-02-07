@@ -29,9 +29,9 @@ consistent with the value returned by the InitialAssignment.
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}| |*Value*       |*Units*  |
-|Initial amount of S1        |$1.0 \x 10^-15$ |mole                      |
-|Initial amount of S2        |$2.0 \x 10^-15$ |mole                      |
-|Initial amount of S3        |$1.0 \x 10^-15$ |mole                      |
+|Initial amount of S1        |$1.0 \x 10^-4$ |mole                      |
+|Initial amount of S2        |$2.0 \x 10^-4$ |mole                      |
+|Initial amount of S3        |$1.0 \x 10^-4$ |mole                      |
 |Value of parameter k1       |$7.5$           |metre^2^ mole^-1^ second^-1^ |
 |Value of parameter k2       |$2.5$           |second^-1^                |
 |Value of parameter p1       |$0.5$           |metre^2^                |
@@ -47,9 +47,9 @@ expressions.
 newcase[ "00483" ];
 
 addCompartment[ C, size -> 1, spatialDimensions -> 2, constant -> False ];
-addSpecies[ S1, initialAmount -> 1.0 10^-15];
-addSpecies[ S2, initialAmount -> 2.0 10^-15];
-addSpecies[ S3, initialAmount -> 1.0 10^-15];
+addSpecies[ S1, initialAmount -> 1.0 10^-4];
+addSpecies[ S2, initialAmount -> 2.0 10^-4];
+addSpecies[ S3, initialAmount -> 1.0 10^-4];
 addParameter[ k1, value -> 7.5 ];
 addParameter[ k2, value -> 2.5  ];
 addParameter[ p1, value -> 0.5 ];
