@@ -34,9 +34,9 @@ The initial conditions are as follows:
 
 [{width 30em,margin-left 5em}| |*Value*        |*Units*  |
 |Initial amount of S1        |$undeclared$  |mole                      |
-|Initial amount of S2        |$2.0 \x 10^-15$  |mole                      |
-|Initial amount of S3        |$1.0 \x 10^-15$  |mole                      |
-|Value of parameter p1       |$1.25 \x 10^-16$ |mole                |
+|Initial amount of S2        |$2.0 \x 10^-4$  |mole                      |
+|Initial amount of S3        |$1.0 \x 10^-4$  |mole                      |
+|Value of parameter p1       |$1.25 \x 10^-5$ |mole                |
 |Value of parameter local k  |$0.75$           |litre mole^-1^ second^-1^ |
 |Value of parameter local k  |$0.25$           |second^-1^                |
 |Volume of compartment C     |$1$              |litre                  |]
@@ -52,9 +52,9 @@ newcase[ "00524" ];
 
 addCompartment[ C, size -> 1 ];
 addSpecies[ S1];
-addSpecies[ S2, initialAmount -> 2.0 10^-15];
-addSpecies[ S3, initialAmount -> 1.0 10^-15];
-addParameter[ p1, value -> 0.125 10^-15 ];
+addSpecies[ S2, initialAmount -> 2.0 10^-4];
+addSpecies[ S3, initialAmount -> 1.0 10^-4];
+addParameter[ p1, value -> 0.125 10^-4 ];
 addInitialAssignment[ S1, math -> p1*2];
 addReaction[ S1 + S2 -> S3, reversible -> False,
 	     kineticLaw -> k * S1 * S2 * C, parameters -> {k -> 0.75}  ];
