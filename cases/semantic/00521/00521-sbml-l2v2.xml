@@ -6,13 +6,13 @@
     </listOfCompartments>
     <listOfSpecies>
       <species id="S1" name="S1" compartment="C" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="C" initialAmount="2e-015" substanceUnits="substance"/>
-      <species id="S3" name="S3" compartment="C" initialAmount="1e-015" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="C" initialAmount="0.2" substanceUnits="substance"/>
+      <species id="S3" name="S3" compartment="C" initialAmount="0.1" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" name="k1" value="0.75"/>
       <parameter id="k2" name="k2" value="0.25"/>
-      <parameter id="p1" name="p1" value="1.25e-016"/>
+      <parameter id="p1" name="p1" value="0.0125"/>
       <parameter id="p2" name="p2" value="0.5"/>
     </listOfParameters>
     <listOfInitialAssignments>
