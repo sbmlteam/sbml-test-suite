@@ -2,16 +2,16 @@
 <sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="2">
   <model name="case00533">
     <listOfCompartments>
-      <compartment name="compartment" volume="1" units="volume"/>
+      <compartment name="C" volume="1" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species name="S1" compartment="compartment" initialAmount="2e-015" units="substance"/>
-      <species name="S2" compartment="compartment" initialAmount="2e-015" units="substance"/>
-      <species name="S3" compartment="compartment" initialAmount="0" units="substance"/>
-      <species name="S4" compartment="compartment" initialAmount="0" units="substance"/>
+      <species name="S1" compartment="C" initialAmount="0.2" units="substance"/>
+      <species name="S2" compartment="C" initialAmount="0.2" units="substance"/>
+      <species name="S3" compartment="C" initialAmount="0" units="substance"/>
+      <species name="S4" compartment="C" initialAmount="0" units="substance"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter name="k1" value="1e+015"/>
+      <parameter name="k1" value="10"/>
       <parameter name="k2"/>
       <parameter name="k3" value="0.7"/>
     </listOfParameters>
@@ -27,7 +27,7 @@
         <listOfProducts>
           <speciesReference species="S3"/>
         </listOfProducts>
-        <kineticLaw formula="compartment * k1 * S1 * S2"/>
+        <kineticLaw formula="C * k1 * S1 * S2"/>
       </reaction>
       <reaction name="reaction2" reversible="false">
         <listOfReactants>
@@ -37,7 +37,7 @@
           <speciesReference species="S1"/>
           <speciesReference species="S2"/>
         </listOfProducts>
-        <kineticLaw formula="compartment * k2 * S3"/>
+        <kineticLaw formula="C * k2 * S3"/>
       </reaction>
       <reaction name="reaction3" reversible="false">
         <listOfReactants>
@@ -47,7 +47,7 @@
           <speciesReference species="S1"/>
           <speciesReference species="S4"/>
         </listOfProducts>
-        <kineticLaw formula="compartment * k3 * S3"/>
+        <kineticLaw formula="C * k3 * S3"/>
       </reaction>
     </listOfReactions>
   </model>
