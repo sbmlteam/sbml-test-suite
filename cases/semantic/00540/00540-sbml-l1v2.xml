@@ -5,9 +5,9 @@
       <compartment name="C" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species name="S1" compartment="C" initialAmount="1e-015" units="substance"/>
-      <species name="S2" compartment="C" initialAmount="2e-015" units="substance"/>
-      <species name="S3" compartment="C" initialAmount="1e-015" units="substance"/>
+      <species name="S1" compartment="C" initialAmount="0.001" units="substance"/>
+      <species name="S2" compartment="C" initialAmount="0.002" units="substance"/>
+      <species name="S3" compartment="C" initialAmount="0.001" units="substance"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter name="k1" value="0.75"/>
