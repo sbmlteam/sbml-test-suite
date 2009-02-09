@@ -5,7 +5,7 @@
       <compartment id="C" name="C" size="1" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialConcentration="1e-015" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="C" initialConcentration="0.1" substanceUnits="substance"/>
       <species id="S2" name="S2" compartment="C" initialConcentration="0" substanceUnits="substance"/>
       <species id="S3" name="S3" compartment="C" initialConcentration="0" substanceUnits="substance"/>
       <species id="S4" name="S4" compartment="C" initialConcentration="0" substanceUnits="substance"/>
