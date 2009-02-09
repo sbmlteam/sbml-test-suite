@@ -22,11 +22,11 @@ five rules defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial value of parameter p1       |$2.0 \x 10^-15$  |any                      |
-|Initial value of parameter p2       |$2.0 \x 10^-15$  |same as p1                      |
+|Initial value of parameter p1       |$2.0 \x 10^-4$  |any                      |
+|Initial value of parameter p2       |$2.0 \x 10^-4$  |same as p1                      |
 |Initial value of parameter p3       |$0$              |same as p1                      |
 |Initial value of parameter p4       |$0$              |same as p1                      |
-|Value of parameter k1               |$1.0 \x 10^15$   |(units of p1)^-1^ second^-1^  |
+|Value of parameter k1               |$1.0 \x 10^4$   |(units of p1)^-1^ second^-1^  |
 |Value of parameter k2               |$undeclared$     |second^-1^                 |
 |Value of parameter k3               |$0.7$            |second^-1^                 |]
 
@@ -34,11 +34,11 @@ The initial conditions are as follows:
 
 newcase[ "00575" ];
 
-addParameter[ p1, value -> 2.0 10^-15, constant -> False];
-addParameter[ p2, value -> 2.0 10^-15, constant -> False];
+addParameter[ p1, value -> 2.0 10^-4, constant -> False];
+addParameter[ p2, value -> 2.0 10^-4, constant -> False];
 addParameter[ p3, value -> 0, constant -> False];
 addParameter[ p4, value -> 0, constant -> False];
-addParameter[ k1, value -> 1.0 10^15 ];
+addParameter[ k1, value -> 1.0 10^4 ];
 addParameter[ k2, constant -> False ];
 addParameter[ k3, value -> 0.7 ];
 addRule[ type->AlgebraicRule, math -> k2 - 0.9];

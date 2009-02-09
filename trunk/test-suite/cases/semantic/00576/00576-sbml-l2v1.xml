@@ -2,10 +2,10 @@
 <sbml xmlns="http://www.sbml.org/sbml/level2" level="2" version="1">
   <model metaid="_case00576" id="case00576" name="case00576">
     <listOfParameters>
-      <parameter id="p1" name="p1" value="1e-015" constant="false"/>
-      <parameter id="p2" name="p2" value="2e-015" constant="false"/>
-      <parameter id="p3" name="p3" value="1e-015" constant="false"/>
-      <parameter id="p4" name="p4" value="1e-015" constant="false"/>
+      <parameter id="p1" name="p1" value="0.001" constant="false"/>
+      <parameter id="p2" name="p2" value="0.002" constant="false"/>
+      <parameter id="p3" name="p3" value="0.001" constant="false"/>
+      <parameter id="p4" name="p4" value="0.001" constant="false"/>
       <parameter id="k1" name="k1" value="0.75"/>
       <parameter id="k2" name="k2" value="0.25"/>
     </listOfParameters>
