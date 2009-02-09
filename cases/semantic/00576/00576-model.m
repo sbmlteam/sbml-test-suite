@@ -21,10 +21,10 @@ four rules defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*                   |
-|Initial value of parameter p1       |$1.0 \x 10^-15$  |any                      |
-|Initial value of parameter p2       |$2.0 \x 10^-15$  |same as p1                      |
-|Initial value of parameter p3       |$1.0 \x 10^-15$  |same as p1                      |
-|Initial value of parameter p4       |$1.0 \x 10^-15$  |same as p1                      |
+|Initial value of parameter p1       |$1.0 \x 10^-3$  |any                      |
+|Initial value of parameter p2       |$2.0 \x 10^-3$  |same as p1                      |
+|Initial value of parameter p3       |$1.0 \x 10^-3$  |same as p1                      |
+|Initial value of parameter p4       |$1.0 \x 10^-3$  |same as p1                      |
 |Value of parameter k1               |$0.75$           |(units of p1)^-1^ second^-1^ |
 |Value of parameter k2               |$0.25$           |second^-1^                |]
 
@@ -32,10 +32,10 @@ The initial conditions are as follows:
 
 newcase[ "00576" ];
 
-addParameter[ p1, value -> 1.0 10^-15, constant -> False];
-addParameter[ p2, value -> 2.0 10^-15, constant -> False];
-addParameter[ p3, value -> 1.0 10^-15, constant -> False];
-addParameter[ p4, value -> 1.0 10^-15, constant -> False];
+addParameter[ p1, value -> 1.0 10^-3, constant -> False];
+addParameter[ p2, value -> 2.0 10^-3, constant -> False];
+addParameter[ p3, value -> 1.0 10^-3, constant -> False];
+addParameter[ p4, value -> 1.0 10^-3, constant -> False];
 addParameter[ k1, value -> 0.75 ];
 addParameter[ k2, value -> 0.25 ];
 addRule[ type->AlgebraicRule, math -> p4 - p1];
