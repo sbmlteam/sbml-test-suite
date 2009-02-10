@@ -20,7 +20,7 @@ as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}| |*Value*       |*Units*  |
-|Initial concentration of S1   |$1.5 \x 10^-15$ |mole metre^-2^                      |
+|Initial concentration of S1   |$1.5 \x 10^-2$ |mole metre^-2^                      |
 |Initial concentration of S2   |$         0$    |mole metre^-2^                      |
 |Value of parameter k1         |$            1$ |second^-1^                |
 |Area of compartment C         |$1$             |metre^2^                  |]
@@ -33,7 +33,7 @@ solution of the system of equations.
 newcase[ "00589" ];
 
 addCompartment[ C, spatialDimensions-> 2, size -> 1 ];
-addSpecies[ S1, initialConcentration -> 1.5 10^-15 ];
+addSpecies[ S1, initialConcentration -> 1.5 10^-2 ];
 addSpecies[ S2, initialConcentration -> 0 ];
 addParameter[ k1, value -> 1 ];
 addReaction[ S1 -> S2, reversible -> False,
