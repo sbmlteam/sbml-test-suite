@@ -29,10 +29,10 @@ The model contains one rule:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*                   |
-|Initial amount of S1                |$1.0 \x 10^-15$  |mole                      |
-|Initial amount of S2                |$2.0 \x 10^-15$  |mole                      |
-|Initial amount of S3                |$1.0 \x 10^-15$  |mole                      |
-|Initial amount of S4                |$1.0 \x 10^-15$  |mole                      |
+|Initial amount of S1                |$1.0 \x 10^-2$  |mole                      |
+|Initial amount of S2                |$2.0 \x 10^-2$  |mole                      |
+|Initial amount of S3                |$1.0 \x 10^-2$  |mole                      |
+|Initial amount of S4                |$1.0 \x 10^-2$  |mole                      |
 |Value of local parameter k          |$0.75$           |litre mole^-1^ second^-1^ |
 |Value of local parameter k          |$0.25$           |second^-1^                |
 |Volume of compartment C             |$1$              |litre                     |]
@@ -47,10 +47,10 @@ where they appear in expressions.
 newcase[ "00566" ];
 
 addCompartment[ C, size -> 1 ];
-addSpecies[ S1, initialAmount -> 1.0 10^-15];
-addSpecies[ S2, initialAmount -> 2.0 10^-15];
-addSpecies[ S3, initialAmount -> 1.0 10^-15];
-addSpecies[ S4, initialAmount -> 1.0 10^-15];
+addSpecies[ S1, initialAmount -> 1.0 10^-2];
+addSpecies[ S2, initialAmount -> 2.0 10^-2];
+addSpecies[ S3, initialAmount -> 1.0 10^-2];
+addSpecies[ S4, initialAmount -> 1.0 10^-2];
 addRule[ type->AlgebraicRule, math -> S4 - S1];
 addReaction[ S1 + S2 -> S3, reversible -> False,
 	     kineticLaw -> k * S1 * S2 * C, parameters -> {k -> 0.75}  ];
