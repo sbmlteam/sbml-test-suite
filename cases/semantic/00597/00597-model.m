@@ -26,7 +26,7 @@ used.
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}| |*Value*          |*Units*  |
-|Initial concentration of S1   |$3.0 \x 10^-15$ |mole litre^-1^                      |
+|Initial concentration of S1   |$3.0 \x 10^-2$ |mole litre^-1^                      |
 |Initial concentration of S2   |$            0$ |mole litre^-1^                      |
 |Initial concentration of S3   |$            0$ |mole litre^-1^                      |
 |Value of parameter k          |$            2$ |second^-1^ |
@@ -38,7 +38,7 @@ The initial conditions are as follows:
 newcase[ "00597" ];
 
 addCompartment[ C, size -> 1 ];
-addSpecies[ S1, initialConcentration -> 3.0 10^-15];
+addSpecies[ S1, initialConcentration -> 3.0 10^-2];
 addSpecies[ S2, initialConcentration -> 0];
 addSpecies[ S3, initialConcentration -> 0];
 addParameter[ k, value -> 2];
