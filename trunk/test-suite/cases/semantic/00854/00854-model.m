@@ -25,8 +25,8 @@ The reaction uses one functionDefinition defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*        |
-|Initial amount of S1                |$1 \x 10^-15$  |mole           |
-|Initial amount of S2                |$0.1 \x 10^-15$              |mole           |
+|Initial amount of S1                |$1 \x 10^-1$  |mole           |
+|Initial amount of S2                |$0.1 \x 10^-1$              |mole           |
 |Value of parameter k1               |$1$              |second^-2^     |
 |Volume of compartment C |$1$              |litre          |]
 
@@ -44,8 +44,8 @@ newcase[ "00854" ];
 
 addFunction[ multiply, arguments -> {x, y, z}, math -> x * y * z];
 addCompartment[ C, size -> 1 ];
-addSpecies[ S1, initialAmount -> 1 10^-15 ];
-addSpecies[ S2, initialAmount -> 0.1 10^-15 ];
+addSpecies[ S1, initialAmount -> 1 10^-1 ];
+addSpecies[ S2, initialAmount -> 0.1 10^-1 ];
 addParameter[ k1, value -> 1 ];
 addReaction[ S1 -> S2, reversible -> False, 
  kineticLaw -> multiply[k1, S1,\[LeftAngleBracket]t, "time"\[RightAngleBracket]] * C];

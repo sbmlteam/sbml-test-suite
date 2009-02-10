@@ -28,8 +28,8 @@
       <compartment id="C" name="C" size="1" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialAmount="1e-015" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="C" initialAmount="1e-016" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="C" initialAmount="0.1" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="C" initialAmount="0.01" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" name="k1" value="1"/>
