@@ -24,9 +24,9 @@ The model contains one rule:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*                   |
-|Initial amount of S1                |$1.0 \x 10^-15$  |mole                      |
-|Initial amount of S2                |$2.0 \x 10^-15$  |mole                      |
-|Initial amount of S3                |$1.0 \x 10^-15$  |mole                      |
+|Initial amount of S1                |$1.0 \x 10^-2$  |mole                      |
+|Initial amount of S2                |$2.0 \x 10^-2$  |mole                      |
+|Initial amount of S3                |$1.0 \x 10^-2$  |mole                      |
 |Value of parameter kf               |$undeclared$           |litre mole^-1^ second^-1^ |
 |Value of parameter kr               |$0.25$           |second^-1^                |
 |Volume of compartment C             |$1$              |litre                     |]
@@ -41,9 +41,9 @@ where they appear in expressions.
 newcase[ "00844" ];
 
 addCompartment[ C, size -> 1 ];
-addSpecies[ S1, initialAmount -> 1.0 10^-15];
-addSpecies[ S2, initialAmount -> 2.0 10^-15];
-addSpecies[ S3, initialAmount -> 1.0 10^-15];
+addSpecies[ S1, initialAmount -> 1.0 10^-2];
+addSpecies[ S2, initialAmount -> 2.0 10^-2];
+addSpecies[ S3, initialAmount -> 1.0 10^-2];
 addParameter[ kf, constant -> False ];
 addParameter[ kr, value -> 0.25 ];
 addRule[ type->AlgebraicRule, math -> kf - 0.75];
