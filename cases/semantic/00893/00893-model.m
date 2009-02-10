@@ -23,9 +23,9 @@ where the symbol 's' denotes the current simulation time.
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
-|Value of parameter P1 |$1.5 \x 10^-15$ |any |
+|Value of parameter P1 |$1.5 \x 10^-3$ |any |
 |Value of parameter P2 |$            0$ |same as P1 |
-|Value of parameter P3 |$  1 \x 10^-15$ |second^-1^ |
+|Value of parameter P3 |$  1 \x 10^-3$ |second^-1^ |
 |Value of parameter k1 |$  0.5$ |second^-3^ |]
 
 
@@ -33,9 +33,9 @@ The initial conditions are as follows:
 
 newcase[ "00893" ];
 
-addParameter[ P1, value -> 1.5 10^-15, constant -> False ];
+addParameter[ P1, value -> 1.5 10^-3, constant -> False ];
 addParameter[ P2, value -> 0, constant -> False ];
-addParameter[ P3, value -> 1 10^-15, constant -> False ];
+addParameter[ P3, value -> 1 10^-3, constant -> False ];
 addParameter[ k1, value -> 0.5];
 addRule[ type->RateRule, variable -> P3, math -> k1*\[LeftAngleBracket]s, "time"\[RightAngleBracket]];
 addRule[ type->RateRule, variable -> P1, math -> -(P3 * P1)];
