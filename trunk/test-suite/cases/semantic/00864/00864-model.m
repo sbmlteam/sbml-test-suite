@@ -23,7 +23,7 @@ where the symbol 'time' denotes the current simulation time.
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial amount of S1                |$1.0 \x 10^-15$  |mole           |
+|Initial amount of S1                |$1.0 \x 10^-2$  |mole           |
 |Initial amount of S2                |$0$              |mole           |
 |Initial amount of S3                |$0$              |mole           |
 |Initial amount of S4                |$0$              |mole           |
@@ -42,7 +42,7 @@ where they appear in expressions.
 newcase[ "00864" ];
 
 addCompartment[ C, size -> 1 ];
-addSpecies[ S1, initialAmount -> 1.0 10^-15, boundaryCondition -> True];
+addSpecies[ S1, initialAmount -> 1.0 10^-2, boundaryCondition -> True];
 addSpecies[ S2, initialAmount -> 0];
 addSpecies[ S3, initialAmount -> 0];
 addSpecies[ S4, initialAmount -> 0];
