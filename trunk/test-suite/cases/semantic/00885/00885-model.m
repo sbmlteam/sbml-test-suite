@@ -27,14 +27,14 @@ where the symbol 'time' denotes the current simulation time.
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial amount of S1    |$1.0 \x 10^-15$  |mole                       |
-|Initial amount of S2    |$1.0 \x 10^-15$  |mole                       |
-|Initial amount of S3    |$2.0 \x 10^-15$  |mole                       |
-|Initial amount of S4    |$1.0 \x 10^-15$  |mole                       |
-|Value of parameter k1   |$0.075 \x 10^15$  |litre mole^-1^ second^-1^  |
-|Value of parameter k2   |$0.25 \x 10^15$  |litre mole^-1^ second^-1^  |
-|Value of parameter k3   |$2 \x 10^-15$  |mole litre^-1^ second^-1^  |
-|Value of parameter k4   |$2 \x 10^-15$  |second^-1^  |
+|Initial amount of S1    |$1.0 \x 10^-2$  |mole                       |
+|Initial amount of S2    |$1.0 \x 10^-2$  |mole                       |
+|Initial amount of S3    |$2.0 \x 10^-2$  |mole                       |
+|Initial amount of S4    |$1.0 \x 10^-2$  |mole                       |
+|Value of parameter k1   |$0.075 \x 10^2$  |litre mole^-1^ second^-1^  |
+|Value of parameter k2   |$0.25 \x 10^2$  |litre mole^-1^ second^-1^  |
+|Value of parameter k3   |$2 \x 10^-2$  |mole litre^-1^ second^-1^  |
+|Value of parameter k4   |$2 \x 10^-2$  |second^-1^  |
 |Volume of compartment C |$1$              |litre                      |]
 
 The species values are given as amounts of substance to make it easier to
@@ -47,14 +47,14 @@ where they appear in expressions.
 newcase[ "00885" ];
 
 addCompartment[ C, size -> 1 ];
-addSpecies[ S1, initialAmount -> 1.0 10^-15];
-addSpecies[ S2, initialAmount -> 1.2 10^-15];
-addSpecies[ S3, initialAmount -> 2.0 10^-15];
-addSpecies[ S4, initialAmount -> 1.0 10^-15];
-addParameter[ k1, value -> 0.075 10^15 ];
-addParameter[ k2, value -> 0.25 10^15 ];
-addParameter[ k3, value -> 2 10^-15 ];
-addParameter[ k4, value -> 2 10^-15 ];
+addSpecies[ S1, initialAmount -> 1.0 10^-2];
+addSpecies[ S2, initialAmount -> 1.2 10^-2];
+addSpecies[ S3, initialAmount -> 2.0 10^-2];
+addSpecies[ S4, initialAmount -> 1.0 10^-2];
+addParameter[ k1, value -> 0.075 10^2 ];
+addParameter[ k2, value -> 0.25 10^2 ];
+addParameter[ k3, value -> 2 10^-2 ];
+addParameter[ k4, value -> 2 10^-2 ];
 addReaction[ S1 + S2 -> S3 + S4, reversible -> False,
 	     kineticLaw -> k1 * S1 * S2 * C ];
 addReaction[ S3 + S4 -> S1 + S2, reversible -> False,
