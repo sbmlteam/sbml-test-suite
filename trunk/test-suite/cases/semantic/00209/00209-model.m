@@ -22,9 +22,9 @@ defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
-|Initial amount of S1              |$1.0 \x 10^-12$ |mole                      |
-|Initial amount of S2              |$2.0 \x 10^-12$ |mole                      |
-|Initial amount of S3              |$1.0 \x 10^-12$ |mole                      |
+|Initial amount of S1              |$1.0 \x 10^-1$ |mole                      |
+|Initial amount of S2              |$2.0 \x 10^-1$ |mole                      |
+|Initial amount of S3              |$1.0 \x 10^-1$ |mole                      |
 |Value of parameter k1             |$           75$ |mole^-1^ second^-1^ |
 |Value of parameter k2             |$           25$ |second^-1^ |
 |Area of compartment "compartment" |$            1$ |metre^2^                  |]
@@ -37,9 +37,9 @@ must be treated as amounts where they appear in expressions.
 newcase[ "00209" ];
 
 addCompartment[ compartment, spatialDimensions-> 2, size -> 1 ];
-addSpecies[ S1, initialAmount -> 1.0 10^-12, hasOnlySubstanceUnits->True ];
-addSpecies[ S2, initialAmount -> 2.0 10^-12, hasOnlySubstanceUnits->True ];
-addSpecies[ S3, initialAmount -> 1.0 10^-12, hasOnlySubstanceUnits->True ];
+addSpecies[ S1, initialAmount -> 1.0 10^-1, hasOnlySubstanceUnits->True ];
+addSpecies[ S2, initialAmount -> 2.0 10^-1, hasOnlySubstanceUnits->True ];
+addSpecies[ S3, initialAmount -> 1.0 10^-1, hasOnlySubstanceUnits->True ];
 addParameter[ k1, value -> 75 ];
 addParameter[ k2, value -> 25 ];
 addReaction[ S1 + S2 -> S3, reversible -> False,
