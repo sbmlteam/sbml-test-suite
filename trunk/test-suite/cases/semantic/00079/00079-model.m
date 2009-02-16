@@ -33,12 +33,12 @@ declared and must be calculated by the AssignmentRule.
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial amount of S1                |$1.0 \x 10^-12$ |mole                      |
-|Initial amount of S2                |$2.0 \x 10^-12$ |mole                      |
-|Initial amount of S3                |$1.5 \x 10^-12$ |mole                      |
+|Initial amount of S1                |$1.0 \x 10^-4$ |mole                      |
+|Initial amount of S2                |$2.0 \x 10^-4$ |mole                      |
+|Initial amount of S3                |$1.5 \x 10^-4$ |mole                      |
 |Initial amount of S4                |$   undeclared$ |mole                      |
-|Value of parameter k1               |$0.75 \x 10^12$ |litre mole^-1^ second^-1^ |
-|Value of parameter k2               |$0.25 \x 10^-6$ |second^-1^ |
+|Value of parameter k1               |$0.75 \x 10^4$ |litre mole^-1^ second^-1^ |
+|Value of parameter k2               |$0.25 \x 10^-2$ |second^-1^ |
 |Value of parameter p1               |$         0.75$ |dimensionless |
 |Volume of compartment "compartment" |$            1$ |litre                     |]
 
@@ -53,12 +53,12 @@ newcase[ "00079" ];
 
 addFunction[ multiply, arguments -> {x, y}, math -> x * y];
 addCompartment[ compartment, size -> 1];
-addSpecies[ S1, initialAmount -> 1.0 10^-12];
-addSpecies[ S2, initialAmount -> 2.0 10^-12];
-addSpecies[ S3, initialAmount -> 1.5 10^-12];
+addSpecies[ S1, initialAmount -> 1.0 10^-4];
+addSpecies[ S2, initialAmount -> 2.0 10^-4];
+addSpecies[ S3, initialAmount -> 1.5 10^-4];
 addSpecies[ S4 ];
-addParameter[ k1, value -> .75 10^12];
-addParameter[ k2, value -> .25 10^-6];
+addParameter[ k1, value -> .75 10^4];
+addParameter[ k2, value -> .25 10^-2];
 addParameter[ p1, value -> 0.75];
 addRule[ type->AssignmentRule, variable -> S4, math ->multiply[p1,S2]];
 addReaction[ S1 + S2 -> S3, reversible -> False,
