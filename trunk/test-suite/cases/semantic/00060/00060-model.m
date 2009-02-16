@@ -19,7 +19,7 @@ reaction defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*         |*Units*  |
-|Initial amount of S1                |$1.5 \x 10^-12$ |mole                      |
+|Initial amount of S1                |$1.5 \x 10^-3$ |mole                      |
 |Initial amount of S2                |$            0$ |mole                      |
 |Value of parameter k1               |$          1.5$ |second^-1^ |
 |Volume of compartment "compartment" |$            1$ |litre                     |]
@@ -35,7 +35,7 @@ solution of the system of equations.
 newcase[ "00060" ];
 
 addCompartment[ compartment, size -> 1 ];
-addSpecies[ S1, initialAmount -> 1.5 10^-12, hasOnlySubstanceUnits->True ];
+addSpecies[ S1, initialAmount -> 1.5 10^-3, hasOnlySubstanceUnits->True ];
 addSpecies[ S2, initialAmount -> 0, hasOnlySubstanceUnits->True ];
 addParameter[ k1, value -> 1.5 ];
 addReaction[ S1 -> S2, reversible -> False,
