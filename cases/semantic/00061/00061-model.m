@@ -20,10 +20,10 @@ contains two reactions defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*         |*Units*  |
-|Initial amount of S1                |$1.0 \x 10^-12$ |mole                      |
-|Initial amount of S2                |$2.0 \x 10^-12$ |mole                      |
-|Initial amount of S3                |$1.0 \x 10^-12$ |mole                      |
-|Value of parameter k1               |$ 1.7 \x 10^10$ |litre mole^-1^ second^-1^ |
+|Initial amount of S1                |$1.0 \x 10^-3$ |mole                      |
+|Initial amount of S2                |$2.0 \x 10^-3$ |mole                      |
+|Initial amount of S3                |$1.0 \x 10^-3$ |mole                      |
+|Value of parameter k1               |$ 1.7 \x 10^1$ |litre mole^-1^ second^-1^ |
 |Value of parameter k2               |$          0.3$ |second^-1^ |
 |Volume of compartment "compartment" |$            1$ |litre                     |]
 
@@ -35,10 +35,10 @@ must be treated as amounts where they appear in expressions.
 newcase[ "00061" ];
 
 addCompartment[ compartment, size -> 1 ];
-addSpecies[ S1, initialAmount -> 1.0 10^-12, hasOnlySubstanceUnits->True ];
-addSpecies[ S2, initialAmount -> 2.0 10^-12, hasOnlySubstanceUnits->True ];
-addSpecies[ S3, initialAmount -> 1.0 10^-12, hasOnlySubstanceUnits->True ];
-addParameter[ k1, value -> 1.7 10^10 ];
+addSpecies[ S1, initialAmount -> 1.0 10^-3, hasOnlySubstanceUnits->True ];
+addSpecies[ S2, initialAmount -> 2.0 10^-3, hasOnlySubstanceUnits->True ];
+addSpecies[ S3, initialAmount -> 1.0 10^-3, hasOnlySubstanceUnits->True ];
+addParameter[ k1, value -> 1.7 10^1 ];
 addParameter[ k2, value -> 0.3 ];
 addReaction[ S1 + S2 -> S3, reversible -> False,
 	     kineticLaw -> k1 * S1 * S2 ];
