@@ -31,7 +31,7 @@ calculated using the InitialAssignment at time = 0.
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*        |
-|Initial amount of S1                |$1.5 \x 10^-15$  |mole           |
+|Initial amount of S1                |$1.5 \x 10^-3$  |mole           |
 |Initial amount of S2                |$undeclared$     |mole           |
 |Value of parameter p1               |$-0.5$           |second^-1^     |
 |Value of parameter k1               |$1$              |second^-1^     |
@@ -50,7 +50,7 @@ solution of the system of equations.
 newcase[ "00877" ];
 
 addCompartment[ C, size -> 1 ];
-addSpecies[ S1, initialAmount -> 1.5 10^-15 ];
+addSpecies[ S1, initialAmount -> 1.5 10^-3 ];
 addSpecies[ S2 ];
 addParameter[ k1, value -> 1 ];
 addParameter[ p1, value -> -0.5 ];
