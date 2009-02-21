@@ -37,13 +37,13 @@ declared and must be calculated by the AssignmentRule.
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial amount of S1                |$1.0 \x 10^-12$ |mole                      |
-|Initial amount of S2                |$2.0 \x 10^-12$ |mole                      |
-|Initial amount of S3                |$1.5 \x 10^-12$ |mole                      |
+|Initial amount of S1                |$1.0 \x 10^-4$ |mole                      |
+|Initial amount of S2                |$2.0 \x 10^-4$ |mole                      |
+|Initial amount of S3                |$1.5 \x 10^-4$ |mole                      |
 |Initial amount of S4                |$   undeclared$ |mole                      |
 |Value of parameter k                |$         0.75$ |dimensionless |
-|Value of local parameter k (R1)     |$0.75 \x 10^12$ |litre mole^-1^ second^-1^ |
-|Value of local parameter k (R2)     |$0.25 \x 10^-6$ |second^-1^ |
+|Value of local parameter k (R1)     |$0.75 \x 10^4$ |litre mole^-1^ second^-1^ |
+|Value of local parameter k (R2)     |$0.25 \x 10^-2$ |second^-1^ |
 |Volume of compartment C |$            1$ |litre                     |]
 
 The species values are given as amounts of substance to make it easier to
@@ -57,15 +57,15 @@ newcase[ "00703" ];
 
 addFunction[ multiply, arguments -> {x, y}, math -> x * y];
 addCompartment[ C, size -> 1];
-addSpecies[ S1, initialAmount -> 1.0 10^-12];
-addSpecies[ S2, initialAmount -> 2.0 10^-12];
-addSpecies[ S3, initialAmount -> 1.5 10^-12];
+addSpecies[ S1, initialAmount -> 1.0 10^-4];
+addSpecies[ S2, initialAmount -> 2.0 10^-4];
+addSpecies[ S3, initialAmount -> 1.5 10^-4];
 addSpecies[ S4 ];
 addParameter[ k, value -> 0.75];
 addRule[ type->AssignmentRule, variable -> S4, math ->multiply[k,S2]];
 addReaction[ S1 + S2 -> S3, reversible -> False,
-	     kineticLaw -> k * S1 * S2 * C , parameters -> {k -> .75 10^12}];
+	     kineticLaw -> k * S1 * S2 * C , parameters -> {k -> .75 10^4}];
 addReaction[ S3 -> S1 + S2, reversible -> False,
-	     kineticLaw -> k * S3 * C , parameters -> {k -> .25 10^-6}];
+	     kineticLaw -> k * S3 * C , parameters -> {k -> .25 10^-2}];
 
 makemodel[]
