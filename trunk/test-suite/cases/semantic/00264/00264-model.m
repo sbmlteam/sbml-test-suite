@@ -21,10 +21,10 @@ reactions defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial amount of S1                |$1.0 \x 10^-12$ |mole                      |
-|Initial amount of S2                |$0.5 \x 10^-12$ |mole                      |
-|Initial amount of S3                |$1.0 \x 10^-12$ |mole                      |
-|Value of parameter k1               |$ 1.6 \x 10^12$ |metre mole^-1^ second^-1^ |
+|Initial amount of S1                |$1.0 \x 10^-3$ |mole                      |
+|Initial amount of S2                |$0.5 \x 10^-3$ |mole                      |
+|Initial amount of S3                |$1.0 \x 10^-3$ |mole                      |
+|Value of parameter k1               |$ 1.6 \x 10^3$ |metre mole^-1^ second^-1^ |
 |Value of parameter k2               |$          0.7$ |second^-1^ |
 |Length of compartment "compartment" |$1$             |metre                        |]
 
@@ -38,10 +38,10 @@ where they appear in expressions.
 newcase[ "00264" ];
 
 addCompartment[ compartment, size -> 1, spatialDimensions -> 1];
-addSpecies[ S1, initialAmount -> 1.0 10^-12];
-addSpecies[ S2, initialAmount -> 0.5 10^-12];
-addSpecies[ S3, initialAmount -> 1.0 10^-12];
-addParameter[ k1, value -> 1.6 10^12 ];
+addSpecies[ S1, initialAmount -> 1.0 10^-3];
+addSpecies[ S2, initialAmount -> 0.5 10^-3];
+addSpecies[ S3, initialAmount -> 1.0 10^-3];
+addParameter[ k1, value -> 1.6 10^3 ];
 addParameter[ k2, value -> 0.7 ];
 addReaction[ 2S1 + S2 -> S3, reversible -> False,
 	     kineticLaw -> k1 * S1 * S1 * S2 * compartment ];
