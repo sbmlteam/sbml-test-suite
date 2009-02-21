@@ -5,17 +5,17 @@
       <compartment name="C" volume="1" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species name="S1" compartment="C" initialAmount="1.5e-012" units="substance"/>
-      <species name="S2" compartment="C" initialAmount="2e-012" units="substance"/>
-      <species name="S3" compartment="C" initialAmount="1.5e-012" units="substance"/>
-      <species name="S4" compartment="C" initialAmount="1e-012" units="substance"/>
+      <species name="S1" compartment="C" initialAmount="0.0015" units="substance"/>
+      <species name="S2" compartment="C" initialAmount="0.002" units="substance"/>
+      <species name="S3" compartment="C" initialAmount="0.0015" units="substance"/>
+      <species name="S4" compartment="C" initialAmount="0.001" units="substance"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter name="k1" value="750000000000"/>
-      <parameter name="k2" value="2.5e-007"/>
+      <parameter name="k1" value="750"/>
+      <parameter name="k2" value="0.0025"/>
     </listOfParameters>
     <listOfRules>
-      <speciesConcentrationRule formula="1e-012" type="rate" species="S4"/>
+      <speciesConcentrationRule formula="(1/1000)" type="rate" species="S4"/>
     </listOfRules>
     <listOfReactions>
       <reaction name="reaction1" reversible="false">
