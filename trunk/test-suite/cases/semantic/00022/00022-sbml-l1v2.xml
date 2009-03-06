@@ -5,7 +5,7 @@
       <compartment name="compartment" volume="0.3" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species name="S1" compartment="compartment" initialAmount="1.5e-015" units="substance"/>
+      <species name="S1" compartment="compartment" initialAmount="0.0015" units="substance"/>
       <species name="S2" compartment="compartment" initialAmount="0" units="substance"/>
     </listOfSpecies>
     <listOfParameters>
@@ -18,7 +18,7 @@
           <speciesReference species="S1"/>
         </listOfReactants>
         <listOfProducts>
-          <speciesReference species="S2" stoichiometry="0"/>
+          <speciesReference species="S2" stoichiometry="3" denominator="10"/>
         </listOfProducts>
         <kineticLaw formula="compartment * k1 * S1"/>
       </reaction>
