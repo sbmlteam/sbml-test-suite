@@ -27,8 +27,8 @@ The model contains one functionDefinition defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial amount of S1              |$1.5 \x 10^-12$ |mole                      |
-|Initial amount of S2              |$0.5 \x 10^-12$ |mole                      |
+|Initial amount of S1              |$1.5 \x 10^-1$ |mole                      |
+|Initial amount of S2              |$0.5 \x 10^-1$ |mole                      |
 |Value of parameter k1             |$         1.75$ |second^-1^ |
 |Area of compartment "compartment" |$          3.5$ |metre^2^                  |]
 
@@ -46,8 +46,8 @@ newcase[ "00280" ];
 
 addFunction[ multiply, arguments -> {x, y}, math -> x * y];
 addCompartment[ compartment, spatialDimensions -> 2, size -> 3.5 ];
-addSpecies[ S1, initialAmount -> 1.5 10^-12 ];
-addSpecies[ S2, initialAmount -> 0.5 10^-12 ];
+addSpecies[ S1, initialAmount -> 1.5 10^-1 ];
+addSpecies[ S2, initialAmount -> 0.5 10^-1 ];
 addParameter[ k1, value -> 1.75 ];
 addReaction[ S1 -> S2, reversible -> False,
 	     kineticLaw -> compartment * multiply[k1,S1] ];
