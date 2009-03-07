@@ -24,11 +24,11 @@
       <compartment id="compartment" name="compartment" spatialDimensions="1" size="0.07" units="length"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="compartment" initialAmount="1.5e-015" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="compartment" initialAmount="1.5e-015" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="compartment" initialAmount="0.00015" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="compartment" initialAmount="0.00015" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter id="k1" name="k1" value="2.63"/>
+      <parameter id="k1" name="k1" value="0.00263"/>
     </listOfParameters>
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" reversible="false" fast="false">

@@ -28,9 +28,9 @@ The model contains one functionDefinition defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial amount of S1                |$1.5 \x 10^-15$ |mole                      |
-|Initial amount of S2                |$1.5 \x 10^-15$ |mole                      |
-|Value of parameter k1               |$         2.63$ |second^-1^ |
+|Initial amount of S1                |$1.5 \x 10^-4$ |mole                      |
+|Initial amount of S2                |$1.5 \x 10^-4$ |mole                      |
+|Value of parameter k1               |$2.63 \x 10^-3$ |second^-1^ |
 |Length of compartment "compartment" |$         0.07$ |metre                  |]
 
 The species values are given as amounts of substance to make it easier to
@@ -47,9 +47,9 @@ newcase[ "00281" ];
 
 addFunction[ multiply, arguments -> {x, y}, math -> x * y];
 addCompartment[ compartment, spatialDimensions -> 1, size -> 0.07 ];
-addSpecies[ S1, initialAmount -> 1.5 10^-15 ];
-addSpecies[ S2, initialAmount -> 1.5 10^-15 ];
-addParameter[ k1, value -> 2.63 ];
+addSpecies[ S1, initialAmount -> 1.5 10^-4 ];
+addSpecies[ S2, initialAmount -> 1.5 10^-4 ];
+addParameter[ k1, value -> 2.63 10^-3 ];
 addReaction[ S1 -> S2, reversible -> False,
 	     kineticLaw -> compartment * multiply[k1,S1] ];
 
