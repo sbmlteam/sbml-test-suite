@@ -27,7 +27,7 @@ The initial conditions are as follows:
 |Initial amount of S3                |$ 2.0 \x 10^-6$ |mole                      |
 |Initial amount of S4                |$ 0.5 \x 10^-6$ |mole                      |
 |Initial amount of S5                |$ 1.0 \x 10^-6$ |mole                      |
-|Value of parameter k1               |$  1.3 \x 10^6$ |litre mole^-1^ second^-1^ |
+|Value of parameter k1               |$  1.3 \x 10^3$ |litre mole^-1^ second^-1^ |
 |Value of parameter k2               |$          0.3$ |litre mole^-1^ second^-1^ |
 |Volume of compartment "compartment" |$          0.2$ |litre                     |]
 
@@ -46,7 +46,7 @@ addSpecies[ S2, initialAmount -> 1.5 10^-6];
 addSpecies[ S3, initialAmount -> 2.0 10^-6];
 addSpecies[ S4, initialAmount -> 0.5 10^-6];
 addSpecies[ S5, initialAmount -> 1.0 10^-6, constant->True];
-addParameter[ k1, value -> 1.3 10^6 ];
+addParameter[ k1, value -> 1.3 10^3 ];
 addParameter[ k2, value -> 0.3 ];
 addReaction[ S1 + S2 -> S3 + S4, reversible -> False,
 	     kineticLaw -> k1 * S1 * S2 * compartment ];

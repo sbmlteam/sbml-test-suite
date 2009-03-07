@@ -12,7 +12,7 @@
       <species id="S5" name="S5" compartment="compartment" initialAmount="1e-006" substanceUnits="substance" constant="true"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter id="k1" name="k1" value="1300000"/>
+      <parameter id="k1" name="k1" value="1300"/>
       <parameter id="k2" name="k2" value="0.3"/>
     </listOfParameters>
     <listOfReactions>
