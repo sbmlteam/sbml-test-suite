@@ -28,12 +28,12 @@ The model contains one functionDefinition defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial amount of S1              |$0.9 \x 10^-12$ |mole                      |
-|Initial amount of S2              |$1.1 \x 10^-12$ |mole                      |
-|Initial amount of S3              |$1.2 \x 10^-12$ |mole                      |
-|Initial amount of S4              |$1.0 \x 10^-12$ |mole                      |
-|Value of parameter k1             |$0.75 \x 10^12$ |metre^2^ mole^-1^ second^-1^ |
-|Value of parameter k2             |$0.25 \x 10^12$ |metre^2^ mole^-1^ second^-1^ |
+|Initial amount of S1              |$0.9 \x 10^-2$ |mole                      |
+|Initial amount of S2              |$1.1 \x 10^-2$ |mole                      |
+|Initial amount of S3              |$1.2 \x 10^-2$ |mole                      |
+|Initial amount of S4              |$1.0 \x 10^-2$ |mole                      |
+|Value of parameter k1             |$12.75 \x 10^1$ |metre^2^ mole^-1^ second^-1^ |
+|Value of parameter k2             |$0.25 \x 10^1$ |metre^2^ mole^-1^ second^-1^ |
 |Area of compartment "compartment" |$         1.98$ |metre^2^                  |]
 
 The species values are given as amounts of substance to make it easier to
@@ -47,12 +47,12 @@ newcase[ "00284" ];
 
 addFunction[ multiply, arguments -> {x, y}, math -> x * y];
 addCompartment[ compartment, spatialDimensions-> 2, size -> 1.98 ];
-addSpecies[ S1, initialAmount -> 0.9 10^-12];
-addSpecies[ S2, initialAmount -> 1.1 10^-12];
-addSpecies[ S3, initialAmount -> 1.2 10^-12];
-addSpecies[ S4, initialAmount -> 1.0 10^-12];
-addParameter[ k1, value -> 0.75 10^12 ];
-addParameter[ k2, value -> 0.25 10^12 ];
+addSpecies[ S1, initialAmount -> 0.9 10^-2];
+addSpecies[ S2, initialAmount -> 1.1 10^-2];
+addSpecies[ S3, initialAmount -> 1.2 10^-2];
+addSpecies[ S4, initialAmount -> 1.0 10^-2];
+addParameter[ k1, value -> 12.75 10^1 ];
+addParameter[ k2, value -> 0.25 10^1 ];
 addReaction[ S1 + S2 -> S3 + S4, reversible -> False,
 	     kineticLaw -> multiply[k1,multiply[S1,S2]] * compartment ];
 addReaction[ S3 + S4 -> S1 + S2, reversible -> False,
