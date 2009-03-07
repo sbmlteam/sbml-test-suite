@@ -28,9 +28,9 @@
       <compartment id="compartment" name="compartment" size="2.3" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="compartment" initialAmount="1e-015" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="compartment" initialAmount="2e-015" substanceUnits="substance"/>
-      <species id="S3" name="S3" compartment="compartment" initialAmount="1e-015" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="compartment" initialAmount="0.0001" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="compartment" initialAmount="0.0002" substanceUnits="substance"/>
+      <species id="S3" name="S3" compartment="compartment" initialAmount="0.0001" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" name="k1" value="0.75"/>
