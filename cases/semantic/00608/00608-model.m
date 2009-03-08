@@ -30,7 +30,7 @@ The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}| |*Value*          |*Units*  |
 |Initial concentration of S1   |$            1$ |mole litre^-1^                      |
-|Initial concentration of S2   |$1.5 \x 10^-15$ |mole litre^-1^                      |
+|Initial concentration of S2   |$1.5 \x 10^-4$ |mole litre^-1^                      |
 |Initial concentration of S3   |$   undeclared$ |mole litre^-1^                      |
 |Value of parameter k1         |$         0.75$ |dimensionless |
 |Value of parameter k2         |$            5$ |second^-1^ |
@@ -42,7 +42,7 @@ newcase[ "00608" ];
 
 addCompartment[ C, size -> 0.08];
 addSpecies[ S1, initialConcentration->1 ];
-addSpecies[ S2, initialConcentration -> 1.5 10^-15 ];
+addSpecies[ S2, initialConcentration -> 1.5 10^-4 ];
 addSpecies[ S3];
 addParameter[ k1, value -> 0.75 ];
 addParameter[ k2, value -> 5 ];

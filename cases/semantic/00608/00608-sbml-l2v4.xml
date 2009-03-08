@@ -6,7 +6,7 @@
     </listOfCompartments>
     <listOfSpecies>
       <species id="S1" name="S1" compartment="C" initialConcentration="1" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="C" initialConcentration="1.5e-015" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="C" initialConcentration="0.00015" substanceUnits="substance"/>
       <species id="S3" name="S3" compartment="C" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
