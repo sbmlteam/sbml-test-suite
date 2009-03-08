@@ -24,8 +24,8 @@
       <compartment id="C" name="C" size="2.3" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialConcentration="1.5e-015" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="C" initialConcentration="1.5e-015" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="C" initialConcentration="0.0015" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="C" initialConcentration="0.0015" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" name="k1" value="1"/>

@@ -27,8 +27,8 @@ The model contains one functionDefinition defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}| |*Value*          |*Units*  |
-|Initial concentration of S1   |$1.5 \x 10^-15$ |mole litre^-1^                      |
-|Initial concentration of S2   |$1.5 \x 10^-15$ |mole litre^-1^                      |
+|Initial concentration of S1   |$1.5 \x 10^-3$ |mole litre^-1^                      |
+|Initial concentration of S2   |$1.5 \x 10^-3$ |mole litre^-1^                      |
 |Value of parameter k1         |$            1$ |second^-1^ |
 |Volume of compartment C       |$          2.3$ |litre                     |]
 
@@ -41,8 +41,8 @@ newcase[ "00604" ];
 
 addFunction[ multiply, arguments -> {x, y}, math -> x * y];
 addCompartment[ C, size -> 2.3 ];
-addSpecies[ S1, initialConcentration -> 1.5 10^-15 ];
-addSpecies[ S2, initialConcentration -> 1.5 10^-15 ];
+addSpecies[ S1, initialConcentration -> 1.5 10^-3 ];
+addSpecies[ S2, initialConcentration -> 1.5 10^-3 ];
 addParameter[ k1, value -> 1 ];
 addReaction[ S1 -> S2, reversible -> False,
 	     kineticLaw -> C * multiply[k1,S1] ];

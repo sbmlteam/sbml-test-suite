@@ -5,13 +5,13 @@
       <compartment id="C" name="C" size="0.7" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialConcentration="1e-012" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="C" initialConcentration="2e-012" substanceUnits="substance"/>
-      <species id="S3" name="S3" compartment="C" initialConcentration="1.5e-012" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="C" initialConcentration="0.01" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="C" initialConcentration="0.02" substanceUnits="substance"/>
+      <species id="S3" name="S3" compartment="C" initialConcentration="0.015" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter id="k1" name="k1" value="750000000000"/>
-      <parameter id="k2" name="k2" value="2.5e-007"/>
+      <parameter id="k1" name="k1" value="75"/>
+      <parameter id="k2" name="k2" value="0.025"/>
     </listOfParameters>
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" reversible="false" fast="false">
