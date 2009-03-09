@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sbml xmlns="http://www.sbml.org/sbml/level2/version2" level="2" version="2">
-  <model metaid="_case00678" id="case00678" name="case00678">
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
+  <model metaid="_case00676" id="case00676" name="case00676">
     <listOfCompartments>
-      <compartment id="C" name="C" size="6.6" units="volume"/>
+      <compartment id="C" name="C" size="2.5" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialAmount="0.66" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="C" substanceUnits="substance"/>
       <species id="S2" name="S2" compartment="C" initialAmount="0.15" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
