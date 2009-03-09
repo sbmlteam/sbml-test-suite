@@ -32,7 +32,7 @@ The model contains one functionDefinition defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*         |*Units*  |
-|Initial amount of S1                |$1.5 \x 10^-15$ |mole                      |
+|Initial amount of S1                |$1.5 \x 10^-1$ |mole                      |
 |Initial amount of S2                |$            0$ |mole                      |
 |Value of parameter k1               |$            1$ |second^-1^ |
 |Value of parameter k2               |$          0.2$ |second^-1^ |
@@ -50,7 +50,7 @@ newcase[ "00712" ];
 
 addFunction[ add, arguments -> {x, y}, math -> x + y];
 addCompartment[ C, size -> 2.5 ];
-addSpecies[ S1, initialAmount -> 1.5 10^-15 ];
+addSpecies[ S1, initialAmount -> 1.5 10^-1 ];
 addSpecies[ S2, initialAmount -> 0 ];
 addParameter[ k1, value -> 1, constant->False ];
 addParameter[ k2, value -> 0.2];
