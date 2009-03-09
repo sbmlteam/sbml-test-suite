@@ -29,9 +29,9 @@ inconsistent with the value returned by the InitialAssignment.
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}| |*Value*       |*Units*  |
-|Initial concentration of S1        |$1.0 \x 10^-15$ |mole litre^-1^                      |
-|Initial concentration of S2        |$2.0 \x 10^-15$ |mole litre^-1^                      |
-|Initial concentration of S3        |$1.0 \x 10^-15$ |mole litre^-1^                      |
+|Initial concentration of S1        |$1.0 \x 10^-3$ |mole litre^-1^                      |
+|Initial concentration of S2        |$2.0 \x 10^-3$ |mole litre^-1^                      |
+|Initial concentration of S3        |$1.0 \x 10^-3$ |mole litre^-1^                      |
 |Value of parameter k1       |$0.75$          |litre mole^-1^ second^-1^ |
 |Value of parameter k2       |$0.25$          |second^-1^                |
 |Value of parameter p1       |$0.25$          |litre                |
@@ -42,9 +42,9 @@ The initial conditions are as follows:
 newcase[ "00785" ];
 
 addCompartment[ C, size -> 3.5, constant -> False ];
-addSpecies[ S1, initialConcentration -> 1.0 10^-15];
-addSpecies[ S2, initialConcentration -> 2.0 10^-15];
-addSpecies[ S3, initialConcentration -> 1.0 10^-15];
+addSpecies[ S1, initialConcentration -> 1.0 10^-3];
+addSpecies[ S2, initialConcentration -> 2.0 10^-3];
+addSpecies[ S3, initialConcentration -> 1.0 10^-3];
 addParameter[ k1, value -> 0.75 ];
 addParameter[ k2, value -> 0.25 ];
 addParameter[ p1, value -> 0.25 ];
