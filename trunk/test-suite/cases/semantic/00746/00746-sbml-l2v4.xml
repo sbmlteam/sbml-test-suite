@@ -5,14 +5,14 @@
       <compartment id="C" name="C" size="0.24" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialConcentration="1e-015" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="C" initialConcentration="1.2e-015" substanceUnits="substance"/>
-      <species id="S3" name="S3" compartment="C" initialConcentration="2e-015" substanceUnits="substance"/>
-      <species id="S4" name="S4" compartment="C" initialConcentration="1e-015" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="C" initialConcentration="0.1" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="C" initialConcentration="0.12" substanceUnits="substance"/>
+      <species id="S3" name="S3" compartment="C" initialConcentration="0.2" substanceUnits="substance"/>
+      <species id="S4" name="S4" compartment="C" initialConcentration="0.1" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter id="k1" name="k1" value="750000000000000"/>
-      <parameter id="k2" name="k2" value="250000000000000"/>
+      <parameter id="k1" name="k1" value="7.5"/>
+      <parameter id="k2" name="k2" value="2.5"/>
     </listOfParameters>
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" reversible="false" fast="false">
@@ -72,7 +72,7 @@
         <listOfEventAssignments>
           <eventAssignment variable="S1">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <cn type="e-notation"> 2 <sep/> -15 </cn>
+              <cn> 0.2 </cn>
             </math>
           </eventAssignment>
         </listOfEventAssignments>
