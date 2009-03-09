@@ -22,7 +22,7 @@ where the symbol 'time' denotes the current simulation time.
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial concentration of S1                |$1.0 \x 10^-15$  |mole litre^-1^           |
+|Initial concentration of S1                |$1.0 \x 10^-1$  |mole litre^-1^           |
 |Initial concentration of S2                |$0$              |mole litre^-1^           |
 |Initial concentration of S3                |$0$              |mole litre^-1^           |
 |Initial concentration of S4                |$0$              |mole litre^-1^           |
@@ -36,7 +36,7 @@ The initial conditions are as follows:
 newcase[ "00861" ];
 
 addCompartment[ C, size -> 1.78 ];
-addSpecies[ S1, initialConcentration -> 1.0 10^-15];
+addSpecies[ S1, initialConcentration -> 1.0 10^-1];
 addSpecies[ S2, initialConcentration -> 0];
 addSpecies[ S3, initialConcentration -> 0];
 addSpecies[ S4, initialConcentration -> 0];
