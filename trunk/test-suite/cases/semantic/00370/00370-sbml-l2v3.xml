@@ -115,7 +115,7 @@
       <apply>
        <lt/>
        <ci>S1</ci>
-       <cn type="real">0.75</cn>
+       <cn type="real">0.5</cn>
       </apply>
      </math>
     </trigger>
@@ -134,7 +134,7 @@
       <apply>
        <gt/>
        <ci>S3</ci>
-       <cn type="real">1.4</cn>
+       <cn type="real">1</cn>
       </apply>
      </math>
     </trigger>
