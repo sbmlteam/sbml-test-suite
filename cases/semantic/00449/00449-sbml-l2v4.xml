@@ -5,10 +5,10 @@
       <compartment id="C" name="C" size="1" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialAmount="1e-015" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="C" initialAmount="1.2e-015" substanceUnits="substance"/>
-      <species id="S3" name="S3" compartment="C" initialAmount="2e-015" substanceUnits="substance"/>
-      <species id="S4" name="S4" compartment="C" initialAmount="1e-015" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="C" initialAmount="0.0001" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="C" initialAmount="0.00012" substanceUnits="substance"/>
+      <species id="S3" name="S3" compartment="C" initialAmount="0.0002" substanceUnits="substance"/>
+      <species id="S4" name="S4" compartment="C" initialAmount="0.0001" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" reversible="false" fast="false">
@@ -31,7 +31,7 @@
             </apply>
           </math>
           <listOfParameters>
-            <parameter id="k" value="750000000000000"/>
+            <parameter id="k" value="7500"/>
           </listOfParameters>
         </kineticLaw>
       </reaction>
@@ -55,7 +55,7 @@
             </apply>
           </math>
           <listOfParameters>
-            <parameter id="k" value="250000000000000"/>
+            <parameter id="k" value="2500"/>
           </listOfParameters>
         </kineticLaw>
       </reaction>
@@ -79,7 +79,7 @@
         <listOfEventAssignments>
           <eventAssignment variable="S1">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <cn type="e-notation"> 2 <sep/> -15 </cn>
+              <cn type="rational"> 1 <sep/> 5000 </cn>
             </math>
           </eventAssignment>
         </listOfEventAssignments>
@@ -90,7 +90,7 @@
             <apply>
               <gt/>
               <ci> S3 </ci>
-              <cn type="e-notation"> 2.25 <sep/> -15 </cn>
+              <cn type="rational"> 9 <sep/> 40000 </cn>
             </apply>
           </math>
         </trigger>
@@ -102,7 +102,7 @@
         <listOfEventAssignments>
           <eventAssignment variable="S4">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <cn type="e-notation"> 1 <sep/> -15 </cn>
+              <cn type="rational"> 1 <sep/> 10000 </cn>
             </math>
           </eventAssignment>
         </listOfEventAssignments>
