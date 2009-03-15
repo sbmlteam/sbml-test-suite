@@ -5,13 +5,13 @@
       <compartment id="C" name="C" size="1" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialAmount="2e-015" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="C" initialAmount="2e-015" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="C" initialAmount="0.002" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="C" initialAmount="0.002" substanceUnits="substance"/>
       <species id="S3" name="S3" compartment="C" initialAmount="0" substanceUnits="substance"/>
       <species id="S4" name="S4" compartment="C" initialAmount="0" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter id="k1" name="k1" value="1e+015"/>
+      <parameter id="k1" name="k1" value="1000"/>
       <parameter id="k2" name="k2" constant="false"/>
       <parameter id="k3" name="k3" value="0.7"/>
     </listOfParameters>
@@ -107,7 +107,7 @@
             <math xmlns="http://www.w3.org/1998/Math/MathML">
               <apply>
                 <times/>
-                <cn type="integer"> 2 </cn>
+                <cn type="integer"> 3 </cn>
                 <ci> S4 </ci>
               </apply>
             </math>
