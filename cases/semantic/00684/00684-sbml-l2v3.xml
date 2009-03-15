@@ -110,7 +110,7 @@
      </math>
     </delay>
     <listOfEventAssignments>
-     <eventAssignment variable="S2">
+     <eventAssignment variable="S1">
       <math xmlns="http://www.w3.org/1998/Math/MathML">
        <cn type="integer">1</cn>
       </math>
