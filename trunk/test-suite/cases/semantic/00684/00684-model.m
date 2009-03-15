@@ -29,7 +29,7 @@ simulation.
 The model contains one event that assigns a value to species S2:
 
 [{width:30em,margin-left:5em}| | *Trigger*    | *Delay* | *Assignments* |
- | Event1 | $S1 < 0.1$ | $0.5$   | $S2 = 1$    |]
+ | Event1 | $S1 < 0.1$ | $0.5$   | $S1 = 1$    |]
 
 The initial conditions are as follows:
 
@@ -59,6 +59,6 @@ addParameter[ k2, value -> 5 ];
 addRule[ type->AssignmentRule, variable -> S3, math ->k1 * S2];
 addReaction[ S1 -> S2, reversible -> False,
 	     kineticLaw -> C * k2 * S1];
-addEvent[ trigger -> S1 < 0.1, delay-> 0.5, eventAssignment -> S2->1 ];
+addEvent[ trigger -> S1 < 0.1, delay-> 0.5, eventAssignment -> S1->1 ];
 
 makemodel[]
