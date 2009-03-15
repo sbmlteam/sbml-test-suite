@@ -20,8 +20,8 @@ contains two reactions defined as:
 The model contains two events that assign values to species S2 and S1:
 
 [{width:30em,margin-left:5em}| | *Trigger*   | *Delay* | *Assignments* |
- | Event1                      | $S1 < 0.75$ | $0.75$  | $S2 = 1$      |
- | Event2                      | $S3 > 1.4$  | $1.5$   | $S1 = 1$      |]
+ | Event1                      | $S1 < 0.5$ | $0.75$  | $S2 = 1$      |
+ | Event2                      | $S3 > 1$  | $1.5$   | $S1 = 1$      |]
 
 The initial conditions are as follows:
 
@@ -52,7 +52,7 @@ addReaction[ S1 + S2 -> S3, reversible -> False,
 	     kineticLaw -> k1 * S1 * S2 * C ];
 addReaction[ S3 -> S1 + S2, reversible -> False,
 	     kineticLaw -> k2 * S3 * C ];
-addEvent[ trigger -> S1 < 0.75, delay->0.75, eventAssignment -> S2->1 ];
-addEvent[ trigger -> S3 > 1.4, delay->1.5, eventAssignment -> S1->1 ];
+addEvent[ trigger -> S1 < 0.5, delay->0.75, eventAssignment -> S2->1 ];
+addEvent[ trigger -> S3 > 1, delay->1.5, eventAssignment -> S1->1 ];
 
 makemodel[]
