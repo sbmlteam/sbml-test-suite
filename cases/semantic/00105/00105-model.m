@@ -32,12 +32,12 @@ The model contains one functionDefinition defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial amount of S1                |$1.0 \x 10^-15$ |mole                      |
-|Initial amount of S2                |$2.0 \x 10^-15$ |mole                      |
-|Initial amount of S3                |$1.0 \x 10^-15$ |mole                      |
+|Initial amount of S1                |$          1.0$ |mole                      |
+|Initial amount of S2                |$          2.0$ |mole                      |
+|Initial amount of S3                |$          1.0$ |mole                      |
 |Value of parameter k1               |$         0.75$ |litre mole^-1^ second^-1^ |
 |Value of parameter k2               |$         0.25$ |second^-1^ |
-|Value of parameter p1               |$0.01$ |second^-1^ |
+|Value of parameter p1               |$          0.1$ |second^-1^ |
 |Volume of compartment C |$            1$ |litre                     |]
 
 The species values are given as amounts of substance to make it easier to
@@ -51,12 +51,12 @@ newcase[ "00105" ];
 
 addFunction[ multiply, arguments -> {x, y, z}, math -> x * y * z];
 addCompartment[ C, constant -> False, size -> 1 ];
-addSpecies[ S1, initialAmount -> 1.0 10^-15];
-addSpecies[ S2, initialAmount -> 2.0 10^-15];
-addSpecies[ S3, initialAmount -> 1.0 10^-15];
+addSpecies[ S1, initialAmount -> 1.0];
+addSpecies[ S2, initialAmount -> 2.0];
+addSpecies[ S3, initialAmount -> 1.0];
 addParameter[ k1, value -> 0.75 ];
 addParameter[ k2, value -> 0.25 ];
-addParameter[ p1, value -> 0.01];
+addParameter[ p1, value -> 0.1 ];
 addRule[ type->RateRule, variable -> C, math -> -p1 * C];
 addReaction[ S1 + S2 -> S3, reversible -> False,
 	     kineticLaw -> multiply[k1, S1, S2] * C ];
