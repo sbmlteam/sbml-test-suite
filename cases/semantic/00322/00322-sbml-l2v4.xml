@@ -5,19 +5,19 @@
       <compartment id="compartment" name="compartment" spatialDimensions="2" size="1" units="area"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="compartment" initialAmount="1.5e-012" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="compartment" initialAmount="2e-012" substanceUnits="substance"/>
-      <species id="S3" name="S3" compartment="compartment" initialAmount="4e-012" substanceUnits="substance"/>
-      <species id="S4" name="S4" compartment="compartment" initialAmount="1e-012" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="compartment" initialAmount="0.015" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="compartment" initialAmount="0.02" substanceUnits="substance"/>
+      <species id="S3" name="S3" compartment="compartment" initialAmount="0.04" substanceUnits="substance"/>
+      <species id="S4" name="S4" compartment="compartment" initialAmount="0.01" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter id="k1" name="k1" value="690000000000"/>
-      <parameter id="k2" name="k2" value="2.3e-007"/>
+      <parameter id="k1" name="k1" value="69"/>
+      <parameter id="k2" name="k2" value="0.023"/>
     </listOfParameters>
     <listOfRules>
       <rateRule metaid="rule1" variable="S4">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <cn type="e-notation"> 1 <sep/> -12 </cn>
+          <cn type="rational"> 1 <sep/> 100 </cn>
         </math>
       </rateRule>
     </listOfRules>
