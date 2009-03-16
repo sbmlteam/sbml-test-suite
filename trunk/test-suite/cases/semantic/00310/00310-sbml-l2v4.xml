@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sbml xmlns="http://www.sbml.org/sbml/level2/version2" level="2" version="2">
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
   <model metaid="_case00310" id="case00310" name="case00310">
     <listOfCompartments>
       <compartment id="C" name="C" size="0.15" units="volume" constant="false"/>
