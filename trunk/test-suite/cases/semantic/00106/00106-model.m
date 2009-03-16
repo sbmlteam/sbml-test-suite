@@ -32,13 +32,13 @@ The model contains one functionDefinition defined as:
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial amount of S1                |$0.5 \x 10^-15$ |mole                      |
-|Initial amount of S2                |$1.0 \x 10^-15$ |mole                      |
-|Initial amount of S3                |$2.0 \x 10^-15$ |mole                      |
-|Initial amount of S4                |$1.5 \x 10^-15$ |mole                      |
-|Value of parameter k1               |$0.75 \x 10^15$ |litre mole^-1^ second^-1^ |
-|Value of parameter k2               |$0.25 \x 10^15$ |litre mole^-1^ second^-1^ |
-|Value of parameter p1               |$0.1 \x 10^-15$ |second^-1^ |
+|Initial amount of S1                |$          1.0$ |mole                      |
+|Initial amount of S2                |$          1.5$ |mole                      |
+|Initial amount of S3                |$          2.0$ |mole                      |
+|Initial amount of S4                |$          1.0$ |mole                      |
+|Value of parameter k1               |$         0.75$ |litre mole^-1^ second^-1^ |
+|Value of parameter k2               |$         0.25$ |litre mole^-1^ second^-1^ |
+|Value of parameter p1               |$          0.1$ |second^-1^ |
 |Volume of compartment C |$            1$ |litre                     |]
 
 The species values are given as amounts of substance to make it easier to
@@ -52,13 +52,13 @@ newcase[ "00106" ];
 
 addFunction[ multiply, arguments -> {x, y}, math -> x * y];
 addCompartment[ C, constant -> False, size -> 1 ];
-addSpecies[ S1, initialAmount -> 0.5 10^-15];
-addSpecies[ S2, initialAmount -> 1.0 10^-15];
-addSpecies[ S3, initialAmount -> 2.0 10^-15];
-addSpecies[ S4, initialAmount -> 1.5 10^-15];
-addParameter[ k1, value -> 0.75 10^15 ];
-addParameter[ k2, value -> 0.25 10^15 ];
-addParameter[ p1, value -> 0.001];
+addSpecies[ S1, initialAmount -> 1.0];
+addSpecies[ S2, initialAmount -> 1.5];
+addSpecies[ S3, initialAmount -> 2.0];
+addSpecies[ S4, initialAmount -> 1.0];
+addParameter[ k1, value -> 0.75 ];
+addParameter[ k2, value -> 0.25 ];
+addParameter[ p1, value -> 0.1 ];
 addRule[ type->RateRule, variable -> C, math -> -p1 * C];
 addReaction[ S1 + S2 -> S3 + S4, reversible -> False,
 	     kineticLaw -> multiply[k1,multiply[S1,S2]] * C ];
