@@ -20,18 +20,18 @@ reactions defined as:
 The model contains one rule:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
- | Rate | S4 | $1 10^-12$  |]
+ | Rate | S4 | $1 10^-4$  |]
 
 
 The initial conditions are as follows:
 
 [{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
-|Initial amount of S1                |$1.5 \x 10^-12$ |mole                      |
-|Initial amount of S2                |$2.0 \x 10^-12$ |mole                      |
-|Initial amount of S3                |$4.0 \x 10^-12$ |mole                      |
-|Initial amount of S4                |$  1 \x 10^-12$ |mole                      |
-|Value of parameter k1               |$0.69 \x 10^12$ |metre mole^-1^ second^-1^ |
-|Value of parameter k2               |$0.23 \x 10^-6$ |second^-1^ |
+|Initial amount of S1                |$1.5 \x 10^-4$ |mole                      |
+|Initial amount of S2                |$2.0 \x 10^-4$ |mole                      |
+|Initial amount of S3                |$4.0 \x 10^-4$ |mole                      |
+|Initial amount of S4                |$  1 \x 10^-4$ |mole                      |
+|Value of parameter k1               |$0.69 \x 10^4$ |metre mole^-1^ second^-1^ |
+|Value of parameter k2               |$0.23 \x 10^-2$ |second^-1^ |
 |Length of compartment "compartment" |$            1$ |metre                     |]
 
 The species values are given as amounts of substance to make it easier to
@@ -44,13 +44,13 @@ where they appear in expressions.
 newcase[ "00323" ];
 
 addCompartment[ compartment, spatialDimensions -> 1, size -> 1 ];
-addSpecies[ S1, initialAmount -> 1.5 10^-12 ];
-addSpecies[ S2, initialAmount -> 2.0 10^-12];
-addSpecies[ S3, initialAmount -> 4.0 10^-12];
-addSpecies[ S4, initialAmount -> 1 10^-12 ];
-addParameter[ k1, value -> .69 10^12];
-addParameter[ k2, value -> .23 10^-6];
-addRule[ type->RateRule, variable -> S4, math -> 1 10^-12];
+addSpecies[ S1, initialAmount -> 1.5 10^-4 ];
+addSpecies[ S2, initialAmount -> 2.0 10^-4];
+addSpecies[ S3, initialAmount -> 4.0 10^-4];
+addSpecies[ S4, initialAmount -> 1 10^-4 ];
+addParameter[ k1, value -> .69 10^4];
+addParameter[ k2, value -> .23 10^-2];
+addRule[ type->RateRule, variable -> S4, math -> 1 10^-4];
 addReaction[ S1 + S2 -> S3, reversible -> False,
 	     kineticLaw -> k1 * S1 * S2 * compartment ];
 addReaction[ S3 -> S1 + S2, reversible -> False,
