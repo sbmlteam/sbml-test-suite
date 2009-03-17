@@ -6,7 +6,7 @@ compartment, nonzero initial concentrations, and identical reaction rates.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialConcentration
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Analytic
 
 The model contains one compartment called C.  There are two species called
