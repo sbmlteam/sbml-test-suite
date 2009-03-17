@@ -6,7 +6,7 @@ and an event that assigns value to two species using csymbol time.
 componentTags: Compartment, Species, Reaction, Parameter, EventNoDelay 
 testTags:      InitialAmount, CSymbolTime
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are four species called

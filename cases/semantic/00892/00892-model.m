@@ -5,7 +5,7 @@ synopsis:      Model using parameters and rules only, with csymbol time.
 componentTags: Parameter, RateRule 
 testTags:      NonConstantParameter, CSymbolTime
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains two varying parameters called P1 and P2 and two constant
