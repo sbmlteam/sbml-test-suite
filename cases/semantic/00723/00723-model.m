@@ -5,7 +5,7 @@ synopsis:      One reactions and two rate rules with four species in a compartme
 componentTags: Compartment, Species, Reaction, Parameter, RateRule, EventNoDelay 
 testTags:      InitialAmount, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are four
