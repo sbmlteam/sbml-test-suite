@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sbml xmlns="http://www.sbml.org/sbml/level2" level="2" version="1">
-  <model metaid="_case00313" id="case00313" name="case00313">
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
+  <model metaid="_case00315" id="case00315" name="case00315">
     <listOfCompartments>
-      <compartment id="C" name="C" size="1" units="volume" constant="false"/>
+      <compartment id="C" name="C" units="volume" constant="false"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialAmount="1" substanceUnits="substance"/>
-      <species id="S2" name="S2" compartment="C" initialAmount="2" substanceUnits="substance"/>
-      <species id="S3" name="S3" compartment="C" initialAmount="1" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="C" initialAmount="0.1" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="C" initialAmount="0.2" substanceUnits="substance"/>
+      <species id="S3" name="S3" compartment="C" initialAmount="0.1" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" name="k1" value="0.75"/>
-      <parameter id="k2" name="k2" value="2.5"/>
+      <parameter id="k2" name="k2" value="0.25"/>
       <parameter id="p1" name="p1" value="0.1"/>
       <parameter id="p2" name="p2" value="1" constant="false"/>
     </listOfParameters>
