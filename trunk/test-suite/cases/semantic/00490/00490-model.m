@@ -6,7 +6,7 @@ initialAssignment to set the initial value of one species.
 componentTags: Compartment, Species, Reaction, Parameter, InitialAssignment 
 testTags:      InitialAmount, 0D-Compartment
 testType:      TimeCourse
-levels:        2.2, 2.3
+levels:        2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are three species called 
