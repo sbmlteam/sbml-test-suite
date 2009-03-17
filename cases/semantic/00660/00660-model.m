@@ -5,7 +5,7 @@ synopsis:      Algebraic rule used to determine rate of species change.
 componentTags: Compartment, Species, Reaction, Parameter, AlgebraicRule, InitialAssignment 
 testTags:      InitialAmount
 testType:      TimeCourse
-levels:        2.2, 2.3
+levels:        2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are two
