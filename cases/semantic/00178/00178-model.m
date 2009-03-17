@@ -5,7 +5,7 @@ synopsis:      Model with parameters and rules with a functionDefinition.
 componentTags: Parameter, FunctionDefinition, RateRule 
 testTags:      NonConstantParameter
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains three varying parameters called S1, S2 and S3 and two constant
