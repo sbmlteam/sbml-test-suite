@@ -6,7 +6,7 @@ synopsis:      Basic two reactions with three species in one compartment
 componentTags: Compartment, Species, Reaction, Parameter, EventNoDelay, InitialAssignment 
 testTags:      InitialAmount
 testType:      TimeCourse
-levels:        2.2, 2.3
+levels:        2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are three species
