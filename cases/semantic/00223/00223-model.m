@@ -6,7 +6,7 @@ compartment, where the species have only substance units.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, 1D-Compartment, HasOnlySubstanceUnits
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There are two
