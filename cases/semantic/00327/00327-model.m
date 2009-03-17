@@ -5,7 +5,7 @@ synopsis:      One reactions and two rate rules with four species in a 0D compar
 componentTags: Compartment, Species, Reaction, Parameter, RateRule 
 testTags:      InitialAmount, 0D-Compartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There are four
