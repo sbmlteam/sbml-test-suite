@@ -5,7 +5,7 @@ synopsis:      Model using parameters and rules only with an algebraic rule.
 componentTags: Parameter, RateRule, AlgebraicRule
 testTags:      NonConstantParameter
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains four variable parameters called p1, p2, p3 and p4 
