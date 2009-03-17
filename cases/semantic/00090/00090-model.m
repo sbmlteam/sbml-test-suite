@@ -6,7 +6,7 @@ compartment using an assignmentRule to vary one species.
 componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule 
 testTags:      InitialAmount
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3
+levels:        1.2, 2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are four
