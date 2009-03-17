@@ -5,7 +5,7 @@ synopsis:      Model using rules and parameters only.
 componentTags: Parameter, AssignmentRule 
 testTags:      NonConstantParameter
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one varying parameter called S1.  (Note that indeed 

@@ -6,7 +6,7 @@ synopsis:      Basic reactions with three species in a one compartment,
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3
+levels:        1.2, 2.1, 2.2, 2.3, 2.4
 generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There are three

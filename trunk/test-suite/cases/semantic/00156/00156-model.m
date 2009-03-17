@@ -6,7 +6,7 @@ synopsis:      Basic single forward reaction with three species in one
 componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule 
 testTags:      InitialAmount, 0D-Compartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are three

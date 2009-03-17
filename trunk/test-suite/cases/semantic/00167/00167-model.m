@@ -5,7 +5,7 @@ synopsis:      Model using parameters and rules only.
 componentTags: Parameter, RateRule 
 testTags:      NonConstantParameter
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains four varying parameters called S1, S2, S3 and S4 and 
