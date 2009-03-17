@@ -5,7 +5,7 @@ synopsis:      Reactions occurring between two compartments.
 componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule 
 testTags:      InitialAmount, MultiCompartment
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3
+levels:        1.2, 2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains two compartments named compartment and compartment1.

@@ -6,7 +6,7 @@ synopsis:      Basic two reactions with five species in a 0 dimensional compartm
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, ConstantSpecies, 0D-Compartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are five

@@ -6,7 +6,7 @@ synopsis:      Basic two reactions with three species in one 2D compartment,
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, NonUnityStoichiometry, 2D-Compartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are three
