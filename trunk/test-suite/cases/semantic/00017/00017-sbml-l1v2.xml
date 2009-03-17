@@ -5,14 +5,14 @@
       <compartment name="compartment" volume="1" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species name="S1" compartment="compartment" initialAmount="1e-015" units="substance"/>
-      <species name="S2" compartment="compartment" initialAmount="1e-015" units="substance"/>
-      <species name="S3" compartment="compartment" initialAmount="2e-015" units="substance"/>
-      <species name="S4" compartment="compartment" initialAmount="1e-015" units="substance"/>
+      <species name="S1" compartment="compartment" initialAmount="0.1" units="substance"/>
+      <species name="S2" compartment="compartment" initialAmount="0.1" units="substance"/>
+      <species name="S3" compartment="compartment" initialAmount="0.2" units="substance"/>
+      <species name="S4" compartment="compartment" initialAmount="0.1" units="substance"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter name="k1" value="750000000000000"/>
-      <parameter name="k2" value="250000000000000"/>
+      <parameter name="k1" value="7.5"/>
+      <parameter name="k2" value="2.5"/>
     </listOfParameters>
     <listOfReactions>
       <reaction name="reaction1" reversible="false">
