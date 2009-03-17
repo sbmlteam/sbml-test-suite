@@ -6,7 +6,7 @@ an algebraic rule used to determine value of a parameter.
 componentTags: Compartment, Species, Reaction, Parameter, AlgebraicRule 
 testTags:      InitialAmount, Reversible
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3
+levels:        1.2, 2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are three
