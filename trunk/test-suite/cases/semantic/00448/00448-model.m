@@ -6,7 +6,7 @@ synopsis:      Basic two reactions with four species in one compartment
 componentTags: Compartment, Species, Reaction, Parameter, EventWithDelay 
 testTags:      InitialAmount, StoichiometryMath
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are four species called
