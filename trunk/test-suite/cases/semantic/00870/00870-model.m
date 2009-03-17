@@ -6,7 +6,7 @@ with one reaction marked as fast.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      InitialAmount, ReversibleReaction, FastReaction
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3
+levels:        1.2, 2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are four
