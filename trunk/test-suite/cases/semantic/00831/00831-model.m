@@ -5,7 +5,7 @@ synopsis:      Two reversible reactions with local parameters.
 componentTags: Compartment, Species, Reaction 
 testTags:      InitialAmount, Reversible, LocalParameters
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3
+levels:        1.2, 2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are two species called 
