@@ -4,3 +4,5 @@ steps: 50
 variables: X1, X0, T
 absolute: 1.000000e-003
 relative: 0.0001
+amount: X1, X0, T
+concentration:
