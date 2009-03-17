@@ -5,7 +5,7 @@ synopsis:      Two rate rules used to determine species value.
 componentTags: Compartment, Species, Parameter, RateRule 
 testTags:      InitialAmount
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3
+levels:        1.2, 2.1, 2.2, 2.3, 2.4
 generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There are two

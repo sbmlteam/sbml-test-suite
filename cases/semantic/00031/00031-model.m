@@ -5,7 +5,7 @@ synopsis:      Basic single rate rule used to determine species value.
 componentTags: Compartment, Species, RateRule 
 testTags:      InitialAmount
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3
+levels:        1.2, 2.1, 2.2, 2.3, 2.4
 generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There is one
