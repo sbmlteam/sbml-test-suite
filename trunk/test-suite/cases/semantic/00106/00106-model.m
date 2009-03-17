@@ -6,7 +6,7 @@ synopsis:      Basic two reactions with four species in one varying compartment
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, RateRule 
 testTags:      InitialAmount, NonConstantCompartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one varying compartment called C.  There are four

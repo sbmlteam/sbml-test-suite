@@ -5,7 +5,7 @@ synopsis:      Reactions occurring between two compartments with functionDefinit
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      InitialAmount, MultiCompartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains two compartments named compartment and compartment1.

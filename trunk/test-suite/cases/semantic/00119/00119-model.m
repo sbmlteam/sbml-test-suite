@@ -6,7 +6,7 @@ synopsis:      Basic single forward reaction using functionDefinitions
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition
 testTags:      InitialAmount, ConstantSpecies
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There are three
