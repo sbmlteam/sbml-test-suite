@@ -106,7 +106,7 @@ set key below
 set rmargin 3
 set bmargin 8
 set lmargin 15
-set size 0.97,0.97
+set size 0.9,0.9
 set terminal jpeg
 set output "${INPUTFILE/%.csv}.jpg"
 plot "$INPUTFILE" using 1:2 title 2 with lines, "" using 1:3 title 3 with lines, "" using 1:4 title 4 with lines, "" using 1:5 title 5 with lines, "" using 1:6 title 6 with lines, "" using 1:7 title 7 with lines, "" using 1:8 title 8 with lines, "" using 1:9 title 9 with lines
