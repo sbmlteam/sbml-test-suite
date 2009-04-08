@@ -25,7 +25,7 @@
        compartment="compartment"
        boundaryCondition="false"
        constant="false"
-       initialAmount="1."
+       initialAmount="0.0001"
        substanceUnits="substance"
        hasOnlySubstanceUnits="false"/>
    <species id="S2"
@@ -33,7 +33,7 @@
        compartment="compartment"
        boundaryCondition="false"
        constant="false"
-       initialAmount="1."
+       initialAmount="0.0002"
        substanceUnits="substance"
        hasOnlySubstanceUnits="false"/>
    <species id="S3"
