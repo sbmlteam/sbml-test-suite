@@ -56,6 +56,6 @@ addReaction[ S1 + S2 -> S3, reversible -> False,
 addReaction[ S3 -> S1 + S2, reversible -> False,
 	     kineticLaw -> k2 * S3 * S4 * C ];
 addEvent[ trigger -> S2 < S4, eventAssignment -> S1->2/10^3 ];
-addEvent[ trigger -> S3 > 2/(10^15), eventAssignment -> S3->1/10^3 ];
+addEvent[ trigger -> S3 > 2/(10^3), eventAssignment -> S3->1/10^3 ];
 
 makemodel[]
