@@ -24,7 +24,7 @@
       </reaction>
       <reaction name="reaction2" reversible="false">
         <listOfReactants>
-          <speciesReference species="S2" stoichiometry="0"/>
+          <speciesReference species="S2" stoichiometry="7" denominator="10"/>
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="S1"/>
