@@ -11,7 +11,7 @@
 # This file is part of the SBML Test Suite.  Please visit http://sbml.org for
 # more information about SBML, and the latest version of the SBML Test Suite.
 #
-# Copyright 2008 California Institute of Technology.
+# Copyright 2008-2010 California Institute of Technology.
 # 
 # This library is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License as published by
