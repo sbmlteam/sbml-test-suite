@@ -6,13 +6,20 @@
 			 http://www.sbml.org/
 		     mailto:sbml-team@caltech.edu
 
-This is a simple program for plotting the results of semantic case
-simulations using gnuplot.  The results are stored in comma-separated
-value format in plain-text files.  This script assumes gnuplot version
-4.2, and that gnuplot has been compiled with the --enable-datastrings
-option.
+This is a simple program for plotting the results of a semantic case
+simulation.  This script assumes gnuplot version 4.2, and that gnuplot
+has been compiled with the --enable-datastrings option.
 
-Copyright 2008 California Institute of Technology.
+Synopsis:
+          plotresults.sh XXXXX-results.csv
+
+The program takes the input file (assumed be a comma-separated value
+file) and runs it through gnuplot to produce a plot in a JPEG file.
+The output file is named after the basename of the input file.  The
+input file should normally have a name of the form XXXXX-results.csv.
+
+----------------------------------------------------------------------
+Copyright 2008-2010 California Institute of Technology.
 
 The SBML Test Suite is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public License as
