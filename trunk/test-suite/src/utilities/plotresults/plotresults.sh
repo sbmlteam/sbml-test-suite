@@ -11,7 +11,7 @@
 # This file is part of the SBML Test Suite.  Please visit http://sbml.org for
 # more information about SBML, and the latest version of the SBML Test Suite.
 #
-# Copyright 2008 California Institute of Technology.
+# Copyright 2008-2010 California Institute of Technology.
 # 
 # This library is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License as published by
@@ -23,9 +23,9 @@
 USAGE_TEXT="Usage: `basename $0`  XXXXX-results.csv
 
 This program takes the input file (assumed be a comma-separated value file)
-and runs it through gnuplot to produce a plot in a JPEG file as output.
-The output file is named after the basename of the input file.  The input
-file should normally have names of the form XXXXX-results.csv.
+and runs it through gnuplot to produce a plot in a JPEG file.  The output
+file is named after the basename of the input file.  The input file should
+normally have a name of the form XXXXX-results.csv.
 
 This free program is part of the SBML Test Suite and is distributed under
 the terms of the LGPL.  For more information, please visit http://sbml.org/.
