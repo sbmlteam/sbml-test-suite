@@ -13,10 +13,14 @@ provided in <test-suite>/src/imported/wiky) and the Mozilla Rhino
 version 1.6 JavaScript interpreter (the source code for which is
 provided in <test-suite>/src/imported/rhino).
 
-The usage for the program is described at the beginning of the file
-desc2html.sh.
+Synopsis:
+          desc2html.sh XXXXX-model.m XXXXX-model.html
 
-Copyright 2008      California Institute of Technology.
+The detailed usage instructions for the program are provided at the
+beginning of the file desc2html.sh.
+
+---------------------------------------------------------------------
+Copyright 2008-2010 California Institute of Technology.
 
 The SBML Test Suite is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public License as
@@ -25,8 +29,6 @@ agreement is provided in the file named "LICENSE.txt" included with
 this software distribution and also available at
 http://sbml.org/Software/SBML_Test_Suite/license.html
 
-
----------------------------------------------------------------------
 $Id$
 $HeadURL$
 
