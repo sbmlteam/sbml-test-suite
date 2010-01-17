@@ -1,4 +1,4 @@
-Copyright (C) 2008      California Institute of Technology (USA). <br>
+Copyright (C) 2008-2010 California Institute of Technology (USA). <br>
 Copyright (C) 2004-2007 California Institute of Technology (USA) and
                         University of Hertfordshire (UK).
 
