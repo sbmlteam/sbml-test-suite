@@ -1,6 +1,18 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
+=== Version 2.0.0 alpha 4 (test-cases only release 2010-01-17) ===
+
+* Corrections to disputed results involving event test cases.
+
+* Corrections to misordering of data in results file for some cases
+  involving algebraic rules.  (Actual results were correct, but the
+  data and labels were misordered.)
+
+* Minor changes to SVN organization of test files and corresponding
+  changes to the Makefile; however, the changes do not come through in
+  the test cases zip archive.
+
 
 === Version 2.0.0 alpha 3 (limited release 2008-08-27) ===
 
