@@ -28,7 +28,7 @@
 # Run 'make plots' for regenerating the JPG plot images from CSV files.
 
 #
-# make html code.
+# 'make html'
 #
 
 define make_html
@@ -44,7 +44,7 @@ $(cases-html-files):
 	$(call make_html,$@)
 
 #
-# make plots code.
+# 'make plots'
 #
 
 define make_plot
@@ -76,7 +76,7 @@ contents = cases/semantic \
            COPYING.txt    \
            LICENSE.txt
 
-cases-dist: html
+cases-dist: html plots
 	@echo $(today) > $(ts-file)
 	zip -r sbml-test-cases-$(today).zip $(contents) -x@.zipexcludes
 	@echo "---------------------------------------------------------------"
@@ -119,6 +119,36 @@ ifneq "$(MAKEFLAGS)" ""
 else 
 	$(MAKE) -w -C docs/src $(MAKECMDGOALS) 
 endif 
+
+
+# -----------------------------------------------------------------------------
+# Miscellaneous developers' operations
+# -----------------------------------------------------------------------------
+
+#
+# 'make svn-ignores'
+#
+# This is to set up svn properties to ignore files that are generated
+# via this makefile but (when generated) may be left in the developer's
+# svn sandbox.  If left around, svn then complains the files are unknown/new,
+# which is annoying if you're looking at several hundred of them.  This only
+# needs to be executed when new case files are added to the test suite.
+# 
+
+cases-dirs = $(wildcard cases/semantic/*)
+tmpfile    = .tmp.make.ignores
+
+svn-ignores: $(cases-html-files) $(cases-jpg-files)
+	@list='$(cases-dirs)'; for dir in $$list; do \
+	  name=`basename $$dir`; \
+          svn propget svn:ignore $$dir |\
+	    grep -v $$name-plot.jpg | grep -v $$name-model.html |\
+            egrep -v '^$$' >| $(tmpfile); \
+	    echo $$name-plot.jpg >> $(tmpfile); \
+	    echo $$name-model.html >> $(tmpfile); \
+	  svn propset -F $(tmpfile) svn:ignore $$dir; \
+	done
+	@rm -f $(tmpfile)
 
 
 # -----------------------------------------------------------------------------
