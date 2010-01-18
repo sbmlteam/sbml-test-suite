@@ -74,6 +74,7 @@ contents = cases/semantic \
 	   $(ts-file)     \
            COPYING.html   \
            COPYING.txt    \
+           NEWS.txt       \
            LICENSE.txt
 
 cases-dist: html plots
