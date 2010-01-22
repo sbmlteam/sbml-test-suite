@@ -1,0 +1,36 @@
+#navbartext { 
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+#article {  
+  width: 746px !important;
+  margin-top: 0em;
+}
+
+#searchbox,
+#searchbox form,
+#searchbox input,
+#searchbox .searchform { 
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+#content.rounded12 {
+  margin-top: 1.6em;
+  border: none;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+#siteAttribution a,
+#siteAttribution a:visited {
+  display: inline !important;
+  margin: 5px auto 0px auto !important;
+  color: #ddd;
+}
+
+#background {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
