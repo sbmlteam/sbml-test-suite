@@ -46,3 +46,7 @@ table.borderless-table tr {
   border: none;
 }
 
+#siteAttribution { 
+  margin: 2em auto !important;
+  width: 746px !important;
+}
