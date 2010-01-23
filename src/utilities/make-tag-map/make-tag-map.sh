@@ -25,13 +25,14 @@ USAGE_TEXT="Usage: `basename $0`  MAPFILE
 This program assumes it is being run from the root of the SBML Test Suite
 source tree.  It decends into the 'cases/semantic' subdirectory and looks
 through every case model definition file, searching for the presence of
-specific tags.  It then constructs a file that lists every tag followed by
-every case that contains that tag in its model definition file.  The
-format of this tags map file is
+specific tags.  It then constructs a file that consists of, on the first
+line, an integer representing the highest case number defined, followed on
+subsequent lines by lists of every tag and every case that contains that tag
+in its model definition file.  The format of each tag information lines is
 
    tagname: XXXXX YYYYY ZZZZZ ...
 
-where XXXXX, YYYYY, ZZZZZ and so on are case numbers.  The algorithm used
+where XXXXX, YYYYY, ZZZZZ and so on, are case numbers.  The algorithm used
 to do this is extremely simple minded and not at all efficient, but this
 operation is infrequently needed (roughly every time a new distribution of
 case files is made by the developers) so efficiency is not deemed to be
@@ -75,6 +76,9 @@ e=/bin/echo
 rm -f $mapfile
 cd cases/semantic
 
+total=`ls | sort -r | head -n 1`
+$e $total > $mapfile
+
 $e -n "Looking at levels tags "
 for tag in $levels; do
   $e -n "."; \
@@ -84,7 +88,7 @@ for tag in $levels; do
       list="$list $case"; \
     fi; \
   done; \
-  $e "$tag:$list" >> $mapfile; \
+  $e "$tag$list" >> $mapfile; \
 done
 $e ""
 
@@ -97,7 +101,7 @@ for tag in $comptags; do
       list="$list $case"; \
     fi; \
   done; \
-  $e "$tag:$list" >> $mapfile; \
+  $e "$tag$list" >> $mapfile; \
 done
 $e ""
 
@@ -110,7 +114,7 @@ for tag in $testtags; do
       list="$list $case"; \
     fi; \
   done; \
-  $e "$tag:$list" >> $mapfile; \
+  $e "$tag$list" >> $mapfile; \
 done
 $e ""
 
