@@ -121,7 +121,11 @@ String body     = util.encode("\n\n\n"
     + "Thank you very much for taking the time to report this error.\n"
     + "-------------------------------------------------------------------\n"
     + "\n"
-    + "Time stamp: " + now + "\n\n"
+    + "Time stamp: " + now + "\n"
+    + "\n"
+    + "Session path value: " + session.getValue("path") + "\n"
+    + "Session cases value: " + session.getValue("cases") + "\n"
+    + "\n"
     + util.getRequestData(request) + "\n"
     + util.getStackTrace(exception));
 
@@ -131,7 +135,8 @@ String mailto   = "mailto:sbml-team@caltech.edu"
 
 %>
 
-<div id='pagetitle'><h1 class='pagetitle'>SBML Test Suite error</h1></div><!-- id='pagetitle' -->
+<div id='pagetitle'><h1 class='pagetitle'><font color="darkred">
+SBML Test Suite error</font></h1></div><!-- id='pagetitle' -->
 <div style="float: right; margin-top: 0; padding: 0 0 0 5px">
   <img src="/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
 </div>
