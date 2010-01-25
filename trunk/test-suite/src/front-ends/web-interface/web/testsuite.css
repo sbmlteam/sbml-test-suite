@@ -18,11 +18,6 @@ table.borderless-table tr {
   border: none;
 }
 
-/* I don't understand why this is needed, but it's needed. -- MH */
-#searchbox input { 
-  height: 19px;
-}
-
 #resultsmap table {
   width: 90%;
   margin: 0px;
