@@ -1,7 +1,8 @@
 <%-- 
  * @file    selecttests.jsp
  * @brief   JSP file to take user test case selections using an HTML form.
- * @author  Kimberly Begley and Michael Hucka
+ * @author  Michael Hucka
+ * @author  Kimberly Begley
  * @date    Created Jul 29, 2008, 9:25:21 AM
  *
  * $Id$
@@ -10,7 +11,7 @@
  * This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
  * more information about SBML, and the latest version of the SBML Test Suite.
  *
- * Copyright 2008      California Institute of Technology.
+ * Copyright 2008-2010 California Institute of Technology.
  * Copyright 2004-2007 California Institute of Technology (USA) and
  *                     University of Hertfordshire (UK).
  * 
@@ -35,265 +36,293 @@
 
 <%@ include file="sbml-head.html"%>
 
-<script type="text/javascript">
+<script language="javascript" type="text/javascript">
 <!--
-function uncheck(field, both) {
-  if (both) {
-    uncheckAll(document.testselect.ctags);
-    uncheckAll(document.testselect.ttags);
-  } else {
-    uncheckAll(field);
-  }
-  Validate();
+
+dojo.require("dojo.fx");
+
+function enableAllTags(tags)
+{
+  for (var i = 0; i < tags.length; i++)
+    tags[i].disabled = false;
 }
 
-function uncheckAll(field) {
-  for (i = 0; i < field.length; i++) {
-    field[i].checked = false;
+function setEnabled(tagName, enabled, tags)
+{
+  for (var i = 0; i < tags.length; i++)  
+    if (tags[i].value == tagName)
+    {
+      tags[i].disabled = (enabled ? false : true);
+      if (!enabled)
+        tags[i].checked = false;        // "checked" means excluded
+      return;
+    }
+}
+
+function isEnabled(tagName, tags)
+{
+  for (var i = 0; i < tags.length; i++)  
+    if (tags[i].value == tagName)
+      return !tags[i].disabled;
+}
+
+/*
+ * Sets an option to be excluded or not.
+ * 
+ * Our notion of "excluded" is implemented using the "checked" property
+ * on the checkboxes in the form.
+ *    (checked == true) means "excluded from testing"
+ */
+function setExcluded(tagName, state, tags)
+{
+  for (var i = 0; i < tags.length; i++)  
+    if (tags[i].value == tagName)
+    {
+      if (!tags[i].disabled || state == false)
+      {
+        tags[i].checked = state;
+      }
+      return;
+    }  
+}
+
+function isExcluded(tagName, tags)
+{
+  for (var i = 0; i < tags.length; i++)  
+    if (tags[i].value == tagName)
+      return tags[i].checked;
+}
+
+function resetAvailableTags()
+{
+  var ctags = document.options.ctags;
+  var ttags = document.options.ttags;
+
+  var index = document.options.levelAndVersion.selectedIndex;
+
+  enableAllTags(ctags);
+  enableAllTags(ttags);
+
+  switch (document.options.levelAndVersion[index].value)
+  {
+  case "1.2":
+    // components
+    setEnabled("FunctionDefinition",    false, ctags);
+    setEnabled("InitialAssignment",     false, ctags);
+    setEnabled("EventWithDelay",        false, ctags);
+    setEnabled("EventNoDelay",          false, ctags);
+    // tests
+    setEnabled("0D-Compartment",        false, ttags);
+    setEnabled("1D-Compartment",        false, ttags);
+    setEnabled("2D-Compartment",        false, ttags);
+    setEnabled("InitialConcentration",  false, ttags);
+    setEnabled("HasOnlySubstanceUnits", false, ttags);
+    setEnabled("ConstantSpecies",       false, ttags);
+    setEnabled("StoichiometryMath",     false, ttags);
+    setEnabled("CSymbolTime",           false, ttags);
+    break;
+
+  case "2.1":
+    setEnabled("InitialAssignment",     false, ctags);
+    break;
+
+  }
+  propagate();
+  slideNoCasesWarning("hide");
+}
+
+/*
+ * propagate()
+ * 
+ * Called when a tag is checked (= excluded) to propagate dependencies.
+ * This is admittedly inefficient because every call to isExcluded()
+ * invokes a loop across all the tag elements, but we are dealing with so
+ * few tags that it's not an issue.  More important is for this code to be
+ * easily understandable and maintainable.
+ */
+function propagate()
+{
+  var index    = document.options.levelAndVersion.selectedIndex;
+  var lv       = document.options.levelAndVersion[index].value;
+  var ctags    = document.options.ctags;
+  var ttags    = document.options.ttags;
+
+  if (isExcluded("Compartment", ctags))
+  {
+    // If compartment is excluded, there can't be species or reactions...
+    setExcluded("Species",                true, ctags);
+    setExcluded("Reaction",               true, ctags);
+    // ... and certain tests become unavailable too.
+    setExcluded("2D-Compartment",         true, ttags);
+    setExcluded("1D-Compartment",         true, ttags);
+    setExcluded("0D-Compartment",         true, ttags);
+    setExcluded("NonConstantCompartment", true, ttags);
+    setExcluded("NonUnityCompartment",    true, ttags);
+    setExcluded("MultiCompartment",       true, ttags);
+  }
+
+  if (isExcluded("Species", ctags))
+  {
+    // If species is excluded, there can't be any reactions...
+    setExcluded("Reaction",               true, ctags);
+    // ... and we can't talk about various species properties.
+    setExcluded("InitialAmount",          true, ttags);
+    setExcluded("InitialConcentration",   true, ttags);
+    setExcluded("HasOnlySubstanceUnits",  true, ttags);
+    setExcluded("BoundaryCondition",      true, ttags);
+    setExcluded("ConstantSpecies",        true, ttags);
+  }
+
+  if (isExcluded("Reaction", ctags))
+  {
+    setExcluded("FastReaction",           true, ttags);
+    setExcluded("ReversibleReaction",     true, ttags);
+    setExcluded("NonUnityStoichiometry",  true, ttags);
+    setExcluded("StoichiometryMath",      true, ttags);
+    setExcluded("LocalParameters",        true, ttags);
+  }
+
+  if (isExcluded("Parameter", ctags))
+  {
+    setExcluded("NonConstantParameter",   true, ttags);
+  }
+
+  if (isExcluded("AssignmentRule", ctags) && isExcluded("AlgebraicRule", ctags)
+      && lv == "1.2")
+  {
+    setExcluded("NonConstantCompartment", true, ttags);
+    setExcluded("NonConstantParameter",   true, ttags);
+  }
+
+  // If there are no parameters, species or compartments, it's impossible
+  // to test certain other SBML components.
+
+  if (isExcluded("Parameter", ctags) && isExcluded("Compartment", ctags)
+      && isExcluded("Species", ctags))
+  {
+    setExcluded("InitialAssignment",      true, ctags);
+    setExcluded("AssignmentRule",         true, ctags);
+    setExcluded("RateRule",               true, ctags);
+    setExcluded("EventWithDelay",         true, ctags);
+    setExcluded("EventNoDelay",           true, ctags);
+  }
+
+  // If there are no main components at all, we can't test anything.
+
+  if (isExcluded("Parameter", ctags) && isExcluded("Compartment", ctags)
+      && isExcluded("Species", ctags) && isExcluded("Reaction", ctags))
+  {
+    if (!document.options.submit.disabled)
+    {
+      document.options.submit.disabled = true;
+      slideNoCasesWarning("show");
+    }
+  }
+  else
+  {
+    // Conversely, if at least one of {parameter, compartment, species,
+    // reaction} are not excluded, then we can have tests.  Clear any
+    // previous disabling of the "get cases" button, in case the user's
+    // last action was to deselect a relevant checkbox.
+
+    if (document.options.submit.disabled)
+    {
+      document.options.submit.disabled = false;
+      slideNoCasesWarning("hide");
+    }
+  }
+
+  // If none of the following are present, you can't test the use of
+  // function definitions either.
+
+  if (isExcluded("InitialAssignment", ctags) && isExcluded("RateRule", ctags)
+      && isExcluded("AssignmentRule", ctags) && isExcluded("AlgebraicRule", ctags)
+      && isExcluded("EventNoDelay", ctags) && isExcluded("EventWithDelay", ctags)
+      && isExcluded("Reaction"))
+  {
+    setExcluded("FunctionDefinition",     true, ctags);    
   }
 }
 
-function checkme() {
-  if (document.testselect.testtype.checked == false) {
-      document.testselect.testtype.checked = true;
+/*
+ * The forms built-in "reset" action clears the checkboxes, but also
+ * messes with the user's menubox selection, which is not right.  So
+ * we need our own custom extra bit of handling code.
+ */
+function resetAll()
+{
+
+  var lv = document.options.levelAndVersion;
+  var selected = lv.selectedIndex;
+  for (var i = 0; i < lv.length; i++)
+    lv[i].defaultSelected = false;
+  lv[selected].defaultSelected = true;
+
+  // Hide the warning panel and reenable the "get test cases" button.
+  if (document.options.submit.disabled)
+  {
+    document.options.submit.disabled = false;
+    slideNoCasesWarning("hide");
+  }
+
+  return true;
+}
+
+/*
+ * I haven't found a way to make the slide warning be hidden when the
+ * page is first visited except to stick a method call on the "onload"
+ * property.  This method is attached via a "hookEvent" call below.
+ */
+function slideNoCasesWarning(action)
+{
+  switch (action)
+  {
+  case "show":
+    dojo.fx.wipeIn({node: "warningNoTestsDiv", duration: 200}).play();
+    break;
+
+  case "hide":
+    // Avoid spurious jump if we try to hide it and it's already hidden.
+    // dojo.fx hides the div by setting its display property to "none".
+    var prop = document.getElementById("warningNoTestsDiv").style;
+    if (prop.getPropertyValue("display") != "none")
+      dojo.fx.wipeOut({node: "warningNoTestsDiv", duration: 200}).play();
+    break;
+    
+  case "init":
+  default:
+    dojo.fx.wipeOut({node: "warningNoTestsDiv", duration: 0}).play();
+    break;
   }
 }
 
-function ValidateLevels() {
-
-// for level1v2
-  if (document.testselect.levels[0].checked == true) {
-
-      document.testselect.ttags[0].checked = false;  //2D-Compartment
-      document.testselect.ttags[0].disabled = true;
-      document.testselect.ttags[1].checked = false;  // 1D-Compartment
-      document.testselect.ttags[1].disabled = true;
-      document.testselect.ttags[2].checked = false;  // 0D-Compartment
-      document.testselect.ttags[2].disabled = true;
-      document.testselect.ttags[3].disabled = false; // NonConstantCompartment
-      document.testselect.ttags[4].disabled = false; // NonUnityCompartment
-      document.testselect.ttags[5].disabled = false; // MulipleCompartment
-      document.testselect.ttags[6].disabled = false; // InitialAmount
-      document.testselect.ttags[7].checked = false;  // InitialConcentration
-      document.testselect.ttags[7].disabled = true;
-      document.testselect.ttags[8].checked = false;  //HasOnlySubstanceUnits
-      document.testselect.ttags[8].disabled = true;
-      document.testselect.ttags[9].disabled = false; // BoundaryCondition
-      document.testselect.ttags[10].checked = false;  // ConstantSpecies
-      document.testselect.ttags[10].disabled = true;
-      document.testselect.ttags[11].disabled = false; // Non Constant Parameter
-      document.testselect.ttags[12].disabled = false; // Fast Reaction
-      document.testselect.ttags[13].disabled = false; // Reversible Reaction
-      document.testselect.ttags[14].disabled = false; // Non Unit Stoichiometry
-      document.testselect.ttags[16].checked = false;  // StoichiometryMath
-      document.testselect.ttags[16].disabled = true;  // Local Parameter
-      document.testselect.ttags[16].disabled = false; // Local Parameter
-      document.testselect.ttags[17].checked = false;  // CSymbolTime
-      document.testselect.ttags[17].disabled = true;
-
-      document.testselect.ctags[0].checked = false;  // FUncitonDefinition
-      document.testselect.ctags[0].disabled = true;
-      document.testselect.ctags[1].checked = false;  // InitialAssignment
-      document.testselect.ctags[1].disabled = true;
-      document.testselect.ctags[2].disabled = false;
-      document.testselect.ctags[3].disabled = false;
-      document.testselect.ctags[4].disabled = false;
-      document.testselect.ctags[5].checked = false;  // EventWithDelay
-      document.testselect.ctags[5].disabled = true;
-      document.testselect.ctags[6].checked = false;  // EventNoDelay
-      document.testselect.ctags[6].disabled = true;
-      document.testselect.ctags[7].disabled = false;
-      document.testselect.ctags[8].disabled = false;
-      document.testselect.ctags[9].disabled = false;
-      document.testselect.ctags[10].disabled = false;
-  }
-  if (document.testselect.levels[1].checked == true) {
-
-      document.testselect.ctags[0].disabled = false;
-      document.testselect.ctags[1].checked = false;
-      document.testselect.ctags[1].disabled = true;
-      document.testselect.ctags[2].disabled = false;
-      document.testselect.ctags[3].disabled = false;
-      document.testselect.ctags[4].disabled = false;
-      document.testselect.ctags[5].disabled = false;
-      document.testselect.ctags[6].disabled = false;
-      document.testselect.ctags[7].disabled = false;
-      document.testselect.ctags[8].disabled = false;
-      document.testselect.ctags[9].disabled = false;
-      document.testselect.ctags[10].disabled = false;
-
-     for(j=0;j<document.testselect.ttags.length;j++) {
-                document.testselect.ttags[j].disabled = false;
-        }
-
-  }
-  if(document.testselect.levels[2].checked == true) {
-      var k=0;
-      for(k=0;k<document.testselect.ttags.length;k++) {
-                document.testselect.ttags[k].disabled = false;
-        }
-      var l=0;
-      for(l=0;l<document.testselect.ctags.length;l++) {
-                document.testselect.ctags[l].disabled = false;
-        }
-
-
-  }
-  if(document.testselect.levels[3].checked == true) {
-      for(i=0;i<document.testselect.ttags.length;i++) {
-                document.testselect.ttags[i].disabled = false;
-        }
-      for(i=0;i<document.testselect.ctags.length;i++) {
-                document.testselect.ctags[i].disabled = false;
-        }
-
-
-  }
-
-}
-
-function Validate() {
-
-  if(document.testselect.ctags[7].checked == true && document.testselect.ctags[8].checked == false) {
-          document.testselect.ctags[8].checked = true;
-  }
-
-  if(document.testselect.ctags[7].checked == true ) { 
-  // If compartment is omitted then species is omitted and reaction is omitted
-         document.testselect.ctags[8].checked = true;
-         document.testselect.ctags[9].checked = true;
-  }
-  
-  if(document.testselect.ctags[8].checked == true && document.testselect.ctags[9].checked == false) { 
-  // If species is omitted then reaction is omitted
-          document.testselect.ctags[9].checked = true;
-  }
-  
-  if(document.testselect.ctags[7].checked == true) {i // Compartment
-        document.testselect.ttags[0].checked = false; // 2D-Compartment
-      	document.testselect.ttags[0].disabled = true;
-	document.testselect.ttags[1].checked = false; // 1D-Compartment
-	document.testselect.ttags[1].disabled = true;
-	document.testselect.ttags[2].checked = false; // 0D-Compartment
-	document.testselect.ttags[2].disabled = true;
-	document.testselect.ttags[3].checked = false; // NonConstantCompartment
-	document.testselect.ttags[3].disabled = true;
-	document.testselect.ttags[4].checked = false; // NonUnityCompartment
-	document.testselect.ttags[4].disabled = true;
-	document.testselect.ttags[5].checked = false; // MultiCompartment
-	document.testselect.ttags[5].disabled = true;
-  }
-  else if(document.testselect.ctags[7].checked == false && document.testselect.levels[0].checked == false) {
-	document.testselect.ttags[0].disabled = false; 
-	document.testselect.ttags[1].disabled = false;
-	document.testselect.ttags[2].disabled = false;
-	document.testselect.ttags[3].disabled = false;
-	document.testselect.ttags[4].disabled = false;
-	document.testselect.ttags[5].disabled = false;
-  }
- else if(document.testselect.ctags[7].checked == false && document.testselect.levels[0].checked == true) { 
-	document.testselect.ttags[0].disabled = true; 
-	document.testselect.ttags[0].checked = false;
-        document.testselect.ttags[1].disabled = true;  
-	document.testselect.ttags[1].checked = false;      
-       document.testselect.ttags[2].disabled = true;
-	document.testselect.ttags[2].checked = false;
-
-        document.testselect.ttags[3].disabled = false;
-        document.testselect.ttags[4].disabled = false;
-        document.testselect.ttags[5].disabled = false;
-
-}
-
-
-  if(document.testselect.ctags[8].checked == true) { // Species
-	document.testselect.ttags[6].checked = false; // InitialAmount
-	document.testselect.ttags[6].disabled = true;
-	document.testselect.ttags[7].checked = false; // InitialConcentration
-	document.testselect.ttags[7].disabled = true;
-	document.testselect.ttags[8].checked = false; // HasOnlySubstanceUnits
-	document.testselect.ttags[8].disabled = true;
-	document.testselect.ttags[9].checked = false; // BoundaryCondition
-	document.testselect.ttags[9].disabled = true;
-	document.testselect.ttags[10].checked = false; // ConstantSpecies
-	document.testselect.ttags[10].disabled = true;
-  }
-  else if(document.testselect.ctags[8].checked == false && document.testselect.levels[0].checked == false) {
-	document.testselect.ttags[6].disabled = false;
-	document.testselect.ttags[7].disabled = false;
-	document.testselect.ttags[8].disabled = false;
-	document.testselect.ttags[9].disabled = false;
-	document.testselect.ttags[10].disabled = false;
-  }
-else if(document.testselect.ctags[8].checked == false && document.testselect.levels[0].checked == true) {
-         document.testselect.ttags[6].disabled = false;
-        document.testselect.ttags[10].disabled = false;
-	document.testselect.ttags[9].disabled = false;
-}
-  if(document.testselect.ctags[9].checked == true) { // Reaction
-	document.testselect.ttags[12].checked = false; // FastReaction
-	document.testselect.ttags[12].disabled = true;
-	document.testselect.ttags[13].checked = false; // ReversibleReaction
-	document.testselect.ttags[13].disabled = true;
-	document.testselect.ttags[14].checked = false; // NonUnityStoichiometry
-	document.testselect.ttags[14].disabled = true;
-	document.testselect.ttags[15].checked = false; // Stoichiometry
-	document.testselect.ttags[15].disabled = true;
-	document.testselect.ttags[16].checked = false; // LocalParameter
-	document.testselect.ttags[16].disabled = true;
-  }
-  else if(document.testselect.ctags[9].checked == false && document.testselect.levels[0].checked == false) {
-	document.testselect.ttags[12].disabled = false;
-	document.testselect.ttags[13].disabled = false;
-	document.testselect.ttags[14].disabled = false;
-	document.testselect.ttags[15].disabled = false;
-	document.testselect.ttags[16].disabled = false;
-  }
-else if(document.testselect.ctags[9].checked == false && document.testselect.levels[0].checked == true) {
-        document.testselect.ttags[12].disabled = false;
-        document.testselect.ttags[13].disabled = false;
-        document.testselect.ttags[14].disabled = false;
-	document.testselect.ttags[15].disabled = true;
-        document.testselect.ttags[16].disabled = false;
-  }
-  if(document.testselect.ctags[10].checked == true) { // Parameter
-	document.testselect.ttags[11].checked = false; // NonConstantParameter
- 	document.testselect.ttags[11].disabled = true;
-  }
-  else if(document.testselect.ctags[10].checked == false) {
- 	document.testselect.ttags[11].disabled = false;
-  }
-	
-
-
-
-if (document.testselect.ctags[7].checked == true && document.testselect.ctags[8].checked == true && document.testselect.ctags[9].checked == true && document.testselect.ctags[10].checked == true) {
-	// disabled all test tags
-	for(m=0;m<document.testselect.ttags.length;m++) {
-		document.testselect.ttags[m].checked = false;
-		document.testselect.ttags[m].disabled = true;
-	}
-
-}
-}
-
-
-
-function checkscript() {
-	if (document.testselect.ctags[9].checked == true && document.testselect.ctags[10].checked == true && document.testselect.ctags[11].checked == true && document.testselect.ctags[12].checked == true) {
-		// something is wrong
-		alert('Empty zip file. You cannot exclude all of Species, Reaction, Compartment and Parameter');
-		return false;
-	}
-
-	// If the script makes it to here, everything is OK,
-	// so you can submit the form
-
-	return true;
-}
+hookEvent("load", slideNoCasesWarning);
 
 //-->
 </script>
+
+<style type="text/css">
+.warningBox {
+  font-weight: bold;
+  color: darkred;
+  background-color: #ffeeee;
+  width: 500px;
+  border: 1px solid #BABABA;
+  padding: 5px 10px;
+  margin: 10px auto 1em auto;
+  -o-border-radius: 10px;
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 10px;
+  -webkit-box-shadow: 0px 3px 7px #adadad;
+  border-radius: 10px;
+  -moz-box-sizing: border-box;
+  -opera-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -khtml-box-sizing: border-box;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+</style>
 
 <%@ include file="sbml-top.html"%>
 
@@ -302,13 +331,11 @@ function checkscript() {
   <img src="/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
 </div>
 <p>
-The first step in using the online Test Suite is obtaining a set of test
-models.  This page is designed to help you do that.  Once you have answered
-the following questions and obtained a collection of test models, you will
-next have to arrange to obtain and record the simulation results and store
-them in files according to <a
-href="/Software/SBML_Test_Suite/Step_2:_Running_the_tests">specific
-guidelines</a> described separately.
+The first step in using the online Test Suite is to obtain a set of test
+models using the form on this page.  Once you have answered the questions
+below and downloaded a collection of tests, you must then record the
+results of simulating each model in your application and put the results in
+files according to the guidelines in step 2.
 </p>
 
 <p> If you prefer, you can also skip the rest of this page and download the
@@ -317,129 +344,115 @@ href="http://sourceforge.net/project/showfiles.php?group_id=71971&package_id=902
 archive</a>.
 </p>
 
-<form name="testselect" action="/test-suite/web/process.jsp" onsubmit="return checkscript()" method=post>
+<form name="options" action="/test-suite/web/process.jsp" method="post">
 
-<p style="margin-top: 2em; padding-top: 1em; border-top: 1px solid rgb(170,
-170, 170);"> To begin, please select the SBML Level and Version to use.  (The
-following choices are mutually exclusive.)
-</p>
+<p style="margin-top: 1.5em; padding-top: 0.5em; border-top: 1px solid #999"> 
 
-<!-- 2008-07-29 mhucka@caltech.edu not yet available:
-<h3>Class of tests</h3>
-<p>
-<table class="borderless-table" width="100%" style="padding-bottom: 1em;">	
-  <tr>
-    <td valign="top" style="padding: 0 0 1em 1em">
-      <input type="checkbox" name="testtype" value="TimeCourse" onchange="checkme()" CHECKED >Time-course simulation
-    </td>
-  </tr>
-</table>
-</p>
-
-<h3>SBML Level and Version</h3> 
-<p>
--->
-<p>
-<table class="borderless-table" width="100%" style="padding: 1em 0 1em 0; margin-top: 1em">
-  <tr>
-    <td valign="top" width="35%" style="padding: 0 0 1em 1em">
-      <em>SBML Level 1:</em><br>
-      <input type="radio" name="levels" value="1.2" onchange="ValidateLevels()">Version 2
-    </td>
-    <td valign="top" colspan="2" style="padding-bottom: 1em">
-      <em>SBML Level 2:</em><br>
-      <input type="radio" name="levels" value="2.1" onchange="ValidateLevels()">Version 1<br>
-      <input type="radio" name="levels" value="2.2" onchange="ValidateLevels()">Version 2<br>
-      <input type="radio" name="levels" value="2.3" onchange="ValidateLevels()" CHECKED >Version 3
-    </td>
-  </tr>
-</table>
-</p>
-
-<p style="margin-top: 1em; padding-top: 1em; border-top: 1px solid rgb(170,
-170, 170);"> The default action is to provide you with all test cases
-<em>unless</em> you specifically <em>exclude</em> some.  If you want to
-exclude some tests (perhaps because you already know the software you are
-testing does not support certain features), then using the check-boxes
-below, please select all SBML components or types of tests that you want to
-<em>exclude</em>.  Leave all boxes unchecked if you want to get all
-possible tests.
-</p>
-
-<h3>Select the component tags you would like to exclude
-  <a style="margin-left: 1.5em; font-style: normal;"
-     href="javascript:uncheck(document.testselect.ctags, true)">[Clear all checked]</a>            
+<h3>(a) Select the SBML Level and Version to use:
+   <select name="levelAndVersion" onchange="resetAvailableTags()">
+     <optgroup label="SBML Level 1">
+       <option value="1.2">SBML Level 1 Version 2</option>
+     </optgroup>
+     <optgroup label="SBML Level 2">
+       <option value="2.1">SBML Level 2 Version 1</option>
+       <option value="2.2">SBML Level 2 Version 2</option>
+       <option value="2.3">SBML Level 2 Version 3</option>
+       <option value="2.4" selected>SBML Level 2 Version 4</option>
+     </optgroup>
+   </select>
 </h3>
+
+<p> By default, you will be provided with all test cases <em>unless</em>
+you specifically <em>exclude</em> some.  To exclude some cases (perhaps
+because you already know the software you are testing doesn't support
+certain features), use the following check-boxes to select the SBML
+components or types of tests that you want <em>excluded</em>.  Leave all
+boxes unchecked to get all possible tests.
+</p>
+
+<p> Dependencies exist: when certain components are excluded, some tests
+must be excluded too, and remain so while the relevant components are
+selected for exclusion.  In addition, not all components are available in
+all SBML Levels/Versions.  </p>
+
+<h3 style="margin-top: 1.5em">(b) Select the component tags you would like to exclude:</h3>
 
 <p>
 <table class="borderless-table" width="100%"> 
   <tr>
-    <td width="33%" valign="top" style="padding: 0 0 1em 1em">
-        <input type="checkbox" name="ctags" value="FunctionDefinition" onchange="Validate()">Function definition<br> 
-        <input type="checkbox" name="ctags" value="InitialAssignment" onchange="Validate()">Initial assignment<br>
-        <input type="checkbox" name="ctags" value="AssignmentRule" onchange="Validate()">Assignment rules<br>
+    <td width="30%" valign="top" style="padding: 0 0 0 1em">
+        <input type="checkbox" name="ctags" value="FunctionDefinition" onchange="propagate()">Function definition<br> 
+        <input type="checkbox" name="ctags" value="InitialAssignment"  onchange="propagate()">Initial assignment<br>
+        <input type="checkbox" name="ctags" value="AssignmentRule"     onchange="propagate()">Assignment rules<br>
     </td>
-    <td width="33%" valign="top" style="padding: 0 0 1em 1em">
-        <input type="checkbox" name="ctags" value="RateRule" onchange="Validate()">Rate rules<br>
-        <input type="checkbox" name="ctags" value="AlgebraicRule" onchange="Validate()">Algebraic rules<br>
-        <input type="checkbox" name="ctags" value="EventWithDelay" onchange="Validate()">Events with delays<br>
-	<input type="checkbox" name="ctags" value="EventNoDelay" onchange="Validate()">Events without delays<br>
+    <td width="33%" valign="top" style="padding: 0 0 0 1em">
+        <input type="checkbox" name="ctags" value="RateRule"           onchange="propagate()">Rate rules<br>
+        <input type="checkbox" name="ctags" value="AlgebraicRule"      onchange="propagate()">Algebraic rules<br>
+        <input type="checkbox" name="ctags" value="EventWithDelay"     onchange="propagate()">Events with delays<br>
+        <input type="checkbox" name="ctags" value="EventNoDelay"       onchange="propagate()">Events without delays<br>
     </td>
-    <td width="33%" valign="top" style="padding: 0 0 1em 1em">
-        <input type="checkbox" name="ctags" value="Compartment" onchange="Validate()">Compartments<br>
-        <input type="checkbox" name="ctags" value="Species" onchange="Validate()">Species<br>
-        <input type="checkbox" name="ctags" value="Reaction" onchange="Validate()">Reactions<br>
-        <input type="checkbox" name="ctags" value="Parameter" onchange="Validate()">Parameters<br>
+    <td width="33%" valign="top" style="padding: 0 0 0 1em">
+        <input type="checkbox" name="ctags" value="Compartment"        onchange="propagate()">Compartments<br>
+        <input type="checkbox" name="ctags" value="Species"            onchange="propagate()">Species<br>
+        <input type="checkbox" name="ctags" value="Reaction"           onchange="propagate()">Reactions<br>
+        <input type="checkbox" name="ctags" value="Parameter"          onchange="propagate()">Parameters<br>
     </td>   
   </tr>
 </table> 
-</p>
 
-<h3>Select the test tags you would like to exclude
-  <a style="margin-left: 2em; font-style: normal;"
-     href="javascript:uncheck(document.testselect.ttags, true)">[Clear all checked]</a>            
-</h3>
+<h3>(c) Select the test tags you would like to exclude:</h3>
 
 <p>
 <table class="borderless-table" width="100%">
   <tr>
-    <td width="33%" valign="top" style="padding: 0 0 1em 1em">
-        <input type="checkbox" name="ttags" value="2D-Compartment" onchange="Validate()">2-D compartments<br>
-        <input type="checkbox" name="ttags" value="1D-Compartment" onchange="Validate()">1-D compartments<br>
-        <input type="checkbox" name="ttags" value="0D-Compartment" onchange="Validate()">0-D compartments<br>
-        <input type="checkbox" name="ttags" value="NonConstantCompartment" onchange="Validate()">Varying-size compartments<br>
-        <input type="checkbox" name="ttags" value="NonUnityCompartment" onchange="Validate()">Compartments with size &ne; 1<br>
-        <input type="checkbox" name="ttags" value="MultiCompartment" onchange="Validate()">Multiple compartments<br>
-        <input type="checkbox" name="ttags" value="InitialAmount" onchange="Validate()">Species using initial amounts<br>
-        <input type="checkbox" name="ttags" value="InitialConcentration" onchange="Validate()">Species using initial concentration</br>
+    <td width="30%" valign="top" style="padding: 0 0 0 1em">
+        <input type="checkbox" name="ttags" value="2D-Compartment"         onchange="propagate()">2-D compartments<br>
+        <input type="checkbox" name="ttags" value="1D-Compartment"         onchange="propagate()">1-D compartments<br>
+        <input type="checkbox" name="ttags" value="0D-Compartment"         onchange="propagate()">0-D compartments<br>
+        <input type="checkbox" name="ttags" value="NonConstantCompartment" onchange="propagate()">Varying-size compartments<br>
+        <input type="checkbox" name="ttags" value="NonUnityCompartment"    onchange="propagate()">Compartments with size &ne; 1<br>
+        <input type="checkbox" name="ttags" value="MultiCompartment"       onchange="propagate()">Multiple compartments<br>
     </td>
-    <td width="33%" valign="top" style="padding: 0 0 1em 1em">
-        <input type="checkbox" name="ttags" value="HasOnlySubstanceUnits" onchange="Validate()">Species with <font size='-2'>'hasOnlySubstanceUnits'</font><br>
-        <input type="checkbox" name="ttags" value="BoundaryCondition" onchange="Validate()">Species as boundary conditions<br>
-        <input type="checkbox" name="ttags" value="ConstantSpecies" onchange="Validate()">Species declared as constant<br>
-        <input type="checkbox" name="ttags" value="NonConstantParameter" onchange="Validate()">Parameters declared non-constant<br>
-        <input type="checkbox" name="ttags" value="FastReaction" onchange="Validate()">'Fast' reactions<br>
-        <input type="checkbox" name="ttags" value="ReversibleReaction" onchange="Validate()">Reversible reactions<br>
-        <input type="checkbox" name="ttags" value="NonUnityStoichiometry" onchange="Validate()">Stoichiometries &ne; 1<br>
+    <td width="33%" valign="top" style="padding: 0 0 0 1em">
+        <input type="checkbox" name="ttags" value="InitialAmount"          onchange="propagate()">Species using initial amounts<br>
+        <input type="checkbox" name="ttags" value="InitialConcentration"   onchange="propagate()">Species using initial concentration<br>
+        <input type="checkbox" name="ttags" value="HasOnlySubstanceUnits"  onchange="propagate()">Species with <font size='-2'>'hasOnlySubstanceUnits'</font><br>
+        <input type="checkbox" name="ttags" value="BoundaryCondition"      onchange="propagate()">Species as boundary conditions<br>
+        <input type="checkbox" name="ttags" value="ConstantSpecies"        onchange="propagate()">Species declared as constant<br>
+        <input type="checkbox" name="ttags" value="NonConstantParameter"   onchange="propagate()">Varying parameter values<br>
     </td>
-    <td width="33%" valign="top" style="padding: 0 0 1em 1em">
-        <input type="checkbox" name="ttags" value="StoichiometryMath" onchange="Validate()">Use of formulas in stoichiometries<br>
-        <input type="checkbox" name="ttags" value="LocalParameters" onchange="Validate()">Reactions with local parameters<br>
-        <input type="checkbox" name="ttags" value="CSymbolTime" onchange="Validate()">Use of csymbol for 'time'<br>
+    <td width="33%" valign="top" style="padding: 0 0 0 1em">
+        <input type="checkbox" name="ttags" value="FastReaction"           onchange="propagate()">'Fast' reactions<br>
+        <input type="checkbox" name="ttags" value="ReversibleReaction"     onchange="propagate()">Reversible reactions<br>
+        <input type="checkbox" name="ttags" value="NonUnityStoichiometry"  onchange="propagate()">Stoichiometries &ne; 1<br>
+        <input type="checkbox" name="ttags" value="StoichiometryMath"      onchange="propagate()">Use of formulas in stoichiometries<br>
+        <input type="checkbox" name="ttags" value="LocalParameters"
+        onchange="propagate()">Local parameters in reactions<br>
+        <input type="checkbox" name="ttags" value="CSymbolTime"            onchange="propagate()">Use of csymbol for 'time'<br>
     </td>         
   </tr>
 </table> 
 </p>
 
-<p style="margin-top: 1em; border-top: 1px solid rgb(170,
-170, 170);"> 
+<center style="margin-bottom: 1.5em">
+  <input type="reset" value="Reset form" onclick="resetAll()">
+</center>
+
+<p style="margin-top: 1em; border-top: 1px solid #999;"> 
 </p><p>
 That's all!  Download a customized zip archive of the test cases you have
 selected by clicking on the button below:
 </p>
 
-<center style="margin: 1.5em">
-  <input type="submit" value="Get test cases">
+<div title="foo" id="warningNoTestsDiv" class="warningBox">
+Very sorry about this, but if compartments, species, reactions and
+parameters are <i>all</i> excluded, then there are no possible test
+cases left!  Please deselect some of the component tags before
+proceeding.
+</div>
+
+<center style="margin: 1.5em" class="ie-submit-button-fix">
+  <input name="submit" type="submit" value="Get test cases">
 </center>
 
 </form> 
@@ -451,12 +464,11 @@ running the tests.
 </p>
 
 <p>
-<center style="margin: 1.5em">
+<center style="margin-top: 1.5em; margin-bottom: 1em">
   <a href="/Software/SBML_Test_Suite/Step_2:_Running_the_tests">
     <img border="0" align="center" src="/images/e/ec/Icon-red-right-arrow.jpg">
     Go to the instructions for Step 2 (running the tests).
   </a>
 </center>
-</p>
 
 <%@ include file="sbml-bottom.html"%>
