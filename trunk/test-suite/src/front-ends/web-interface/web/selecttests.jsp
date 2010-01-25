@@ -27,12 +27,12 @@
 <%@ page import="java.util.regex.*" %>
 <%@ page import="java.awt.*" %>
 <%@ page import="java.lang.*" %>
-<%@ page import="sbml.test.sbmlTestselection" %>
-<%@ page import="sbml.test.sbmlTestcase" %>
 <%@ page import="java.io.*" %>
 <%@ page import="javax.servlet.*" %>
 <%@ page import="javax.servlet.http.*"%>
 <%@ page import="javax.swing.*" %>
+
+<%@ page errorPage="/web/error.jsp" %>
 
 <%@ include file="sbml-head.html"%>
 
@@ -265,6 +265,7 @@ function resetAll()
     slideNoCasesWarning("hide");
   }
 
+  resetAvailableTags();
   return true;
 }
 
