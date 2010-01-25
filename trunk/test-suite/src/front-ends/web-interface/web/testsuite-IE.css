@@ -8,16 +8,8 @@
   margin-top: 0em;
 }
 
-#searchbox,
-#searchbox form,
-#searchbox input,
-#searchbox .searchform { 
-  margin-bottom: 0;
-  margin-top: 0;
-}
-
 #content.rounded12 {
-  margin-top: 1.6em;
+  margin-top: 2.5em;
   border: none;
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
@@ -33,4 +25,8 @@
 #background {
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
+}
+
+.ie-submit-button-fix {
+  padding: 1.5em 0;
 }
