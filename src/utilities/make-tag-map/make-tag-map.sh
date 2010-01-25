@@ -25,19 +25,17 @@ USAGE_TEXT="Usage: `basename $0`  MAPFILE
 This program assumes it is being run from the root of the SBML Test Suite
 source tree.  It decends into the 'cases/semantic' subdirectory and looks
 through every case model definition file, searching for the presence of
-specific tags.  It then constructs a file that consists of, on the first
-line, an integer representing the highest case number defined, followed on
-subsequent lines by lists of every tag and every case that contains that tag
-in its model definition file.  The format of each tag information lines is
+specific tags.  It then writes to MAPFILE, on the first line by itself, the
+highest numbered case number, followed on each subsequent line by a case
+number and all the component tags, test tags and level tags contained in the
+case's model definition file.  The result looks like
 
-   tagname: XXXXX YYYYY ZZZZZ ...
+00900
+00001 Compartment Species Reaction Parameter InitialAmount 1.2 2.1 2.2 2.3 2.4 
+00002 Compartment Species Reaction Parameter InitialAmount 1.2 2.1 2.2 2.3 2.4 
+....
 
-where XXXXX, YYYYY, ZZZZZ and so on, are case numbers.  The algorithm used
-to do this is extremely simple minded and not at all efficient, but this
-operation is infrequently needed (roughly every time a new distribution of
-case files is made by the developers) so efficiency is not deemed to be
-an important concern.  Just start it up, go get a beverage, and when you
-return it should be done :-).
+and so on.  The number of lines in the file equals the number of test cases.
 
 This free program is part of the SBML Test Suite and is distributed under
 the terms of the LGPL.  For more information, please visit http://sbml.org/.
@@ -57,17 +55,11 @@ fi
 
 mapfile=`pwd`/$1
 
-levels="1.2 2.1 2.2 2.3 2.4"
-
-comptags="FunctionDefinition InitialAssignment AssignmentRule RateRule AlgebraicRule EventWithDelay EventNoDelay Compartment Species Reaction Parameter"
-
-testtags="2D-Compartment 1D-Compartment 0D-Compartment NonConstantCompartment NonUnityCompartment InitialAmount InitialConcentration HasOnlySubstanceUnits BoundaryCondition ConstantSpecies NonConstantParameter FastReaction ReversibleReaction NonUnityStoichiometry"
-
-
 # The following is because the stupid shell's built-in echo doesn't seem to
 # understand the -n option, at least on MacOS 10.5.  Foo.
 
 e=/bin/echo
+
 
 # -----------------------------------------------------------------------------
 # Main body.
@@ -79,43 +71,12 @@ cd cases/semantic
 total=`ls | sort -r | head -n 1`
 $e $total > $mapfile
 
-$e -n "Looking at levels tags "
-for tag in $levels; do
-  $e -n "."; \
-  list=""; \
-  for case in *; do \
-    if test -n "`egrep $tag $case/$case-model.m`"; then \
-      list="$list $case"; \
-    fi; \
-  done; \
-  $e "$tag$list" >> $mapfile; \
-done
-$e ""
+for case in *; do
+    tags=`egrep '^componentTags:|^testTags:|^levels:' $case/$case-model.m |\
+	cut -f2 -d':' | tr '\012' '\040' | sed -e 's/  */ /g;s/,//g'`; \
+    $e "$case$tags" >> $mapfile; \
+    $e -n "."; \
+done; \
 
-$e -n "Looking at component tags "
-for tag in $comptags; do
-  $e -n "."; \
-  list=""; \
-  for case in *; do \
-    if test -n "`egrep $tag $case/$case-model.m`"; then \
-      list="$list $case"; \
-    fi; \
-  done; \
-  $e "$tag$list" >> $mapfile; \
-done
 $e ""
-
-$e -n "Looking at test tags "
-for tag in $testtags; do
-  $e -n "."; \
-  list=""; \
-  for case in *; do \
-    if test -n "`egrep $tag $case/$case-model.m`"; then \
-      list="$list $case"; \
-    fi; \
-  done; \
-  $e "$tag$list" >> $mapfile; \
-done
-$e ""
-
 $e "Done. The output is in '$mapfile'."
