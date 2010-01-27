@@ -336,7 +336,8 @@ The first step in using the online Test Suite is to obtain a set of test
 models using the form on this page.  Once you have answered the questions
 below and downloaded a collection of tests, you must then record the
 results of simulating each model in your application and put the results in
-files according to the guidelines in step 2.
+files according to the guidelines in <a
+href="/Software/SBML_Test_Suite/Step_2:_Running_the_tests">step 2</a>.
 </p>
 
 <p> If you prefer, you can also skip the rest of this page and download the
@@ -364,7 +365,7 @@ archive</a>.
 </h3>
 
 <p> By default, you will be provided with all test cases <em>unless</em>
-you specifically <em>exclude</em> some.  To exclude some cases (perhaps
+you specifically <em>exclude</em> some.  To exclude cases (perhaps
 because you already know the software you are testing doesn't support
 certain features), use the following check-boxes to select the SBML
 components or types of tests that you want <em>excluded</em>.  Leave all
@@ -458,18 +459,10 @@ proceeding.
 
 </form> 
 
-<p> Your browser should start downloading the zip archive immediately after
-you click the button.  After it has finished downloading, unzip the archive
-file into a directory on your computer and follow the instructions for
-running the tests.
+<p> Your browser will start downloading the archive shortly after you the
+click button, and will automatically move to <a
+href="/Software/SBML_Test_Suite/Step_2:_Running_the_tests">the instructions
+for step 2</a>.
 </p>
-
-<p>
-<center style="margin-top: 1.5em; margin-bottom: 1em">
-  <a href="/Software/SBML_Test_Suite/Step_2:_Running_the_tests">
-    <img border="0" align="center" src="/images/e/ec/Icon-red-right-arrow.jpg">
-    Go to the instructions for Step 2 (running the tests).
-  </a>
-</center>
 
 <%@ include file="sbml-bottom.html"%>
