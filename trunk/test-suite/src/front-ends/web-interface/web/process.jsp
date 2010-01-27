@@ -35,16 +35,13 @@
 <%@ page import="javax.servlet.*" %>
 <%@ page import="javax.servlet.http.*"%>
 
-<%@ page import="java.text.*" %>
-
 <%@ page errorPage="/web/error.jsp" %>
-
-<%@ include file="sbml-head.html"%>
 
 <jsp:useBean id="formHandler" class="sbml.test.FormBean" scope="request">
     <jsp:setProperty name="formHandler" property="*"/>
 </jsp:useBean>
 
+<%@ include file="sbml-head.html"%>
 <%@ include file="sbml-top.html"%>
 
 <%
@@ -63,14 +60,14 @@
 File testdir = new File(getServletContext().getRealPath("/test-cases"));
 if (testdir == null || !testdir.exists())
 {
-  throw new JspException("STS cannot find test cases dir");
-}   
+    throw new JspException("STS cannot find test cases dir");
+ }   
 
 File mapfile = new File(testdir, ".cases-tags-map");
 if (mapfile == null || !mapfile.exists())
 {
-  throw new JspException("STS cannot find cases tags map file");
-}   
+    throw new JspException("STS cannot find cases tags map file");
+ }   
 
 Scanner fileReader = new Scanner(mapfile);
 int highest = 0;
@@ -80,12 +77,12 @@ int highest = 0;
 
 if (fileReader.hasNext() && fileReader.hasNextInt())
  {
-   highest = fileReader.nextInt();
-   fileReader.nextLine();               // Skip past end of line.
+     highest = fileReader.nextInt();
+     fileReader.nextLine();               // Skip past end of line.
  }
  else
  {
-   throw new JspException("STS tags map file not in expected format");
+     throw new JspException("STS tags map file not in expected format");
  }
 
 // Each subsequent line in the tags map file is a case number followed by
@@ -114,7 +111,7 @@ while (fileReader.hasNext())
     // (which will be a tag) to the end of the data vector.
 
     while (tagreader.hasNext())
-      data.add(tagreader.next());
+        data.add(tagreader.next());
 
     // Store it under the index number "caseNum".
 
@@ -136,27 +133,27 @@ Vector casesToReturn = new Vector();
 outer:
 for (int i = 1; i <= highest; i++)
  {
-   Vector caseData = (Vector) cases.get(i);
-   if (caseData.contains(levelAndVersion))
-   {
-     for (int j = 0; j < ctags.length; j++)
+     Vector caseData = (Vector) cases.get(i);
+     if (caseData.contains(levelAndVersion))
      {
-       if (caseData.contains(ctags[j]))
-         continue outer;
+         for (int j = 0; j < ctags.length; j++)
+         {
+             if (caseData.contains(ctags[j]))
+                 continue outer;
+         }
+         for (int j = 0; j < ttags.length; j++)
+         {
+             if (caseData.contains(ttags[j]))
+                 continue outer;
+         }
+         casesToReturn.add(caseData.get(0));
      }
-     for (int j = 0; j < ttags.length; j++)
-     {
-       if (caseData.contains(ttags[j]))
-         continue outer;
-     }
-     casesToReturn.add(caseData.get(0));
-   }
  }
 
 if (casesToReturn.size() < 1)
 {
-   throw new JspException("STS has no cases to put into archive");
-}
+    throw new JspException("STS has no cases to put into archive");
+ }
 
 // 4. Call our zip file builder with the results and some additional param.
 
