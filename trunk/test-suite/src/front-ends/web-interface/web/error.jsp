@@ -46,61 +46,62 @@
 
 final class InternalUtility
 {
-  /**
-   * Encodes the passed String as UTF-8 using an algorithm that's
-   * compatible with JavaScript's <code>encodeURIComponent</code> function.
-   * Returns <code>null</code> if the given parameter is <code>null</code>.
-   * (Function based on code posted by John Topley at
-   * http://stackoverflow.com/questions/607176)
-   */
-  public String encode(String s)
-  {
-    try
+    /**
+     * Encodes the passed String as UTF-8 using an algorithm that's
+     * compatible with JavaScript's <code>encodeURIComponent</code> function.
+     * Returns <code>null</code> if the given parameter is <code>null</code>.
+     * (Function based on code posted by John Topley at
+     * http://stackoverflow.com/questions/607176)
+     */
+    public String encode(String s)
     {
-      return URLEncoder.encode(s, "UTF-8")
-                       .replaceAll("\\+", "%20")
-                       .replaceAll("\\%21", "!")
-                       .replaceAll("\\%27", "'")
-                       .replaceAll("\\%28", "(")
-                       .replaceAll("\\%29", ")")
-                       .replaceAll("\\%7E", "~");
-    }
-    catch (UnsupportedEncodingException e)
-    {
-      // This exception should never actually occur.
-      return s;
-    }
-  }
-
-  public String getRequestData(HttpServletRequest r)
-  {
-    String text = new String();
-    String[] vars = {
-      "status_code",
-      "exception_type",
-      "message",
-      "request_uri"
-    };
-
-    for (int i = 0; i < vars.length; i++)
-    {
-      String fullname = "javax.servlet.error." + vars[i];
-      text += fullname + ": " + r.getAttribute(fullname) + "\n";
+        try
+        {
+            return URLEncoder.encode(s, "UTF-8")
+            .replaceAll("\\+", "%20")
+            .replaceAll("\\%21", "!")
+            .replaceAll("\\%27", "'")
+            .replaceAll("\\%28", "(")
+            .replaceAll("\\%29", ")")
+            .replaceAll("\\%7E", "~");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            // This exception should never actually occur.
+            return s;
+        }
     }
 
-    text += "Servlet path: " + r.getServletPath() + "\n";
-    text += "Method: " + r.getMethod() + "\n";
+    public String getRequestData(HttpServletRequest r)
+    {
+        String text = new String();
+        String[] vars = {
+            "status_code",
+            "exception_type",
+            "message",
+            "request_uri",
+            "error"                           // Not standard JSP -- we add it.
+        };
 
-    return "Session data: \n" +  text;
-  }
+        for (int i = 0; i < vars.length; i++)
+        {
+            String fullname = "javax.servlet.error." + vars[i];
+            text += fullname + ": " + r.getAttribute(fullname) + "\n";
+        }
 
-  public String getStackTrace(java.lang.Throwable e)
-  {
-    StringWriter sw = new StringWriter();
-    PrintWriter pw  = new PrintWriter(sw, true);
-    e.printStackTrace(pw);
-    return "Stack trace: \n" + sw.toString();
-  }
+        text += "Servlet path: " + r.getServletPath() + "\n";
+        text += "Method: " + r.getMethod() + "\n";
+
+        return "Session data: \n" +  text;
+    }
+
+    public String getStackTrace(java.lang.Throwable e)
+    {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw  = new PrintWriter(sw, true);
+        e.printStackTrace(pw);
+        return "Stack trace: \n" + sw.toString();
+    }
 
 }
 
@@ -127,7 +128,7 @@ String body     = util.encode("\n\n\n"
     + "Session cases value: " + session.getValue("cases") + "\n"
     + "\n"
     + util.getRequestData(request) + "\n"
-    + util.getStackTrace(exception));
+    + (exception != null ? util.getStackTrace(exception) : "" ));
 
 String mailto   = "mailto:sbml-team@caltech.edu"
                   + "?subject=" + subject
@@ -149,8 +150,7 @@ explanation about what happened</b>, it will help us understand the
 circustances better. </p>
 
 <center style="margin: 1.5em auto 2em auto">
-<a <% out.println("href=\"" + mailto + "\""); %>
->
+<a href="<%=mailto%>">
 <img src="/images/8/83/Icon-send-mail-64px.jpg" border="0"><br>
 (Click to send an email report.)
 </a>
