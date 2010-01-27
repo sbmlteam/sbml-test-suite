@@ -153,11 +153,16 @@ for (int i = 1; i <= highest; i++)
    }
  }
 
-// 4. Call our zip file builder with the results.
+if (casesToReturn.size() < 1)
+{
+   throw new JspException("STS has no cases to put into archive");
+}
 
-session.putValue("internalError", null);
-session.putValue("path", testdir);
-session.putValue("cases", casesToReturn);
+// 4. Call our zip file builder with the results and some additional param.
+
+session.putValue("path"           , testdir);
+session.putValue("cases"          , casesToReturn);
+session.putValue("levelAndVersion", levelAndVersion);
 response.setHeader("Refresh",
                    "1; URL=http://sbml.org:8080/test_suite/servlet/ZipServlet");
 
