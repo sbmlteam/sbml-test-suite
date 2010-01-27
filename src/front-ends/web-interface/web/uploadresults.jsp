@@ -3,14 +3,14 @@
  * @brief   JSP file to let user upload test results
  * @author  Kimberly Begley
  * @date    Created Jul 30, 2008, 9:25:21 AM
- *
- * $Id$
+ * @id      $Id$
  * $HeadURL$
+ *
  * ----------------------------------------------------------------------------
  * This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
  * more information about SBML, and the latest version of the SBML Test Suite.
  *
- * Copyright 2008      California Institute of Technology.
+ * Copyright 2008-2010 California Institute of Technology.
  * Copyright 2004-2007 California Institute of Technology (USA) and
  *                     University of Hertfordshire (UK).
  * 
@@ -32,6 +32,8 @@
 <%@ page import="javax.servlet.*" %>
 <%@ page import="javax.servlet.http.*"%>
 <%@ page import="javax.swing.*" %>
+
+<%@ page errorPage="/web/error.jsp" %>
 
 <%@ include file="sbml-head.html"%>
 <%@ include file="sbml-top.html"%>
