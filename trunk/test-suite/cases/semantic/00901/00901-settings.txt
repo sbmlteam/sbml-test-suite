@@ -1,7 +1,7 @@
 start: 0
 duration: 5
 steps: 50
-variables: 
+variables: c
 absolute: 1.000000e-002
 relative: 0.0001
 amount: 
