@@ -4,8 +4,8 @@
 // @author  Kimberly Begley
 // @author  Michael Hucka
 // @date    Created Jul 30, 2008, 9:25:21 AM
-// @id      $Id$
-// $HeadURL$
+// @id      $Id: FormBean.java 10816 2010-01-25 08:26:08Z mhucka $
+// $HeadURL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/test-suite/src/front-ends/web-interface/WEB-INF/src/sbml/test/FormBean.java $
 //
 // ----------------------------------------------------------------------------
 // This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
