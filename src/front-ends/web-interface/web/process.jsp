@@ -33,7 +33,8 @@
 <%@ page import="java.net.*" %>
 <%@ page import="java.io.*" %>
 <%@ page import="javax.servlet.*" %>
-<%@ page import="javax.servlet.http.*"%>
+<%@ page import="javax.servlet.http.*" %>
+<%@ page import="sbml.test.CasesTagsMap" %>
 
 <%@ page errorPage="/web/error.jsp" %>
 
@@ -45,95 +46,28 @@
 <%@ include file="sbml-top.html"%>
 
 <%
-// 1. Construct boolean arrays mapping tags to cases containing those tags.
 //
-// We read in the tag info from the file ".cases-tags-map" into a vector
-// equal in size to the number of cases.  Each entry is indexed by a case
-// number, and contains another vector; this second vector contains all the
-// tags mentioned in that case's model definition file.  I.e.,
+// 1. Get the user's selection from the previous screen.
 //
-//     ["tag1", "tag2", ...]
-//
-// Since tags are unique no matter what kind they are (component, test,
-// level), they don't need to be distinguished for our purposes here.
-
-File testdir = new File(getServletContext().getRealPath("/test-cases"));
-if (testdir == null || !testdir.exists())
-{
-    throw new JspException("STS cannot find test cases dir");
- }   
-
-File mapfile = new File(testdir, ".cases-tags-map");
-if (mapfile == null || !mapfile.exists())
-{
-    throw new JspException("STS cannot find cases tags map file");
- }   
-
-Scanner fileReader = new Scanner(mapfile);
-int highest = 0;
-
-// The first line in the tags map file is the highest case number.
-// If that's not the case, something is wrong.
-
-if (fileReader.hasNext() && fileReader.hasNextInt())
- {
-     highest = fileReader.nextInt();
-     fileReader.nextLine();               // Skip past end of line.
- }
- else
- {
-     throw new JspException("STS tags map file not in expected format");
- }
-
-// Each subsequent line in the tags map file is a case number followed by
-// all its tags.  We're going to read each line, parse each item in the
-// line as a token using Scanner methods, and store the line's contents in
-// a vector called "cases".  The entries in "cases" are indexed by case
-// numbers.  (I.e., entry 1 in the vector of cases is case 00001, entry 2
-// is case 00002, etc.)  "Cases" is thus a vector of vectors.  
-
-Vector cases = new Vector();
-cases.setSize(highest);
-
-while (fileReader.hasNext())
-{
-    Scanner tagreader = new Scanner(fileReader.nextLine());
-    String caseNum    = tagreader.next();
-    Vector data       = new Vector();
-
-    // As a minor optimization, because we want the case number as a string
-    // later, we store the string-form of the case number as the first
-    // element in the tags data vector.    
-
-    data.add(caseNum);
-
-    // Now read the contents of the rest of the line and append each item
-    // (which will be a tag) to the end of the data vector.
-
-    while (tagreader.hasNext())
-        data.add(tagreader.next());
-
-    // Store it under the index number "caseNum".
-
-    cases.insertElementAt(data, Integer.parseInt(caseNum));
-}
-
-
-// 2. Get the user's selection from the previous screen.
 
 String[] ctags         = formHandler.getCtags();
 String[] ttags         = formHandler.getTtags();
 String levelAndVersion = formHandler.getLevelAndVersion()[0];
 
 
-// 3. Build up a list of case files that we will zip up and return.
+//
+// 2. Build up a list of case files that we will zip up and return.
+//
 
+File casesRootDir    = new File(getServletContext().getRealPath("/test-cases"));
+CasesTagsMap caseMap = new CasesTagsMap(casesRootDir);
+int highest          = caseMap.getHighestCaseNumber();
 Vector casesToReturn = new Vector();
 
 outer:
 for (int i = 1; i <= highest; i++)
  {
-     Vector caseData = (Vector) cases.get(i);
+     Vector<String> caseData = (Vector<String>) caseMap.get(i);
      if (caseData.contains(levelAndVersion))
      {
          for (int j = 0; j < ctags.length; j++)
@@ -155,10 +89,12 @@ if (casesToReturn.size() < 1)
     throw new JspException("STS has no cases to put into archive");
  }
 
+//
 // 4. Call our zip file builder with the results and some additional param.
+//
 
-session.putValue("path"           , testdir);
-session.putValue("cases"          , casesToReturn);
+session.putValue("casesRootDir"   , casesRootDir);
+session.putValue("returnedCases"  , casesToReturn);
 session.putValue("levelAndVersion", levelAndVersion);
 response.setHeader("Refresh",
                    "1; URL=http://sbml.org:8080/test_suite/servlet/ZipServlet");
