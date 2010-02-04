@@ -62,8 +62,8 @@ public class ZipServlet extends HttpServlet
         try
         {
             HttpSession s          = request.getSession(true);
-            File path              = (File) s.getAttribute("path");
-            Vector cases           = (Vector) s.getAttribute("cases");
+            File root              = (File) s.getAttribute("casesRootDir");
+            Vector cases           = (Vector) s.getAttribute("returnedCases");
             String levelAndVersion = (String) s.getAttribute("levelAndVersion");
 
             String omitFileRegexp  = buildFileOmitRegexp(levelAndVersion);
@@ -72,7 +72,7 @@ public class ZipServlet extends HttpServlet
             resp.setHeader("Content-disposition",
                            "attachment; filename=" + archiveName + ".zip");
 
-            if (path == null)
+            if (root == null)
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
                                "Session does not contain data path information.");
 
@@ -90,7 +90,7 @@ public class ZipServlet extends HttpServlet
             while (tc.hasNext())
             {
                 String theCase = (String) tc.next();
-                addFilesToZip(theCase, path, archiveName, omitFileRegexp, zos);
+                addFilesToZip(theCase, root, archiveName, omitFileRegexp, zos);
             }
 
             zos.flush();
