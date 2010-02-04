@@ -25,37 +25,11 @@
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
 <%@ page import="java.lang.*" %>
-<%@ page import="sbml.test.sbmlTestselection" %>
-<%@ page import="sbml.test.TestResultDetails" %>
-<%@ page import="sbml.test.sbmlTestcase" %>
 <%@ page import="java.io.*" %>
+<%@ page import="sbml.test.TestResultDetails" %>
+<%@ page import="sbml.test.CasesTagsMap" %>
 
-<%
-Vector results = (Vector)request.getAttribute("tests");
-%>
-<%! 	TestResultDetails test;
-	String name;
-	String plot;
-	String html;
-	String description;
-	String warnings;
-	int result;
-	int fail_count;
-	int abort_count;
-	int pass_count;
-	int totalpoints;
-	Vector<String> ctags;
-	Vector<String> ttags;
-	String[] totals = new String[3];
-	Vector<String> failures = new Vector<String>();
-	Vector<String> skips = new Vector<String>();
-	
-	Map<String, Integer> cmap = new HashMap<String, Integer>();
-	Map<String, Integer> tmap = new HashMap<String, Integer>();
-	
-	SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy 'at' KK:mm a (z)");
-	String now = sdf.format(new Date());
-%>
+<%@ page errorPage="/web/error.jsp" %>
 
 <%@ include file="sbml-head.html"%>
 <%@ include file="sbml-top.html"%>
@@ -63,11 +37,20 @@ Vector results = (Vector)request.getAttribute("tests");
 <div id='pagetitle'><h1 class='pagetitle'>Outcome of tests</h1>
 </div><!-- id='pagetitle' -->
 <div style="float: right; margin-top: 0; padding: 0 0 0 5px">
-  <img src="/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
+  <img src="http://sbml.org/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
 </div>
 
+<%!
+// The time stamp acts as a simple way to differentiate different runs.
+// We also store this in the session variables later on.
+
+SimpleDateFormat sdf = new SimpleDateFormat("dd MMM. yyyy 'at' KK:mm a (z)");
+String timeOfRun = sdf.format(new Date());
+
+%>
+
 <p> The archive of test results was successfully uploaded and analyzed on
-<%= now.toCharArray() %>.
+<%= timeOfRun.toCharArray() %>.
 </p>
 
 <p>
@@ -75,161 +58,188 @@ The following map summaries the outcome of comparing each uploaded test case
 result to the expected results for that particular test case.  A <b><font
 color="green">green</font></b> icon indicates it passed, a <b><font
 color="darkred">red</font></b> icon indicates it failed, and a <b><font
-color="black">black</font></b> icon indicates a test was skipped.
+color="black">black</font></b> icon indicates a test was skipped because a problem
+was encountered.
 </p>
 
-<p> You may click on any of the green, red or black icons in the map to see
-details about the specific test case involved.  The information will be
-presented in a new window.
-</p>
+<p> You can hover your mouse over an icon to find out its test case number.
+To get more information about a specific case, including a plot of the
+expected results, click on the icon&mdash;the information will be presented
+in a new window.  </p>
 	
 <div style="margin: 1em 3em 2em 3em">
-<form name="resultreport" action="http://sbml.org:8080/test_suite/web/report.jsp" method=post>
-<TABLE id="resultsmap" class="borderless-table">
-<TR>
-<%-- For each test in the test vector - get the testname, description, plot path, result --%>
-	<%-- implement a counter and when counter mod 45 = 0 start a new row --%>
-	
-<%
-	fail_count=0;
-	abort_count=0;
-	pass_count=0;
-	cmap.clear();
-	tmap.clear();
-	failures.clear();
-	skips.clear();
-	
-	for(int i=0;i<results.size() ; i++) {	
-	  if(i % 45 ==0) {
-		// start a new row
-		out.print("</TR>");
-		out.print("<TR>");
-	  }
-	
-		test = (TestResultDetails)results.elementAt(i);
-		name = test.getTestname();
-		plot = test.getPlot();
-		html = test.getHtml();
-		description = test.getDescription();
-		result = test.getResult();
-		warnings = test.getWarnings();
-		ctags = test.getCtags();
-		ttags = test.getTtags();
-		totalpoints = test.getTotalpoints();
+<form name="report" action="http://sbml.org:8080/test_suite/web/report.jsp" method="post">
+<table id="resultsmap" class="borderless-table">
+<tr>
 
-		
-	  	String s = "";
-		for(int j=0;j<ctags.size();j++) {	
-			s= s + ctags.elementAt(j) + ", ";
-	  	}
-	  	String t = "";
-		for(int k=0;k<ttags.size();k++) {	
-			t= t + ttags.elementAt(k) + ", ";
-		}	
+<%
+//
+// First, find out how many total test cases there exist.
+//
+
+// FIXME: try to cache cases tags map
+
+File casesRootDir    = new File(getServletContext().getRealPath("/test-cases"));
+CasesTagsMap caseMap = new CasesTagsMap(casesRootDir);
+int highestNumber    = caseMap.getHighestCaseNumber();
+
+//
+// Loop through the entire set of possible case numbers, and
+// if it's a case in the set uploaded by the user, get the results.
+//
+
+Vector results          = (Vector) request.getAttribute("tests");
+Vector<String> failures = new Vector<String>();
+Vector<String> skips    = new Vector<String>();
+
+Map<String, Integer> tmap = new HashMap<String, Integer>();
+
+int count_failed  = 0;
+int count_skipped = 0;
+int count_passed  = 0;
+int totalpoints = 0;
+
+// To make the iteration easier, we make a vector of objects which are
+// indexed by case numbers.  If the user's uploaded set doesn't include
+// a particular case result, the corresponding entry in the vector is null.
+
+Vector cases = new Vector();
+cases.setSize(highestNumber + 1);       // +1 because of the unused 0th elem.
+
+for (int i = 0; i < results.size(); i++)
+{
+    TestResultDetails test = (TestResultDetails) results.elementAt(i);
+    cases.insertElementAt(test, Integer.parseInt(test.getTestname()));
+}
+
+// Now go to it.
+
+for (int caseNum = 1; caseNum <= highestNumber; caseNum++)
+{
+    DecimalFormat df = new DecimalFormat("00000");
+
+    if (cases.get(caseNum) != null)
+    {
+        TestResultDetails test = (TestResultDetails) cases.get(caseNum);
+        int result = test.getResult();
+        String name = test.getTestname();
+        String warnings = test.getWarnings();
+        totalpoints = test.getTotalpoints();
 	
-		if(result>0) {	
-			for(int j=0;j<ctags.size();j++) {
-				if(cmap.containsKey(ctags.elementAt(j))){
-					cmap.put(ctags.elementAt(j),(cmap.get(ctags.elementAt(j))+1));
-				}
-				else{
-					cmap.put((ctags.elementAt(j)),1);
-				}
-			}
-			for(int l=0;l<ttags.size();l++) {
-				if(tmap.containsKey(ttags.elementAt(l))){
-					tmap.put(ttags.elementAt(l),(tmap.get(ttags.elementAt(l))+1));
-				}
-				else{
-					tmap.put((ttags.elementAt(l)),1);
-				}			
-			} 
-			out.print("<TD>");
-			out.print("<a title=" + name + " href=\"/test-suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description  + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
-			out.print("<IMG SRC=\"/test-suite/web/images/red.jpg\"/>");
-			out.print("</a>");
-			out.print("</TD>");
-			fail_count++;
-			failures.addElement(name +"," + description + "," + result + "," +totalpoints);
-			
-		}	
-		if(result == 0) {			
-	
-			out.print("<TD>");
-			out.print("<a title=" +name +" href=\"/test-suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
-			out.print("<IMG SRC=\"/test-suite/web/images/green.jpg\"/>");
-			out.print("</a>");
-			out.print("</TD>");
-			pass_count++;
-		}
-		if(result == -1) {			
-	
-			out.print("<TD>");
-			out.print("<a title=" +name +" href=\"/test-suite/web/testdetails.jsp?testname=" + name +"&result=" + result + "&plot=" + plot + "&description=" +description + "&warnings=" + warnings + "&html=" +html + "&ctags=" +s + "&ttags=" +t + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
-			out.print("<IMG SRC=\"/test-suite/web/images/black.jpg\"/>");
-			out.print("</a>");
-			out.print("</TD>");
-			abort_count++;
-			skips.addElement(name + "?" + description + "?" + warnings);
-			
-		}		
-     } // end of for loop
-     // if size of vector is not equally dividable by 45  - fill in in the remaining table with grey squares
-     
-     
-	for(int m = results.size()%45; m<45; m++) {
-			
-		out.print("<TD BGCOLOR=\"white\">");
-	//	out.println("<IMG SRC=\"/test-suite/web/images/grey.jpg\"/>");
-		out.print("</TD>");
-     }	
+        out.print("<td>");
+        out.print("<a title=\"Test case " + name + "\" "
+                  + " href=\"http://sbml.org:8080/test_suite/web/testdetails.jsp?testname=" + name
+                  + "&result=" + result + "&warnings=" + warnings
+                  + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
+
+        switch (result)
+        {
+        case 0:
+            out.print("<img src=\"http://sbml.org:8080/test_suite/web/images/green.jpg\"/>");
+            count_passed++;
+            break;
+
+        case -1:
+            out.print("<img src=\"http://sbml.org:8080/test_suite/web/images/black.jpg\"/>");
+            count_skipped++;
+            skips.addElement(name + "?" + warnings);
+            break;
+
+        default:                        // result > 0 is count of failed points
+            Vector<String> ttags = test.getTtags();
+            for (int i = 0; i < ttags.size(); i++)
+            {
+                if (tmap.containsKey(ttags.elementAt(i)))
+                    tmap.put(ttags.elementAt(i), (tmap.get(ttags.elementAt(i)) + 1));
+                else
+                    tmap.put((ttags.elementAt(i)), 1);
+            } 
+            out.print("<img src=\"http://sbml.org:8080/test_suite/web/images/red.jpg\"/>");
+            count_failed++;
+            failures.addElement(name + "?" + result + "?" + totalpoints);
+        }	
+
+        out.print("</a>");
+        out.print("</td>");
+
+    }
+    else // There wasn't a returned case with this index number.
+    {
+        String caseName = df.format(caseNum);
+
+        out.println("<td><a title=\"Test case " + caseName + "\" "
+                    + "href=\"http://sbml.org:8080/test_suite/web/testdetails.jsp?testname="
+                    + caseName + "\" " + "target=\"_blank\">" 
+                    + "<img src=\"http://sbml.org:8080/test_suite/web/images/gray.jpg\"/></a></td>");
+    }
+
+    if (caseNum % 45 == 0)              // Start a new row in the HTML table.
+    {
+        out.print("</TR>");
+        out.print("<TR>");
+    }
+
+} // end of for loop
+
 %>	
-</TR>
-</TABLE> 
+</tr>
+</table> 
 
 <p style="margin-top: 2em">
-	Total number of test cases analyzed: <b><%=results.size()%></b>
+    Total number of test cases analyzed: <b><%=results.size()%></b>
 </p>
 <p>
-	<IMG SRC="/test-suite/web/images/green.jpg" valign="top"/> Number of test cases passed: <%=pass_count%><BR>
-	<IMG SRC="/test-suite/web/images/red.jpg"  valign="top"/> Number of test cases failed: <%=fail_count%><BR>
-	<IMG SRC="/test-suite/web/images/black.jpg" valign="top"/> Number of test cases skipped: <%=abort_count%><BR>
+    <img src="http://sbml.org:8080/test_suite/web/images/green.jpg" valign="top"/>
+    Number of test cases <font color="green">passed</font>: <%=count_passed%><br>
 
-<%	if(fail_count>0){
-%>	
-	<BR>
-	Component tags and their associated counts in failed tests:<BR>
+    <img src="http://sbml.org:8080/test_suite/web/images/red.jpg" valign="top"/>
+    Number of test cases <font color="darkred">failed</font>: <%=count_failed%><br>
 
-<%	Set set = cmap.entrySet();
-	Iterator setIter = set.iterator();
-	
-	while(setIter.hasNext()) {
-		out.println(setIter.next()+ "<BR>");
-	}
+    <img src="http://sbml.org:8080/test_suite/web/images/black.jpg" valign="top"/>
+    Number of test cases skipped: <%=count_skipped%><br>
 
-%>	<BR>
-	Test tags and their associated counts in failed tests: <BR>
-<% 	Set tset = tmap.entrySet();
-	Iterator tsetIter = tset.iterator();
-	while(tsetIter.hasNext()) {
-		out.println(tsetIter.next() + "<BR>");
-	}
-	}
-%>
 <%
-
-	totals[0] = (String.valueOf(pass_count));
-	totals[1] = (String.valueOf(fail_count));
-	totals[2] = (String.valueOf(abort_count));
-
-	session.setAttribute("totals",totals);
-	session.setAttribute("failures",failures);
-	session.setAttribute("skips",skips);
-
+if (count_failed > 0)
+{
 %>	
+<br>
+<p>
+The following is a list of the test tags present in the cases that failed.
+Each tag name is listed with the number of cases that contained this test
+tag.  A pattern in this set may help you identify the problem(s) causing
+the test failures.
+</p>
 
-<%-- <form name="resultreport" action=<%=response.encodeURL("http://sbml.org/test-suite/web/report.jsp")%> method=post>
---%>
+<p>
+<blockquote style="border: 1px solid #555; padding: 0.5em">
+<%
+Set tset = tmap.entrySet();
+Iterator tsetIter = tset.iterator();
+while (tsetIter.hasNext())
+{
+    out.println(tsetIter.next() + "<BR>");
+}
+}
+%>
+</blockquote>
+
+<%
+// Store various parts of the results into the session variable
+// so that report.jsp can pull them out.
+
+String[] totals = new String[3];
+totals[0]       = (String.valueOf(count_passed));
+totals[1]       = (String.valueOf(count_failed));
+totals[2]       = (String.valueOf(count_skipped));
+
+session.setAttribute("totals"       , totals);
+session.setAttribute("failures"     , failures);
+session.setAttribute("skips"        , skips);
+session.setAttribute("timeOfRun"    , timeOfRun);
+session.setAttribute("casesRootDir" , casesRootDir);
+%>
+
+<br>
 <p>
 <input type="submit" value="View Report"> (The report summarizes the results in a more convenient format for printing.) 
 </form>
@@ -243,8 +253,8 @@ test cases, please return to the upload page, select another zip archive on
 your computer, and upload it.
 <p>
 
-<center style="margin:1em">
-  <a href="/test-suite/web/uploadresults.jsp">
+<center style="margin: 1em">
+  <a href="http://sbml.org:8080/test_suite/web/uploadresults.jsp">
     <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
     Return to the test results upload page.
   </a>
@@ -254,12 +264,11 @@ your computer, and upload it.
 Test Suite.
 </p>
 
-<center style="margin:1em">
-  <a href="/Facilities/Online_SBML_Test_Suite">
+<center style="margin: 1em">
+  <a href="http://sbml.org/Facilities/Online_SBML_Test_Suite">
     <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
     Return to the front page for the Online SBML Test Suite.
   </a>
 </center>
-
 
 <%@ include file="sbml-bottom.html"%>
