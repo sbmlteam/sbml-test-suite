@@ -139,7 +139,7 @@ String mailto   = "mailto:sbml-team@caltech.edu"
 <div id='pagetitle'><h1 class='pagetitle'><font color="darkred">
 SBML Test Suite error</font></h1></div><!-- id='pagetitle' -->
 <div style="float: right; margin-top: 0; padding: 0 0 0 5px">
-  <img src="/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
+  <img src="http://sbml.org/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
 </div>
 
 <p> We're very sorry, but the Online SBML Test Suite encountered an error.
@@ -151,7 +151,7 @@ circustances better. </p>
 
 <center style="margin: 1.5em auto 2em auto">
 <a href="<%=mailto%>">
-<img src="/images/8/83/Icon-send-mail-64px.jpg" border="0"><br>
+<img src="http://sbml.org/images/8/83/Icon-send-mail-64px.jpg" border="0"><br>
 (Click to send an email report.)
 </a>
 </center>
