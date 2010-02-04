@@ -4,6 +4,9 @@
 // @author  Michael Hucka
 // @date    Created 2010-01-27 <mhucka@caltech.edu>
 //
+// $Id$
+// $HeadURL$
+//
 // ----------------------------------------------------------------------------
 // This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
 // more information about SBML, and the latest version of the SBML Test Suite.
