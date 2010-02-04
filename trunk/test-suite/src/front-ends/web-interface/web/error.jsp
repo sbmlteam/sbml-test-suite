@@ -1,9 +1,10 @@
 <%-- 
  * @file    error.jsp
- * @brief   Error output form.
+ * @brief   Error handling for internal errors.
  * @author  Kimberly Begley
  * @author  Michael Hucka
- * @id     $Id$
+ *
+ * $Id$
  * $HeadURL$
  *
  * ----------------------------------------------------------------------------
@@ -20,6 +21,10 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available at http://sbml.org/Software/SBML_Test_Suite/License
  * ----------------------------------------------------------------------------
+ *
+ * This code handles internal errors.  A different page (user-error.jsp)
+ * handles reporting problems arising from user mistakes.
+ *
 --%>
 
 <%
@@ -102,7 +107,6 @@ final class InternalUtility
         e.printStackTrace(pw);
         return "Stack trace: \n" + sw.toString();
     }
-
 }
 
 // Try to get extra information from the calling environment and
