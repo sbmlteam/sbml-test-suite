@@ -41,7 +41,7 @@
 <div id='pagetitle'><h1 class='pagetitle'>Step 3: Upload and evaluate results</h1>
 </div><!-- id='pagetitle' -->
 <div style="float: right; margin-top: 0; padding: 0 0 0 5px">
-  <img src="/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
+  <img src="http://sbml.org/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
 </div>
 
 <p> After having run the test cases in the software you are testing according
@@ -49,7 +49,8 @@ to the guidelines descripted in the previous step, you can upload the
 simulation outputs and have them tallied against the expected results.
 				
 <div style="padding: 1em 2em 1em 2em;">
-<form action="http://sbml.org/test-suite/servlet/UploadUnzipTest" enctype="multipart/form-data" method=post>
+<form action="http://sbml.org:8080/test_suite/servlet/UploadUnzipTest" 
+      enctype="multipart/form-data" method=post>
 <b><em>Browse for zip'ed archive of output files:</em></b>
 <div style="padding: 1em 0.5em 0 1em;">
 <table class="borderless-table" width="75%">
@@ -80,8 +81,8 @@ other results will replace this page.
 To cancel the process, simply return to the Test Suite front page.
 </p>
 <center>
-  <a href="/Facilities/Online_SBML_Test_Suite">
-    <img border="0" align="center" src="/images/8/83/Icon-red-left-arrow.jpg">
+  <a href="http://sbml.org/Facilities/Online_SBML_Test_Suite">
+    <img border="0" align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
     Return to the Online SBML Test Suite front page.
   </a>
 </center>
