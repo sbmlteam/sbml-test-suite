@@ -22,8 +22,7 @@ table.borderless-table tr {
   width: 90%;
   margin: 0px;
   padding: 0px;
-  border-collapse: collapse;
-  border: none;
+  border: 1px solid #ccc;
 }
 
 #resultsmap td,
@@ -31,8 +30,7 @@ table.borderless-table tr {
   height: 15px !important;
   margin: 0px;
   padding: 0px;
-  border-collapse: collapse;
-  border: none;
+  border: 1px solid white;
 }
 
 #resultsmap a {
