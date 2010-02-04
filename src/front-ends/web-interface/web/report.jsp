@@ -3,14 +3,14 @@
  * @brief   Produce a report page summarizing the user's test results.
  * @author  Kimberly Begley
  * @date    Created Feb 27, 2008, 9:25:21 AM
- *
- * $Id$
+ * @id      $Id$
  * $HeadURL$
+ *
  * ----------------------------------------------------------------------------
  * This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
  * more information about SBML, and the latest version of the SBML Test Suite.
  *
- * Copyright 2008      California Institute of Technology.
+ * Copyright 2008-2010 California Institute of Technology.
  * Copyright 2004-2007 California Institute of Technology (USA) and
  *                     University of Hertfordshire (UK).
  * 
@@ -20,88 +20,169 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available at http://sbml.org/Software/SBML_Test_Suite/License
  * ----------------------------------------------------------------------------
+ *
+ * This file writes a summary of the skipped and failed cases during a test
+ * suitable for printing.  It gets the session values from the calling
+ * page, showresults.jsp
+ */
 --%>
 
 <%@ page import="java.util.*" %>
 <%@ page import="java.util.regex.*" %>
 <%@ page import="java.awt.*" %>
 <%@ page import="java.lang.*" %>
-<%@ page import="sbml.test.sbmlTestselection" %>
-<%@ page import="sbml.test.sbmlTestcase" %>
 <%@ page import="java.io.*" %>
 <%@ page import="javax.servlet.*" %>
 <%@ page import="javax.servlet.http.*"%>
-<%@ page import="javax.swing.*" %>
+<%@ page import="sbml.test.TestReference" %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
-<html>
-  <head>
-    <base href="http://sbml.org">
-    <link rel="Stylesheet" href="/skins/SBML/sbml.css">
-    <style type='text/css'><!--
-    body { background: #ffffff; margin: 5px;}
-    --></style>
-  </head>
+<%@ page errorPage="/web/error.jsp" %>
+
+<%@ include file="sbml-head.html"%>
+<%@ include file="sbml-top.html"%>
 
 <%
-// This file writes a summary of the skipped and failed cases during a test suitable for printing.
-// Get the session values from the previous page showresults.jsp
-
-	String[] totals = (String[])session.getAttribute("totals");
-	Vector<String> failures = (Vector<String>)session.getAttribute("failures");
-	Vector<String> skips = (Vector<String>)session.getAttribute("skips");
-
-	Iterator it = failures.iterator(); 
-	Iterator is = skips.iterator(); 
+    String[] totals         = (String[]) session.getAttribute("totals");
+    Vector<String> failures = (Vector<String>) session.getAttribute("failures");
+    Vector<String> skips    = (Vector<String>) session.getAttribute("skips");
+    String timeOfRun        = (String) session.getAttribute("timeOfRun");
+    File casesRootDir       = (File) session.getAttribute("casesRootDir");
+    
+    Iterator it;
 %>
 
-<body>
-	<a href="http://sbml.org/Facilities/Online_SBML_Test_Suite">Online SBML Test Suite Report</a><BR>
-	<BR>
+<h2>Online SBML Test Suite test report</h2>
+<b>Date and time: <%= timeOfRun.toCharArray() %></b>
+
+<h3 style="width: 100%; border-bottom: 1px solid #ddd">
+Test result summary</h3>
+
+<p>
+Number of <font color="green">passed</font> cases: <%=totals[0]%><br>
+Number of <font color="darkred">failed</font> cases: <%=totals[1]%><br>
+Number of skipped cases: <%=totals[2]%><br>
+
+<h3 style="width: 100%; border-bottom: 1px solid #ddd">
+Details of failed cases</h3>
+
 <%
- out.println("Date: " +  new java.util.Date() + "<br>");
+    it = failures.iterator(); 
+    if (! it.hasNext())
+    {
 %>
-        <BR>
-	<b>Summary</b>:<BR>
-	Number of passed cases: <%=totals[0]%><BR>
-	Number of failed cases: <%=totals[1]%><BR>
-	Number of skipped cases: <%=totals[2]%><BR>
-	<BR>
-	<BR>
-	<b>Details of failed cases</b>:<BR>
-	<TABLE border="1" class="sm-padding">
-	<TR>
-           <TH width="60px">Case #</TH>
-	   <TH>Synopsis of what is being tested</TH>
-           <TH>Data points failed</TH>
-           <TH width="100px">Total data points in test</TH>
-        </TR>
+
+There were no failures.
+
 <%
-	while (it.hasNext()) {
-		String failed = (String)it.next();
-		String[] field = failed.split(",");
+    }
+    else
+    {
+%>
+<p>
+The following table lists the cases in your uploaded archive that
+failed to match the reference results.  Clicking on the case number
+will bring up a separate page providing the details of that particular
+test case.
+
+<table class="borderless-table sm-padding alt-row-colors"
+       style="margin-top: 1.5em; border-bottom: 1px solid #999"
+       width="90%" align="center">
+<tr style="border-top: 1px solid #999; border-bottom: 1px solid #bbb">
+    <th valign="bottom" width="60px">Case #</th>
+    <th valign="bottom">Synopsis of what is being tested</th>
+    <th valign="bottom" width="100px">Total failed data points</th>
+    <th valign="bottom" width="100px">Total data points in test</th>
+</tr>
+
+<%
+        while (it.hasNext())
+        {
+            String failed      = (String) it.next();
+            String[] field     = failed.split("\\?");
+            String caseName    = field[0];
+            String result      = field[1];
+            String totalpoints = field[2];
+        
+            TestReference ref = new TestReference(casesRootDir, caseName);
+        
+            String args = "&testname=" + caseName + "&result=" + result
+                           + "&tpoints=" + totalpoints;
+    
 %>		
-		<TR><TD><%=field[0]%></TD><TD><%=field[1]%></TD><TD><%=field[2]%></TD><TD><%=field[3]%></TD></TR>
-<%	}
-%>
-	</TABLE>
-	<BR>
-	<BR>
-	<b>Details of skipped cases</b>:<BR>
-	<TABLE border="1" class="sm-padding">
-	<TR>
-          <TH width="60px">Case #</TH>
-          <TH>Synopsis of what is being tested</TH>
-          <TH>Reason for skipping case</TH>
-        </TR>
-<% 	while (is.hasNext()) {
-		String skipped = (String)is.next();
-		String[] sfield = skipped.split("\\?");
-%>
-		<TR><TD><%=sfield[0]%></TD><TD><%=sfield[1]%></TD><TD><%=sfield[2]%></TD></TR>	
-<%	}
-%>
-	</TABLE>
 
-</body>
-</html>
+    <tr>
+    <td valign="top" style="padding: 2px">
+        <a title="Test case <%=caseName%>"
+            href="http://sbml.org:8080/test_suite/web/testdetails.jsp?<%=args%>"
+            target="_blank"><%= caseName %>
+    </td>
+    <td valign="top" style="padding: 2px 2em 2px 2px"><%= ref.getSynopsis()%></td>
+    <td valign="top" style="padding: 2px"><%= result %></td>
+    <td valign="top" style="padding: 2px"><%= totalpoints%></td>
+    </tr>
+
+<%
+        }
+    }
+%>
+
+</table>
+
+<h3 style="width: 100%; border-bottom: 1px solid #ddd; margin-top: 2em">
+Details of skipped cases</h3>
+
+<%
+    it = skips.iterator(); 
+    if (! it.hasNext())
+    {
+%>
+
+No cases were skipped.
+
+<%
+    }
+    else
+    {
+%>
+
+<p>
+The following table lists the cases in your uploaded archive that
+were not tested because of problems encountered.  (Unfortunately, the
+problems listed here many not always be the true root cause of skipping a
+test case, because some problems can cause a ripple effect that results in
+a different error being raised rather than the true underlying error.)
+
+<table class="borderless-table sm-padding alt-row-colors"
+       style="margin-top: 1.5em; border-bottom: 1px solid #999; margin-bottom: 2em"
+       width="90%" align="center">
+<tr style="border-top: 1px solid #999; border-bottom: 1px solid #bbb">
+    <th valign="bottom" width="60px">Case #</th>
+    <th valign="bottom" width="45%">Synopsis of what is being tested</th>
+    <th valign="bottom" width="45%">Reason for skipping case</th>
+</tr>
+
+<%
+        it = skips.iterator(); 
+        while (it.hasNext())
+        {
+            String failed = (String) it.next();
+            String[] field = failed.split("\\?");
+            String caseName = field[0];
+        
+            TestReference ref = new TestReference(casesRootDir, caseName);
+%>		
+
+    <tr>
+    <td valign="top" style="padding: 2px"><%= caseName %></td>
+    <td valign="top" style="padding: 2px 2em 2px 2px"><%= ref.getSynopsis()%></td>
+    <td valign="top" style="padding: 2px"><%= field[1] %></td>
+    </tr>
+
+<%
+        }
+    }
+%>
+
+</table>
+
+<%@ include file="sbml-bottom.html"%>
