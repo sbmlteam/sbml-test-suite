@@ -23,15 +23,6 @@
  * ----------------------------------------------------------------------------
 --%>
 
-<%@ page import="java.util.*" %>
-<%@ page import="java.util.regex.*" %>
-<%@ page import="java.awt.*" %>
-<%@ page import="java.lang.*" %>
-<%@ page import="java.io.*" %>
-<%@ page import="javax.servlet.*" %>
-<%@ page import="javax.servlet.http.*"%>
-<%@ page import="javax.swing.*" %>
-
 <%@ page errorPage="/web/error.jsp" %>
 
 <%@ include file="sbml-head.html"%>
@@ -128,7 +119,7 @@ function resetAvailableTags()
 
   }
   propagate();
-  slideNoCasesWarning("hide");
+  slideWarning("", "init");
 }
 
 /*
@@ -207,31 +198,6 @@ function propagate()
     setExcluded("EventNoDelay",           true, ctags);
   }
 
-  // If there are no main components at all, we can't test anything.
-
-  if (isExcluded("Parameter", ctags) && isExcluded("Compartment", ctags)
-      && isExcluded("Species", ctags) && isExcluded("Reaction", ctags))
-  {
-    if (!document.options.submit.disabled)
-    {
-      document.options.submit.disabled = true;
-      slideNoCasesWarning("show");
-    }
-  }
-  else
-  {
-    // Conversely, if at least one of {parameter, compartment, species,
-    // reaction} are not excluded, then we can have tests.  Clear any
-    // previous disabling of the "get cases" button, in case the user's
-    // last action was to deselect a relevant checkbox.
-
-    if (document.options.submit.disabled)
-    {
-      document.options.submit.disabled = false;
-      slideNoCasesWarning("hide");
-    }
-  }
-
   // If none of the following are present, you can't test the use of
   // function definitions either.
 
@@ -242,6 +208,55 @@ function propagate()
   {
     setExcluded("FunctionDefinition",     true, ctags);    
   }
+
+  // If certain conditions hold, we can't test anything.
+
+  if (isExcluded("Parameter", ctags) && isExcluded("Compartment", ctags)
+      && isExcluded("Species", ctags) && isExcluded("Reaction", ctags))
+  {
+    document.options.submit.disabled = true;
+    slideWarning("not-available", "hide"); // Just in case.
+    slideWarning("no-components", "show");
+  }
+
+  if (document.options.submit.disabled
+      && (! isExcluded("Species", ctags)
+          || ! isExcluded("Parameter", ctags)
+          || ! isExcluded("Compartment", ctags)))
+  {
+    document.options.submit.disabled = false;
+    slideWarning("no-components", "hide");
+  }
+
+  // FIXME: make the necessary test cases!
+
+  // We don't have every single combination covered in the test set
+  // yet.  The following is a bit hacky because we shouldn't hard-wire
+  // these tests here, but it's faster to code it this way.
+
+  if (isExcluded("Species", ctags) && isExcluded("Parameter", ctags)
+      && ! isExcluded("Compartment", ctags))
+  {
+    document.options.submit.disabled = true;
+    slideWarning("no-components", "hide"); // Just in case.
+    slideWarning("not-available", "show");
+  }
+  else
+  {
+    slideWarning("not-available", "hide");
+  }
+
+  if (isExcluded("Species", ctags) && ! isExcluded("Parameter", ctags)
+      && isExcluded("NonConstantParameter", ttags))
+  {
+    document.options.submit.disabled = true;
+    slideWarning("no-components", "hide"); // Just in case.
+    slideWarning("not-available", "show");
+  }
+  else
+  {
+    slideWarning("not-available", "hide");
+  }
 }
 
 /*
@@ -251,7 +266,6 @@ function propagate()
  */
 function resetAll()
 {
-
   var lv = document.options.levelAndVersion;
   var selected = lv.selectedIndex;
   for (var i = 0; i < lv.length; i++)
@@ -262,7 +276,7 @@ function resetAll()
   if (document.options.submit.disabled)
   {
     document.options.submit.disabled = false;
-    slideNoCasesWarning("hide");
+    slideWarning("", "init");
   }
 
   resetAvailableTags();
@@ -274,30 +288,48 @@ function resetAll()
  * page is first visited except to stick a method call on the "onload"
  * property.  This method is attached via a "hookEvent" call below.
  */
-function slideNoCasesWarning(action)
+function slideWarning(which, action)
 {
+  var id, param;
+  
+  switch (which)
+  {
+  case "not-available":
+    id = "warningNotAvailable";
+    param = {node: "warningNotAvailable", duration: 200};
+    break;
+
+  default:
+  case "no-components":
+    id = "warningNoneLeft"
+    param = {node: "warningNoneLeft", duration: 200};
+    break;
+  }
+
   switch (action)
   {
   case "show":
-    dojo.fx.wipeIn({node: "warningNoTestsDiv", duration: 200}).play();
+    dojo.fx.wipeIn(param).play();
     break;
 
   case "hide":
     // Avoid spurious jump if we try to hide it and it's already hidden.
     // dojo.fx hides the div by setting its display property to "none".
-    var prop = document.getElementById("warningNoTestsDiv").style;
+    //
+    var prop = document.getElementById(id).style;
     if (prop.getPropertyValue("display") != "none")
-      dojo.fx.wipeOut({node: "warningNoTestsDiv", duration: 200}).play();
+      dojo.fx.wipeOut(param).play();
     break;
-    
+
   case "init":
   default:
-    dojo.fx.wipeOut({node: "warningNoTestsDiv", duration: 0}).play();
+    dojo.fx.wipeOut({node: "warningNotAvailable", duration: 0}).play();
+    dojo.fx.wipeOut({node: "warningNoneLeft", duration: 0}).play();
     break;
   }
 }
 
-hookEvent("load", slideNoCasesWarning);
+hookEvent("load", slideWarning);
 
 //-->
 </script>
@@ -434,8 +466,8 @@ all SBML Levels/Versions.  </p>
     </td>         
   </tr>
 </table> 
-</p>
 
+<p>
 <center style="margin-bottom: 1.5em">
   <input type="reset" value="Reset form" onclick="resetAll()">
 </center>
@@ -446,11 +478,19 @@ That's all!  Download a customized zip archive of the test cases you have
 selected by clicking on the button below:
 </p>
 
-<div title="foo" id="warningNoTestsDiv" class="warningBox">
-Very sorry about this, but if compartments, species, reactions and
-parameters are <i>all</i> excluded, then there are no possible test
-cases left!  Please deselect some of the component tags before
-proceeding.
+<div id="warningNoneLeft" class="warningBox"
+     title="Warning&mdash;all possible components have been excluded">
+If compartments, species, reactions and parameters are <i>all</i>
+excluded, then there are no possible test cases left.  Please deselect
+some of the component tags before proceeding.
+</div>
+<div id="warningNotAvailable" class="warningBox"
+     title="Warning&mdash;combination currently not supported">
+We regret that the current Test Suite does not yet
+cover this particular combination.  We are continually
+expanding the test coverage and hope to support this combination in
+the future.  In the mean time, please deselect some of the check
+boxes before proceeding.
 </div>
 
 <center style="margin: 1.5em" class="ie-submit-button-fix">
