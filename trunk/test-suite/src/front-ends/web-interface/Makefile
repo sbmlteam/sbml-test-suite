@@ -29,10 +29,12 @@ default: classes
 
 src-dir     = WEB-INF/src/sbml/test
 class-dir   = WEB-INF/classes/sbml/test
-javac-flags = -g -d WEB-INF/classes -sourcepath WEB-INF/src
+javac-flags = -g -Xlint:unchecked -d WEB-INF/classes -sourcepath WEB-INF/src
 
 classes:  $(class-dir)/sbmlTestcase.class \
           $(class-dir)/sbmlTestselection.class \
+	  $(class-dir)/TestReference.class \
+	  $(class-dir)/CasesTagsMap.class \
 	  $(class-dir)/FormBean.class \
 	  $(class-dir)/OpenFile.class \
           $(class-dir)/TestResultDetails.class \
