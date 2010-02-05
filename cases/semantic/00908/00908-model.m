@@ -5,7 +5,7 @@ synopsis:      Model varying compartment using rules only.
 componentTags: Compartment, RateRule 
 testTags:      NonConstantCompartment, MultiCompartment, 2D-Compartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4
+levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
 
 The model contains two varying compartments called C1 and C2, where C2 
