@@ -5,10 +5,10 @@
       <compartment name="C" volume="1"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species name="A4" compartment="C" initialAmount="1"/>
       <species name="A1" compartment="C" initialAmount="2"/>
       <species name="A2" compartment="C" initialAmount="3"/>
       <species name="A3" compartment="C" initialAmount="4"/>
+      <species name="A4" compartment="C" initialAmount="1"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter name="Kr1" value="2"/>
