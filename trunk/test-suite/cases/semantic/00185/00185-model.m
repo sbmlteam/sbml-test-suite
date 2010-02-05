@@ -6,7 +6,7 @@ synopsis:      Model using parameters and both rate and assignment rules
 componentTags: Parameter, InitialAssignment, RateRule, AssignmentRule 
 testTags:      NonConstantParameter
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4
+levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
 
 The model contains three varying parameters called S1, S2 and S3 and two constant
