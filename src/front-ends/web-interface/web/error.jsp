@@ -1,8 +1,8 @@
 <%-- 
  * @file    error.jsp
  * @brief   Error handling for internal errors.
- * @author  Kimberly Begley
  * @author  Michael Hucka
+ * @author  Kimberly Begley
  *
  * $Id$
  * $HeadURL$
@@ -22,9 +22,8 @@
  * and also available at http://sbml.org/Software/SBML_Test_Suite/License
  * ----------------------------------------------------------------------------
  *
- * This code handles internal errors.  A different page (user-error.jsp)
- * handles reporting problems arising from user mistakes.
- *
+ * This handles both internal errors and errors arising from user mistakes.
+
 --%>
 
 <%
@@ -108,36 +107,117 @@ final class InternalUtility
         return "Stack trace: \n" + sw.toString();
     }
 }
+%>
 
-// Try to get extra information from the calling environment and
-// set up variables used in constructing an email message later.
+<%
+// If the request environment has the attribute "userError" set, it means
+// the error we're dealing with is something that is the user's fault.
+// The attribute will be set by whatever calls this JSP page (usually a
+// Java utility program).  The value of "userError" is a string code
+// that we use below as the basis of branching to an explanation.
+
+String userError     = (String) request.getAttribute("userError");
+
+// Additional data we're going to need eventually.
 
 Calendar cal         = Calendar.getInstance();
-SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss Z");
-InternalUtility util = new InternalUtility();
+SimpleDateFormat sdf = new SimpleDateFormat("dd MMM. yyyy 'at' HH:mm:ss [z]");
+String timestamp     = sdf.format(cal.getTime());
+%>
 
-String now      = sdf.format(cal.getTime());
-String subject  = util.encode("SBML Test Suite error (" + now + ")" );
-String body     = util.encode("\n\n\n"
-    + "-------------------------------------------------------------------\n"
-    + "Please write your comments above the line and leave the rest of the\n"
-    + "text below as-is.  The rest of this message is debugging data.\n"
-    + "\n"
-    + "Thank you very much for taking the time to report this error.\n"
-    + "-------------------------------------------------------------------\n"
-    + "\n"
-    + "Time stamp: " + now + "\n"
-    + "\n"
-    + "Session path value: " + session.getValue("path") + "\n"
-    + "Session cases value: " + session.getValue("cases") + "\n"
-    + "\n"
-    + util.getRequestData(request) + "\n"
-    + (exception != null ? util.getStackTrace(exception) : "" ));
+<div id='pagetitle'><h1 class='pagetitle'><font color="darkred">
+SBML Test Suite error</font></h1></div><!-- id='pagetitle' -->
+<div style="float: right; margin: 0 0 1em 2em; padding: 0 0 0 5px">
+  <img src="http://sbml.org/images/8/80/Icon-online-test-suite-64px.jpg">
+</div>
+<h3>Results produced at <%=timestamp%></h3>
 
-String mailto   = "mailto:sbml-team@caltech.edu"
-                  + "?subject=" + subject
-                  + "&body=" + body;
+<%
+// Now switch based on what kind of error we're dealing with.  For user
+// errors, we try to provide detailed explanations.  The following blocks
+// are a bit messy and hard to read because of the interspersed JSP and
+// HTML.  (FIXME: there's got to be a better way to write this stuff.)
 
+if (userError != null)
+{
+%>
+
+<p>
+We're sorry, but the Online SBML Test Suite encountered a problem.
+<%
+    if (userError.equals("bad file names"))
+    {
+%>
+<font color="darkred">the result files in the archive do not have the
+correct file name pattern.</font> Please name the CSV files such that they
+<i>end</i> with case numbers.  For example, the files could be named like
+this:
+
+<p>
+<dl><dd> <code>myresults00001.csv</code>
+</dd><dd> <code>myresults00002.csv</code>
+</dd><dd> <code>myresults00003.csv</code>
+</dd><dd> <code>myresults00004.csv</code>
+</dd><dd> &hellip;
+</dd><dd> <code>myresultsNNNNN.csv</code>
+</dd></dl>
+
+<p>
+They could even be simply named after the case numbers, without any prefix:
+<p>
+<dl><dd> <code>00001.csv</code>
+</dd><dd> <code>00002.csv</code>
+</dd><dd> <code>00003.csv</code>
+</dd><dd> <code>00004.csv</code>
+</dd><dd> &hellip;
+</dd><dd> <code>NNNNN.csv</code>
+</dd></dl>
+
+<p>
+For more information, please consult the
+<a href="http://sbml.org/Software/SBML_Test_Suite/Instructions_for_running_the_tests#Gathering_the_results_of_many_tests_for_uploading_to_the_Online_SBML_Test_Suite">
+page of instructions</a> for running the Online SBML Test Suite.
+
+<center style="margin: 1em">
+<a href="http://sbml.org:8080/test-suite/web/uploadresults.jsp">
+  <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
+  Return to the upload page. 
+</a>
+</center>
+
+<%
+    }
+    else if (userError.equals("unrecognized files"))
+    {
+
+    }
+}
+else  // It's not a user error, it's an internal error.
+{
+    // Try to get extra information from the calling environment and
+    // set up variables used in constructing an email message later.
+
+    InternalUtility util = new InternalUtility();
+    String subject = util.encode("SBML Test Suite error (" + timestamp + ")" );
+    String body    = util.encode("\n\n\n"
+        + "-----------------------------------------------------------------\n"
+        + "Please write your comments above the line and leave the rest of\n"
+        + "the text below as-is.  The rest of this message is debugging data.\n"
+        + "\n"
+        + "Thank you very much for taking the time to report this error.\n"
+        + "-----------------------------------------------------------------\n"
+        + "\n"
+        + "Time stamp: " + timestamp + "\n"
+        + "\n"
+        + "Session path value: " + session.getValue("path") + "\n"
+        + "Session cases value: " + session.getValue("cases") + "\n"
+        + "\n"
+        + util.getRequestData(request) + "\n"
+        + (exception != null ? util.getStackTrace(exception) : "" ));
+    
+    String mailto   = "mailto:sbml-team@caltech.edu"
+                      + "?subject=" + subject
+                      + "&body=" + body;
 %>
 
 <div id='pagetitle'><h1 class='pagetitle'><font color="darkred">
@@ -165,7 +245,8 @@ If instead you would like to return to the previous page, please use
 your browser's back button.
 </p>
 
-<%@ include file="sbml-bottom.html"%>
-
+<%
+}
 %>
 
+<%@ include file="sbml-bottom.html"%>
