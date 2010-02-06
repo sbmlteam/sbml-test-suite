@@ -49,11 +49,10 @@ import java.math.*;
 public class UploadUnzipTest extends HttpServlet
 {
     // The page that handles forwarded error messages returned to the user:
-    final String errorReportURL = "/web/test-error.jsp";
+    static final String ERROR_REPORT_URL = "/web/error.jsp";
 
-    // Errors are communicated back to test-error.jsp via one of the following
-    // string codes:
-    final String badFileNames = "bad file names";
+    // Errors are communicated back to error.jsp via the following codes:
+    static final String ERR_BAD_FILE_NAME = "bad file names";
 
     /**
      * Interface function invoked by uploadresults.jsp.
@@ -199,11 +198,12 @@ public class UploadUnzipTest extends HttpServlet
             }
             catch (Exception e)
             {
-                System.err.println(badFileNames);
-                request.setAttribute("errorType", badFileNames);
+                System.err.println(ERR_BAD_FILE_NAME);
+                request.setAttribute("userError", ERR_BAD_FILE_NAME);
                 RequestDispatcher dispatcher
-                    = getServletContext().getRequestDispatcher(errorReportURL);
+                    = getServletContext().getRequestDispatcher(ERROR_REPORT_URL);
                 dispatcher.forward(request, response);
+                return;
             }
             String value = new String();
             String userfile = new String();
