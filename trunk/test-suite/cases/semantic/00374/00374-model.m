@@ -20,8 +20,8 @@ two reactions defined as:
 The model contains one event that assigns a value to both species S1 and S4:
 
 [{width:30em,margin-left:5em}| | *Trigger* | *Delay* | *Assignments* |
- | Event1                      | $S4 > S2$ | $-$     | $S1 -> 2 \x 10^-4$   |]
- |                             |           |         | $S4 -> 2 \x 10^-4$ |]
+| Event1                      | $S4 > S2$ | $-$     | $S1 -> 2 \x 10^-4$   |
+|                             |           |         | $S4 -> 2 \x 10^-4$ |]
 
 The initial conditions are as follows:
 
