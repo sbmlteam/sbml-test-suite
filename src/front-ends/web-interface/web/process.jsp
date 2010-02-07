@@ -66,7 +66,7 @@ Vector casesToReturn = new Vector();
 
 outer:
 for (int i = 1; i <= highest; i++)
- {
+{
      Vector<String> caseData = (Vector<String>) caseMap.get(i);
      if (caseData.contains(levelAndVersion))
      {
@@ -82,12 +82,12 @@ for (int i = 1; i <= highest; i++)
          }
          casesToReturn.add(caseData.get(0));
      }
- }
+}
 
 if (casesToReturn.size() < 1)
 {
     throw new JspException("STS has no cases to put into archive");
- }
+}
 
 //
 // 4. Call our zip file builder with the results and some additional param.
