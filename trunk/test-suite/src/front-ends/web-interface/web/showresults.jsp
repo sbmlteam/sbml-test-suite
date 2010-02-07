@@ -53,13 +53,13 @@ String timeOfRun = sdf.format(new Date());
 <%= timeOfRun.toCharArray() %>.
 </p>
 
-<p>
-The following map summaries the outcome of comparing each uploaded test case
-result to the expected results for that particular test case.  A <b><font
-color="green">green</font></b> icon indicates it passed, a <b><font
-color="darkred">red</font></b> icon indicates it failed, and a <b><font
-color="black">black</font></b> icon indicates a test was skipped because a problem
-was encountered.
+<p> The following map shows the results of comparing each uploaded data
+file to the expected data for that test case.  Each case is represented by
+a colored icon: <b><font color="green">green</font></b> to indicate
+success, <b><font color="darkred">red</font></b> to indicate failure,
+<b><font color="black">black</font></b> to indicate a problem with that
+case, and <b><font color="gray">gray</font></b> to indicate the case was
+not included in the uploaded results.
 </p>
 
 <p> You can hover your mouse over an icon to find out its test case number.
@@ -90,14 +90,15 @@ int highestNumber    = caseMap.getHighestCaseNumber();
 
 Vector results          = (Vector) request.getAttribute("tests");
 Vector<String> failures = new Vector<String>();
-Vector<String> skips    = new Vector<String>();
+Vector<String> problems = new Vector<String>();
 
 Map<String, Integer> tmap = new HashMap<String, Integer>();
 
-int count_failed  = 0;
-int count_skipped = 0;
-int count_passed  = 0;
-int totalpoints = 0;
+int countFailed   = 0;
+int countPassed   = 0;
+int countProblems = 0;
+int countMissing  = 0;
+int totalpoints   = 0;
 
 // To make the iteration easier, we make a vector of objects which are
 // indexed by case numbers.  If the user's uploaded set doesn't include
@@ -116,7 +117,7 @@ for (int i = 0; i < results.size(); i++)
 
 for (int caseNum = 1; caseNum <= highestNumber; caseNum++)
 {
-    DecimalFormat df = new DecimalFormat("00000");
+    DecimalFormat caseNumFormatter = new DecimalFormat("00000");
 
     if (cases.get(caseNum) != null)
     {
@@ -136,13 +137,13 @@ for (int caseNum = 1; caseNum <= highestNumber; caseNum++)
         {
         case 0:
             out.print("<img src=\"http://sbml.org:8080/test_suite/web/images/green.jpg\"/>");
-            count_passed++;
+            countPassed++;
             break;
 
         case -1:
             out.print("<img src=\"http://sbml.org:8080/test_suite/web/images/black.jpg\"/>");
-            count_skipped++;
-            skips.addElement(name + "?" + warnings);
+            countProblems++;
+            problems.addElement(name + "?" + warnings);
             break;
 
         default:                        // result > 0 is count of failed points
@@ -155,7 +156,7 @@ for (int caseNum = 1; caseNum <= highestNumber; caseNum++)
                     tmap.put((ttags.elementAt(i)), 1);
             } 
             out.print("<img src=\"http://sbml.org:8080/test_suite/web/images/red.jpg\"/>");
-            count_failed++;
+            countFailed++;
             failures.addElement(name + "?" + result + "?" + totalpoints);
         }	
 
@@ -165,12 +166,12 @@ for (int caseNum = 1; caseNum <= highestNumber; caseNum++)
     }
     else // There wasn't a returned case with this index number.
     {
-        String caseName = df.format(caseNum);
-
+        String caseName = caseNumFormatter.format(caseNum);
         out.println("<td><a title=\"Test case " + caseName + "\" "
                     + "href=\"http://sbml.org:8080/test_suite/web/testdetails.jsp?testname="
                     + caseName + "\" " + "target=\"_blank\">" 
                     + "<img src=\"http://sbml.org:8080/test_suite/web/images/gray.jpg\"/></a></td>");
+        countMissing++;
     }
 
     if (caseNum % 45 == 0)              // Start a new row in the HTML table.
@@ -190,16 +191,19 @@ for (int caseNum = 1; caseNum <= highestNumber; caseNum++)
 </p>
 <p>
     <img src="http://sbml.org:8080/test_suite/web/images/green.jpg" valign="top"/>
-    Number of test cases <font color="green">passed</font>: <%=count_passed%><br>
+    Number of test cases <b><font color="green">passed</font></b>: <%= countPassed %><br>
 
     <img src="http://sbml.org:8080/test_suite/web/images/red.jpg" valign="top"/>
-    Number of test cases <font color="darkred">failed</font>: <%=count_failed%><br>
+    Number of test cases <b><font color="darkred">failed</font></b>: <%= countFailed %><br>
 
     <img src="http://sbml.org:8080/test_suite/web/images/black.jpg" valign="top"/>
-    Number of test cases skipped: <%=count_skipped%><br>
+    Number of test cases with <b><font color="black">problems</font></b>: <%= countProblems %><br>
+
+    <img src="http://sbml.org:8080/test_suite/web/images/gray.jpg" valign="top"/>
+    Number of test cases <b><font color="gray">missing</font></b> from the uploaded results: <%= countMissing %><br>
 
 <%
-if (count_failed > 0)
+if (countFailed > 0)
 {
 %>	
 <br>
@@ -227,14 +231,15 @@ while (tsetIter.hasNext())
 // Store various parts of the results into the session variable
 // so that report.jsp can pull them out.
 
-String[] totals = new String[3];
-totals[0]       = (String.valueOf(count_passed));
-totals[1]       = (String.valueOf(count_failed));
-totals[2]       = (String.valueOf(count_skipped));
+String[] totals = new String[4];
+totals[0]       = (String.valueOf(countPassed));
+totals[1]       = (String.valueOf(countFailed));
+totals[2]       = (String.valueOf(countProblems));
+totals[3]       = (String.valueOf(countMissing));
 
 session.setAttribute("totals"       , totals);
 session.setAttribute("failures"     , failures);
-session.setAttribute("skips"        , skips);
+session.setAttribute("problems"     , problems);
 session.setAttribute("timeOfRun"    , timeOfRun);
 session.setAttribute("casesRootDir" , casesRootDir);
 %>
