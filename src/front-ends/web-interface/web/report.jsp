@@ -44,7 +44,7 @@
 <%
     String[] totals         = (String[]) session.getAttribute("totals");
     Vector<String> failures = (Vector<String>) session.getAttribute("failures");
-    Vector<String> skips    = (Vector<String>) session.getAttribute("skips");
+    Vector<String> problems = (Vector<String>) session.getAttribute("problems");
     String timeOfRun        = (String) session.getAttribute("timeOfRun");
     File casesRootDir       = (File) session.getAttribute("casesRootDir");
     
@@ -60,7 +60,8 @@ Test result summary</h3>
 <p>
 Number of <font color="green">passed</font> cases: <%=totals[0]%><br>
 Number of <font color="darkred">failed</font> cases: <%=totals[1]%><br>
-Number of skipped cases: <%=totals[2]%><br>
+Number of <font color="black">problem</font> cases: <%=totals[2]%><br>
+Number of <font color="gray">missing</font> cases: <%=totals[3]%><br>
 
 <h3 style="width: 100%; border-bottom: 1px solid #ddd">
 Details of failed cases</h3>
@@ -129,15 +130,15 @@ test case.
 </table>
 
 <h3 style="width: 100%; border-bottom: 1px solid #ddd; margin-top: 2em">
-Details of skipped cases</h3>
+Details of problem cases</h3>
 
 <%
-    it = skips.iterator(); 
+    it = problems.iterator(); 
     if (! it.hasNext())
     {
 %>
 
-No cases were skipped.
+No cases had problems.
 
 <%
     }
@@ -145,12 +146,11 @@ No cases were skipped.
     {
 %>
 
-<p>
-The following table lists the cases in your uploaded archive that
-were not tested because of problems encountered.  (Unfortunately, the
-problems listed here many not always be the true root cause of skipping a
-test case, because some problems can cause a ripple effect that results in
-a different error being raised rather than the true underlying error.)
+<p> The following table lists the cases in your uploaded archive that were
+not tested because of problems encountered.  (Unfortunately, the problems
+listed here many not always be the true root cause, because some problems
+can cause a ripple effect that results in a different error being raised
+rather than the true underlying error.)
 
 <table class="borderless-table sm-padding alt-row-colors"
        style="margin-top: 1.5em; border-bottom: 1px solid #999; margin-bottom: 2em"
@@ -162,7 +162,7 @@ a different error being raised rather than the true underlying error.)
 </tr>
 
 <%
-        it = skips.iterator(); 
+        it = problems.iterator(); 
         while (it.hasNext())
         {
             String failed = (String) it.next();
