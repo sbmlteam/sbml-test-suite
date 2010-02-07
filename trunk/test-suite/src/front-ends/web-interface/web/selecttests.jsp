@@ -179,7 +179,7 @@ function propagate()
   }
 
   if (isExcluded("AssignmentRule", ctags) && isExcluded("AlgebraicRule", ctags)
-      && lv == "1.2")
+      && (lv == "1.2" || isExcluded("Events", ctags)))
   {
     setExcluded("NonConstantCompartment", true, ttags);
     setExcluded("NonConstantParameter",   true, ttags);

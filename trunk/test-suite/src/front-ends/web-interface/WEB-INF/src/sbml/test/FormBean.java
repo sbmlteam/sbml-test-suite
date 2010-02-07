@@ -42,24 +42,26 @@ public class FormBean
     private String[] ttags;
     private HashMap<String, String>  errors;
 
-    public FormBean() {
+    public FormBean()
+    {
         levelAndVersion = new String[]{"unset"};
         ctags           = new String[]{"unset"};
         ttags           = new String[]{"unset"};
         errors          = new HashMap<String, String>();
     }
 
-    public void setLevelAndVersion(String[] lv) { levelAndVersion = lv; }
-    public void setCtags(String[] ctag)         { ctags = ctag; }
-    public void setTtags(String[] ttag)         { ttags = ttag; }
+    public void setLevelAndVersion(String[] lv)   { levelAndVersion = lv; }
+    public void setCtags(String[] ctag)           { ctags = ctag; }
+    public void setTtags(String[] ttag)           { ttags = ttag; }
 
-    public String[] getLevelAndVersion()        { return levelAndVersion; }
-    public String[] getCtags()                  { return ctags; }
-    public String[] getTtags()                  { return ttags; }
+    public String[] getLevelAndVersion()          { return levelAndVersion; }
+    public String[] getCtags()                    { return ctags; }
+    public String[] getTtags()                    { return ttags; }
 
     public void setErrors(String key, String msg) { errors.put(key, msg); }
 
-    public String getErrorMsg(String s) {
+    public String getErrorMsg(String s)
+    {
         String errorMsg = (String) errors.get(s.trim());
         return (errorMsg == null) ? "" : errorMsg;
     }
