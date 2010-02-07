@@ -70,8 +70,10 @@ $(cases-jpg-files):
 
 today    = $(shell date +"%F")
 ts-file  = .cases-archive-date
+map-file = cases/semantic/.cases-tags-map
 contents = cases/semantic \
 	   $(ts-file)     \
+	   $(map-file)    \
            COPYING.html   \
            COPYING.txt    \
            NEWS.txt       \
@@ -79,11 +81,17 @@ contents = cases/semantic \
 
 cases-dist: html plots
 	@echo $(today) > $(ts-file)
+	make $(map-file)
 	zip -r sbml-test-cases-$(today).zip $(contents) -x@.zipexcludes
 	@echo "---------------------------------------------------------------"
 	@echo "Next: upload zip file to SourceForge as updated test cases dist."
 	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
 	@echo "---------------------------------------------------------------"
+
+
+$(map-file): $(ts-file)
+	@echo "Making tags map file:"
+	src/utilities/make-tag-map/make-tag-map.sh $(map-file)
 
 
 # -----------------------------------------------------------------------------
