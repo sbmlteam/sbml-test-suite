@@ -1,5 +1,28 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
+	       
+	       
+=== Current svn version ===
+
+* New features
+  
+  - New cases that involve only a compartment that is varying have
+    been added.
+    
+  - All models that can be encoded in SBML L3V1 core (in accordance
+    with the Release 1 Candidate specification) have an L3 sbml file.
+    
+* Bug fixes
+
+  - Tracker issue #2941625.
+    The data for this case raised concerns.  Testing with Copasi,
+    RoadRunner and iBioSim showed the results to be slightly
+    inaccurate.  These have been changed.  Thanks to Chris Myers
+    for reporting this.
+
+  - Tracker issue #2941618.
+    The order of data did not match the order in the sbml files.
+    This has been fixed.  Thanks to Chris Myers for reporting this.	       
 
 === Version 2.0.0 alpha 4 (test-cases only release 2010-01-17) ===
 
