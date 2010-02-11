@@ -117,7 +117,7 @@ The following is a plot of the expected results:
 
 <center>
     <img style="margin-left: -80px" 
-         src="http://sbml.org:8080/test_suite/servlet/OpenFile?plot=<%=reference.getPlotFile().getPath()%>"
+         src="http://sbml.org:8080/test_suite/test-cases/<%=testname%>/<%=reference.getPlotFileName()%>"
          align="center" alt="plot"> 
 </center>
 
