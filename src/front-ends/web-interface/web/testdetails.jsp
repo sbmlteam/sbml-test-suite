@@ -25,7 +25,6 @@
 
 <%@ page import="java.util.*" %>
 <%@ page import="java.lang.*" %>
-<%@ page import="sbml.test.sbmlTestselection" %>
 <%@ page import="sbml.test.TestResultDetails" %>
 <%@ page import="sbml.test.TestReference" %>
 <%@ page import="sbml.test.sbmlTestcase" %>
