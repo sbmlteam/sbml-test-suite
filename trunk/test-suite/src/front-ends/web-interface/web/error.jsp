@@ -179,7 +179,7 @@ For more information, please consult the
 page of instructions</a> for running the Online SBML Test Suite.
 
 <center style="margin: 1em">
-<a href="http://sbml.org:8080/test-suite/web/uploadresults.jsp">
+<a href="http://sbml.org:8080/test_suite/web/uploadresults.jsp">
   <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
   Return to the upload page. 
 </a>
