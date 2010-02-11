@@ -54,17 +54,23 @@ public final class TestReference
         this(new File(testDir), caseName);
     }
 
-    public String         getCaseName()      { return caseName; }
-    public String         getSynopsis()      { return synopsis; }
-    public String         getTestType()      { return testType; }
-    public String         getCategory()      { return category; }
+    public String getCaseName()        { return caseName; }
+    public String getSynopsis()        { return synopsis; }
+    public String getTestType()        { return testType; }
+    public String getCategory()        { return category; }
+    public String getMFileName()       { return mFileName; }
+    public String getPlotFileName()    { return plotFileName; }
+    public String getHTMLFileName()    { return htmlFileName; }
+    public String getResultsFileName() { return resultsFileName; }
+
+    public File   getMFile()           { return mFile; }
+    public File   getPlotFile()        { return plotFile; }
+    public File   getHTMLFile()        { return htmlFile; }
+    public File   getResultsFile()     { return resultsFile; }
+
     public Vector<String> getLevels()        { return levels; }
     public Vector<String> getComponentTags() { return ctags; }
     public Vector<String> getTestTags()      { return ttags; }
-    public File           getMFile()         { return mFile; }
-    public File           getPlotFile()      { return plotFile; }
-    public File           getHTMLFile()      { return htmlFile; }
-    public File           getResultsFile()   { return resultsFile; }
 
     public String getComponentTagsAsString() { return stringify(ctags); }
     public String getTestTagsAsString()      { return stringify(ttags); }
@@ -81,13 +87,17 @@ public final class TestReference
     private void parseMFile()
         throws Exception
     {
-        String basePart = testDir + File.separator + caseName
-            + File.separator + caseName;
+        String basePart = testDir + File.separator + caseName + File.separator;
 
-        mFile       = new File(basePart + "-model.m");
-        htmlFile    = new File(basePart + "-model.html");
-        plotFile    = new File(basePart + "-plot.jpg");
-        resultsFile = new File(basePart + "-results.csv");
+        mFileName       = caseName + "-model.m";
+        htmlFileName    = caseName + "-model.html";
+        plotFileName    = caseName + "-plot.jpg";
+        resultsFileName = caseName + "-results.csv";
+
+        mFile           = new File(basePart + mFileName);
+        htmlFile        = new File(basePart + htmlFileName);
+        plotFile        = new File(basePart + plotFileName);
+        resultsFile     = new File(basePart + resultsFileName);
 
         // Do some sanity checking.
 
@@ -164,7 +174,9 @@ public final class TestReference
     // -------------------------- Private variables --------------------------- 
     // 
 
-    private String caseName;             // The test number as a string.
+    private final String caseName;      // The test number as a string.
+    private final File testDir;         // Location of the cases directory.
+
     private String category;
     private String synopsis;
     private String testType;
@@ -172,9 +184,12 @@ public final class TestReference
     private Vector<String> ctags;
     private Vector<String> ttags;
     private File mFile;
-    private File testDir;
     private File plotFile;
     private File htmlFile;
     private File resultsFile;
+    private String mFileName;
+    private String plotFileName;
+    private String htmlFileName;
+    private String resultsFileName;
 
 }// end of class
