@@ -119,7 +119,7 @@ function resetAvailableTags()
 
   }
   propagate();
-  slideWarning("", "init");
+  warn("", "init");
 }
 
 /*
@@ -215,9 +215,11 @@ function propagate()
       && isExcluded("Species", ctags) && isExcluded("Reaction", ctags))
   {
     document.options.submit.disabled = true;
-    slideWarning("not-available", "hide"); // Just in case.
-    slideWarning("no-components", "show");
+    warn("not-available", "hide"); // Just in case.
+    warn("no-components", "show");
   }
+
+  // State resets -- these should come last.
 
   if (document.options.submit.disabled
       && (! isExcluded("Species", ctags)
@@ -225,38 +227,9 @@ function propagate()
           || ! isExcluded("Compartment", ctags)))
   {
     document.options.submit.disabled = false;
-    slideWarning("no-components", "hide");
+    warn("no-components", "hide");
   }
 
-  // FIXME: make the necessary test cases!
-
-  // We don't have every single combination covered in the test set
-  // yet.  The following is a bit hacky because we shouldn't hard-wire
-  // these tests here, but it's faster to code it this way.
-
-  if (isExcluded("Species", ctags) && isExcluded("Parameter", ctags)
-      && ! isExcluded("Compartment", ctags))
-  {
-    document.options.submit.disabled = true;
-    slideWarning("no-components", "hide"); // Just in case.
-    slideWarning("not-available", "show");
-  }
-  else
-  {
-    slideWarning("not-available", "hide");
-  }
-
-  if (isExcluded("Species", ctags) && ! isExcluded("Parameter", ctags)
-      && isExcluded("NonConstantParameter", ttags))
-  {
-    document.options.submit.disabled = true;
-    slideWarning("no-components", "hide"); // Just in case.
-    slideWarning("not-available", "show");
-  }
-  else
-  {
-    slideWarning("not-available", "hide");
-  }
 }
 
 /*
@@ -276,7 +249,7 @@ function resetAll()
   if (document.options.submit.disabled)
   {
     document.options.submit.disabled = false;
-    slideWarning("", "init");
+    warn("", "init");
   }
 
   resetAvailableTags();
@@ -284,11 +257,12 @@ function resetAll()
 }
 
 /*
- * I haven't found a way to make the slide warning be hidden when the
- * page is first visited except to stick a method call on the "onload"
- * property.  This method is attached via a "hookEvent" call below.
+ * Note about "init" action: I haven't found a way to make the slide
+ * warning be hidden when the page is first visited except to stick a
+ * method call on the "onload" property.  This method is attached via a
+ * "hookEvent" call below.
  */
-function slideWarning(which, action)
+function warn(which, action)
 {
   var id, param;
   
@@ -329,7 +303,7 @@ function slideWarning(which, action)
   }
 }
 
-hookEvent("load", slideWarning);
+hookEvent("load", warn);
 
 //-->
 </script>
