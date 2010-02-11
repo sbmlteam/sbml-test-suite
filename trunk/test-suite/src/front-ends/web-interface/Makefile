@@ -36,7 +36,6 @@ classes:  $(class-dir)/sbmlTestcase.class \
 	  $(class-dir)/TestReference.class \
 	  $(class-dir)/CasesTagsMap.class \
 	  $(class-dir)/FormBean.class \
-	  $(class-dir)/OpenFile.class \
           $(class-dir)/TestResultDetails.class \
           $(class-dir)/UploadUnzipTest.class \
           $(class-dir)/ZipServlet.class
