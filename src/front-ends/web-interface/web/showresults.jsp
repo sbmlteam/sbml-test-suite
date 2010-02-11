@@ -41,6 +41,9 @@
 </div>
 
 <%!
+
+String baseURL = "http://sbml.org:8080/test_suite/web/";
+
 // The time stamp acts as a simple way to differentiate different runs.
 // We also store this in the session variables later on.
 
@@ -68,7 +71,7 @@ expected results, click on the icon&mdash;the information will be presented
 in a new window.  </p>
 	
 <div style="margin: 1em 3em 2em 3em">
-<form name="report" action="http://sbml.org:8080/test_suite/web/report.jsp" method="post">
+<form name="report" action="<%=baseURL%>report.jsp" method="post">
 <table id="resultsmap" class="borderless-table">
 <tr>
 
@@ -93,12 +96,15 @@ Vector<String> failures = new Vector<String>();
 Vector<String> problems = new Vector<String>();
 
 Map<String, Integer> tmap = new HashMap<String, Integer>();
+Map<String, Integer> cmap = new HashMap<String, Integer>();
 
 int countFailed   = 0;
 int countPassed   = 0;
 int countProblems = 0;
 int countMissing  = 0;
 int totalpoints   = 0;
+
+DecimalFormat caseNumFormatter = new DecimalFormat("00000");
 
 // To make the iteration easier, we make a vector of objects which are
 // indexed by case numbers.  If the user's uploaded set doesn't include
@@ -117,8 +123,6 @@ for (int i = 0; i < results.size(); i++)
 
 for (int caseNum = 1; caseNum <= highestNumber; caseNum++)
 {
-    DecimalFormat caseNumFormatter = new DecimalFormat("00000");
-
     if (cases.get(caseNum) != null)
     {
         TestResultDetails test = (TestResultDetails) cases.get(caseNum);
@@ -129,33 +133,33 @@ for (int caseNum = 1; caseNum <= highestNumber; caseNum++)
 	
         out.print("<td>");
         out.print("<a title=\"Test case " + name + "\" "
-                  + " href=\"http://sbml.org:8080/test_suite/web/testdetails.jsp?testname=" + name
+                  + " href=\"" + baseURL + "testdetails.jsp?testname=" + name
                   + "&result=" + result + "&warnings=" + warnings
                   + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
 
         switch (result)
         {
         case 0:
-            out.print("<img src=\"http://sbml.org:8080/test_suite/web/images/green.jpg\"/>");
+            out.print("<img src=\"" + baseURL + "images/green.jpg\"/>");
             countPassed++;
             break;
 
         case -1:
-            out.print("<img src=\"http://sbml.org:8080/test_suite/web/images/black.jpg\"/>");
+            out.print("<img src=\"" + baseURL + "images/black.jpg\"/>");
             countProblems++;
             problems.addElement(name + "?" + warnings);
             break;
 
         default:                        // result > 0 is count of failed points
-            Vector<String> ttags = test.getTtags();
-            for (int i = 0; i < ttags.size(); i++)
+	    for (String tag : (Vector<String>) test.getTtags())
             {
-                if (tmap.containsKey(ttags.elementAt(i)))
-                    tmap.put(ttags.elementAt(i), (tmap.get(ttags.elementAt(i)) + 1));
-                else
-                    tmap.put((ttags.elementAt(i)), 1);
-            } 
-            out.print("<img src=\"http://sbml.org:8080/test_suite/web/images/red.jpg\"/>");
+		tmap.put(tag, (tmap.containsKey(tag) ? tmap.get(tag) + 1 : 1));
+            }
+	    for (String tag : (Vector<String>) test.getCtags())
+            {
+		cmap.put(tag, (cmap.containsKey(tag) ? cmap.get(tag) + 1 : 1));
+            }
+            out.print("<img src=\"" + baseURL + "images/red.jpg\"/>");
             countFailed++;
             failures.addElement(name + "?" + result + "?" + totalpoints);
         }	
@@ -168,9 +172,9 @@ for (int caseNum = 1; caseNum <= highestNumber; caseNum++)
     {
         String caseName = caseNumFormatter.format(caseNum);
         out.println("<td><a title=\"Test case " + caseName + "\" "
-                    + "href=\"http://sbml.org:8080/test_suite/web/testdetails.jsp?testname="
+                    + "href=\"" + baseURL + "testdetails.jsp?testname="
                     + caseName + "\" " + "target=\"_blank\">" 
-                    + "<img src=\"http://sbml.org:8080/test_suite/web/images/gray.jpg\"/></a></td>");
+                    + "<img src=\"" + baseURL + "images/gray.jpg\"/></a></td>");
         countMissing++;
     }
 
@@ -190,16 +194,16 @@ for (int caseNum = 1; caseNum <= highestNumber; caseNum++)
     Total number of test cases analyzed: <b><%=results.size()%></b>
 </p>
 <p>
-    <img src="http://sbml.org:8080/test_suite/web/images/green.jpg" valign="top"/>
+    <img src="<%=baseURL%>images/green.jpg" valign="top"/>
     Number of test cases <b><font color="green">passed</font></b>: <%= countPassed %><br>
 
-    <img src="http://sbml.org:8080/test_suite/web/images/red.jpg" valign="top"/>
+    <img src="<%=baseURL%>images/red.jpg" valign="top"/>
     Number of test cases <b><font color="darkred">failed</font></b>: <%= countFailed %><br>
 
-    <img src="http://sbml.org:8080/test_suite/web/images/black.jpg" valign="top"/>
+    <img src="<%=baseURL%>images/black.jpg" valign="top"/>
     Number of test cases with <b><font color="black">problems</font></b>: <%= countProblems %><br>
 
-    <img src="http://sbml.org:8080/test_suite/web/images/gray.jpg" valign="top"/>
+    <img src="<%=baseURL%>images/gray.jpg" valign="top"/>
     Number of test cases <b><font color="gray">missing</font></b> from the uploaded results: <%= countMissing %><br>
 
 <%
@@ -208,24 +212,38 @@ if (countFailed > 0)
 %>	
 <br>
 <p>
-The following is a list of the test tags present in the cases that failed.
-Each tag name is listed with the number of cases that contained this test
-tag.  A pattern in this set may help you identify the problem(s) causing
+The following is a list of the component and test tags present in the cases
+that failed.  Each tag name is listed with the number of cases that contained
+that tag.  A pattern in this set may help you identify the problem(s) causing
 the test failures.
 </p>
 
-<p>
-<blockquote style="border: 1px solid #555; padding: 0.5em">
+<table class="borderless-table alt-row-colors sm-padding" 
+       align="center" width="60%" 
+       style="border-top: 1px solid #bbb; border-bottom: 1px solid #bbb">
+  <tr>
+    <th valign="bottom">Test tag</th>
+    <th width="150px" valign="bottom">Number of cases<br>with this tag</th>
+  </tr>
+
 <%
-Set tset = tmap.entrySet();
-Iterator tsetIter = tset.iterator();
-while (tsetIter.hasNext())
-{
-    out.println(tsetIter.next() + "<BR>");
-}
-}
+    for (String key : (Set<String>) tmap.keySet())
+        out.println("<tr><td>" + key + "</td><td>" + tmap.get(key) + "</td></tr>");
 %>
-</blockquote>
+
+  <tr>
+    <th valign="bottom">Component tag</th>
+    <th width="150px" valign="bottom">Number of cases<br>with this tag</th>
+  </tr>
+
+<%
+    for (String key : (Set<String>) cmap.keySet())
+        out.println("<tr><td>" + key + "</td><td>" + cmap.get(key) + "</td></tr>");
+
+} // end of if (countFailed > 0)
+%>
+
+</table>
 
 <%
 // Store various parts of the results into the session variable
@@ -244,9 +262,10 @@ session.setAttribute("timeOfRun"    , timeOfRun);
 session.setAttribute("casesRootDir" , casesRootDir);
 %>
 
-<br>
+<br><br>
 <p>
-<input type="submit" value="View Report"> (The report summarizes the results in a more convenient format for printing.) 
+<input type="submit" value="View Report">
+(The report summarizes the results in a more convenient format for printing.) 
 </form>
 </div>
 
@@ -259,7 +278,7 @@ your computer, and upload it.
 <p>
 
 <center style="margin: 1em">
-  <a href="http://sbml.org:8080/test_suite/web/uploadresults.jsp">
+  <a href="<%=baseURL%>uploadresults.jsp">
     <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
     Return to the test results upload page.
   </a>
