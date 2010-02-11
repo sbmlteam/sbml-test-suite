@@ -26,7 +26,6 @@
 <%@ page import="java.util.regex.*" %>
 <%@ page import="java.awt.*" %>
 <%@ page import="java.lang.*" %>
-<%@ page import="sbml.test.sbmlTestselection" %>
 <%@ page import="sbml.test.sbmlTestcase" %>
 <%@ page import="java.io.*" %>
 <%@ page import="javax.servlet.*" %>
