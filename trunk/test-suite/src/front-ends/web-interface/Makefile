@@ -32,6 +32,7 @@ class-dir   = WEB-INF/classes/sbml/test
 javac-flags = -g -Xlint:unchecked -d WEB-INF/classes -sourcepath WEB-INF/src
 
 classes:  $(class-dir)/sbmlTestcase.class \
+	  $(class-dir)/sbmlTestselection.class \
 	  $(class-dir)/TestReference.class \
 	  $(class-dir)/CasesTagsMap.class \
 	  $(class-dir)/FormBean.class \
