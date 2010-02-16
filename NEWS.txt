@@ -5,6 +5,9 @@
 === Current svn version ===
 
 * New features
+
+  - New cases that involve just a non-varying parameter whose value
+    is set by initialAssignment or assignmentRule have been added.
   
   - New cases that involve only a compartment that is varying have
     been added.
