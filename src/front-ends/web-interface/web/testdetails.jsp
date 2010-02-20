@@ -33,6 +33,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 
 <%@ include file="sbml-head.html"%>
+<%@ include file="sbml-top.html"%>
 
 <% 
 // We get a number of things via the URL handed to us in the link
@@ -48,8 +49,6 @@ String tpoints  = request.getParameter("tpoints");
 
 TestReference reference = new TestReference(testdir, testname);
 %>
-
-<%@ include file="sbml-top.html"%>
 
 <div id='pagetitle'>
 <h1 class='pagetitle'>Details for SBML Test Case #<%=testname%></h1>
