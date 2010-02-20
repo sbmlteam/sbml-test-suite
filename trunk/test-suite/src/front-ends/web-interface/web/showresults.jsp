@@ -223,7 +223,7 @@ the test failures.
        style="border-top: 1px solid #bbb; border-bottom: 1px solid #bbb">
   <tr>
     <th valign="bottom">Test tag</th>
-    <th width="150px" valign="bottom">Number of cases<br>with this tag</th>
+    <th width="150px" valign="bottom">Number of failed<br>cases with this tag</th>
   </tr>
 
 <%
@@ -233,7 +233,7 @@ the test failures.
 
   <tr>
     <th valign="bottom">Component tag</th>
-    <th width="150px" valign="bottom">Number of cases<br>with this tag</th>
+    <th width="150px" valign="bottom">Number of failed<br>cases with this tag</th>
   </tr>
 
 <%
