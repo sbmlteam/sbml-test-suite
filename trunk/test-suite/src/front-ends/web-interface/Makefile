@@ -9,7 +9,7 @@
 ## This file is part of the SBML Test Suite.  Please visit http://sbml.org for
 ## more information about SBML, and the latest version of the SBML Test Suite.
 ## 
-## Copyright 2008      California Institute of Technology.
+## Copyright 2008-2010 California Institute of Technology.
 ## Copyright 2004-2007 California Institute of Technology (USA) and
 ##                     University of Hertfordshire (UK).
 ## 
