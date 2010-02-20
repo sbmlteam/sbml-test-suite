@@ -21,7 +21,7 @@ produce and deploy a .war file.  The directory contents here are set
 up so that you can do that, but it is ALSO set up so that this whole
 directory can be checked out from SVN as the web application directory
 itself on the server (i.e., /var/lib/tomcat5/webapps/test_suite/), so
-that file updates & java class recompilation and other things can be
+that file updates & Java class recompilation and other things can be
 done directly on the server.  Beware that if you do this, DO NOT
 DELETE THE .war file (/var/lib/tomcat5/webapps/test_suite.war).  If
 you remove the .war file, Tomcat will delete the application directory
