@@ -178,8 +178,14 @@ function propagate()
     setExcluded("NonConstantParameter",   true, ttags);
   }
 
+  // If all rules and all events are removed, then one can't construct a
+  // model with variable sized compartments or parameter values.
+
   if (isExcluded("AssignmentRule", ctags) && isExcluded("AlgebraicRule", ctags)
-      && (lv == "1.2" || isExcluded("Events", ctags)))
+      && isExcluded("RateRule", ctags)
+      && (lv == "1.2"
+          || (isExcluded("EventWithDelay", ctags)
+              && isExcluded("EventNoDelay", ctags))))
   {
     setExcluded("NonConstantCompartment", true, ttags);
     setExcluded("NonConstantParameter",   true, ttags);
