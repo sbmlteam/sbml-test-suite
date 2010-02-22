@@ -58,15 +58,18 @@ public final class TestReference
     public String getSynopsis()        { return synopsis; }
     public String getTestType()        { return testType; }
     public String getCategory()        { return category; }
-    public String getMFileName()       { return mFileName; }
-    public String getPlotFileName()    { return plotFileName; }
-    public String getHTMLFileName()    { return htmlFileName; }
-    public String getResultsFileName() { return resultsFileName; }
 
     public File   getMFile()           { return mFile; }
+    public String getMFileName()       { return mFileName; }
+
     public File   getPlotFile()        { return plotFile; }
+    public String getPlotFileName()    { return plotFileName; }
+
     public File   getHTMLFile()        { return htmlFile; }
+    public String getHTMLFileName()    { return htmlFileName; }
+
     public File   getResultsFile()     { return resultsFile; }
+    public String getResultsFileName() { return resultsFileName; }
 
     public Vector<String> getLevels()        { return levels; }
     public Vector<String> getComponentTags() { return ctags; }
