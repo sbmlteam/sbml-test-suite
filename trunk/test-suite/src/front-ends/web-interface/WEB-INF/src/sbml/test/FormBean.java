@@ -51,8 +51,8 @@ public class FormBean
     }
 
     public void setLevelAndVersion(String[] lv)   { levelAndVersion = lv; }
-    public void setCtags(String[] ctag)           { ctags = ctag; }
-    public void setTtags(String[] ttag)           { ttags = ttag; }
+    public void setCtags(String[] ctag)           { this.ctags = ctag; }
+    public void setTtags(String[] ttag)           { this.ttags = ttag; }
 
     public String[] getLevelAndVersion()          { return levelAndVersion; }
     public String[] getCtags()                    { return ctags; }
