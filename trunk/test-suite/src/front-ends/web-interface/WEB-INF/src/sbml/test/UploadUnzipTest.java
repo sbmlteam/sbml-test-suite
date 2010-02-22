@@ -87,86 +87,71 @@ public class UploadUnzipTest extends HttpServlet
             {
                 FileItem item = (FileItem) iter.next();
 				
-                // the param tag directory is sent as a request parameter to the server
-                // check if the upload directory is available
-                if (item.isFormField())
-                {
-                    String name = item.getFieldName();
-
-                    if (name.equalsIgnoreCase("directory"))
-                    {
-                        directory = item.getString();
-                    }
-
-                    // retrieve the files
-                }
-                else
-                {
-                    // the fileNames are urlencoded
-                    String fileName = URLDecoder.decode(item.getName(), "UTF-8");
+                // the fileNames are urlencoded
+                String fileName = URLDecoder.decode(item.getName(), "UTF-8");
         				
-                    File file = new File(directory, fileName);
-                    file = new File(base_directory, file.getPath());
+                File file = new File(directory, fileName);
+                file = new File(base_directory, file.getPath());
 					
-                    // retrieve the parent file for creating the directories
-                    File parentFile = file.getParentFile();
+                // retrieve the parent file for creating the directories
+                File parentFile = file.getParentFile();
 
-                    if (parentFile != null)
-                    {
-                        parentFile.mkdirs();
-                    }
+                if (parentFile != null)
+                {
+                    parentFile.mkdirs();
+                }
 
-                    // make sure its a zipped file
-                    item.write(file);
+                // make sure its a zipped file
+                item.write(file);
 					
-                    // unzip the file
-                    BufferedOutputStream dest = null;
-                    // Create input stream to read zip entries
+                // unzip the file
+                BufferedOutputStream dest = null;
+                // Create input stream to read zip entries
 					
-                    try
+                try
+                {
+                    FileInputStream fis = new FileInputStream(file);
+                    ZipInputStream zis = new ZipInputStream(new BufferedInputStream(fis));
+                    ZipEntry entry;
+					
+                    while ((entry = zis.getNextEntry()) != null)
                     {
-                        FileInputStream fis = new FileInputStream(file);
-                        ZipInputStream zis = new ZipInputStream(new BufferedInputStream(fis));
-                        ZipEntry entry;
-					
-                        while ((entry = zis.getNextEntry()) != null)
+                        int count;
+                        byte data[] = new byte[2048];
+
+                        // write the files to the disk
+                        FileOutputStream fos = new FileOutputStream(base_directory
+                                                                    + File.separator + directory
+                                                                    + File.separator + entry.getName());
+                        dest = new BufferedOutputStream(fos, 2048);
+
+                        while ((count = zis.read(data, 0, 2048)) != -1)
                         {
-                            int count;
-                            byte data[] = new byte[2048];
+                            dest.write(data, 0, count);
+                        }
+                        dest.flush();
+                        dest.close();
+                    } // end of while
 
-                            // write the files to the disk
-                            FileOutputStream fos = new FileOutputStream(base_directory
-                                                                        + File.separator + directory
-                                                                        + File.separator + entry.getName());
-                            dest = new BufferedOutputStream(fos, 2048);
+                    zis.close();
+                }
+                catch (FileNotFoundException e)
+                {
+                    System.err.println("FileNotFoundException: "
+                                       + e.getMessage());
+                }
+                catch (IOException e)
+                {
+                    System.err.println("Caught IOException: " 
+                                       + e.getMessage());
+                }
 
-                            while ((count = zis.read(data, 0, 2048)) != -1)
-                            {
-                                dest.write(data, 0, count);
-                            }
-                            dest.flush();
-                            dest.close();
-                        } // end of while
-
-                        zis.close();
-                    }
-                    catch (FileNotFoundException e)
-                    {
-                        System.err.println("FileNotFoundException: "
-                                           + e.getMessage());
-                    }
-                    catch (IOException e)
-                    {
-                        System.err.println("Caught IOException: " 
-                                           + e.getMessage());
-                    }
-
-                    if (!file.delete())
-                    {
-                        throw new IllegalArgumentException("Delete: deletion failed");
-                    }
+                if (!file.delete())
+                {
+                    throw new IllegalArgumentException("Delete: deletion failed");
+                }
   					
-                } //end of else
+
             }//end of while
 
             // add test stuff here
