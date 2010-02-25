@@ -48,11 +48,15 @@ import java.math.*;
 
 public class UploadUnzipTest extends HttpServlet
 {
+    // FIXME why isn't this sending back exceptions directly?
+
     // The page that handles forwarded error messages returned to the user:
-    static final String ERROR_REPORT_URL = "/web/error.jsp";
+    static final String ERROR_PAGE = "/web/error.jsp";
 
     // Errors are communicated back to error.jsp via the following codes:
+    static final String ERR_BAD_UPLOAD    = "upload request failed";
     static final String ERR_BAD_FILE_NAME = "bad file names";
+    static final String ERR_SERVER_ERROR  = "server error";
 
     /**
      * Interface function invoked by uploadresults.jsp.
@@ -60,104 +64,34 @@ public class UploadUnzipTest extends HttpServlet
     public void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-        // An upload from uploadresults.jsp will be a multipart request.
-        // If that's not what we got here, toss an error.
+        // An upload from uploadresults.jsp is supposed to be a multipart
+        // request.  If that's not what we got here, toss an error.
         
         if (! ServletFileUpload.isMultipartContent(request))
-            throw new ServletException("HTTP post result is not a multipart request");
+        {
+            propagateError(ERR_SERVER_ERROR, "Servlet didn't get multipart content",
+                           request, response);
+            return;
+        }
 
+        // Set up objects to extract the user's upload.
 
-        String base_directory = System.getProperty("java.io.tmpdir");
-        FileItemFactory factory = new DiskFileItemFactory();
-        ServletFileUpload servletFileUpload = new ServletFileUpload(factory);
-        servletFileUpload.setSizeMax(-1);
+        File uploadDir = createUploadDir();
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        factory.setRepository(uploadDir);
+        factory.setSizeThreshold(5 * 1024 * 1024); // In bytes.
 
+        ServletFileUpload uploadServlet = new ServletFileUpload(factory);
+        uploadServlet.setSizeMax(-1); // Set no limit on upload max size.
+        
+        // Unzip the uploaded archive.  This returns a list of the CSV file
+        // names extracted as a result.
+
+        Map userfiles = unzipUploadedFile(uploadDir, uploadServlet, request, response)
+
+			
         try
         {
-            String systimestamp = String.valueOf(System.currentTimeMillis());
-            String directory = "testsuite" + File.separator + systimestamp;
-
-            // Parse the request
-            List items = servletFileUpload.parseRequest(request);
-
-            // Process the uploaded items
-            Iterator iter = items.iterator();
-
-            while (iter.hasNext())
-            {
-                FileItem item = (FileItem) iter.next();
-				
-                // the fileNames are urlencoded
-                String fileName = URLDecoder.decode(item.getName(), "UTF-8");
-        				
-                File file = new File(directory, fileName);
-                file = new File(base_directory, file.getPath());
-					
-                // retrieve the parent file for creating the directories
-                File parentFile = file.getParentFile();
-
-                if (parentFile != null)
-                {
-                    parentFile.mkdirs();
-                }
-
-                // make sure its a zipped file
-                item.write(file);
-					
-                // unzip the file
-                BufferedOutputStream dest = null;
-                // Create input stream to read zip entries
-					
-                try
-                {
-                    FileInputStream fis = new FileInputStream(file);
-                    ZipInputStream zis = new ZipInputStream(new BufferedInputStream(fis));
-                    ZipEntry entry;
-					
-                    while ((entry = zis.getNextEntry()) != null)
-                    {
-                        int count;
-                        byte data[] = new byte[2048];
-
-                        // write the files to the disk
-                        FileOutputStream fos = new FileOutputStream(base_directory
-                                                                    + File.separator + directory
-                                                                    + File.separator + entry.getName());
-                        dest = new BufferedOutputStream(fos, 2048);
-
-                        while ((count = zis.read(data, 0, 2048)) != -1)
-                        {
-                            dest.write(data, 0, count);
-                        }
-                        dest.flush();
-                        dest.close();
-                    } // end of while
-
-                    zis.close();
-                }
-                catch (FileNotFoundException e)
-                {
-                    System.err.println("FileNotFoundException: "
-                                       + e.getMessage());
-                }
-                catch (IOException e)
-                {
-                    System.err.println("Caught IOException: " 
-                                       + e.getMessage());
-                }
-
-                if (!file.delete())
-                {
-                    throw new IllegalArgumentException("Delete: deletion failed");
-                }
-  					
-
-            }//end of while
-
-            // add test stuff here
-			
-            String userdir = new String(base_directory  + File.separator + directory);
-            File u = new File(userdir);
             sbmlTestcase t1 = new sbmlTestcase();
 
             // Get directory listings 
@@ -176,20 +110,18 @@ public class UploadUnzipTest extends HttpServlet
             // anything but must contain the testnumber.csv at the end
             // of it - so this returns a map with testname,
             // userfilename so we can iterate through the tests
+
             Map  userfiles = new HashMap();
             try
             {
-                userfiles = t1.getUsertestlist(userdir);
+                userfiles = t1.getUsertestlist(uploadDir.getPath());
             }
             catch (Exception e)
             {
-                System.err.println(ERR_BAD_FILE_NAME);
-                request.setAttribute("userError", ERR_BAD_FILE_NAME);
-                RequestDispatcher dispatcher
-                    = getServletContext().getRequestDispatcher(ERROR_REPORT_URL);
-                dispatcher.forward(request, response);
+                propagateError(ERR_BAD_FILE_NAME, e.getMessage(), request, response);
                 return;
             }
+
             String value = new String();
             String userfile = new String();
             // turn hashmap into a treemap to order the list
@@ -353,9 +285,6 @@ public class UploadUnzipTest extends HttpServlet
 				
             } // end of while
 
-            // delete temporary user file directory
-            t1.deleteDirectory(u);
-		
             request.setAttribute("tests", output);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/web/showresults.jsp");
             dispatcher.forward(request, response);
@@ -370,5 +299,103 @@ public class UploadUnzipTest extends HttpServlet
 
     
     } // end of doPost
+
+    private File createUploadDir()
+        throws ServletException
+    {
+        File uploadDir = new File(System.getProperty("java.io.tmpdir", "/tmp"),
+                                  "testsuite" + File.separator
+                                  + String.valueOf(System.currentTimeMillis()));
+
+        if (! uploadDir.mkdirs())
+            throw new ServletException("Cannot create " + uploadDir.getPath());
+
+        if (! uploadDir.canRead())
+            throw new ServletException("Cannot read " + uploadDir.getPath());
+
+        return uploadDir;
+    }
+
+    private void propagateError(String code, String msg, HttpServletRequest req,
+                                HttpServletResponse resp)
+        throws ServletException, IOException
+    {
+        System.err.println("(" + code + ") " + msg);
+        req.setAttribute("errorCode", code);
+        req.setAttribute("errorMessage", msg);
+        getServletContext().getRequestDispatcher(ERROR_PAGE).forward(req, resp);
+    }
+
+    private HashMap unzipUploadedFile(File uploadDir, ServletFileUpload uploadServlet,
+                                      HttpServletRequest req, HttpServletResponse resp)
+    {
+        // parseRequest() returns a list of items, but our particular
+        // request will only have one: the zip file uploaded by the user.
+        // If we don't get that, something went wrong.
+
+        List items;
+        try
+        {
+            items = uploadServlet.parseReq(req);
+        }
+        catch (FileUploadException e)
+        {
+            propagateError(ERR_BAD_UPLOAD, e.getMessage(), req, resp);
+            return;
+        }
+
+        if (items.isEmpty())
+        {
+            propagateError(ERR_BAD_UPLOAD, "Empty upload", req, resp);
+            return;
+        }
+        else if (items.size() > 1)
+        {
+            propagateError(ERR_BAD_UPLOAD, "Got more than one file in upload",
+                           req, resp);
+            return;
+        }
+
+        // Unzip the file and write out the individual file contents to
+        // disk.  This will create a bunch of files which are expected to
+        // be the user's CSV results files.
+
+        try
+        {
+            FileItem zipFile   = (FileItem) items.get(0);
+            ZipInputStream zis = new ZipInputStream(zipFile.getInputStream());
+            ZipEntry entry;
+
+            while ((entry = zis.getNextEntry()) != null)
+            {
+                int count;
+                byte data[] = new byte[2048];
+
+                FileOutputStream fos = new FileOutputStream(uploadDir.getPath()
+                                                            + File.separator
+                                                            + entry.getName());
+
+                BufferedOutputStream bos = new BufferedOutputStream(fos, 2048);
+
+                while ((count = zis.read(data, 0, 2048)) != -1)
+                {
+                    bos.write(data, 0, count);
+                }
+                bos.flush();
+                bos.close();
+            }
+            zis.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            propagateError(ERR_SERVER_ERROR, e.getMessage(), req, resp);
+            return;
+        }
+        catch (IOException e)
+        {
+            propagateError(ERR_SERVER_ERROR, e.getMessage(), req, resp);
+            return;
+        }
+    }
 
 } // end of class
