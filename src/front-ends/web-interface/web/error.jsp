@@ -116,7 +116,8 @@ final class InternalUtility
 // Java utility program).  The value of "userError" is a string code
 // that we use below as the basis of branching to an explanation.
 
-String userError     = (String) request.getAttribute("userError");
+String errorCode     = (String) request.getAttribute("errorCode");
+String errorMessage  = (String) request.getAttribute("errorMessage");
 
 // Additional data we're going to need eventually.
 
@@ -138,14 +139,14 @@ SBML Test Suite error</font></h1></div><!-- id='pagetitle' -->
 // are a bit messy and hard to read because of the interspersed JSP and
 // HTML.  (FIXME: there's got to be a better way to write this stuff.)
 
-if (userError != null)
+if (errorCode != null)
 {
 %>
 
 <p>
 We're sorry, but the Online SBML Test Suite encountered a problem.
 <%
-    if (userError.equals("bad file names"))
+    if (errorCode.equals("bad file names"))
     {
 %>
 <font color="darkred">the result files in the archive do not have the
@@ -187,7 +188,7 @@ page of instructions</a> for running the Online SBML Test Suite.
 
 <%
     }
-    else if (userError.equals("unrecognized files"))
+    else if (errorCode.equals("unrecognized files"))
     {
 
     }
