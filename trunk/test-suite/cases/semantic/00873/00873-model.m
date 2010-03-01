@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Two reversible reactions in one compartment 
 with one reaction marked as fast and one species a boundary.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      InitialAmount, ReversibleReaction, FastReaction, BoundaryCondition
+testTags:      Amount, ReversibleReaction, FastReaction, BoundaryCondition
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

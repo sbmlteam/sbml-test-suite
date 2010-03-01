@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Two reversible reactions with local parameters.
 componentTags: Compartment, Species, Reaction 
-testTags:      InitialAmount, Reversible, LocalParameters
+testTags:      Amount, Reversible, LocalParameters
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

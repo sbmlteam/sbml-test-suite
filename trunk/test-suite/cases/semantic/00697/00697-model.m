@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic reaction with two species in one
 compartment using an assignmentRule to assign value to a parameter.
 componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule, InitialAssignment 
-testTags:      InitialAmount, BoundaryCondition
+testTags:      Amount, BoundaryCondition
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

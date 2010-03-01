@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Two reactions in one compartment 
 with one reaction marked as fast and one species as boundary.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      InitialAmount, FastReaction, BoundaryCondition
+testTags:      Amount, FastReaction, BoundaryCondition
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Variant of three reactions with four species in one
 compartment, with one species labeled constant.
 componentTags: Compartment, Species, Reaction, Parameter, 
-testTags:      InitialAmount, ConstantSpecies, BoundaryCondition
+testTags:      Amount, ConstantSpecies, BoundaryCondition
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

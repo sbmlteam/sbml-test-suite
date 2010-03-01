@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with three species and parameters local to 
                reactions.
 componentTags: Compartment, Species, Reaction 
-testTags:      InitialConcentration, LocalParameters
+testTags:      Concentration, LocalParameters
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

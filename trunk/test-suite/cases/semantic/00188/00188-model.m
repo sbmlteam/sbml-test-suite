@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with four species in a compartment,
                with one reaction having a rate of zero.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      InitialAmount
+testTags:      Amount
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

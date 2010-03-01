@@ -5,7 +5,7 @@ synopsis:      Basic two reactions with three species in one compartment
                and two events, subject to delays, that assign value to a 
 species using a function.
 componentTags: Compartment, Species, Reaction, Parameter, EventWithDelay, FunctionDefinition
-testTags:      InitialAmount
+testTags:      Amount
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

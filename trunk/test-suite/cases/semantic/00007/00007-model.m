@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with two species in one compartment,
                with the first species acting as a boundary condition.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      InitialAmount, BoundaryCondition
+testTags:      Amount, BoundaryCondition
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

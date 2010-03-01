@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with three species in one compartment
                and one event that assigns value to two species.
 componentTags: Compartment, Species, Reaction, Parameter, EventNoDelay 
-testTags:      InitialAmount, NonUnityCompartment
+testTags:      Amount, NonUnityCompartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Third order mass action kinetics with two reactants.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      InitialAmount
+testTags:      Amount
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

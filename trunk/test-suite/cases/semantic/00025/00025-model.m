@@ -5,7 +5,7 @@ synopsis:      Basic single forward reaction with two species in one
 compartment and nonzero initial amounts using a function to apply 
 the kinetic law.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
-testTags:      InitialAmount
+testTags:      Amount
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

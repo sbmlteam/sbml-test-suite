@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Rate rule using a functionDefinition used to determine value of parameter
                which is used in a reaction.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, RateRule 
-testTags:      InitialConcentration, NonConstantParameter, NonUnityCompartment
+testTags:      Concentration, NonConstantParameter, NonUnityCompartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

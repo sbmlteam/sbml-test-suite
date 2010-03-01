@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with four species in one 0D compartment
                and one function definition.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
-testTags:      InitialAmount, 0D-Compartment
+testTags:      Amount, 0D-Compartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

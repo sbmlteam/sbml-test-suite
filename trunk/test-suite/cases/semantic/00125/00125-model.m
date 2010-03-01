@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic single reaction using functionDefinitions involving species
                with a non-unity stoichiometry.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
-testTags:      InitialAmount, NonUnityStoichiometry
+testTags:      Amount, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

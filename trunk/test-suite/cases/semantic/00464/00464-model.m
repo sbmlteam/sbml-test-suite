@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic single forward reaction with two species in one
 compartment, nonzero initial concentrations, and identical reaction rates.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      InitialConcentration
+testTags:      Concentration
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
