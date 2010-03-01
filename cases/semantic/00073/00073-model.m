@@ -4,7 +4,7 @@ category:      Test
 synopsis:      A simple reaction during which the species values are reset 
                by events which are subject to delays.
 componentTags: Compartment, Species, Reaction, Parameter, EventWithDelay 
-testTags:      InitialAmount
+testTags:      Amount
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

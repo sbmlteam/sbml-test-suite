@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with three species in one compartment,
                and all species labeled as a boundary condition
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      InitialConcentration, BoundaryCondition
+testTags:      Concentration, BoundaryCondition
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

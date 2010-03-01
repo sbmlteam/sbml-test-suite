@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Single reversible reaction.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      InitialAmount, Reversible, StoichiometryMath
+testTags:      Amount, Reversible, StoichiometryMath
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric

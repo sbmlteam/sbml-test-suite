@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Basic reaction and rate rule with three species in a compartment. 
 componentTags: Compartment, Species, Reaction, Parameter, RateRule 
-testTags:      InitialConcentration, NonUnityCompartment
+testTags:      Concentration, NonUnityCompartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

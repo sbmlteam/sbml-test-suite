@@ -5,7 +5,7 @@ synopsis:      Basic single forward reaction with two species in one
 compartment of non-unity size using a function to apply 
 the kinetic law.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
-testTags:      InitialConcentration, NonUnityCompartment
+testTags:      Concentration, NonUnityCompartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

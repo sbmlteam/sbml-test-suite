@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic single forward reaction with two species in a compartment 
                of non-unity volume. 
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      InitialConcentration, NonUnityCompartment
+testTags:      Concentration, NonUnityCompartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

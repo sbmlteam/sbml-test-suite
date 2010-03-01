@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Model using an algebraic rule with a rate rule to determine 
 species values.
 componentTags: Compartment, Species, Parameter, AlgebraicRule, RateRule 
-testTags:      InitialAmount
+testTags:      Amount
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

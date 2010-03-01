@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Rate rule used to determine parameter value which is used 
                in a reaction.
 componentTags: Compartment, Species, Reaction, Parameter, RateRule 
-testTags:      InitialAmount, NonConstantParameter
+testTags:      Amount, NonConstantParameter
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

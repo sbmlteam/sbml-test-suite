@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Two reactions with two species in one compartment with a
                non-unit volume.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      InitialAmount, NonUnityCompartment, NonUnityStoichiometry
+testTags:      Amount, NonUnityCompartment, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

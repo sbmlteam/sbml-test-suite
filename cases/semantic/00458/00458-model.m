@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic three reactions with three species in one compartment
                and one event that assigns value to three species, subject to a delay.
 componentTags: Compartment, Species, Reaction, Parameter, EventWithDelay 
-testTags:      InitialAmount
+testTags:      Amount
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Two reversible reactions in one compartment 
 with one reaction marked as fast.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      InitialAmount, ReversibleReaction, FastReaction
+testTags:      Amount, ReversibleReaction, FastReaction
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic single forward reaction with three species in a compartment 
                where one species is constant.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      InitialAmount, ConstantSpecies, NonUnityCompartment
+testTags:      Amount, ConstantSpecies, NonUnityCompartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

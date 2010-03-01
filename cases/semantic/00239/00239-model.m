@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic single forward reaction with two species in a 0-dimensional
 compartment, with a species acting as a boundary condition.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      InitialAmount, 0D-Compartment, BoundaryCondition
+testTags:      Amount, 0D-Compartment, BoundaryCondition
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
