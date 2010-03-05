@@ -17,6 +17,10 @@
     
 * Bug fixes
 
+  - Tracker issue #2961844.
+    The data for case 00873 was inaccurate.  The data now reflects
+    results verified with VCell and iBioSim.
+
   - Tracker issue #2961843.
     The data for case 00874 was inaccurate.  The data now reflects
     results verified with VCell and iBioSim.
