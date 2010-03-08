@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Model using parameters and both rate and assignment rules
                including initialAssignments.   
 componentTags: Parameter, InitialAssignment, RateRule, AssignmentRule 
-testTags:      NonConstantParameter
+testTags:      NonConstantParameter, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
