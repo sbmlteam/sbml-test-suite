@@ -3,8 +3,8 @@
 category:      Test
 synopsis:      Basic single forward reaction with two species in one
 compartment using initialAssignment to set the compartment size.
-componentTags: Compartment, Species, Reaction, InitialAssignment, 
-testTags:      Amount, NonUnityCompartment, LocalParameter
+componentTags: Compartment, Species, Reaction, InitialAssignment 
+testTags:      Amount, NonUnityCompartment, LocalParameter, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

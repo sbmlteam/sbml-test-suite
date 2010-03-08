@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic single forward reaction with two species in one
 compartment using initialAssignment to set the initial value of one parameter.
 componentTags: Compartment, Species, Reaction, Parameter, InitialAssignment 
-testTags:      Concentration
+testTags:      Concentration, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic single forward reaction with three species in one
 compartment using an assignmentRule with a functionDefinition to vary one species.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, AssignmentRule 
-testTags:      Amount, BoundaryCondition
+testTags:      Amount, BoundaryCondition, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
