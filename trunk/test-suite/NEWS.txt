@@ -6,6 +6,9 @@
 
 * New features
 
+  - Cases where an initial value is reassigned by math within the
+    model have been tagged with an 'InitialValueReassigned' tag.
+
   - New cases that involve just a non-varying parameter whose value
     is set by initialAssignment or assignmentRule have been added.
   
