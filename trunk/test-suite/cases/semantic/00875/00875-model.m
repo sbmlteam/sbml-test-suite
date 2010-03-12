@@ -11,7 +11,7 @@ generatedBy:   Numeric
 
 The model contains one compartment called C.  There are four
 species called A1, A2, A3 and A4 and four parameters called Kf1, Kr1, Kf
-and Kr.  Species A2 is labeled as an SBML boundary species.
+and Kr.  Species A1 is labeled as an SBML boundary species.
 The model contains two reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
