@@ -20,6 +20,10 @@
     
 * Bug fixes
 
+  - Description of case 00875 incorrectly stated that A2 was a 
+    boundary species when it is actually A1.  Thanks to Chris
+    Myers for reporting this.
+
   - Tracker issue #2961844.
     The data for case 00873 was inaccurate.  The data now reflects
     results verified with VCell and iBioSim.
@@ -33,6 +37,10 @@
     RoadRunner and iBioSim showed the results to be slightly
     inaccurate.  These have been changed.  Thanks to Chris Myers
     for reporting this.
+
+  - Tracker issue #2941621.
+    The data for case 00873 was inaccurate.  The data now reflects
+    results verified with VCell and iBioSim.
 
   - Tracker issue #2941618.
     The order of data did not match the order in the sbml files.
