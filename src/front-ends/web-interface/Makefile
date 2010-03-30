@@ -31,14 +31,13 @@ src-dir     = WEB-INF/src/sbml/test
 class-dir   = WEB-INF/classes/sbml/test
 javac-flags = -g -Xlint:unchecked -d WEB-INF/classes -sourcepath WEB-INF/src
 
-classes:  $(class-dir)/sbmlTestcase.class \
-	  $(class-dir)/sbmlTestselection.class \
-	  $(class-dir)/TestReference.class \
-	  $(class-dir)/CasesTagsMap.class \
-	  $(class-dir)/FormBean.class \
-          $(class-dir)/TestResultDetails.class \
-          $(class-dir)/UploadUnzipTest.class \
-          $(class-dir)/ZipServlet.class
+classes: $(class-dir)/CasesTagsMap.class      \
+         $(class-dir)/FormBean.class          \
+         $(class-dir)/TestReference.class     \
+         $(class-dir)/UploadUnzipTest.class   \
+         $(class-dir)/UserTestCase.class      \
+         $(class-dir)/UserTestResult.class    \
+         $(class-dir)/ZipServlet.class
 
 jsp-jar        = /var/lib/tomcat5/common/lib/[jsp].jar
 servlet-jar    = /var/lib/tomcat5/common/lib/[servlet].jar
@@ -68,11 +67,32 @@ install:
 
 
 # -----------------------------------------------------------------------------
+# TAGS
+# -----------------------------------------------------------------------------
+
+ETAGS       ?= etags
+ETAGS_FLAGS ?= --ignore-indentation --members
+
+tags etags: etags-version-check TAGS 
+
+etags-version-check:  
+	@if test -z "`$(ETAGS) --version |2>&1 grep 'Free Software'`"; then \
+	  echo "Your 'etags' command is not the GNU [X]Emacs version,"; \
+	  echo "and I'm afraid I don't know how to work with it. Quitting."; \
+	  exit 2; \
+	fi 
+
+files-to-tag = $(wildcard $(src-dir)/*.java)
+
+TAGS: $(files-to-tag)
+	$(ETAGS) $(ETAGSFLAGS) -l java $(files-to-tag)
+
+
+# -----------------------------------------------------------------------------
 # Common special targets
 # -----------------------------------------------------------------------------
 
 .PHONY: classes install
-
 
 # ----------------------------------------------------------------------------- 
 # End. 
