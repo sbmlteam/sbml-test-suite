@@ -26,7 +26,6 @@
 <%@ page import="java.util.regex.*" %>
 <%@ page import="java.awt.*" %>
 <%@ page import="java.lang.*" %>
-<%@ page import="sbml.test.sbmlTestcase" %>
 <%@ page import="java.io.*" %>
 <%@ page import="javax.servlet.*" %>
 <%@ page import="javax.servlet.http.*"%>
@@ -55,10 +54,10 @@ simulation outputs and have them tallied against the expected results.
 <table class="borderless-table" width="75%">
 	<tr>
 		<td valign="top" style="padding: 0 0 0 1em">
-		<input type="file" size="40" name="result_files"/>
+		    <input type="file" size="40" name="result_files"/>
 		</td>
 		<td align="right">
-		<input type="submit" value="Upload">
+		    <input type="submit" value="Upload">
 		</td>
 	</tr>
 </table>
