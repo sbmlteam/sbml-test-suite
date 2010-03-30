@@ -22,7 +22,7 @@ and the rateRule determines the rate at which p2 is varying:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | C       | $p1 * p2$  |
- | Rate       | p2      | $0.1       |]
+ | Rate       | p2      | $0.1$       |]
 
 In this case, the initial value is not declared for compartment
 C and must be calculated by the assignmentRule.  Note that
