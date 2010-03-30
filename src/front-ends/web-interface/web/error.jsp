@@ -96,6 +96,11 @@ final class InternalUtility
         text += "Servlet path: " + r.getServletPath() + "\n";
         text += "Method: " + r.getMethod() + "\n";
 
+	text += "\n";
+
+	text += "errorCode: " + r.getAttribute("errorCode") + "\n";
+	text += "errorCode full: " + r.getAttribute("javax.servlet.error.errorCode") + "\n";
+
         return "Session data: \n" +  text;
     }
 
@@ -110,6 +115,8 @@ final class InternalUtility
 %>
 
 <%
+String baseURL = "http://sbml.org:8080/test_suite/web/";
+
 // If the request environment has the attribute "userError" set, it means
 // the error we're dealing with is something that is the user's fault.
 // The attribute will be set by whatever calls this JSP page (usually a
@@ -117,7 +124,7 @@ final class InternalUtility
 // that we use below as the basis of branching to an explanation.
 
 String errorCode     = (String) request.getAttribute("errorCode");
-String errorMessage  = (String) request.getAttribute("errorMessage");
+String errorDetails  = (String) request.getAttribute("errorDetails");
 
 // Additional data we're going to need eventually.
 
@@ -144,14 +151,16 @@ if (errorCode != null)
 %>
 
 <p>
-We're sorry, but the Online SBML Test Suite encountered a problem.
+We're sorry, but the Online SBML Test Suite has encountered a problem.
 <%
-    if (errorCode.equals("bad file names"))
+    if (errorCode.equals("Empty archive"))
     {
 %>
-<font color="darkred">the result files in the archive do not have the
-correct file name pattern.</font> Please name the CSV files such that they
-<i>end</i> with case numbers.  For example, the files could be named like
+<font color="darkred">The system has been unable to extract any CSV data 
+files from the uploaded zip archive.</font>  Please check that the archive
+you are uploading is a zip archive, and that it contains at least one CSV
+file.  Please also make sure to name each CSV file such that it contains a
+five digit case number.  For example, the files could be named like
 this:
 
 <p>
@@ -180,6 +189,60 @@ For more information, please consult the
 page of instructions</a> for running the Online SBML Test Suite.
 
 <center style="margin: 1em">
+  <a href="<%=baseURL%>uploadresults.jsp">
+    <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
+    Return to the test results upload page.
+  </a>
+</center>
+
+<%
+    }
+    else if (errorCode.equals("Bad file names"))
+    {
+%>
+<font color="darkred">The files in the archive do not have the correct file
+name pattern.</font> For example, one of the files in the archive has the
+name <font color="darkred">"<%=errorDetails%>"</font>.  Please name the CSV
+files such that they each contain a five-digit case number.  For example,
+the files could be named like this:
+
+<p>
+<dl><dd> <code>myresults00001.csv</code>
+</dd><dd> <code>myresults00002.csv</code>
+</dd><dd> <code>myresults00003.csv</code>
+</dd><dd> <code>myresults00004.csv</code>
+</dd><dd> &hellip;
+</dd><dd> <code>myresultsNNNNN.csv</code>
+</dd></dl>
+
+or like this:
+
+<p>
+<dl><dd> <code>00001-results.csv</code>
+</dd><dd> <code>00002-results.csv</code>
+</dd><dd> <code>00003-results.csv</code>
+</dd><dd> <code>00004-results.csv</code>
+</dd><dd> &hellip;
+</dd><dd> <code>NNNNN-results.csv</code>
+</dd></dl>
+
+<p>
+They could even be simply named after the case numbers, without any prefix:
+<p>
+<dl><dd> <code>00001.csv</code>
+</dd><dd> <code>00002.csv</code>
+</dd><dd> <code>00003.csv</code>
+</dd><dd> <code>00004.csv</code>
+</dd><dd> &hellip;
+</dd><dd> <code>NNNNN.csv</code>
+</dd></dl>
+
+<p>
+For more information, please consult the
+<a href="http://sbml.org/Software/SBML_Test_Suite/Instructions_for_running_the_tests#Gathering_the_results_of_many_tests_for_uploading_to_the_Online_SBML_Test_Suite">
+page of instructions</a> for running the Online SBML Test Suite.
+
+<center style="margin: 1em">
 <a href="http://sbml.org:8080/test_suite/web/uploadresults.jsp">
   <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
   Return to the upload page. 
@@ -188,9 +251,34 @@ page of instructions</a> for running the Online SBML Test Suite.
 
 <%
     }
-    else if (errorCode.equals("unrecognized files"))
+    else if (errorCode.equals("Empty archive"))
     {
+%>
+<font color="darkred">The archive file uploaded to the server is
+either empty, or else its content is not interpretable by this
+system.</font>  Please check that the file is a normal zip
+archive and that it contains at least one data results file.
 
+<p>
+For more information, please consult the
+<a href="http://sbml.org/Software/SBML_Test_Suite/Instructions_for_running_the_tests#Gathering_the_results_of_many_tests_for_uploading_to_the_Online_SBML_Test_Suite">
+page of instructions</a> for running the Online SBML Test Suite.
+
+<center style="margin: 1em">
+<a href="http://sbml.org:8080/test_suite/web/uploadresults.jsp">
+  <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
+  Return to the upload page. 
+</a>
+</center>
+
+<%
+    }
+    else if (errorCode.equals("Bad upload"))
+    {
+%>
+<font color="darkred">Something went wrong during the uploading process.</font>
+Please report this to <a href="mailto:sbml-team@caltech.edu">sbml-team@caltech.edu</a>.
+<%
     }
 }
 else  // It's not a user error, it's an internal error.
@@ -221,18 +309,12 @@ else  // It's not a user error, it's an internal error.
                       + "&body=" + body;
 %>
 
-<div id='pagetitle'><h1 class='pagetitle'><font color="darkred">
-SBML Test Suite error</font></h1></div><!-- id='pagetitle' -->
-<div style="float: right; margin-top: 0; padding: 0 0 0 5px">
-  <img src="http://sbml.org/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
-</div>
-
-<p> We're very sorry, but the Online SBML Test Suite encountered an error.
-Would you please contact us and let us know what lead up to this?  Simply
-clicking the button below will invoke your mail program with pre-filled
-data.  Before sending the message, if you could please <b>add an
-explanation about what happened</b>, it will help us understand the
-circustances better. </p>
+<p> We're so sorry; the Online SBML Test Suite encountered an error.  Would
+you please let us know what lead to this?  Clicking the button below will
+invoke your mail program with pre-filled data.  Before sending the message,
+if you could please <b>add an explanation about what you did immediately
+prior to this event</b>, it will help us understand the circumstances. (But
+even if you don't write anything, just sending us the email will help.)</p>
 
 <center style="margin: 1.5em auto 2em auto">
 <a href="<%=mailto%>">
