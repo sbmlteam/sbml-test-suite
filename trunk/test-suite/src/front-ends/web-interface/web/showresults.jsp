@@ -26,7 +26,8 @@
 <%@ page import="java.text.*" %>
 <%@ page import="java.lang.*" %>
 <%@ page import="java.io.*" %>
-<%@ page import="sbml.test.TestResultDetails" %>
+<%@ page import="sbml.test.UserTestCase" %>
+<%@ page import="sbml.test.UserTestResult" %>
 <%@ page import="sbml.test.CasesTagsMap" %>
 
 <%@ page errorPage="/web/error.jsp" %>
@@ -77,106 +78,80 @@ in a new window.  </p>
 
 <%
 //
-// First, find out how many total test cases there exist.
+// 1. Extract the results passed to us by UploadUnzipText.  The result vector
+// will have an entry for every possible test case, in order, plus an unused
+// entry at position 0 (because there's no case numbered 00000).  If the user's
+// uploaded results didn't include a result for a particular case, the
+// corresponding entry in the vector will be null.
 //
 
-// FIXME: try to cache cases tags map
+Vector<UserTestResult> results
+    = (Vector<UserTestResult>) request.getAttribute("testResults");
 
-File casesRootDir    = new File(getServletContext().getRealPath("/test-cases"));
-CasesTagsMap caseMap = new CasesTagsMap(casesRootDir);
-int highestNumber    = caseMap.getHighestCaseNumber();
+int highestCaseNumber = results.size() - 1;
 
 //
-// Loop through the entire set of possible case numbers, and
-// if it's a case in the set uploaded by the user, get the results.
+// 2. Produce a summary map of the results, with pointers to the details.
+// Along the way, compute some general statistics about the results.
 //
-
-Vector results          = (Vector) request.getAttribute("tests");
-Vector<String> failures = new Vector<String>();
-Vector<String> problems = new Vector<String>();
 
 Map<String, Integer> tmap = new HashMap<String, Integer>();
 Map<String, Integer> cmap = new HashMap<String, Integer>();
 
+int countMissing  = 0;
 int countFailed   = 0;
 int countPassed   = 0;
 int countProblems = 0;
-int countMissing  = 0;
-int totalpoints   = 0;
 
 DecimalFormat caseNumFormatter = new DecimalFormat("00000");
 
-// To make the iteration easier, we make a vector of objects which are
-// indexed by case numbers.  If the user's uploaded set doesn't include
-// a particular case result, the corresponding entry in the vector is null.
+// If a particular case result is missing from the user's uploaded set, the
+// corresponding entry in the vector will be null.  Consequently, it's
+// easier to loop over the vector using index numbers.
 
-Vector cases = new Vector();
-cases.setSize(highestNumber + 1);       // +1 because of the unused 0th elem.
-
-for (int i = 0; i < results.size(); i++)
+for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
 {
-    TestResultDetails test = (TestResultDetails) results.elementAt(i);
-    cases.insertElementAt(test, Integer.parseInt(test.getTestname()));
-}
+    UserTestResult thisResult = results.get(caseNum);
+    String name = caseNumFormatter.format(caseNum);
+    String color;
 
-// Now go to it.
+    out.print("<td>");
+    out.print("<a title=\"Test case " + name + "\" "
+              + "href=\"" + baseURL + "testdetails.jsp?testname=" + name
+              + "\" target=\"_blank\">");
 
-for (int caseNum = 1; caseNum <= highestNumber; caseNum++)
-{
-    if (cases.get(caseNum) != null)
+    if (thisResult != null)
     {
-        TestResultDetails test = (TestResultDetails) cases.get(caseNum);
-        int result = test.getResult();
-        String name = test.getTestname();
-        String warnings = test.getWarnings();
-        totalpoints = test.getTotalpoints();
-	
-        out.print("<td>");
-        out.print("<a title=\"Test case " + name + "\" "
-                  + " href=\"" + baseURL + "testdetails.jsp?testname=" + name
-                  + "&result=" + result + "&warnings=" + warnings
-                  + "&tpoints=" + totalpoints +"\" target=\"_blank\">");
+        UserTestCase theCase = thisResult.getUserTestCase();
 
-        switch (result)
+        if (thisResult.hasError())
         {
-        case 0:
-            out.print("<img src=\"" + baseURL + "images/green.jpg\"/>");
-            countPassed++;
-            break;
-
-        case -1:
-            out.print("<img src=\"" + baseURL + "images/black.jpg\"/>");
             countProblems++;
-            problems.addElement(name + "?" + warnings);
-            break;
-
-        default:                        // result > 0 is count of failed points
-	    for (String tag : (Vector<String>) test.getTtags())
-            {
-		tmap.put(tag, (tmap.containsKey(tag) ? tmap.get(tag) + 1 : 1));
-            }
-	    for (String tag : (Vector<String>) test.getCtags())
-            {
-		cmap.put(tag, (cmap.containsKey(tag) ? cmap.get(tag) + 1 : 1));
-            }
-            out.print("<img src=\"" + baseURL + "images/red.jpg\"/>");
+            color = "black";
+        }
+        else if (thisResult.getNumDifferences() > 0)
+        {
             countFailed++;
-            failures.addElement(name + "?" + result + "?" + totalpoints);
-        }	
-
-        out.print("</a>");
-        out.print("</td>");
-
+	    for (String tag : (Vector<String>) theCase.getTestTags())
+		tmap.put(tag, (tmap.containsKey(tag) ? tmap.get(tag) + 1 : 1));
+	    for (String tag : (Vector<String>) theCase.getComponentTags())
+		cmap.put(tag, (cmap.containsKey(tag) ? cmap.get(tag) + 1 : 1));
+            color = "red";
+        }
+        else
+        {
+            countPassed++;
+            color = "green";
+        }
     }
     else // There wasn't a returned case with this index number.
     {
-        String caseName = caseNumFormatter.format(caseNum);
-        out.println("<td><a title=\"Test case " + caseName + "\" "
-                    + "href=\"" + baseURL + "testdetails.jsp?testname="
-                    + caseName + "\" " + "target=\"_blank\">" 
-                    + "<img src=\"" + baseURL + "images/gray.jpg\"/></a></td>");
+        color = "gray";
         countMissing++;
     }
+    out.print("<img src=\"" + baseURL + "images/" + color + ".jpg\"/>");
+    out.print("</a>");
+    out.print("</td>");
 
     if (caseNum % 45 == 0)              // Start a new row in the HTML table.
     {
@@ -186,46 +161,50 @@ for (int caseNum = 1; caseNum <= highestNumber; caseNum++)
 
 } // end of for loop
 
+//
+// 3. Follow this with a text summary of the results.  (In HTML, below.)
+//
 %>	
+
 </tr>
 </table> 
 
 <p style="margin-top: 2em">
-    Total number of test cases analyzed: <b><%=results.size()%></b>
+Total number of test cases analyzed: <b><%=highestCaseNumber%></b>
 </p>
 <p>
-    <img src="<%=baseURL%>images/green.jpg" valign="top"/>
-    Number of test cases <b><font color="green">passed</font></b>: <%= countPassed %><br>
+<img src="<%=baseURL%>images/green.jpg" valign="top"/>
+Number of test cases <b><font color="green">passed</font></b>: <%= countPassed %><br>
 
-    <img src="<%=baseURL%>images/red.jpg" valign="top"/>
-    Number of test cases <b><font color="darkred">failed</font></b>: <%= countFailed %><br>
+<img src="<%=baseURL%>images/red.jpg" valign="top"/>
+Number of test cases <b><font color="darkred">failed</font></b>: <%= countFailed %><br>
 
-    <img src="<%=baseURL%>images/black.jpg" valign="top"/>
-    Number of test cases with <b><font color="black">problems</font></b>: <%= countProblems %><br>
+<img src="<%=baseURL%>images/black.jpg" valign="top"/>
+Number of test cases with <b><font color="black">problems</font></b>: <%= countProblems %><br>
 
-    <img src="<%=baseURL%>images/gray.jpg" valign="top"/>
-    Number of test cases <b><font color="gray">missing</font></b> from the uploaded results: <%= countMissing %><br>
+<img src="<%=baseURL%>images/gray.jpg" valign="top"/>
+Number of test cases <b><font color="gray">not included</font></b> in the uploaded results: <%= countMissing %><br>
 
 <%
 if (countFailed > 0)
 {
 %>	
-<br>
-<p>
-The following is a list of the component and test tags present in the cases
-that failed.  Each tag name is listed with the number of cases that contained
-that tag.  A pattern in this set may help you identify the problem(s) causing
-the test failures.
-</p>
-
-<table class="borderless-table alt-row-colors sm-padding" 
-       align="center" width="60%" 
-       style="border-top: 1px solid #bbb; border-bottom: 1px solid #bbb">
-  <tr>
-    <th valign="bottom">Test tag</th>
-    <th width="150px" valign="bottom">Number of failed<br>cases with this tag</th>
-  </tr>
-
+    <br>
+    <p>
+    The following is a list of the component and test tags present in the cases
+    that failed.  Each tag name is listed with the number of cases that contained
+    that tag.  A pattern in this set may help you identify the problem(s) causing
+    the test failures.
+    </p>
+    
+    <table class="borderless-table alt-row-colors sm-padding" 
+           align="center" width="60%" 
+           style="border-top: 1px solid #bbb; border-bottom: 1px solid #bbb">
+      <tr>
+        <th valign="bottom">Test tag</th>
+        <th width="150px" valign="bottom">Number of failed<br>cases with this tag</th>
+      </tr>
+    
 <%
     for (String key : (Set<String>) tmap.keySet())
         out.println("<tr><td>" + key + "</td><td>" + tmap.get(key) + "</td></tr>");
@@ -245,21 +224,22 @@ the test failures.
 
 </table>
 
+
 <%
-// Store various parts of the results into the session variable
-// so that report.jsp can pull them out.
+// Store various parts of the results into the session variable so that
+// testdetails.jsp and report.jsp can pull them out.
 
-String[] totals = new String[4];
-totals[0]       = (String.valueOf(countPassed));
-totals[1]       = (String.valueOf(countFailed));
-totals[2]       = (String.valueOf(countProblems));
-totals[3]       = (String.valueOf(countMissing));
+session.setAttribute("testResults"  , results);
+session.setAttribute("countPassed"  , countPassed);
+session.setAttribute("countFailed"  , countFailed);
+session.setAttribute("countProblems", countProblems);
+session.setAttribute("countMissing" , countMissing);
 
-session.setAttribute("totals"       , totals);
-session.setAttribute("failures"     , failures);
-session.setAttribute("problems"     , problems);
-session.setAttribute("timeOfRun"    , timeOfRun);
+File casesRootDir = new File(getServletContext().getRealPath("/test-cases"));
 session.setAttribute("casesRootDir" , casesRootDir);
+
+session.setAttribute("timeOfRun"    , timeOfRun);
+
 %>
 
 <br><br>
@@ -294,5 +274,7 @@ Test Suite.
     Return to the front page for the Online SBML Test Suite.
   </a>
 </center>
+
+
 
 <%@ include file="sbml-bottom.html"%>

@@ -28,161 +28,163 @@
 --%>
 
 <%@ page import="java.util.*" %>
-<%@ page import="java.util.regex.*" %>
-<%@ page import="java.awt.*" %>
 <%@ page import="java.lang.*" %>
 <%@ page import="java.io.*" %>
-<%@ page import="javax.servlet.*" %>
-<%@ page import="javax.servlet.http.*"%>
-<%@ page import="sbml.test.TestReference" %>
+<%@ page import="java.net.*" %>
+<%@ page import="java.math.*" %>
 
-<%@ page errorPage="/web/error.jsp" %>
+<%@ page import="sbml.test.UserTestCase" %>
+<%@ page import="sbml.test.UserTestResult" %>
+<%@ page import="sbml.test.TestReference" %>
+<%@ page import="sbml.test.CasesTagsMap" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 
 <%@ include file="sbml-head.html"%>
 <%@ include file="sbml-top.html"%>
 
 <%
-    String[] totals         = (String[]) session.getAttribute("totals");
-    Vector<String> failures = (Vector<String>) session.getAttribute("failures");
-    Vector<String> problems = (Vector<String>) session.getAttribute("problems");
-    String timeOfRun        = (String) session.getAttribute("timeOfRun");
-    File casesRootDir       = (File) session.getAttribute("casesRootDir");
+String baseURL    = "http://sbml.org:8080/test_suite/web/";
+
+int countPassed   = ((Integer) session.getAttribute("countPassed")).intValue();
+int countFailed   = ((Integer) session.getAttribute("countFailed")).intValue();
+int countProblems = ((Integer) session.getAttribute("countProblems")).intValue();
+int countMissing  = ((Integer) session.getAttribute("countMissing")).intValue();
+
+String timeOfRun  = (String) session.getAttribute("timeOfRun");
+File casesRootDir = (File) session.getAttribute("casesRootDir");
     
-    Iterator it;
+Vector<UserTestResult> results
+    = (Vector<UserTestResult>) session.getAttribute("testResults");
+
+int highestCaseNumber = results.size() - 1;
 %>
 
-<h2>Online SBML Test Suite test report</h2>
-<b>Date and time: <%= timeOfRun.toCharArray() %></b>
-
-<h3 style="width: 100%; border-bottom: 1px solid #ddd">
-Test result summary</h3>
-
-<p>
-Number of <font color="green">passed</font> cases: <%=totals[0]%><br>
-Number of <font color="darkred">failed</font> cases: <%=totals[1]%><br>
-Number of <font color="black">problem</font> cases: <%=totals[2]%><br>
-Number of <font color="gray">missing</font> cases: <%=totals[3]%><br>
-
-<h3 style="width: 100%; border-bottom: 1px solid #ddd">
-Details of failed cases</h3>
-
-<%
-    it = failures.iterator(); 
-    if (! it.hasNext())
-    {
-%>
-
-There were no failures.
-
-<%
-    }
-    else
-    {
-%>
-<p>
-The following table lists the cases in your uploaded archive that
-failed to match the reference results.  Clicking on the case number
-will bring up a separate page providing the details of that particular
-test case.
-
-<table class="borderless-table sm-padding alt-row-colors"
-       style="margin-top: 1.5em; border-bottom: 1px solid #999"
-       width="90%" align="center">
-<tr style="border-top: 1px solid #999; border-bottom: 1px solid #bbb">
-    <th valign="bottom" width="60px">Case #</th>
-    <th valign="bottom">Synopsis of what is being tested</th>
-    <th valign="bottom" width="100px">Total failed data points</th>
-    <th valign="bottom" width="100px">Total data points in test</th>
-</tr>
-
-<%
-        while (it.hasNext())
-        {
-            String failed      = (String) it.next();
-            String[] field     = failed.split("\\?");
-            String caseName    = field[0];
-            String result      = field[1];
-            String totalpoints = field[2];
-        
-            TestReference ref = new TestReference(casesRootDir, caseName);
-        
-            String args = "&testname=" + caseName + "&result=" + result
-                           + "&tpoints=" + totalpoints;
+    <h2>Online SBML Test Suite test report</h2>
+    <b>Date and time: <%= timeOfRun.toCharArray() %></b>
     
-%>		
+    <h3 style="width: 100%; border-bottom: 1px solid #ddd; margin-top: 2em">
+    Test result summary</h3>
+    
+    <p>
+    Total number of files in the uploaded archive: 
+    <%= countPassed + countFailed + countProblems %>
+    
+    <p>
+    Number of <font color="green">passed</font> cases: <%=countPassed%><br>
+    Number of <font color="darkred">failed</font> cases: <%=countFailed%><br>
+    Number of <font color="black">problem</font> cases: <%=countProblems%><br>
+    Number of <font color="gray">missing</font> cases: <%=countMissing%><br>
+    
+<%
+if (countFailed == 0 && countProblems == 0)
+{
+%>
+    <p> <font color="green"><b>All uploaded test cases passed</b></font>
+<%
+}
 
-    <tr>
-    <td valign="top" style="padding: 2px">
-        <a title="Test case <%=caseName%>"
-            href="http://sbml.org:8080/test_suite/web/testdetails.jsp?<%=args%>"
-            target="_blank"><%= caseName %>
-    </td>
-    <td valign="top" style="padding: 2px 2em 2px 2px"><%= ref.getSynopsis()%></td>
-    <td valign="top" style="padding: 2px"><%= result %></td>
-    <td valign="top" style="padding: 2px"><%= totalpoints%></td>
+if (countFailed > 0)
+{
+%>
+    <h3 style="width: 100%; border-bottom: 1px solid #ddd; margin-top: 2em">
+    Details of failed cases (total: <%=countFailed%>)</h3>
+
+    <p>
+    The following table lists the cases in your uploaded archive that
+    failed to match the reference results.  Clicking on the case number
+    will bring up a separate page providing the details of that particular
+    test case.
+    
+    <table class="borderless-table sm-padding alt-row-colors"
+           style="margin-top: 1.5em; border-bottom: 1px solid #999"
+           width="90%" align="center">
+    <tr style="border-top: 1px solid #999; border-bottom: 1px solid #bbb">
+        <th valign="bottom" width="60px">Case #</th>
+        <th valign="bottom">Synopsis of what is being tested</th>
+        <th valign="bottom" width="100px">Total failed data points</th>
+        <th valign="bottom" width="100px">Total data points in test</th>
     </tr>
-
+    
 <%
+    // If a particular case result is missing from the user's uploaded set, the
+    // corresponding entry in the vector will be null.  Consequently, it's
+    // easier to loop over the vector using index numbers.
+    
+    for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
+    {
+        UserTestResult thisResult = results.get(caseNum);
+        if (thisResult != null && thisResult.getNumDifferences() > 0)
+        {
+            UserTestCase theCase = thisResult.getUserTestCase();
+            String name          = theCase.getCaseName();
+            int numRows          = theCase.getTestNumRows();
+            int numVars          = theCase.getTestNumVars();
+            int points           = numRows * numVars;
+    %>
+        <tr>
+        <td valign="top" style="padding: 2px">
+            <a title="Test case <%=name%>"
+                href="<%=baseURL%>/testdetails.jsp?testname=<%=name%>"
+                target="_blank"><%= name %>
+        </td>
+        <td valign="top" style="padding: 2px 2em 2px 2px"><%= theCase.getSynopsis()%></td>
+        <td valign="top" style="padding: 2px"><font color="darkred"><%= thisResult.getNumDifferences() %></font></td>
+        <td valign="top" style="padding: 2px"><%= points%></td>
+        </tr>
+    
+    <%
         }
     }
 %>
-
-</table>
-
-<h3 style="width: 100%; border-bottom: 1px solid #ddd; margin-top: 2em">
-Details of problem cases</h3>
-
+    </table>
 <%
-    it = problems.iterator(); 
-    if (! it.hasNext())
-    {
+}
+
+if (countProblems > 0)
+{
 %>
+    <h3 style="width: 100%; border-bottom: 1px solid #ddd; margin-top: 2em">
+    Details of problem cases (total: <%=countProblems%>)</h3>
 
-No cases had problems.
-
-<%
-    }
-    else
-    {
-%>
-
-<p> The following table lists the cases in your uploaded archive that were
-not tested because of problems encountered.  (Unfortunately, the problems
-listed here many not always be the true root cause, because some problems
-can cause a ripple effect that results in a different error being raised
-rather than the true underlying error.)
-
-<table class="borderless-table sm-padding alt-row-colors"
-       style="margin-top: 1.5em; border-bottom: 1px solid #999; margin-bottom: 2em"
-       width="90%" align="center">
-<tr style="border-top: 1px solid #999; border-bottom: 1px solid #bbb">
-    <th valign="bottom" width="60px">Case #</th>
-    <th valign="bottom" width="45%">Synopsis of what is being tested</th>
-    <th valign="bottom" width="45%">Reason for skipping case</th>
-</tr>
-
-<%
-        it = problems.iterator(); 
-        while (it.hasNext())
-        {
-            String failed = (String) it.next();
-            String[] field = failed.split("\\?");
-            String caseName = field[0];
-        
-            TestReference ref = new TestReference(casesRootDir, caseName);
-%>		
-
-    <tr>
-    <td valign="top" style="padding: 2px"><%= caseName %></td>
-    <td valign="top" style="padding: 2px 2em 2px 2px"><%= ref.getSynopsis()%></td>
-    <td valign="top" style="padding: 2px"><%= field[1] %></td>
+    <p> The following table lists the cases in your uploaded archive that were
+    not tested because of problems encountered.  (Unfortunately, the problems
+    listed here many not always be the true root cause, because some problems
+    can cause a ripple effect that results in a different error being raised
+    rather than the true underlying error.)
+    
+    <table class="borderless-table sm-padding alt-row-colors"
+           style="margin-top: 1.5em; border-bottom: 1px solid #999; margin-bottom: 2em"
+           width="90%" align="center">
+    <tr style="border-top: 1px solid #999; border-bottom: 1px solid #bbb">
+        <th valign="bottom" width="60px">Case #</th>
+        <th valign="bottom" width="45%">Synopsis of what is being tested</th>
+        <th valign="bottom" width="45%">Reason for skipping case</th>
     </tr>
 
 <%
-        }
-    }
+    // If a particular case result is missing from the user's uploaded set, the
+    // corresponding entry in the vector will be null.  Consequently, it's
+    // easier to loop over the vector using index numbers.
+    
+    for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
+    {
+        UserTestResult thisResult = results.get(caseNum);
+        if (thisResult != null && thisResult.hasError())
+        {
+            UserTestCase theCase = thisResult.getUserTestCase();
+            String name          = theCase.getCaseName();
 %>
-
+    <tr>
+    <td valign="top" style="padding: 2px"><%= name %></td>
+    <td valign="top" style="padding: 2px 2em 2px 2px"><%= theCase.getSynopsis()%></td>
+    <td valign="top" style="padding: 2px"><font color="darkred"><%= thisResult.getErrorMessage() %></font></td>
+    </tr>
+<%
+         }
+    }
+}
+%>
 </table>
 
 <%@ include file="sbml-bottom.html"%>
