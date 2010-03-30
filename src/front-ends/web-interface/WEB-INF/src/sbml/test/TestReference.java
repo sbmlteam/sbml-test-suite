@@ -24,84 +24,221 @@
 
 package sbml.test;
 
-import java.io.*;
-import java.util.*;
 import java.applet.*;
+import java.io.*;
+import java.math.*;
+import java.util.*;
+import java.util.regex.*;
 
-public final class TestReference
+
+public class TestReference
+    implements Comparable<TestReference>
 {
     // 
     // --------------------------- Public methods ----------------------------- 
     // 
 
-    public TestReference(File testDir, String caseName)
+    public TestReference(File testSuiteCasesDir, String caseName)
         throws IOException, Exception
     {
-        if (testDir == null)
-            throw new IOException("Null parameter testDir");
+        if (testSuiteCasesDir == null)
+            throw new IOException("Null parameter 'testSuiteCasesDir'");
 
         if (caseName == null)
-            throw new IOException("Null parameter caseName");
+            throw new IOException("Null parameter 'caseName'");
 
-        this.caseName = caseName;
-        this.testDir = testDir;
+        this.caseName          = caseName;
+        this.caseNum           = Integer.parseInt(caseName);
+        this.testSuiteCasesDir = testSuiteCasesDir;
+
+        generateFileNames();
         parseMFile();
+        parseSettingsFile();
+
+        // Note we deliberately don't parse the data file.  Leave that
+        // to when it's actually needed.
     }
 
-    public TestReference(String testDir, String caseName)
+    public TestReference(String testSuiteCasesDir, String caseName)
         throws IOException, Exception
     {
-        this(new File(testDir), caseName);
+        this(new File(testSuiteCasesDir), caseName);
     }
 
-    public String getCaseName()        { return caseName; }
-    public String getSynopsis()        { return synopsis; }
-    public String getTestType()        { return testType; }
-    public String getCategory()        { return category; }
+    public String getCaseName()                { return caseName; }
+    public int    getCaseNum()                 { return caseNum; }
+    public String getSynopsis()                { return synopsis; }
+    public String getTestType()                { return testType; }
+    public String getCategory()                { return category; }
 
-    public File   getMFile()           { return mFile; }
-    public String getMFileName()       { return mFileName; }
+    public File   getMFile()                   { return mFile; }
+    public String getMFileName()               { return mFileName; }
 
-    public File   getPlotFile()        { return plotFile; }
-    public String getPlotFileName()    { return plotFileName; }
+    public File   getPlotFile()                { return plotFile; }
+    public String getPlotFileName()            { return plotFileName; }
 
-    public File   getHTMLFile()        { return htmlFile; }
-    public String getHTMLFileName()    { return htmlFileName; }
+    public File   getHTMLFile()                { return htmlFile; }
+    public String getHTMLFileName()            { return htmlFileName; }
 
-    public File   getResultsFile()     { return resultsFile; }
-    public String getResultsFileName() { return resultsFileName; }
+    public File   getSettingsFile()            { return settingsFile; }
+    public String getSettingsFileName()        { return settingsFileName; }
 
-    public Vector<String> getLevels()        { return levels; }
-    public Vector<String> getComponentTags() { return ctags; }
-    public Vector<String> getTestTags()      { return ttags; }
+    public File   getExpectedDataFile()        { return expectedDataFile; }
+    public String getExpectedDataFileName()    { return expectedDataFileName; }
 
-    public String getComponentTagsAsString() { return stringify(ctags); }
-    public String getTestTagsAsString()      { return stringify(ttags); }
+    public Vector<String> getLevels()          { return levels; }
+    public Vector<String> getComponentTags()   { return ctags; }
+    public Vector<String> getTestTags()        { return ttags; }
 
-    public boolean hasLevel(String level)    { return levels.contains(level); }
-    public boolean hasComponentTag(String t) { return ctags.contains(t); }
-    public boolean hasTestTag(String t)      { return ttags.contains(t); }
-    public boolean hasTestType(String t)     { return testType.equals(t); }
+    public String getComponentTagsAsString()   { return stringify(ctags); }
+    public String getTestTagsAsString()        { return stringify(ttags); }
+
+    public boolean hasLevel(String l)          { return levels.contains(l); }
+    public boolean hasComponentTag(String t)   { return ctags.contains(t); }
+    public boolean hasTestTag(String t)        { return ttags.contains(t); }
+    public boolean hasTestType(String t)       { return testType.equals(t); }
+
+    public double         getTestStart()       { return testStart; }
+    public double         getTestDuration()    { return testDuration; }
+    public int            getTestNumRows()     { return testNumRows; }
+    public int            getTestNumVars()     { return testVars.size(); }
+    public BigDecimal     getTestRelativeTol() { return testRelativeTol; }
+    public BigDecimal     getTestAbsoluteTol() { return testAbsoluteTol; }
+    public Vector<String> getTestVars()        { return testVars; }
+    public Vector<String> getTestAmountVars()  { return testAmountVars; }
+    public Vector<String> getTestConcentrationVars() { return testConcentVars;}
+
+    /**
+     * Parse the expected results CSV file and return it as a 2-D array.
+     */
+    public BigDecimal[][] getExpectedData()
+        throws Exception
+    {
+        if (expectedData == null)
+            expectedData = parseDataFile(expectedDataFile,
+                                         getTestNumRows(), getTestNumVars());
+        return expectedData;
+    }
+    
+    /**
+     * Returns a negative integer, zero, or a positive integer depending
+     * on whether the given other case number is less than, equal or greater
+     * that this one.
+     */
+    public int compareTo(TestReference other)
+    {
+        return caseNum - other.getCaseNum();
+    }
+
+    // 
+    // -------------------------- Protected methods ---------------------------
+    // 
+
+    /**
+     * This is used by subclasses (like for user results) to parse
+     * other results data files.
+     */
+    protected BigDecimal[][] parseDataFile(File f, int numRows, int numVars)
+        throws Exception
+    {
+        String fileName    = f.getName();
+        Scanner fileReader = new Scanner(f);
+
+        if (! fileReader.hasNext())
+            throw new Exception("Data file " + fileName + " is empty");
+
+        // The first column gives the time step.  It's not counted in
+        // numVars, hence the + 1 below.
+
+        BigDecimal[][] data   = new BigDecimal[numRows][numVars + 1];
+        Pattern ignorePattern = Pattern.compile("^#.*|^\\s*$");
+        Pattern numberPattern = Pattern.compile("\\s*\\d+");
+
+        // Don't count element 0, the time point, as a variable.
+
+        int expected = numVars + 1;
+
+        // We ignore a header line, comments and blank lines; thus, the
+        // line number in the file will not equal the row number in the
+        // data array, but to report errors, we need to track the file
+        // line (and we also count it from 1 instead of 0).
+
+        int dataRow = 0;
+        int fileRow = 1;
+        do
+        {
+            String line = fileReader.nextLine();
+
+            if (ignorePattern.matcher(line).matches())
+            {
+                fileRow++;
+                continue;               // Skip blank lines and comment lines.
+            }
+
+            if (numberPattern.matcher(line).lookingAt())
+            {
+                String[] items = line.split(",");
+                int found = items.length;
+
+                if (found != expected)
+                    throw new Exception("Too "
+                                        + (found > expected ? "many" : "few")
+                                        + " data points in row " + fileRow
+                                        + " of " + fileName + ": expected "
+                                        + expected + " but read " + found);
+
+                for (int col = 0; col < expected; col++)
+                    data[dataRow][col] = new BigDecimal(items[col].trim());
+
+                dataRow++;
+                fileRow++;
+            }
+            else if (fileRow > 1)
+            {
+                throw new Exception("Unexpected content in " + fileName
+                                    + " at line " + fileRow + ": " + line);
+            }
+        } while (fileReader.hasNext() && dataRow < numRows);
+
+        // Check that we read the expected number of data rows:
+
+        if (dataRow < numRows)
+            throw new Exception("Too few data rows in file " + fileName
+                                + ": expected " + numRows
+                                + " but read only " + dataRow);
+        else if (fileReader.hasNextBigDecimal())
+            throw new Exception("Too many rows in file " + fileName
+                                + ": expected only " + numRows);
+
+        fileReader.close();
+        return data;
+    }
 
     // 
     // --------------------------- Private methods ----------------------------
     // 
 
+    private void generateFileNames()
+    {
+        String basePart = testSuiteCasesDir + File.separator
+            + caseName + File.separator;
+
+        mFileName            = caseName + "-model.m";
+        htmlFileName         = caseName + "-model.html";
+        plotFileName         = caseName + "-plot.jpg";
+        expectedDataFileName = caseName + "-results.csv";
+        settingsFileName     = caseName + "-settings.txt";
+
+        mFile                = new File(basePart + mFileName);
+        htmlFile             = new File(basePart + htmlFileName);
+        plotFile             = new File(basePart + plotFileName);
+        expectedDataFile     = new File(basePart + expectedDataFileName);
+        settingsFile         = new File(basePart + settingsFileName);
+    }
+
     private void parseMFile()
         throws Exception
     {
-        String basePart = testDir + File.separator + caseName + File.separator;
-
-        mFileName       = caseName + "-model.m";
-        htmlFileName    = caseName + "-model.html";
-        plotFileName    = caseName + "-plot.jpg";
-        resultsFileName = caseName + "-results.csv";
-
-        mFile           = new File(basePart + mFileName);
-        htmlFile        = new File(basePart + htmlFileName);
-        plotFile        = new File(basePart + plotFileName);
-        resultsFile     = new File(basePart + resultsFileName);
-
         // Do some sanity checking.
 
         if (! mFile.exists())
@@ -112,7 +249,7 @@ public final class TestReference
 
         // Let's get ready to parse.
 
-        int left = 6;                 // Total # of fields we're looking for.
+        int left = 6;                   // Total # of fields we're looking for.
         Scanner fileReader = new Scanner(mFile);
 
         // We use 2 scanner objects.
@@ -126,12 +263,12 @@ public final class TestReference
             if (! line.hasNext()) continue; // Skip blank lines.
 
             String t = line.next();
-            if      (t.equals("levels:"))        { levels   = readTags(line);  left--; }
-            else if (t.equals("testType:"))      { testType = line.next();     left--; }
-            else if (t.equals("category:"))      { category = line.next();     left--; }
-            else if (t.equals("componentTags:")) { ctags    = readTags(line);  left--; }
-            else if (t.equals("testTags:"))      { ttags    = readTags(line);  left--; }
-            else if (t.equals("synopsis:"))
+            if      (t.equalsIgnoreCase("levels:"))        { levels   = readTokens(line); left--; }
+            else if (t.equalsIgnoreCase("testType:"))      { testType = line.next();      left--; }
+            else if (t.equalsIgnoreCase("category:"))      { category = line.next();      left--; }
+            else if (t.equalsIgnoreCase("componentTags:")) { ctags    = readTokens(line); left--; }
+            else if (t.equalsIgnoreCase("testTags:"))      { ttags    = readTokens(line); left--; }
+            else if (t.equalsIgnoreCase("synopsis:"))
             {
                 synopsis = line.nextLine();
                 left--;
@@ -147,17 +284,76 @@ public final class TestReference
         }
 
         if (left > 0)
-            throw new Exception("Failed to read all expected fields in .m file: "
+            throw new Exception("Didn't find all fields expected in .m file: "
                                 + mFile.getPath());
     }
 
-    private Vector<String> readTags(Scanner line)
+    private void parseSettingsFile()
+        throws Exception
+    {
+        // Do some sanity checking.
+
+        if (! settingsFile.exists())
+            throw new Exception("Nonexistent settings file: "
+                                + settingsFile.getPath());
+
+        if (! settingsFile.canRead())
+            throw new Exception("Unreadable settings file: "
+                                + settingsFile.getPath());
+        
+        // Let's get ready to parse.
+
+        int left = 8;                   // Total # of fields we're looking for.
+        Scanner fileReader = new Scanner(settingsFile);
+
+        // We use 2 scanner objects.
+        // The outer one reads the file one line at a time.
+        // The inner one reads the tokens in the line.
+
+        while (fileReader.hasNext() && left > 0)
+        {
+            Scanner line = new Scanner(fileReader.nextLine());
+
+            if (! line.hasNext()) continue; // Skip blank lines.
+
+            // Note: the "number of steps" in our test cases, as given by
+            // the "steps: " line of the NNNNN-settings.txt file, excludes
+            // time 0, so the number of rows is +1.
+
+            String t = line.next();
+            if (t.equalsIgnoreCase("start:"))              testStart       = line.nextDouble();
+            else if (t.equalsIgnoreCase("duration:"))      testDuration    = line.nextDouble();
+            else if (t.equalsIgnoreCase("steps:"))         testNumRows     = line.nextInt() + 1;
+            else if (t.equalsIgnoreCase("relative:"))      testRelativeTol = line.nextBigDecimal();
+            else if (t.equalsIgnoreCase("absolute:"))      testAbsoluteTol = line.nextBigDecimal();
+            else if (t.equalsIgnoreCase("variables:"))     testVars        = readTokens(line);
+            else if (t.equalsIgnoreCase("amount:"))        testAmountVars  = readTokens(line);
+            else if (t.equalsIgnoreCase("concentration:")) testConcentVars = readTokens(line);
+            else
+            {
+                // There shouldn't be anything else in the file.
+                throw new Exception("Unexpected text found in settings file:"
+                                    + line.toString());
+            }
+
+            left--;
+        }
+
+        if (left > 0)
+            throw new Exception("Didn't find all fields expected in "
+                                + "settings file: " + settingsFile.getPath());
+    }
+
+    private Vector<String> readTokens(Scanner line)
     {
         Vector<String> tokens = new Vector<String>();
 
-        line.useDelimiter("\\s*,\\s*"); // Split at ", "
+        // We split at spaces or commas optionally surrounded by spaces.
+        line.useDelimiter("(\\s+|\\s*,)\\s*");
+
         while (line.hasNext())
             tokens.add(line.next());
+
         return tokens;
     }
 
@@ -172,13 +368,13 @@ public final class TestReference
         return s;
     }
 
-
     // 
     // -------------------------- Private variables --------------------------- 
     // 
 
-    private final String caseName;      // The test number as a string.
-    private final File testDir;         // Location of the cases directory.
+    private final int caseNum;            // The test number.
+    private final String caseName;        // The test number as a string.
+    private final File testSuiteCasesDir; // Location of the cases directory.
 
     private String category;
     private String synopsis;
@@ -187,12 +383,68 @@ public final class TestReference
     private Vector<String> ctags;
     private Vector<String> ttags;
     private File mFile;
-    private File plotFile;
-    private File htmlFile;
-    private File resultsFile;
     private String mFileName;
+    private File plotFile;
     private String plotFileName;
+    private File htmlFile;
     private String htmlFileName;
-    private String resultsFileName;
+    private File expectedDataFile;
+    private String expectedDataFileName;
+    private File settingsFile;
+    private String settingsFileName;
 
-}// end of class
+    private double testStart;
+    private double testDuration;
+    private BigDecimal testRelativeTol;
+    private BigDecimal testAbsoluteTol;
+    private int testNumRows;
+    private Vector<String> testVars;
+    private Vector<String> testAmountVars;
+    private Vector<String> testConcentVars;
+    private BigDecimal[][] expectedData;
+
+} // end of class
+
+
+/*
+  2010-03-29 My first version of parseDataFile used this code.
+  It took ~30ms to read a file.  The current code avoids the use of Scanner
+  methods like line.nextBigDecimal() and takes only 1 ms to read a file!
+
+        do
+        {
+            Scanner line = new Scanner(fileReader.nextLine());
+
+            if (! line.hasNext() || line.hasNext(commentLine))
+                continue;               // Skip blank lines and comment lines.
+
+            line.useDelimiter(numberDelimiter);
+            if (line.hasNextBigDecimal())
+            {
+                int currentCol = 0;
+                while (line.hasNextBigDecimal() && currentCol <= numVars)
+                    data[rowIndex][currentCol++] = line.nextBigDecimal();
+
+                if (line.hasNextBigDecimal())
+                    throw new Exception("Too many data elements in row "
+                                        + (rowIndex + 1) + " of " + f.getPath());
+
+                // FIXME check for not enough elements in row
+
+                rowIndex++;
+            }
+            else
+            {
+                // The line doesn't start with a BigDecimal.  If it's the
+                // first line, it might be a header, which we take to be a
+                // first line that doesn't start with a number.  Ignore it.
+
+                if (rowIndex == 0)
+                    continue;
+                else                    // Not a header, not a comment.
+                    throw new Exception("Unexpected content in data file "
+                                        + f.getPath() + ": " + line.toString());
+            }
+            line.close();
+        } while (fileReader.hasNext() && rowIndex < numRows);
+*/
