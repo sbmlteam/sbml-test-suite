@@ -77,7 +77,7 @@ public class UploadUnzipTest extends HttpServlet
         
         if (! ServletFileUpload.isMultipartContent(request))
         {
-            propagateError(SERVER_ERROR, "Didn't get multipart content");
+            propagateError(SERVER_ERROR, "Didn't get multipart content.");
             return;
         }
 
@@ -142,7 +142,7 @@ public class UploadUnzipTest extends HttpServlet
         catch (Exception e)
         {
             propagateError(SERVER_ERROR, "Encountered error trying to"
-                           + " read test suite data: ", e);
+                           + " read test suite data.", e);
             return null;
         }
 
@@ -167,7 +167,7 @@ public class UploadUnzipTest extends HttpServlet
             catch (Exception e)
             {
                 propagateError(SERVER_ERROR, "Unable to read reference data"
-                               + " for case " + name, e);
+                               + " for case " + name + ".", e);
                 return null;
             }
 
@@ -246,17 +246,19 @@ public class UploadUnzipTest extends HttpServlet
         // On sbml, the root of this directory ends up being
         // /usr/share/tomcat5/temp/testsuite/
 
-        File uploadDir = new File(System.getProperty("java.io.tmpdir", "/tmp"),
-                                  "testsuite" + File.separator
-                                  + String.valueOf(System.currentTimeMillis()));
+        File dir = new File(System.getProperty("java.io.tmpdir", "/tmp"),
+                            "testsuite" + File.separator
+                            + String.valueOf(System.currentTimeMillis()));
 
-        if (! uploadDir.mkdirs())
-            throw new ServletException("Cannot create " + uploadDir.getPath());
+        if (! dir.mkdirs())
+            throw new ServletException("Can't create directory "
+                                       + dir.getPath() + ".");
 
-        if (! uploadDir.canRead())
-            throw new ServletException("Cannot read " + uploadDir.getPath());
+        if (! dir.canRead())
+            throw new ServletException("Can't read directory "
+                                       + dir.getPath() + ".");
 
-        return uploadDir;
+        return dir;
     }
 
     private TreeSet<UserTestCase> unzipUserArchive(ServletFileUpload reqHandler)
@@ -284,12 +286,12 @@ public class UploadUnzipTest extends HttpServlet
 
         if (items.isEmpty())
         {
-            propagateError(BAD_UPLOAD, "No file uploaded");
+            propagateError(BAD_UPLOAD, "No file uploaded.");
             return null;
         }
         else if (items.size() > 1)
         {
-            propagateError(BAD_UPLOAD, "More than one file uploaded");
+            propagateError(BAD_UPLOAD, "More than one file uploaded.");
             return null;
         }
 
@@ -372,12 +374,12 @@ public class UploadUnzipTest extends HttpServlet
         File dir = new File(getServletContext().getRealPath("/test-cases"));
         if (! dir.exists())
         {
-            propagateError(SERVER_ERROR, "Nonexistent /test-cases dir");
+            propagateError(SERVER_ERROR, "Nonexistent /test-cases directory.");
             return null;
         }
         if (! dir.canRead())
         {
-            propagateError(SERVER_ERROR, "Unreadable /test-cases dir");
+            propagateError(SERVER_ERROR, "Unreadable /test-cases directory.");
             return null;
         }
         return dir;

@@ -40,7 +40,7 @@ public class UserTestResult
         throws Exception
     {
         if (theCase == null)
-            throw new IOException("Null case");
+            throw new IOException("Null case object.");
         else
             testCase = theCase;
     }

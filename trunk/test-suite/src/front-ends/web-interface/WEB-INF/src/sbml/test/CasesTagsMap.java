@@ -88,23 +88,23 @@ public class CasesTagsMap
     {
         if (casesDir == null || ! casesDir.exists())
             throw new Exception("Cannot find test cases directory '"
-                                + casesDir + "'");
+                                + casesDir + "'.");
 
         if (! casesDir.isDirectory())
-            throw new Exception("'" + casesDir + "' is not a directory");
+            throw new Exception("'" + casesDir + "' is not a directory.");
 
         if (! casesDir.canRead())
-            throw new Exception("'" + casesDir + "' is unreadable");
+            throw new Exception("'" + casesDir + "' is unreadable.");
 
         mapFile = new File(casesDir, tagsMapFileName);
         if (mapFile == null || ! mapFile.exists())
-            throw new Exception("Cannot find cases tags map file");
+            throw new Exception("Cannot find cases tags map file.");
 
         if (! mapFile.isFile())
-            throw new Exception("'" + mapFile + "' is not a file");
+            throw new Exception("'" + mapFile + "' is not a file.");
 
         if (! mapFile.canRead())
-            throw new Exception("'" + mapFile + "' is unreadable");
+            throw new Exception("'" + mapFile + "' is unreadable.");
 
         // The first line in the tags map file is the highest case number.
         // If that's not the case, something is wrong.
@@ -112,7 +112,7 @@ public class CasesTagsMap
         Scanner fileReader = new Scanner(mapFile);
 
         if (! fileReader.hasNext() || ! fileReader.hasNextInt())
-            throw new Exception("'" + mapFile + "' not in expected format");
+            throw new Exception("'" + mapFile + "' not in expected format.");
 
         highestNumber = fileReader.nextInt();
         fileReader.nextLine();      // Skip past end of line.
