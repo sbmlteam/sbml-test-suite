@@ -169,13 +169,9 @@ public class TestReference
         {
             String line = fileReader.nextLine();
 
-            if (ignorePattern.matcher(line).matches())
-            {
-                fileRow++;
-                continue;               // Skip blank lines and comment lines.
-            }
-
-            if (numberPattern.matcher(line).lookingAt())
+            if (ignorePattern.matcher(line).matches()) // Blank line or header.
+                fileRow++;              
+            else if (numberPattern.matcher(line).lookingAt())
             {
                 String[] items = line.split(",");
                 int found = items.length;
@@ -193,11 +189,12 @@ public class TestReference
                 dataRow++;
                 fileRow++;
             }
-            else if (fileRow > 1)
-            {
-                throw new Exception("Unexpected content in " + fileName
+            else if (fileRow == 1)      // Not a number, but it's the header.
+                fileRow++;
+            else
+                throw new Exception("Unexpected content in file " + fileName
                                     + " at line " + fileRow + ": " + line);
-            }
+
         } while (fileReader.hasNext() && dataRow < numRows);
 
         // Check that we read the expected number of data rows:
@@ -206,8 +203,9 @@ public class TestReference
             throw new Exception("Too few data rows in file " + fileName
                                 + ": expected " + numRows
                                 + " but read only " + dataRow);
-        else if (fileReader.hasNextBigDecimal())
-            throw new Exception("Too many rows in file " + fileName
+        else if (fileReader.hasNext()
+                 && (numberPattern.matcher(fileReader.nextLine()).lookingAt()))
+            throw new Exception("Too many data rows in file " + fileName
                                 + ": expected only " + numRows);
 
         fileReader.close();
