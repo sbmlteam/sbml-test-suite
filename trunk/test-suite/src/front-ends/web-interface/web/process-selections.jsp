@@ -1,5 +1,5 @@
 <%-- 
- * @file    process.jsp
+ * @file    process-selections.jsp
  * @brief   JSP file to process user's test results.
  * @author  Michael Hucka
  * @author  Kimberly Begley
