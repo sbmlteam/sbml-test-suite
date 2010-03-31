@@ -358,7 +358,7 @@ href="http://sourceforge.net/project/showfiles.php?group_id=71971&package_id=902
 archive</a>.
 </p>
 
-<form name="options" action="/test-suite/web/process.jsp" method="post">
+<form name="options" action="/test-suite/web/process-selections.jsp" method="post">
 
 <p style="margin-top: 1.5em; padding-top: 0.5em; border-top: 1px solid #999"> 
 
