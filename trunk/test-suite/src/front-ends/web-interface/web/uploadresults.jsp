@@ -36,6 +36,29 @@
 <%@ include file="sbml-head.html"%>
 <%@ include file="sbml-top.html"%>
 
+<script type="text/javascript" type="text/javascript">
+function jsUpload()
+{
+    var upload_field = document.getElementById('file');
+    var re_text = /\.zip/i;
+    var filename = upload_field.value;
+    if (filename.search(re_text) == -1)
+    {
+        alert("The file name does not appear to have a .zip extension."
+              + " We regret that this system can only accept archives"
+              + " in zip format.");
+        upload_field.form.reset();
+        return false;
+    }
+    var upload_status = document.getElementById('upload_status');
+    var example = document.getElementById('example');
+    example.style.display = "none";
+    upload_status.style.display = "block";
+    return true;
+}
+</script>
+
+
 <div id='pagetitle'><h1 class='pagetitle'>Step 3: Upload and evaluate results</h1>
 </div><!-- id='pagetitle' -->
 <div style="float: right; margin-top: 0; padding: 0 0 0 5px">
@@ -48,24 +71,30 @@ simulation outputs and have them tallied against the expected results.
 				
 <div style="padding: 1em 2em 1em 2em;">
 <form action="http://sbml.org:8080/test_suite/servlet/UploadUnzipTest" 
-      enctype="multipart/form-data" method=post>
+      enctype="multipart/form-data" method="post" onSubmit="return jsUpload()">
 <b><em>Browse for zip'ed archive of output files:</em></b>
 <div style="padding: 1em 0.5em 0 1em;">
 <table class="borderless-table" width="75%">
-	<tr>
-		<td valign="top" style="padding: 0 0 0 1em">
-		    <input type="file" size="40" name="result_files"/>
-		</td>
-		<td align="right">
-		    <input type="submit" value="Upload">
-		</td>
-	</tr>
+    <tr>
+    <td valign="top" style="padding: 0 0 0 1em">
+        <input id="file" type="file" size="40" name="result_files"/>
+    </td>
+    <td align="right">
+        <input id="upload_button" type="submit" value="Upload">
+    </td>
+    </tr>
 </table>
 </div>
 </form>
-<p style="font-size: 8pt; font-style: italic; color: #666">
+<p id="example" style="font-size: 8pt; font-style: italic; color: #666">
 E.g., C\:Program Files\SBML\MyModels\myresultsfile.zip 
 </p>
+<div id="upload_status" style="display: none; margin: 1em 0 0 2.1em;">
+  <img src="./images/progressBarLong.gif" 
+       alt="Progress bar" width="200" height="14"
+       style="border: 1px solid #bbb"  />
+  <i>Uploading file and performing analysis ...</i>
+</div>
 </div>
 
 <p> Your archive file will be uploaded into a temporary directory on this
