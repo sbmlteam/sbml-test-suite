@@ -55,8 +55,13 @@ Vector<UserTestResult> results
     = (Vector<UserTestResult>) session.getAttribute("testResults");
 
 UserTestResult thisResult = results.get(Integer.parseInt(testname));
-String testdir            = getServletContext().getRealPath("/test-cases");
-TestReference reference   = new TestCase(testdir, testname);
+
+// Get the test reference data for this case, but don't get it via
+// thisResult because that might be null if this case wasn't in the
+// set uploaded by the user.
+
+String testdir    = getServletContext().getRealPath("/test-cases");
+TestCase thisCase = new TestCase(testdir, testname);
 
 %>
 
@@ -78,7 +83,7 @@ if (thisResult == null)
 %>
 
 <p>
-<em>Synopsis of test case</em>: <%=reference.getSynopsis()%><BR>
+<em>Synopsis of test case</em>: <%=thisCase.getSynopsis()%><BR>
 </p>
 
 <%
@@ -181,10 +186,10 @@ if (thisResult != null)
 %>
 
 <p>
-<em>Component tags involved in test case</em>: <%=reference.getComponentTagsAsString()%>. <BR>
+<em>Component tags involved in test case</em>: <%=thisCase.getComponentTagsAsString()%>. <BR>
 </p>
 <p>
-<em>Test tags involved in test case</em>: <%=reference.getTestTagsAsString()%>.<BR>
+<em>Test tags involved in test case</em>: <%=thisCase.getTestTagsAsString()%>.<BR>
 </p>
 
 <p>
@@ -193,7 +198,7 @@ The following is a plot of the <b>expected</b> results:
 
 <center>
     <img style="margin-left: -80px" 
-         src="http://sbml.org:8080/test_suite/test-cases/<%=testname%>/<%=reference.getPlotFileName()%>"
+         src="http://sbml.org:8080/test_suite/test-cases/<%=testname%>/<%=thisCase.getPlotFileName()%>"
          align="center" alt="plot"> 
 </center>
 
@@ -209,7 +214,7 @@ table {
   width: 75% !important;
 }
 </style>
-<c:import url="<%="file://" + reference.getHTMLFile().getPath()%>" />
+<c:import url="<%="file://" + thisCase.getHTMLFile().getPath()%>" />
 </p>
 
 <p>	
