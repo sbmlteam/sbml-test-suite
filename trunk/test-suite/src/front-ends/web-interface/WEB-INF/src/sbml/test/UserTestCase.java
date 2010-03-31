@@ -30,7 +30,7 @@ import java.util.*;
 import java.applet.*;
 
 public class UserTestCase
-    extends TestReference
+    extends TestCase
 {
     // 
     // --------------------------- Public methods ----------------------------- 

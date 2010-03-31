@@ -1,5 +1,5 @@
 //
-// @file    TestReference.java
+// @file    TestCase.java
 // @brief   Parses the test case files and gathers the reference data
 // @author  Michael Hucka
 // @date    Created 2010-01-27 <mhucka@caltech.edu>
@@ -31,14 +31,14 @@ import java.util.*;
 import java.util.regex.*;
 
 
-public class TestReference
-    implements Comparable<TestReference>
+public class TestCase
+    implements Comparable<TestCase>
 {
     // 
     // --------------------------- Public methods ----------------------------- 
     // 
 
-    public TestReference(File testSuiteCasesDir, String caseName)
+    public TestCase(File testSuiteCasesDir, String caseName)
         throws IOException, Exception
     {
         if (testSuiteCasesDir == null)
@@ -59,7 +59,7 @@ public class TestReference
         // to when it's actually needed.
     }
 
-    public TestReference(String testSuiteCasesDir, String caseName)
+    public TestCase(String testSuiteCasesDir, String caseName)
         throws IOException, Exception
     {
         this(new File(testSuiteCasesDir), caseName);
@@ -125,7 +125,7 @@ public class TestReference
      * on whether the given other case number is less than, equal or greater
      * that this one.
      */
-    public int compareTo(TestReference other)
+    public int compareTo(TestCase other)
     {
         return caseNum - other.getCaseNum();
     }
