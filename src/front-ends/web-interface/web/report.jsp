@@ -35,7 +35,6 @@
 
 <%@ page import="sbml.test.UserTestCase" %>
 <%@ page import="sbml.test.UserTestResult" %>
-<%@ page import="sbml.test.TestReference" %>
 <%@ page import="sbml.test.CasesTagsMap" %>
 
 <%@ include file="sbml-head.html"%>

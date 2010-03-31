@@ -31,7 +31,7 @@
 
 <%@ page import="sbml.test.UserTestCase" %>
 <%@ page import="sbml.test.UserTestResult" %>
-<%@ page import="sbml.test.TestReference" %>
+<%@ page import="sbml.test.TestCase" %>
 <%@ page import="sbml.test.CasesTagsMap" %>
 
 <%@ include file="sbml-head.html"%>
@@ -56,7 +56,7 @@ Vector<UserTestResult> results
 
 UserTestResult thisResult = results.get(Integer.parseInt(testname));
 String testdir            = getServletContext().getRealPath("/test-cases");
-TestReference reference   = new TestReference(testdir, testname);
+TestReference reference   = new TestCase(testdir, testname);
 
 %>
 
