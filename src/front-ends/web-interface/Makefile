@@ -29,14 +29,15 @@ default: classes
 
 src-dir     = WEB-INF/src/sbml/test
 class-dir   = WEB-INF/classes/sbml/test
+web-dir     = WEB-INF/web
 javac-flags = -g -Xlint:unchecked -d WEB-INF/classes -sourcepath WEB-INF/src
 
-classes: $(class-dir)/CasesTagsMap.class      \
-         $(class-dir)/FormBean.class          \
-         $(class-dir)/TestReference.class     \
-         $(class-dir)/UploadUnzipTest.class   \
-         $(class-dir)/UserTestCase.class      \
-         $(class-dir)/UserTestResult.class    \
+classes: $(class-dir)/CasesTagsMap.class    \
+         $(class-dir)/FormBean.class        \
+         $(class-dir)/TestCase.class        \
+         $(class-dir)/UploadUnzipTest.class \
+         $(class-dir)/UserTestCase.class    \
+         $(class-dir)/UserTestResult.class  \
          $(class-dir)/ZipServlet.class
 
 jsp-jar        = /var/lib/tomcat5/common/lib/[jsp].jar
@@ -56,14 +57,14 @@ __dummy := $(shell [ -d $(class-dir) ] || mkdir -p $(class-dir))
 # Install updates into the webapps directory
 # -----------------------------------------------------------------------------
 
-webdir = /var/lib/tomcat5/webapps/test-suite
+webapp-dir = /var/lib/tomcat5/webapps/test-suite
 iflags = -pv --backup=numbered --owner=tomcat --group=tomcat
 
 install: 
-	install $(iflags) web $(webdir)/web
-	install $(iflags) META-INF $(webdir)/
-	install $(iflags) WEB-INF $(webdir)/
-	install $(iflags) index.html $(webdir)/
+	install $(iflags) web $(webapp-dir)/web
+	install $(iflags) META-INF $(webapp-dir)/
+	install $(iflags) WEB-INF $(webapp-dir)/
+	install $(iflags) index.html $(webapp-dir)/
 
 
 # -----------------------------------------------------------------------------
@@ -82,7 +83,7 @@ etags-version-check:
 	  exit 2; \
 	fi 
 
-files-to-tag = $(wildcard $(src-dir)/*.java)
+files-to-tag = $(wildcard $(src-dir)/*.java) $(wildcard $(web-dir)/*.jsp)
 
 TAGS: $(files-to-tag)
 	$(ETAGS) $(ETAGSFLAGS) -l java $(files-to-tag)
