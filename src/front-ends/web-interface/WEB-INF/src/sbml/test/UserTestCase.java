@@ -42,7 +42,7 @@ public class UserTestCase
         super(refCasesDir, caseName);
 
         if (userCasesDir == null)
-            throw new IOException("Null parameter 'userCasesDir'");
+            throw new IOException("Null parameter 'userCasesDir'.");
 
         this.userCasesDir = userCasesDir;
         this.userDataFile = pathToDataFile(userCasesDir, caseName);
@@ -50,12 +50,12 @@ public class UserTestCase
         // Do some sanity checking
 
         if (! userDataFile.exists())
-            throw new Exception("Nonexistent user data file: "
-                                + userDataFile.getPath());
+            throw new Exception("Nonexistent user data file "
+                                + userDataFile.getName() + ".");
 
         if (! userDataFile.canRead())
             throw new Exception("Unreadable user data file: "
-                                + userDataFile.getPath());
+                                + userDataFile.getName() + ".");
     }
 
     public UserTestCase(String refCasesDir, String userCasesDir, String caseName)

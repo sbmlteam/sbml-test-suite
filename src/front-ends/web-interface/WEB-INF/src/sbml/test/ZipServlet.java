@@ -114,7 +114,7 @@ public class ZipServlet extends HttpServlet
         File dir = new File(root + File.separator + tcase);
 
         if (! dir.exists())
-            throw new Exception("File '" + dir.toString() + "' not found");
+            throw new Exception("File '" + dir.toString() + "' not found.");
 
         String pathInZip = prefix + File.separator + tcase + File.separator;
 

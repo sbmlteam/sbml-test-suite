@@ -42,10 +42,10 @@ public class TestCase
         throws IOException, Exception
     {
         if (testSuiteCasesDir == null)
-            throw new IOException("Null parameter 'testSuiteCasesDir'");
+            throw new IOException("Null parameter 'testSuiteCasesDir'.");
 
         if (caseName == null)
-            throw new IOException("Null parameter 'caseName'");
+            throw new IOException("Null parameter 'caseName'.");
 
         this.caseName          = caseName;
         this.caseNum           = Integer.parseInt(caseName);
@@ -145,7 +145,7 @@ public class TestCase
         Scanner fileReader = new Scanner(f);
 
         if (! fileReader.hasNext())
-            throw new Exception("Data file " + fileName + " is empty");
+            throw new Exception("Data file " + fileName + " is empty.");
 
         // The first column gives the time step.  It's not counted in
         // numVars, hence the + 1 below.
@@ -181,7 +181,7 @@ public class TestCase
                                         + (found > expected ? "many" : "few")
                                         + " data points in row " + fileRow
                                         + " of " + fileName + ": expected "
-                                        + expected + " but read " + found);
+                                        + expected + ", but read " + found + ".");
 
                 for (int col = 0; col < expected; col++)
                     data[dataRow][col] = new BigDecimal(items[col].trim());
@@ -193,7 +193,8 @@ public class TestCase
                 fileRow++;
             else
                 throw new Exception("Unexpected content in file " + fileName
-                                    + " at line " + fileRow + ": " + line);
+                                    + " at line " + fileRow + ": '"
+                                    + line + "'.");
 
         } while (fileReader.hasNext() && dataRow < numRows);
 
@@ -202,11 +203,11 @@ public class TestCase
         if (dataRow < numRows)
             throw new Exception("Too few data rows in file " + fileName
                                 + ": expected " + numRows
-                                + " but read only " + dataRow);
+                                + ", but read only " + dataRow + ".");
         else if (fileReader.hasNext()
                  && (numberPattern.matcher(fileReader.nextLine()).lookingAt()))
             throw new Exception("Too many data rows in file " + fileName
-                                + ": expected only " + numRows);
+                                + ": expected only " + numRows + ".");
 
         fileReader.close();
         return data;
@@ -240,10 +241,10 @@ public class TestCase
         // Do some sanity checking.
 
         if (! mFile.exists())
-            throw new Exception("Nonexistent .m file: " + mFile.getPath());
+            throw new Exception("Nonexistent .m file: " + mFile.getPath() + ".");
 
         if (! mFile.canRead())
-            throw new Exception("Unreadable .m file: " + mFile.getPath());
+            throw new Exception("Unreadable .m file: " + mFile.getPath() + ".");
 
         // Let's get ready to parse.
 
@@ -282,8 +283,8 @@ public class TestCase
         }
 
         if (left > 0)
-            throw new Exception("Didn't find all fields expected in .m file: "
-                                + mFile.getPath());
+            throw new Exception("Didn't find all fields expected in .m file "
+                                + mFile.getPath() + ".");
     }
 
     private void parseSettingsFile()
@@ -292,12 +293,12 @@ public class TestCase
         // Do some sanity checking.
 
         if (! settingsFile.exists())
-            throw new Exception("Nonexistent settings file: "
-                                + settingsFile.getPath());
+            throw new Exception("Nonexistent settings file "
+                                + settingsFile.getPath() + ".");
 
         if (! settingsFile.canRead())
-            throw new Exception("Unreadable settings file: "
-                                + settingsFile.getPath());
+            throw new Exception("Unreadable settings file "
+                                + settingsFile.getPath() + ".");
         
         // Let's get ready to parse.
 
@@ -330,16 +331,17 @@ public class TestCase
             else
             {
                 // There shouldn't be anything else in the file.
-                throw new Exception("Unexpected text found in settings file:"
-                                    + line.toString());
+                throw new Exception("Unexpected text found in settings file "
+                                    + settingsFile.getName() + ": '"
+                                    + line.toString() + "'.");
             }
 
             left--;
         }
 
         if (left > 0)
-            throw new Exception("Didn't find all fields expected in "
-                                + "settings file: " + settingsFile.getPath());
+            throw new Exception("Didn't find all fields expected in settings"
+                                + " file " + settingsFile.getPath() + ".");
     }
 
     private Vector<String> readTokens(Scanner line)
@@ -425,7 +427,8 @@ public class TestCase
 
                 if (line.hasNextBigDecimal())
                     throw new Exception("Too many data elements in row "
-                                        + (rowIndex + 1) + " of " + f.getPath());
+                                        + (rowIndex + 1) + " of "
+                                        + f.getPath() + ".");
 
                 // FIXME check for not enough elements in row
 
