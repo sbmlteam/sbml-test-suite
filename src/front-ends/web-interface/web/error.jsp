@@ -44,8 +44,6 @@
 <%@ page import="javax.servlet.jsp.*" %>
 <%@ page import="javax.servlet.http.*" %>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
-
 <%
 
 final class InternalUtility
