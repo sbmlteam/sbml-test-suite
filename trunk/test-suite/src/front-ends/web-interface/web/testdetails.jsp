@@ -34,8 +34,6 @@
 <%@ page import="sbml.test.TestReference" %>
 <%@ page import="sbml.test.CasesTagsMap" %>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
-
 <%@ include file="sbml-head.html"%>
 <%@ include file="sbml-top.html"%>
 
