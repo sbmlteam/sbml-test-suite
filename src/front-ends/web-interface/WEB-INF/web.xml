@@ -30,11 +30,6 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
     <url-pattern>/servlet/ZipServlet</url-pattern>
   </servlet-mapping>
 
-  <taglib>
-      <taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
-      <taglib-location>/WEB-INF/tld/c.tld</taglib-location>
-  </taglib>
-
   <error-page>
     <error-code>404</error-code>
     <location>/web/error.jsp</location>
