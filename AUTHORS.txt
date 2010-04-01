@@ -1,6 +1,6 @@
 	   The SBML Test Suite was initially developed by:
  
-     Sarah Keating, Kimberly Begley, Michael Hucka, Andrew Finney
+     Sarah Keating, Michael Hucka, Kimberly Begley, Andrew Finney
 		       with contributions from
 	 Bruce Shapiro and many others in the SBML community.
 
