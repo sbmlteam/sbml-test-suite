@@ -1,6 +1,6 @@
                          The SBML Test Suite
 
-          Sarah Keating, Kimberly Begley, and Michael Hucka
+          Sarah Keating, Michael Hucka, and Kimberly Begley
 
                        with contributions from
                      Andrew Finney, Bruce Shapiro
