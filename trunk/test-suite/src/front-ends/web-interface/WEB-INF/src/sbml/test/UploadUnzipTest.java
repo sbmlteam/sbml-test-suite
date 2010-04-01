@@ -90,10 +90,14 @@ public class UploadUnzipTest extends HttpServlet
         refCasesDir = getReferenceCasesDir();
         DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setRepository(uploadDir);
-        factory.setSizeThreshold(10 * 1024 * 1024); // In bytes.
+        // factory.setSizeThreshold(1 * 1024 * 1024); // In bytes.
 
         ServletFileUpload reqHandler = new ServletFileUpload(factory);
-        reqHandler.setSizeMax(-1);      // Set no limit on max upload size.
+
+        // Result files for the current 927 test suite cases adds up to
+        // less than 1 MB.  If we get something > 5MB, something's wrong.
+
+        reqHandler.setSizeMax(5 * 1024 * 1024);
 
         // Unzip the user's uploaded archive.  This returns an ordered list
         // of the CSV file names extracted as a result.
