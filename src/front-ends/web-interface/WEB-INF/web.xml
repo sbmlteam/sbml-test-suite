@@ -4,6 +4,11 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 "http://java.sun.com/j2ee/dtds/web-app_2_3.dtd">
 
 <web-app>
+  <!-- 10 minutes -->
+  <session-config> 
+      <session-timeout>10</session-timeout> 
+  </session-config> 
+
   <servlet> 
     <servlet-name>UploadUnzipTest</servlet-name>
     <servlet-class>sbml.test.UploadUnzipTest</servlet-class>
@@ -29,6 +34,11 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
     <servlet-name>ZipServlet</servlet-name>
     <url-pattern>/servlet/ZipServlet</url-pattern>
   </servlet-mapping>
+
+  <taglib>
+      <taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
+      <taglib-location>/WEB-INF/tld/c.tld</taglib-location>
+  </taglib>
 
   <error-page>
     <error-code>404</error-code>
