@@ -39,6 +39,7 @@
 <%@ include file="sbml-head.html"%>
 <%@ include file="sbml-top.html"%>
 
+<% 
 // We get a number of things via the URL handed to us in the link that the
 // user clicked.  The rest we get from the context.  The following pulls
 // out the different pieces we need to get started.
@@ -56,6 +57,24 @@ String testname = request.getParameter("testname");
 Vector<UserTestResult> results
     = (Vector<UserTestResult>) session.getAttribute("testResults");
 
+// Before going any further, though, we need to make sure we have access to
+// the session data at all.  The following code doesn't use
+// session.getSession(...) because that always seemed to return something
+// even when the session was expired.  I finally gave up and did this
+// instead, testing for testResults.  (Separately, the handling of expired
+// sessions here is currently not very nice, but it's a start.)
+
+if (results == null || results.size() == 0)
+{
+%>
+
+<jsp:forward page="session-expired.jsp" />
+
+<%
+}
+
+// All good so far?  OK.  Moving on.
+
 UserTestResult thisResult = results.get(Integer.parseInt(testname));
 
 // Get the test reference data for this case, but don't get it via
@@ -64,8 +83,8 @@ UserTestResult thisResult = results.get(Integer.parseInt(testname));
 
 String testdir    = getServletContext().getRealPath("/test-cases");
 TestCase thisCase = new TestCase(testdir, testname);
-
 %>
+
 
 <div id='pagetitle'>
 <h1 class='pagetitle'>Details for SBML Test Case #<%=testname%></h1>
@@ -75,7 +94,6 @@ TestCase thisCase = new TestCase(testdir, testname);
 </div>
 
 <%
-
 if (thisResult == null)
 {
     out.println("<p><b><font color=\"GoldenRod\">");
