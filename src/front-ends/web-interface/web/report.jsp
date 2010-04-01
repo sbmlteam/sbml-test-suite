@@ -41,6 +41,33 @@
 <%@ include file="sbml-top.html"%>
 
 <%
+// We get a number of things via the URL handed to us in the link that the
+// user clicked.  The rest we get from the context.  The following code
+// pulls out the different pieces we need to get started.
+
+Vector<UserTestResult> results
+    = (Vector<UserTestResult>) session.getAttribute("testResults");
+
+// Before going any further, though, we need to make sure we have access to
+// the session data at all.  The following code doesn't use
+// request.getSession(...) because that always seemed to return something
+// even when the session was expired.  I finally gave up and did this
+// instead, testing for testResults.  (Separately, the handling of expired
+// sessions here is currently not very nice, but it's a start.)
+
+if (results == null || results.size() == 0)
+{
+%>
+
+<jsp:forward page="session-expired.jsp" />
+
+<%
+}
+
+// All good so far?  OK.  Moving on.
+
+int highestCaseNumber = results.size() - 1;
+
 String baseURL    = "http://sbml.org:8080/test_suite/web/";
 
 int countPassed   = ((Integer) session.getAttribute("countPassed")).intValue();
@@ -50,11 +77,7 @@ int countMissing  = ((Integer) session.getAttribute("countMissing")).intValue();
 
 String timeOfRun  = (String) session.getAttribute("timeOfRun");
 File casesRootDir = (File) session.getAttribute("casesRootDir");
-    
-Vector<UserTestResult> results
-    = (Vector<UserTestResult>) session.getAttribute("testResults");
 
-int highestCaseNumber = results.size() - 1;
 %>
 
     <h2>Online SBML Test Suite test report</h2>
