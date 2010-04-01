@@ -37,12 +37,20 @@
 <%@ include file="sbml-top.html"%>
 
 <script type="text/javascript" type="text/javascript">
-function jsUpload()
+/**
+ * The onSubmit() JavaScript function does multiple things in one go:
+ * 1) checks that the user's file name ends in .zip
+ * 2) puts up a progress bar instead of the example pathname text
+ * 3) disable the upload button after it's pressed (to prevent
+ *    a 2nd submission before the 1st is complete -- happens
+ *    often when the user double clicks)
+ */
+function onSubmit()
 {
     var upload_field = document.getElementById('file');
-    var re_text = /\.zip/i;
-    var filename = upload_field.value;
-    if (filename.search(re_text) == -1)
+    var filename     = upload_field.value;
+
+    if (filename.search(/\.zip/i) == -1)
     {
         alert("The file name does not appear to have a .zip extension."
               + " We regret that this system can only accept archives"
@@ -51,9 +59,11 @@ function jsUpload()
         return false;
     }
     var upload_status = document.getElementById('upload_status');
+    upload_status.style.display = "block";
     var example = document.getElementById('example');
     example.style.display = "none";
-    upload_status.style.display = "block";
+    var upload_button = document.getElementById('upload_button');
+    upload_button.disabled = true;
     return true;
 }
 </script>
@@ -71,7 +81,7 @@ simulation outputs and have them tallied against the expected results.
 				
 <div style="padding: 1em 2em 1em 2em;">
 <form action="http://sbml.org:8080/test_suite/servlet/UploadUnzipTest" 
-      enctype="multipart/form-data" method="post" onSubmit="return jsUpload()">
+      enctype="multipart/form-data" method="post" onSubmit="return onSubmit()">
 <b><em>Browse for zip'ed archive of output files:</em></b>
 <div style="padding: 1em 0.5em 0 1em;">
 <table class="borderless-table" width="75%">
@@ -93,7 +103,7 @@ E.g., C\:Program Files\SBML\MyModels\myresultsfile.zip
   <img src="./images/progressBarLong.gif" 
        alt="Progress bar" width="200" height="14"
        style="border: 1px solid #bbb"  />
-  <i>Uploading file and performing analysis ...</i>
+  <i>Uploading file, performing analysis, and returning results ...</i>
 </div>
 </div>
 
