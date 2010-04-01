@@ -91,10 +91,10 @@ File casesRootDir = (File) session.getAttribute("casesRootDir");
     <%= countPassed + countFailed + countProblems %>
     
     <p>
-    Number of <font color="green">passed</font> cases: <%=countPassed%><br>
-    Number of <font color="darkred">failed</font> cases: <%=countFailed%><br>
-    Number of <font color="black">problem</font> cases: <%=countProblems%><br>
-    Number of <font color="gray">missing</font> cases: <%=countMissing%><br>
+    Number of <b><font color="green">passed</font></b> cases: <%=countPassed%><br>
+    Number of <b><font color="darkred">failed</font></b> cases: <%=countFailed%><br>
+    Number of <b><font color="black">problem</font></b> cases: <%=countProblems%><br>
+    Number of <b><font color="gray">missing</font></b> cases: <%=countMissing%><br>
     
 <%
 if (countFailed == 0 && countProblems == 0)
@@ -148,9 +148,9 @@ if (countFailed > 0)
                 href="<%=baseURL%>/testdetails.jsp?testname=<%=name%>"
                 target="_blank"><%= name %>
         </td>
-        <td valign="top" style="padding: 2px 2em 2px 2px"><%= theCase.getSynopsis()%></td>
-        <td valign="top" style="padding: 2px"><font color="darkred"><%= thisResult.getNumDifferences() %></font></td>
-        <td valign="top" style="padding: 2px"><%= points%></td>
+        <td valign="top" style="padding: 5px 5em 5px 5px"><%= theCase.getSynopsis()%></td>
+        <td valign="top" style="padding: 5px"><font color="darkred"><%= thisResult.getNumDifferences() %></font></td>
+        <td valign="top" style="padding: 5px"><%= points%></td>
         </tr>
     
     <%
@@ -196,9 +196,9 @@ if (countProblems > 0)
             String name          = theCase.getCaseName();
 %>
     <tr>
-    <td valign="top" style="padding: 2px"><%= name %></td>
-    <td valign="top" style="padding: 2px 2em 2px 2px"><%= theCase.getSynopsis()%></td>
-    <td valign="top" style="padding: 2px"><font color="darkred"><%= thisResult.getErrorMessage() %></font></td>
+    <td valign="top" style="padding: 5px"><%= name %></td>
+    <td valign="top" style="padding: 5px 5em 5px 5px"><%= theCase.getSynopsis()%></td>
+    <td valign="top" style="padding: 5px"><font color="darkred"><%= thisResult.getErrorMessage() %></font></td>
     </tr>
 <%
          }
