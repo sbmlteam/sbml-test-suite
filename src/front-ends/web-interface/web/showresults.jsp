@@ -72,7 +72,6 @@ expected results, click on the icon&mdash;the information will be presented
 in a new window.  </p>
 	
 <div style="margin: 1em 3em 2em 3em">
-<form name="report" action="<%=baseURL%>report.jsp" method="post">
 <table id="resultsmap" class="borderless-table">
 <tr>
 
@@ -244,6 +243,7 @@ session.setAttribute("timeOfRun"    , timeOfRun);
 
 <br><br>
 <p>
+<form name="report" action="<%=baseURL%>report.jsp" method="post">
 <input type="submit" value="View Report">
 (The report summarizes the results in a more convenient format for printing.) 
 </form>
