@@ -194,20 +194,15 @@ public class UploadUnzipTest extends HttpServlet
                 continue;
             }
 
-            // Now compare the results to what we expect, within tolerances.
-            // In addition to logging the total number of failures for each
-            // case, we're also going to construct a map of the data points
-            // that succeed or fail.  (That's the 'diffs' array.)
+            // First check that the user's data file has entries at the
+            // same time steps as our reference data.  We do this using the
+            // same epsilon as the absolute tolerance, so that (e.g.) 0 is
+            // considered equal to 0.000000000000001.
 
             int numRows          = refData.length;
             int numCols          = refData[0].length;
             BigDecimal absTol    = theCase.getTestAbsoluteTol();
             BigDecimal relTol    = theCase.getTestRelativeTol();
-
-            // First check that the user's data file has entries at the
-            // same time steps as our reference data.  We do this using the
-            // same epsilon as the absolute tolerance, so that (e.g.) 0 is
-            // considered equal to 0.000000000000001.
 
             for (int r = 0; r < numRows; r++)
                 if (! tolerable(refData[r][0], userData[r][0], absTol, relTol))
@@ -220,6 +215,11 @@ public class UploadUnzipTest extends HttpServlet
                                            + " " + userData[r][0] + " instead.");
                     continue caseLoop;
                 }
+
+            // Now compare the results to what we expect, within tolerances.
+            // In addition to logging the total number of failures for each
+            // case, we're also going to construct a map of the data points
+            // that succeed or fail.  (That's the 'diffs' array.)
 
             int failCount = 0;
             BigDecimal[][] diffs = new BigDecimal[numRows][numCols];
