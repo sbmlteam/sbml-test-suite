@@ -90,12 +90,13 @@ public class UploadUnzipTest extends HttpServlet
         refCasesDir = getReferenceCasesDir();
         DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setRepository(uploadDir);
-        // factory.setSizeThreshold(1 * 1024 * 1024); // In bytes.
+        factory.setSizeThreshold(1 * 1024 * 1024); // In bytes.
 
         ServletFileUpload reqHandler = new ServletFileUpload(factory);
 
-        // Result files for the current 927 test suite cases adds up to
-        // less than 1 MB.  If we get something > 5MB, something's wrong.
+        // Result files for the current 927 test suite cases adds up to ~1
+        // MB.  Adding some room for growth, if we get something > 5 MB,
+        // something's wrong.
 
         reqHandler.setSizeMax(5 * 1024 * 1024);
 
@@ -193,48 +194,43 @@ public class UploadUnzipTest extends HttpServlet
                 continue;
             }
 
-            // Check that the user's data file has entries at the same time
-            // steps as our reference data.
-
-            for (int r = 0; r < refData.length; r++)
-                if (refData[r][0].compareTo(userData[r][0]) != 0)
-                {
-                    result.setErrorMessage("Time steps in results don't match"
-                                           + " expected time steps: at row "
-                                           + r + ", read " + userData[r][0]
-                                           + " but expected " + refData[r][0]
-                                           + ".");
-                    continue caseLoop;
-                }
-
             // Now compare the results to what we expect, within tolerances.
             // In addition to logging the total number of failures for each
             // case, we're also going to construct a map of the data points
-            // that succeed or fail.
+            // that succeed or fail.  (That's the 'diffs' array.)
 
             int numRows          = refData.length;
             int numCols          = refData[0].length;
-            BigDecimal[][] diffs = new BigDecimal[numRows][numCols];
-            int failCount        = 0;
+            BigDecimal absTol    = theCase.getTestAbsoluteTol();
+            BigDecimal relTol    = theCase.getTestRelativeTol();
 
-            BigDecimal absTol = theCase.getTestAbsoluteTol();
-            BigDecimal relTol = theCase.getTestRelativeTol();
+            // First check that the user's data file has entries at the
+            // same time steps as our reference data.  We do this using the
+            // same epsilon as the absolute tolerance, so that (e.g.) 0 is
+            // considered equal to 0.000000000000001.
+
+            for (int r = 0; r < numRows; r++)
+                if (! tolerable(refData[r][0], userData[r][0], absTol, relTol))
+                {
+                    result.setErrorMessage("Within the tolerances set for this"
+                                           + " case, the time step value on"
+                                           + " row " + r + " doesn't match"
+                                           + " the expected value: expecting"
+                                           + " " + refData[r][0] + " but read"
+                                           + " " + userData[r][0] + " instead.");
+                    continue caseLoop;
+                }
+
+            int failCount = 0;
+            BigDecimal[][] diffs = new BigDecimal[numRows][numCols];
 
             for (int r = 0; r < numRows; r++)
                 for (int c = 1; c < numCols; c++) // Skip col 1 b/c it's time.
-                {
-                    BigDecimal expected = refData[r][c];
-                    BigDecimal actualDifference
-                        = expected.subtract(userData[r][c]).abs();
-                    BigDecimal allowableDifference
-                        = relTol.multiply(expected.abs().add(absTol));
-
-                    if (actualDifference.compareTo(allowableDifference) > 0)
+                    if (! tolerable(refData[r][c], userData[r][c], absTol, relTol))
                     {
-                        diffs[r][c] = actualDifference;
+                        diffs[r][c] = refData[r][c].subtract(userData[r][c]).abs();
                         failCount++;
                     }
-                }
 
             result.setNumDifferences(failCount);
             result.setDifferences(diffs);
@@ -387,6 +383,16 @@ public class UploadUnzipTest extends HttpServlet
             return null;
         }
         return dir;
+    }
+
+    private final boolean tolerable(BigDecimal expected, BigDecimal actual,
+                                    BigDecimal absTol, BigDecimal relTol)
+    {
+        BigDecimal actualDiff    = expected.subtract(actual).abs();
+        BigDecimal allowableDiff = relTol.multiply(expected.abs().add(absTol));
+
+        // System.err.println("actual = " + actualDiff + ", allowable = " + allowableDiff);
+        return (actualDiff.compareTo(allowableDiff) <= 0);
     }
 
     private void propagateError(String code, String msg)
