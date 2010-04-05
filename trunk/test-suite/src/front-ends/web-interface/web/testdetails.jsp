@@ -79,37 +79,92 @@ UserTestResult thisResult = results.get(Integer.parseInt(testname));
 
 // Get the test reference data for this case, but don't get it via
 // thisResult because that might be null if this case wasn't in the
-// set uploaded by the user.
+// set uploaded by the user.  Also, here we need the physical path
+// as it exists on the server, not what is presented to the world.
 
 String testdir    = getServletContext().getRealPath("/test-cases");
 TestCase thisCase = new TestCase(testdir, testname);
 %>
+    <style type='text/css'>
+    table { margin: 1em auto 1em 5em; width: 75% !important}
+    table td, th { font-size: 9pt; padding: 0.25em; }
+    h2 { display: block; border-bottom: 1px solid #ccc; padding: 4px 0px; width: 100%; }
+    </style>
 
-
-<div id='pagetitle'>
-<h1 class='pagetitle'>Details for SBML Test Case #<%=testname%></h1>
-</div><!-- id='pagetitle' -->
-<div style="float: right; margin: 0 0 1em 2em; padding: 0 0 0 5px">
-  <img src="http://sbml.org/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
-</div>
-
+    <div id='pagetitle'>
+    <div style="float: right; margin: 0 0 1em 2em; padding: 0 0 0 5px">
+      <img src="http://sbml.org/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
+    </div>
+    <h1 class='pagetitle'>Details for SBML Test Case #<%=testname%></h1>
+    </div><!-- id='pagetitle' -->
+    
 <%
 if (thisResult == null)
 {
-    out.println("<p><b><font color=\"GoldenRod\">");
-    out.println("Note: Results for this case were <i>not</i> part of your uploaded ");
-    out.println("test results.</font></b></p>");
+%>
+    <p><b><font color="GoldenRod">
+    Note: Results for this case were <i>not</i> part of your uploaded
+    test results.</font></b></p>
+<%
+}
+else
+{
+    UserTestCase theCase = thisResult.getUserTestCase();
+    int numRows          = theCase.getTestNumRows();
+    int numVars          = theCase.getTestNumVars();
+    int points           = numRows * numVars;
+%>
+    <p style="margin-top: 1em"><em>Result</em>:
+<%
+    if (thisResult.getNumDifferences() > 0)
+    {
+%>
+        <b><font color="darkred">Failed at
+        <%=thisResult.getNumDifferences()%> of <%=points%> data points</font></b>.
+        Details are <a href="#results">presented below</a>.
+<%
+    }
+    else if (thisResult.hasError())
+    {
+%>
+        <b><font color="darkred">Skipped due to the following reason:</font></b><br>
+        <table>
+        <tr><td style="border: 1px solid darkred !important"><%=thisResult.getErrorMessage()%></td></tr>
+        </table>
+<%
+    }
+    else
+    {
+%>
+        <b><font color="green">Passed!</font></b><BR>
+<%
+    }
 }
 %>
 
-<p>
-<em>Synopsis of test case</em>: <%=thisCase.getSynopsis()%><BR>
-</p>
+    <h2>Case description</h2>
+
+    <p><c:import url="<%="file://" + thisCase.getHTMLFile().getPath()%>" /></p>
+
+    The following is a plot of the <b>expected</b> results:</p>
+    
+    <center><img style="margin-left: -80px" 
+        src="http://sbml.org:8080/test_suite/test-cases/<%=testname%>/<%=thisCase.getPlotFileName()%>"
+        align="center" alt="plot"> 
+    </center>
+
+    <p> Component tags involved in test case: 
+    <em><%=thisCase.getComponentTagsAsString()%>.</em><BR></p>
+
+    <p> Test tags involved in test case: 
+    <em><%=thisCase.getTestTagsAsString()%>.</em><BR></p>
 
 <%
 if (thisResult != null)
 {
-    out.println("<p><em>Result</em>:\n");
+%>
+    <h2><a name="results"></a>Outcome of analyzing result uploaded for test case #<%=testname%></h2>
+<%
 
     if (thisResult.getNumDifferences() > 0)
     {
@@ -122,8 +177,9 @@ if (thisResult != null)
         int numVars             = theCase.getTestNumVars();
         int points              = numRows * numVars;
 %>
+        <p>
         <font color="darkred"><b><font color="darkred">Failed</font></b> at
-        <%=thisResult.getNumDifferences()%> of <%=points%> data points</font><BR>
+        <%=thisResult.getNumDifferences()%> of <%=points%> data points</font><BR></p>
 
 	<p>The table below indicates which data points
 	did not come close enough to the expected values.  Green
@@ -190,10 +246,10 @@ if (thisResult != null)
     else if (thisResult.hasError())
     {
 %>
-        <b>Skipped</b> due to the following reason(s):<br>
-        <blockquote style="width: 80%; border: 1px solid gold; padding: 0.5em">
-            <%=thisResult.getErrorMessage()%>
-        </blockquote>
+        <b><font color="darkred">Skipped due to the following reason:</font></b><br>
+        <table>
+        <tr><td style="border: 1px solid darkred !important"><%=thisResult.getErrorMessage()%></td></tr>
+        </table>
 <%
     }
     else
@@ -205,39 +261,9 @@ if (thisResult != null)
 }
 %>
 
-<p>
-<em>Component tags involved in test case</em>: <%=thisCase.getComponentTagsAsString()%>. <BR>
-</p>
-<p>
-<em>Test tags involved in test case</em>: <%=thisCase.getTestTagsAsString()%>.<BR>
-</p>
 
-<p>
-The following is a plot of the <b>expected</b> results:
-</p>
 
-<center>
-    <img style="margin-left: -80px" 
-         src="http://sbml.org:8080/test_suite/test-cases/<%=testname%>/<%=thisCase.getPlotFileName()%>"
-         align="center" alt="plot"> 
-</center>
-
-<p>
-<style type='text/css'>
-table td, th {
-  font-size: 9pt;  
-  padding: 2px;
-}
-
-table {
-  margin: 1em auto 1em auto;
-  width: 75% !important;
-}
-</style>
-<c:import url="<%="file://" + thisCase.getHTMLFile().getPath()%>" />
-</p>
-
-<p>	
+<p style="margin-top: 3em">	
 <center>
   <a href="http://sbml.org/Facilities/Online_SBML_Test_Suite">
     <img border="0" align="center" 
