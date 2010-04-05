@@ -388,10 +388,14 @@ public class UploadUnzipTest extends HttpServlet
     private final boolean tolerable(BigDecimal expected, BigDecimal actual,
                                     BigDecimal absTol, BigDecimal relTol)
     {
-        BigDecimal actualDiff    = expected.subtract(actual).abs();
+        MathContext mc           = new MathContext(expected.precision());
+        BigDecimal adjusted      = actual.round(mc);
+        BigDecimal actualDiff    = expected.subtract(adjusted).abs();
         BigDecimal allowableDiff = relTol.multiply(expected.abs().add(absTol));
 
-        // System.err.println("actual = " + actualDiff + ", allowable = " + allowableDiff);
+//          System.err.println("actual = " + actualDiff
+//                             + ", adjusted = " + adjusted
+//                             + ", allowable = " + allowableDiff);
         return (actualDiff.compareTo(allowableDiff) <= 0);
     }
 
