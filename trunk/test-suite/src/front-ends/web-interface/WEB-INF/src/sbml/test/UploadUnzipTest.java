@@ -391,7 +391,7 @@ public class UploadUnzipTest extends HttpServlet
         MathContext mc           = new MathContext(expected.precision());
         BigDecimal adjusted      = actual.round(mc);
         BigDecimal actualDiff    = expected.subtract(adjusted).abs();
-        BigDecimal allowableDiff = relTol.multiply(expected.abs().add(absTol));
+        BigDecimal allowableDiff = absTol.add(relTol.multiply(expected.abs()));
 
 //          System.err.println("actual = " + actualDiff
 //                             + ", adjusted = " + adjusted
