@@ -200,13 +200,13 @@ if (thisResult != null)
         </table>
 
         The following is how the errors are determined.  
-        Let E<sub>ij</sub> stand for the expected values for this test, and
-        let U<sub>ij</sub> stand for the the uploaded result values.  
+        Let C<sub>ij</sub> stand for the expected (correct) values for this 
+        test, and let U<sub>ij</sub> stand for the the uploaded result values.
         A data point is <i>within tolerances</i> if and only if
 	<blockquote style="margin-left: 2em">
-            <font color="#777" size="+1">|</font>E<sub>ij</sub> - U<sub>ij</sub><font color="#777" size="+1">|</font>
-             < T<sub>r</sub> &times; 
-            <font color="#777" size="+1">(</font>|E<sub>ij</sub>| + T<sub>a</sub><font color="#777" size="+1">)</font>
+            <font color="#777" size="+1">|</font>C<sub>ij</sub> &minus; U<sub>ij</sub><font color="#777" size="+1">|</font>
+             < 
+            <font color="#777" size="+1">(</font> T<sub>a</sub> + T<sub>r</sub> &times; |C<sub>ij</sub>| <font color="#777" size="+1">)</font>
         </blockquote>
 
         <p>You can hover the mouse pointer over a table entry to be shown
