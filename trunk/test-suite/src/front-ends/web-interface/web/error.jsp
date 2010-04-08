@@ -44,6 +44,8 @@
 <%@ page import="javax.servlet.jsp.*" %>
 <%@ page import="javax.servlet.http.*" %>
 
+<%@ page import="sbml.test.*" %>
+
 <%
 
 final class InternalUtility
@@ -113,8 +115,6 @@ final class InternalUtility
 %>
 
 <%
-String baseURL = "http://sbml.org:8080/test_suite/web/";
-
 // If the request environment has the attribute "userError" set, it means
 // the error we're dealing with is something that is the user's fault.
 // The attribute will be set by whatever calls this JSP page (usually a
@@ -134,7 +134,7 @@ String timestamp     = sdf.format(cal.getTime());
 <div id='pagetitle'><h1 class='pagetitle'><font color="darkred">
 SBML Test Suite error</font></h1></div><!-- id='pagetitle' -->
 <div style="float: right; margin: 0 0 1em 2em; padding: 0 0 0 5px">
-  <img src="http://sbml.org/images/8/80/Icon-online-test-suite-64px.jpg">
+  <img src="<%=OnlineSTS.getImageURL(request)%>/Icon-online-test-suite-64px.jpg">
 </div>
 <h3>Results produced at <%=timestamp%></h3>
 
@@ -183,12 +183,12 @@ They could even be simply named after the case numbers, without any prefix:
 
 <p>
 For more information, please consult the
-<a href="http://sbml.org/Software/SBML_Test_Suite/Instructions_for_running_the_tests#Gathering_the_results_of_many_tests_for_uploading_to_the_Online_SBML_Test_Suite">
+<a href="<%=OnlineSTS.getHomeURL(request)%>/Instructions_for_running_the_tests#Gathering_the_results_of_many_tests_for_uploading_to_the_Online_SBML_Test_Suite">
 page of instructions</a> for running the Online SBML Test Suite.
 
 <center style="margin: 1em">
-  <a href="<%=baseURL%>uploadresults.jsp">
-    <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
+  <a href="<%=OnlineSTS.getServiceRootURL(request)%>/web/uploadresults.jsp">
+    <img align="center" src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-left-arrow.jpg">
     Return to the test results upload page.
   </a>
 </center>
@@ -237,12 +237,12 @@ They could even be simply named after the case numbers, without any prefix:
 
 <p>
 For more information, please consult the
-<a href="http://sbml.org/Software/SBML_Test_Suite/Instructions_for_running_the_tests#Gathering_the_results_of_many_tests_for_uploading_to_the_Online_SBML_Test_Suite">
+<a href="<%=OnlineSTS.getHomeURL(request)%>/Instructions_for_running_the_tests#Gathering_the_results_of_many_tests_for_uploading_to_the_Online_SBML_Test_Suite">
 page of instructions</a> for running the Online SBML Test Suite.
 
 <center style="margin: 1em">
-<a href="http://sbml.org:8080/test_suite/web/uploadresults.jsp">
-  <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
+<a href="<%=OnlineSTS.getServiceRootURL(request)%>/web/uploadresults.jsp">
+  <img align="center" src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-left-arrow.jpg">
   Return to the upload page. 
 </a>
 </center>
@@ -259,12 +259,12 @@ archive and that it contains at least one data results file.
 
 <p>
 For more information, please consult the
-<a href="http://sbml.org/Software/SBML_Test_Suite/Instructions_for_running_the_tests#Gathering_the_results_of_many_tests_for_uploading_to_the_Online_SBML_Test_Suite">
+<a href="<%=OnlineSTS.getHomeURL(request)%>/Instructions_for_running_the_tests#Gathering_the_results_of_many_tests_for_uploading_to_the_Online_SBML_Test_Suite">
 page of instructions</a> for running the Online SBML Test Suite.
 
 <center style="margin: 1em">
-<a href="http://sbml.org:8080/test_suite/web/uploadresults.jsp">
-  <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
+<a href="<%=OnlineSTS.getServiceRootURL(request)%>/web/uploadresults.jsp">
+  <img align="center" src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-left-arrow.jpg">
   Return to the upload page. 
 </a>
 </center>
@@ -316,7 +316,7 @@ even if you don't write anything, just sending us the email will help.)</p>
 
 <center style="margin: 1.5em auto 2em auto">
 <a href="<%=mailto%>">
-<img src="http://sbml.org/images/8/83/Icon-send-mail-64px.jpg" border="0"><br>
+<img src="<%=OnlineSTS.getImageURL(request)%>/Icon-send-mail-64px.jpg" border="0"><br>
 (Click to send an email report.)
 </a>
 </center>

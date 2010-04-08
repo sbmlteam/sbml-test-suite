@@ -29,10 +29,7 @@
 <%@ page import="java.net.*" %>
 <%@ page import="java.math.*" %>
 
-<%@ page import="sbml.test.UserTestCase" %>
-<%@ page import="sbml.test.UserTestResult" %>
-<%@ page import="sbml.test.TestCase" %>
-<%@ page import="sbml.test.CasesTagsMap" %>
+<%@ page import="sbml.test.*" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 
@@ -93,7 +90,7 @@ TestCase thisCase = new TestCase(testdir, testname);
 
     <div id='pagetitle'>
     <div style="float: right; margin: 0 0 1em 2em; padding: 0 0 0 5px">
-      <img src="http://sbml.org/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
+      <img src="<%=OnlineSTS.getImageURL(request)%>/Icon-online-test-suite-64px.jpg" border="0">
     </div>
     <h1 class='pagetitle'>Details for SBML Test Case #<%=testname%></h1>
     </div><!-- id='pagetitle' -->
@@ -149,7 +146,7 @@ else
     The following is a plot of the <b>expected</b> results:</p>
     
     <center><img style="margin-left: -80px" 
-        src="http://sbml.org:8080/test_suite/test-cases/<%=testname%>/<%=thisCase.getPlotFileName()%>"
+        src="<%=OnlineSTS.getServiceRootURL(request)%>/test-cases/<%=testname%>/<%=thisCase.getPlotFileName()%>"
         align="center" alt="plot"> 
     </center>
 
@@ -265,9 +262,9 @@ if (thisResult != null)
 
 <p style="margin-top: 3em">	
 <center>
-  <a href="http://sbml.org/Facilities/Online_SBML_Test_Suite">
+  <a href="<%=OnlineSTS.getHomeURL(request)%>">
     <img border="0" align="center" 
-         src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
+         src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-left-arrow.jpg">
     Return to the Online SBML Test Suite front page.
   </a>
 </center>

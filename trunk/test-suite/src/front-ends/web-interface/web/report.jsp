@@ -33,9 +33,7 @@
 <%@ page import="java.net.*" %>
 <%@ page import="java.math.*" %>
 
-<%@ page import="sbml.test.UserTestCase" %>
-<%@ page import="sbml.test.UserTestResult" %>
-<%@ page import="sbml.test.CasesTagsMap" %>
+<%@ page import="sbml.test.*" %>
 
 <%@ include file="sbml-head.html"%>
 <%@ include file="sbml-top.html"%>
@@ -67,8 +65,6 @@ if (results == null || results.size() == 0)
 // All good so far?  OK.  Moving on.
 
 int highestCaseNumber = results.size() - 1;
-
-String baseURL    = "http://sbml.org:8080/test_suite/web/";
 
 int countPassed   = ((Integer) session.getAttribute("countPassed")).intValue();
 int countFailed   = ((Integer) session.getAttribute("countFailed")).intValue();
@@ -145,7 +141,7 @@ if (countFailed > 0)
         <tr>
         <td valign="top" style="padding: 2px">
             <a title="Test case <%=name%>"
-                href="<%=baseURL%>/testdetails.jsp?testname=<%=name%>"
+                href="<%=OnlineSTS.getServiceRootURL(request)%>/web/testdetails.jsp?testname=<%=name%>"
                 target="_blank"><%= name %>
         </td>
         <td valign="top" style="padding: 5px 5em 5px 5px"><%= theCase.getSynopsis()%></td>
