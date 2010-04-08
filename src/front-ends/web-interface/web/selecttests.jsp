@@ -23,6 +23,8 @@
  * ----------------------------------------------------------------------------
 --%>
 
+<%@ page import="sbml.test.*" %>
+
 <%@ page errorPage="/web/error.jsp" %>
 
 <%@ include file="sbml-head.html"%>
@@ -341,7 +343,7 @@ hookEvent("load", warn);
 
 <div id='pagetitle'><h1 class='pagetitle'>Step 1: Select SBML Tests </h1></div><!-- id='pagetitle' -->
 <div style="float: right; margin-top: 0; padding: 0 0 0 5px">
-  <img src="/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
+  <img src="<%=OnlineSTS.getImageURL(request)%>/Icon-online-test-suite-64px.jpg" border="0">
 </div>
 <p>
 The first step in using the online Test Suite is to obtain a set of test
@@ -349,7 +351,7 @@ models using the form on this page.  Once you have answered the questions
 below and downloaded a collection of tests, you must then record the
 results of simulating each model in your application and put the results in
 files according to the guidelines in <a
-href="/Software/SBML_Test_Suite/Step_2:_Running_the_tests">step 2</a>.
+href="<%=OnlineSTS.getHomeURL(request)%>/Step_2:_Running_the_tests">step 2</a>.
 </p>
 
 <p> If you prefer, you can also skip the rest of this page and download the
@@ -358,7 +360,8 @@ href="http://sourceforge.net/project/showfiles.php?group_id=71971&package_id=902
 archive</a>.
 </p>
 
-<form name="options" action="/test-suite/web/process-selections.jsp" method="post">
+<form action="<%=OnlineSTS.getServiceRootURL(request)%>/web/process-selections.jsp"
+      name="options" method="post">
 
 <p style="margin-top: 1.5em; padding-top: 0.5em; border-top: 1px solid #999"> 
 
@@ -481,7 +484,7 @@ boxes before proceeding.
 
 <p> Your browser will start downloading the archive shortly after you the
 click button, and will automatically move to <a
-href="/Software/SBML_Test_Suite/Step_2:_Running_the_tests">the instructions
+href="<%=OnlineSTS.getHomeURL(request)%>/Step_2:_Running_the_tests">the instructions
 for step 2</a>.
 </p>
 

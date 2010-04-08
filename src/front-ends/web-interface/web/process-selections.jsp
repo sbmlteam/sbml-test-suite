@@ -34,7 +34,8 @@
 <%@ page import="java.io.*" %>
 <%@ page import="javax.servlet.*" %>
 <%@ page import="javax.servlet.http.*" %>
-<%@ page import="sbml.test.CasesTagsMap" %>
+
+<%@ page import="sbml.test.*" %>
 
 <%@ page errorPage="/web/error.jsp" %>
 
@@ -97,22 +98,25 @@ session.putValue("casesRootDir"   , casesRootDir);
 session.putValue("returnedCases"  , casesToReturn);
 session.putValue("levelAndVersion", levelAndVersion);
 response.setHeader("Refresh",
-                   "1; URL=http://sbml.org:8080/test_suite/servlet/ZipServlet");
+                   "1; URL=" + OnlineSTS.getServiceRootURL(request)
+		   + "/servlet/ZipServlet");
 
 %>
 
 <div id='pagetitle'><h1 class='pagetitle'>
 Assembling and downloading archive of selected test cases</h1></div><!-- id='pagetitle' -->
 <div style="float: right; margin-top: 0; padding: 0 0 0 5px">
-  <img src="/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
+  <img src="<%=OnlineSTS.getImageURL(request)%>/Icon-online-test-suite-64px.jpg"
+       border="0">
 </div>
 <p>
 Based on your selections, an archive containing the selected SBML test
 should begin downloading automatically in a few seconds.  After receiving
 and unpacking the archive, please proceed to Step 2.
 <center style="margin: 1.5em">
-  <a href="/Software/SBML_Test_Suite/Step_2:_Running_the_tests">
-    <img border="0" align="center" src="/images/e/ec/Icon-red-right-arrow.jpg">
+  <a href="<%=OnlineSTS.getHomeURL(request)%>/Step_2:_Running_the_tests">
+    <img border="0" align="center" 
+         src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-right-arrow.jpg">
     Go to the instructions for Step 2 (running the tests).
   </a>
 </center>

@@ -26,9 +26,8 @@
 <%@ page import="java.text.*" %>
 <%@ page import="java.lang.*" %>
 <%@ page import="java.io.*" %>
-<%@ page import="sbml.test.UserTestCase" %>
-<%@ page import="sbml.test.UserTestResult" %>
-<%@ page import="sbml.test.CasesTagsMap" %>
+
+<%@ page import="sbml.test.*" %>
 
 <%@ page errorPage="/web/error.jsp" %>
 
@@ -38,12 +37,10 @@
 <div id='pagetitle'><h1 class='pagetitle'>Outcome of tests</h1>
 </div><!-- id='pagetitle' -->
 <div style="float: right; margin-top: 0; padding: 0 0 0 5px">
-  <img src="http://sbml.org/images/8/80/Icon-online-test-suite-64px.jpg" border="0">
+  <img src="<%=OnlineSTS.getImageURL(request)%>/Icon-online-test-suite-64px.jpg" border="0">
 </div>
 
 <%!
-
-String baseURL = "http://sbml.org:8080/test_suite/web/";
 
 // The time stamp acts as a simple way to differentiate different runs.
 // We also store this in the session variables later on.
@@ -94,6 +91,8 @@ int highestCaseNumber = results.size() - 1;
 // Along the way, compute some general statistics about the results.
 //
 
+String baseURL = OnlineSTS.getServiceRootURL(request) + "/web";
+
 Map<String, Integer> tmap = new HashMap<String, Integer>();
 Map<String, Integer> cmap = new HashMap<String, Integer>();
 
@@ -116,7 +115,7 @@ for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
 
     out.print("<td>");
     out.print("<a title=\"Test case " + name + "\" "
-              + "href=\"" + baseURL + "testdetails.jsp?testname=" + name
+              + "href=\"" + baseURL + "/testdetails.jsp?testname=" + name
               + "\" target=\"_blank\">");
 
     if (thisResult != null)
@@ -148,7 +147,7 @@ for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
         color = "gray";
         countMissing++;
     }
-    out.print("<img src=\"" + baseURL + "images/" + color + ".jpg\"/>");
+    out.print("<img src=\"" + baseURL + "/images/" + color + ".jpg\"/>");
     out.print("</a>");
     out.print("</td>");
 
@@ -172,16 +171,16 @@ for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
 Total number of test cases analyzed: <b><%=highestCaseNumber%></b>
 </p>
 <p>
-<img src="<%=baseURL%>images/green.jpg" valign="top"/>
+<img src="<%=baseURL%>/images/green.jpg" valign="top"/>
 Number of test cases <b><font color="green">passed</font></b>: <%= countPassed %><br>
 
-<img src="<%=baseURL%>images/red.jpg" valign="top"/>
+<img src="<%=baseURL%>/images/red.jpg" valign="top"/>
 Number of test cases <b><font color="darkred">failed</font></b>: <%= countFailed %><br>
 
-<img src="<%=baseURL%>images/black.jpg" valign="top"/>
+<img src="<%=baseURL%>/images/black.jpg" valign="top"/>
 Number of test cases with <b><font color="black">problems</font></b>: <%= countProblems %><br>
 
-<img src="<%=baseURL%>images/gray.jpg" valign="top"/>
+<img src="<%=baseURL%>/images/gray.jpg" valign="top"/>
 Number of test cases <b><font color="gray">not included</font></b> in the uploaded results: <%= countMissing %><br>
 
 <%
@@ -243,7 +242,7 @@ session.setAttribute("timeOfRun"    , timeOfRun);
 
 <br><br>
 <p>
-<form name="report" action="<%=baseURL%>report.jsp" method="post">
+<form name="report" action="<%=baseURL%>/report.jsp" method="post">
 <input type="submit" value="View Report">
 (The report summarizes the results in a more convenient format for printing.) 
 </form>
@@ -258,8 +257,8 @@ your computer, and upload it.
 <p>
 
 <center style="margin: 1em">
-  <a href="<%=baseURL%>uploadresults.jsp">
-    <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
+  <a href="<%=baseURL%>/uploadresults.jsp">
+    <img align="center" src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-left-arrow.jpg">
     Return to the test results upload page.
   </a>
 </center>
@@ -269,8 +268,8 @@ Test Suite.
 </p>
 
 <center style="margin: 1em">
-  <a href="http://sbml.org/Facilities/Online_SBML_Test_Suite">
-    <img align="center" src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
+  <a href="<%=OnlineSTS.getHomeURL(request)%>">
+    <img align="center" src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-left-arrow.jpg">
     Return to the front page for the Online SBML Test Suite.
   </a>
 </center>

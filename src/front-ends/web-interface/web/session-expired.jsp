@@ -39,7 +39,7 @@
 <div id='pagetitle'><h1 class='pagetitle'><font color="darkred">
 SBML Test Suite session error</font></h1></div><!-- id='pagetitle' -->
 <div style="float: right; margin: 0 0 1em 2em; padding: 0 0 0 5px">
-  <img src="http://sbml.org/images/8/80/Icon-online-test-suite-64px.jpg">
+  <img src="<%=OnlineSTS.getImageURL(request)%>/Icon-online-test-suite-64px.jpg">
 </div>
 
 <p>
@@ -49,9 +49,9 @@ minutes.  Please re-upload your results and proceed.
 
 <p>	
 <center>
-  <a href="http://sbml.org/Facilities/Online_SBML_Test_Suite">
+  <a href="<%=OnlineSTS.getHomeURL(request)%>">
     <img border="0" align="center" 
-         src="http://sbml.org/images/8/83/Icon-red-left-arrow.jpg">
+         src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-left-arrow.jpg">
     Return to the Online SBML Test Suite front page.
   </a>
 </center>
