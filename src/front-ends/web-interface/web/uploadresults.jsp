@@ -38,6 +38,13 @@
 <%@ include file="sbml-head.html"%>
 <%@ include file="sbml-top.html"%>
 
+<%
+// Start by logging that we've been invoked.
+
+OnlineSTS.init();
+OnlineSTS.logInvocation(request);
+%>
+
 <script type="text/javascript" type="text/javascript">
 /**
  * The onSubmit() JavaScript function does multiple things in one go:

@@ -47,8 +47,13 @@
 <%@ include file="sbml-top.html"%>
 
 <%
+// 1. Start by logging that we've been invoked.
+
+OnlineSTS.init();
+OnlineSTS.logInvocation(request);
+
 //
-// 1. Get the user's selection from the previous screen.
+// 2. Get the user's selection from the previous screen.
 //
 
 String[] ctags         = formHandler.getCtags();
@@ -57,13 +62,13 @@ String levelAndVersion = formHandler.getLevelAndVersion()[0];
 
 
 //
-// 2. Build up a list of case files that we will zip up and return.
+// 3. Build up a list of case files that we will zip up and return.
 //
 
-File casesRootDir    = new File(getServletContext().getRealPath("/test-cases"));
-CasesTagsMap caseMap = new CasesTagsMap(casesRootDir);
-int highest          = caseMap.getHighestCaseNumber();
-Vector casesToReturn = new Vector();
+File casesRootDir            = new File(getServletContext().getRealPath("/test-cases"));
+CasesTagsMap caseMap         = new CasesTagsMap(casesRootDir);
+int highest                  = caseMap.getHighestCaseNumber();
+Vector<String> casesToReturn = new Vector();
 
 outer:
 for (int i = 1; i <= highest; i++)
@@ -85,17 +90,20 @@ for (int i = 1; i <= highest; i++)
      }
 }
 
+OnlineSTS.logInfo(request, "Selection yielded " + casesToReturn.size()
+                  + " cases " + "of level/version " + levelAndVersion);
+
 if (casesToReturn.size() < 1)
 {
     throw new JspException("STS has no cases to put into archive");
 }
 
 //
-// 4. Call our zip file builder with the results and some additional param.
+// 5. Call our zip file builder with the results and some additional param.
 //
 
 session.putValue("casesRootDir"   , casesRootDir);
-session.putValue("returnedCases"  , casesToReturn);
+session.putValue("casesToReturn"  , casesToReturn);
 session.putValue("levelAndVersion", levelAndVersion);
 response.setHeader("Refresh",
                    "1; URL=" + OnlineSTS.getServiceRootURL(request)

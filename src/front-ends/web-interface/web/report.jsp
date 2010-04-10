@@ -39,6 +39,11 @@
 <%@ include file="sbml-top.html"%>
 
 <%
+// Start by logging that we've been invoked.
+
+OnlineSTS.init();
+OnlineSTS.logInvocation(request);
+
 // We get a number of things via the URL handed to us in the link that the
 // user clicked.  The rest we get from the context.  The following code
 // pulls out the different pieces we need to get started.
