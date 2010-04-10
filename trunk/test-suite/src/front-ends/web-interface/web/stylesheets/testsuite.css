@@ -2,22 +2,6 @@ img {
   border: none;
 }
 
-hr {
-  color: #ddd;
-}
-
-table.borderless-table {  
-  font-size: 9pt;
-}
-
-table.borderless-table td,
-table.borderless-table tr {  
-  margin: 0px;
-  padding: 0px;
-  border-collapse: collapse;
-  border: none;
-}
-
 #resultsmap table {
   width: 90%;
   margin: 0px;
