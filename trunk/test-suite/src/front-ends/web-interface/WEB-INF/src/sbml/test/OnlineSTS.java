@@ -26,6 +26,9 @@ package sbml.test;
 
 import java.applet.*;
 import java.io.*;
+import java.text.*;
+import java.util.*;
+import java.util.logging.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
@@ -35,6 +38,109 @@ public class OnlineSTS
     // 
     // --------------------------- Public methods ----------------------------- 
     // 
+
+    /**
+     * Set up our logger and anything needed.
+     */
+    public static void init()
+    {
+        if (log != null) return;     // We've been here before.
+
+        log = Logger.getLogger(STS_LOGGER_SUBSYSTEM);
+        if (log != null)
+        {
+            // Remove other loggers, to prevent left-overs when the app is
+            // reloaded.  (Not sure if this is the best thing to do, but so
+            // far it's worked and solved the problem that reloading
+            // resulted in new instances of ConsoleHandler getting added.)
+
+            Handler[] handlers = log.getHandlers();
+            for (Handler h : handlers)
+            {
+                System.err.println("Removing " + h);
+                log.removeHandler(h);
+            }
+        
+            // Set up our logger with custom formatting.
+
+            ConsoleHandler ch = new ConsoleHandler();
+            ch.setLevel(Level.INFO);
+            ch.setFormatter(new OnlineSTSLogFormatter());
+            log.addHandler(ch);
+            log.setUseParentHandlers(false);
+        }
+        else
+        {
+            System.err.println("STS ERROR: Can't create logger object.");
+        }
+    }
+
+
+    public static final void logInvocation(HttpServletRequest request)
+    {
+        log.info(withIP(request, "(" + request.getRequestURL() + ") Loaded."));
+    }
+
+
+    public static final void logInfo(String msg)
+    {
+        log.info(deduceCallingClass() + " " + msg);
+    }
+
+
+    public static final void logInfo(HttpServletRequest request, String msg)
+    {
+        log.info(withIP(request, deduceCallingClass() + " " + msg));
+    }
+
+
+    public static final void logDebug(String msg)
+    {
+        log.fine(deduceCallingClass() + " " + msg);
+    }
+
+
+    public static final void logDebug(HttpServletRequest request, String msg)
+    {
+        log.info(withIP(request, deduceCallingClass() + " " + msg));
+    }
+
+
+    public static final void logWarning(String msg)
+    {
+        log.warning(deduceCallingClass() + " " + msg);
+    }
+
+
+    public static final void logWarning(HttpServletRequest request, String msg)
+    {
+        log.warning(withIP(request, deduceCallingClass() + " " + msg));
+    }
+
+
+    public static final void logError(String msg)
+    {
+        log.severe(deduceCallingClass() + " " + msg);
+    }
+
+
+    public static final void logError(HttpServletRequest request, String msg)
+    {
+        log.severe(withIP(request, deduceCallingClass() + " " + msg));
+    }
+
+
+    public static final void logThrowing(String c, String m, Throwable th)
+    {
+        log.throwing(c, m, th);
+    }
+
+
+    public static final String withIP(HttpServletRequest request, String msg)
+    {
+        return "[" + request.getRemoteHost() + "] " + msg;
+    }
+
 
     /**
      * Returns the advertised base URL for the Online SBML Test Suite.
@@ -104,15 +210,35 @@ public class OnlineSTS
     }
 
     // 
+    // --------------------------- Private methods ----------------------------
+    // 
+
+    private static String deduceCallingClass()
+    {
+        final Throwable tmpThrowable    = new Throwable();
+        final StackTraceElement[] stack = tmpThrowable.getStackTrace();
+        final StackTraceElement entry   = stack[2]; // Want the caller, not us.
+
+        return "(" + entry.getFileName() + ":" + entry.getLineNumber() + ")";
+    }
+
+    // 
     // -------------------------- Private variables ---------------------------
     // 
 
     private static String STS_HOME_URL =
         "http://sbml.org/Software/SBML_Test_Suite";
 
-    // The following are cache variables:
-
+    /** Cache variable for the tomcat service root URL. **/
     private static String serviceRootURL;
+
+    /** Cache variable for the directory where we store images. **/
     private static String imageURL;
+
+    /** Cache variable for our log handler object. **/
+    private static Logger log;
+
+    /** How we identify ourselves to the logger system. **/
+    private static String STS_LOGGER_SUBSYSTEM = "sbml.test";
 
 } // end of class
