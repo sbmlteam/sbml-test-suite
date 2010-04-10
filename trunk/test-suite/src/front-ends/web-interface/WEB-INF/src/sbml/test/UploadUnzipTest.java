@@ -46,20 +46,9 @@ import java.math.*;
  */
 public class UploadUnzipTest extends HttpServlet
 {
-    // FIXME why isn't this sending back exceptions directly?
-
-    // The page that handles forwarded error messages returned to the user:
-    static final String ERROR_PAGE = "/web/error.jsp";
-
-    // The page that handles displaying results to the user:
-    static final String RESULTS_PAGE = "/web/showresults.jsp";
-
-    // Errors are communicated back to error.jsp via the following codes:
-    static final String BAD_UPLOAD      = "Upload request failed";
-    static final String BAD_FILE_NAMES  = "Bad file names";
-    static final String EMPTY_ARCHIVE   = "Empty archive";
-    static final String SERVER_ERROR    = "Server error";
-    static final String USER_DATA_ERROR = "User data error";
+    // 
+    // --------------------------- Public methods ----------------------------
+    // 
 
     /**
      * Interface function invoked by uploadresults.jsp.
@@ -71,6 +60,8 @@ public class UploadUnzipTest extends HttpServlet
 
         httpRequest  = request;
         httpResponse = response;
+
+        OnlineSTS.logInvocation(request);
 
         // An upload from uploadresults.jsp is supposed to be a multipart
         // request.  If that's not what we got here, toss an error.
@@ -112,6 +103,7 @@ public class UploadUnzipTest extends HttpServlet
             try
             {
                 Vector<UserTestResult> results = performAnalysis(userCases);
+                OnlineSTS.logInfo(request, "Returning results to user.");
                 httpRequest.setAttribute("testResults", results);
                 RequestDispatcher dispatcher
                     = httpRequest.getRequestDispatcher(RESULTS_PAGE);
@@ -124,6 +116,9 @@ public class UploadUnzipTest extends HttpServlet
             }
     }
 
+    // 
+    // --------------------------- Private methods ----------------------------
+    // 
 
     private Vector<UserTestResult> performAnalysis(TreeSet<UserTestCase> cases)
         throws ServletException, Exception
@@ -155,6 +150,8 @@ public class UploadUnzipTest extends HttpServlet
         Vector<UserTestResult> results = new Vector<UserTestResult>();
         results.setSize(highestNumber + 1);  // +1 because we have no case 0.
 
+        OnlineSTS.logInfo(httpRequest, "Starting analysis ...");
+
         caseLoop:
         for (UserTestCase theCase : cases)
         {
@@ -176,10 +173,8 @@ public class UploadUnzipTest extends HttpServlet
                 return null;
             }
 
-            System.err.println(name);
-
-            UserTestResult result = new UserTestResult(theCase);
-            results.set(theCase.getCaseNum(), result);
+            UserTestResult thisResult = new UserTestResult(theCase);
+            results.set(theCase.getCaseNum(), thisResult);
 
             // If we get an error reading the user's data file, we treat
             // it as their problem.  Log it and move on to the next case.
@@ -190,7 +185,8 @@ public class UploadUnzipTest extends HttpServlet
             }
             catch (Exception e)
             {
-                result.setErrorMessage(e.getMessage());
+                OnlineSTS.logInfo(httpRequest, "Reporting problem: " + e.getMessage());
+                thisResult.setErrorMessage(e.getMessage());
                 continue;
             }
 
@@ -207,12 +203,12 @@ public class UploadUnzipTest extends HttpServlet
             for (int r = 0; r < numRows; r++)
                 if (! tolerable(refData[r][0], userData[r][0], absTol, relTol))
                 {
-                    result.setErrorMessage("Within the tolerances set for this"
-                                           + " case, the time step value on"
-                                           + " row " + r + " doesn't match"
-                                           + " the expected value: expecting"
-                                           + " " + refData[r][0] + " but read"
-                                           + " " + userData[r][0] + " instead.");
+                    String msg = "Within the tolerances set for this case, the"
+                        + " time step value on row " + r + " doesn't match the"
+                        + " the expected value: expecting " + refData[r][0]
+                        + " but read " + userData[r][0] + " instead.";
+                    thisResult.setErrorMessage(msg);
+                    OnlineSTS.logInfo(httpRequest, "Reporting problem: " + msg);
                     continue caseLoop;
                 }
 
@@ -232,10 +228,11 @@ public class UploadUnzipTest extends HttpServlet
                         failCount++;
                     }
 
-            result.setNumDifferences(failCount);
-            result.setDifferences(diffs);
+            thisResult.setNumDifferences(failCount);
+            thisResult.setDifferences(diffs);
         }
 
+        OnlineSTS.logInfo(httpRequest, "... Finished analysis.");
         return results;
     }
 
@@ -345,7 +342,11 @@ public class UploadUnzipTest extends HttpServlet
         }
 
         if (cases.size() >= 1)
+        {
+            OnlineSTS.logInfo(httpRequest, "Got " + cases.size() + 
+                              " case" + (cases.size() > 1 ? "s" : ""));
             return cases;
+        }
         else
         {
             if (badFileNames.size() >= 1)
@@ -414,7 +415,7 @@ public class UploadUnzipTest extends HttpServlet
     private void propagateError(String code, String msg, Exception e)
         throws ServletException, IOException
     {
-        System.err.println("(" + code + ") " + msg);
+        OnlineSTS.logError(httpRequest, "(" + code + ") " + msg);
         if (e != null) e.printStackTrace(System.err);
         httpRequest.setAttribute("errorCode", code);
         httpRequest.setAttribute("errorDetails", msg);
@@ -432,5 +433,22 @@ public class UploadUnzipTest extends HttpServlet
 
     private File uploadDir;
     private File refCasesDir;
+
+    // 
+    // -------------------------- Private constants ---------------------------
+    // 
+
+    // The page that handles forwarded error messages returned to the user:
+    private static final String ERROR_PAGE = "/web/error.jsp";
+
+    // The page that handles displaying results to the user:
+    private static final String RESULTS_PAGE = "/web/showresults.jsp";
+
+    // Errors are communicated back to error.jsp via the following codes:
+    private static final String BAD_UPLOAD      = "Upload request failed";
+    private static final String BAD_FILE_NAMES  = "Bad file names";
+    private static final String EMPTY_ARCHIVE   = "Empty archive";
+    private static final String SERVER_ERROR    = "Server error";
+    private static final String USER_DATA_ERROR = "User data error";
 
 } // end of class
