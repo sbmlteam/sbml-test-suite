@@ -32,13 +32,15 @@ class-dir   = WEB-INF/classes/sbml/test
 web-dir     = web
 javac-flags = -g -Xlint:unchecked -d WEB-INF/classes -sourcepath WEB-INF/src
 
-classes: $(class-dir)/CasesTagsMap.class    \
-         $(class-dir)/FormBean.class        \
-         $(class-dir)/OnlineSTS.class       \
-         $(class-dir)/TestCase.class        \
-         $(class-dir)/UploadUnzipTest.class \
-         $(class-dir)/UserTestCase.class    \
-         $(class-dir)/UserTestResult.class  \
+classes: $(class-dir)/CasesTagsMap.class          \
+         $(class-dir)/FormBean.class              \
+         $(class-dir)/Log.class                   \
+         $(class-dir)/OnlineSTS.class             \
+         $(class-dir)/OnlineSTSLogFormatter.class \
+         $(class-dir)/TestCase.class              \
+         $(class-dir)/UploadUnzipTest.class       \
+         $(class-dir)/UserTestCase.class          \
+         $(class-dir)/UserTestResult.class        \
          $(class-dir)/ZipServlet.class
 
 jsp-jar        = /var/lib/tomcat5/common/lib/[jsp].jar
