@@ -36,6 +36,13 @@
 <%@ include file="sbml-head.html"%>
 <%@ include file="sbml-top.html"%>
 
+<%
+// Start by logging that we've been invoked.
+
+OnlineSTS.init();
+OnlineSTS.logInvocation(request);
+%>
+
 <div id='pagetitle'><h1 class='pagetitle'><font color="darkred">
 SBML Test Suite session error</font></h1></div><!-- id='pagetitle' -->
 <div style="float: right; margin: 0 0 1em 2em; padding: 0 0 0 5px">

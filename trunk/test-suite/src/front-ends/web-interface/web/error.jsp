@@ -47,6 +47,7 @@
 <%@ page import="sbml.test.*" %>
 
 <%
+OnlineSTS.init();
 
 final class InternalUtility
 {
@@ -101,6 +102,8 @@ final class InternalUtility
 	text += "errorCode: " + r.getAttribute("errorCode") + "\n";
 	text += "errorCode full: " + r.getAttribute("javax.servlet.error.errorCode") + "\n";
 
+
+	OnlineSTS.logError(text);
         return "Session data: \n" +  text;
     }
 

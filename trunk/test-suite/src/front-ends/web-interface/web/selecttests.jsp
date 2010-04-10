@@ -27,8 +27,16 @@
 
 <%@ page errorPage="/web/error.jsp" %>
 
+<%
+// Start by logging that we've been invoked.
+
+OnlineSTS.init();
+OnlineSTS.logInvocation(request);
+%>
+
 <%@ include file="sbml-head.html"%>
 
+<script type="text/javascript" src="imported/dojo/dojo.js"></script>
 <script language="javascript" type="text/javascript">
 <!--
 

@@ -40,7 +40,11 @@
   <img src="<%=OnlineSTS.getImageURL(request)%>/Icon-online-test-suite-64px.jpg" border="0">
 </div>
 
-<%!
+<%
+// Start by logging that we've been invoked.
+
+OnlineSTS.init();
+OnlineSTS.logInvocation(request);
 
 // The time stamp acts as a simple way to differentiate different runs.
 // We also store this in the session variables later on.
@@ -159,6 +163,10 @@ for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
 
 } // end of for loop
 
+OnlineSTS.logInfo(request, "Results: " + countPassed + " passed, "
+                  + countFailed + " failed, " + countProblems + " problems, "
+                  + countMissing + " missing.");
+
 //
 // 3. Follow this with a text summary of the results.  (In HTML, below.)
 //
@@ -197,7 +205,7 @@ if (countFailed > 0)
     
     <table class="borderless-table alt-row-colors sm-padding" 
            align="center" width="60%" 
-           style="border-top: 1px solid #bbb; border-bottom: 1px solid #bbb">
+           style="border-top: 1px solid #bbb; border-bottom: 1px solid #bbb;">
       <tr>
         <th valign="bottom">Test tag</th>
         <th width="150px" valign="bottom">Number of failed<br>cases with this tag</th>
