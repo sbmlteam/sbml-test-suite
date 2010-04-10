@@ -47,26 +47,64 @@ import javax.servlet.http.*;
  */
 public class ZipServlet extends HttpServlet
 {
-    private final String archiveName = new String("SBML_test_cases");
+    // 
+    // --------------------------- Public methods ----------------------------
+    // 
+
+    /** 
+     * Handles the HTTP <code>GET</code> method.
+     * @param req servlet request
+     * @param resp servlet response
+     */
+    public void doGet(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException
+    {
+        processRequest(req, resp);
+    }
+
+
+    /** 
+     * Handles the HTTP <code>POST</code> method.
+     * @param req servlet request
+     * @param resp servlet response
+     */
+    public void doPost(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException
+    {
+        processRequest(req, resp);
+    }
+
+
+    /** 
+     * Returns a short description of the servlet.
+     */
+    public String getServletInfo()
+    {
+        return "Servlet to create an archive of test cases for the user";
+    }
+
+    // 
+    // --------------------------- Private methods ----------------------------
+    // 
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods. 
      * @param req servlet request
      * @param resp servlet response
-     */
-    protected void processRequest(HttpServletRequest request,
-                                  HttpServletResponse resp)
+     */ 
+    private void processRequest(HttpServletRequest request,
+                                HttpServletResponse resp)
         throws ServletException, IOException
     {
         try
         {
-            HttpSession s          = request.getSession(true);
+            HttpSession s          = request.getSession(false);
             File root              = (File) s.getAttribute("casesRootDir");
-            Vector cases           = (Vector) s.getAttribute("returnedCases");
             String levelAndVersion = (String) s.getAttribute("levelAndVersion");
 
-            String omitFileRegexp  = buildFileOmitRegexp(levelAndVersion);
+            @SuppressWarnings("unchecked")
+            Vector<String> cases   = (Vector<String>) s.getAttribute("casesToReturn");
 
             resp.setContentType("application/zip");
             resp.setHeader("Content-disposition",
@@ -84,14 +122,13 @@ public class ZipServlet extends HttpServlet
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                                "No test cases selected");
 
-            ZipOutputStream zos = new ZipOutputStream(resp.getOutputStream());
+            OnlineSTS.logInfo(request, "Zip'ing up " + cases.size() + " cases");
 
-            Iterator tc = cases.iterator();
-            while (tc.hasNext())
-            {
-                String theCase = (String) tc.next();
-                addFilesToZip(theCase, root, archiveName, omitFileRegexp, zos);
-            }
+            String omitFileRegex = buildFileOmitRegex(levelAndVersion);
+            ZipOutputStream zos  = new ZipOutputStream(resp.getOutputStream());
+
+            for (String caseName : cases)
+                addFilesToZip(caseName, root, archiveName, omitFileRegex, zos);
 
             zos.flush();
             zos.close();
@@ -103,12 +140,13 @@ public class ZipServlet extends HttpServlet
         }
     }
 
+
     /**
      * Recursive function to add a case and all its contents to the zip
      * output stream.
      */
     private void addFilesToZip(String tcase, File root, String prefix,
-                               String omitFileRegexp, ZipOutputStream zos)
+                               String omitFileRegex, ZipOutputStream zos)
         throws Exception
     {
         File dir = new File(root + File.separator + tcase);
@@ -127,9 +165,9 @@ public class ZipServlet extends HttpServlet
             if (file.isDirectory())
             {
                 addFilesToZip(pathInZip + name + File.separator, file, "",
-                              omitFileRegexp, zos);
+                              omitFileRegex, zos);
             }
-            else if (! Pattern.matches(omitFileRegexp, name))
+            else if (! Pattern.matches(omitFileRegex, name))
             {
                 zos.putNextEntry(new ZipEntry(pathInZip + name));
 
@@ -152,9 +190,9 @@ public class ZipServlet extends HttpServlet
     /**
      * Builds a regular expression of file names to omit from the archive.
      */
-    private String buildFileOmitRegexp(String levelAndVersion)
+    private String buildFileOmitRegex(String levelAndVersion)
     {
-        // 'rx' is the start of the regexp, but note that it's not terminated.
+        // 'rx' is the start of the regex, but note that it's not terminated.
         // We add some more pieces below, then close it off at the end.
 
         String rx = new String("\\d{5}-(model.m|results.csv|plot.(jpg|eps)");
@@ -176,34 +214,9 @@ public class ZipServlet extends HttpServlet
     }
 
 
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param req servlet request
-     * @param resp servlet response
-     */
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException
-    {
-        processRequest(req, resp);
-    }
+    // 
+    // -------------------------- Private constants ---------------------------
+    // 
 
-
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param req servlet request
-     * @param resp servlet response
-     */
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException
-    {
-        processRequest(req, resp);
-    }
-
-    /** 
-     * Returns a short description of the servlet.
-     */
-    public String getServletInfo()
-    {
-        return "Servlet to zip the test cases for user";
-    }
+    private final String archiveName = new String("SBML_test_cases");
 }
