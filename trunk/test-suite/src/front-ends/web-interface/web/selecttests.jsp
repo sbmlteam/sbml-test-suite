@@ -188,17 +188,28 @@ function propagate()
     setExcluded("NonConstantParameter",   true, ttags);
   }
 
-  // If all rules and all events are removed, then one can't construct a
-  // model with variable sized compartments or parameter values.
-
   if (isExcluded("AssignmentRule", ctags) && isExcluded("AlgebraicRule", ctags)
-      && isExcluded("RateRule", ctags)
-      && (lv == "1.2"
-          || (isExcluded("EventWithDelay", ctags)
-              && isExcluded("EventNoDelay", ctags))))
+      && isExcluded("RateRule", ctags))
   {
-    setExcluded("NonConstantCompartment", true, ttags);
-    setExcluded("NonConstantParameter",   true, ttags);
+    // In 1.2, where there are no events, if you also don't have reactions,
+    // then you can't do anything at all.
+
+    if (lv == "1.2" && isExcluded("Reaction", ctags))
+    {
+      document.options.submit.disabled = true;
+      warn("not-available", "hide"); // Just in case.
+      warn("no-components", "hide"); // Just in case.
+      warn("no-components-l1v2", "show");
+    }
+    else if (lv == "1.2" || (isExcluded("EventWithDelay", ctags)
+                             && isExcluded("EventNoDelay", ctags)))
+    {
+      // If all rules and all events are removed, then one can't construct
+      // a model with variable sized compartments or parameter values.
+
+      setExcluded("NonConstantCompartment", true, ttags);
+      setExcluded("NonConstantParameter",   true, ttags);
+    }
   }
 
   // If there are no parameters, species or compartments, it's impossible
@@ -232,20 +243,34 @@ function propagate()
   {
     document.options.submit.disabled = true;
     warn("not-available", "hide"); // Just in case.
+    warn("no-components-l1v2", "hide"); // Just in case.
     warn("no-components", "show");
   }
 
   // State resets -- these should come last.
 
-  if (document.options.submit.disabled
-      && (! isExcluded("Species", ctags)
-          || ! isExcluded("Parameter", ctags)
-          || ! isExcluded("Compartment", ctags)))
+  if (document.options.submit.disabled)
   {
-    document.options.submit.disabled = false;
-    warn("no-components", "hide");
+    if (lv == "1.2")
+    {
+      if (! isExcluded("AssignmentRule", ctags)
+          || ! isExcluded("AlgebraicRule", ctags)
+          || ! isExcluded("RateRule", ctags)
+          || ! isExcluded("Reaction", ctags))
+      {
+        document.options.submit.disabled = false;
+        warn("no-components-l1v2", "hide");
+      }
+    }
+    else if (! isExcluded("Species", ctags)
+             || ! isExcluded("Parameter", ctags)
+             || ! isExcluded("Compartment", ctags))
+    {
+      document.options.submit.disabled = false;
+      warn("no-components-l1v2", "hide");
+      warn("no-components", "hide");
+    }
   }
-
 }
 
 /*
@@ -289,6 +314,11 @@ function warn(which, action)
     param = {node: "warningNotAvailable", duration: 200};
     break;
 
+  case "no-components-l1v2":
+    id = "warningNoneLeftL1v2";
+    param = {node: "warningNoneLeftL1v2", duration: 200};
+    break;
+
   default:
   case "no-components":
     id = "warningNoneLeft"
@@ -315,6 +345,7 @@ function warn(which, action)
   default:
     dojo.fx.wipeOut({node: "warningNotAvailable", duration: 0}).play();
     dojo.fx.wipeOut({node: "warningNoneLeft", duration: 0}).play();
+    dojo.fx.wipeOut({node: "warningNoneLeftL1v2", duration: 0}).play();
     break;
   }
 }
@@ -473,6 +504,12 @@ selected by clicking on the button below:
      title="Warning&mdash;all possible components have been excluded">
 If compartments, species, reactions and parameters are <i>all</i>
 excluded, then there are no possible test cases left.  Please deselect
+some of the component tags before proceeding.
+</div>
+<div id="warningNoneLeftL1v2" class="warningBox"
+     title="Warning&mdash;all possible components have been excluded">
+In SBML Level 1, if reactions are exluded along with all types of rules,
+then there are no possible test cases left.  Please deselect
 some of the component tags before proceeding.
 </div>
 <div id="warningNotAvailable" class="warningBox"
