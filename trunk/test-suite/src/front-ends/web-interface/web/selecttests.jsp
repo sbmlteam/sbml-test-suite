@@ -247,9 +247,22 @@ function propagate()
     warn("no-components", "show");
   }
 
-  // State resets -- these should come last.
+  // For some combinations, we just don't have cases yet.
 
-  if (document.options.submit.disabled)
+  if (isExcluded("Compartment", ctags) && isExcluded("Species", ctags)
+      && ((lv == "1.2" && isExcluded("AssignmentRule", ctags))
+	  || (isExcluded("EventNoDelay", ctags)
+	      && isExcluded("EventWithDelay", ctags)
+	      && isExcluded("InitialAssignment", ctags)
+	      && isExcluded("AssignmentRule", ctags)
+	      && isExcluded("RateRule", ctags))))
+  {
+    document.options.submit.disabled = true;
+    warn("no-components-l1v2", "hide"); // Just in case.
+    warn("no-components", "hide"); // Just in case.
+    warn("not-available", "show");
+  }  
+  else if (document.options.submit.disabled) // State resets.
   {
     if (lv == "1.2")
     {
@@ -260,6 +273,7 @@ function propagate()
       {
         document.options.submit.disabled = false;
         warn("no-components-l1v2", "hide");
+	warn("not-available", "hide");
       }
     }
     else if (! isExcluded("Species", ctags)
@@ -269,6 +283,7 @@ function propagate()
       document.options.submit.disabled = false;
       warn("no-components-l1v2", "hide");
       warn("no-components", "hide");
+      warn("not-available", "hide");
     }
   }
 }
