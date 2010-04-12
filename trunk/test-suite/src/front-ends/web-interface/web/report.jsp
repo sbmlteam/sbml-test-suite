@@ -39,7 +39,17 @@
 <%@ include file="sbml-top.html"%>
 
 <%
-// Start by logging that we've been invoked.
+// Start by checking that this session hasn't timed out.
+
+if (session.getAttribute("testResults") == null)
+{
+%>
+
+<jsp:forward page="session-expired.jsp" />
+
+<%
+}
+// Log that we've been invoked.
 
 OnlineSTS.init();
 OnlineSTS.logInvocation(request);
@@ -50,24 +60,6 @@ OnlineSTS.logInvocation(request);
 
 Vector<UserTestResult> results
     = (Vector<UserTestResult>) session.getAttribute("testResults");
-
-// Before going any further, though, we need to make sure we have access to
-// the session data at all.  The following code doesn't use
-// request.getSession(...) because that always seemed to return something
-// even when the session was expired.  I finally gave up and did this
-// instead, testing for testResults.  (Separately, the handling of expired
-// sessions here is currently not very nice, but it's a start.)
-
-if (results == null || results.size() == 0)
-{
-%>
-
-<jsp:forward page="session-expired.jsp" />
-
-<%
-}
-
-// All good so far?  OK.  Moving on.
 
 int highestCaseNumber = results.size() - 1;
 
