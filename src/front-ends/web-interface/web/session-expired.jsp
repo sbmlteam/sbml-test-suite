@@ -37,16 +37,22 @@
 <%@ include file="sbml-top.html"%>
 
 <%
-// Start by logging that we've been invoked.
+// Can't use OnlineSTS class here, because if the session's expired, it's
+// not available.
 
-OnlineSTS.init();
-OnlineSTS.logInvocation(request);
+String rootURL  = request.getScheme() + "://"
+		  + request.getServerName() + ":" + request.getServerPort()
+                  + request.getContextPath();
+
+String imageURL = rootURL + "/web/images";
+
+String homeURL  = "http://sbml.org/Software/SBML_Test_Suite";
 %>
 
 <div id='pagetitle'><h1 class='pagetitle'><font color="darkred">
 SBML Test Suite session error</font></h1></div><!-- id='pagetitle' -->
 <div style="float: right; margin: 0 0 1em 2em; padding: 0 0 0 5px">
-  <img src="<%=OnlineSTS.getImageURL(request)%>/Icon-online-test-suite-64px.jpg">
+  <img src="<%=imageURL%>/Icon-online-test-suite-64px.jpg">
 </div>
 
 <p>
@@ -56,9 +62,8 @@ minutes.  Please re-upload your results and proceed.
 
 <p>	
 <center>
-  <a href="<%=OnlineSTS.getHomeURL(request)%>">
-    <img border="0" align="center" 
-         src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-left-arrow.jpg">
+  <a href="<%=homeURL%>">
+    <img border="0" align="center" src="<%=imageURL%>/Icon-red-left-arrow.jpg">
     Return to the Online SBML Test Suite front page.
   </a>
 </center>
