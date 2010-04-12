@@ -46,6 +46,10 @@
 OnlineSTS.init();
 OnlineSTS.logInvocation(request);
 
+// Get some basic values that we'll need soon.
+
+String baseURL = OnlineSTS.getServiceRootURL(request) + "/web";
+
 // The time stamp acts as a simple way to differentiate different runs.
 // We also store this in the session variables later on.
 
@@ -95,8 +99,6 @@ int highestCaseNumber = results.size() - 1;
 // Along the way, compute some general statistics about the results.
 //
 
-String baseURL = OnlineSTS.getServiceRootURL(request) + "/web";
-
 Map<String, Integer> tmap = new HashMap<String, Integer>();
 Map<String, Integer> cmap = new HashMap<String, Integer>();
 
@@ -117,9 +119,8 @@ for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
     String name = caseNumFormatter.format(caseNum);
     String color;
 
-    out.print("<td>");
-    out.print("<a title=\"Test case " + name + "\" "
-              + "href=\"" + baseURL + "/testdetails.jsp?testname=" + name
+    out.print("<td title=\"Test Case #" + name + "\">");
+    out.print("<a href=\"" + baseURL + "/testdetails.jsp?testname=" + name
               + "\" target=\"_blank\">");
 
     if (thisResult != null)
@@ -225,11 +226,11 @@ if (countFailed > 0)
     for (String key : (Set<String>) cmap.keySet())
         out.println("<tr><td>" + key + "</td><td>" + cmap.get(key) + "</td></tr>");
 
+%>
+</table>
+<%
 } // end of if (countFailed > 0)
 %>
-
-</table>
-
 
 <%
 // Store various parts of the results into the session variable so that
