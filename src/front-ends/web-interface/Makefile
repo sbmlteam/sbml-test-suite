@@ -34,7 +34,6 @@ javac-flags = -g -Xlint:unchecked -d WEB-INF/classes -sourcepath WEB-INF/src
 
 classes: $(class-dir)/CasesTagsMap.class          \
          $(class-dir)/FormBean.class              \
-         $(class-dir)/Log.class                   \
          $(class-dir)/OnlineSTS.class             \
          $(class-dir)/OnlineSTSLogFormatter.class \
          $(class-dir)/TestCase.class              \
