@@ -249,13 +249,26 @@ function propagate()
 
   // For some combinations, we just don't have cases yet.
 
-  if (isExcluded("Compartment", ctags) && isExcluded("Species", ctags)
+  if (isExcluded("Compartment", ctags)
       && ((lv == "1.2" && isExcluded("AssignmentRule", ctags))
 	  || (isExcluded("EventNoDelay", ctags)
 	      && isExcluded("EventWithDelay", ctags)
 	      && isExcluded("InitialAssignment", ctags)
 	      && isExcluded("AssignmentRule", ctags)
 	      && isExcluded("RateRule", ctags))))
+  {
+    document.options.submit.disabled = true;
+    warn("no-components-l1v2", "hide"); // Just in case.
+    warn("no-components", "hide"); // Just in case.
+    warn("not-available", "show");
+  }  
+  else if ((isExcluded("InitialAssignment", ctags)
+	    && isExcluded("RateRule", ctags)
+	    && isExcluded("AssignmentRule", ctags))
+	   && (isExcluded("Species", ctags)
+	       || isExcluded("Reaction", ctags)
+	       || isExcluded("Compartment", ctags)
+	       || isExcluded("LocalParameters", ttags)))
   {
     document.options.submit.disabled = true;
     warn("no-components-l1v2", "hide"); // Just in case.
