@@ -249,8 +249,13 @@ function propagate()
 
   // For some combinations, we just don't have cases yet.
 
-  if (isExcluded("Compartment", ctags)
-      && ((lv == "1.2" && isExcluded("AssignmentRule", ctags))
+  if (isExcluded("Species", ctags)
+      && ((lv == "1.2"
+           && isExcluded("RateRule", ctags)
+           && isExcluded("AssignmentRule", ctags))
+          || (lv == "1.2"
+              && isExcluded("AssignmentRule", ctags)
+              && isExcluded("NonConstantParameter", ttags))
 	  || (isExcluded("EventNoDelay", ctags)
 	      && isExcluded("EventWithDelay", ctags)
 	      && isExcluded("InitialAssignment", ctags)
