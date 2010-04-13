@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/PassedTestCaseListModel.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/SBMLTestCase.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/SBMLTestRunnerApp.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/SBMLTestSelection.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/SkippedTestCaseListModel.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/SwingWorker.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/TestCaseListModel.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/TestConfiguration.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/TestResultDetails.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/TestResultMap.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/TestRunnerView.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/TestTabPane.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/UpdateDownloader.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/Wizard/CreateTestWizard.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/Wizard/TestTagSelectionPanel.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/Wizard/TestTypeSelectorPanel.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/Wizard/WizardPanel.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/Wizard/WizardPanelInterface.java</file>
+        <file>file:/Users/mhucka/projects/sysbio/sbml/svn/test-suite/src/front-ends/standalone/src/sbml/test/Wizard/WrapperConfigurationPanel.java</file>
+    </open-files>
 </project-private>
