@@ -6,7 +6,7 @@ synopsis:      Two reactions and a rate rule that applies a functionDefinition
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, RateRule 
 testTags:      Amount, StoichiometryMath
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4
+levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are four

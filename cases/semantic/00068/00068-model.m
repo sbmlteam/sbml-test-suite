@@ -6,7 +6,7 @@ synopsis:      Basic single forward reaction involving two species and a
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      Amount, StoichiometryMath
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4
+levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There are two
