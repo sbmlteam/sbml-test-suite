@@ -201,7 +201,7 @@ if (thisResult != null)
         A data point is <i>within tolerances</i> if and only if
 	<blockquote style="margin-left: 2em">
             <font color="#777" size="+1">|</font>C<sub>ij</sub> &minus; U<sub>ij</sub><font color="#777" size="+1">|</font>
-             < 
+             <=
             <font color="#777" size="+1">(</font> T<sub>a</sub> + T<sub>r</sub> &times; |C<sub>ij</sub>| <font color="#777" size="+1">)</font>
         </blockquote>
 
