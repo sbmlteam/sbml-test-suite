@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model metaid="_case00914" id="case00914" name="case00914">
+  <model metaid="_case00914" id="case00914" name="case00914" timeUnits="time">
     <listOfFunctionDefinitions>
       <functionDefinition id="multiply" name="multiply">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -33,7 +33,7 @@
       </unitDefinition>
     </listOfUnitDefinitions>
     <listOfCompartments>
-      <compartment id="c" name="c" size="0.5" units="area" constant="false"/>
+      <compartment id="c" name="c" spatialDimensions="2" size="0.5" units="area" constant="false"/>
     </listOfCompartments>
     <listOfRules>
       <rateRule metaid="rule1" variable="c">

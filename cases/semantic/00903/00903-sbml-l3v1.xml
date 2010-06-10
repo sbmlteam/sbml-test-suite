@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model metaid="_case00903" id="case00903" name="case00903">
+  <model metaid="_case00903" id="case00903" name="case00903" timeUnits="time">
     <listOfUnitDefinitions>
       <unitDefinition id="volume">
         <listOfUnits>
@@ -14,8 +14,8 @@
       </unitDefinition>
     </listOfUnitDefinitions>
     <listOfCompartments>
-      <compartment id="C1" name="C1" size="1.5" units="volume" constant="false"/>
-      <compartment id="C2" name="C2" size="1.5" units="volume" constant="false"/>
+      <compartment id="C1" name="C1" spatialDimensions="3" size="1.5" units="volume" constant="false"/>
+      <compartment id="C2" name="C2" spatialDimensions="3" size="1.5" units="volume" constant="false"/>
     </listOfCompartments>
     <listOfRules>
       <rateRule metaid="rule1" variable="C1">

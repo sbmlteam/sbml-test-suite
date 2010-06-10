@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model metaid="_case00129" id="case00129" name="case00129">
+  <model metaid="_case00129" id="case00129" name="case00129" timeUnits="time">
     <listOfFunctionDefinitions>
       <functionDefinition id="multiply" name="multiply">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
