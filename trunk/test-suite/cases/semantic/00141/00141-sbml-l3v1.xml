@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model metaid="_case00141" id="case00141" name="case00141">
+  <model metaid="_case00141" id="case00141" name="case00141" timeUnits="time">
     <listOfUnitDefinitions>
       <unitDefinition id="volume">
         <listOfUnits>
@@ -19,7 +19,7 @@
       </unitDefinition>
     </listOfUnitDefinitions>
     <listOfCompartments>
-      <compartment id="compartment" name="compartment" units="volume" constant="false"/>
+      <compartment id="compartment" name="compartment" spatialDimensions="3" units="volume" constant="false"/>
     </listOfCompartments>
     <listOfSpecies>
       <species id="S1" name="S1" compartment="compartment" initialAmount="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
@@ -40,10 +40,10 @@
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" reversible="false" fast="false">
         <listOfReactants>
-          <speciesReference species="S1" stoichiometry="1" constant="false"/>
+          <speciesReference species="S1" stoichiometry="1" constant="true"/>
         </listOfReactants>
         <listOfProducts>
-          <speciesReference species="S2" stoichiometry="1" constant="false"/>
+          <speciesReference species="S2" stoichiometry="1" constant="true"/>
         </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">

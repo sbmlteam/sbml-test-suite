@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model metaid="_case00039" id="case00039" name="case00039">
+  <model metaid="_case00039" id="case00039" name="case00039" timeUnits="time">
     <listOfUnitDefinitions>
       <unitDefinition id="volume">
         <listOfUnits>
@@ -19,7 +19,7 @@
       </unitDefinition>
     </listOfUnitDefinitions>
     <listOfCompartments>
-      <compartment id="compartment" name="compartment" size="1" units="volume" constant="true"/>
+      <compartment id="compartment" name="compartment" spatialDimensions="3" size="1" units="volume" constant="true"/>
     </listOfCompartments>
     <listOfSpecies>
       <species id="S1" name="S1" compartment="compartment" initialAmount="0.5" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
@@ -48,7 +48,7 @@
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" reversible="false" fast="false">
         <listOfProducts>
-          <speciesReference species="S1" stoichiometry="1" constant="false"/>
+          <speciesReference species="S1" stoichiometry="1" constant="true"/>
         </listOfProducts>
         <listOfModifiers>
           <modifierSpeciesReference species="S2"/>

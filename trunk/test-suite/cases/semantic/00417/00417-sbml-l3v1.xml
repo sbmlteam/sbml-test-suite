@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model metaid="_case00417" id="case00417" name="case00417">
+  <model metaid="_case00417" id="case00417" name="case00417" timeUnits="time">
     <listOfUnitDefinitions>
       <unitDefinition id="substance">
         <listOfUnits>
@@ -19,7 +19,7 @@
       </unitDefinition>
     </listOfUnitDefinitions>
     <listOfCompartments>
-      <compartment id="C" name="C" size="1" units="area" constant="true"/>
+      <compartment id="C" name="C" spatialDimensions="2" size="1" units="area" constant="true"/>
     </listOfCompartments>
     <listOfSpecies>
       <species id="S1" name="S1" compartment="C" initialAmount="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
@@ -33,11 +33,11 @@
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" reversible="false" fast="false">
         <listOfReactants>
-          <speciesReference species="S1" stoichiometry="1" constant="false"/>
-          <speciesReference species="S2" stoichiometry="1" constant="false"/>
+          <speciesReference species="S1" stoichiometry="1" constant="true"/>
+          <speciesReference species="S2" stoichiometry="1" constant="true"/>
         </listOfReactants>
         <listOfProducts>
-          <speciesReference species="S3" stoichiometry="1" constant="false"/>
+          <speciesReference species="S3" stoichiometry="1" constant="true"/>
         </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -53,11 +53,11 @@
       </reaction>
       <reaction id="reaction2" name="reaction2" reversible="false" fast="false">
         <listOfReactants>
-          <speciesReference species="S3" stoichiometry="1" constant="false"/>
+          <speciesReference species="S3" stoichiometry="1" constant="true"/>
         </listOfReactants>
         <listOfProducts>
-          <speciesReference species="S1" stoichiometry="1" constant="false"/>
-          <speciesReference species="S2" stoichiometry="1" constant="false"/>
+          <speciesReference species="S1" stoichiometry="1" constant="true"/>
+          <speciesReference species="S2" stoichiometry="1" constant="true"/>
         </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">

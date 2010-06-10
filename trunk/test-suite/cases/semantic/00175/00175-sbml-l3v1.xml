@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model metaid="_case00175" id="case00175" name="case00175">
+  <model metaid="_case00175" id="case00175" name="case00175" timeUnits="time">
     <listOfUnitDefinitions>
       <unitDefinition id="time">
         <listOfUnits>
