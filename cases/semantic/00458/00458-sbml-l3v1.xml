@@ -89,7 +89,7 @@
     </listOfReactions>
     <listOfEvents>
       <event id="event1" name="event1" useValuesFromTriggerTime="true">
-        <trigger>
+        <trigger initialValue="true" persistent="true">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
               <lt/>
