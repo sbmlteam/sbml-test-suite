@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model metaid="_case00930" id="case00930" name="case00930" timeUnits="second">
+    <listOfCompartments>
+      <compartment id="C" size="1" constant="true" spatialDimensions="3" units="litre"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="S1" name="S1" compartment="C" initialAmount="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S2" name="S2" compartment="C" initialAmount="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S3" name="S3" compartment="C" initialAmount="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfEvents>
+      <event useValuesFromTriggerTime="true">
+		<priority>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <cn type="integer"> -1 </cn>
+          </math>
+		</priority>
+        <trigger initialValue="true" persistent="true">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <geq/>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <cn type="integer"> 1 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <listOfEventAssignments>
+          <eventAssignment variable="S1">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <cn type="integer"> 4 </cn>
+            </math>
+          </eventAssignment>
+          <eventAssignment variable="S2">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <cn type="integer"> 5 </cn>
+            </math>
+          </eventAssignment>
+          <eventAssignment variable="S3">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <cn type="integer"> 6 </cn>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+      <event useValuesFromTriggerTime="true">
+		<priority>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <cn type="integer"> 0 </cn>
+          </math>
+		</priority>
+        <trigger initialValue="true" persistent="true">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <geq/>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <cn type="integer"> 1 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <listOfEventAssignments>
+          <eventAssignment variable="S1">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <cn type="integer"> 1 </cn>
+            </math>
+          </eventAssignment>
+          <eventAssignment variable="S2">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <cn type="integer"> 2 </cn>
+            </math>
+          </eventAssignment>
+          <eventAssignment variable="S3">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <cn type="integer"> 3 </cn>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+    </listOfEvents>
+  </model>
+</sbml>
