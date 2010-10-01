@@ -97,7 +97,7 @@ sed -e 's/case[0-9][0-9][0-9][0-9][0-9][`]//g' < $CSV_FILE | tr -d '\015' > $INP
 # file with no valid points".  For now, this just ignores all warnings
 # from gnuplot for this reason.
 
-$GNUPLOT 2> /dev/null 1> /dev/null -<<EOF
+$GNUPLOT 2> /dev/null 1>/dev/null -<<EOF
 set datafile separator ","
 set key spacing 1.2
 set key height 3
@@ -109,5 +109,5 @@ set lmargin 15
 set size 0.9,0.9
 set terminal jpeg
 set output "${INPUTFILE/%.csv}.jpg"
-plot "$INPUTFILE" using 1:2 title 2 with lines, "" using 1:3 title 3 with lines, "" using 1:4 title 4 with lines, "" using 1:5 title 5 with lines, "" using 1:6 title 6 with lines, "" using 1:7 title 7 with lines, "" using 1:8 title 8 with lines, "" using 1:9 title 9 with lines
+plot for [n=2:9] "$INPUTFILE" using 1:n title column (n) with lines
 EOF
