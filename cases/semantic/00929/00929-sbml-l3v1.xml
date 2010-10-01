@@ -2,11 +2,11 @@
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
   <model metaid="_case00929" id="case00929" name="case00929" timeUnits="second">
     <listOfCompartments>
-      <compartment id="compartment" size="1" constant="true" spatialDimensions="3" units="litre"/>
+      <compartment id="C" size="1" constant="true" spatialDimensions="3" units="litre"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="compartment" initialAmount="0.00015" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-      <species id="S2" name="S2" compartment="compartment" initialAmount="0" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S1" name="S1" compartment="C" initialAmount="0.00015" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S2" name="S2" compartment="C" initialAmount="0" substanceUnits="mole" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" name="k1" value="1" constant="true"/>
@@ -23,7 +23,7 @@
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
               <times/>
-              <ci> compartment </ci>
+              <ci> C </ci>
               <ci> k1 </ci>
               <ci> S1 </ci>
             </apply>
@@ -49,7 +49,7 @@
               <apply>
                 <divide/>
                 <cn sbml:units="mole"> 1 </cn>
-                <ci> compartment </ci>
+                <ci> C </ci>
               </apply>
             </math>
           </eventAssignment>
