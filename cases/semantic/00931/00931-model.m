@@ -15,7 +15,7 @@ species called S1 and S2.
 The model contains two events that assign value to species S1, S2 and S3 defined as:
 
 [{width:30em,margin-left:5em}| | *Trigger*    | *Priority* | *Delay* | *Assignments* |
- | Event1 | $t >= 1$ | $1$  | $-$   | $S1 = 4$    |
+ | Event1 | $t >= 1$ | $-1$  | $-$   | $S1 = 4$    |
  |        |          |      |       | $S2 = 5$    |
  |        |          |      |       | $S3 = 6$    |
  | Event2 | $t >= 1$ | $0$  | $-$   | $S1 = 1$    |
@@ -23,8 +23,8 @@ The model contains two events that assign value to species S1, S2 and S3 defined
  |        |          |      |       | $S3 = 3$    |]
  
 The Events will fire simultaneously and must be executed in order determined by
-the Priority. Thus the assignments of Event1 will be executed followed by the 
-assignments for Event2.
+the Priority. Thus the assignments of Event2 will be executed followed by the 
+assignments for Event1.
 
 The initial conditions are as follows:
 
