@@ -1,0 +1,25 @@
+<p>
+The model contains one compartment called "C".  There are three
+species named S1, S2 and S3 and one parameter named k1.  The model contains one
+reaction defined as:</p>
+<table style="width:30em;margin-left:5em;"><tr><td style="text-align:center;">  <strong>Reaction</strong>  </td><td style="text-align:center;">  <strong>Rate</strong>  </td></tr>
+<tr><td style="text-align:center;"> S1 &#8594; S2 </td><td style="text-align:center;"> <dfn>k1 &#183; S1 &#183; C</dfn>  </td></tr></table>
+<p>The model contains one event that assigns value to species S3 defined as:</p>
+<table style="width:30em;margin-left:5em;"><tr><td style="text-align:right;"> </td><td style="text-align:center;"> <strong>Trigger</strong>    </td><td style="text-align:center;"> <strong>Delay</strong> </td><td style="text-align:center;"> <strong>Assignments</strong> </td></tr>
+<tr><td style="text-align:center;"> Event1 </td><td style="text-align:center;"> <dfn>S1 &#8804; 0.00005 && S1 &#8805; 0.00004</dfn> </td><td style="text-align:center;"> <dfn>3</dfn>   </td><td style="text-align:center;"> <dfn>S3 = 2.5 &#215; 10<sup class="i">&#8722;4</sup></dfn>    </td></tr></table>
+<p>The persistent attribute of the Trigger is set to 'false'.  Thus, once the event has fired,
+if the trigger value reverts to 'false' before the event is executed, then execution should
+not take place.</p>
+<p>The initial conditions are as follows:</p>
+<table style="width:30em;margin-left:5em;"><tr><td style="text-align:center;">       </td><td style="text-align:left;"><strong>Value</strong>          </td><td style="text-align:left;"><strong>Units</strong>        </td></tr>
+<tr><td style="text-align:left;">Initial amount of S1                </td><td style="text-align:left;"><dfn>1.5 &#215; 10<sup class="i">&#8722;4</sup></dfn>  </td><td style="text-align:left;">mole           </td></tr>
+<tr><td style="text-align:left;">Initial amount of S2                </td><td style="text-align:left;"><dfn>1.5 &#215; 10<sup class="i">&#8722;4</sup></dfn>  </td><td style="text-align:left;">mole           </td></tr>
+<tr><td style="text-align:left;">Initial amount of S2                </td><td style="text-align:left;"><dfn>1.5 &#215; 10<sup class="i">&#8722;4</sup></dfn>  </td><td style="text-align:left;">mole           </td></tr>
+<tr><td style="text-align:left;">Value of parameter k1               </td><td style="text-align:left;"><dfn>1</dfn>              </td><td style="text-align:left;">second<sup>-1</sup>     </td></tr>
+<tr><td style="text-align:left;">Volume of compartment "C" </td><td style="text-align:left;"><dfn>1</dfn>              </td><td style="text-align:left;">litre          </td></tr></table>
+<p>The species values are given as amounts of substance to make it easier to
+use the model in a discrete stochastic simulator, but (as per usual SBML
+principles) their symbols represent their values in concentration units
+where they appear in expressions.</p>
+<p>Note: The test data for this model was generated from an analytical
+solution of the system of equations.</p>
