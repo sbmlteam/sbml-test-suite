@@ -1,0 +1,26 @@
+<p>
+The model contains one compartment called "C".  There are two
+species called S1 and S2. </p>
+<p>The model contains two events that assign value to species S1, S2 and S3 defined as:</p>
+<table style="width:30em;margin-left:5em;"><tr><td style="text-align:right;"> </td><td style="text-align:center;"> <strong>Trigger</strong>    </td><td style="text-align:center;"> <strong>Priority</strong> </td><td style="text-align:center;"> <strong>Delay</strong> </td><td style="text-align:center;"> <strong>Assignments</strong> </td></tr>
+<tr><td style="text-align:center;"> Event1 </td><td style="text-align:center;"> <dfn>t &#8805; 1</dfn> </td><td style="text-align:center;"> <dfn>&#8722;1</dfn>  </td><td style="text-align:center;"> <dfn>&#8722;</dfn>   </td><td style="text-align:center;"> <dfn>S1 = 4</dfn>    </td></tr>
+<tr><td style="text-align:center;">        </td><td style="text-align:center;">          </td><td style="text-align:center;">      </td><td style="text-align:center;">       </td><td style="text-align:center;"> <dfn>S2 = 5</dfn>    </td></tr>
+<tr><td style="text-align:center;">        </td><td style="text-align:center;">          </td><td style="text-align:center;">      </td><td style="text-align:center;">       </td><td style="text-align:center;"> <dfn>S3 = 6</dfn>    </td></tr>
+<tr><td style="text-align:center;"> Event2 </td><td style="text-align:center;"> <dfn>t &#8805; 1</dfn> </td><td style="text-align:center;"> <dfn>0</dfn>  </td><td style="text-align:center;"> <dfn>&#8722;</dfn>   </td><td style="text-align:center;"> <dfn>S1 = 1</dfn>    </td></tr>
+<tr><td style="text-align:center;">        </td><td style="text-align:center;">          </td><td style="text-align:center;">      </td><td style="text-align:center;">       </td><td style="text-align:center;"> <dfn>S2 = 2</dfn>    </td></tr>
+<tr><td style="text-align:center;">        </td><td style="text-align:center;">          </td><td style="text-align:center;">      </td><td style="text-align:center;">       </td><td style="text-align:center;"> <dfn>S3 = 3</dfn>    </td></tr></table>
+<p>The Events will fire simultaneously and must be executed in order determined by
+the Priority. Thus the assignments of Event2 will be executed followed by the 
+assignments for Event1.</p>
+<p>The initial conditions are as follows:</p>
+<table style="width:30em;margin-left:5em;"><tr><td style="text-align:center;">       </td><td style="text-align:left;"><strong>Value</strong>          </td><td style="text-align:left;"><strong>Units</strong>        </td></tr>
+<tr><td style="text-align:left;">Initial amount of S1                </td><td style="text-align:left;"><dfn>0</dfn>  </td><td style="text-align:left;">mole           </td></tr>
+<tr><td style="text-align:left;">Initial amount of S2                </td><td style="text-align:left;"><dfn>0</dfn>              </td><td style="text-align:left;">mole           </td></tr>
+<tr><td style="text-align:left;">Initial amount of S2                </td><td style="text-align:left;"><dfn>0</dfn>              </td><td style="text-align:left;">mole           </td></tr>
+<tr><td style="text-align:left;">Volume of compartment "C" </td><td style="text-align:left;"><dfn>1</dfn>              </td><td style="text-align:left;">litre          </td></tr></table>
+<p>The species' initial quantities are given in terms of substance units to
+make it easier to use the model in a discrete stochastic simulator, but (as
+per usual SBML principles) their symbols represent their values in
+concentration units where they appear in expressions.</p>
+<p>Note: The test data for this model was generated from an analytical
+solution of the system of equations.</p>
