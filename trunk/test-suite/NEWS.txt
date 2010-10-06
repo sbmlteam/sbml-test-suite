@@ -1,8 +1,16 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
+
+
+=== Update of test cases (2010-10-01)
+
+  - All L3 models have been updated to comply with the final
+    release of the SBML L3V1 core specification.\
+    
+  - There are examples of models that use the new Event semantics.
 	       
 	       
-=== Current svn version ===
+=== Update of test cases (2010-04-20)
 
 * New features
 
