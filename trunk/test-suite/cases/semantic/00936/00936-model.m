@@ -1,9 +1,9 @@
 (* 
 
 category:      Test
-synopsis:      Limited-time oscillation that triggers three identical delayed events
-componentTags: Compartment, Species, Event
-testTags:      Amount
+synopsis:      Limited-time oscillation that triggers a delayed event three times before the first one executes.
+componentTags: Compartment, Species, EventWithDelay
+testTags:      Concentration
 testType:      TimeCourse
 levels:        2.4, 3.1
 generatedBy:   Analytic
