@@ -2,7 +2,7 @@
 
 category:      Test
 synopsis:      A species that changes behavior between its IntialAssignment andsubsequently produced by a reaction, being echoed by a parameter viewing it through a delay.
-componentTags: Compartment, Parameter, Species, InitialAssignment, Reaction
+componentTags: Compartment, Parameter, Species, InitialAssignment, Reaction, AssignmentRule
 testTags:      CSymbolDelay, CSymbolTime, NonConstantParameter
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
