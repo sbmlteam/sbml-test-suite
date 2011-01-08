@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A species that changes behavior between its IntialAssignment andsubsequently produced by a reaction, being echoed by a parameter viewing it through a delay.
 componentTags: Compartment, Parameter, Species, InitialAssignment, Reaction, AssignmentRule
-testTags:      CSymbolDelay, CSymbolTime, NonConstantParameter
+testTags:      Amount, CSymbolDelay, CSymbolTime, NonConstantParameter
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
@@ -12,6 +12,10 @@ generatedBy:   Analytic
 
 The initial conditions are as follows:
 
+The species values are given as amounts of substance to make it easier to
+use the model in a discrete stochastic simulator, but (as per usual SBML
+principles) their symbols represent their values in concentration units
+where they appear in expressions.
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
