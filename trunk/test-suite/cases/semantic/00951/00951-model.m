@@ -1,7 +1,7 @@
 (* 
 
 category:      Test
-synopsis:      One constant parameter.
+synopsis:      Three constant parameters, with initial values of inf, -inf, and NaN.
 componentTags: Parameter
 testTags:      InitialValue
 testType:      TimeCourse
