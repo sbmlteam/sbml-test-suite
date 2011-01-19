@@ -20,7 +20,7 @@ The model contains one reaction defined as:
 The model contains one event that assigns a value to the temporary parameter fakeC:
 
 [{width:30em,margin-left:5em}| | *Trigger*   | *Delay* | *Assignments* |
- | Event1                      | $S1 > 2$ | $-$     | $fakeC = 10$      |]
+ | Event1                      | $S1 > 2.1$ | $-$     | $fakeC = 10$      |]
 
 And the model contains one assignment rule that assigns the value of fakeC to compartment C:
 

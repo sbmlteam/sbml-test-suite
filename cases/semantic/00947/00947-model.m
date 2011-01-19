@@ -19,7 +19,7 @@ contains one reaction defined as:
 The model contains one event that assigns a value to the compartment C:
 
 [{width:30em,margin-left:5em}| | *Trigger*   | *Delay* | *Assignments* |
- | Event1                      | $S1 > 2$ | $-$     | $C = 10$      |]
+ | Event1                      | $S1 > 2.1$ | $-$     | $C = 10$      |]
 
 The initial conditions are as follows:
 
