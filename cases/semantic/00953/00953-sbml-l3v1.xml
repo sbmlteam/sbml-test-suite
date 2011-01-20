@@ -102,31 +102,6 @@
           </eventAssignment>
         </listOfEventAssignments>
       </event>
-      <event id="error_check" useValuesFromTriggerTime="true">
-        <trigger initialValue="true" persistent="true">
-          <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply>
-              <geq/>
-              <apply>
-                <abs/>
-                <apply>
-                  <minus/>
-                  <ci> Q </ci>
-                  <ci> R </ci>
-                </apply>
-              </apply>
-              <cn type="integer"> 5 </cn>
-            </apply>
-          </math>
-        </trigger>
-        <listOfEventAssignments>
-          <eventAssignment variable="error">
-            <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <cn type="integer"> 1 </cn>
-            </math>
-          </eventAssignment>
-        </listOfEventAssignments>
-      </event>
     </listOfEvents>
   </model>
 </sbml>
