@@ -15,7 +15,7 @@ The events are:
 [{width:30em,margin-left:5em}| | *Trigger*   | *Delay* | *Assignments* |
  | Qinc | $time - reset >= 0.01$ | $-$   | $Q = Q + 0.01, reset = time$      |
  | Rinc | $time - reset >= 0.01$ | $-$   | $R = R + 0.01, reset = time$      |
- | error_check       | abs(Q-R) >= 5$ | $-$     | $error = 1$      |]
+ | error_check       | abs(Q-R) >= 15$ | $-$     | $error = 1$      |]
 
 
  The initial conditions are as follows:
