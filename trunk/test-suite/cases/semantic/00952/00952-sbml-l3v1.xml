@@ -41,6 +41,11 @@
     </listOfRules>
     <listOfEvents>
       <event id="Qinc" useValuesFromTriggerTime="true">
+        <priority>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <cn type="integer"> 1 </cn>
+          </math>
+        </priority>
         <trigger initialValue="true" persistent="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -72,6 +77,11 @@
         </listOfEventAssignments>
       </event>
       <event id="Rinc" useValuesFromTriggerTime="true">
+        <priority>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <cn type="integer"> 1 </cn>
+          </math>
+        </priority>
         <trigger initialValue="true" persistent="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
