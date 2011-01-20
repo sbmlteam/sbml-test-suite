@@ -11,11 +11,11 @@
     </listOfSpecies>
     <listOfEvents>
       <event useValuesFromTriggerTime="true">
-		<priority>
+        <priority>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
           <cn type="integer"> 1 </cn>
           </math>
-		</priority>
+        </priority>
         <trigger initialValue="true" persistent="true">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -44,11 +44,11 @@
         </listOfEventAssignments>
       </event>
       <event useValuesFromTriggerTime="true">
-		<priority>
+        <priority>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
           <cn type="integer"> 0 </cn>
           </math>
-		</priority>
+        </priority>
         <trigger initialValue="true" persistent="true">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
