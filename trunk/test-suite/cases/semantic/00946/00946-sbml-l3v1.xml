@@ -67,7 +67,7 @@
             <apply>
               <gt/>
               <ci> S1 </ci>
-              <cn type="integer"> 2.1 </cn>
+              <cn> 2.1 </cn>
             </apply>
           </math>
         </trigger>
