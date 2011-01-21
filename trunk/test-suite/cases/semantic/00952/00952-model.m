@@ -1,7 +1,7 @@
 (* 
 
 category:      Test
-synopsis:      Competing events with the same priority, jointly causing a parameter to monotonically increase, checking to make sure one event doesn't severly out-compete the other.
+synopsis:      Competing events with the same priority, jointly causing a parameter to monotonically increase, checking to make sure one event doesn't severly out-compete the other.  NOTE:  STOCHASTIC TEST. Your software may fail periodically; it is only supposed to succeed in the majority of cases.
 componentTags: Parameter, EventNoDelay, EventPriority, AssignmentRule
 testTags:      InitialValue, CSymbolTime
 testType:      TimeCourse
@@ -27,7 +27,9 @@ The events are:
 |Value of parameter reset      |$0$  |
 |Value of parameter error      |$0$  |]
 
-Note: The test data for this model was generated from an analytical
+ Note:  The 'error' parameter is a stochastic test, and may not always remain at '0' for all runs.  If your software fails, try running it again with a new random number seed, and it may succeed.  The value of '15' was chosen to be reasonable in the wide majority of cases, but still low enough to reveal problems in software that tends to pick one event over the other in a non-50/50 ratio.
+ 
+Note 2: The test data for this model was generated from an analytical
 solution of the system of equations.
 *)
 
