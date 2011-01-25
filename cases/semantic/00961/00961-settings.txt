@@ -1,0 +1,8 @@
+start: 0
+duration: 1.0
+steps: 10
+variables: P1,P2,P3,P4
+absolute: 1e+14
+relative: 0.0000001
+amount:
+concentration:
