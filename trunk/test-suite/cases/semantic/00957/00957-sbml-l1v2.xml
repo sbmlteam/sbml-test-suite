@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="2">
+  <model name="case000957">
+    <notes>
+      <body xmlns="http://www.w3.org/1999/xhtml">
+        <p> Originally created by libAntimony v1.4 (using libSBML 5.0.0-a1) </p>
+      </body>
+    </notes>
+    <listOfCompartments>
+      <compartment name="default_compartment" volume="1"/>
+    </listOfCompartments>
+    <listOfParameters>
+      <parameter name="P1"/>
+      <parameter name="P3"/>
+      <parameter name="P4"/>
+      <parameter name="P5"/>
+      <parameter name="P6"/>
+      <parameter name="P7"/>
+      <parameter name="P8"/>
+      <parameter name="P9"/>
+      <parameter name="P10"/>
+      <parameter name="P11"/>
+      <parameter name="P12"/>
+      <parameter name="P13"/>
+      <parameter name="P14"/>
+      <parameter name="P15"/>
+      <parameter name="P16"/>
+      <parameter name="P17"/>
+      <parameter name="P18"/>
+      <parameter name="P19"/>
+      <parameter name="P20"/>
+      <parameter name="P21"/>
+      <parameter name="P22"/>
+      <parameter name="P23"/>
+      <parameter name="P24"/>
+      <parameter name="P25"/>
+      <parameter name="P26"/>
+      <parameter name="P27"/>
+      <parameter name="P28"/>
+      <parameter name="P29"/>
+    </listOfParameters>
+    <listOfRules>
+      <parameterRule formula="pi" name="P1"/>
+      <parameterRule formula="piecewise(2, gt(1, 0.5), 3)" name="P3"/>
+      <parameterRule formula="piecewise(2, geq(1, 0.5), 3)" name="P4"/>
+      <parameterRule formula="piecewise(2, lt(1, 0.5), 3)" name="P5"/>
+      <parameterRule formula="piecewise(2, leq(1, 0.5), 3)" name="P6"/>
+      <parameterRule formula="piecewise(2, eq(P1, pi), 3)" name="P7"/>
+      <parameterRule formula="piecewise(2, neq(P1, pi), 3)" name="P8"/>
+      <parameterRule formula="factorial(4)" name="P9"/>
+      <parameterRule formula="piecewise(2, and(true, false), 3)" name="P10"/>
+      <parameterRule formula="piecewise(2, or(true, false), 3)" name="P11"/>
+      <parameterRule formula="piecewise(2, xor(true, false), 3)" name="P12"/>
+      <parameterRule formula="piecewise(2, not(false), 3)" name="P13"/>
+      <parameterRule formula="sec(0.5)" name="P14"/>
+      <parameterRule formula="csc(4.5)" name="P15"/>
+      <parameterRule formula="cot(0.2)" name="P16"/>
+      <parameterRule formula="sinh(0.3)" name="P17"/>
+      <parameterRule formula="cosh(1.7)" name="P18"/>
+      <parameterRule formula="arcsec(2.3)" name="P19"/>
+      <parameterRule formula="arccsc(1.1)" name="P20"/>
+      <parameterRule formula="arccot(-0.1)" name="P21"/>
+      <parameterRule formula="arcsinh(99)" name="P22"/>
+      <parameterRule formula="arccosh(1.34)" name="P23"/>
+      <parameterRule formula="arctanh(-0.7)" name="P24"/>
+      <parameterRule formula="arcsech(0.42)" name="P25"/>
+      <parameterRule formula="arccsch(0.01)" name="P26"/>
+      <parameterRule formula="arccoth(8.2)" name="P27"/>
+      <parameterRule formula="exponentiale" name="P28"/>
+      <parameterRule formula="exp(exponentiale)" name="P29"/>
+    </listOfRules>
+  </model>
+</sbml>
