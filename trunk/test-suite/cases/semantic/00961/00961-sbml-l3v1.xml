@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
+  <model id="case00961" name="case00961">
+    <notes>
+      <body xmlns="http://www.w3.org/1999/xhtml">
+        <p> Originally created by libAntimony v1.4 (using libSBML 5.0.0-a1) </p>
+      </body>
+    </notes>
+    <listOfCompartments>
+      <compartment sboTerm="SBO:0000410" id="default_compartment" size="1"/>
+    </listOfCompartments>
+    <listOfParameters>
+      <parameter id="P1" constant="false"/>
+      <parameter id="P2" constant="false"/>
+      <parameter id="P3" constant="false"/>
+      <parameter id="P4" constant="false"/>
+    </listOfParameters>
+    <listOfRules>
+      <assignmentRule variable="P1">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="P2">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> time </csymbol>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="P3">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> delay </csymbol>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="P4">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro" />
+        </math>
+      </assignmentRule>
+    </listOfRules>
+  </model>
+</sbml>
