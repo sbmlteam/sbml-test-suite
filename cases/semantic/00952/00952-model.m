@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Competing events with the same priority, jointly causing a parameter to monotonically increase, checking to make sure one event doesn't severly out-compete the other.  NOTE:  STOCHASTIC TEST. Your software may fail periodically; it is only supposed to succeed in the majority of cases.
 componentTags: Parameter, EventNoDelay, EventPriority, AssignmentRule
-testTags:      InitialValue, CSymbolTime
+testTags:      InitialValue, CSymbolTime, RandomEventExecution
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic
@@ -43,7 +43,7 @@ model case00952()
   // Events:
   Qinc: at geq(time - reset, 0.01): Q = Q + 0.01, reset = time;
   Rinc: at geq(time - reset, 0.01): R = R + 0.01, reset = time;
-  error_check: at geq(abs(Q - R), 5): error = 1;
+  error_check: at geq(abs(Q - R), 15): error = 1;
 
   // Variable initializations:
   reset = 0;
