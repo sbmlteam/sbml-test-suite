@@ -8,7 +8,7 @@ model case00962()
   Qinc: at time - reset >= 0.01: Q = Q + 0.01, reset = time;
   Rinc: at time - reset >= 0.01: R = R + 0.01, reset = time;
   maxcheck: at(abs(Q-R)>maxdiff): maxdiff = abs(Q-R);
-  error_check: at (time>=99) && (maxdiff < 2) : error = 1;
+  error_check: at (time>=99) && (maxdiff < .2) : error = 1;
 
   // Variable initializations:
   reset = 0;

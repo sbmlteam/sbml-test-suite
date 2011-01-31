@@ -158,7 +158,7 @@
               <apply>
                 <lt/>
                 <ci> maxdiff </ci>
-                <cn type="integer"> 2 </cn>
+                <cn> .2 </cn>
               </apply>
             </apply>
           </math>
