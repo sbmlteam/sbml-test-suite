@@ -330,11 +330,7 @@
             <otherwise>
               <apply>
                 <arcsech/>
-                <apply>
-                  <plus/>
-                  <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
-                  <cn> 0.001 </cn>
-                </apply>
+                <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
               </apply>
             </otherwise>
           </piecewise>

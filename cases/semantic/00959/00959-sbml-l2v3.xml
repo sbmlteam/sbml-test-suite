@@ -7,7 +7,7 @@
       </body>
     </notes>
     <listOfCompartments>
-      <compartment sboTerm="SBO:0000410" id="default_compartment" size="1"/>
+      <compartment sboTerm="SBO:0000410" id="default_compartment" size="1" units="volume"/>
     </listOfCompartments>
     <listOfParameters>
       <parameter id="P1" constant="false"/>
@@ -36,7 +36,6 @@
       <parameter id="P24" constant="false"/>
       <parameter id="P25" constant="false"/>
       <parameter id="P26" constant="false"/>
-      <parameter id="P27"/>
     </listOfParameters>
     <listOfRules>
       <assignmentRule variable="P1">
@@ -299,14 +298,30 @@
       </assignmentRule>
       <assignmentRule variable="P22">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <apply>
-            <arcsech/>
-            <apply>
-              <plus/>
-              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
-              <cn> 0.001 </cn>
-            </apply>
-          </apply>
+          <piecewise>
+            <piece>
+              <cn type="integer"> 0 </cn>
+              <apply>
+                <or/>
+                <apply>
+                  <leq/>
+                  <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+                  <cn type="integer"> 0 </cn>
+                </apply>
+                <apply>
+                  <geq/>
+                  <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+                  <cn type="integer"> 1 </cn>
+                </apply>
+              </apply>
+            </piece>
+            <otherwise>
+              <apply>
+                <arcsech/>
+                <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              </apply>
+            </otherwise>
+          </piecewise>
         </math>
       </assignmentRule>
       <assignmentRule variable="P23">
