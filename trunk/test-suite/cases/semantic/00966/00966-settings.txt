@@ -1,7 +1,7 @@
 start: 0
 duration: 1000
 steps: 1000
-variables: S, error, finalchi, chitest, degrees, chicount, chi0, chi1, chi2, chi3, chi4, chi5, chi6, chi7, chi8, chi9, chi10, chi11, chi12, chi13, chi14, chi15, chi16
+variables: S, error
 absolute: 0.0001
 relative: 0.0001
 amount:
