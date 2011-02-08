@@ -288,13 +288,13 @@
       <compartment sboTerm="SBO:0000410" id="default_compartment" size="1" constant="true"/>
     </listOfCompartments>
     <listOfParameters>
-      <parameter id="S" constant="false"/>
+      <parameter id="S" value="0" constant="false"/>
       <parameter id="Q" value="0" constant="false"/>
       <parameter id="R" value="0" constant="false"/>
       <parameter id="reset" value="0" constant="false"/>
-      <parameter id="chicount" constant="false"/>
-      <parameter id="chitest" constant="false"/>
-      <parameter id="assemble" constant="false"/>
+      <parameter id="chicount" value="0" constant="false"/>
+      <parameter id="chitest" value="0" constant="false"/>
+      <parameter id="assemble" value="0" constant="false"/>
       <parameter id="chi0" value="0" constant="false"/>
       <parameter id="chi1" value="0" constant="false"/>
       <parameter id="chi2" value="0" constant="false"/>
