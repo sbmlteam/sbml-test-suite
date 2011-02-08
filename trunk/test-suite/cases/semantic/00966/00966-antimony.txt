@@ -51,6 +51,9 @@ model case00966()
   error_check: at (finalchi > 50), priority = -1: error = 1;
 
   // Variable initializations:
+  chicount = 0;
+  chitest = 0;
+  assemble = 0;
   reset = 0;
   tests = 0;
   Q = 0;
