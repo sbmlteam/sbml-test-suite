@@ -4,14 +4,13 @@ model case00952()
   S := Q + R;
 
   // Events:
-  Qinc: at (time - reset >= 0.01): Q = Q + 0.01, reset = time;
-  Rinc: at (time - reset >= 0.01): R = R + 0.01, reset = time;
+  Qinc: at (time - reset >= 0.01), priority = 1, persistent=false: Q = Q + 0.01, reset = time;
+  Rinc: at (time - reset >= 0.01), priority = 1, persistent=false: R = R + 0.01, reset = time;
   error_check: at (abs(Q - R) >= 4): error = 1;
 
   // Variable initializations:
   Q = 0;
   R = 0;
-  S = 0;
   reset = 0;
   error = 0;
 

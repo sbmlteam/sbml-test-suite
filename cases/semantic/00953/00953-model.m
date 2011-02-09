@@ -29,26 +29,3 @@ The events are:
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 *)
-
-(*
-//Antimony version of the file (without 'persistence' flagged)
-model case00952()
-
-  // Assignment Rules:
-  S := Q + R;
-
-  // Events:
-  Qinc: at geq(time - reset, 0.01): Q = Q + 0.01, reset = time;
-  Rinc: at geq(time - reset, 0.01): R = R + 0.01, reset = time;
-  error_check: at geq(abs(Q - R), 5): error = 1;
-
-  // Variable initializations:
-  reset = 0;
-  Q = 0;
-  R = 0;
-  error = 0;
-
-  //Other declarations:
-  var reset, Q, R, error, S;
-end
-*)

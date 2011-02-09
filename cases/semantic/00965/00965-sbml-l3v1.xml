@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v1.4 on 2011-02-09 12:56 with libSBML version 5.0.0-b1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model id="case00965" name="case00965" timeUnits="time">
-    <listOfUnitDefinitions>
-      <unitDefinition id="volume">
-        <listOfUnits>
-          <unit kind="litre" exponent="1" scale="0" multiplier="1"/>
-        </listOfUnits>
-      </unitDefinition>
-      <unitDefinition id="time">
-        <listOfUnits>
-          <unit kind="second" exponent="1" scale="0" multiplier="1"/>
-        </listOfUnits>
-      </unitDefinition>
-    </listOfUnitDefinitions>
+  <model id="case00965" name="case00965">
     <listOfCompartments>
-      <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" units="volume" constant="true"/>
+      <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" constant="true"/>
     </listOfCompartments>
     <listOfParameters>
       <parameter id="S" value="0" constant="false"/>
@@ -39,11 +28,6 @@
     </listOfRules>
     <listOfEvents>
       <event id="Qinc" useValuesFromTriggerTime="true">
-        <priority>
-          <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <cn type="integer"> 10 </cn>
-          </math>
-        </priority>
         <trigger initialValue="true" persistent="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -57,6 +41,11 @@
             </apply>
           </math>
         </trigger>
+        <priority>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 10 </cn>
+          </math>
+        </priority>
         <listOfEventAssignments>
           <eventAssignment variable="reset">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -89,11 +78,6 @@
         </listOfEventAssignments>
       </event>
       <event id="Rinc" useValuesFromTriggerTime="true">
-        <priority>
-          <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <cn type="integer"> 10 </cn>
-          </math>
-        </priority>
         <trigger initialValue="true" persistent="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -107,6 +91,11 @@
             </apply>
           </math>
         </trigger>
+        <priority>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 10 </cn>
+          </math>
+        </priority>
         <listOfEventAssignments>
           <eventAssignment variable="reset">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -139,11 +128,6 @@
         </listOfEventAssignments>
       </event>
       <event id="maxrun_check1" useValuesFromTriggerTime="true">
-        <priority>
-          <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <cn type="integer"> 9 </cn>
-          </math>
-        </priority>
         <trigger initialValue="true" persistent="true">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -153,6 +137,11 @@
             </apply>
           </math>
         </trigger>
+        <priority>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 9 </cn>
+          </math>
+        </priority>
         <listOfEventAssignments>
           <eventAssignment variable="maxrun">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -162,11 +151,6 @@
         </listOfEventAssignments>
       </event>
       <event id="maxrun_check2" useValuesFromTriggerTime="true">
-        <priority>
-          <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <cn type="integer"> 8 </cn>
-          </math>
-        </priority>
         <trigger initialValue="true" persistent="true">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -176,6 +160,11 @@
             </apply>
           </math>
         </trigger>
+        <priority>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 8 </cn>
+          </math>
+        </priority>
         <listOfEventAssignments>
           <eventAssignment variable="maxrun">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -185,11 +174,6 @@
         </listOfEventAssignments>
       </event>
       <event id="error_check" useValuesFromTriggerTime="true">
-        <priority>
-          <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <cn type="integer"> 7 </cn>
-          </math>
-        </priority>
         <trigger initialValue="true" persistent="true">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -199,6 +183,11 @@
             </apply>
           </math>
         </trigger>
+        <priority>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 7 </cn>
+          </math>
+        </priority>
         <listOfEventAssignments>
           <eventAssignment variable="error">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
