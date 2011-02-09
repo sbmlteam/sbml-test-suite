@@ -21,6 +21,7 @@ testTags
 1D-Compartment
 2D-Compartment
 BoundaryCondition
+CSymbolAvogadro
 CSymbolDelay
 CSymbolTime
 ConstantSpecies
@@ -38,7 +39,9 @@ NonConstantParameter
 NonUnityCompartment
 NonUnityStoichiometry
 Persistent
+RandomEventExecution
 ReversibleReaction
+SpeciesReferenceMath
 StoichiometryMath
 Units
 
