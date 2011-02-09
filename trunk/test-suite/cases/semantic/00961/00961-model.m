@@ -18,4 +18,5 @@ The initial conditions are as follows:
 |Value of parameter P3               |$6.02214179e+23)$   |
 |Value of parameter P4               |$6.02214179e+23)$   |]
 
-
+Note: The test data for this model was generated from an analytical
+solution of the system of equations.

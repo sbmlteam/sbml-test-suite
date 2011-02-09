@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v1.4 on 2011-02-09 13:35 with libSBML version 5.0.0-b1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model id="case00963" name="case00963" timeUnits="time">
-    <notes>
-      <body xmlns="http://www.w3.org/1999/xhtml">
-        <p> Originally created by libAntimony v1.4 (using libSBML 5.0.0-a1) </p>
-      </body>
-    </notes>
-    <listOfUnitDefinitions>
-      <unitDefinition id="volume">
-        <listOfUnits>
-          <unit kind="litre" exponent="1" scale="0" multiplier="1"/>
-        </listOfUnits>
-      </unitDefinition>
-      <unitDefinition id="time">
-        <listOfUnits>
-          <unit kind="second" exponent="1" scale="0" multiplier="1"/>
-        </listOfUnits>
-      </unitDefinition>
-    </listOfUnitDefinitions>
+  <model id="case00963" name="case00963">
     <listOfCompartments>
-      <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" units="volume" constant="true"/>
+      <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" constant="true"/>
     </listOfCompartments>
     <listOfParameters>
       <parameter id="S" value="0" constant="false"/>
@@ -59,7 +43,7 @@
         </trigger>
         <priority>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <cn type="integer"> 1 </cn>
+            <cn type="integer"> 1 </cn>
           </math>
         </priority>
         <listOfEventAssignments>
@@ -95,7 +79,7 @@
         </trigger>
         <priority>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <cn type="integer"> 1 </cn>
+            <cn type="integer"> 1 </cn>
           </math>
         </priority>
         <listOfEventAssignments>
@@ -131,7 +115,7 @@
         </trigger>
         <priority>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <cn type="integer"> 1 </cn>
+            <cn type="integer"> 1 </cn>
           </math>
         </priority>
         <listOfEventAssignments>
