@@ -2,7 +2,7 @@
 
 category:      Test
 synopsis:      A very simple reaction with stoichiometry changed by an event.
-componentTags: Parameter, Species, Event
+componentTags: Parameter, Species, EventNoDelay
 testTags:      InitialAmount, SpeciesReferenceMath
 testType:      TimeCourse
 levels:        3.1
