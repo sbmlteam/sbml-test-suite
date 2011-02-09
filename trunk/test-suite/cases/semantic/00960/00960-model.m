@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Three different ways of writing the avogadro number in an initial assignment.
 componentTags: Parameter, InitialAssignment
-testTags:      InitialValueReassigned
+testTags:      InitialValueReassigned, CSymbolAvogadro
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic
