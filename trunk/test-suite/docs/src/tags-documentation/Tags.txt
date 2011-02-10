@@ -25,6 +25,7 @@ CSymbolAvogadro
 CSymbolDelay
 CSymbolTime
 ConstantSpecies
+ConversionFactors
 FastReaction
 HasOnlySubstanceUnits
 InitialAmount
