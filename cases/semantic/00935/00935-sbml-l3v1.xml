@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v1.4 on 2011-02-09 22:28 with libSBML version 5.0.0-b1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model metaid="_case00930" id="case00930" name="case00930" timeUnits="second">
+  <model id="case00935" name="case00935">
     <listOfCompartments>
-      <compartment id="C" size="1" constant="true" spatialDimensions="3" units="litre"/>
+      <compartment id="C" spatialDimensions="3" size="1" constant="true"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="C" initialAmount="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-      <species id="S2" name="S2" compartment="C" initialAmount="1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S1" compartment="C" initialAmount="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S2" compartment="C" initialAmount="1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
     </listOfSpecies>
     <listOfEvents>
       <event id="A" useValuesFromTriggerTime="true">
-		    <priority>
-          <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <cn type="integer"> 10 </cn>
-          </math>
-		    </priority>
         <trigger initialValue="true" persistent="true">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -22,7 +18,7 @@
               <apply>
                 <geq/>
                 <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
-                <cn type="integer"> 1 </cn>
+                <cn> 0.99 </cn>
               </apply>
               <apply>
                 <lt/>
@@ -32,6 +28,11 @@
             </apply>
           </math>
         </trigger>
+        <priority>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 10 </cn>
+          </math>
+        </priority>
         <listOfEventAssignments>
           <eventAssignment variable="S1">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -46,11 +47,6 @@
         </listOfEventAssignments>
       </event>
       <event id="B" useValuesFromTriggerTime="true">
-        <priority>
-          <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <cn type="integer"> 8 </cn>
-          </math>
-        </priority>
         <trigger initialValue="true" persistent="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -58,7 +54,7 @@
               <apply>
                 <geq/>
                 <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
-                <cn type="integer"> 1 </cn>
+                <cn> 0.99 </cn>
               </apply>
               <apply>
                 <lt/>
@@ -68,6 +64,11 @@
             </apply>
           </math>
         </trigger>
+        <priority>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 8 </cn>
+          </math>
+        </priority>
         <listOfEventAssignments>
           <eventAssignment variable="S1">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -82,11 +83,6 @@
         </listOfEventAssignments>
       </event>
       <event id="C1" useValuesFromTriggerTime="true">
-        <priority>
-          <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <cn type="integer"> 9 </cn>
-          </math>
-        </priority>
         <trigger initialValue="true" persistent="true">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -94,7 +90,7 @@
               <apply>
                 <geq/>
                 <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
-                <cn type="integer"> 1 </cn>
+                <cn> 0.99 </cn>
               </apply>
               <apply>
                 <lt/>
@@ -104,6 +100,11 @@
             </apply>
           </math>
         </trigger>
+        <priority>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 9 </cn>
+          </math>
+        </priority>
         <listOfEventAssignments>
           <eventAssignment variable="S1">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -113,7 +114,7 @@
           <eventAssignment variable="S2">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
               <cn type="integer"> 2 </cn>
-            </math>b
+            </math>
           </eventAssignment>
         </listOfEventAssignments>
       </event>

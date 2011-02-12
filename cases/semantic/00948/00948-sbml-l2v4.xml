@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v1.4 on 2011-02-10 00:27 with libSBML version 5.0.0-b1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
-  <model id="case00946" name="case00946">
-    <notes>
-      <body xmlns="http://www.w3.org/1999/xhtml">
-        <p> Originally created by libAntimony v1.4 (using libSBML 5.0.0-a1) </p>
-      </body>
-    </notes>
+  <model id="case00948" name="case00948">
     <listOfCompartments>
       <compartment id="C" constant="false"/>
     </listOfCompartments>
@@ -13,8 +9,8 @@
       <species id="S1" compartment="C" initialAmount="1"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter id="k1" value="1" constant="false"/>
       <parameter id="fakeC" value="1" constant="false"/>
+      <parameter id="k1" value="1"/>
     </listOfParameters>
     <listOfRules>
       <assignmentRule variable="C">
@@ -24,7 +20,7 @@
       </assignmentRule>
     </listOfRules>
     <listOfReactions>
-      <reaction id="reaction1" reversible="false">
+      <reaction id="reaction1" reversible="false" fast="false">
         <listOfProducts>
           <speciesReference species="S1"/>
         </listOfProducts>
