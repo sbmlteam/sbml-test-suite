@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v1.4 on 2011-02-17 12:50 with libSBML version 4.2.0. -->
+<!-- Created by libAntimony version v1.4 on 2011-02-17 15:24 with libSBML version 4.2.0. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
   <model id="case00978" name="case00978">
     <listOfCompartments>
@@ -294,7 +294,7 @@
               <apply>
                 <plus/>
                 <ci> z </ci>
-                <cn type="integer"> 1 </cn>
+                <cn type="integer"> 3 </cn>
               </apply>
             </math>
           </eventAssignment>
