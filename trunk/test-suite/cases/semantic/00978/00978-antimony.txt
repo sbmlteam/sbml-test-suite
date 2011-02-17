@@ -28,6 +28,6 @@ model case00978()
   //  This one will end up executing five times, but performing the same action each time, since fromTrigger was true:
   at(multitrig > 1), priority = 1, persistent=true, fromTrigger=true : y = y+1;
   //  And this one will only end up executing once:
-  at(multitrig > 1), priority = 1, persistent=false, fromTrigger=false: z = z+1;
+  at(multitrig > 1), priority = 1, persistent=false, fromTrigger=false: z = z+3;
 
 end
