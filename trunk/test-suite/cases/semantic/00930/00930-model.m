@@ -15,10 +15,10 @@ species called S1 and S2.
 The model contains two events that assign value to species S1, S2 and S3 defined as:
 
 [{width:30em,margin-left:5em}| | *Trigger*    | *Priority* | *Delay* | *Assignments* |
- | Event1 | $t >= 1$ | $1$  | $-$   | $S1 = 4$    |
+ | Event1 | $t >= 0.99$ | $1$  | $-$   | $S1 = 4$    |
  |        |          |      |       | $S2 = 5$    |
  |        |          |      |       | $S3 = 6$    |
- | Event2 | $t >= 1$ | $0$  | $-$   | $S1 = 1$    |
+ | Event2 | $t >= 0.99$ | $0$  | $-$   | $S1 = 1$    |
  |        |          |      |       | $S2 = 2$    |
  |        |          |      |       | $S3 = 3$    |]
  
