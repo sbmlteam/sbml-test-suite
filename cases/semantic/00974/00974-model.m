@@ -16,15 +16,11 @@ generatedBy:   Analytic
 
  Three other parameters reference this stoichiometry in their own math:  Y has a rateRule of Xref, Z has an assignmentRule of Xref, and Q has an initialAssignment of Xref. Y, Z, and Q all have 'value="0"' in their definitions, to ensure that this is being appropriately overridden.
 
- The rate rule is:
+ The rules are:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*         |
- | Rate                                 | Y           | $Xref$  |]
-
- The assignment rule is:
-
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*         |
- | Rate                                 | Z           | $Xref$  |]
+ | Rate                                 | Y           | $Xref$  |
+ | Assignment                                 | Z           | $Xref$  |]
 
 The initial conditions are as follows:
 
