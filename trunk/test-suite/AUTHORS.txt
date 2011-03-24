@@ -1,10 +1,12 @@
-	   The SBML Test Suite was initially developed by:
+	      The SBML Test Suite has been developed by:
  
-     Sarah Keating, Michael Hucka, Kimberly Begley, Andrew Finney
+	    Sarah Keating, Michael Hucka, Kimberly Begley,
+		    Lucian Smith and Andrew Finney
+
 		       with contributions from
 	 Bruce Shapiro and many others in the SBML community.
 
-	       For more information about SBML contact:
+     For more information about SBML or the Test Suite, contact:
 
 			    The SBML Team
                          http://www.sbml.org/
@@ -14,5 +16,8 @@
 
 ----------------------------------------------------------------------
 $Id$
-$HeadURL$
+$URL$
+Local Variables:
+fill-column: 70
+End:
 ----------------------------------------------------------------------
