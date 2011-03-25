@@ -50,7 +50,7 @@ public class UserTestResult
         this.numDifferences = numFail;
     }
 
-    public void setDifferences(BigDecimal[][] diffs)
+    public void setDifferences(ResultDifference[][] diffs)
     {
         this.differences = diffs;
     }
@@ -60,12 +60,12 @@ public class UserTestResult
         this.errorMsg = errorMsg;
     }
 
-    public boolean        hasResult()         { return testCase != null; }
-    public UserTestCase   getUserTestCase()   { return testCase; }
-    public int            getNumDifferences() { return numDifferences; }
-    public BigDecimal[][] getDifferences()    { return differences; }
-    public boolean        hasError()          { return errorMsg != null; }
-    public String         getErrorMessage()   { return errorMsg; }
+    public boolean        hasResult()            { return testCase != null; }
+    public UserTestCase   getUserTestCase()      { return testCase; }
+    public boolean        hasError()             { return errorMsg != null; }
+    public String         getErrorMessage()      { return errorMsg; }
+    public int            getNumDifferences()    { return numDifferences; }
+    public ResultDifference[][] getDifferences() { return differences; }
 
     /**
      * Returns a negative integer, zero, or a positive integer depending
@@ -83,7 +83,7 @@ public class UserTestResult
 
     private UserTestCase testCase;
     private int numDifferences;
-    private BigDecimal[][] differences;
+    private ResultDifference[][] differences;
     private String errorMsg;
 
 } // end of class

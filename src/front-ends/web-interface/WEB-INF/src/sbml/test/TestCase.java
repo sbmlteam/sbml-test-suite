@@ -100,10 +100,10 @@ public class TestCase
 
     public double         getTestStart()       { return testStart; }
     public double         getTestDuration()    { return testDuration; }
+    public double         getTestRelativeTol() { return testRelativeTol; }
+    public double         getTestAbsoluteTol() { return testAbsoluteTol; }
     public int            getTestNumRows()     { return testNumRows; }
     public int            getTestNumVars()     { return testVars.size(); }
-    public BigDecimal     getTestRelativeTol() { return testRelativeTol; }
-    public BigDecimal     getTestAbsoluteTol() { return testAbsoluteTol; }
     public Vector<String> getTestVars()        { return testVars; }
     public Vector<String> getTestAmountVars()  { return testAmountVars; }
     public Vector<String> getTestConcentrationVars() { return testConcentVars;}
@@ -111,7 +111,7 @@ public class TestCase
     /**
      * Parse the expected results CSV file and return it as a 2-D array.
      */
-    public BigDecimal[][] getExpectedData()
+    public double[][] getExpectedData()
         throws Exception
     {
         if (expectedData == null)
@@ -138,7 +138,7 @@ public class TestCase
      * This is used by subclasses (like for user results) to parse
      * other results data files.
      */
-    protected BigDecimal[][] parseDataFile(File f, int numRows, int numVars)
+    protected double[][] parseDataFile(File f, int numRows, int numVars)
         throws Exception
     {
         String fileName    = f.getName();
@@ -150,9 +150,9 @@ public class TestCase
         // The first column gives the time step.  It's not counted in
         // numVars, hence the + 1 below.
 
-        BigDecimal[][] data   = new BigDecimal[numRows][numVars + 1];
+        double[][] data       = new double[numRows][numVars + 1];
         Pattern ignorePattern = Pattern.compile("^#.*|^\\s*$");
-        Pattern numberPattern = Pattern.compile("\\s*\\d+");
+        Pattern numberPattern = Pattern.compile("\\s*(\\d+|-INF|INF|NaN)");
 
         // Don't count element 0, the time point, as a variable.
 
@@ -184,7 +184,17 @@ public class TestCase
                                         + expected + ", but read " + found + ".");
 
                 for (int col = 0; col < expected; col++)
-                    data[dataRow][col] = new BigDecimal(items[col].trim());
+                {
+                    String thisItem = items[col].trim();
+                    if (thisItem.equals(NEG_INF_STRING))
+                        data[dataRow][col] = Double.NEGATIVE_INFINITY;
+                    else if (thisItem.equals(POS_INF_STRING))
+                        data[dataRow][col] = Double.POSITIVE_INFINITY;
+                    else if (thisItem.equals(NAN_STRING))
+                        data[dataRow][col] = Double.NaN;
+                    else
+                        data[dataRow][col] = Double.parseDouble(thisItem);
+                }
 
                 dataRow++;
                 fileRow++;
@@ -323,8 +333,8 @@ public class TestCase
             if (t.equalsIgnoreCase("start:"))              testStart       = line.nextDouble();
             else if (t.equalsIgnoreCase("duration:"))      testDuration    = line.nextDouble();
             else if (t.equalsIgnoreCase("steps:"))         testNumRows     = line.nextInt() + 1;
-            else if (t.equalsIgnoreCase("relative:"))      testRelativeTol = line.nextBigDecimal();
-            else if (t.equalsIgnoreCase("absolute:"))      testAbsoluteTol = line.nextBigDecimal();
+            else if (t.equalsIgnoreCase("relative:"))      testRelativeTol = line.nextDouble();
+            else if (t.equalsIgnoreCase("absolute:"))      testAbsoluteTol = line.nextDouble();
             else if (t.equalsIgnoreCase("variables:"))     testVars        = readTokens(line);
             else if (t.equalsIgnoreCase("amount:"))        testAmountVars  = readTokens(line);
             else if (t.equalsIgnoreCase("concentration:")) testConcentVars = readTokens(line);
@@ -395,13 +405,21 @@ public class TestCase
 
     private double testStart;
     private double testDuration;
-    private BigDecimal testRelativeTol;
-    private BigDecimal testAbsoluteTol;
+    private double testRelativeTol;
+    private double testAbsoluteTol;
     private int testNumRows;
     private Vector<String> testVars;
     private Vector<String> testAmountVars;
     private Vector<String> testConcentVars;
-    private BigDecimal[][] expectedData;
+    private double[][] expectedData;
+
+    // 
+    // -------------------------- Private constants ---------------------------
+    // 
+
+    private final static String NAN_STRING = "NaN";
+    private final static String POS_INF_STRING = "INF";
+    private final static String NEG_INF_STRING = "-INF";
 
 } // end of class
 

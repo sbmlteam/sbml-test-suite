@@ -72,7 +72,7 @@ public class UserTestCase
     public File   getUserDataFile()      { return userDataFile; }
     public String getUserDataFileName()  { return userDataFile.getPath(); }
 
-    public BigDecimal[][] getUserData()
+    public double[][] getUserData()
         throws Exception
     {
         if (userData == null)
@@ -88,6 +88,6 @@ public class UserTestCase
 
     private File userCasesDir;
     private File userDataFile;
-    private BigDecimal[][] userData;
+    private double[][] userData;
 
 } // end of class

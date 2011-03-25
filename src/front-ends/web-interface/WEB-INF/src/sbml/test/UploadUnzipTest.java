@@ -156,8 +156,8 @@ public class UploadUnzipTest extends HttpServlet
         for (UserTestCase theCase : cases)
         {
             String name = theCase.getCaseName();
-            BigDecimal[][] refData;
-            BigDecimal[][] userData;
+            double[][] refData;
+            double[][] userData;
 
             // If we can't read our reference data, something's really wrong.
             // Throw a hard failure.
@@ -190,15 +190,17 @@ public class UploadUnzipTest extends HttpServlet
                 continue;
             }
 
+            // Start by getting some basic things.
+
+            int numRows   = refData.length;
+            int numCols   = refData[0].length;
+            double absTol = theCase.getTestAbsoluteTol();
+            double relTol = theCase.getTestRelativeTol();
+
             // First check that the user's data file has entries at the
             // same time steps as our reference data.  We do this using the
             // same epsilon as the absolute tolerance, so that (e.g.) 0 is
-            // considered equal to 0.000000000000001.
-
-            int numRows          = refData.length;
-            int numCols          = refData[0].length;
-            BigDecimal absTol    = theCase.getTestAbsoluteTol();
-            BigDecimal relTol    = theCase.getTestRelativeTol();
+            // still considered equal to (e.g.) 0.000000000000001.
 
             for (int r = 0; r < numRows; r++)
                 if (! tolerable(refData[r][0], userData[r][0], absTol, relTol))
@@ -212,24 +214,48 @@ public class UploadUnzipTest extends HttpServlet
                     continue caseLoop;
                 }
 
-            // Now compare the results to what we expect, within tolerances.
-            // In addition to logging the total number of failures for each
-            // case, we're also going to construct a map of the data points
-            // that succeed or fail.  (That's the 'diffs' array.)
+            // Now compare the results to what we expect.  In addition to
+            // logging the total number of failures for each case, we also
+            // construct a map of the data points that succeed or fail.
+            // (That's the 'diffs' array.)  Note: although the user's
+            // results and reference results are stored as Java Double's,
+            // we use BigDecimal for the results of computations.  This
+            // helps report more accurate results to the user.
 
             int failCount = 0;
-            BigDecimal[][] diffs = new BigDecimal[numRows][numCols];
+            ResultDifference[][] diffs = new ResultDifference[numRows][numCols];
 
             for (int r = 0; r < numRows; r++)
                 for (int c = 1; c < numCols; c++) // Skip col 1 b/c it's time.
-                    if (! tolerable(refData[r][c], userData[r][c], absTol, relTol))
+                {
+                    double refVal  = refData[r][c];
+                    double userVal = userData[r][c];
+
+                    if (! tolerable(refVal, userVal, absTol, relTol))
                     {
-                        diffs[r][c] = refData[r][c].subtract(userData[r][c]).abs();
                         failCount++;
+                        if (Double.isNaN(refVal) || Double.isNaN(userVal)
+                            || Double.isInfinite(refVal) || Double.isInfinite(userVal))
+                        {
+                            diffs[r][c] = new ResultDifference();
+                            diffs[r][c].setNumerical(false);
+                        }
+                        else
+                        {
+                            BigDecimal rv = new BigDecimal(refVal);
+                            BigDecimal uv = new BigDecimal(userVal);
+                            diffs[r][c] = new ResultDifference(rv.subtract(uv).abs());
+                        }
                     }
+                }
 
             thisResult.setNumDifferences(failCount);
             thisResult.setDifferences(diffs);
+
+            if (failCount > 0)
+                OnlineSTS.logInfo(httpRequest, "Found " + failCount
+                                  + " difference" + (failCount > 1 ? "s" : "")
+                                  + " in numerical results of case " + name);
         }
 
         OnlineSTS.logInfo(httpRequest, "... Finished analysis.");
@@ -386,19 +412,33 @@ public class UploadUnzipTest extends HttpServlet
         return dir;
     }
 
-    private final boolean tolerable(BigDecimal expected, BigDecimal actual,
-                                    BigDecimal absTol, BigDecimal relTol)
+    private final boolean tolerable(double expectedVal, double actualVal,
+                                    double absTol, double relTol)
     {
-        MathContext mc           = new MathContext(expected.precision());
-        BigDecimal adjusted      = actual.round(mc);
-        BigDecimal actualDiff    = expected.subtract(adjusted).abs();
-        BigDecimal allowableDiff = absTol.add(relTol.multiply(expected.abs()));
+        if (Double.isInfinite(expectedVal))
+            return (expectedVal == actualVal);
+        else if (Double.isNaN(expectedVal))
+            return Double.isNaN(actualVal);
+        else if (Double.isNaN(actualVal) || Double.isInfinite(actualVal))
+            return false;
+        else
+        {
+            BigDecimal expected      = new BigDecimal(expectedVal);
+            MathContext mc           = new MathContext(expected.precision());
+            BigDecimal adjusted      = new BigDecimal(actualVal).round(mc);
+            BigDecimal actualDiff    = expected.subtract(adjusted).abs();
+            BigDecimal rtol          = new BigDecimal(relTol);
+            BigDecimal atol          = new BigDecimal(absTol);
+            BigDecimal allowableDiff = atol.add(rtol.multiply(expected.abs()));
+
+            return (actualDiff.compareTo(allowableDiff) <= 0);
+        }
+    }
 
 //          System.err.println("actual = " + actualDiff
 //                             + ", adjusted = " + adjusted
 //                             + ", allowable = " + allowableDiff);
-        return (actualDiff.compareTo(allowableDiff) <= 0);
-    }
+
 
     private void propagateError(String code, String msg)
         throws ServletException, IOException
