@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Competing events with the same priority, jointly causing a parameter to monotonically increase, checking to make sure one event doesn't happen too many times in a row.  NOTE:  STOCHASTIC TEST. This test is designed to fail only one time in a million, but it still may happen.
 componentTags: Parameter, EventNoDelay, EventPriority, AssignmentRule
-testTags:      InitialValue, PersistentTrigger, CSymbolTime, RandomEventExecution
+testTags:      PersistentTrigger, CSymbolTime, RandomEventExecution
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic
