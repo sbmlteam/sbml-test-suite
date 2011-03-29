@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Two event where the two event assignments should not interfere with each other. 
 componentTags: EventNoDelay, Parameter
-testTags:      InitialValue, CSymbolTime, NonConstantParameter
+testTags:      CSymbolTime, NonConstantParameter
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
