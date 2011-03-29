@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Basic single forward reaction with two species and a delayed event.
 componentTags: Compartment, Species, Reaction, Parameter, EventWithDelay
-testTags:      Amount, Persistent
+testTags:      Amount, Persistent, PersistentTrigger
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic

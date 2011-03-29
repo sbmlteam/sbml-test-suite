@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Model using parameters and rules only with
                one event that assigns value to a parameter, subject to a delay.
 componentTags: Parameter, RateRule, EventWithDelay 
-testTags:      NonConstantParameter
+testTags:      NonConstantParameter, PersistentTrigger
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
