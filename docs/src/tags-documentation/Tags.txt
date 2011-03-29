@@ -30,7 +30,6 @@ FastReaction
 HasOnlySubstanceUnits
 InitialAmount
 InitialConcentration
-InitialValue
 InitialValueReassigned
 LocalParameters
 MassUnits
@@ -39,12 +38,14 @@ NonConstantCompartment
 NonConstantParameter
 NonUnityCompartment
 NonUnityStoichiometry
-Persistent
+PersistentTrigger
 RandomEventExecution
 ReversibleReaction
 SpeciesReferenceMath
 StoichiometryMath
+TriggerInitialValue
 Units
+UseValuesFromTriggerTime
 
 Removed testTags
 ================
