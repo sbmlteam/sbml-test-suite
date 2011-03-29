@@ -4,7 +4,7 @@ category:      Test
 synopsis:      A simple reaction during which the species values are reset 
                by an event which is subject to a delay.
 componentTags: Compartment, Species, Reaction, Parameter, EventWithDelay 
-testTags:      Amount, Persistent
+testTags:      Amount, PersistentTrigger
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
