@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Single forward reaction with two species in one compartment and an event
 componentTags: Compartment, Species, Reaction, Parameter, EventNoDelay
-testTags:      Amount, TriggerInitialValue
+testTags:      Amount, EventT0Firing
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic

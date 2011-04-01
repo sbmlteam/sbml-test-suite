@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with four species in one compartment
                and two events that assign value to a species, subject to a delay.
 componentTags: Compartment, Species, Reaction, Parameter, EventWithDelay 
-testTags:      Amount, ConstantSpecies, PersistentTrigger
+testTags:      Amount, ConstantSpecies, EventIsPersistent
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
