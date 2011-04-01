@@ -1,8 +1,8 @@
 //
 // @file    ZipServlet.java
 // @brief   Servlet to zip the test cases for the user.
-// @author  Kimberly Begley
 // @author  Michael Hucka
+// @author  Kimberly Begley
 // @date    Created Jul 30, 2008, 9:25:21 AM
 // @id      $Id$
 // $HeadURL$
@@ -106,9 +106,9 @@ public class ZipServlet extends HttpServlet
             @SuppressWarnings("unchecked")
             Vector<String> cases   = (Vector<String>) s.getAttribute("casesToReturn");
 
-            resp.setContentType("application/zip");
-            resp.setHeader("Content-disposition",
-                           "attachment; filename=" + archiveName + ".zip");
+            if (! checkLevelAndVersion(levelAndVersion))
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+                               "Unexpected or nonexistent Level and/or Version number.");
 
             if (root == null)
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
@@ -122,10 +122,20 @@ public class ZipServlet extends HttpServlet
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                                "No test cases selected");
 
-            OnlineSTS.logInfo(request, "Zip'ing up " + cases.size() + " cases");
+            resp.setContentType("application/zip");
+            resp.setHeader("Content-disposition",
+                           "attachment; filename=" + archiveName + ".zip");
 
             String omitFileRegex = buildFileOmitRegex(levelAndVersion);
-            ZipOutputStream zos  = new ZipOutputStream(resp.getOutputStream());
+            OutputStream zipout  = resp.getOutputStream();
+            
+            if (zipout == null)
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                               "Response output stream is null");
+
+            ZipOutputStream zos  = new ZipOutputStream(zipout);
+
+            OnlineSTS.logInfo(request, "Zip'ing up " + cases.size() + " cases");
 
             for (String caseName : cases)
                 addFilesToZip(caseName, root, archiveName, omitFileRegex, zos);
@@ -135,6 +145,7 @@ public class ZipServlet extends HttpServlet
         }
         catch (Exception e)
         {
+            OnlineSTS.logError(request, e.toString());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                            e.toString());
         }
@@ -196,21 +207,24 @@ public class ZipServlet extends HttpServlet
         // We add some more pieces below, then close it off at the end.
 
         String rx = new String("\\d{5}-(model.m|results.csv|plot.(jpg|eps)");
-        String versions[][] = {
-            {"1.2", "sbml-l1v2.xml"},
-            {"2.1", "sbml-l2v1.xml"},
-            {"2.2", "sbml-l2v2.xml"},
-            {"2.3", "sbml-l2v3.xml"},
-            {"2.4", "sbml-l2v4.xml"},
-            {"3.1", "sbml-l3v1.xml"},
-        };
       
         if (levelAndVersion != null)      // Shouldn't happen, but let's be safe.
-            for (int i = 0; i < versions.length; i++)
-                if (! versions[i][0].equals(levelAndVersion))
-                    rx += "|" + versions[i][1];
+            for (int i = 0; i < knownLevelsAndVersions.length; i++)
+                if (! knownLevelsAndVersions[i][0].equals(levelAndVersion))
+                    rx += "|" + knownLevelsAndVersions[i][1];
 
         return rx + ")";
+    }
+
+    /**
+     * Check that a given Level and Version string is valid.
+     */
+    private boolean checkLevelAndVersion(String levelAndVersion)
+    {
+        for (int i = 0; i < knownLevelsAndVersions.length; i++)
+            if (knownLevelsAndVersions[i][0].equals(levelAndVersion))
+                return true;
+        return false;
     }
 
 
@@ -219,4 +233,13 @@ public class ZipServlet extends HttpServlet
     // 
 
     private final String archiveName = new String("SBML_test_cases");
+    private final String knownLevelsAndVersions[][] = {
+            {"1.2", "sbml-l1v2.xml"},
+            {"2.1", "sbml-l2v1.xml"},
+            {"2.2", "sbml-l2v2.xml"},
+            {"2.3", "sbml-l2v3.xml"},
+            {"2.4", "sbml-l2v4.xml"},
+            {"3.1", "sbml-l3v1.xml"},
+        };
+
 }
