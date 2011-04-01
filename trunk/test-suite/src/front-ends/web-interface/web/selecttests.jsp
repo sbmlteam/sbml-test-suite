@@ -428,7 +428,7 @@ href="<%=OnlineSTS.getHomeURL(request)%>/Step_2:_Running_the_tests">step 2</a>.
 
 <p> If you prefer, you can also skip the rest of this page and download the
 entire test set as a single <a
-href="http://sourceforge.net/project/showfiles.php?group_id=71971&package_id=90209">zip
+href="http://sourceforge.net/projects/sbml/files/test-suite">zip
 archive</a>.
 </p>
 
