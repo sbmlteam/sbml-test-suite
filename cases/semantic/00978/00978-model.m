@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Several events conspire within the same time step to trigger three events multiple times, with different outcomes.
 componentTags: EventNoDelay, EventPriority, Parameter
-testTags:      CSymbolTime, PersistentTrigger
+testTags:      CSymbolTime, EventIsPersistent, EventIsNotPersistent
 testType:      TimeCourse, UseValuesFromTriggerTime
 levels:        3.1
 generatedBy:   Analytic

@@ -26,6 +26,7 @@
       <parameter id="P2" constant="true"/>
       <parameter id="P3" constant="true"/>
       <parameter id="P4" constant="true"/>
+      <parameter id="P5" constant="true"/>
     </listOfParameters>
     <listOfInitialAssignments>
       <initialAssignment symbol="P1">
@@ -46,6 +47,15 @@
       <initialAssignment symbol="P4">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro" />
+        </math>
+      </initialAssignment>
+      <initialAssignment symbol="P5">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
+            <cn type="e-notation"> 6.0221 <sep/> 23 </cn>
+          </apply>
         </math>
       </initialAssignment>
     </listOfInitialAssignments>

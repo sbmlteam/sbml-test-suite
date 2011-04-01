@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Limited-time oscillation that triggers a delayed event three times before the first one executes.
 componentTags: Compartment, Species, EventWithDelay
-testTags:      Concentration, UseValuesFromTriggerTime, PersistentTrigger
+testTags:      Concentration, EventUsesAssignmentTimeValues, EventIsPersistent
 testType:      TimeCourse
 levels:        2.4, 3.1
 generatedBy:   Analytic
