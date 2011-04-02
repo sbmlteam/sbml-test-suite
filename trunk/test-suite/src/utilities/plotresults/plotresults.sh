@@ -98,6 +98,7 @@ sed -e 's/case[0-9][0-9][0-9][0-9][0-9][`]//g' < $CSV_FILE | tr -d '\015' > $INP
 # from gnuplot for this reason.
 
 $GNUPLOT 2> /dev/null 1>/dev/null -<<EOF
+set border 0
 set datafile separator ","
 set key spacing 1.2
 set key height 3
