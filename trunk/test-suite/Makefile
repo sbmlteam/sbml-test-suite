@@ -46,7 +46,7 @@ cases-html-files = $(addsuffix .html,$(basename $(cases-m-files)))
 
 html: $(cases-html-files)
 
-$(cases-html-files):
+cases/semantic/%-model.html: cases/semantic/%-model.m
 	$(call make_html,$@)
 
 #
@@ -62,7 +62,7 @@ cases-jpg-files = $(patsubst %-results.csv,%-plot.jpg,$(cases-csv-files))
 
 plots: $(cases-jpg-files)
 
-$(cases-jpg-files):
+cases/semantic/%-plot.jpg: cases/semantic/%-results.csv
 	$(call make_plot,$(patsubst %-plot.jpg,%-results.csv,$@))
 
 
@@ -172,6 +172,7 @@ svn-ignores: $(cases-html-files) $(cases-jpg-files)
 
 .PHONY: docs html plots
 
+.SUFFIXES: .jpg .csv .html .xml .txt
 
 # ----------------------------------------------------------------------------- 
 # End. 
