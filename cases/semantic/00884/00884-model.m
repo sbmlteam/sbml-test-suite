@@ -3,8 +3,8 @@
 category:      Test
 synopsis:      Basic two reactions with three species in one compartment
 and two events that assigns value to a species using csymbol time.
-componentTags: Compartment, Species, Reaction, Parameter, EventNoDelay 
-testTags:      Amount, CSymbolTime
+componentTags: Compartment, Species, Reaction, CSymbolTime, Parameter, EventNoDelay 
+testTags:      Amount
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

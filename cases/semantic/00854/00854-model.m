@@ -3,8 +3,8 @@
 category:      Test
 synopsis:      Basic single forward reaction with two species in one compartment
 using csymbol time passed to a functionDefinition.
-componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
-testTags:      Amount, CSymbolTime
+componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, CSymbolTime
+testTags:      Amount
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

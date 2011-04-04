@@ -3,8 +3,8 @@
 category:      Test
 synopsis:      Basic single forward reaction with two species in one compartment
 using csymbol time within a math expression.
-componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      Amount, CSymbolTime, StoichiometryMath
+componentTags: Compartment, Species, Reaction, Parameter, CSymbolTime
+testTags:      Amount, StoichiometryMath
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

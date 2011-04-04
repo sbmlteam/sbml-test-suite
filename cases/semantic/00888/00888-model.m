@@ -3,8 +3,8 @@
 category:      Test
 synopsis:      Basic reaction and rate rule with three species in a compartment
 where rate rule uses csymbol time. 
-componentTags: Compartment, Species, Reaction, Parameter, RateRule 
-testTags:      Amount, CSymbolTime
+componentTags: Compartment, Species, CSymbolTime, Reaction, Parameter, RateRule 
+testTags:      Amount
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

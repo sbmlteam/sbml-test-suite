@@ -2,8 +2,8 @@
 
 category:      Test
 synopsis:      Four different ways of writing the avogadro number in an initial assignment.
-componentTags: Parameter, InitialAssignment
-testTags:      InitialValueReassigned, CSymbolAvogadro
+componentTags: Parameter, InitialAssignment, CSymbolAvogadro
+testTags:      InitialValueReassigned
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic

@@ -2,8 +2,8 @@
 
 category:      Test
 synopsis:      Competing events without priorities, jointly causing a parameter to monotonically increase.
-componentTags: Parameter, EventNoDelay, EventPriority, AssignmentRule
-testTags:      CSymbolTime, EventIsNotPersistent
+componentTags: Parameter, EventNoDelay, EventPriority, AssignmentRule, CSymbolTime
+testTags:      EventIsNotPersistent
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic
