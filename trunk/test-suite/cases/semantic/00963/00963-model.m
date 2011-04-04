@@ -3,8 +3,8 @@
 category:      Test
 synopsis:      Competing events with different priorities, meaning one always fires and the other does not.
  jointly causing a parameter to monotonically increase, checking to make sure the two events are not exactly evently distributed.  NOTE:  STOCHASTIC TEST. Your software may fail periodically; it is only supposed to succeed in the majority of cases.
-componentTags: Parameter, EventNoDelay, EventPriority
-testTags:      CSymbolTime, EventIsNotPersistent
+componentTags: Parameter, EventNoDelay, EventPriority, CSymbolTime
+testTags:      EventIsNotPersistent
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic

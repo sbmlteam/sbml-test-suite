@@ -2,8 +2,8 @@
 
 category:      Test
 synopsis:      Model with parameters and rules only, with csymbol time.
-componentTags: Parameter, RateRule 
-testTags:      NonConstantParameter, CSymbolTime
+componentTags: Parameter, RateRule, CSymbolTime
+testTags:      NonConstantParameter
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

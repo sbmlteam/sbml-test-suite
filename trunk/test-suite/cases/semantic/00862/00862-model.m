@@ -3,8 +3,8 @@
 category:      Test
 synopsis:      Three reactions with four species in one compartment
 using csymbol time within a math expression.
-componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      Concentration, CSymbolTime, NonUnityCompartment
+componentTags: Compartment, Species, Reaction, Parameter, CSymbolTime
+testTags:      Concentration, NonUnityCompartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

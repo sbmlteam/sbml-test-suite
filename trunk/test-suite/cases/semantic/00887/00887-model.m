@@ -3,8 +3,8 @@
 category:      Test
 synopsis:      Basic two reactions with three species in one compartment
 and two events that assigns value to a species with a delay using csymbol time.
-componentTags: Compartment, Species, Reaction, Parameter, EventWithDelay 
-testTags:      Amount, CSymbolTime, EventIsPersistent
+componentTags: Compartment, Species, Reaction, Parameter, CSymbolTime, EventWithDelay 
+testTags:      Amount, EventIsPersistent
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

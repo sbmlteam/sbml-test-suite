@@ -2,8 +2,8 @@
 
 category:      Test
 synopsis:     A variable species that varies in its IntialAssignment, but is constant thereafte, being echoed by a parameter viewing it through a delay.
-componentTags: Compartment, Parameter, Species, InitialAssignment, AssignmentRule
-testTags:      Amount, CSymbolDelay, CSymbolTime, NonConstantParameter
+componentTags: Compartment, Parameter, Species, InitialAssignment, AssignmentRule, CSymbolDelay, CSymbolTime
+testTags:      Amount, NonConstantParameter
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

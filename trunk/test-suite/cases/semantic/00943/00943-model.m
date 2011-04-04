@@ -2,8 +2,8 @@
 
 category:      Test
 synopsis:      A constant parameter that nonetheless varies in its IntialAssignment, but is constant thereafter, being echoed by a second parameter viewing it through a delay.
-componentTags: Compartment, Parameter, InitialAssignment, AssignmentRule
-testTags:      Amount, CSymbolDelay, CSymbolTime, NonConstantParameter
+componentTags: Compartment, Parameter, InitialAssignment, AssignmentRule, CSymbolDelay, CSymbolTime
+testTags:      Amount, NonConstantParameter
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
