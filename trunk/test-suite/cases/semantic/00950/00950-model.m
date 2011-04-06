@@ -2,8 +2,8 @@
 
 category:      Test
 synopsis:      Three constant parameters, with initialassignments to inf, -inf, and nan.
-componentTags: Parameter
-testTags:      InitialAssignment InitialValueReassigned
+componentTags: Parameter, InitialAssignment
+testTags:      InitialValueReassigned
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
