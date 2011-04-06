@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A three-step reaction scheme with a model conversion factor and a species conversion factor.
 componentTags: Parameter, Species, Reaction
-testTags:      InitialAmount, ConversionFactors
+testTags:      Amount, ConversionFactors
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Numeric
