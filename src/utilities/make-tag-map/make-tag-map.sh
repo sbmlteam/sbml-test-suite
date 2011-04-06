@@ -71,6 +71,10 @@ cd cases/semantic
 total=`ls | sort -r | head -n 1`
 $e $total > $mapfile
 
+alltags=`egrep '^componentTags:|testTags:' */*.m | cut -f3 -d':' |\
+   tr ',' '\012' | awk '{print $1}' | sort | uniq | grep -v '^$'`
+$e $alltags >> $mapfile
+
 for case in *; do
     tags=`egrep '^componentTags:|^testTags:|^levels:' $case/$case-model.m |\
 	cut -f2 -d':' | tr '\012' '\040' | sed -e 's/  */ /g;s/,//g'`; \
