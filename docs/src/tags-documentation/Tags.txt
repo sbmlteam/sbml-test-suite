@@ -4,6 +4,9 @@ AlgebraicRule
 AssignmentRule
 Compartment
 Constraint
+CSymbolAvogadro
+CSymbolDelay
+CSymbolTime
 EventNoDelay
 EventWithDelay
 EventPriority
@@ -13,7 +16,7 @@ Parameter
 RateRule
 Reaction
 Species
-UnitDefinition
+UnitDefinition          (unused)
 
 testTags
 ========
@@ -21,31 +24,30 @@ testTags
 1D-Compartment
 2D-Compartment
 BoundaryCondition
-CSymbolAvogadro
-CSymbolDelay
-CSymbolTime
 ConstantSpecies
 ConversionFactors
+EventIsNotPersistent
+EventIsPersistent
+EventT0Firing
+EventUsesAssignmentTimeValues
+EventUsesTriggerTimeValues
 FastReaction
 HasOnlySubstanceUnits
 InitialAmount
-InitialConcentration
+InitialConcentration    (unused)
 InitialValueReassigned
 LocalParameters
-MassUnits
+MassUnits               (unused)
 MultiCompartment
 NonConstantCompartment
 NonConstantParameter
 NonUnityCompartment
 NonUnityStoichiometry
-PersistentTrigger
 RandomEventExecution
 ReversibleReaction
 SpeciesReferenceMath
 StoichiometryMath
-TriggerInitialValue
-Units
-UseValuesFromTriggerTime
+Units                   (unused)
 
 Removed testTags
 ================
