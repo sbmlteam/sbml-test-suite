@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Two reversible reactions with four species in one compartment
                and one event that assigns value to two species subject to a delay.
 componentTags: Compartment, Species, Reaction, Parameter, EventWithDelay 
-testTags:      Amount, Reversible, EventUsesTriggerTimeValues
+testTags:      Amount, ReversibleReaction, EventUsesTriggerTimeValues
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
