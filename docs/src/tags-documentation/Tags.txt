@@ -23,7 +23,9 @@ testTags
 0D-Compartment
 1D-Compartment
 2D-Compartment
+Amount                 (was InitialAmount)
 BoundaryCondition
+Concentration          (was InitialConcentration)
 ConstantSpecies
 ConversionFactors
 EventIsNotPersistent
@@ -33,8 +35,8 @@ EventUsesAssignmentTimeValues
 EventUsesTriggerTimeValues
 FastReaction
 HasOnlySubstanceUnits
-InitialAmount
-InitialConcentration    (unused)
+InitialAmount           (changed to Amount)
+InitialConcentration    (changed to Concentration)
 InitialValueReassigned
 LocalParameters
 MassUnits               (unused)
