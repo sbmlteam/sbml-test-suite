@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A very simple reaction whose stoichiometry is referenced in other math.
 componentTags: Parameter, Species, RateRule, InitialAssignment, AssignmentRule
-testTags:      Amount, SpeciesReferenceMath
+testTags:      Amount, AssignedStoichiometry
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic
