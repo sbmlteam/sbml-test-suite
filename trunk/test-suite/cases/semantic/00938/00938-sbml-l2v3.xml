@@ -19,11 +19,15 @@
       <initialAssignment symbol="x">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <sin/>
+            <times/>
+            <cn type="integer"> 1 </cn>
             <apply>
-              <times/>
-              <cn type="integer"> 10 </cn>
-              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <sin/>
+              <apply>
+                <times/>
+                <cn type="integer"> 10 </cn>
+                <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              </apply>
             </apply>
           </apply>
         </math>
