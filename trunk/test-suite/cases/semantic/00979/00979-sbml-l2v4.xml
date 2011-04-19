@@ -18,7 +18,7 @@
             <apply>
               <geq/>
               <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
-              <cn> 0.99 </cn>
+              <cn> 0.98 </cn>
             </apply>
           </math>
         </trigger>
