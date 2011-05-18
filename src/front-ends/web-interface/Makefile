@@ -32,22 +32,25 @@ class-dir   = WEB-INF/classes/sbml/test
 web-dir     = web
 javac-flags = -g -Xlint:unchecked -d WEB-INF/classes -sourcepath WEB-INF/src
 
-classes: $(class-dir)/CasesTagsMap.class          \
+classes: $(class-dir)/CaseSummary.class           \
+         $(class-dir)/CaseSummaryVector.class     \
          $(class-dir)/FormBean.class              \
          $(class-dir)/OnlineSTS.class             \
          $(class-dir)/OnlineSTSLogFormatter.class \
+         $(class-dir)/TagBits.class               \
          $(class-dir)/TestCase.class              \
          $(class-dir)/UploadUnzipTest.class       \
          $(class-dir)/UserTestCase.class          \
          $(class-dir)/UserTestResult.class        \
          $(class-dir)/ZipServlet.class
 
-jsp-jar        = /var/lib/tomcat5/common/lib/[jsp].jar
-servlet-jar    = /var/lib/tomcat5/common/lib/[servlet].jar
-fileupload-jar = WEB-INF/lib/commons-fileupload-1.2.jar
-io-jar         = WEB-INF/lib/commons-io-1.4.jar
+jsp-jar      = /var/lib/tomcat5/common/lib/[jsp].jar
+servlet-jar  = /var/lib/tomcat5/common/lib/[servlet].jar
+fload-jar    = WEB-INF/lib/commons-fileupload-1.2.jar
+io-jar       = WEB-INF/lib/commons-io-1.4.jar
+local-copies = $(wildcard WEB-INF/tomcat-classes/*.jar)
 
-jars           = $(jsp-jar):$(servlet-jar):$(fileupload-jar):$(io-jar)
+jars         = $(jsp-jar):$(servlet-jar):$(fload-jar):$(io-jar):$(local-copies)
 
 $(class-dir)/%.class: $(src-dir)/%.java
 	javac $(javac-flags) -cp "$(jars):WEB-INF/src" $<
