@@ -99,12 +99,18 @@ public class ZipServlet extends HttpServlet
     {
         try
         {
-            HttpSession s          = request.getSession(false);
+            HttpSession s = request.getSession(false);
+            
+            if (s == null)
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+                               "Null session variable.");
+
             File root              = (File) s.getAttribute("casesRootDir");
             String levelAndVersion = (String) s.getAttribute("levelAndVersion");
 
-            @SuppressWarnings("unchecked")
-            Vector<String> cases   = (Vector<String>) s.getAttribute("casesToReturn");
+            if (levelAndVersion == null)
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+                               "Null levelAndVersion attribute in request.");
 
             if (! checkLevelAndVersion(levelAndVersion))
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
@@ -114,31 +120,34 @@ public class ZipServlet extends HttpServlet
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
                                "Session does not contain data path information.");
 
+            @SuppressWarnings("unchecked")
+            Vector<String> cases = (Vector<String>) s.getAttribute("casesToReturn");
+
             if (cases == null)
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                               "Session does not contain test case information");
+                               "Session has no test case information.");
 
             if (cases.size() < 1)
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                               "No test cases selected");
+                               "Empty cases list.");
 
             resp.setContentType("application/zip");
             resp.setHeader("Content-disposition",
-                           "attachment; filename=" + archiveName + ".zip");
+                           "attachment; filename=" + ARCHIVE_NAME + ".zip");
 
             String omitFileRegex = buildFileOmitRegex(levelAndVersion);
             OutputStream zipout  = resp.getOutputStream();
             
             if (zipout == null)
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                               "Response output stream is null");
+                               "Response output stream is null.");
 
             ZipOutputStream zos  = new ZipOutputStream(zipout);
 
             OnlineSTS.logInfo(request, "Zip'ing up " + cases.size() + " cases");
 
             for (String caseName : cases)
-                addFilesToZip(caseName, root, archiveName, omitFileRegex, zos);
+                addFilesToZip(caseName, root, ARCHIVE_NAME, omitFileRegex, zos);
 
             zos.flush();
             zos.close();
@@ -206,12 +215,12 @@ public class ZipServlet extends HttpServlet
         // 'rx' is the start of the regex, but note that it's not terminated.
         // We add some more pieces below, then close it off at the end.
 
-        String rx = new String("\\d{5}-(model.m|results.csv|plot.(jpg|eps)");
+        String rx = new String("\\d{5}-(model.m|results.csv");
       
         if (levelAndVersion != null)      // Shouldn't happen, but let's be safe.
-            for (int i = 0; i < knownLevelsAndVersions.length; i++)
-                if (! knownLevelsAndVersions[i][0].equals(levelAndVersion))
-                    rx += "|" + knownLevelsAndVersions[i][1];
+            for (int i = 0; i < KNOWN_LV_COMBOS.length; i++)
+                if (! KNOWN_LV_COMBOS[i][0].equals(levelAndVersion))
+                    rx += "|" + KNOWN_LV_COMBOS[i][1];
 
         return rx + ")";
     }
@@ -221,8 +230,8 @@ public class ZipServlet extends HttpServlet
      */
     private boolean checkLevelAndVersion(String levelAndVersion)
     {
-        for (int i = 0; i < knownLevelsAndVersions.length; i++)
-            if (knownLevelsAndVersions[i][0].equals(levelAndVersion))
+        for (int i = 0; i < KNOWN_LV_COMBOS.length; i++)
+            if (KNOWN_LV_COMBOS[i][0].equals(levelAndVersion))
                 return true;
         return false;
     }
@@ -232,8 +241,8 @@ public class ZipServlet extends HttpServlet
     // -------------------------- Private constants ---------------------------
     // 
 
-    private final String archiveName = new String("SBML_test_cases");
-    private final String knownLevelsAndVersions[][] = {
+    private final String ARCHIVE_NAME = new String("SBML_test_cases");
+    private final String KNOWN_LV_COMBOS[][] = {
             {"1.2", "sbml-l1v2.xml"},
             {"2.1", "sbml-l2v1.xml"},
             {"2.2", "sbml-l2v2.xml"},
