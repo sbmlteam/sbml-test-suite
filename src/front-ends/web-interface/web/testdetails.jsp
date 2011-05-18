@@ -164,14 +164,14 @@ if (thisResult != null)
 
     if (thisResult.getNumDifferences() > 0)
     {
-        UserTestCase theCase    = thisResult.getUserTestCase();
-        BigDecimal[][] diffs    = thisResult.getDifferences();
-        BigDecimal[][] expected = theCase.getExpectedData();
-        BigDecimal[][] userData = theCase.getUserData();
-        Vector<String> varNames = theCase.getTestVars();
-        int numRows             = theCase.getTestNumRows();
-        int numVars             = theCase.getTestNumVars();
-        int points              = numRows * numVars;
+        UserTestCase theCase       = thisResult.getUserTestCase();
+        ResultDifference[][] diffs = thisResult.getDifferences();
+        double[][] expected        = theCase.getExpectedData();
+        double[][] userData        = theCase.getUserData();
+        Vector<String> varNames    = theCase.getTestVars();
+        int numRows                = theCase.getTestNumRows();
+        int numVars                = theCase.getTestNumVars();
+        int points                 = numRows * numVars;
 %>
         <p>
         <font color="darkred"><b><font color="darkred">Failed</font></b> at
@@ -222,15 +222,29 @@ if (thisResult != null)
             out.println("<tr>");
 	    for (int c = 0; c < expected[0].length; c++)
             {
-                if (diffs[r][c] != null)
-                    out.println("<td title=\"Difference: " + diffs[r][c] + "\">");
+                ResultDifference thisDiff = diffs[r][c];
+                double refVal             = expected[r][c];
+                double userVal            = userData[r][c];
+
+                if (thisDiff != null)
+                {
+                    if (thisDiff.isNumerical())
+                        out.println("<td title=\"Difference: "
+                                    + thisDiff.getValue() + "\">");
+                    else
+                        out.println("<td title=\"Expected " + refVal +
+                                    " but found " + userVal + "\">");
+                }
                 else
                     out.println("<td>");
+
                 out.println("<span style=\"font-size: 7pt; color: green\">"
                             + expected[r][c] + "</span>");
-                if (diffs[r][c] != null)
+
+                if (thisDiff != null)
                     out.println("<br><span style=\"font-size: 7pt; color: red\">" 
                                 + userData[r][c] + "</span>");
+
                 out.println("</td>");
             }
             out.println("</tr>");            

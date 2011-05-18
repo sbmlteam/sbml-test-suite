@@ -34,17 +34,9 @@
 <%@ page import="java.io.*" %>
 <%@ page import="javax.servlet.*" %>
 <%@ page import="javax.servlet.http.*" %>
-
 <%@ page import="sbml.test.*" %>
 
 <%@ page errorPage="/web/error.jsp" %>
-
-<jsp:useBean id="formHandler" class="sbml.test.FormBean" scope="request">
-    <jsp:setProperty name="formHandler" property="*"/>
-</jsp:useBean>
-
-<%@ include file="sbml-head.html"%>
-<%@ include file="sbml-top.html"%>
 
 <%
 // 1. Start by logging that we've been invoked.
@@ -56,47 +48,55 @@ OnlineSTS.logInvocation(request);
 // 2. Get the user's selection from the previous screen.
 //
 
-String[] ctags         = formHandler.getCtags();
-String[] ttags         = formHandler.getTtags();
-String levelAndVersion = formHandler.getLevelAndVersion()[0];
+// For debugging:
+// for (Enumeration e = request.getParameterNames(); e.hasMoreElements(); )
+//     OnlineSTS.logInfo((String) e.nextElement());
 
+String[] ctags         = request.getParameterValues("ctags");
+String[] ttags         = request.getParameterValues("ttags");
+String levelAndVersion = request.getParameter("levelAndVersion");
 
 //
 // 3. Build up a list of case files that we will zip up and return.
 //
 
-File casesRootDir            = new File(getServletContext().getRealPath("/test-cases"));
-CasesTagsMap caseMap         = new CasesTagsMap(casesRootDir);
-int highest                  = caseMap.getHighestCaseNumber();
-Vector<String> casesToReturn = new Vector();
+ServletContext context  = getServletContext();
+File casesRootDir       = new File(context.getRealPath("/test-cases"));
+CaseSummaryVector cases = new CaseSummaryVector(casesRootDir); 
+ 
+// For debugging:
+//
+// OnlineSTS.logInfo(request, "Retaining cases with level+version " + levelAndVersion);
+// cases.retainIfHasLevelAndVersion(levelAndVersion); 
+//
+// if (ctags != null)
+// {
+//     OnlineSTS.logInfo(request, "Removing cases with ctags: ");
+//     for (int i = 0; i < ctags.length; i++)
+//         OnlineSTS.logInfo(request, ctags[i]);
+// }
+//
+// if (ttags != null)
+// {
+//     OnlineSTS.logInfo(request, "Removing cases with ttags: ");
+//     for (int i = 0; i < ttags.length; i++)
+//         OnlineSTS.logInfo(request, ttags[i]);
+// }
 
-outer:
-for (int i = 1; i <= highest; i++)
-{
-     Vector<String> caseData = (Vector<String>) caseMap.get(i);
-     if (caseData.contains(levelAndVersion))
-     {
-         for (int j = 0; j < ctags.length; j++)
-         {
-             if (caseData.contains(ctags[j]))
-                 continue outer;
-         }
-         for (int j = 0; j < ttags.length; j++)
-         {
-             if (caseData.contains(ttags[j]))
-                 continue outer;
-         }
-         casesToReturn.add(caseData.get(0));
-     }
-}
+cases.retainIfHasLevelAndVersion(levelAndVersion);
+cases.removeIfTagged(ctags); 
+cases.removeIfTagged(ttags); 
+ 
+Vector<String> casesToReturn = new Vector<String>(); 
+ 
+for (CaseSummary cs : cases) 
+    casesToReturn.add(cs.getCaseName()); 
 
 OnlineSTS.logInfo(request, "Selection yielded " + casesToReturn.size()
                   + " cases " + "of level/version " + levelAndVersion);
 
 if (casesToReturn.size() < 1)
-{
     throw new JspException("STS has no cases to put into archive");
-}
 
 //
 // 5. Call our zip file builder with the results and some additional param.
@@ -105,33 +105,10 @@ if (casesToReturn.size() < 1)
 session.putValue("casesRootDir"   , casesRootDir);
 session.putValue("casesToReturn"  , casesToReturn);
 session.putValue("levelAndVersion", levelAndVersion);
-response.setHeader("Refresh",
-                   "1; URL=" + OnlineSTS.getServiceRootURL(request)
-		   + "/servlet/ZipServlet");
 
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");       // HTTP 1.0
+response.setDateHeader("Expires", 0);           // Prevent caching by proxy server
+
+response.sendRedirect(OnlineSTS.getServiceRootURL(request) + "/servlet/ZipServlet");
 %>
-
-<div id='pagetitle'><h1 class='pagetitle'>
-Assembling and downloading archive of selected test cases</h1></div><!-- id='pagetitle' -->
-<div style="float: right; margin-top: 0; padding: 0 0 0 5px">
-  <img src="<%=OnlineSTS.getImageURL(request)%>/Icon-online-test-suite-64px.jpg"
-       border="0">
-</div>
-<p>
-Based on your selections, an archive containing the selected SBML test
-should begin downloading automatically in a few seconds.  After receiving
-and unpacking the archive, please proceed to Step 2.
-<center style="margin: 1.5em">
-  <a href="<%=OnlineSTS.getHomeURL(request)%>/Step_2:_Running_the_tests">
-    <img border="0" align="center" 
-         src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-right-arrow.jpg">
-    Go to the instructions for Step 2 (running the tests).
-  </a>
-</center>
-</p>
-
-<p> If the download does not begin soon, <b>please</b> let 
-us know by sending mail to <a href="mailto:sbml-team@caltech.edu">sbml-team@caltech.edu</a> 
-and please provide information about the operating system and web browser you are using.
-
-<%@ include file="sbml-bottom.html"%>
