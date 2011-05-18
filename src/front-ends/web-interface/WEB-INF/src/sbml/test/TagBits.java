@@ -1,0 +1,112 @@
+//
+// @file    TagBits.java
+// @brief   Extension of BitSet for working with STS tags
+// @author  Michael Hucka
+// @date    Created 2011-04-04 <mhucka@caltech.edu>
+//
+// $Id$
+// $HeadURL$
+//
+// ----------------------------------------------------------------------------
+// This file is part of the SBML Test Suite.  Please visit http://sbml.org for 
+// more information about SBML, and the latest version of the SBML Test Suite.
+//
+// Copyright 2008-2010 California Institute of Technology.
+// Copyright 2004-2007 California Institute of Technology (USA) and
+//                     University of Hertfordshire (UK).
+// 
+// This library is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation.  A copy of the license agreement is provided
+// in the file named "LICENSE.txt" included with this software distribution
+// and also available at http://sbml.org/Software/SBML_Test_Suite/License
+// ----------------------------------------------------------------------------
+
+package sbml.test;
+
+import java.util.*;
+
+
+public class TagBits
+    extends BitSet
+{
+    // 
+    // --------------------------- Public methods ----------------------------- 
+    // 
+
+    public TagBits(Vector<String> tags, Vector<String> allPossibleTags)
+    {
+        // Get the index of each tag in the list of all tags, and set its bit.
+        for (String tag : tags)
+            set(allPossibleTags.indexOf(tag));
+    }
+
+
+    public TagBits(String[] tags, Vector<String> allPossibleTags)
+    {
+        for (int i = 0; i < tags.length; i++)
+            set(allPossibleTags.indexOf(tags[i]));
+    }
+
+
+    public TagBits(String tag, Vector<String> allPossibleTags)
+    {
+        set(allPossibleTags.indexOf(tag));
+    }
+
+
+    public TagBits(Vector<String> tags, String[] allPossibleTags)
+    {
+        for (String tag : tags)
+            for (int i = 0; i < allPossibleTags.length; i++)
+                if (tag.equals(allPossibleTags[i]))
+                    set(i);
+    }
+
+
+    public TagBits(String[] tags, String[] allPossibleTags)
+    {
+        for (int i = 0; i < allPossibleTags.length; i++)
+            for (int j = 0; j < tags.length; j++)
+                if (tags[j].equals(allPossibleTags[i]))
+                    set(i);
+    }
+
+
+    /**
+     * This is similar to BitSet's intersects(), except that instead of
+     * returning true if any bit is set in common between the two objects,
+     * this one returns true only if all the set-bits in the given BitSet
+     * are also set in this one.
+     *
+     * For the life of me, I can't understand why Java's BitSet doesn't
+     * have an equivalent to this method.
+     */
+    public boolean contains(BitSet other)
+    {
+        for (int i = other.length(); i-- > 0;)
+            if ((get(i) & other.get(i)) != other.get(i))
+                return false;
+        return true;
+    }
+
+
+    public final long longValue()
+    {
+        return longValue(64);
+    }
+
+
+    /**
+     * Optimization possible by knowing how many bits are being actively used,
+     * so that the calculation doesn't have to iterate over all 64 positions.
+     */
+    public final long longValue(int numBits)
+    {
+        long accumulator = 0;
+        for (int i = numBits; i-- > 0;)
+            if (get(i))
+                accumulator += (long) 1 << (long) i;
+        return accumulator;
+    }
+}
