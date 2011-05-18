@@ -133,11 +133,11 @@ public class UploadUnzipTest extends HttpServlet
         // in the results vector.  IMPORTANT: the element at position 0 is
         // always empty, because there's no case numbered 00000.
 
-        CasesTagsMap caseMap;
+        CaseSummaryVector caseSummaries;
 
         try
         {
-            caseMap = new CasesTagsMap(refCasesDir);
+            caseSummaries = new CaseSummaryVector(refCasesDir);
         }
         catch (Exception e)
         {
@@ -146,7 +146,7 @@ public class UploadUnzipTest extends HttpServlet
             return null;
         }
 
-        int highestNumber              = caseMap.getHighestCaseNumber();
+        int highestNumber              = caseSummaries.getHighestCaseNumber();
         Vector<UserTestResult> results = new Vector<UserTestResult>();
         results.setSize(highestNumber + 1);  // +1 because we have no case 0.
 
