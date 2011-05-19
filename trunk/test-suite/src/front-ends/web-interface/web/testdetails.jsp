@@ -43,10 +43,22 @@ if (session.getAttribute("testResults") == null)
 {
 %>
 
-<jsp:forward page="session-expired.jsp" />
+    <jsp:forward page="session-expired.jsp" />
 
 <%
 }
+else if (request.getParameter("testname") == null
+         && session.getAttribute("testname") == null)
+{
+    // We have testResults, but not testname, which is weird.  Maybe the
+    // user mucked with the URL by hand.
+%>
+
+    <jsp:forward page="session-missing-state.jsp" />
+
+<%
+}
+
 // Log that we've been invoked.
 
 OnlineSTS.init();
@@ -61,7 +73,23 @@ OnlineSTS.logInvocation(request);
 // is a request parameter, not a session variable).  It gives the case
 // number for this page.
 
-String testname = request.getParameter("testname"); 
+// Normally, 'testname' is passed as a session parameter via the URL.  We
+// add it to the session as a precaution so that we can try to handle the
+// case of the user munging the URL to try to get back to the results page.
+// This is why the code below does additional things with the session;
+// normally one wouldn't do that.
+
+String testname = new String("");
+if (request.getParameter("testname") != null)
+    testname = request.getParameter("testname"); 
+else if (session.getAttribute("testname") != null)
+    testname = (String) session.getAttribute("testname"); 
+
+// Store back into the session.
+
+session.setAttribute("testname", testname);
+
+// Onward with the real work.
 
 OnlineSTS.logInfo(request, "Showing details for " + testname);
 
