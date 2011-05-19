@@ -64,6 +64,28 @@ for (String tag : knownTags)
 StringBuffer uniqueTagCodesValues = new StringBuffer();
 for (Long tagBitCode : uniqueTagCodes)
   uniqueTagCodesValues.append('"').append(tagBitCode).append("\",");
+
+// Read the date of the archive (which doubles as the version of this
+// particular set of tests), so that we can advertise it.
+
+File casesDateFile = new File(context.getRealPath("/.cases-archive-date"));
+
+if (casesDateFile == null || ! casesDateFile.exists())
+    OnlineSTS.logError(".cases-archive-date file doesn't appear to exist.");
+
+if (! casesDateFile.canRead())
+    OnlineSTS.logError(".cases-archive-date file is unreadable.");
+
+if (! casesDateFile.isFile())
+    OnlineSTS.logError(".cases-archive-date is not a file.");
+
+Scanner fileReader = new Scanner(casesDateFile);
+String casesDate   = null;
+
+if (! fileReader.hasNext())
+    OnlineSTS.logError(".cases-archive-date is empty.");
+else
+    casesDate = fileReader.nextLine();
 %>
 
 <%@ include file="sbml-head.html"%>
@@ -629,9 +651,9 @@ files according to the guidelines in <a
 href="<%=OnlineSTS.getHomeURL(request)%>/Step_2:_Running_the_tests">step 2</a>.
 </p>
 
-<p> You can also skip the rest of this page and download the
-entire set of <%=totalCases%> test cases as a single <a
-href="http://sourceforge.net/projects/sbml/files/test-suite">zip
+<p> You can also skip this page and download the
+entire <%=totalCases%> cases (version of <%=casesDate%>)
+as a <a href="http://sourceforge.net/projects/sbml/files/test-suite">zip
 archive</a>.
 </p>
 
