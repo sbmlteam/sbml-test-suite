@@ -262,10 +262,6 @@ function resetAvailableTags()
     setEnabled("EventT0Firing",                 false, ttags);
     break;
 
-  case "3.1":
-    setEnabled("AssignedStoichiometry",             false, ttags);
-    break;
-
   }
   warn("", "init");
   propagate();
@@ -469,8 +465,11 @@ function bitwiseAnd(val1, val2)
  * messes with the user's menubox selection, which is not right.  So
  * we need our own custom extra bit of handling code.
  */
-function resetAll()
+function resetAll(ask)
 {
+  if (ask && ! confirm("Online SBML Test Suite: Clear all selections and reset the form?"))
+    return false;
+
   var lv = document.options.levelAndVersion;
   var selected = lv.selectedIndex;
   for (var i = 0; i < lv.length; i++)
@@ -487,6 +486,11 @@ function resetAll()
   changeNextLink('hide');
 
   return true;
+}
+
+function resetAllUnconditionally()
+{
+  return resetAll(false);
 }
 
 dojo.require("dojo.fx");
@@ -550,12 +554,12 @@ function changeNextLink(showOrHide)
 
   switch (showOrHide)
   {
-  case "show": elem.style.setProperty("visibility", "visible", ""); break;
-  case "hide": elem.style.setProperty("visibility", "hidden", ""); break;
+  case "show": elem.style.setProperty("display", "block", ""); break;
+  case "hide": elem.style.setProperty("display", "none", ""); break;
   }
 }
 
-hookEvent("load", resetAll);
+hookEvent("load", resetAllUnconditionally);
 /*]]>*/
 </script>
 
@@ -582,7 +586,7 @@ hookEvent("load", resetAll);
 }
 
 .hiddenText {
-  visibility: hidden;
+  display: none;
 }
 
 .tooltip {
@@ -826,15 +830,8 @@ all SBML Levels/Versions.  </p>
 </table> 
 </div>
 
-<p>
-<center style="margin-bottom: 1.5em">
-  <input type="reset" value="Reset form" onclick="resetAll()">
-</center>
-
-<p style="margin-top: 1em; border-top: 1px solid #999;"> 
-</p><p>
-That's all!  Download a customized zip archive of the test cases you have
-selected by clicking on the button below:
+<p style="margin-top: 1em">
+When you are finished, click the <i>Get test cases</i> button to download a zip archive of the test cases you selected:
 </p>
 
 <div id="warningNoneLeft" class="warningBox"
@@ -858,17 +855,17 @@ the future.  In the mean time, please deselect some of the check
 boxes before proceeding.
 </div>
 
-<center style="margin: 1.5em" class="ie-submit-button-fix">
+<center style="margin: 1.5em auto" class="ie-submit-button-fix">
   <input name="submit" type="submit" value="Get test cases" onclick="changeNextLink('show')">
+  <input type="reset" value="&nbsp; Reset form &nbsp;" onclick="resetAll(true)" style="margin-left: 100pt; color: darkred">
 </center>
-
 </form> 
 
 <div id="nextStepInstructions" class="hiddenText">
 <p> The download of the archive should begin any moment.
 When you are ready, please proceed to Step 2.
 
-<center style="margin: 1.5em">
+<center>
   <a href="<%=OnlineSTS.getHomeURL(request)%>/Step_2:_Running_the_tests">
     <img border="0" align="center" 
          src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-right-arrow.jpg">
