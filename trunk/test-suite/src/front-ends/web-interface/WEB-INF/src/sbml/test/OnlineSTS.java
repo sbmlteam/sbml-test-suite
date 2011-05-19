@@ -73,65 +73,100 @@ public class OnlineSTS
         {
             System.err.println("STS ERROR: Can't create logger object.");
         }
+
+        log.info("Logger initialized.");
     }
 
 
     public static final void logInvocation(HttpServletRequest request)
     {
-        log.info(withIP(request, "(" + request.getRequestURL() + ") Loaded."));
+        if (log == null)
+            init();
+
+        if (request == null)
+            log.info("Null HTTP servlet request variable.");
+        else
+            log.info(withIP(request, "(" + request.getRequestURL() + ") Loaded."));
     }
 
 
     public static final void logInfo(String msg)
     {
+        if (log == null)
+            init();
+
         log.info(deduceCallingClass() + " " + msg);
     }
 
 
     public static final void logInfo(HttpServletRequest request, String msg)
     {
+        if (log == null)
+            init();
+
         log.info(withIP(request, deduceCallingClass() + " " + msg));
     }
 
 
     public static final void logDebug(String msg)
     {
+        if (log == null)
+            init();
+
         log.fine(deduceCallingClass() + " " + msg);
     }
 
 
     public static final void logDebug(HttpServletRequest request, String msg)
     {
+        if (log == null)
+            init();
+
         log.info(withIP(request, deduceCallingClass() + " " + msg));
     }
 
 
     public static final void logWarning(String msg)
     {
+        if (log == null)
+            init();
+
         log.warning(deduceCallingClass() + " " + msg);
     }
 
 
     public static final void logWarning(HttpServletRequest request, String msg)
     {
+        if (log == null)
+            init();
+
         log.warning(withIP(request, deduceCallingClass() + " " + msg));
     }
 
 
     public static final void logError(String msg)
     {
+        if (log == null)
+            init();
+
         log.severe(deduceCallingClass() + " " + msg);
     }
 
 
     public static final void logError(HttpServletRequest request, String msg)
     {
+        if (log == null)
+            init();
+
         log.severe(withIP(request, deduceCallingClass() + " " + msg));
     }
 
 
     public static final void logThrowing(String c, String m, Throwable th)
     {
+        if (log == null)
+            init();
+
         log.throwing(c, m, th);
     }
 
