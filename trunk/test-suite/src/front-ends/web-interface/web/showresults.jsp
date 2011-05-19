@@ -34,6 +34,19 @@
 <%@ include file="sbml-head.html"%>
 <%@ include file="sbml-top.html"%>
 
+<%
+// Start by checking that this session hasn't timed out.
+
+if (request == null || request.getAttribute("testResults") == null)
+{
+%>
+
+<jsp:forward page="session-expired.jsp" />
+
+<%
+}
+%>
+
 <div id='pagetitle'><h1 class='pagetitle'>Outcome of tests</h1>
 </div><!-- id='pagetitle' -->
 <div style="float: right; margin-top: 0; padding: 0 0 0 5px">
