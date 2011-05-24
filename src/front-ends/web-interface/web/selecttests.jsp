@@ -846,14 +846,15 @@ all SBML Levels/Versions.  </p>
         <input type="checkbox" name="ttags" value="EventT0Firing" onchange="propagate()" >
             <span id="EventT0Firing" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
 	    title="Event <b>Trigger</b> objects have different values for the attribute <code>initialValue</code>, affecting whether the event can trigger at time <i>t</i>=0."
-            >Event triggers at time=0</span><br>
+            >Event triggers at time = 0</span><br>
     </td>         
   </tr>
 </table> 
 </div>
 
 <p style="margin-top: 1em">
-When you are finished, click the <i>Get test cases</i> button to download a zip archive of the test cases you selected:
+When you are finished excluding tests, click the <i>Get test cases</i> button to download a
+zip archive of the test cases left:
 </p>
 
 <div id="warningNoneLeft" class="warningBox"
