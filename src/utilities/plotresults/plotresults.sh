@@ -116,7 +116,7 @@ else
     set lmargin 15
     set size 0.9,0.9
     set terminal jpeg
-    set output "${CSV_FILE}.jpg"
+    set output "${INPUTFILE/%.csv}.jpg"
     plot for [n=2:9] "$INPUTFILE" using 1:n title column (n) with lines
 EOF
 fi
