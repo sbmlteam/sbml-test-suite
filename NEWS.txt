@@ -2,14 +2,27 @@
 	       NEWS -- history of user-visible changes
 
 
+=== Update (2011-05-26)
+
+* New features:
+
+  - Now includes SED-ML files for the test cases, and a utility
+    program to generate them from the case settings files.
+
+  - The online interface now supports L3v1 Core, plus has an improved
+    user interface for the case selection/exclusion form.  (E.g.,
+    there is now tooltip help text to explain the meaning of the
+    different options that can be checked.)
+
+
 === Update of test cases (2010-10-06)
 
   - All L3 models have been updated to comply with the final
-    release of the SBML L3V1 core specification.\
+    release of the SBML L3V1 core specification.
     
   - There are examples of models that use the new Event semantics.
-	       
-	       
+
+
 === Update of test cases (2010-04-20)
 
 * New features
