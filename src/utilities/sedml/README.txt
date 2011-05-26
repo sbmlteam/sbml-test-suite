@@ -1,15 +1,18 @@
 Collection of tools for generating SED-ML and validating the tests. Usage: 
 
 <mono> GenerateSedML 
-		--dir | -d <test cases directory>
+		[--dir | -d <test cases directory>]
+		[--case | -c <test case directory>]
 		[--all-levels-and-versions | -a]
-        [--specific-versions | -s <list of  versions i.e l2v1>]
+		[--specific-versions | -s <list of  versions i.e l2v1>]
+
 
 <mono> VerifyTests    
-		--dir | -d <test cases directory>
-        [--all-levels-and-versions | -a]
-        [--specific-versions | -s <list of  versions i.e l2v1>]
-		
+		[--dir | -d <test cases directory>]
+		[--case | -c <test case directory>]
+		[--all-levels-and-versions | -a]
+		[--specific-versions | -s <list of  versions i.e l2v1>]
+				
 For example: 
 
 Generate sed-ml for all l1v2 models: 
@@ -23,6 +26,10 @@ Generate SED-ML files for: c:\Development\test-suite\cases\semantic
 0034, l1v2).N(00035, l1v2).N(00036, .
 
 Done
+
+
+
+One of the options -c | --case or -d | --dir has to be used. 
 
 In the output above N(00023) notes that no l1v2 model is available for. 
 
