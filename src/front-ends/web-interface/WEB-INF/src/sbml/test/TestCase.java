@@ -115,8 +115,8 @@ public class TestCase
         throws Exception
     {
         if (expectedData == null)
-            expectedData = parseDataFile(expectedDataFile,
-                                         getTestNumRows(), getTestNumVars());
+            expectedData = parseDataFile(expectedDataFile, getTestNumRows(),
+                                         getTestNumVars(), false);
         return expectedData;
     }
     
@@ -137,12 +137,18 @@ public class TestCase
     /**
      * This is used by subclasses (like for user results) to parse
      * other results data files.
+     *
+     * The boolean extraDataOK indicates whether extra data entries in a row
+     * are permissible.  In reading our reference data, this is not (it would
+     * mean an error somewhere), but in user data, it is.  For the latter,
+     * call this method with extraDataOK set to true.
      */
-    protected double[][] parseDataFile(File f, int numRows, int numVars)
+    protected double[][] parseDataFile(File dataFile, int numRows, int numVars,
+                                       boolean extraDataOK)
         throws Exception
     {
-        String fileName    = f.getName();
-        Scanner fileReader = new Scanner(f);
+        String fileName    = dataFile.getName();
+        Scanner fileReader = new Scanner(dataFile);
 
         if (! fileReader.hasNext())
             throw new Exception("Data file " + fileName + " is empty.");
@@ -176,7 +182,7 @@ public class TestCase
                 String[] items = line.split(",");
                 int found = items.length;
 
-                if (found != expected)
+                if (found < expected || (found > expected && ! extraDataOK))
                     throw new Exception("Too "
                                         + (found > expected ? "many" : "few")
                                         + " data points in row " + fileRow
