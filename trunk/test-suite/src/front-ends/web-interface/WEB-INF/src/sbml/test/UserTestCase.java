@@ -76,8 +76,8 @@ public class UserTestCase
         throws Exception
     {
         if (userData == null)
-            userData = parseDataFile(userDataFile,
-                                     getTestNumRows(), getTestNumVars());
+            userData = parseDataFile(userDataFile, getTestNumRows(),
+                                     getTestNumVars(), true);
         return userData;
     }
 
