@@ -158,7 +158,8 @@ public class TestCase
 
         double[][] data       = new double[numRows][numVars + 1];
         Pattern ignorePattern = Pattern.compile("^#.*|^\\s*$");
-        Pattern numberPattern = Pattern.compile("\\s*(\\d+|-INF|INF|NaN)");
+        Pattern numberPattern = Pattern.compile("\\s*(\\d+|-INF|INF|NaN)",
+                                                Pattern.CASE_INSENSITIVE);
 
         // Don't count element 0, the time point, as a variable.
 
@@ -192,11 +193,11 @@ public class TestCase
                 for (int col = 0; col < expected; col++)
                 {
                     String thisItem = items[col].trim();
-                    if (thisItem.equals(NEG_INF_STRING))
+                    if (thisItem.compareToIgnoreCase(NEG_INF_STRING) == 0)
                         data[dataRow][col] = Double.NEGATIVE_INFINITY;
-                    else if (thisItem.equals(POS_INF_STRING))
+                    else if (thisItem.compareToIgnoreCase(POS_INF_STRING) == 0)
                         data[dataRow][col] = Double.POSITIVE_INFINITY;
-                    else if (thisItem.equals(NAN_STRING))
+                    else if (thisItem.compareToIgnoreCase(NAN_STRING) == 0)
                         data[dataRow][col] = Double.NaN;
                     else
                         data[dataRow][col] = Double.parseDouble(thisItem);
