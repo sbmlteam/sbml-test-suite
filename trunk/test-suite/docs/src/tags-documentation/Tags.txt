@@ -35,8 +35,6 @@ EventUsesAssignmentTimeValues
 EventUsesTriggerTimeValues
 FastReaction
 HasOnlySubstanceUnits
-InitialAmount           (changed to Amount)
-InitialConcentration    (changed to Concentration)
 InitialValueReassigned
 LocalParameters
 MassUnits               (unused)
@@ -53,7 +51,9 @@ Units                   (unused)
 
 Removed testTags
 ================
-Delay - removed this as a tag as this is covered by EventWithDelay and CSymbolDelay 
-Discontinuity - removed this as a tag as it ties in with events anyway
-MathML - removed this as a tag as it isnt really a test case on its own
-ZeroRate - removed this as a tag as it isnt really a test case on its own
+Delay                 removed this as a tag as this is covered by EventWithDelay and CSymbolDelay 
+Discontinuity         removed this as a tag as it ties in with events anyway
+MathML                removed this as a tag as it isnt really a test case on its own
+ZeroRate              removed this as a tag as it isnt really a test case on its own
+InitialAmount         (changed to Amount)
+InitialConcentration  (changed to Concentration)
