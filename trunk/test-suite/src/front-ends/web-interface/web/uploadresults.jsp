@@ -43,6 +43,10 @@
 
 OnlineSTS.init();
 OnlineSTS.logInvocation(request);
+
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");       // HTTP 1.0
+response.setDateHeader("Expires", 0);           // Prevent caching by proxy server
 %>
 
 <script type="text/javascript" type="text/javascript">
