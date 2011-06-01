@@ -152,6 +152,10 @@ public class ZipServlet extends HttpServlet
             zos.flush();
             zos.close();
         }
+        catch (java.io.IOException e)
+        {
+            OnlineSTS.logWarning(request, "Client aborted download.");
+        }
         catch (Exception e)
         {
             OnlineSTS.logError(request, e.toString());
