@@ -24,6 +24,8 @@ testTags
 1D-Compartment
 2D-Compartment
 Amount                 (was InitialAmount)
+AssignedConstantStoichiometry
+AssignedStoichiometry
 BoundaryCondition
 Concentration          (was InitialConcentration)
 ConstantSpecies
@@ -46,7 +48,6 @@ NonUnityStoichiometry
 RandomEventExecution
 ReversibleReaction
 SpeciesReferenceMath
-StoichiometryMath
 Units                   (unused)
 
 Removed testTags
