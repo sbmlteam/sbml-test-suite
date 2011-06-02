@@ -98,7 +98,7 @@ all-sedml-files        = $(cases-sedml-l1v2-files) \
 
 sedml: $(all-sedml-files)
 
-cases/semantic/%-sedml.xml: cases/semantic/%.xml
+cases/semantic/%-sedml.xml: cases/semantic/%.xml src/utilities/sedml/GenerateSedML.exe
 	$(call make_sedml_files,$@)
 
 
