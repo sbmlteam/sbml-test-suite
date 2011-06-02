@@ -220,7 +220,7 @@ function resetAvailableTags()
     // components
     setEnabled("FunctionDefinition",            false, ctags);
     setEnabled("InitialAssignment",             false, ctags);
-    setEnabled("EventNoDelay",                         false, ctags);
+    setEnabled("EventNoDelay",                  false, ctags);
     setEnabled("EventWithDelay",                false, ctags);
     setEnabled("EventPriority",                 false, ctags);
     setEnabled("CSymbolTime",                   false, ctags);
@@ -231,10 +231,11 @@ function resetAvailableTags()
     setEnabled("1D-Compartment",                false, ttags);
     setEnabled("2D-Compartment",                false, ttags);
     setEnabled("ConversionFactors",             false, ttags);
-    setEnabled("Concentration",          false, ttags);
+    setEnabled("Concentration",                 false, ttags);
     setEnabled("HasOnlySubstanceUnits",         false, ttags);
     setEnabled("ConstantSpecies",               false, ttags);
-    setEnabled("AssignedStoichiometry",             false, ttags);
+    setEnabled("AssignedStoichiometry",         false, ttags);
+    setEnabled("AssignedConstantStoichiometry", false, ttags);
     setEnabled("RandomEventExecution",          false, ttags);
     setEnabled("SpeciesReferenceMath",          false, ttags);
     setEnabled("EventIsNotPersistent",          false, ttags);
@@ -247,7 +248,7 @@ function resetAvailableTags()
   case "2.1":
     // components
     setEnabled("InitialAssignment",             false, ctags);
-    setEnabled("EventPriority",             false, ctags);
+    setEnabled("EventPriority",                 false, ctags);
     setEnabled("CSymbolAvogadro",               false, ctags);
     setEnabled("ConversionFactors",             false, ttags);
     // tests
@@ -261,7 +262,7 @@ function resetAvailableTags()
   case "2.2":
   case "2.3":
     // components
-    setEnabled("EventPriority",             false, ctags);
+    setEnabled("EventPriority",                 false, ctags);
     setEnabled("CSymbolAvogadro",               false, ctags);
     // tests
     setEnabled("ConversionFactors",             false, ttags);
@@ -274,7 +275,7 @@ function resetAvailableTags()
 
   case "2.4":
     // components
-    setEnabled("EventPriority",             false, ctags);
+    setEnabled("EventPriority",                 false, ctags);
     setEnabled("CSymbolAvogadro",               false, ctags);
     // tests
     setEnabled("ConversionFactors",             false, ttags);
@@ -338,7 +339,8 @@ function propagate()
     setExcluded("FastReaction",           true, ttags);
     setExcluded("ReversibleReaction",     true, ttags);
     setExcluded("NonUnityStoichiometry",  true, ttags);
-    setExcluded("AssignedStoichiometry",      true, ttags);
+    setExcluded("AssignedStoichiometry",  true, ttags);
+    setExcluded("AssignedConstantStoichiometry", true, ttags);
     setExcluded("LocalParameters",        true, ttags);
     setExcluded("SpeciesReferenceMath",   true, ttags);
   }
