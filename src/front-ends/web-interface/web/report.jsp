@@ -46,7 +46,7 @@ OnlineSTS.logInvocation(request);
 
 // Start by checking that this session hasn't timed out.
 
-if (session == null || session.getAttribute("testResults") == null)
+if (session == null || session.getAttribute("sessionResults") == null)
 {
     OnlineSTS.logError(request, "Null sessionResults; assuming timeout.");
 
@@ -85,22 +85,38 @@ if (session == null || session.getAttribute("testResults") == null)
     return;
 }
 
-// We get a number of things via the URL handed to us in the link that the
-// user clicked.  The rest we get from the context.  The following code
-// pulls out the different pieces we need to get started.
+// Get the result set data from the session variable.  The session will
+// have a hashmap stored in sessionResults, and the data for this result
+// set will be stored under key "resultsID".
+
+String resultsID = (String) request.getParameter("resultsID");
+if (resultsID == null)
+{
+    OnlineSTS.logError("Null resultsID");
+    return;
+}
+
+HashMap sessionResults = (HashMap) session.getAttribute("sessionResults");
+HashMap testResultsMap = (HashMap) sessionResults.get(resultsID);
+if (testResultsMap == null)
+{
+    OnlineSTS.logError("Null testResultsMap");
+}
+
+OnlineSTS.logInfo(request, "Showing report for resultsID " + resultsID);
 
 Vector<UserTestResult> results
-    = (Vector<UserTestResult>) session.getAttribute("testResults");
+    = (Vector<UserTestResult>) testResultsMap.get("testResults");
 
 int highestCaseNumber = results.size() - 1;
 
-int countPassed   = ((Integer) session.getAttribute("countPassed")).intValue();
-int countFailed   = ((Integer) session.getAttribute("countFailed")).intValue();
-int countProblems = ((Integer) session.getAttribute("countProblems")).intValue();
-int countMissing  = ((Integer) session.getAttribute("countMissing")).intValue();
+int countPassed   = ((Integer) testResultsMap.get("countPassed")).intValue();
+int countFailed   = ((Integer) testResultsMap.get("countFailed")).intValue();
+int countProblems = ((Integer) testResultsMap.get("countProblems")).intValue();
+int countMissing  = ((Integer) testResultsMap.get("countMissing")).intValue();
 
-String timeOfRun  = (String) session.getAttribute("timeOfRun");
-File casesRootDir = (File) session.getAttribute("casesRootDir");
+String timeOfRun  = (String) testResultsMap.get("timeOfRun");
+File casesRootDir = (File) testResultsMap.get("casesRootDir");
 
 %>
 
