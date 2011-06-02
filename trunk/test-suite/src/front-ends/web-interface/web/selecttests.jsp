@@ -645,7 +645,7 @@ hookEvent("load", resetAllUnconditionally);
 <p>
 The first step in using the online Test Suite is to obtain a set of test
 models using the form on this page.  Once you have answered the questions
-below and downloaded a collection of tests, you must then record the
+below and downloaded a set of tests, you must then record the
 results of simulating each model in your application and put the results in
 files according to the guidelines in <a
 href="<%=OnlineSTS.getHomeURL(request)%>/Step_2:_Running_the_tests">step 2</a>.
@@ -697,7 +697,7 @@ all SBML Levels/Versions.  </p>
 <p>
 <table class="borderless-table smaller-font" width="100%"> 
   <tr>
-    <td width="30%" valign="top" style="padding: 0 0 0 1em">
+    <td width="28%" valign="top" style="padding: 0 0 0 1em">
         <input type="checkbox" name="ctags" onchange="propagate()" value="AssignmentRule" />
             <span id="AssignmentRule">Assignment rules</span><br>
         <input type="checkbox" name="ctags" onchange="propagate()" value="RateRule" />
@@ -709,7 +709,7 @@ all SBML Levels/Versions.  </p>
         <input type="checkbox" name="ctags" onchange="propagate()" value="InitialAssignment" />
             <span id="InitialAssignment">Initial assignment</span><br>
     </td>
-    <td width="33%" valign="top" style="padding: 0 0 0 1em">
+    <td width="35%" valign="top" style="padding: 0 0 0 1em">
         <input type="checkbox" name="ctags" onchange="propagate()" value="EventNoDelay" />
             <span id="EventNoDelay">Events without delays</span><br>
         <input type="checkbox" name="ctags" onchange="propagate()" value="EventWithDelay" />
@@ -742,7 +742,7 @@ all SBML Levels/Versions.  </p>
 <div id="tags">
 <table class="borderless-table smaller-font" width="100%">
   <tr>
-    <td width="30%" valign="top" style="padding: 0 0 0 1em">
+    <td width="28%" valign="top" style="padding: 0 0 0 1em">
         <input type="checkbox" name="ttags" onchange="propagate()" value="InitialValueReassigned">
             <span id="InitialValueReassigned" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
 	    title="The initial values given in some model component declarations (e.g., species quantity) are overridden by other constructs (e.g., rules)."
@@ -784,7 +784,7 @@ all SBML Levels/Versions.  </p>
 	    title="There is more than one compartment in the model."
             >Multiple compartments</span><br>
     </td>
-    <td width="33%" valign="top" style="padding: 0 0 0 1em">
+    <td width="35%" valign="top" style="padding: 0 0 0 1em">
         <input type="checkbox" name="ttags" onchange="propagate()" value="Amount">
             <span id="Amount" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
 	    title="At least one species has an initial value given in terms of an amount, not a concentration."
@@ -819,8 +819,12 @@ all SBML Levels/Versions.  </p>
             >Stoichiometries &ne; 1</span><br>
         <input type="checkbox" name="ttags" onchange="propagate()" value="AssignedStoichiometry">
             <span id="AssignedStoichiometry" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="At least one reaction uses the <code>stoichiometryMath</code> construct (in Level 2) or (in Level 3) assigns a <code>SpeciesReference</code> identifier."
-            >Formulas involving stoichiometries</span><br>
+	    title="At least one reaction uses <code>stoichiometryMath</code> (in Level 2), or (in Level 3) a rule or an <code>InitialAssignment</code> sets a value to a <code>SpeciesReference</code> id."
+            >Formulas using stoichiometries</span><br>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="AssignedConstantStoichiometry">
+            <span id="AssignedConstantStoichiometry" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
+	    title="<code>stoichiometryMath</code> is used (in Level 2), or (in Level 3) a <code>SpeciesReference</code> id is assigned, but the stoichiometry value stays constant during simulation."
+            >Formulas using constant stoichiometries</span><br>
     </td>
     <td width="33%" valign="top" style="padding: 0 0 0 1em">
         <input type="checkbox" name="ttags" onchange="propagate()" value="RandomEventExecution">
