@@ -35,15 +35,50 @@
 <%@ include file="sbml-top.html"%>
 
 <%
-// Start by checking that this session hasn't timed out.
+// Start by logging that we've been invoked.
 
-if (request == null || request.getAttribute("testResults") == null)
+OnlineSTS.init();
+OnlineSTS.logInvocation(request);
+
+// Check that this session hasn't timed out.
+
+if (session == null)
 {
+    OnlineSTS.logError(request, "Null sessionResults; assuming timeout.");
+
+    // Can't rely on OnlineSTS being able to pull values out of the
+    // request, so we have to go really low-level here.
+
+    String rootURL  = request.getScheme() + "://"
+        + request.getServerName() + ":" + request.getServerPort()
+        + request.getContextPath();
+
+    String imageURL = rootURL + "/web/images";
+
+    String homeURL  = "http://sbml.org/Software/SBML_Test_Suite";
 %>
 
-<jsp:forward page="session-expired.jsp" />
+   <div id='pagetitle'><h1 class='pagetitle'><font color="darkred">
+        SBML Test Suite session error</font></h1></div><!-- id='pagetitle' -->
+        <div style="float: right; margin: 0 0 1em 2em; padding: 0 0 0 5px">
+        <img src="<%=imageURL%>/Icon-online-test-suite-64px.jpg">
+    </div>
 
+    <p>
+    We regret that your session has expired.  For performance reasons, the
+    duration of sessions is limited to <%= session.getMaxInactiveInterval()/60 %>
+    minutes.  Please re-upload your results and proceed.
+
+    <p>	
+    <center>
+        <a href="<%=homeURL%>">
+        <img border="0" align="center" src="<%=imageURL%>/Icon-red-left-arrow.jpg">
+        Return to the Online SBML Test Suite front page.
+        </a>
+    </center>
+    </p>
 <%
+    return;
 }
 %>
 
@@ -54,11 +89,6 @@ if (request == null || request.getAttribute("testResults") == null)
 </div>
 
 <%
-// Start by logging that we've been invoked.
-
-OnlineSTS.init();
-OnlineSTS.logInvocation(request);
-
 // Get some basic values that we'll need soon.
 
 String baseURL = OnlineSTS.getServiceRootURL(request) + "/web";
@@ -105,20 +135,44 @@ in a new window.  </p>
 Vector<UserTestResult> results
     = (Vector<UserTestResult>) request.getAttribute("testResults");
 
-int highestCaseNumber = results.size() - 1;
+//
+// 2. Store the results in a per-invocation variable in this session.  Later
+// below, the invocation identifier is handed to calls to testdetails.jsp.
+// This makes it possible for users to keep multiple results up in separate
+// browser windows and still have testdetails.jsp get the results from the
+// right invocation.
+
+HashMap sessionResults = (HashMap) session.getAttribute("sessionResults");
+if (sessionResults == null)
+{
+    sessionResults = new HashMap();
+    session.setAttribute("sessionResults", sessionResults);
+}
+
+Long uuid = Math.abs(UUID.randomUUID().getLeastSignificantBits());
+String resultsID = uuid.toString();
+
+OnlineSTS.logInfo("This resultsID = " + resultsID);
+
+HashMap testResultsMap = new HashMap();
+testResultsMap.put("resultsID"  , resultsID);
+testResultsMap.put("testResults", results);
+
+sessionResults.put(resultsID, testResultsMap);
 
 //
-// 2. Produce a summary map of the results, with pointers to the details.
+// 3. Produce a summary map of the results, with pointers to the details.
 // Along the way, compute some general statistics about the results.
 //
 
 Map<String, Integer> tmap = new HashMap<String, Integer>();
 Map<String, Integer> cmap = new HashMap<String, Integer>();
 
-int countMissing  = 0;
-int countFailed   = 0;
-int countPassed   = 0;
-int countProblems = 0;
+int highestCaseNumber = results.size() - 1;
+int countMissing      = 0;
+int countFailed       = 0;
+int countPassed       = 0;
+int countProblems     = 0;
 
 DecimalFormat caseNumFormatter = new DecimalFormat("00000");
 
@@ -133,7 +187,8 @@ for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
     String color;
 
     out.print("<td title=\"Test Case #" + name + "\">");
-    out.print("<a href=\"" + baseURL + "/testdetails.jsp?testname=" + name
+    out.print("<a href=\"" + baseURL + "/testdetails.jsp?testName=" + name
+              + "&resultsID=" + resultsID
               + "\" target=\"_blank\">");
 
     if (thisResult != null)
@@ -180,6 +235,19 @@ for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
 OnlineSTS.logInfo(request, "Results: " + countPassed + " passed, "
                   + countFailed + " failed, " + countProblems + " problems, "
                   + countMissing + " missing.");
+
+// Store various parts of the results into the session variable so that
+// testdetails.jsp and report.jsp can pull them out.
+
+testResultsMap.put("countPassed"  , countPassed);
+testResultsMap.put("countFailed"  , countFailed);
+testResultsMap.put("countProblems", countProblems);
+testResultsMap.put("countMissing" , countMissing);
+
+File casesRootDir = new File(getServletContext().getRealPath("/test-cases"));
+testResultsMap.put("casesRootDir" , casesRootDir);
+
+testResultsMap.put("timeOfRun"    , timeOfRun);
 
 //
 // 3. Follow this with a text summary of the results.  (In HTML, below.)
@@ -245,23 +313,6 @@ if (countFailed > 0)
 } // end of if (countFailed > 0)
 %>
 
-<%
-// Store various parts of the results into the session variable so that
-// testdetails.jsp and report.jsp can pull them out.
-
-session.setAttribute("testResults"  , results);
-session.setAttribute("countPassed"  , countPassed);
-session.setAttribute("countFailed"  , countFailed);
-session.setAttribute("countProblems", countProblems);
-session.setAttribute("countMissing" , countMissing);
-
-File casesRootDir = new File(getServletContext().getRealPath("/test-cases"));
-session.setAttribute("casesRootDir" , casesRootDir);
-
-session.setAttribute("timeOfRun"    , timeOfRun);
-
-%>
-
 <br><br>
 <p>
 <form name="report" action="<%=baseURL%>/report.jsp" method="post">
@@ -295,7 +346,5 @@ Test Suite.
     Return to the front page for the Online SBML Test Suite.
   </a>
 </center>
-
-
 
 <%@ include file="sbml-bottom.html"%>
