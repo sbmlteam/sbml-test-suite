@@ -39,20 +39,51 @@
 <%@ include file="sbml-top.html"%>
 
 <%
-// Start by checking that this session hasn't timed out.
-
-if (session.getAttribute("testResults") == null)
-{
-%>
-
-<jsp:forward page="session-expired.jsp" />
-
-<%
-}
 // Log that we've been invoked.
 
 OnlineSTS.init();
 OnlineSTS.logInvocation(request);
+
+// Start by checking that this session hasn't timed out.
+
+if (session == null || session.getAttribute("testResults") == null)
+{
+    OnlineSTS.logError(request, "Null sessionResults; assuming timeout.");
+
+    // Can't rely on OnlineSTS being able to pull values out of the
+    // request, so we have to go really low-level here.
+
+    String rootURL  = request.getScheme() + "://"
+        + request.getServerName() + ":" + request.getServerPort()
+        + request.getContextPath();
+
+    String imageURL = rootURL + "/web/images";
+
+    String homeURL  = "http://sbml.org/Software/SBML_Test_Suite";
+%>
+
+   <div id='pagetitle'><h1 class='pagetitle'><font color="darkred">
+        SBML Test Suite session error</font></h1></div><!-- id='pagetitle' -->
+        <div style="float: right; margin: 0 0 1em 2em; padding: 0 0 0 5px">
+        <img src="<%=imageURL%>/Icon-online-test-suite-64px.jpg">
+    </div>
+
+    <p>
+    We regret that your session has expired.  For performance reasons, the
+    duration of sessions is limited to <%= session.getMaxInactiveInterval()/60 %>
+    minutes.  Please re-upload your results and proceed.
+
+    <p>	
+    <center>
+        <a href="<%=homeURL%>">
+        <img border="0" align="center" src="<%=imageURL%>/Icon-red-left-arrow.jpg">
+        Return to the Online SBML Test Suite front page.
+        </a>
+    </center>
+    </p>
+<%
+    return;
+}
 
 // We get a number of things via the URL handed to us in the link that the
 // user clicked.  The rest we get from the context.  The following code
