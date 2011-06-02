@@ -185,7 +185,7 @@ if (countFailed > 0)
         <tr>
         <td valign="top" style="padding: 2px">
             <a title="Test case <%=name%>"
-                href="<%=OnlineSTS.getServiceRootURL(request)%>/web/testdetails.jsp?testname=<%=name%>"
+                href="<%=OnlineSTS.getServiceRootURL(request)%>/web/testdetails.jsp?testName=<%=name%>&resultsID=<%=resultsID%>"
                 target="_blank"><%= name %>
         </td>
         <td valign="top" style="padding: 5px 5em 5px 5px"><%= theCase.getSynopsis()%></td>
