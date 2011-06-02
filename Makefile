@@ -66,6 +66,42 @@ cases/semantic/%-plot.jpg: cases/semantic/%-results.csv
 	$(call make_plot,$(patsubst %-plot.jpg,%-results.csv,$@))
 
 
+#
+# 'make sedml'
+#
+
+ifeq "`uname`" "Darwin"
+  define make_sedml_files
+    env DYLD_LIBRARY_PATH="src/utilities/sedml:$(DYLD_LIBRARY_PATH)" \
+	mono ./src/utilities/sedml/GenerateSedML.exe -c `dirname $(1)` -a
+  endef
+else
+  define make_sedml_files
+    env LD_LIBRARY_PATH="src/utilities/sedml:$(DYLD_LIBRARY_PATH)" \
+	mono ./src/utilities/sedml/GenerateSedML.exe -c `dirname $(1)` -a
+  endef
+endif
+
+cases-sbml-files       = $(wildcard cases/semantic/*/*-sbml-l[1234]v[0-9].xml)
+cases-sedml-l1v2-files = $(patsubst %-l1v2.xml,%-l1v2-sedml.xml,$(cases-sbml-files))
+cases-sedml-l2v1-files = $(patsubst %-l2v1.xml,%-l2v1-sedml.xml,$(cases-sbml-files))
+cases-sedml-l2v2-files = $(patsubst %-l2v2.xml,%-l2v2-sedml.xml,$(cases-sbml-files))
+cases-sedml-l2v3-files = $(patsubst %-l2v3.xml,%-l2v3-sedml.xml,$(cases-sbml-files))
+cases-sedml-l2v4-files = $(patsubst %-l2v4.xml,%-l2v4-sedml.xml,$(cases-sbml-files))
+cases-sedml-l3v1-files = $(patsubst %-l3v1.xml,%-l3v1-sedml.xml,$(cases-sbml-files))
+all-sedml-files        = $(cases-sedml-l1v2-files) \
+                         $(cases-sedml-l2v1-files) \
+                         $(cases-sedml-l2v2-files) \
+                         $(cases-sedml-l2v3-files) \
+                         $(cases-sedml-l2v4-files) \
+                         $(cases-sedml-l3v1-files)
+
+sedml: $(all-sedml-files)
+
+cases/semantic/%-sedml.xml: cases/semantic/%.xml
+	$(call make_sedml_files,$@)
+
+
 # -----------------------------------------------------------------------------
 # Case archive, for the test runner
 # -----------------------------------------------------------------------------
@@ -85,7 +121,7 @@ contents = cases/semantic \
            NEWS.txt       \
            LICENSE.txt
 
-cases-dist: html plots
+cases-dist: html plots sedml
 	@echo $(today) > $(ts-file)
 	make $(map-file)
 	zip -r sbml-test-cases-$(today).zip $(contents) -x@.zipexcludes
@@ -170,7 +206,7 @@ svn-ignores: $(cases-html-files) $(cases-jpg-files)
 # Common special targets
 # -----------------------------------------------------------------------------
 
-.PHONY: docs html plots
+.PHONY: docs html plots sedml
 
 .SUFFIXES: .jpg .csv .html .xml .txt
 
