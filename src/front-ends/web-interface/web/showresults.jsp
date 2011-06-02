@@ -313,12 +313,12 @@ if (countFailed > 0)
 } // end of if (countFailed > 0)
 %>
 
-<br><br>
-<p>
-<form name="report" action="<%=baseURL%>/report.jsp" method="post">
-<input type="submit" value="View Report">
-(The report summarizes the results in a more convenient format for printing.) 
-</form>
+<p style="margin-top: 1em">
+<a href="<%=baseURL%>/report.jsp?resultsID=<%=resultsID%>" target="_blank" style="margin-right: 0.5em">
+<img align="center" src="<%=OnlineSTS.getImageURL(request)%>/Icon-specifications-64px.jpg">
+View Report</a>
+<i>(The report summarizes the results in a more convenient format for printing.)</i>
+
 </div>
 
 <hr>
