@@ -620,7 +620,7 @@ hookEvent("load", resetAllUnconditionally);
   line-height: 120%;
   height: 90px;
   width: 180px;
-  padding: 15px;
+  padding: 13px;
   color: black;
 }
 
@@ -825,7 +825,7 @@ all SBML Levels/Versions.  </p>
             >Formulas using stoichiometries</span><br>
         <input type="checkbox" name="ttags" onchange="propagate()" value="AssignedConstantStoichiometry">
             <span id="AssignedConstantStoichiometry" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="<code>stoichiometryMath</code> is used (in Level 2), or (in Level 3) a <code>SpeciesReference</code> id is assigned, but the stoichiometry value stays constant during simulation."
+	    title="<code>stoichiometryMath</code> is used (in Level 2), or (in Level 3) an <code>InitialAssignment</code> sets a  <code>SpeciesReference</code> id, but the stoichiometry value stays constant during simulation."
             >Formulas using constant stoichiometries</span><br>
     </td>
     <td width="33%" valign="top" style="padding: 0 0 0 1em">
