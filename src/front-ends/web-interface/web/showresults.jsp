@@ -135,6 +135,11 @@ in a new window.  </p>
 Vector<UserTestResult> results
     = (Vector<UserTestResult>) request.getAttribute("testResults");
 
+if (results == null)
+{
+    OnlineSTS.logError(request, "Null testResults.");
+}
+
 //
 // 2. Store the results in a per-invocation variable in this session.  Later
 // below, the invocation identifier is handed to calls to testdetails.jsp.
