@@ -69,6 +69,9 @@ if (resultsID == null)
     OnlineSTS.logError("Null resultsID.");
     missingData = true;
 }
+else
+    OnlineSTS.logInfo(request, "Showing details for case #" + testName
+                               + ", results ID " + resultsID); 
 
 HashMap sessionResults = (HashMap) session.getAttribute("sessionResults");
 if (sessionResults == null)
@@ -147,9 +150,6 @@ if (missingData || sessionExpired | badResultsID)
 //
 // Finally, onward with the real work.
 //
-
-OnlineSTS.logInfo(request, "Showing details for " + testName
-                  + " for resultsID " + resultsID);
 
 Vector<UserTestResult> results
     = (Vector<UserTestResult>) testResultsMap.get("testResults");
@@ -360,7 +360,7 @@ if (thisResult != null)
 
 <p style="margin-top: 3em">	
 <center>
-  <a href="<%=OnlineSTS.getHomeURL(request)%>">
+  <a href="http://sbml.org/Facilities/Online_SBML_Test_Suite">
     <img border="0" align="center" 
          src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-left-arrow.jpg">
     Return to the Online SBML Test Suite front page.
