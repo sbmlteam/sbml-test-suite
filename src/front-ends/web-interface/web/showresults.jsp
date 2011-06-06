@@ -346,7 +346,7 @@ Test Suite.
 </p>
 
 <center style="margin: 1em">
-  <a href="<%=OnlineSTS.getHomeURL(request)%>">
+  <a href="http://sbml.org/Facilities/Online_SBML_Test_Suite">
     <img align="center" src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-left-arrow.jpg">
     Return to the front page for the Online SBML Test Suite.
   </a>
