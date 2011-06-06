@@ -108,12 +108,27 @@ public class UploadUnzipTest extends HttpServlet
                 RequestDispatcher dispatcher
                     = httpRequest.getRequestDispatcher(RESULTS_PAGE);
                 dispatcher.forward(httpRequest, httpResponse);
+
+                /* In the future, if rewrite things to use a redirect:
+
+                String where = OnlineSTS.getServiceRootURL(request) + RESULTS_PAGE;
+                response.setStatus(307);
+                response.setHeader("Location", where);
+                response.sendRedirect(where);
+                */
             }
             catch (Exception e)
             {
                 e.printStackTrace();
                 httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
+    }
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        OnlineSTS.logError(request, "Invoked via get.");
+        doPost(request, response);
     }
 
     // 
