@@ -178,20 +178,15 @@ public class OnlineSTS
 
 
     /**
-     * Returns the advertised base URL for the Online SBML Test Suite.
+     * Returns the advertised base URL for the SBML Test Suite.
      * 
      * This returns a string such as "http://sbml.org/Software/SBML_Test_Suite"
-     * pointing to the location advertised as the root/base of the system.
-     * The Online STS does redirections when some paths under this root are
-     * accessed, but this is the path we tell users to go to.
-     *
-     * Having an API call for this makes it possible to avoid hard-wiring the
-     * path all over the JSP files.
+     * pointing to the location advertised as the home of the system.
      *
      * @param request the servlet request object handed to the caller by
      * the application server
      *
-     * @return the full advertised URL to the Online SBML Test Suite.
+     * @return the full advertised URL to the SBML Test Suite.
      */
     public static final String getHomeURL(HttpServletRequest request)
     {
