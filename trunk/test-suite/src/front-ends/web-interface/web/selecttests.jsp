@@ -392,6 +392,14 @@ function propagate()
     setExcluded("EventPriority",                 true, ctags);
   }
 
+  // If InitialAssignment is excluded, AssignedConstantStoichiometry in
+  // Level 3 isn't tested.
+
+  if (isExcluded("InitialAssignment", ctags) && lv == "3.1")
+  {
+    setExcluded("AssignedConstantStoichiometry", true, ttags);
+  }
+
   // If none of the following are present, you can't test the use of
   // function definitions either.
 
@@ -417,7 +425,7 @@ function propagate()
       setExcluded("EventIsNotPersistent",          true, ttags);
       setExcluded("EventT0Firing",                 true, ttags);
   }
-
+  
   // If certain conditions hold, we can't test anything.  To be more helpful,
   // we do a special case for excluding param, species, comp, & reactions.
 
@@ -699,7 +707,7 @@ all SBML Levels/Versions.  </p>
 <p>
 <table class="borderless-table smaller-font" width="100%"> 
   <tr>
-    <td width="28%" valign="top" style="padding: 0 0 0 1em">
+    <td width="30%" valign="top" style="padding: 0 0 0 1em">
         <input type="checkbox" name="ctags" onchange="propagate()" value="AssignmentRule" />
             <span id="AssignmentRule">Assignment rules</span><br>
         <input type="checkbox" name="ctags" onchange="propagate()" value="RateRule" />
@@ -711,7 +719,7 @@ all SBML Levels/Versions.  </p>
         <input type="checkbox" name="ctags" onchange="propagate()" value="InitialAssignment" />
             <span id="InitialAssignment">Initial assignment</span><br>
     </td>
-    <td width="35%" valign="top" style="padding: 0 0 0 1em">
+    <td width="33%" valign="top" style="padding: 0 0 0 1em">
         <input type="checkbox" name="ctags" onchange="propagate()" value="EventNoDelay" />
             <span id="EventNoDelay">Events without delays</span><br>
         <input type="checkbox" name="ctags" onchange="propagate()" value="EventWithDelay" />
@@ -744,7 +752,7 @@ all SBML Levels/Versions.  </p>
 <div id="tags">
 <table class="borderless-table smaller-font" width="100%">
   <tr>
-    <td width="28%" valign="top" style="padding: 0 0 0 1em">
+    <td width="30%" valign="top" style="padding: 0 0 0 1em">
         <input type="checkbox" name="ttags" onchange="propagate()" value="InitialValueReassigned">
             <span id="InitialValueReassigned" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
 	    title="The initial values given in some model component declarations (e.g., species quantity) are overridden by other constructs (e.g., rules)."
@@ -786,7 +794,7 @@ all SBML Levels/Versions.  </p>
 	    title="There is more than one compartment in the model."
             >Multiple compartments</span><br>
     </td>
-    <td width="35%" valign="top" style="padding: 0 0 0 1em">
+    <td width="33%" valign="top" style="padding: 0 0 0 1em">
         <input type="checkbox" name="ttags" onchange="propagate()" value="Amount">
             <span id="Amount" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
 	    title="At least one species has an initial value given in terms of an amount, not a concentration."
@@ -822,11 +830,11 @@ all SBML Levels/Versions.  </p>
         <input type="checkbox" name="ttags" onchange="propagate()" value="AssignedStoichiometry">
             <span id="AssignedStoichiometry" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
 	    title="At least one reaction uses <code>stoichiometryMath</code> (in Level 2), or (in Level 3) a rule or an <code>InitialAssignment</code> sets a value to a <code>SpeciesReference</code> id."
-            >Formulas using stoichiometries</span><br>
+            >Math using stoichiometries</span><br>
         <input type="checkbox" name="ttags" onchange="propagate()" value="AssignedConstantStoichiometry">
             <span id="AssignedConstantStoichiometry" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
 	    title="<code>stoichiometryMath</code> is used (in Level 2), or (in Level 3) an <code>InitialAssignment</code> sets a  <code>SpeciesReference</code> id, but the stoichiometry value stays constant during simulation."
-            >Formulas using constant stoichiometries</span><br>
+            >Math using constant stoichiometries</span><br>
     </td>
     <td width="33%" valign="top" style="padding: 0 0 0 1em">
         <input type="checkbox" name="ttags" onchange="propagate()" value="RandomEventExecution">
