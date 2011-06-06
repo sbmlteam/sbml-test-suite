@@ -157,7 +157,7 @@ if (sessionResults == null)
 Long uuid = Math.abs(UUID.randomUUID().getLeastSignificantBits());
 String resultsID = uuid.toString();
 
-OnlineSTS.logInfo("This resultsID = " + resultsID);
+OnlineSTS.logInfo(request, "This resultsID = " + resultsID);
 
 HashMap testResultsMap = new HashMap();
 testResultsMap.put("resultsID"  , resultsID);
