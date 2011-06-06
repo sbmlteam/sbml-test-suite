@@ -229,7 +229,7 @@ else
 
     The following is a plot of the <b>expected</b> results:</p>
     
-    <center><img style="margin-left: -80px" 
+    <center><img style="margin-left: -80px; margin-bottom: 1em" 
         src="<%=OnlineSTS.getServiceRootURL(request)%>/test-cases/<%=testName%>/<%=thisCase.getPlotFileName()%>"
         align="center" alt="plot"> 
     </center>
