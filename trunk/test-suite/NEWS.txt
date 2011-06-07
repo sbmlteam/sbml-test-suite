@@ -2,7 +2,19 @@
 	       NEWS -- history of user-visible changes
 
 
-=== Update (2011-05-26)
+=== Version 2.0.0 release (2011-06-01) ===
+
+This is a release to introduce the SBML Level 3 Version 1 Core test
+cases, the SED-ML files, and the updated Online SBML Test Suite.
+
+* Bug fixes since last update:
+
+  - The online interface had a number of bugs left having to do with
+    management of multiple results, catching nulls, etc.  Hopefully
+    these have all been fixed.
+
+
+=== Update (2011-05-26) ===
 
 * New features:
 
@@ -15,7 +27,7 @@
     different options that can be checked.)
 
 
-=== Update of test cases (2010-10-06)
+=== Update of test cases (2010-10-06) ===
 
   - All L3 models have been updated to comply with the final
     release of the SBML L3V1 core specification.
@@ -23,7 +35,7 @@
   - There are examples of models that use the new Event semantics.
 
 
-=== Update of test cases (2010-04-20)
+=== Update of test cases (2010-04-20) ===
 
 * New features
 
