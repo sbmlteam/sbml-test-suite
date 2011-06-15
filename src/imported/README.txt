@@ -33,8 +33,8 @@ Online SBML Test Suite (i.e., on http://sbml.org):
   lib/jstl.jar from jakarta-standard-taglib/jakarta-taglibs-standard-1.1.2.tar.gz
   lib/standard.jar from jakarta-standard-taglib/jakarta-taglibs-standard-1.1.2.tar.gz
 
-For "wiky" and "rhino", nothing needs to be done.  The relevant
-scripts use them directly from these directories.
+For "wiky", "rhino" and "batik", nothing needs to be done.  The
+relevant scripts use them directly from these directories.
 
 
 ---------------------------------------------------------------------
