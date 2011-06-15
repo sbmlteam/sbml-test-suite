@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # @file    plotresults.sh
-# @brief   Program for plotting SBML Test Suite case results using gnuplot
+# @brief   Plot SBML Test Suite case results using gnuplot & batik
 # @author  Michael Hucka <mhucka@caltech.edu>
 # 
 # $Id$
@@ -23,7 +23,7 @@
 USAGE_TEXT="Usage: `basename $0`  XXXXX-results.csv
 
 This program takes the input file (assumed be a comma-separated value file)
-and runs it through gnuplot to produce a plot in a JPEG file.  The output
+and runs it through gnuplot to produce a plot in an SVG file.  The output
 file is named after the basename of the input file.  The input file should
 normally have a name of the form XXXXX-results.csv.
 
@@ -36,7 +36,7 @@ the terms of the LGPL.  For more information, please visit http://sbml.org/.
 # -----------------------------------------------------------------------------
 
 GNUPLOT=gnuplot
-EMPTYPLOTFILE=`dirname $0`/red-not-circle.jpg
+EMPTYPLOTFILE=`dirname $0`/red-not-circle.svg
 
 # -----------------------------------------------------------------------------
 # Main body.
@@ -95,28 +95,23 @@ sed -e 's/case[0-9][0-9][0-9][0-9][0-9][`]//g' < $CSV_FILE | tr -d '\015' > $INP
 # and substitute a special graphic instead of a plot.
 
 if test -n "`egrep 'NaN|INF' ${CSV_FILE}`"; then
-    cp -f ${EMPTYPLOTFILE} ${INPUTFILE/.csv/.jpg}
+    cp -f ${EMPTYPLOTFILE} ${INPUTFILE/.csv/.svg}
 else
-    # OK, run gnuplot.  The last line (the plot command) is hackacious,
-    # but without more work, it's hard to see how to limit the number of
-    # plot lines to exactly what's in the data file.  The result of
-    # overdoing it like this is warnings by gnuplot about "Skipping data
-    # file with no valid points".  For now, this just ignores all warnings
-    # from gnuplot for this reason.
-
     $GNUPLOT 2> /dev/null 1>/dev/null -<<EOF
     set border 0
     set datafile separator ","
-    set key spacing 1.2
-    set key height 3
-    set key width 10
+    set key spacing 1.1
+    set key height 0
+    set key width 1
     set key below
+    set key title 'Legend'
     set rmargin 3
-    set bmargin 8
+    set bmargin 11
     set lmargin 15
-    set size 0.9,0.9
-    set terminal jpeg
-    set output "${INPUTFILE/%.csv}.jpg"
-    plot for [n=2:9] "$INPUTFILE" using 1:n title column (n) with lines
+    set size 0.98,0.98
+    set style increment user
+    set term svg size 700,600
+    set output "${INPUTFILE/%.csv}.svg"
+    plot for [n=2:100] "$INPUTFILE" using 1:n title column (n) with lines linewidth 2
 EOF
 fi
