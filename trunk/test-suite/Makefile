@@ -31,7 +31,7 @@
 # Commads for generating case descriptions in HTML format.
 # -----------------------------------------------------------------------------
 # Run 'make html' for regenerating HTML documentation of every test case.
-# Run 'make plots' for regenerating the JPG plot images from CSV files.
+# Run 'make plots' for regenerating the PNG plot images from CSV files.
 
 #
 # 'make html'
@@ -53,18 +53,26 @@ cases/semantic/%-model.html: cases/semantic/%-model.m
 # 'make plots'
 #
 
-define make_plot
-  ./src/utilities/plotresults/plotresults.sh $(addsuffix .csv,$(basename $(1)))
-endef
+# 2011-06-15 <mhucka@caltech.edu> Changed the appearance of the plots to
+# use thicker lines so that they are more easily discernible.
+# Unfortunately, to do this required a change to the overal approach.
+# Because of the poor quality of gnuplot's output for JPG & PNG formats
+# (specifically due to its lack of anti-aliasing in those cases), I changed
+# this system to use a more complicated approach of first generating SVG
+# and then converting the SVG files to JPG.
 
 cases-csv-files = $(wildcard cases/semantic/*/*-results.csv)
+cases-svg-files = $(patsubst %-results.csv,%-plot.svg,$(cases-csv-files))
 cases-jpg-files = $(patsubst %-results.csv,%-plot.jpg,$(cases-csv-files))
 
-plots: $(cases-jpg-files)
+plots: $(cases-svg-files)
+	make convert-all-svg-to-jpg
 
-cases/semantic/%-plot.jpg: cases/semantic/%-results.csv
-	$(call make_plot,$(patsubst %-plot.jpg,%-results.csv,$@))
+cases/semantic/%-plot.svg: cases/semantic/%-results.csv
+	./src/utilities/plotresults/plotresults.sh $(patsubst %-plot.svg,%-results.csv,$@)
 
+convert-all-svg-to-jpg:
+	java -jar src/imported/batik/batik-rasterizer.jar -m image/jpeg -q 0.9 $(cases-svg-files)
 
 #
 # 'make sedml'
@@ -189,13 +197,13 @@ endif
 cases-dirs = $(wildcard cases/semantic/*)
 tmpfile    = .tmp.make.ignores
 
-svn-ignores: $(cases-html-files) $(cases-jpg-files)
+svn-ignores: $(cases-html-files) $(cases-svg-files)
 	@list='$(cases-dirs)'; for dir in $$list; do \
 	  name=`basename $$dir`; \
           svn propget svn:ignore $$dir |\
-	    grep -v $$name-plot.jpg | grep -v $$name-model.html |\
+	    grep -v $$name-plot.svg | grep -v $$name-model.html |\
             egrep -v '^$$' >| $(tmpfile); \
-	    echo $$name-plot.jpg >> $(tmpfile); \
+	    echo $$name-plot.svg >> $(tmpfile); \
 	    echo $$name-model.html >> $(tmpfile); \
 	  svn propset -F $(tmpfile) svn:ignore $$dir; \
 	done
@@ -208,7 +216,7 @@ svn-ignores: $(cases-html-files) $(cases-jpg-files)
 
 .PHONY: docs html plots sedml
 
-.SUFFIXES: .jpg .csv .html .xml .txt
+.SUFFIXES: .png .svg .jpg .csv .html .xml .txt
 
 # ----------------------------------------------------------------------------- 
 # End. 
