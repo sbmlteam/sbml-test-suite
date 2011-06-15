@@ -2,6 +2,21 @@
 	       NEWS -- history of user-visible changes
 
 
+=== Version 2.0.1 release (2011-06-16) ===
+
+* Bug fixes since last update:
+
+  - Frank fixed an issue in the generation of identifiers in SED-ML
+    files wherein it could generate the same id for different
+    elements.  The problem was not picked up by the Schema validator,
+    so he created a generator that has specific treatment for this
+    situation.
+
+* Changes since last update:
+
+  - Added plots of results in SVG format.
+
+
 === Version 2.0.0 release (2011-06-01) ===
 
 This is a release to introduce the SBML Level 3 Version 1 Core test
