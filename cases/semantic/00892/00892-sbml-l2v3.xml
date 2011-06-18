@@ -29,9 +29,6 @@
    <parameter id="k2"
        name="k2"
        value="0.75"/>
-   <parameter id="t"
-       name="t"
-       constant="false"/>
   </listOfParameters>
   <!-- <listOfInitialAssignments/> -->
   <listOfRules>

@@ -30,9 +30,6 @@
    <parameter id="k1"
        name="k1"
        value="0.5"/>
-   <parameter id="t"
-       name="t"
-       constant="false"/>
   </listOfParameters>
   <!-- <listOfInitialAssignments/> -->
   <listOfRules>

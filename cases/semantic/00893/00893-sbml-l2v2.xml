@@ -6,7 +6,6 @@
       <parameter id="P2" name="P2" value="0" constant="false"/>
       <parameter id="P3" name="P3" value="0.001" constant="false"/>
       <parameter id="k1" name="k1" value="0.5"/>
-      <parameter id="t" name="t" constant="false"/>
     </listOfParameters>
     <listOfRules>
       <rateRule metaid="rule1" variable="P3">
