@@ -200,11 +200,9 @@ tmpfile    = .tmp.make.ignores
 svn-ignores: $(cases-html-files) $(cases-svg-files)
 	@list='$(cases-dirs)'; for dir in $$list; do \
 	  name=`basename $$dir`; \
-          svn propget svn:ignore $$dir |\
-	    grep -v $$name-plot.svg | grep -v $$name-model.html |\
-            egrep -v '^$$' >| $(tmpfile); \
-	    echo $$name-plot.svg >> $(tmpfile); \
-	    echo $$name-model.html >> $(tmpfile); \
+	  echo $$name-model.html > $(tmpfile); \
+	  echo $$name-plot'.*' >> $(tmpfile); \
+	  echo '*-sedml.xml' >> $(tmpfile); \
 	  svn propset -F $(tmpfile) svn:ignore $$dir; \
 	done
 	@rm -f $(tmpfile)
