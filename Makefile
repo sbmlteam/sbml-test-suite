@@ -1,7 +1,6 @@
 ## @file    Makefile
 ## @brief   Top-level Makefile for the SBML Test Suite
 ## @author  Michael Hucka
-## $URL$
 ##
 ## ----------------------------------------------------------------------------
 ## This file is part of the SBML Test Suite.  Please visit http://sbml.org for
