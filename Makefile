@@ -56,7 +56,9 @@ cases/semantic/%-model.html: cases/semantic/%-model.m
 # Because of the poor quality of gnuplot's output for JPG & PNG formats
 # (specifically due to its lack of anti-aliasing in those cases), I changed
 # this system to use a more complicated approach of first generating SVG
-# and then converting the SVG files to JPG.
+# and then converting the SVG files to JPG.  The more complicated approach
+# involves generating SVG from gnuplot, then converting the SVG to JPEG
+# using Batik.
 
 cases-csv-files = $(wildcard cases/semantic/*/*-results.csv)
 cases-svg-files = $(patsubst %-results.csv,%-plot.svg,$(cases-csv-files))
