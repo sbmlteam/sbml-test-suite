@@ -1,9 +1,6 @@
 ## @file    Makefile
 ## @brief   Top-level Makefile for the SBML Test Suite
 ## @author  Michael Hucka
-## 
-## $Id$
-## $URL$
 ##
 ## ----------------------------------------------------------------------------
 ## This file is part of the SBML Test Suite.  Please visit http://sbml.org for
@@ -219,9 +216,3 @@ svn-ignores: $(cases-html-files) $(cases-svg-files)
 # ----------------------------------------------------------------------------- 
 # End. 
 # ----------------------------------------------------------------------------- 
- 
-## The following is for [X]Emacs users.  Please leave in place. 
-## Local Variables: 
-## mode: Makefile 
-## End: 
- 
