@@ -218,9 +218,6 @@ on the "SBML Semantic Test Suite".
 
 
 ----------------------------------------------------------------------
-$Id$
-$HeadURL$
-
 The following is for [X]Emacs users.  Please leave in place.
 Local Variables:
 fill-column: 70
