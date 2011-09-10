@@ -207,11 +207,23 @@ svn-ignores: $(cases-html-files) $(cases-svg-files)
 	@rm -f $(tmpfile)
 
 
+#
+# 'make readme-html'
+#
+# This converts README-HACKING.txt to HTML format.
+# 
+
+readme-html: README-HACKING.html
+
+README-HACKING.html: README-HACKING.txt
+	markdown README-HACKING.txt > README-HACKING.html
+
+
 # -----------------------------------------------------------------------------
 # Common special targets
 # -----------------------------------------------------------------------------
 
-.PHONY: docs html plots sedml
+.PHONY: docs html plots sedml readme-html
 
 .SUFFIXES: .png .svg .jpg .csv .html .xml .txt
 
