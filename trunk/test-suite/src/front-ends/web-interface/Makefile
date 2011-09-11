@@ -24,6 +24,21 @@
 ## http://sbml.org/Software/SBML_Test_Suite/license.html
 ## ----------------------------------------------------------------------------
 
+## Usge notes:
+##
+## "make" or "make classes": recompile .class files that are out of date.
+## This looks at the sources in WEB-INF/src/sbml/test/ and puts the
+## compiled class files in WEB-INF/classes/sbml/test/
+##
+## "make install": (WARNING: HAS NOT BEEN USED IN A LONG TIME) install the
+## web interface files into the Tomcat 5 webapps directory.  The destination
+## is set by the variable $webapp-dir somewhere below.
+##
+## This can be used to recompile the files on the server without having to
+## make a .war file and deploy that.  Run "make" or "make classes" in the
+## Test Suite webapp subdirectory, and then reload the application from the
+## Tomcat control interface (http://...SOMETHING...:8080/manager/html).
+
 default: classes
 
 # -----------------------------------------------------------------------------
