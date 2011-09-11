@@ -17,9 +17,6 @@ licensing and distribution terms.
 
 
 ----------------------------------------------------------------------
-$Id$
-$HeadURL$
-
 The following is for [X]Emacs users.  Please leave in place.
 Local Variables:
 fill-column: 70
