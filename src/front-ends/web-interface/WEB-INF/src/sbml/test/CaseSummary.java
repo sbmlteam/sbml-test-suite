@@ -1,3 +1,31 @@
+//
+// @file    CaseSummary.java
+// @brief   
+// @author  Michael Hucka
+// @date    2011-09-11 <mhucka@caltech.edu>
+//
+// ----------------------------------------------------------------------------
+// This file is part of the SBML Test Suite.  Please visit http://sbml.org for
+// more information about SBML, and the latest version of the SBML Test Suite.
+//
+// Copyright (C) 2010-2011 jointly by the following organizations: 
+//     1. California Institute of Technology, Pasadena, CA, USA
+//     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK.
+//
+// Copyright (C) 2008-2009 California Institute of Technology (USA).
+//
+// Copyright (C) 2004-2007 jointly by the following organizations:
+//     1. California Institute of Technology (USA) and
+//     2. University of Hertfordshire (UK).
+// 
+// The SBML Test Suite is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation.  A copy of the license
+// agreement is provided in the file named "LICENSE.txt" included with
+// this software distribution and also available on the Web at
+// http://sbml.org/Software/SBML_Test_Suite/License
+// ----------------------------------------------------------------------------
+
 package sbml.test;
 
 import java.math.*;
