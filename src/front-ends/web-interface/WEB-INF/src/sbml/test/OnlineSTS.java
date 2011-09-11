@@ -37,6 +37,16 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 
+/**
+ * This class provides static methods for general purposes used by the JSP
+ * files.  A calling JSP file should invoke OnlineSTS.init() before doing
+ * anything else, and then can proceed to call OnlineSTS.logInvocation(request)
+ * to log the JSP invocation to the Tomcat/Catalina log file on the server.
+ *
+ * There's a private static variable at the end of this file that sets the
+ * URL to the Test Suite home page.  If the location is every changed, the
+ * value will need to be updated.
+ */
 public class OnlineSTS
 {
     // 
@@ -44,7 +54,9 @@ public class OnlineSTS
     // 
 
     /**
-     * Set up our logger and anything needed.
+     * Set up our logger and anything needed.  A calling JSP file should call
+     * this method before calling any other OnlineSTS method.  It's safe to
+     * call this init() method more than once.
      */
     public static void init()
     {
@@ -82,6 +94,18 @@ public class OnlineSTS
     }
 
 
+    /**
+     * Log the fact that the caller has been invoked.  This takes a single
+     * argument, the "request" object that's automatically provided to 
+     * JSP files by Tomcat.  The result of calling this will be a line in
+     * the log file that looks like this:
+     *
+     * Test Suite 2011-09-11 08:28:41 [131.215.15.99] (http://sbml.org:8080/test_suite/web/uploadresults.jsp) Loaded.
+     *
+     * Note that it is the caller's file name that is reported, and not
+     * *this* file name.  (The method walks up the Java call stack to
+     * figure out who the caller was.)
+     */
     public static final void logInvocation(HttpServletRequest request)
     {
         if (log == null)
