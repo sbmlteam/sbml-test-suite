@@ -5,7 +5,7 @@
                 "test_suite" web application directory
                  /var/lib/tomcat5/webapps/test_suite
 
-                  Kimberly Begley and Michael Hucka
+                  Michael Hucka and Kimberly Begley
 
               For more information about SBML, contact:
 
@@ -33,14 +33,14 @@ changes :-(.
 Explanation of directory contents
 ---------------------------------
 
-The "index.html" page is just a redirection to guard against people
-trying to access http://sbml.org:8080/test_suite directly.  It serves
-no other functional purpose.
+The "index.html" page is just a redirection page, to guard against
+people trying to access http://sbml.org:8080/test_suite directly.  It
+serves no other functional purpose.
 
 The "web" subdirectory contains the JSP and HTML pages that are used
 to produce the front-end web pages.  This is the interface that users
 interact with through their browser.  The different JSP pages are
-accessed via wrapper pages that reside on sbml.org in 
+accessed via wrapper web pages that reside on sbml.org in 
 http://sbml.org/Facilities/Online_SBML_Test_Suite
 
 The "WEB-INF" contains the sources for the back-end programs that
@@ -82,9 +82,6 @@ and run the command "touch WEB-INF/web.xml".
 
 
 ----------------------------------------------------------------------
-$Id$
-$HeadURL$
-
 The following is for [X]Emacs users.  Please leave in place.
 Local Variables:
 fill-column: 70
