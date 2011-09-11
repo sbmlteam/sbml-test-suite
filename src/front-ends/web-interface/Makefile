@@ -1,17 +1,20 @@
 ## @file    Makefile
 ## @brief   Makefile for deploying web interface
 ## @author  Michael Hucka
-## 
-## $Id$
-## $HeadURL$
 ##
 ## ----------------------------------------------------------------------------
 ## This file is part of the SBML Test Suite.  Please visit http://sbml.org for
 ## more information about SBML, and the latest version of the SBML Test Suite.
-## 
-## Copyright 2008-2010 California Institute of Technology.
-## Copyright 2004-2007 California Institute of Technology (USA) and
-##                     University of Hertfordshire (UK).
+##
+## Copyright (C) 2010-2011 jointly by the following organizations: 
+##     1. California Institute of Technology, Pasadena, CA, USA
+##     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK.
+##
+## Copyright (C) 2008-2009 California Institute of Technology (USA).
+##
+## Copyright (C) 2004-2007 jointly by the following organizations:
+##     1. California Institute of Technology (USA) and
+##     2. University of Hertfordshire (UK).
 ## 
 ## The SBML Test Suite is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU Lesser General Public License as
