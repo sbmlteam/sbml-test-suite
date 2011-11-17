@@ -5,7 +5,7 @@ synopsis:      A very simple reaction with stoichiometry set by an initialAssign
 componentTags: Parameter, Species, InitialAssignment
 testTags:      Amount, AssignedConstantStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
 
  This model contains a single rule:

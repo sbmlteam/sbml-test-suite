@@ -2,8 +2,8 @@
 
 category:      Test
 synopsis:      A very simple reaction with stoichiometry changed by an event.
-componentTags: Parameter, Species, RateRule
-testTags:      Amount, AssignedStoichiometry
+componentTags: Parameter, Species, Compartment, RateRule
+testTags:      Amount, AssignedVariableStoichiometry
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic
