@@ -31,7 +31,7 @@
         <trigger initialValue="true" persistent="true">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <eq/>
+              <geq/>
               <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
               <cn> 0.99 </cn>
             </apply>
