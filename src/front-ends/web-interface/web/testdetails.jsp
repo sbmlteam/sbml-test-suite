@@ -168,7 +168,7 @@ String testdir    = getServletContext().getRealPath("/test-cases");
 TestCase thisCase = new TestCase(testdir, testName);
 %>
     <style type='text/css'>
-    table { margin: 1em auto 1em 5em; width: 75% !important}
+    table { margin: 1em auto; width: 75% !important}
     table td, th { font-size: 9pt; padding: 0.25em; }
     h2 { display: block; border-bottom: 1px solid #ccc; padding: 4px 0px; width: 100%; }
     </style>
@@ -234,7 +234,7 @@ else
 
     The following is a plot of the <b>expected</b> results:</p>
     
-    <center><img style="margin-left: -80px; margin-bottom: 1em" 
+    <center><img style="margin: 1em auto 3em -50px" 
         src="<%=OnlineSTS.getServiceRootURL(request)%>/test-cases/<%=testName%>/<%=thisCase.getPlotFileName()%>"
         align="center" alt="plot"> 
     </center>
