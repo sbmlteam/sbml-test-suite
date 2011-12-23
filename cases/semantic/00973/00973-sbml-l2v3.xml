@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level2/version3" level="2" version="3">
-  <model id="case00993" name="case00993">
+  <model id="case00973" name="case00973">
     <listOfCompartments>
       <compartment sboTerm="SBO:0000410" id="default_compartment" size="1"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="X" compartment="default_compartment" initialConcentration="1"/>
+      <species id="X" compartment="default_compartment" initialConcentration="0"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter id="p1" constant="false"/>
-      <parameter id="k1" value="1"/>
+      <parameter id="k1" value="1" constant="false"/>
+      <parameter id="parameterId_0" constant="false"/>
     </listOfParameters>
     <listOfRules>
-      <algebraicRule>
+      <rateRule variable="parameterId_0">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <apply>
-            <minus/>
-            <ci> X </ci>
-            <ci> p1 </ci>
-          </apply>
+          <cn> 0.01 </cn>
         </math>
-      </algebraicRule>
+      </rateRule>
     </listOfRules>
     <listOfReactions>
       <reaction id="J0" fast="false">
@@ -28,7 +24,7 @@
           <speciesReference id="Xref" species="X">
             <stoichiometryMath>
               <math xmlns="http://www.w3.org/1998/Math/MathML">
-                <ci> p1 </ci>
+                <ci> parameterId_0 </ci>
               </math>
             </stoichiometryMath>
           </speciesReference>

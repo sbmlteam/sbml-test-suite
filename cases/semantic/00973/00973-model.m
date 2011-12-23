@@ -1,34 +1,40 @@
-(* 
+(*
 
 category:      Test
-synopsis:      A very simple reaction with stoichiometry changed by an event.
-componentTags: Parameter, Species, Compartment, RateRule
+synopsis:      A very simple reaction with stoichiometry changed by a rate rule.
+componentTags: Compartment, Parameter, RateRule, Reaction, Species
 testTags:      Amount, AssignedVariableStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
 
- This model contains a single rule:
+Over the course of the simulation, the stoichiometry 'Xref' changes at a rate of 0.01/time, so the effective rate of synthesis increases as well, identically to the same model with k1 changing instead of Xref.  The Level 2 versions of this test create a new parameter 'parameterId_0' which functions identically to 'Xref' in the Level 3 version of the model.
+
+The model contains:
+* 1 species (X)
+* 1 parameter (k1)
+* 1 compartment (default_compartment)
+
+There is one reaction:
+
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-|  -> nX | $k1$  |]
+| -> Xref X | $k1$ |]
+Note:  the following stoichiometries are set separately:  Xref
 
- Where 'n' is a speciesReference (actually 'Xref'), and has a 'stoichiometry' value of '1'one in the speciesReference in the reaction itself.
 
- Over the course of the simulation, Xref changes at a rate of 0.01/time, so the effective rate of synthesis increases as well, identically to the same model with k1 changing instead of Xref.
+There is one rule:
 
- The rate rule is:
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+| Rate | Xref | $0.01$ |]
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*         |
- | Rate                                 | Xref           | $0.01$  |]
-
- 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*       |
-|Initial amount of X        |$0$                  |
-|Value of parameter k1       |$1$          |
-|Volume of compartment default_compartment     |$1$             |]
+[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+| Initial concentration of species X | $0$ | variable |
+| Initial value of parameter k1 | $1$ | variable |
+| Initial volume of compartment 'default_compartment' | $1$ | constant |]
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
+
 *)

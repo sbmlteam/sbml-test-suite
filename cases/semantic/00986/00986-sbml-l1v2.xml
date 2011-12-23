@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v2.1-beta on 2011-11-16 14:28 with libSBML version 5.1.0-b0. -->
 <sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="2">
   <model name="case00986">
     <listOfCompartments>
@@ -20,7 +19,7 @@
         </listOfProducts>
         <kineticLaw formula="1 * A"/>
       </reaction>
-      <reaction name="slow" fast="false">
+      <reaction name="slow">
         <listOfReactants>
           <speciesReference species="B"/>
         </listOfReactants>
