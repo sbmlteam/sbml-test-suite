@@ -2,9 +2,6 @@
 <!-- Created by libAntimony version v1.4 on 2011-02-17 15:24 with libSBML version 4.2.0. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
   <model id="case00978" name="case00978">
-    <listOfCompartments>
-      <compartment id="default_compartment" size="1" constant="true" sboTerm="SBO:0000410"/>
-    </listOfCompartments>
     <listOfParameters>
       <parameter id="multitrig" value="0" constant="false"/>
       <parameter id="x" value="0" constant="false"/>

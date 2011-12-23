@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v2.1-beta on 2011-11-21 12:13 with libSBML version 5.1.0-b0. -->
 <sbml xmlns="http://www.sbml.org/sbml/level2" level="2" version="1">
   <model id="case00988" name="case00988">
     <listOfCompartments>
-      <compartment id="default_compartment" size="1"/>
       <compartment id="comp" size="1"/>
     </listOfCompartments>
     <listOfSpecies>

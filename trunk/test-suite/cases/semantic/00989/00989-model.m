@@ -1,26 +1,40 @@
-(* 
+(*
 
 category:      Test
- synopsis:      A simple reaction with stoichiometry the same as its species.  For convenience, another reaction is present with the same kinetics, as the species is used in the kinetic law instead.
-componentTags: Parameter, Species, Compartment
+synopsis:      A simple reaction with stoichiometry the same as its species.  For convenience, another reaction is present with the same kinetics, as the species is used in the kinetic law instead.
+componentTags: AssignmentRule, Compartment, Parameter, Reaction, Species
 testTags:      Amount, AssignedVariableStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
 
- This model contains two rules that do the same thing:
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-|  -> nX | $k1$  |
-|  -> Y | $Y*k1$  |]
-
-  Where 'n' is a speciesReference (actually 'Xref') that is set equal to X itself (or StoichiometryMath that does the same thing for level 2 models), for a sort of auto-catalytic reaction.  A parallel reaction is provided that will mechanically do exactly the same thing though the kinetic law, for error-checking purposes.
+ This model contains two reactions that do the same thing, one by having a kinetic law that varies with the produced species, and the other by having a variable stoichiometry set to equal the produced species, for a sort of auto-catalytic reaction.
  
+
+The model contains:
+* 2 species (X, Y)
+* 1 parameter (k1)
+* 1 compartment (default_compartment)
+
+There are 2 reactions:
+
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| -> Xref X | $k1$ |
+| -> Y | $k1 * Y$ |]
+Note:  the following stoichiometries are set separately:  Xref
+
+
+There is one rule:
+
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+| Assignment | Xref | $X$ |]
+
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*       |
-|Initial amount of X        |$1$                  |
-|Initial amount of Y        |$1$                  |
-|Value of parameter k1       |$1$          |
-|Volume of compartment default_compartment     |$1$             |]
+[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+| Initial amount of species X | $1$ | variable |
+| Initial amount of species Y | $1$ | variable |
+| Initial value of parameter k1 | $1$ | constant |
+| Initial volume of compartment 'default_compartment' | $1$ | constant |]
 
 *)

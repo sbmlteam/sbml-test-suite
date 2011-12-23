@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v2.1-beta on 2011-11-21 16:31 with libSBML version 5.1.0-b0. -->
 <sbml xmlns="http://www.sbml.org/sbml/level2" level="2" version="1">
   <model id="case00993" name="case00993">
     <listOfCompartments>
@@ -27,9 +26,6 @@
       <reaction id="J0" fast="false">
         <listOfProducts>
           <speciesReference species="X">
-            <annotation>
-              <layoutId xmlns="http://projects.eml.org/bcb/sbml/level2" id="Xref"/>
-            </annotation>
             <stoichiometryMath>
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <ci> p1 </ci>

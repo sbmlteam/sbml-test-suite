@@ -1,28 +1,40 @@
-(* 
+(*
 
 category:      Test
 synopsis:      A very simple reaction with stoichiometry changed by an event.
-componentTags: Parameter, Species, EventNoDelay
+componentTags: Compartment, EventNoDelay, Parameter, Reaction, Species
 testTags:      Amount, AssignedVariableStoichiometry
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic
 
- This model contains a single rule:
+An event watches to see when X goes above 5.  When it does, the stoichiometry of the reaction producing X jumps to 3, increasing X production.
+
+The model contains:
+* 1 species (X)
+* 1 parameter (k1)
+* 1 compartment (default_compartment)
+
+There is one reaction:
+
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-|  -> nX | $k1$  |]
+| -> Xref X | $k1$ |]
+Note:  the following stoichiometries are set separately:  Xref
 
- Where 'n' is a speciesReference (actually 'Xref'), and has a 'stoichiometry' value of '1'one in the speciesReference in the reaction itself.
 
- When X goes over 5, however, this stoichiometry increases to 3 through an event.
- 
+There is one event:
+
+[{width:30em,margin-left:5em}|  *Event*  |  *Trigger*  | *Event Assignments* |
+| _E0 | $geq(X, 5)$ | $Xref = 3$ |]
+
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*       |
-|Initial amount of X        |$0$                  |
-|Value of parameter k1       |$1$          |
-|Volume of compartment default_compartment     |$1$             |]
+[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+| Initial concentration of species X | $0$ | variable |
+| Initial value of parameter k1 | $1$ | constant |
+| Initial volume of compartment 'default_compartment' | $1$ | constant |]
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
+
 *)

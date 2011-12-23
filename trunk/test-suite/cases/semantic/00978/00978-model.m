@@ -1,10 +1,10 @@
-(* 
+(*
 
 category:      Test
 synopsis:      Several events conspire within the same time step to trigger three events multiple times, with different outcomes.
-componentTags: EventNoDelay, EventPriority, Parameter, CSymbolTime
-testTags:      EventIsPersistent, EventIsNotPersistent
-testType:      TimeCourse, UseValuesFromTriggerTime
+componentTags: CSymbolTime, EventNoDelay, EventPriority, Parameter
+testTags:      EventIsNotPersistent, EventIsPersistent, EventUsesAssignmentTimeValues, EventUsesTriggerTimeValues, NonConstantParameter
+testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic
 
@@ -17,7 +17,7 @@ multiple times, but each time uses the value of y from the time it first trigger
 that y gets reset to one four times.
 
 The third is set 'persistent=false' and 'useValuesFromTriggerTime=false',
-and sets z=z+1, meaning that every time it triggers, it has the potential to increase y
+and sets z=z+1, meaning that every time it triggers, it has the potential to increase z
 by one, but if multitrig drops below 1 again, it will not actually do so.  In the end,
 it only executes a single time.
 
@@ -31,11 +31,34 @@ zero to one.
 
 For a different view of this model, see 00978-antimony.txt
 
+The model contains:
+* 4 parameters (multitrig, x, y, z)
+
+There are 12 events:
+
+[{width:45em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  |  *Use values from:*  | *Event Assignments* |
+| _E0 | $geq(time, 0.99)$ | $10$ | true | Trigger time | $multitrig = 2$ |
+| _E1 | $geq(time, 0.99)$ | $9$ | true | Trigger time | $multitrig = 0$ |
+| _E2 | $geq(time, 0.99)$ | $8$ | true | Trigger time | $multitrig = 2$ |
+| _E3 | $geq(time, 0.99)$ | $7$ | true | Trigger time | $multitrig = 0$ |
+| _E4 | $geq(time, 0.99)$ | $6$ | true | Trigger time | $multitrig = 2$ |
+| _E5 | $geq(time, 0.99)$ | $5$ | true | Trigger time | $multitrig = 0$ |
+| _E6 | $geq(time, 0.99)$ | $4$ | true | Trigger time | $multitrig = 2$ |
+| _E7 | $geq(time, 0.99)$ | $3$ | true | Trigger time | $multitrig = 0$ |
+| _E8 | $geq(time, 0.99)$ | $2$ | true | Trigger time | $multitrig = 2$ |
+| _E9 | $gt(multitrig, 1)$ | $1$ | true | Assignment time | $x = x + 1$ |
+| _E10 | $gt(multitrig, 1)$ | $1$ | true | Trigger time | $y = y + 1$ |
+| _E11 | $gt(multitrig, 1)$ | $1$ | false | Assignment time | $z = z + 3$ |]
+
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*       |
-|Value of parameter x       |$0$          |
-|Value of parameter y       |$0$          |
-|Value of parameter multitrig    |$0$          |]
+[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+| Initial value of parameter multitrig | $0$ | variable |
+| Initial value of parameter x | $0$ | variable |
+| Initial value of parameter y | $0$ | variable |
+| Initial value of parameter z | $0$ | variable |]
+
+Note: The test data for this model was generated from an analytical
+solution of the system of equations.
 
 *)

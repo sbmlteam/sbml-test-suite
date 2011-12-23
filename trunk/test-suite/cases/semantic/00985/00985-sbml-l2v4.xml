@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v2.1-beta on 2011-11-18 10:09 with libSBML version 5.1.0-b0. -->
 <sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
   <model id="case00984" name="case00984">
-    <listOfCompartments>
-      <compartment sboTerm="SBO:0000410" id="default_compartment" size="1"/>
-    </listOfCompartments>
     <listOfParameters>
       <parameter id="z" constant="false"/>
       <parameter id="x" value="0" constant="false"/>

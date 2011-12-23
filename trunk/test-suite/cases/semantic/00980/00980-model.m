@@ -1,28 +1,35 @@
-(* 
+(*
 
 category:      Test
 synopsis:      Two event where the two event assignments should not interfere with each other. 
-componentTags: EventWithDelay, Parameter, CSymbolTime
-testTags:      NonConstantParameter
+componentTags: CSymbolTime, Compartment, EventDelay, Parameter
+testTags:      EventUsesAssignmentTimeValues, NonConstantParameter
 testType:      TimeCourse
 levels:        2.4, 3.1
 generatedBy:   Analytic
 
  This model contains two events that trigger when time > 0.98 and 0.99.  In each, there is on event assignment that changes the value of a parameter, and a second event assignment that uses that parameter to change the value of a second parameter.  However, the second event assignment should not use the changed value from the first parameter, but rather the value it had at the beginning of event assignment.  (This is true regardless of the value of 'useValuesFromTriggerTime', but the value of that flag here happens to be false.  In order to test this in l2v4, there had to be a delay.)
 
+The model contains:
+* 4 parameters (x, y, p, q)
+
+There are 2 events:
+
+[{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Use values from:*  |  *Delay*  | *Event Assignments* |
+| _E0 | $geq(time, 0.98)$ | Assignment time | $0.1$ | $y = y + x$ |
+|  |  |  |  | $x = 2$ |
+| _E1 | $geq(time, 0.99)$ | Assignment time | $0.1$ | $p = 3$ |
+|  |  |  |  | $q = p + 1$ |]
+
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*       |
-|Value of parameter x       |$0$          |
-|Value of parameter y       |$0$          |
-|Value of parameter p       |$0$          |
-|Value of parameter q       |$0$          |]
+[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+| Initial value of parameter x | $0$ | variable |
+| Initial value of parameter y | $0$ | variable |
+| Initial value of parameter p | $0$ | variable |
+| Initial value of parameter q | $0$ | variable |]
 
-The events are:
-
-[{width:30em,margin-left:5em}| | *Trigger*   | *Delay* | *Assignments* |
- | _E0 | $time >= 0.98$ | $0.1$  | $x = 2, y = y + x$      |
- | _E1 | $time >= 0.99$ | $0.1$  | $q = p + 1, p = 3$      |]
-
+Note: The test data for this model was generated from an analytical
+solution of the system of equations.
 
 *)

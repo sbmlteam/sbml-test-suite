@@ -1,35 +1,43 @@
-(* 
+(*
 
 category:      Test
 synopsis:      A very simple reaction whose stoichiometry is referenced in other math.
-componentTags: Parameter, Species, RateRule, InitialAssignment, AssignmentRule
-testTags:      Amount, AssignedConstantStoichiometry
+componentTags: AssignmentRule, Compartment, InitialAssignment, Parameter, RateRule, Reaction, Species
+testTags:      Amount, InitialValueReassigned, NonConstantParameter, AssignedConstantStoichiometry
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic
 
- This model contains a single rule:
+The reaction in this model has a speciesReference which doesn't change, but is used in various other equations and rules in the model.
+
+The model contains:
+* 1 species (X)
+* 4 parameters (Y, Z, Q, k1)
+* 1 compartment (default_compartment)
+
+There is one reaction:
+
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-|  -> nX | $k1$  |]
+| -> X | $k1$ |]
 
- Where 'n' is a speciesReference (actually 'Xref'), and has a 'stoichiometry' value of '1'one in the speciesReference in the reaction itself.
 
- Three other parameters reference this stoichiometry in their own math:  Y has a rateRule of Xref, Z has an assignmentRule of Xref, and Q has an initialAssignment of Xref. Y, Z, and Q all have 'value="0"' in their definitions, to ensure that this is being appropriately overridden.
+There are 2 rules:
 
- The rules are:
-
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*         |
- | Rate                                 | Y           | $Xref$  |
- | Assignment                                 | Z           | $Xref$  |]
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+| Rate | Y | $Xref$ |
+| Assignment | Z | $Xref$ |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*       |
-|Initial amount of X        |$0$                  |
-|Value of parameter k1       |$1$          |
-|Value of parameter Q        |$Xref$          |
-|Volume of compartment default_compartment     |$1$             |]
+[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+| Initial concentration of species X | $0$ | variable |
+| Initial value of parameter Q | $Xref$ | constant |
+| Initial value of parameter k1 | $1$ | constant |
+| Initial value of parameter Y | $Xref$ | variable |
+| Initial value of parameter Z | $Xref$ | variable |
+| Initial volume of compartment 'default_compartment' | $1$ | constant |]
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
+
 *)
