@@ -6,11 +6,28 @@
         <p> Originally created by libAntimony 1.4 (using libSBML 5.0.0-a1) </p>
       </body>
     </notes>
+    <listOfUnitDefinitions>
+      <unitDefinition id="volume">
+        <listOfUnits>
+          <unit kind="litre"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="substance">
+        <listOfUnits>
+          <unit kind="mole"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="time">
+        <listOfUnits>
+          <unit kind="second"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
     <listOfCompartments>
-      <compartment id="default_compartment" size="1"/>
+      <compartment id="default_compartment" size="1" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="x" compartment="default_compartment"/>
+      <species id="x" compartment="default_compartment" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="y" constant="false"/>
@@ -49,7 +66,7 @@
       </assignmentRule>
     </listOfRules>
     <listOfReactions>
-      <reaction id="_J0">
+      <reaction id="_J0" fast="false">
         <listOfProducts>
           <speciesReference species="x"/>
         </listOfProducts>

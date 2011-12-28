@@ -1,4 +1,4 @@
-(* 
+(*
 
 category:      Test
 synopsis:      Three constant parameters, with initial values of inf, -inf, and NaN.
@@ -8,16 +8,18 @@ testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
 
- The model contains three parameters P, Q, and R. They are set to INF, -INF, and NaN, respectively, and don't change.
+This model tests the INF and NaN constructs.
 
-The initial condition is as follows:
+The model contains:
+* 3 parameters (P, Q, R)
+The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*|
-|Value of parameter P          |$INF$  |
-|Value of parameter P          |$-INF$  |
-|Value of parameter P          |$NaN$  |]
+[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+| Initial value of parameter P | $INF$ | constant |
+| Initial value of parameter Q | $-INF$ | constant |
+| Initial value of parameter R | $NaN$ | constant |]
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
-*)
 
+*)

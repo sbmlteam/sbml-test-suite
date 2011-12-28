@@ -1,37 +1,42 @@
-(* 
+(*
 
 category:      Test
-synopsis:      Basic one reaction with one species in one compartment
-               and one event, assigning to a parameter.
-componentTags: Compartment, Species, Reaction, Parameter, EventNoDelay, 
-testTags:      Amount, NonConstantCompartment, NonUnityCompartment, NonConstantParameter
+synopsis:      Basic one reaction with one species in one compartment and one event, assigning to a parameter.
+componentTags: Compartment, EventNoDelay, Parameter, Reaction, Species
+testTags:      Amount, NonConstantCompartment, NonUnityCompartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
 
-The model contains one compartment called C.  There is one species
-called S1 and one parameter called k1.  The model
-contains one reaction defined as:
+Test of an event changing the size of a compartment.
+
+The model contains:
+* 1 species (S1)
+* 1 parameter (k1)
+* 1 compartment (C)
+
+There is one reaction:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-| -> S1 | $k1 * C / S1$  |]
+| -> S1 | $C * k1 / S1$ |]
+
 
 The model contains one event that assigns a value to the compartment C:
 
-[{width:30em,margin-left:5em}| | *Trigger*   | *Delay* | *Assignments* |
- | Event1                      | $S1 > 2.1$ | $-$     | $C = 10$      |]
+[{width:30em,margin-left:5em}|  *Event*  |  *Trigger*  | *Event Assignments* |
+| event1 | $gt(S1, 2.1)$ | $C = 10$ |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*|
-|Initial amount of S1          |$1.0$  |
-|Value of parameter k1         |$1.0$  |
-|Volume of compartment C       |$1$    |]
+[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+| Initial amount of species S1 | $1$ | variable |
+| Initial value of parameter k1 | $1$ | constant |
+| Initial volume of compartment 'C' | $1$ | variable |]
 
-The species values are given as amounts of substance to make it easier to
-use the model in a discrete stochastic simulator, but (as per usual SBML
-principles) their symbols represent their values in concentration units
-where they appear in expressions.
+The species' initial quantities are given in terms of substance units to
+make it easier to use the model in a discrete stochastic simulator, but
+their symbols represent their values in concentration units where they
+appear in expressions.
 
 *)
 
@@ -45,3 +50,6 @@ addReaction[ -> S1, reversible -> False,
 addEvent[ trigger -> S1 < 0.75, eventAssignment -> C->10 ];
 
 makemodel[]
+
+
+*/

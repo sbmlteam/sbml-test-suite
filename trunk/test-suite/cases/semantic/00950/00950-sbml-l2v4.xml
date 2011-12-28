@@ -6,9 +6,6 @@
         <p> Originally created by libAntimony v1.4 (using libSBML 5.0.0-a1) </p>
       </body>
     </notes>
-    <listOfCompartments>
-      <compartment sboTerm="SBO:0000410" id="default_compartment" size="1"/>
-    </listOfCompartments>
     <listOfParameters>
       <parameter id="P" value="0"/>
       <parameter id="Q" value="0"/>
@@ -22,7 +19,10 @@
       </initialAssignment>
       <initialAssignment symbol="Q">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <apply> <minus/> <infinity/> </apply>
+          <apply>
+            <minus/>
+            <infinity/>
+          </apply>
         </math>
       </initialAssignment>
       <initialAssignment symbol="R">

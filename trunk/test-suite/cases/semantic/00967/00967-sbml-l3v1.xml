@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
   <model id="case00967" name="case00967">
-    <listOfCompartments>
-      <compartment sboTerm="SBO:0000410" id="default_compartment" size="1" constant="true"/>
-    </listOfCompartments>
     <listOfParameters>
       <parameter id="reset" value="0" constant="false"/>
       <parameter id="Q" value="0" constant="false"/>

@@ -1,26 +1,31 @@
-(* 
+(*
 
 category:      Test
 synopsis:      Two oscillators; one that echoes the first by a delay.
-componentTags: Compartment, Parameter, AssignmentRule, CSymbolDelay, CSymbolTime
+componentTags: AssignmentRule, CSymbolDelay, CSymbolTime, Parameter
 testTags:      NonConstantParameter
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
 
-The model contains one compartment called "default_compartment".  
+The model contains one parameter (x) that oscillates (from the 'sin' function), and a second parameter (y) that echoes the first after a 0.2 second delay.
 
- The model contains one parameter (x) that oscillates (from the 'sin' function), and a second parameter (y) that echoes the first after a 0.2 second delay.
+The model contains:
+* 2 parameters (x, y)
+
+There are 2 rules:
+
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+| Assignment | x | $sin(10 * time)$ |
+| Assignment | y | $2 + delay(x, 0.2)$ |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|               |*Value*          |
-|Initial value of x                          |$0$              |
-|Initial value of y                          |$1.090703$       |
-|Volume of compartment "default_compartment" |$1$              |]
+[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+| Initial value of parameter x | $sin(10 * time)$ | variable |
+| Initial value of parameter y | $2 + delay(x, 0.2)$ | variable |]
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
-

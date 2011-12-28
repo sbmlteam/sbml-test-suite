@@ -1,32 +1,35 @@
-(* 
+(*
 
 category:      Test
-synopsis:      Competing events with the same priority, jointly causing a parameter to monotonically increase, checking to make sure one event doesn't severly out-compete the other.  NOTE:  STOCHASTIC TEST. This test is designed to fail only one time in a million, but it still may happen.
-componentTags: Parameter, EventNoDelay, EventPriority, AssignmentRule, CSymbolTime
-testTags:      EventIsNotPersistent, RandomEventExecution
+synopsis:      Competing events with alternating priorities, so one fires for 5 seconds, then the other fires for the next 5 seconds.
+componentTags: CSymbolTime, EventNoDelay, EventPriority, Parameter
+testTags:      NonConstantParameter, EventIsNotPersistent, RandomEventExecution
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic
 
-This model contains two events with the same trigger, the same priority, both set 'persistent=false', and both of which disable the trigger of the other.  This means that every .01 seconds, one fires and the other does not, at random, and increases the parameters Q or R, respectively.  A third parameter, S, is assigned the value of Q+R, meaning that it doesn't matter which one fires; S will increase monotonically.  A final parameter, 'error' checks to make sure neither Q nor R are chosen more frequently than the other--if the difference gets higher than 4, it triggers. In our simulations, this happened less often than one time in a million, so if you see it happen in your simulator more often than once, there's a good chance something is wrong.
+This model contains two events with the same trigger, both set 'persistent=false', and both of which disable the trigger of the other.  This means that every .01 seconds, one fires and the other does not.  One has the priority 'time' and the other the priority '5.001', meaning that for the first 5 seconds, one fires, and for the next 5 seconds, the other fires.
  
-The events are:
 
-[{width:30em,margin-left:5em}| | *Trigger*   | *Delay* | *Assignments* |
- | Qinc | $time - reset >= 0.01$ | $-$  | $Q = Q + 0.01, reset = time$      |
- | Rinc | $time - reset >= 0.01$ | $-$  | $R = R + 0.01, reset = time$      |
- | error_check  | abs(Q-R) >= 4$ | $-$  | $error = 1$      |]
+The model contains:
+* 3 parameters (reset, Q, R)
 
+There are 2 events:
 
- The initial conditions are as follows:
+[{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  | *Event Assignments* |
+| Qinc | $geq(time - reset, 0.01)$ | $time$ | false | $reset = time$ |
+|  |  |  |  | $Q = Q + 0.01$ |
+| Rinc | $geq(time - reset, 0.01)$ | $5.001$ | false | $reset = time$ |
+|  |  |  |  | $R = R + 0.01$ |]
 
-[{width:30em,margin-left:5em}| |*Value*|
-|Value of parameter Q          |$0$  |
-|Value of parameter R          |$0$  |
-|Value of parameter S          |$0$  |
-|Value of parameter reset      |$0$  |
-|Value of parameter error      |$0$  |]
+The initial conditions are as follows:
+
+[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+| Initial value of parameter reset | $0$ | variable |
+| Initial value of parameter Q | $0$ | variable |
+| Initial value of parameter R | $0$ | variable |]
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
+
 *)

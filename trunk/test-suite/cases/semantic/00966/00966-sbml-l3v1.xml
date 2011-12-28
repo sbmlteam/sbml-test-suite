@@ -284,9 +284,6 @@
         </math>
       </functionDefinition>
     </listOfFunctionDefinitions>
-    <listOfCompartments>
-      <compartment sboTerm="SBO:0000410" id="default_compartment" size="1" constant="true"/>
-    </listOfCompartments>
     <listOfParameters>
       <parameter id="S" value="0" constant="false"/>
       <parameter id="Q" value="0" constant="false"/>

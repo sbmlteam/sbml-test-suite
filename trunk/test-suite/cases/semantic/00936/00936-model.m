@@ -1,28 +1,38 @@
-(* 
+(*
 
 category:      Test
 synopsis:      Limited-time oscillation that triggers a delayed event three times before the first one executes.
-componentTags: Compartment, Species, EventWithDelay
-testTags:      Concentration, EventUsesAssignmentTimeValues, EventIsPersistent
+componentTags: AssignmentRule, CSymbolTime, Compartment, EventDelay, Species
+testTags:      Concentration, BoundaryCondition, EventIsPersistent, EventUsesAssignmentTimeValues, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.4, 3.1
 generatedBy:   Analytic
 
-The model contains one compartment called "default_compartment".  There are two
-species called S1 and S2. 
-
-
  The model contains one species (S1) that oscillates (from the 'sin' function) for two seconds, then stops.  During that oscillation, the single event is triggered three times with a delay of two seconds each, increasing the value of the second species (S2) by one each time.  As 'useValuesFromTriggerTime' is false, this means that first S1 oscillates, then S2 steps up three times.
+
+The model contains:
+* 2 species (S1, S2)
+* 1 compartment (default_compartment)
+
+There is one event:
+
+[{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Use values from:*  |  *Delay*  | *Event Assignments* |
+| _E0 | $lt(S1, 0)$ | Assignment time | $2$ | $S2 = S2 + 1$ |]
+
+
+There is one rule:
+
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+| Assignment | S1 | $piecewise(sin(time * 10), leq(time, 2), 1)$ |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |
-|Initial concentration of S1                |$0$  |
-|Initial concentration of S2                |$0$              |
-|Volume of compartment "default_compartment" |$1$              |]
+[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+| Initial concentration of species S1 | $piecewise(sin(time * 10), leq(time, 2), 1)$ | variable |
+| Initial concentration of species S2 | $0$ | variable |
+| Initial volume of compartment 'default_compartment' | $1$ | constant |]
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
-

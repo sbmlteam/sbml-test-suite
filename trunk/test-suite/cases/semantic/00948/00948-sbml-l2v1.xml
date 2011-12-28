@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v1.4 on 2011-02-10 00:29 with libSBML version 5.0.0-b1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level2" level="2" version="1">
   <model id="case00948" name="case00948">
     <listOfCompartments>
