@@ -5,7 +5,7 @@ synopsis:      Four different ways of writing the avogadro number in an assignme
 componentTags: AssignmentRule, CSymbolAvogadro, Parameter
 testTags:      NonConstantParameter
 testType:      TimeCourse
-levels:        
+levels:        3.1
 generatedBy:   Analytic
 
 The model assigns avogadro's number as a csymbol to four parameters in an assignment rule.  It tries to fool you by calling two of them 'time' and 'delay', and by not giving one a name at all.
