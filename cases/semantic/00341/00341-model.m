@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Two reactions and a rate rule with four species in a compartment. 
 componentTags: Compartment, Species, Reaction, Parameter, RateRule
 testTags:      Amount, BoundaryCondition
-testtype:      TimeCourse
+testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
 
