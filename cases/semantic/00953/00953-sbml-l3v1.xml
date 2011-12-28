@@ -18,9 +18,6 @@
         </listOfUnits>
       </unitDefinition>
     </listOfUnitDefinitions>
-    <listOfCompartments>
-      <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" units="volume" constant="true"/>
-    </listOfCompartments>
     <listOfParameters>
       <parameter id="S" constant="false"/>
       <parameter id="Q" value="0" constant="false"/>

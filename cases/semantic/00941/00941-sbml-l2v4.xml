@@ -6,9 +6,18 @@
         <p> Originally created by libAntimony 1.4 (using libSBML 5.0.0-a1) </p>
       </body>
     </notes>
-    <listOfCompartments>
-      <compartment id="default_compartment" size="1"/>
-    </listOfCompartments>
+    <listOfUnitDefinitions>
+      <unitDefinition id="volume">
+        <listOfUnits>
+          <unit kind="litre"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="time">
+        <listOfUnits>
+          <unit kind="second"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
     <listOfParameters>
       <parameter id="y" value="2.958924275" constant="false"/>
       <parameter id="x" value="0"/>

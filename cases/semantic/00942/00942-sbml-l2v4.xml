@@ -6,14 +6,31 @@
         <p> Originally created by libAntimony 1.4 (using libSBML 5.0.0-a1) </p>
       </body>
     </notes>
+    <listOfUnitDefinitions>
+      <unitDefinition id="volume">
+        <listOfUnits>
+          <unit kind="litre"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="substance">
+        <listOfUnits>
+          <unit kind="mole"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="time">
+        <listOfUnits>
+          <unit kind="second"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
     <listOfCompartments>
-      <compartment sboTerm="SBO:0000410" id="default_compartment" size="1"/>
+      <compartment id="default_compartment" size="1" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="x" compartment="default_compartment" initialAmount="0" constant="true"/>
+      <species id="x" compartment="default_compartment" initialAmount="0" substanceUnits="substance" constant="true"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter id="y" constant="false" value="2.958924275"/>
+      <parameter id="y" value="2.958924275" constant="false"/>
     </listOfParameters>
     <listOfInitialAssignments>
       <initialAssignment symbol="x">

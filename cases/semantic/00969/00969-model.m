@@ -1,26 +1,39 @@
-(* 
+(*
 
 category:      Test
 synopsis:      A very simple reaction with stoichiometry set by an initialAssignment.
-componentTags: Parameter, Species, InitialAssignment
+componentTags: Compartment, InitialAssignment, Parameter, Reaction, Species
 testTags:      Amount, AssignedConstantStoichiometry
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic
 
- This model contains a single rule:
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-|  -> nX | $k1$  |]
+The speciesReference ('Xref') is set with an initialAssignment of 3.  A 'stoichiometry' value is provided in the speciesReference in the reaction itself of '1'.  This should be replaced by the value in the initialAssignment.
 
- Where 'n' is a speciesReference (actually 'Xref') with an initialAssignment of 3.  A 'stoichiometry' value is provided in the speciesReference in the reaction itself of '1'.  This should be replaced by the value in the initialAssignment.
- 
+The model contains:
+* 1 species (X)
+* 1 parameter (k1)
+* 1 compartment (default_compartment)
+
+There is one reaction:
+
+[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+| -> Xref X | $k1$ |]
+Note:  the following stoichiometries are set separately:  Xref
+
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*       |
-|Initial amount of X        |$0$                  |
-|Value of parameter k1       |$1$          |
-|Volume of compartment default_compartment     |$1$             |]
+[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+| Initial amount of species X | $0$ | variable |
+| Initial value of parameter k1 | $1$ | constant |
+| Initial volume of compartment 'default_compartment' | $1$ | constant |]
+
+The species' initial quantities are given in terms of substance units to
+make it easier to use the model in a discrete stochastic simulator, but
+their symbols represent their values in concentration units where they
+appear in expressions.
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
+
 *)

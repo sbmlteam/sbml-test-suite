@@ -1,31 +1,40 @@
-(* 
+(*
 
 category:      Test
 synopsis:       A constant species that nevertheless varies in its IntialAssignment, but is constant thereafter, being echoed by a parameter viewing it through a delay.
-componentTags: Compartment, Parameter, Species, InitialAssignment, AssignmentRule, CSymbolDelay
-testTags:      Amount, NonConstantParameter
+componentTags: AssignmentRule, CSymbolDelay, CSymbolTime, Compartment, InitialAssignment, Parameter, Species
+testTags:      Amount, ConstantSpecies, InitialValueReassigned, NonConstantParameter
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
 
- The model contains one compartment called "default_compartment".  There is a single constant species x whose InitialAssignment claims that it has been oscillating (the sine function) up until the start of the simulation, at which point it stops changing.  A parameter (y) echoes this species with a 0.5 second delay, meaning that it starts by 'seeing' the oscillations before flattening out.
+This model has a single constant species x whose InitialAssignment claims that it has been oscillating (the sine function) up until the start of the simulation, at which point it stops changing.  A parameter (y) echoes this species with a 0.5 second delay, meaning that it starts by 'seeing' the oscillations before flattening out.
+
+{Write general description of why you have created the model here.}
+
+The model contains:
+* 1 species (x)
+* 1 parameter (y)
+* 1 compartment (default_compartment)
+
+There is one rule:
+
+[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+| Assignment | y | $2 + delay(x, 0.5)$ |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |
-|Initial amount of x                |$0$  |
-|Initial amount of y                |$2.958924275$              |
-|Volume of compartment "default_compartment" |$1$              |]
+[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+| Initial concentration of species x | $1 * sin(10 * time)$ | constant |
+| Initial value of parameter y | $2 + delay(x, 0.5)$ | variable |
+| Initial volume of compartment 'default_compartment' | $1$ | constant |]
 
-
- 
-The species values are given as amounts of substance to make it easier to
-use the model in a discrete stochastic simulator, but (as per usual SBML
-principles) their symbols represent their values in concentration units
-where they appear in expressions.
+The species' initial quantities are given in terms of substance units to
+make it easier to use the model in a discrete stochastic simulator, but
+their symbols represent their values in concentration units where they
+appear in expressions.
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
-

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v1.4 on 2011-02-09 22:29 with libSBML version 5.0.0-b1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
   <model id="case00936" name="case00936">
     <listOfCompartments>
@@ -7,7 +6,7 @@
     </listOfCompartments>
     <listOfSpecies>
       <species id="S1" compartment="default_compartment" boundaryCondition="true"/>
-      <species id="S2" compartment="default_compartment" initialAmount="0"/>
+      <species id="S2" compartment="default_compartment" initialConcentration="0"/>
     </listOfSpecies>
     <listOfRules>
       <assignmentRule variable="S1">

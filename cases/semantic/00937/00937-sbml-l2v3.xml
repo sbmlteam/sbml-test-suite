@@ -6,9 +6,6 @@
         <p> Originally created by libAntimony 1.4 (using libSBML 5.0.0-a1) </p>
       </body>
     </notes>
-    <listOfCompartments>
-      <compartment sboTerm="SBO:0000410" id="default_compartment" size="1"/>
-    </listOfCompartments>
     <listOfParameters>
       <parameter id="x" constant="false"/>
       <parameter id="y" constant="false"/>
