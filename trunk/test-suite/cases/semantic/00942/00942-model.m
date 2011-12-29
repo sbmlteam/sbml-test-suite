@@ -10,8 +10,6 @@ generatedBy:   Analytic
 
 This model has a single constant species x whose InitialAssignment claims that it has been oscillating (the sine function) up until the start of the simulation, at which point it stops changing.  A parameter (y) echoes this species with a 0.5 second delay, meaning that it starts by 'seeing' the oscillations before flattening out.
 
-{Write general description of why you have created the model here.}
-
 The model contains:
 * 1 species (x)
 * 1 parameter (y)

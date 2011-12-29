@@ -2,7 +2,7 @@
 
 category:      Test
 synopsis:      Two events with different 'initialValue's, causing one to fire and one to not fire.
-componentTags: Compartment, EventNoDelay, EventPriority, Parameter
+componentTags: EventNoDelay, EventPriority, Parameter
 testTags:      EventT0Firing, NonConstantParameter
 testType:      TimeCourse
 levels:        3.1
