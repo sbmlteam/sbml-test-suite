@@ -50,8 +50,8 @@
       <parameter id="k2" name="k2" value="0.3" constant="true"/>
       <parameter id="p1" name="p1" value="1" constant="true"/>
     </listOfParameters>
-    <listOfRules>
-      <assignmentRule variable="generatedId_0">
+    <listOfInitialAssignments>
+      <initialAssignment symbol="generatedId_0">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
             <times/>
@@ -59,17 +59,17 @@
             <ci> p1 </ci>
           </apply>
         </math>
-      </assignmentRule>
-      <assignmentRule variable="generatedId_1">
+      </initialAssignment>
+      <initialAssignment symbol="generatedId_1">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
             <ci> multiply </ci>
             <ci> p1 </ci>
-            <cn> 2 </cn>
+            <cn type="integer"> 2 </cn>
           </apply>
         </math>
-      </assignmentRule>
-    </listOfRules>
+      </initialAssignment>
+    </listOfInitialAssignments>
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" reversible="false" fast="false">
         <listOfReactants>
@@ -96,8 +96,8 @@
           <speciesReference species="S3" stoichiometry="1" constant="true"/>
         </listOfReactants>
         <listOfProducts>
-          <speciesReference id="generatedId_0" species="S1" constant="false"/>
-          <speciesReference id="generatedId_1" species="S2" constant="false"/>
+          <speciesReference id="generatedId_0" species="S1" constant="true"/>
+          <speciesReference id="generatedId_1" species="S2" constant="true"/>
         </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
