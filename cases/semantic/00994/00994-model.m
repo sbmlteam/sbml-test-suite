@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A simple reaction with stoichiometry set to be equal to 'time'.
 componentTags: AssignmentRule, CSymbolTime, Compartment, Parameter, Reaction, Species
-testTags:      Amount, AssignedVariableStoichiometry
+testTags:      Amount, AssignedVariableStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
