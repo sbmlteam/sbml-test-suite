@@ -32,8 +32,8 @@
       <parameter id="k2" name="k2" value="2500" constant="true"/>
       <parameter id="p1" name="p1" value="0.5" constant="true"/>
     </listOfParameters>
-    <listOfRules>
-      <assignmentRule variable="generatedId_0">
+    <listOfInitialAssignments>
+      <initialAssignment symbol="generatedId_0">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
             <times/>
@@ -41,8 +41,8 @@
             <ci> p1 </ci>
           </apply>
         </math>
-      </assignmentRule>
-    </listOfRules>
+      </initialAssignment>
+    </listOfInitialAssignments>
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" reversible="false" fast="false">
         <listOfReactants>
@@ -50,7 +50,7 @@
           <speciesReference species="S2" stoichiometry="1" constant="true"/>
         </listOfReactants>
         <listOfProducts>
-          <speciesReference id="generatedId_0" species="S3" constant="false"/>
+          <speciesReference id="generatedId_0" species="S3" constant="true"/>
           <speciesReference species="S4" stoichiometry="1" constant="true"/>
         </listOfProducts>
         <kineticLaw>

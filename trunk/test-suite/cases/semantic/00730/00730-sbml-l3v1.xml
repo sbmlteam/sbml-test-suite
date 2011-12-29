@@ -51,7 +51,9 @@
           </apply>
         </math>
       </rateRule>
-      <assignmentRule variable="generatedId_0">
+    </listOfRules>
+    <listOfInitialAssignments>
+      <initialAssignment symbol="generatedId_0">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
             <times/>
@@ -59,12 +61,12 @@
             <ci> p1 </ci>
           </apply>
         </math>
-      </assignmentRule>
-    </listOfRules>
+      </initialAssignment>
+    </listOfInitialAssignments>
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" reversible="false" fast="false">
         <listOfReactants>
-          <speciesReference id="generatedId_0" species="S1" constant="false"/>
+          <speciesReference id="generatedId_0" species="S1" constant="true"/>
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="S2" stoichiometry="1" constant="true"/>
