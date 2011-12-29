@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with four species in a compartment whose 
                volume is varying.
 componentTags: Compartment, Species, Reaction, Parameter, RateRule 
-testTags:      Amount, NonConstantCompartment
+testTags:      Amount, NonConstantCompartment, NonUnityCompartment
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
