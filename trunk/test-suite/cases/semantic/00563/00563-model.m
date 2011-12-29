@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with four species in one compartment with
 an algebraic rule used to determine rate of change of one species.
 componentTags: Compartment, Species, Reaction, Parameter, AlgebraicRule 
-testTags:      Amount, AssignedConstantStoichiometry
+testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

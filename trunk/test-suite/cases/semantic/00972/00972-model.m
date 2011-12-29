@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A very simple reaction with stoichiometry changed by an event.
 componentTags: Compartment, EventNoDelay, Parameter, Reaction, Species
-testTags:      Amount, AssignedVariableStoichiometry
+testTags:      Amount, AssignedVariableStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic

@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Linear chain of reactions in one compartment 
 using csymbol time within a math expression.
 componentTags: Compartment, Species, Reaction, Parameter, CSymbolTime
-testTags:      Amount, AssignedConstantStoichiometry
+testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

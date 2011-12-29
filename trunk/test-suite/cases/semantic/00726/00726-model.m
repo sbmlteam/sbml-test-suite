@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      One reactions and two rate rules with four species in a compartment. 
 componentTags: Compartment, Species, Reaction, Parameter, RateRule 
-testTags:      Amount, AssignedConstantStoichiometry
+testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
