@@ -5,7 +5,7 @@ synopsis:      Several parameters with trigonometric assignment rules, testing v
 componentTags: AssignmentRule, CSymbolTime, Parameter
 testTags:      NonConstantParameter
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
 
  The model tests the various trigonometrical constructs added in L2v1, as assignment rules with time.  Some functions with weird boundary conditions have been set up with the 'piecewise' function so that the results are never 'inf', or 'nan'.
