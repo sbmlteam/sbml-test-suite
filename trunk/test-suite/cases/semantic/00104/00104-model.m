@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic single forward reaction with two species in one
 compartment using a functionDefinition and a rateRule to vary compartment size.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, RateRule 
-testTags:      Amount, NonConstantCompartment
+testTags:      Amount, NonConstantCompartment, NonUnityCompartment
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

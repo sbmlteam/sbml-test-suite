@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Model varying compartment using rules only.
 componentTags: Compartment, RateRule, InitialAssignment 
-testTags:      NonConstantCompartment, 1D-Compartment, InitialValueReassigned
+testTags:      NonConstantCompartment, NonUnityCompartment, 1D-Compartment, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
