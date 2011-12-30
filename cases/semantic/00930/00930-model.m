@@ -2,7 +2,7 @@
 
 category:      Test
 synopsis:      Single forward reaction with two species in one compartment and an event
-componentTags: Compartment, Species, EventNoDelay, EventPriority
+componentTags: Compartment, CSymbolTime, Species, EventNoDelay, EventPriority
 testTags:      Amount
 testType:      TimeCourse
 levels:        3.1

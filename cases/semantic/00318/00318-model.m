@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Basic two reactions with four species in a compartment whose 
                volume is varying.
-componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule 
+componentTags: Compartment, Species, RateRule, Reaction, Parameter, AssignmentRule 
 testTags:      Amount, NonConstantCompartment, NonUnityCompartment, NonConstantParameter, InitialValueReassigned
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
