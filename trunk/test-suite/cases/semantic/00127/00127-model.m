@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Basic two reactions using functionDefinitions with three species 
                in one compartment, with one species having a stoichiometry of 2.
-componentTags: Compartment, Species, FunctionDefinition
+componentTags: Compartment, Parameter, Reaction, Species, FunctionDefinition
 testTags:      Amount, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1

@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Basic two reactions using functionDefinitions with three species 
                and parameters local to reactions.
-componentTags: Compartment, Species, Reaction, FunctionDefinition 
+componentTags: Compartment, Parameter, Species, Reaction, FunctionDefinition 
 testTags:      Amount, LocalParameters
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1

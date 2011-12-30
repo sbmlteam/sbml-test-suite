@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Single forward reaction with two species in one compartment and an event
 componentTags: CSymbolTime, Compartment, EventNoDelay, EventPriority, Species
-testTags:      Amount, EventIsPersistent, InitialValueReassigned
+testTags:      Amount, EventIsPersistent
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic
