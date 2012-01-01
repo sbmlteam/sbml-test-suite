@@ -1,9 +1,7 @@
 /**
- * @file    printModel.cpp
- * @brief   Prints some information about the top-level model
- * @author  Sarah Keating
- * @author  Ben Bornstein
- * @author  Michael Hucka
+ * @file    generateTestsFrom.cpp
+ * @brief   Takes a test case model and generates the translated versions of the model plus the .m file.
+ * @author  Lucian Smith
  * 
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
@@ -22,20 +20,14 @@
 using namespace std;
 LIBSBML_CPP_NAMESPACE_USE
 
+#include "testSuiteUtil.cpp"
+
 template <class T>
 inline std::string toString (const T& t)
 {
   std::stringstream ss;
   ss << t;
   return ss.str();
-}
-
-bool hasActualErrors(SBMLDocument* document)
-{
-  for (unsigned int e=0; e<document->getNumErrors(); e++) {
-    if (document->getError(e)->getSeverity() >= LIBSBML_SEV_ERROR) return true;
-  }
-  return false;
 }
 
 vector<string> createTranslations(SBMLDocument* document, const string oldfilename)
@@ -59,8 +51,7 @@ vector<string> createTranslations(SBMLDocument* document, const string oldfilena
     ret.push_back("1.2");
   }
   else {
-    translatedDoc->setLevelAndVersion(1, 2);
-    if (!hasActualErrors(translatedDoc)) {
+    if (translatedDoc->setLevelAndVersion(1, 2) && !hasActualErrors(translatedDoc)) {
       string newfilename = filename.replace(lxvx_place,4,"l1v2");
       if (newfilename == oldfilename) {
         ret.push_back("1.2");
@@ -79,8 +70,7 @@ vector<string> createTranslations(SBMLDocument* document, const string oldfilena
     }
     else {
       translatedDoc = document->clone();
-      translatedDoc->setLevelAndVersion(2, v);
-      if (!hasActualErrors(translatedDoc)) {
+      if (translatedDoc->setLevelAndVersion(2, v) && !hasActualErrors(translatedDoc)) {
         string thislv = "l2v" + toString(v);
         string newfilename = filename.replace(lxvx_place,4,thislv);
         if (newfilename == oldfilename) { 
@@ -141,208 +131,6 @@ string getString(bool input)
 {
   if (input) return "true";
   return "false";
-}
-
-bool variesIn(string id, Model* model)
-{
-  if (model->getRule(id)) return true;
-  for (unsigned long e=0; e<model->getNumEvents(); e++) {
-    Event* event = model->getEvent(e);
-    for (unsigned long ea=0; ea<event->getNumEventAssignments(); ea++) {
-      if (event->getEventAssignment(ea)->getVariable() == id) return true;
-    }
-  }
-  return false;
-}
-
-bool initialOverriddenIn(string id, Model* model)
-{
-  if (model->getInitialAssignment(id) != NULL) return true;
-  Rule* rule = model->getRule(id);
-  if (rule==NULL) return false;
-  if (rule->getTypeCode()==SBML_ASSIGNMENT_RULE) return true;
-  return false;
-}
-
-void checkRules(Model* model, set<string>& components, set<string>& tests)
-{
-  for (unsigned int r=0; r<model->getNumRules(); r++) {
-    Rule* rule = model->getRule(r);
-    int typecode = rule->getTypeCode();
-    if (typecode == SBML_ALGEBRAIC_RULE) {
-      components.insert("AlgebraicRule");
-    }
-    else if (typecode == SBML_ASSIGNMENT_RULE) {
-      components.insert("AssignmentRule");
-    }
-    else if (typecode == SBML_RATE_RULE) {
-      components.insert("RateRule");
-    }
-  }
-}
-
-void checkCompartments(Model* model, set<string>& components, set<string>& tests)
-{
-  if (model->getNumCompartments() > 0) {
-    components.insert("Compartment");
-    if (model->getNumCompartments() > 1) {
-      tests.insert("MultiCompartment");
-    }
-    for (unsigned int c=0; c<model->getNumCompartments(); c++) {
-      Compartment* compartment = model->getCompartment(c);
-      if (compartment->isSetId() && variesIn(compartment->getId(), model)) {
-        tests.insert("NonConstantCompartment");
-        tests.insert("NonUnityCompartment");
-      }
-      else if (compartment->isSetVolume()) {
-        double volume = compartment->getVolume();
-        if (volume != 1.0) {
-          tests.insert("NonUnityCompartment");
-        }
-      }
-    }
-  }
-}
-
-void checkEvents(Model* model, set<string>& components, set<string>& tests)
-{
-  for (unsigned int e=0; e<model->getNumEvents(); e++) {
-    Event* event = model->getEvent(e);
-    if (event->isSetDelay()) {
-      components.insert("EventDelay");
-    }
-    else {
-      components.insert("EventNoDelay");
-    }
-    if (event->isSetPriority()) {
-      components.insert("EventPriority");
-    }
-    if (event->isSetTrigger()) {
-      Trigger* trigger = event->getTrigger();
-      if (event->isSetDelay() || model->getNumEvents() > 2) {
-        if (trigger->isSetPersistent()) {
-          if (trigger->getPersistent()) {
-            tests.insert("EventIsPersistent [?]");
-          }
-          else {
-            tests.insert("EventIsNotPersistent [?]");
-          }
-        }
-        if (event->isSetUseValuesFromTriggerTime()) {
-          if (event->getUseValuesFromTriggerTime()) {
-            tests.insert("EventUsesTriggerTimeValues [?]");
-          }
-          else {
-            tests.insert("EventUsesAssignmentTimeValues [?]");
-          }
-        }
-      }
-      if (trigger->isSetInitialValue() && trigger->getInitialValue()==false) {
-        tests.insert("EventT0Firing [?]");
-      }
-    }
-  }
-}
-
-void checkParameters(Model* model, set<string>& components, set<string>& tests)
-{
-  if (model->getNumParameters() > 0) {
-    components.insert("Parameter");
-    for (unsigned int p=0; p<model->getNumParameters(); p++) {
-      Parameter* param = model->getParameter(p);
-      if (param->isSetValue() && param->isSetId() && 
-          initialOverriddenIn(param->getId(), model)) {
-        tests.insert("InitialValueReassigned");
-      }
-      if (param->isSetId() && variesIn(param->getId(), model)) {
-        tests.insert("NonConstantParameter");
-      }
-    }
-  }
-}
-
-void checkReactions(Model* model, set<string>& components, set<string>& tests)
-{
-  if (model->getNumReactions() > 0) {
-    components.insert("Reaction");
-    for (unsigned int r=0; r<model->getNumReactions(); r++) {
-      Reaction* rxn = model->getReaction(r);
-      if (rxn->isSetFast() && rxn->getFast()) {
-        tests.insert("FastReaction");
-      }
-      for (unsigned int rp=0; rp<rxn->getNumReactants(); rp++) {
-        SpeciesReference* sr = rxn->getReactant(rp);
-        bool assignedstoich = false;
-        if (sr->isSetStoichiometryMath()) {
-          assignedstoich = true;
-        }
-        else if ((model->getLevel()==3) && sr->isSetId() && variesIn(sr->getId(), model)) {
-          assignedstoich = true;
-        }
-        if (assignedstoich) {
-          if (sr->getConstant()) {
-            tests.insert("AssignedConstantStoichiometry");
-          }
-          else {
-            tests.insert("AssignedVariableStoichiometry");
-          }
-        }
-      }
-      for (unsigned int rp=0; rp<rxn->getNumProducts(); rp++) {
-        SpeciesReference* sr = rxn->getProduct(rp);
-        bool assignedstoich = false;
-        if (sr->isSetStoichiometryMath()) {
-          assignedstoich = true;
-        }
-        else if (model->getLevel()==3 && sr->isSetId() && variesIn(sr->getId(), model)) {
-          assignedstoich = true;
-        }
-        if (assignedstoich) {
-          if (sr->getConstant()) {
-            tests.insert("AssignedConstantStoichiometry");
-          }
-          else {
-            tests.insert("AssignedVariableStoichiometry");
-          }
-        }
-      }
-      if (rxn->isSetKineticLaw()) {
-        KineticLaw* kl = rxn->getKineticLaw();
-        if (kl->getNumLocalParameters() > 0) {
-          tests.insert("LocalParameters");
-        }
-      }
-    }
-  }
-}
-
-void checkSpecies(Model* model, set<string>& components, set<string>& tests)
-{
-  //Must call this after 'checkCompartments' because we look in 'tests' for 'NonUnityCompartment'.
-  if (model->getNumSpecies() > 0) {
-    components.insert("Species");
-    tests.insert("Amount||Concentration");
-    for (unsigned int s=0; s<model->getNumSpecies(); s++) {
-      Species* species = model->getSpecies(s);
-      if (species->isSetBoundaryCondition() && species->getBoundaryCondition()) {
-        tests.insert("BoundaryCondition");
-      }
-      if (species->isSetConstant() && species->getConstant()) {
-        tests.insert("ConstantSpecies");
-      }
-      if (species->isSetConversionFactor()) {
-        tests.insert("ConversionFactors");
-      }
-      if (species->isSetHasOnlySubstanceUnits() && species->getHasOnlySubstanceUnits()
-          && tests.find("NonUnityCompartment") != tests.end()) {
-        tests.insert("HasOnlySubstanceUnits");
-      }
-      if ((species->isSetInitialAmount() || species->isSetInitialConcentration()) &&
-          species->isSetId() && variesIn(species->getId(), model)) {
-        tests.insert("InitialValueReassigned");
-      }
-    }
-  }
 }
 
 vector<string> getIdListFrom(ListOf* list)
