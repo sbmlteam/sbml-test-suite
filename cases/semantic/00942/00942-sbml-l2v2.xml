@@ -27,7 +27,7 @@
       <compartment id="default_compartment" size="1" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="x" compartment="default_compartment" initialAmount="0" substanceUnits="substance" constant="true"/>
+      <species id="x" compartment="default_compartment" initialAmount="0" substanceUnits="substance"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="y" value="2.958924275" constant="false"/>
