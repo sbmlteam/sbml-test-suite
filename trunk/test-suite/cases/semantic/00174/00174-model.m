@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Model using rules and parameters only.
 componentTags: Parameter, AssignmentRule 
-testTags:      NonConstantParameter, InitialValueReassigned
+testTags:      InitialValueReassigned
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

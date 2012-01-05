@@ -20,7 +20,7 @@
     </listOfUnitDefinitions>
     <listOfParameters>
       <parameter id="y" value="2.958924275" constant="false"/>
-      <parameter id="x" value="0"/>
+      <parameter id="x" value="0" constant="false"/>
     </listOfParameters>
     <listOfInitialAssignments>
       <initialAssignment symbol="x">
