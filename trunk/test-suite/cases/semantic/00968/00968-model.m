@@ -2,10 +2,10 @@
 
 category:      Test
 synopsis:      A very simple reaction with stoichiometry set by an initialAssignment.
-componentTags: Compartment, InitialAssignment, Parameter, Reaction, Species
+componentTags: StoichiometryMath, Compartment, Parameter, Reaction, Species
 testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Analytic
 
 The speciesReference ('Xref') is set with an initialAssignment of 3 for the L3 model, and with stoichiometryMath in the L2 models.  No 'stoichiometry' value is provided in the speciesReference in the reaction itself.

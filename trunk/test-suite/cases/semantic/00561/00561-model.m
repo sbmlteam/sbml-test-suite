@@ -2,10 +2,10 @@
 
 category:      Test
 synopsis:      Algebraic rule used to determine rate of species change.
-componentTags: Compartment, Species, Reaction, Parameter, AlgebraicRule 
+componentTags: StoichiometryMath, Compartment, Species, Reaction, Parameter, AlgebraicRule 
 testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are four

@@ -2,10 +2,10 @@
 
 category:      Test
 synopsis:      One reactions and two rate rules with four species in a compartment. 
-componentTags: Compartment, Species, Reaction, Parameter, RateRule, InitialAssignment 
+componentTags: StoichiometryMath, Compartment, Species, Reaction, Parameter, RateRule, InitialAssignment 
 testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 3.1
+levels:        2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are four

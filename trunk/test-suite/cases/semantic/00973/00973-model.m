@@ -2,10 +2,10 @@
 
 category:      Test
 synopsis:      A very simple reaction with stoichiometry changed by a rate rule.
-componentTags: Compartment, Parameter, RateRule, Reaction, Species
-testTags:      Amount, AssignedVariableStoichiometry, NonUnityStoichiometry
+componentTags: StoichiometryMath, Compartment, Parameter, RateRule, Reaction, Species
+testTags:      Amount, AssignedVariableStoichiometry, InitialValueReassigned, NonConstantParameter, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Analytic
 
 Over the course of the simulation, the stoichiometry 'Xref' changes at a rate of 0.01/time, so the effective rate of synthesis increases as well, identically to the same model with k1 changing instead of Xref.  The Level 2 versions of this test create a new parameter 'parameterId_0' which functions identically to 'Xref' in the Level 3 version of the model.

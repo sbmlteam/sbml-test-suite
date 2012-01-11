@@ -3,10 +3,10 @@
 category:      Test
 synopsis:      Basic single forward reaction with two species in one compartment
 using csymbol time within a math expression.
-componentTags: Compartment, Species, Reaction, Parameter, CSymbolTime
+componentTags: StoichiometryMath, Compartment, Species, Reaction, Parameter, CSymbolTime
 testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Analytic
 
 The model contains one compartment called C.  There are two
