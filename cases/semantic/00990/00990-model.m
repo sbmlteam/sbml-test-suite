@@ -2,10 +2,10 @@
 
 category:      Test
 synopsis:      A simple reaction with stoichiometry set to a parameter that varies due to a rate law.
-componentTags: AssignmentRule, Compartment, Parameter, RateRule, Reaction, Species
+componentTags: StoichiometryMath, Compartment, Parameter, RateRule, Reaction, Species
 testTags:      Amount, AssignedVariableStoichiometry, NonUnityStoichiometry, NonConstantParameter
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The stoichiometry of the reaction '-> nX' is set to be equal to p1, a parameter that starts at 1 and increases at a rate of 1.

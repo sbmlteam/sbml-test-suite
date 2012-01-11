@@ -3,10 +3,10 @@
 category:      Test
 synopsis:      Basic two reactions with three species in one compartment
                and one event that assigns value to two species, subject to a delay.
-componentTags: Compartment, Species, Reaction, Parameter, EventWithDelay 
+componentTags: StoichiometryMath, Compartment, Species, Reaction, Parameter, EventWithDelay 
 testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are three species

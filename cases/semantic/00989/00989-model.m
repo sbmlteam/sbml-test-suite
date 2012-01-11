@@ -2,10 +2,10 @@
 
 category:      Test
 synopsis:      A simple reaction with stoichiometry the same as its species.  For convenience, another reaction is present with the same kinetics, as the species is used in the kinetic law instead.
-componentTags: AssignmentRule, Compartment, Parameter, Reaction, Species
-testTags:      Amount, AssignedVariableStoichiometry, NonUnityStoichiometry
+componentTags: StoichiometryMath, Compartment, Parameter, Reaction, Species
+testTags:      Amount, AssignedVariableStoichiometry, HasOnlySubstanceUnits, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
  This model contains two reactions that do the same thing, one by having a kinetic law that varies with the produced species, and the other by having a variable stoichiometry set to equal the produced species, for a sort of auto-catalytic reaction.
