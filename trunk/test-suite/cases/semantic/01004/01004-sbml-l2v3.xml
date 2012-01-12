@@ -5,9 +5,9 @@
 <sbml xmlns="http://www.sbml.org/sbml/level2/version3"
     level="2"
     version="3">
- <model id="case00113"
-     name="case00113"
-     metaid="_case00113">
+ <model id="case01004"
+     name="case01004"
+     metaid="_case01004">
   <listOfFunctionDefinitions>
    <functionDefinition id="multiply"
        name="multiply">

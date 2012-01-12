@@ -5,9 +5,9 @@
 <sbml xmlns="http://www.sbml.org/sbml/level2/version3"
     level="2"
     version="3">
- <model id="case00062"
-     name="case00062"
-     metaid="_case00062">
+ <model id="case01003"
+     name="case01003"
+     metaid="_case01003">
   <!-- <listOfFunctionDefinitions/> -->
   <!-- <listOfUnitDefinitions/> -->
   <!-- <listOfCompartmentTypes/> -->

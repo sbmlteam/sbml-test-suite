@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level2" level="2" version="1">
-  <model metaid="_case00115" id="case00115" name="case00115">
+  <model metaid="_case01006" id="case01006" name="case01006">
     <listOfFunctionDefinitions>
       <functionDefinition id="multiply" name="multiply">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
