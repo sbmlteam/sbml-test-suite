@@ -9,7 +9,7 @@
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" value="1" constant="false"/>
-      <parameter id="parameterId_0" constant="false"/>
+      <parameter id="parameterId_0" value="1"  constant="false"/>
     </listOfParameters>
     <listOfRules>
       <rateRule variable="parameterId_0">
