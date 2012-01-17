@@ -39,7 +39,12 @@
         <listOfProducts>
           <speciesReference species="S1"/>
         </listOfProducts>
-        <kineticLaw formula="-(C * (kf * S1 + -1 * kr * S2))"/>
+        <kineticLaw formula="-(C * (kf * S1 + -1 * kr * S2))">
+		  <listOfParameters>
+            <parameter name="kf" value="0.8"/>
+            <parameter name="kr" value="0.06"/>
+          </listOfParameters>
+		</kineticLaw>
       </reaction>
       <reaction name="reaction2">
         <listOfReactants>
