@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Basic one reaction with one species in one compartment and one event, assigning to a parameter.
 componentTags: AssignmentRule, Compartment, EventNoDelay, Parameter, Reaction, Species
-testTags:      Concentration, NonConstantCompartment, NonConstantParameter, NonUnityCompartment
+testTags:      Concentration, NonConstantCompartment, NonConstantParameter, NonUnityCompartment, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

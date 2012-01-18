@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Model with parameters and initialAssignments only.
 componentTags: Parameter, InitialAssignment 
-testTags:      InitialValueReassigned
+testTags:      
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

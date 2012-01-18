@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A fast and slow reaction, working against each other, with the fast reaction turned on and off by Events.
 componentTags: Compartment, EventWithDelay, EventNoDelay, Parameter, Reaction, Species
-testTags:      Amount, EventIsPersistent, FastReaction, NonConstantParameter
+testTags:      Amount, EventIsPersistent, FastReaction, NonConstantParameter, HasOnlySubstanceUnits
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Four different ways of writing the avogadro number in an assignment rule.
 componentTags: AssignmentRule, CSymbolAvogadro, Parameter
-testTags:      
+testTags:      InitialValueReassigned
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic

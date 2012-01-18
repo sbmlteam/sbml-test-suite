@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Three reactions with four species in one compartment, 
 with an algebraic rule used to determine value of a parameter.
 componentTags: Compartment, Species, Reaction, Parameter, AlgebraicRule, FunctionDefinition  
-testTags:      Amount
+testTags:      Amount, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

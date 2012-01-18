@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A fast and slow reaction, the first of which feeds into the second, triggered by an event.
 componentTags: CSymbolTime, Compartment, EventNoDelay, Parameter, Reaction, Species
-testTags:      Amount, FastReaction, NonConstantParameter
+testTags:      Amount, FastReaction, NonConstantParameter, HasOnlySubstanceUnits
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

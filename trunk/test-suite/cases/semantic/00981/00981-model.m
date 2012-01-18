@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      An assignment rule with a continually-changing delay. 
 componentTags: AssignmentRule, CSymbolDelay, CSymbolTime, Compartment, Parameter, RateRule
-testTags:      NonConstantParameter
+testTags:      NonConstantParameter, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

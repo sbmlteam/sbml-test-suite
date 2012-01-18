@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A species that with an initial concentration set, and subsequently produced by a reaction, being echoed by a parameter viewing it through a delay.
 componentTags: AssignmentRule, CSymbolDelay, Compartment, Parameter, Reaction, Species
-testTags:      Amount, NonConstantParameter
+testTags:      Amount, NonConstantParameter, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

@@ -19,7 +19,7 @@ reaction defined as:
 The model contains one initialAssignment:
 
 [{width:30em,margin-left:5em}| Variable | Formula |
- | C | $k2/50$  |]
+                             | C | $k2*(50^-1)$  |]
 
 Note: SBML's InitialAssignment construct override any declared initial
 values.  In this case the initial value declared for compartment C is

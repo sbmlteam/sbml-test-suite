@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A parameter that varies in its IntialAssignment, but is constant thereafter, being echoed by a second parameter viewing it through a delay.
 componentTags: AssignmentRule, CSymbolDelay, CSymbolTime, InitialAssignment, Parameter
-testTags:      InitialValueReassigned, NonConstantParameter
+testTags:      NonConstantParameter
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
