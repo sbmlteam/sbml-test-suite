@@ -59,6 +59,10 @@
               </apply>
             </apply>
           </math>
+          <listOfParameters>
+            <parameter id="kf" value="0.8"/>
+            <parameter id="kr" value="0.06"/>
+          </listOfParameters>
         </kineticLaw>
       </reaction>
       <reaction id="reaction2" name="reaction2" fast="false">
@@ -92,6 +96,10 @@
               </apply>
             </apply>
           </math>
+          <listOfParameters>
+            <parameter id="kf" value="0.9"/>
+            <parameter id="kr" value="0.075"/>
+          </listOfParameters>
         </kineticLaw>
       </reaction>
     </listOfReactions>
