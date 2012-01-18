@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Several parameters with trigonometric assignment rules, testing various L2v1 built-in functions acting on parameters.
 componentTags: AssignmentRule, CSymbolTime, Parameter
-testTags:      NonConstantParameter
+testTags:      NonConstantParameter, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

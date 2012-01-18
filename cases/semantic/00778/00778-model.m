@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Algebraic rule used to determine rate of species change.
 componentTags: Compartment, Species, Reaction, Parameter, AlgebraicRule, EventWithDelay, InitialAssignment 
-testTags:      Amount, InitialValueReassigned
+testTags:      Amount
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

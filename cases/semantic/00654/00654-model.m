@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Two reactions with four species in one
 compartment using both an assignmentRule and a rateRule to vary species.
 componentTags: Compartment, Species, Reaction, Parameter, RateRule, AssignmentRule, EventNoDelay 
-testTags:      Amount, InitialValueReassigned
+testTags:      Amount
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
