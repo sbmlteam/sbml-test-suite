@@ -142,9 +142,10 @@ vector<string> getIdListFrom(ListOf* list)
   return ret;
 }
 
-string getHalfReaction(ListOfSpeciesReferences* srs, vector<string>& stoichrefs, Model* model)
+string getHalfReaction(ListOfSpeciesReferences* srs, vector<string>& stoichrefs, Model* model,  const map<string, vector<double> >& results)
 {
   stringstream ret;
+  set<string> notests;
   for (unsigned int s = 0; s<srs->size(); s++) {
     if (s > 0) ret << "+ ";
     SpeciesReference* sr = static_cast<SpeciesReference*>(srs->get(s));
@@ -159,7 +160,7 @@ string getHalfReaction(ListOfSpeciesReferences* srs, vector<string>& stoichrefs,
         stoichrefs.push_back(species + "_ext");
       }
     }
-    else if (sr->isSetId() && (initialOverriddenIn(sr->getId(), model) || variesIn(sr->getId(), model))) {
+    else if (sr->isSetId() && (initialOverriddenIn(sr->getId(), model, results, notests) || variesIn(sr->getId(), model, results))) {
       ret << sr->getId() << " ";
       stoichrefs.push_back(sr->getId());
     }
@@ -171,7 +172,7 @@ string getHalfReaction(ListOfSpeciesReferences* srs, vector<string>& stoichrefs,
   return ret.str();
 }
 
-string getReactionTable(Model* model)
+string getReactionTable(Model* model,  const map<string, vector<double> >& results)
 {
   stringstream ret;
   bool anyfast = false;
@@ -196,9 +197,9 @@ string getReactionTable(Model* model)
     for (unsigned int r=0; r<model->getNumReactions(); r++) {
       Reaction* rxn = model->getReaction(r);
       ret  << endl<< "| ";
-      ret << getHalfReaction(rxn->getListOfReactants(), stoichrefs, model);
+      ret << getHalfReaction(rxn->getListOfReactants(), stoichrefs, model, results);
       ret << "-> ";
-      ret << getHalfReaction(rxn->getListOfProducts(), stoichrefs, model);
+      ret << getHalfReaction(rxn->getListOfProducts(), stoichrefs, model, results);
       ret << "| ";
       if (rxn->isSetKineticLaw()) {
         ret << "$" << SBML_formulaToString(rxn->getKineticLaw()->getMath()) << "$";
@@ -517,7 +518,7 @@ bool allSpeciesSetAmountUsedConcentration(Model* model)
   return true;
 }
 
-string getModelSummary(Model* model) 
+string getModelSummary(Model* model,  const map<string, vector<double> >& results)
 {
   stringstream ret;
   ret << "The model contains:\n";
@@ -560,7 +561,7 @@ string getModelSummary(Model* model)
     }
   }
 
-  ret << getReactionTable(model);
+  ret << getReactionTable(model, results);
   ret << getEventTable(model);
   ret << getRuleTable(model);
   ret << getInitialAssignmentTable(model);
@@ -580,12 +581,12 @@ string getModelSummary(Model* model)
   return ret.str();
 }
 
-string getSuiteHeaders(vector<string> levelsandversions, Model* model)
+string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const map<string, vector<double> >& results)
 {
   set<string> components;
   set<string> tests;
   checkRules(model, components, tests);
-  checkCompartments(model, components, tests);
+  checkCompartments(model, components, tests, results);
   checkEvents(model, components, tests);
   if (model->getNumFunctionDefinitions() > 0) {
     components.insert("FunctionDefinition");
@@ -593,9 +594,9 @@ string getSuiteHeaders(vector<string> levelsandversions, Model* model)
   if (model->getNumInitialAssignments() > 0) {
     components.insert("InitialAssignment");
   }
-  checkParameters(model, components, tests);
-  checkReactions(model, components, tests);
-  checkSpecies(model, components, tests);
+  checkParameters(model, components, tests, results);
+  checkReactions(model, components, tests, results);
+  checkSpecies(model, components, tests, results);
   if (model->isSetConversionFactor()) {
     tests.insert("ConversionFactors");
   }
@@ -653,12 +654,34 @@ writeMFile(string contents, string modfilename)
   cout << "Successfully wrote model description file " << modfilename << endl;
 }
 
+void writeSettingsFile(string modfilename)
+{
+  size_t sbml_place = modfilename.find("-sbml-l");
+  if (sbml_place==string::npos) {
+    cerr << "Error:  the filename '" << modfilename
+         << "' doesn't have the substring '-sbml-l' in it.  Can't write .m file" << endl;
+    return;
+  }
+  string filename = modfilename.replace(sbml_place, 14, "-settings.txt");
+  ifstream infile(filename);
+  if (infile.good()) return; //Don't overwrite old settings files.
+  ofstream file(filename);
+  file << "start: 0" << endl;
+  file << "duration: __" << endl;
+  file << "steps: __" << endl;
+  file << "variables: __" << endl;
+  file << "absolute: 0.0001" << endl;
+  file << "relative: 0.0001" << endl;
+  file << "amount: " << endl;
+  file << "concentration: " << endl;
+}
+
 int
 main (int argc, char* argv[])
 {
   if (argc != 2)
   {
-    cerr << endl << "Usage: generateTestsFrom filename" << endl << endl;
+    cerr << endl << "Usage: generateTestsFrom filename-sbml-l[#]v[#].xml" << endl << endl;
     return 1;
   }
 
@@ -680,12 +703,22 @@ main (int argc, char* argv[])
     return 1;
   }
 
+  //Get the results file, if one exists.
+  unsigned int level   = document->getLevel  ();
+  unsigned int version = document->getVersion();
+  string lxvx = "sbml-l" + toString(level) + "v" + toString(version);
+  size_t lxvx_place = filename.find(lxvx);
+  string resultsfilename = filename;
+  resultsfilename.replace(lxvx_place,4,"results.csv");
+  map<string, vector<double> >& results = getResults(resultsfilename);
+
   vector<string> levelsandversions = createTranslations(document, filename);
   string mfile = "(*\n\n";
-  mfile += getSuiteHeaders(levelsandversions, model);
-  mfile += getModelSummary(model);
+  mfile += getSuiteHeaders(levelsandversions, model, results);
+  mfile += getModelSummary(model, results);
   mfile += "\n*)";
   writeMFile(mfile, filename);
+  writeSettingsFile(filename);
 
 
   delete document;
