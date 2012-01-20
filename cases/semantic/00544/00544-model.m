@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with three species in one 2D compartment with
 with an algebraic rule used to determine value of the compartment size.
 componentTags: Compartment, Species, Reaction, Parameter, AlgebraicRule 
-testTags:      Amount, 2D-Compartment, InitialValueReassigned
+testTags:      Amount, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

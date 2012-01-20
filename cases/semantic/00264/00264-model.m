@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with three species in one 1D compartment,
                with one species having a stoichiometry of 2.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      Amount, NonUnityStoichiometry, 1D-Compartment
+testTags:      Amount, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with four species in a 1-dimensional
 compartment, where the species have only substance units.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      Amount, 1D-Compartment, HasOnlySubstanceUnits
+testTags:      Amount, HasOnlySubstanceUnits
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

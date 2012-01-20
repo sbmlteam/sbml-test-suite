@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions involving two species in one
                2 dimensional compartment, with non-unity stoichiometries.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      Amount, NonUnityStoichiometry, 2D-Compartment
+testTags:      Amount, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
