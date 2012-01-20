@@ -157,10 +157,10 @@ void checkLevels(string filename, set<string> levels) {
   }
 }
 
-void deduceTags(Model* model, set<string>& components, set<string>& tests)
+void deduceTags(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results)
 {
   checkRules(model, components, tests);
-  checkCompartments(model, components, tests);
+  checkCompartments(model, components, tests, results);
   checkEvents(model, components, tests);
   if (model->getNumFunctionDefinitions() > 0) {
     components.insert("FunctionDefinition");
@@ -168,9 +168,9 @@ void deduceTags(Model* model, set<string>& components, set<string>& tests)
   if (model->getNumInitialAssignments() > 0) {
     components.insert("InitialAssignment");
   }
-  checkParameters(model, components, tests);
-  checkReactions(model, components, tests);
-  checkSpecies(model, components, tests);
+  checkParameters(model, components, tests, results);
+  checkReactions(model, components, tests, results);
+  checkSpecies(model, components, tests, results);
   if (model->isSetConversionFactor()) {
     tests.insert("ConversionFactors");
   }
@@ -255,11 +255,11 @@ bool checkPossible(ifstream& infile, const string& begin, bool shouldbe, const s
   }
   line.erase(0, begin.size()+2);
   if (line.size()==0 && shouldbe) {
-    cerr << "Error: no entries for '" + begin + "' in settings file " << settingsfile << ", but " << begin << " was used as a test tag in the .m file." << endl;
+    cerr << "Error: in " << settingsfile << ": no entries for '" + begin + "', but " << begin << " was used as a test tag in the .m file." << endl;
     return true;
   }
   if (line.size()!=0 && !shouldbe) {
-    cerr << "Error: Entries are present for '" + begin + "' in settings file " << settingsfile << ", but " << begin << " was not used as a test tag in the .m file." << endl;
+    cerr << "Error: in " << settingsfile << ": entries present for '" + begin + "', but " << begin << " was not used as a test tag in the .m file." << endl;
     return true;
   }
   return false;
@@ -363,12 +363,20 @@ void checkTags(const string& filename, set<string> known_components, set<string>
   string l3v1 = filename;
   size_t mod = l3v1.find("-model");
   l3v1.erase(mod);
+  string resultsfile = l3v1 + "-results.csv";
   l3v1 = l3v1 + "-sbml-l3v1.xml";
   SBMLDocument* document = readSBML(l3v1.c_str());
   Model* model = document->getModel();
   if (model==NULL) {
-    cerr << "Error:  unable to read the file " << l3v1 << ", or it contains invalid SBML." << endl;
-    return;
+    string l2v4 = l3v1;
+    l2v4.replace(l2v4.find("l3v1"), 4, "l2v4");
+    delete document;
+    document = readSBML(l2v4.c_str());
+    model = document->getModel();
+    if (model==NULL) {
+      cerr << "Error:  unable to read the file " << l3v1 << " or " << l2v4 << ", or they contain invalid SBML." << endl;
+      return;
+    }
   }
   if (hasActualErrors(document))
   {
@@ -376,11 +384,13 @@ void checkTags(const string& filename, set<string> known_components, set<string>
     document->printErrors(cerr);
     return;
   }
+  map<string, vector<double> > results = getResults(resultsfile);
   set<string> components, tests;
-  deduceTags(model, components, tests);
+  deduceTags(model, components, tests, results);
   //Have to check tests before components because checking the tests uses the components list.
   compareTests(tests, known_tests, filename, components);
   compareComponents(components, known_components, filename);
+  delete document;
 }
 
 int
