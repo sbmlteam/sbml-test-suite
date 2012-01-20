@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      One reactions and two rate rules with four species in a 1D compartment. 
 componentTags: Compartment, Species, Reaction, Parameter, RateRule 
-testTags:      Amount, 1D-Compartment
+testTags:      Amount
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic

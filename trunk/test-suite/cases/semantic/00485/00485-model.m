@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with three species in a 2D compartment using 
 initialAssignment to set the initial value of the compartment.
 componentTags: Compartment, Species, Reaction, Parameter, InitialAssignment 
-testTags:      Amount, 2D-Compartment, InitialValueReassigned
+testTags:      Amount, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

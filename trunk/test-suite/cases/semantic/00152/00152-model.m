@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic single forward reaction with three species in one
                2-dimensional compartment using an assignmentRule to vary one species.
 componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule 
-testTags:      Amount, 2D-Compartment, InitialValueReassigned
+testTags:      Amount, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic two reactions with five species in a 2 dimensional compartment 
                where one species is constant.
 componentTags: Compartment, Species, Reaction, Parameter 
-testTags:      Amount, ConstantSpecies, 2D-Compartment
+testTags:      Amount, ConstantSpecies
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
