@@ -39,7 +39,7 @@
             <apply>
               <divide/>
               <apply>
-                <times/>
+                <plus/>
                 <apply>
                   <minus/>
                   <ci> a </ci>
@@ -52,8 +52,9 @@
                 <ci> g </ci>
                 <ci> h </ci>
                 <ci> i </ci>
+                <ci> j </ci>
               </apply>
-              <ci> j </ci>
+              <cn> 10 </cn>
             </apply>
           </lambda>
         </math>
@@ -70,6 +71,7 @@
       <species id="S4" conversionFactor="conversion2" compartment="comp2" initialConcentration="2" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="true"/>
     </listOfSpecies>
     <listOfParameters>
+      <parameter id="kavo" value="1.1"  constant="true"/>
       <parameter id="k1" value="1.1"  constant="true"/>
       <parameter id="k3" value="2.5"  constant="false"/>
       <parameter id="k4" value="1"    constant="false"/>
@@ -79,9 +81,13 @@
       <parameter id="conversion2" value="100" constant="true"/>
     </listOfParameters>
     <listOfInitialAssignments>
-      <initialAssignment symbol="k1">
+      <initialAssignment symbol="kavo">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
+          <apply>
+            <divide/>
+            <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
+            <cn type="e-notation"> 6.022 <sep/> 23 </cn>
+          </apply>
         </math>
       </initialAssignment>
       <initialAssignment symbol="S1ref">
@@ -164,7 +170,7 @@
         <listOfEventAssignments>
           <eventAssignment variable="k4">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <cn type="integer"> 0 </cn>
+              <cn> 0.1 </cn>
             </math>
           </eventAssignment>
         </listOfEventAssignments>
@@ -330,7 +336,7 @@
         <listOfEventAssignments>
           <eventAssignment variable="k4">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <cn type="integer"> 0 </cn>
+              <cn> 0.2 </cn>
             </math>
           </eventAssignment>
         </listOfEventAssignments>
