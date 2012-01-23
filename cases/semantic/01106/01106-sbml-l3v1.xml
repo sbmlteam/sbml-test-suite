@@ -22,7 +22,7 @@
     <listOfReactions>
       <reaction id="J0" reversible="true" fast="false">
         <listOfProducts>
-          <speciesReference id="Xref" species="X" stoichiometry="1" constant="false"/>
+          <speciesReference id="Xref" species="X" constant="false"/>
         </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
