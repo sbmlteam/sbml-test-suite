@@ -13,7 +13,7 @@ and two constant parameters called k1 and k2.  The model contains
 four rules defined as:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
- | Algebraic |   n/a    | $S4 - S1$  |
+ | Algebraic |   n/a    | $p4 + -1 * p1$  |
  | Rate      |   p1     | $-k1 * p1 * p2 + k2 * p3$  |
  | Rate      |   p2     | $-k1 * p1 * p2 + k2 * p3$  |
  | Rate      |   p3     | $k1 * p1 * p2 - k2 * p3$  |]
