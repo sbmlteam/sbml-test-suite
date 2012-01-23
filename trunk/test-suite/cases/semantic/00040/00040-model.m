@@ -6,7 +6,7 @@ species values.
 componentTags: Compartment, Species, Parameter, AlgebraicRule, RateRule 
 testTags:      Amount
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are two
