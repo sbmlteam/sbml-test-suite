@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Algebraic rule used to determine rate of species change.
 componentTags: StoichiometryMath, Compartment, Species, Reaction, Parameter, AlgebraicRule 
-testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
+testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
