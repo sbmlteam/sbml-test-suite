@@ -66,7 +66,7 @@
       </assignmentRule>
     </listOfRules>
     <listOfReactions>
-      <reaction id="_J0" fast="false">
+      <reaction reversible="false" id="_J0" fast="false">
         <listOfProducts>
           <speciesReference species="x"/>
         </listOfProducts>
