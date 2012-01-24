@@ -2,13 +2,13 @@
 <sbml xmlns="http://www.sbml.org/sbml/level2/version2" level="2" version="2">
   <model metaid="_case00293" id="case00293" name="case00293">
     <listOfCompartments>
-      <compartment id="compartment" name="compartment" size="1" units="volume"/>
-      <compartment id="compartment1" name="compartment1" size="1" units="volume"/>
+      <compartment id="compartment" name="compartment" spatialDimensions="3" size="1" units="volume"/>
+      <compartment id="compartment1" name="compartment1" spatialDimensions="3" size="1" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="compartment1" initialAmount="1" substanceUnits="substance"/>
-      <species id="S3" name="S3" compartment="compartment1" initialAmount="0" substanceUnits="substance"/>
-      <species id="S5" name="S5" compartment="compartment1" initialAmount="1" substanceUnits="substance"/>
+      <species id="S1" name="S1" compartment="compartment1" initialAmount="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S3" name="S3" compartment="compartment1" initialAmount="0" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S5" name="S5" compartment="compartment1" initialAmount="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" name="k1" value="0.75"/>
@@ -45,7 +45,7 @@
           </math>
         </kineticLaw>
       </reaction>
-      <reaction id="reaction2" name="reaction2" reversible="false" fast="false">
+      <reaction id="reaction2" name="reaction2" reversible="true" fast="false">
         <listOfReactants>
           <speciesReference species="S3"/>
         </listOfReactants>
