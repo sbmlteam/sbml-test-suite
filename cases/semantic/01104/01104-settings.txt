@@ -1,7 +1,7 @@
 start: 0
 duration: 10
 steps: 100
-variables: X, Y, Xref
+variables: X, Y
 absolute: 0.0001
 relative: 0.0001
 amount: X, Y
