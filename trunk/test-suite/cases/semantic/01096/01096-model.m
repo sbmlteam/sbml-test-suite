@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Single reversible reaction.
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter 
-testTags:      InitialValueReassigned, Amount, ReversibleReaction, AssignedConstantStoichiometry, NonUnityStoichiometry
+testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Numeric

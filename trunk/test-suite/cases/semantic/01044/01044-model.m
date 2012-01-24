@@ -4,14 +4,14 @@ category:      Test
 synopsis:      One reversible reaction with three species in one compartment with
 an algebraic rule used to determine value of a parameter.
 componentTags: Compartment, Species, Reaction, Parameter, AlgebraicRule 
-testTags:      Amount, ReversibleReaction, InitialValueReassigned
+testTags:      Amount, InitialValueReassigned
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
 
 Note:  This test is a copy of model 844, with the products and reactants reversed, 
 and a negative kinetic law.  This gives the same results, but during the simulation, 
-the kinetic law actually goes negative (a requirement for reversibe reactions).  
+the kinetic law  fails to go negative (a requirement for the ReversibeReaction tag).  
 The reaction listed below is therfore equivalent to the one in the file, but reversed from it.
 
 The model contains one compartment called C.  There are three

@@ -101,7 +101,7 @@
    </reaction>
    <reaction id="reaction2"
        name="reaction2"
-       reversible="false"
+       reversible="true"
        fast="false">
     <listOfReactants>
      <speciesReference species="S3"/>

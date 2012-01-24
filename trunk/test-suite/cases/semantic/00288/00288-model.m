@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Reactions occurring between two compartments. 
 componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule 
-testTags:      Amount, MultiCompartment
+testTags:      Amount, MultiCompartment, ReversibleReaction
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric

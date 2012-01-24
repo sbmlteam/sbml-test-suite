@@ -4,12 +4,12 @@ category:      Test
 synopsis:      One reversible reaction with four species in one compartment with
 an algebraic rule used to determine rate of change of one species.
 componentTags: Compartment, Species, Reaction, Parameter, AlgebraicRule 
-testTags:      Amount, ReversibleReaction
+testTags:      Amount
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
 
-Note:  This test is a copy of model 876, with the products and reactants reversed, and a negative kinetic law.  This gives the same results, but during the simulation, the kinetic law actually goes negative (a requirement for reversibe reactions).  The reaction listed below is therfore equivalent to the one in the file, but reversed from it.
+Note:  This test is a copy of model 876, with the products and reactants reversed, and a negative kinetic law.  This gives the same results, but during the simulation, the kinetic law fails to go negative (a requirement for the ReversibeReaction tag).  The reaction listed below is therfore equivalent to the one in the file, but reversed from it.
 
 The model contains one compartment called C.  There are four
 species called S1, S2, S3 and S4 and two parameters called kf and kr.  The model
