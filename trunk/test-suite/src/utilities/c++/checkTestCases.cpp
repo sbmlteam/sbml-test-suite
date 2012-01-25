@@ -211,22 +211,13 @@ void compareComponents(set<string>& components, set<string>& known_components, c
 
 void checkUnaddableTests(set<string>& tests, set<string>& components, const string& filename) 
 {
+  //Random event execution requries there to be event priorities, at least.
   if (tests.find("RandomEventExecution") != tests.end()) {
     if (components.find("EventPriority") == components.end()) {
       cerr << "Error in " << filename << ":  The testTag RandomEventExecution was present, but there are no event priority objects in the model, which are required for that test." << endl;
     }
     tests.erase("RandomEventExecution");
   }
-  if (tests.find("ReversibleReaction") != tests.end()) {
-    if (components.find("Reaction") == components.end()) {
-      cerr << "Error in " << filename << ":  The testTag ReversibleReaction was present, but there are no reactions in the model, which are required for that test." << endl;
-    }
-    tests.erase("ReversibleReaction");
-  }
-  //LS DEBUG:  only keep this in here for now.
-  tests.erase("0D-Compartment");
-  tests.erase("1D-Compartment");
-  tests.erase("2D-Compartment");
 }
 
 bool checkLine(ifstream& infile, const string& begin, const string& settingsfile)
@@ -340,6 +331,20 @@ void checkSimilarTests(set<string>& tests, set<string>& known_tests, const strin
   }
   tests.erase("EventUsesTriggerTimeValues [?]");
   known_tests.erase("EventUsesTriggerTimeValues");
+
+  //ReversibleReaction
+  if(tests.find("ReversibleReaction [?]") == tests.end() && known_tests.find("ReversibleReaction") != known_tests.end()) {
+    cerr << "Error in " << filename << ":  ReversibleReaction tag found, but no reaction was found in the model with 'reversible=true'." << endl;
+  }
+  tests.erase("ReversibleReaction [?]");
+  known_tests.erase("ReversibleReaction");
+
+  //NonUnityCompartment
+  if(tests.find("NonUnityCompartment") != tests.end() && known_tests.find("NonUnityCompartment") == known_tests.end()) {
+    cerr << "Warning in " << filename << ":  no NonUnityCompartment tag found, but there is a compartment with an assigned value or non-1 size in the model.  If the assigned value is not always '1.0', the tag needs to be added to the test." << endl;
+    tests.erase("NonUnityCompartment");
+    known_tests.erase("NonUnityCompartment");
+  }
 
 }
 
