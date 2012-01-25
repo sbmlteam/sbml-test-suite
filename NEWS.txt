@@ -1,6 +1,70 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
+=== Version 2.1.0 release (2012-02-06)
+
+* Bug fixes:
+
+  - Models 00056, 00112, 00288, 00293, and 00294 had reactions with
+    kinetic laws that went negative, but which were flagged
+    'reversible=false'.  They are now correctly flagged as
+    'reversible=true'.
+
+  - Several L1 versions of tests with algebraic rules were ambiguous
+    due to L1 not having the 'constant' flag.  These models have been
+    removed.
+
+* Changes since last update:
+
+  - Several new models tagged ReversibleReaction where a kinetic law
+    now goes negative.
+
+  - Tests with assigned stoichiometries have been split into two tests:
+    one for the L2 versions using the StoichiometryMath construct,
+    and one for the L3 version using rules and events to assign values
+    to the speciesReference id.
+
+  - The definitions of several tags have been tweaked to be clearer
+    and more useful.  See docs\src\tags-documentation\Tags.txt for
+    the new definitions.
+
+  - As part of the above, many test cases have been re-tagged to
+    reflect the new definitions.
+
+  - Tests that assigned stoichiometries to speciesReference elements
+    have been split into L2 versions (using the StoichiometryMath
+    construct) and L3 versions (which use the speciesReference id in
+    rules and events to change or set the stoichiometry).
+
+  - A new program, 'generateTestsFrom' was written which takes an SBML
+    model as input and outputs the different translations of that model,
+    a generic 'settings' file, and a model description file with what
+    tags it can deduce from the SBML model.  See src\utilities\c++\
+
+  - A new program, 'checkTestCases' was written which analyzes the
+    contents of a test case directory and determines whether the tags
+    are correct, the models are valid and present, and the settings
+    file is of the right basic format.  See src\utilities\c++\
+
+* New cases:
+
+  - New cases with the AssignedVariableStoichiometry tag (both L2
+    and L3 versions)
+
+  - New cases with the FastReaction tag
+
+  - New cases with delay equations with variable delays.
+
+  - New cases with both the HasOnlySubstanceUnits and
+    NonUnityCompartment tags.
+
+  - New cases with the ReversibleReaction tag where the kinetic law
+    goes negative during the requested simulation (as per the new
+    definition of the ReversibleReaction tag).
+
+  - One new 'kitchen sink' test (1000) which tests almost all tags
+    in one complicated model.
+
 
 === Version 2.0.2 release (2011-11-15) ===
 
