@@ -1,54 +1,50 @@
 componentTags
 ==============
-AlgebraicRule
-AssignmentRule
-Compartment
-Constraint
-CSymbolAvogadro
-CSymbolDelay
-CSymbolTime
-EventNoDelay
-EventWithDelay
-EventPriority
-FunctionDefinition
-InitialAssignment
-Parameter
-RateRule
-Reaction
-Species
-UnitDefinition          (unused)
+Definitions:            L/V	Description
+AlgebraicRule           all	An algebraic rule is present in the model
+AssignmentRule          all	An assignment rule is present in the model
+Compartment             all	A compartment is present in the model
+CSymbolAvogadro         L3v1+	A MathML csymbol element is present in the model with the definition http://www.sbml.org/sbml/symbols/avogadro.
+CSymbolDelay            L2v1+	A MathML csymbol element is present in the model with the definition http://www.sbml.org/sbml/symbols/delay.
+CSymbolTime             L2v1+	A MathML csymbol element is present in the model with the definition http://www.sbml.org/sbml/symbols/time.
+EventNoDelay            L2v1+	An event is present in the model without a child 'delay' element.
+EventPriority           L3v1+	A priority element is present in the model (as a child of an event element)
+EventWithDelay          L2v1+	An event is present in the model with a child 'delay' element.
+FunctionDefinition	L2v1+	A function definition is present in the model
+InitialAssignment	L2v2+	An initial assignment is present in the model
+Parameter               all	A parameter is present in the model
+RateRule                all	A rate rule is present in the model
+Reaction                all	A reaction is present in the model
+Species                 all	A species is present in the model
+StoichiometryMath	L2v1-L2v4	A stoichiometryMath element is present in the model (as a child of a speciesReference element)
 
 testTags
 ========
-0D-Compartment
-1D-Compartment
-2D-Compartment
-Amount                 (was InitialAmount)
-AssignedConstantStoichiometry
-AssignedStoichiometry
-BoundaryCondition
-Concentration          (was InitialConcentration)
-ConstantSpecies
-ConversionFactors
-EventIsNotPersistent
-EventIsPersistent
-EventT0Firing
-EventUsesAssignmentTimeValues
-EventUsesTriggerTimeValues
-FastReaction
-HasOnlySubstanceUnits
-InitialValueReassigned
-LocalParameters
-MassUnits               (unused)
-MultiCompartment
-NonConstantCompartment
-NonConstantParameter
-NonUnityCompartment
-NonUnityStoichiometry
-RandomEventExecution
-ReversibleReaction
-SpeciesReferenceMath
-Units                   (unused)
+Definitions:                    L/V	Description
+0D-Compartment                  L2v1+	A compartment is present in the model with the attribute 'spatialDimensions=0'.
+Amount                          all	A species is present in the model which is requested, in the settings file, to be returned in terms of its amount.
+AssignedConstantStoichiometry	L2v1+	The stoichiometry for one or more speciesReferences in the model is assigned a value that does not change over the course of the simulation, by a stoichiometryMath element (in L2) or by an initial assignment, assignment rule, or algebraic rule (in L3).
+AssignedVariableStoichiometry	L2v1+	The stoichiometry for one or more speciesReferences in the model is assigned a value that changes over the course of the simulation by a stoichiometryMath element (in L2) or by a rate rule, assignment rule, or algebraic rule (in L3).
+BoundaryCondition               all	A species is present in the model with the attribute 'boundaryCondition=true'.
+Concentration                   all	A species is present in the model which is requested, in the settings file, to be returned in terms of its concentration
+ConstantSpecies                 L2v1+	A species is present in the model with the attribute 'constant=true'.
+ConversionFactors               L2v2+	A species and/or model is present in the model with the 'conversionFactor' attribute set.
+EventIsNotPersistent            L3v1+	An event is present in the model with the attribute 'persistent=true' and this makes a difference in the output of the requested simulation.
+EventIsPersistent               L2v1+	An event is present in the model with the attribute 'persistent=false' (L3) or which is assumed to not be persistent by default (L2) and this makes a difference in the output of the requested simulation.
+EventT0Firing                   L2v1+	An event is present in the model whose trigger evaluates to 'true' at t0, so whether or not it is allowed to fire at t0 (possible in L3; impossible in L2) makes a difference to the output of the simulation.
+EventUsesAssignmentTimeValues	L2v4+	An event is present in the model with the attribute 'useValuesFromTriggerTime=false' and this makes a difference in the output of the requested simulation.
+EventUsesTriggerTimeValues	L2v1+	An event is present in the model with the attribute 'useValuesFromTriggerTime=true' (L2v4+) or which is assumed to use values from the event's trigger time by default (L2v1-L2v4) and this makes a difference in the output of the requested simulation.
+FastReaction                    L2v1+	A reaction is present in the model with the attribute 'fast=true'.
+HasOnlySubstanceUnits           L2v1+	A species is present in the model with the attribute 'hasOnlySubstanceUnits=true'.
+InitialValueReassigned          all	The initial value of a species, compartment, parameter, or (for L3) speciesReference is set by an initialAssignment, assignmentRule, or algebraicRule that either changes the value that element would have otherwise have had (via an attribute) or which assigns a value to an element which would have otherwise been undefined.
+LocalParameters                 all	A kineticLaw is present in the model with a child listOfParameters (L1, L2) or listOfLocalParameters(L3)
+MultiCompartment                all	At least two compartments are present in the model.
+NonConstantCompartment          all	A compartment is present in the model whose size is seen to change over the course of the requested simulation.
+NonConstantParameter            all	A parameter is present in the model whose value is seen to change over the course of the requested simulation.
+NonUnityCompartment             all	A compartment is present in the model whose size is not 1.0 for at least part of the requested simulation.
+NonUnityStoichiometry           all	A speciesReference is present in the model whose stoichiometry is not 1.0 for at least part of the requested simulation.
+RandomEventExecution            L3v1+	Two or more events are present in the model which are seen to trigger at the same moment of simulation time and which have, at that point, identical priorities.  Correct evaluation of the model depends on the simulator randomly choosing which event to execute first.
+ReversibleReaction              all	A reaction is present in the model whose kinetic law is negative for at least part of the requested simulation.
 
 Removed testTags
 ================
@@ -58,3 +54,5 @@ MathML                removed this as a tag as it isnt really a test case on its
 ZeroRate              removed this as a tag as it isnt really a test case on its own
 InitialAmount         (changed to Amount)
 InitialConcentration  (changed to Concentration)
+MassUnits             (unused)
+Units                 (unused)
