@@ -12,6 +12,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include <map>
 #include <set>
 #include <sstream>
@@ -275,13 +276,27 @@ bool getSetValue(string id, Model* model, const set<string>& tests, double& setV
   return false;
 }
 
+bool hasAssignmentOrAlgebraic(Model* model)
+{
+  for (unsigned int i=0; i<model->getNumRules(); i++) {
+    int type = model->getRule(i)->getTypeCode();
+    if (type==SBML_ASSIGNMENT_RULE || type==SBML_ALGEBRAIC_RULE) return true;
+  }
+  return false;
+}
+
 bool initialOverriddenIn(string id, Model* model, const map<string, vector<double> >& results, const set<string>& tests)
 {
   double initialResult = 0;
   if (getInitialResultFor(id, results, initialResult)) {
     double setValue;
-    if (getSetValue(id, model, tests, setValue)){
-      return (abs(setValue-initialResult) > .000001);
+    if (getSetValue(id, model, tests, setValue)) {
+      if (abs(setValue-initialResult)/max(0.00000000001, abs(setValue)+abs(initialResult)) > .0001) {
+        if (model->getNumInitialAssignments() > 0 || hasAssignmentOrAlgebraic(model)) {
+          return true;
+        }
+      }
+      return false;
     }
   }
   //There was no initial result in the results file, or we couldn't find the 'set value' so we have to guess.
@@ -326,6 +341,9 @@ void checkCompartments(Model* model, set<string>& components, set<string>& tests
     for (unsigned int c=0; c<model->getNumCompartments(); c++) {
       Compartment* compartment = model->getCompartment(c);
       double initialResult;
+      if (compartment->isSetSpatialDimensions() && compartment->getSpatialDimensions()==0) {
+        tests.insert("0D-Compartment");
+      }
       if (compartment->isSetId() && variesIn(compartment->getId(), model, results)) {
         tests.insert("NonConstantCompartment");
         tests.insert("NonUnityCompartment");
@@ -429,12 +447,14 @@ void checkSpeciesRefs(Model* model, ListOfSpeciesReferences* losr, set<string>& 
     }
     else if (sr->isSetId()) {
       double initialResult = 1;
+      if (results.find(sr->getId()) != results.end()) {
+        tests.insert("SpeciesReferenceOutput");
+      }
       if (variesIn(sr->getId(), model, results)) {
         tests.insert("AssignedVariableStoichiometry");
         tests.insert("NonUnityStoichiometry");
       }
       else if (initialOverriddenIn(sr->getId(), model, results, tests)) {
-        tests.insert("InitialValueReassigned");
         tests.insert("AssignedConstantStoichiometry");
         if (getInitialResultFor(sr->getId(), results, initialResult)) {
           if (initialResult != 1) {
@@ -445,6 +465,9 @@ void checkSpeciesRefs(Model* model, ListOfSpeciesReferences* losr, set<string>& 
           //Don't know what the actual initial result is, so we'll assume it's not 1.0.
           tests.insert("NonUnityStoichiometry");
         }
+      }
+      if (initialOverriddenIn(sr->getId(), model, results, tests)) {
+        tests.insert("InitialValueReassigned");
       }
     }
   }
@@ -459,18 +482,27 @@ void checkReactions(Model* model, set<string>& components, set<string>& tests,  
       if (rxn->isSetFast() && rxn->getFast()) {
         tests.insert("FastReaction");
       }
+      if (rxn->isSetReversible() && rxn->getReversible()) {
+        tests.insert("ReversibleReaction [?]");
+      }
       ListOfSpeciesReferences* reactants = rxn->getListOfReactants();
       checkSpeciesRefs(model, reactants, components, tests, results);
       ListOfSpeciesReferences* products = rxn->getListOfProducts();
       checkSpeciesRefs(model, products, components, tests, results);
       if (rxn->isSetKineticLaw()) {
         KineticLaw* kl = rxn->getKineticLaw();
-        if (kl->getNumLocalParameters() > 0) {
-          tests.insert("LocalParameters");
-        }
         if (kl->getNumParameters() > 0) {
           tests.insert("LocalParameters");
         }
+        //Switch to the following if we decide that we only use the tag if we shadow a global parameter:
+        /* 
+        for (unsigned long lp=0; lp< kl->getNumParameters(); lp++) {
+          Parameter* localparam = kl->getParameter(lp);
+          if (localparam->isSetId() && model->getParameter(localparam->getId()) != NULL) {
+            tests.insert("LocalParameters");
+          }
+        }
+        */
       }
     }
   }

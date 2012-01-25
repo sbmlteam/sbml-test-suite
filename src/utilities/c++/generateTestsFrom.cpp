@@ -717,8 +717,8 @@ main (int argc, char* argv[])
   mfile += getSuiteHeaders(levelsandversions, model, results);
   mfile += getModelSummary(model, results);
   mfile += "\n*)";
-  writeMFile(mfile, filename);
-  writeSettingsFile(filename);
+  //writeMFile(mfile, filename);
+  //writeSettingsFile(filename);
 
 
   delete document;
