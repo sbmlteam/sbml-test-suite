@@ -310,7 +310,7 @@
       <parameter id="chi15" value="0" constant="false"/>
       <parameter id="chi16" value="0" constant="false"/>
       <parameter id="tests" value="0" constant="false"/>
-      <parameter id="finalchi" constant="false"/>
+      <parameter id="finalchi" value="0" constant="false"/>
       <parameter id="error" value="0" constant="false"/>
     </listOfParameters>
     <listOfRules>
