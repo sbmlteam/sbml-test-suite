@@ -3,6 +3,6 @@ duration: 10
 steps: 100
 variables: X
 absolute: 0.0001
-relative: 0.0001
+relative: 0.001
 amount: X
 concentration:
