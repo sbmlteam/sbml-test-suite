@@ -57,6 +57,7 @@ vector<string> createTranslations(SBMLDocument* document, const string oldfilena
         ret.push_back("1.2");
       }
       else if (writeSBMLToFile(translatedDoc, newfilename.c_str())==1) {
+        translatedDoc->setLocationURI("file:" + newfilename);
         cout << "Successfully wrote translation of model to level 1 version 2" << endl;
         ret.push_back("1.2");
       }  
@@ -77,6 +78,7 @@ vector<string> createTranslations(SBMLDocument* document, const string oldfilena
           ret.push_back("2." + toString(v));
         }
         else if (writeSBMLToFile(translatedDoc, newfilename.c_str())==1) {
+          translatedDoc->setLocationURI("file:" + newfilename);
           cout << "Successfully wrote translation of model to level 2 version " << v << endl;
           ret.push_back("2." + toString(v));
         }
@@ -98,6 +100,7 @@ vector<string> createTranslations(SBMLDocument* document, const string oldfilena
         ret.push_back("3.1");
       }
       else if (writeSBMLToFile(translatedDoc, newfilename.c_str())==1) {
+        translatedDoc->setLocationURI("file:" + newfilename);
         cout << "Successfully wrote translation of model to level 3 version 1" << endl;
         ret.push_back("3.1");
       }  
@@ -679,27 +682,36 @@ void writeSettingsFile(string modfilename)
 int
 main (int argc, char* argv[])
 {
-  if (argc != 2)
+  if (argc < 2)
   {
-    cerr << endl << "Usage: generateTestsFrom filename-sbml-l[#]v[#].xml" << endl << endl;
+    cerr << endl << "Usage: generateTestsFrom [-t] filename-sbml-l[#]v[#].xml" << endl << endl;
     return 1;
   }
 
-  string filename   = argv[1];
+  bool translateonly = false;
+  string filename = "";
+  for (int a=1; a<argc; a++) {
+    string option = argv[a];
+    if (option == "-t") {
+      translateonly = true;
+    }
+    else {
+      filename = option;
+    }
+  }
   SBMLDocument* document = readSBML(filename.c_str());
-
-  if (hasActualErrors(document))
-  {
-    cerr << "Encountered the following SBML errors:" << endl;
-    document->printErrors(cerr);
-    return 1;
-  }
-
   Model* model = document->getModel();
 
   if (model == NULL)
   {
     cout << "No model present." << endl;
+    return 1;
+  }
+
+  if (hasActualErrors(document))
+  {
+    cerr << "Encountered the following SBML errors:" << endl;
+    document->printErrors(cerr);
     return 1;
   }
 
@@ -713,13 +725,14 @@ main (int argc, char* argv[])
   map<string, vector<double> >& results = getResults(resultsfilename);
 
   vector<string> levelsandversions = createTranslations(document, filename);
-  string mfile = "(*\n\n";
-  mfile += getSuiteHeaders(levelsandversions, model, results);
-  mfile += getModelSummary(model, results);
-  mfile += "\n*)";
-  //writeMFile(mfile, filename);
-  //writeSettingsFile(filename);
-
+  if (!translateonly) {
+    string mfile = "(*\n\n";
+    mfile += getSuiteHeaders(levelsandversions, model, results);
+    mfile += getModelSummary(model, results);
+    mfile += "\n*)";
+    writeMFile(mfile, filename);
+    writeSettingsFile(filename);
+  }
 
   delete document;
   return 0;
