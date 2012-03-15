@@ -5,7 +5,7 @@
       <compartment id="comp" size="5"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" compartment="comp" initialAmount="5" substanceUnits="substance" hasOnlySubstanceUnits="true"/>
+      <species id="S1" compartment="comp" initialConcentration="1" hasOnlySubstanceUnits="true"/>
     </listOfSpecies>
     <listOfReactions>
       <reaction id="J0" fast="false">

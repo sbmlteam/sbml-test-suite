@@ -1,7 +1,7 @@
 (*
 
 category:      Test
-synopsis:      Species with and initialConcentration but hasOnlySubstanceUnits="true".
+synopsis:      Species with an initialConcentration but hasOnlySubstanceUnits="true".
 componentTags: Compartment, Reaction, Species
 testTags:      Amount, HasOnlySubstanceUnits, NonUnityCompartment
 testType:      TimeCourse
@@ -10,7 +10,7 @@ generatedBy:   Numeric
 
 The single species in this model has an initial concentration of '1', but lives in a compartment of size 5, giving it an initial amount of 5. Since 'hasOnlySubstanceUnits' is 'true', this amount is what is used for the rate rule of the reaction (10/S1).
 
-For comparison, if the size of the compartment is set to '1' and the initialConcentration of the species is changed to an initialAmount of '5', the same numerical results should be obtained.
+For comparison, if the initialConcentration of the species is changed to an initialAmount of '5', the same numerical results should be obtained.
 
 The model contains:
 * 1 species (S1)
