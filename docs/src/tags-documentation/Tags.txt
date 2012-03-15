@@ -45,6 +45,7 @@ NonUnityCompartment             all	A compartment is present in the model whose 
 NonUnityStoichiometry           all	A speciesReference is present in the model whose stoichiometry is not 1.0 for at least part of the requested simulation.
 RandomEventExecution            L3v1+	Two or more events are present in the model which are seen to trigger at the same moment of simulation time and which have, at that point, identical priorities.  Correct evaluation of the model depends on the simulator randomly choosing which event to execute first.
 ReversibleReaction              all	A reaction is present in the model whose kinetic law is negative for at least part of the requested simulation.
+SpeciesReferenceInMath          L3v1+   A speciesReference is present in the model whose ID is used in the <math> element of some other element.
 
 Removed testTags
 ================
