@@ -428,6 +428,56 @@ void checkParameters(Model* model, set<string>& components, set<string>& tests, 
   }
 }
 
+bool foundInMath(string id, const ASTNode* astn)
+{
+  if (astn->getType()==AST_NAME && astn->getName() == id) return true;
+  for (unsigned long c=0; c<astn->getNumChildren(); c++) {
+    if (foundInMath(id, astn->getChild(c))) return true;
+  }
+  return false;
+}
+
+bool foundInMath(string id, Model* model)
+{
+  for (unsigned long ia=0; ia<model->getNumInitialAssignments(); ia++) {
+    const ASTNode* astn = model->getInitialAssignment(ia)->getMath();
+    if (foundInMath(id, astn)) return true;
+  }
+  for (unsigned long r=0;  r<model->getNumRules(); r++) {
+    const ASTNode* astn = model->getRule(r)->getMath();
+    if (foundInMath(id, astn)) return true;
+  }
+  for (unsigned long rxn=0; rxn<model->getNumReactions(); rxn++) {
+    if (model->getReaction(rxn)->getKineticLaw()->getParameter(id) == NULL) {
+      const ASTNode* astn = model->getReaction(rxn)->getKineticLaw()->getMath();
+      if (foundInMath(id, astn)) return true;
+    }
+  }
+  for (unsigned long e=0;  e<model->getNumEvents(); e++) {
+    Event* event = model->getEvent(e);
+    const ASTNode* astn = event->getTrigger()->getMath();
+    if (foundInMath(id, astn)) return true;
+    if (event->isSetPriority()) {
+      astn = event->getPriority()->getMath();
+      if (foundInMath(id, astn)) return true;
+    }
+    if (event->isSetDelay()) {
+      astn = event->getDelay()->getMath();
+      if (foundInMath(id, astn)) return true;
+    }
+    for (unsigned long ea=0; ea<event->getNumEventAssignments(); ea++) {
+      astn = event->getEventAssignment(ea)->getMath();
+      if (foundInMath(id, astn)) return true;
+    }
+  }
+  for (unsigned long c=0;  c<model->getNumConstraints(); c++) {
+    const ASTNode* astn = model->getConstraint(c)->getMath();
+    if (foundInMath(id, astn)) return true;
+  }
+  return false;
+}
+
+
 void checkSpeciesRefs(Model* model, ListOfSpeciesReferences* losr, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results)
 {
   for (unsigned int rp=0; rp<losr->size(); rp++) {
@@ -469,6 +519,9 @@ void checkSpeciesRefs(Model* model, ListOfSpeciesReferences* losr, set<string>& 
       if (initialOverriddenIn(sr->getId(), model, results, tests)) {
         tests.insert("InitialValueReassigned");
       }
+      if (foundInMath(sr->getId(), model)) {
+        tests.insert("SpeciesReferenceInMath");
+      }
     }
   }
 }
@@ -494,15 +547,6 @@ void checkReactions(Model* model, set<string>& components, set<string>& tests,  
         if (kl->getNumParameters() > 0) {
           tests.insert("LocalParameters");
         }
-        //Switch to the following if we decide that we only use the tag if we shadow a global parameter:
-        /* 
-        for (unsigned long lp=0; lp< kl->getNumParameters(); lp++) {
-          Parameter* localparam = kl->getParameter(lp);
-          if (localparam->isSetId() && model->getParameter(localparam->getId()) != NULL) {
-            tests.insert("LocalParameters");
-          }
-        }
-        */
       }
     }
   }
