@@ -291,9 +291,9 @@
         <trigger initialValue="false" persistent="true">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <gt/>
+              <leq/>
               <ci> comp </ci>
-              <cn type="integer"> 5 </cn>
+              <cn> 5.1 </cn>
             </apply>
           </math>
         </trigger>
