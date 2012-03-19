@@ -4,6 +4,6 @@ steps: 1005
 variables: S1, S2, S3, S4, k1, k2, k3, k4, k5, kavo, comp, comp2
 absolute: 0.0001
 relative: 0.0001
-amount: S1, S4
-concentration: S2, S3
+amount: S1, S2, S3, S4
+concentration:
 

@@ -33,7 +33,7 @@ There are 8 events:
 | _E2 | $geq(time, 1)$ | $2$ | true | true | Assignment time | $2$ | $k4 = k3$ |
 | _E3 | $geq(time, 1)$ | $3$ | true | true | Trigger time | $2$ | $k5 = k4$ |
 | _E4 | $geq(time, 1)$ | $4$ | true | true | Assignment time | $2$ | $k3 = k5$ |
-| _E5 | $gt(comp, 5)$ | (unset) | true | false | Trigger time | $1$ | $S3 = 4$ |
+| _E5 | $leq(comp, 5.1)$ | (unset) | true | false | Trigger time | $1$ | $S3 = 4$ |
 | _E6 | $and(geq(time, 1), leq(time, 4))$ | (unset) | true | true | Trigger time | $5$ | $k4 = 0.2$ |
 | _E7 | $and(geq(time, 1), leq(time, 4))$ | (unset) | false | true | Trigger time | $5$ | $k5 = 0$ |]
 
