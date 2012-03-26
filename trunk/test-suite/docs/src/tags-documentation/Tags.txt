@@ -57,3 +57,6 @@ InitialAmount         (changed to Amount)
 InitialConcentration  (changed to Concentration)
 MassUnits             (unused)
 Units                 (unused)
+Constraint	      removed this because it proved untestable
+1D-Compartment
+2D-Compartment
