@@ -330,7 +330,7 @@
         </trigger>
         <delay>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <cn type="integer"> 5 </cn>
+            <cn> 4.9999 </cn>
           </math>
         </delay>
         <listOfEventAssignments>
@@ -361,7 +361,7 @@
         </trigger>
         <delay>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <cn type="integer"> 5 </cn>
+            <cn> 4.9999 </cn>
           </math>
         </delay>
         <listOfEventAssignments>
