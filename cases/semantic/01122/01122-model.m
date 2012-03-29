@@ -8,7 +8,7 @@ testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Numeric
 
- This model is a further simplification of test 1000/1121 that only test the use of a boundary species, used in the model in terms of concentrations, from a compartment that varies in time, used in a reaction rate.
+ This model is a further simplification of test 1000/1121 that only test the use of a boundary species, used in the model in terms of concentrations, from a compartment that varies in time, used in a reaction rate, with hasOnlySubstanceUnits = false.
 
 The model contains:
 * 2 species (S1, S3)
