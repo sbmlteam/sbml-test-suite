@@ -108,8 +108,8 @@ var uniqueTagCombos = [ <%= uniqueTagCodesValues %> ];
 // The 1st tag is position 0 in a binary encoding, the 2nd tag is position 2,
 // etc.  The result is something like this:
 //   0000....0001 for "0D-Comparment"
-//   0000....0010 for "1D-Comparment"
-//   0000....0100 for "2D-Comparment"
+//   0000....0010 for "Amount"
+//   0000....0100 for "AssignedConstantStoichiometry"
 //   ...etc...
 // This code is stored as an integer in the "tagCodes" array.  This works
 // because in Javascript, all integers are 64-bit.  We exchange them as
@@ -233,8 +233,6 @@ function resetAvailableTags()
     setEnabled("CSymbolAvogadro",               false, ctags);
     // tests
     setEnabled("0D-Compartment",                false, ttags);
-    setEnabled("1D-Compartment",                false, ttags);
-    setEnabled("2D-Compartment",                false, ttags);
     setEnabled("ConversionFactors",             false, ttags);
     setEnabled("Concentration",                 false, ttags);
     setEnabled("HasOnlySubstanceUnits",         false, ttags);
@@ -317,8 +315,6 @@ function propagate()
     setExcluded("Species",                true, ctags);
     setExcluded("Reaction",               true, ctags);
     // ... and certain tests become unavailable too.
-    setExcluded("2D-Compartment",         true, ttags);
-    setExcluded("1D-Compartment",         true, ttags);
     setExcluded("0D-Compartment",         true, ttags);
     setExcluded("NonConstantCompartment", true, ttags);
     setExcluded("NonUnityCompartment",    true, ttags);
@@ -774,14 +770,6 @@ all SBML Levels/Versions.  </p>
             <span id="ConversionFactors" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
 	    title="Conversion factors are defined for species quantities in reactions."
             >Conversion factors</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="2D-Compartment"> 
-            <span id="2D-Compartment" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	     title="There is at least one two-dimensional compartment."
-            >2-D compartments</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="1D-Compartment">
-            <span id="1D-Compartment" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	     title="There is at least one one-dimensional compartment."
-            >1-D compartments</span><br>
         <input type="checkbox" name="ttags" onchange="propagate()" value="0D-Compartment">
             <span id="0D-Compartment" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
 	     title="There is at least one zero-dimensional compartment."
