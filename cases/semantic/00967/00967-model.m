@@ -17,9 +17,9 @@ The model contains:
 There are 2 events:
 
 [{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  | *Event Assignments* |
-| Qinc | $geq(time - reset, 0.01)$ | $time$ | false | $reset = time$ |
+| Qinc | $(time - reset) &geq; 0.01$ | $time$ | false | $reset = time$ |
 |  |  |  |  | $Q = Q + 0.01$ |
-| Rinc | $geq(time - reset, 0.01)$ | $5.001$ | false | $reset = time$ |
+| Rinc | $(time - reset) &geq; 0.01$ | $5.001$ | false | $reset = time$ |
 |  |  |  |  | $R = R + 0.01$ |]
 
 The initial conditions are as follows:

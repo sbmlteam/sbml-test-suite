@@ -25,7 +25,7 @@ Note:  the following stoichiometries are set separately:  Xref
 There is one event:
 
 [{width:30em,margin-left:5em}|  *Event*  |  *Trigger*  | *Event Assignments* |
-| _E0 | $geq(X, 5)$ | $Xref = 3$ |]
+| _E0 | $X &geq; 5$ | $Xref = 3$ |]
 
 The initial conditions are as follows:
 

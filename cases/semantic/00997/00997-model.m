@@ -16,9 +16,9 @@ The model contains:
 There are 3 events:
 
 [{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *initialValue*  | *Event Assignments* |
-| E0 | $geq(p1, 1)$ | $2$ | false | $p2 = 1$ |
-| E1 | $geq(p1, 1)$ | $2$ | true | $p3 = 1$ |
-| E2 | $geq(p1, 1)$ | $1$ | false | $p1 = 0$ |]
+| E0 | $p1 &geq; 1$ | $2$ | false | $p2 = 1$ |
+| E1 | $p1 &geq; 1$ | $2$ | true | $p3 = 1$ |
+| E2 | $p1 &geq; 1$ | $1$ | false | $p1 = 0$ |]
 
 The initial conditions are as follows:
 

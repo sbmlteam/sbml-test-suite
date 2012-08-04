@@ -17,7 +17,7 @@ The model contains:
 There is one event:
 
 [{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *initialValue*  |  *Delay*  | *Event Assignments* |
-| E1 | $leq(comp, 5.1)$ | false | $1.05$ | $S3 = 4$ |]
+| E1 | $comp &leq; 5.1$ | false | $1.05$ | $S3 = 4$ |]
 
 
 There is one rule:

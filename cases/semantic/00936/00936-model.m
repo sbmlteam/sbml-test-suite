@@ -17,18 +17,18 @@ The model contains:
 There is one event:
 
 [{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Use values from:*  |  *Delay*  | *Event Assignments* |
-| _E0 | $lt(S1, 0)$ | Assignment time | $2$ | $S2 = S2 + 1$ |]
+| _E0 | $S1 < 0$ | Assignment time | $2$ | $S2 = S2 + 1$ |]
 
 
 There is one rule:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
-| Assignment | S1 | $piecewise(sin(time * 10), leq(time, 2), 1)$ |]
+| Assignment | S1 | $piecewise(sin(time * 10), time < 2, 1)$ |]
 
 The initial conditions are as follows:
 
 [{width:35em,margin-left:5em}|       | *Value* | *Constant* |
-| Initial concentration of species S1 | $piecewise(sin(time * 10), leq(time, 2), 1)$ | variable |
+| Initial concentration of species S1 | $piecewise(sin(time * 10), time < 2, 1)$ | variable |
 | Initial concentration of species S2 | $0$ | variable |
 | Initial volume of compartment 'default_compartment' | $1$ | constant |]
 
