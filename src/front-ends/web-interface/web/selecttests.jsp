@@ -237,10 +237,10 @@ function resetAvailableTags()
     setEnabled("Concentration",                 false, ttags);
     setEnabled("HasOnlySubstanceUnits",         false, ttags);
     setEnabled("ConstantSpecies",               false, ttags);
-    setEnabled("AssignedStoichiometry",         false, ttags);
     setEnabled("AssignedConstantStoichiometry", false, ttags);
+    setEnabled("AssignedVariableStoichiometry", false, ttags);
     setEnabled("RandomEventExecution",          false, ttags);
-    setEnabled("SpeciesReferenceMath",          false, ttags);
+    setEnabled("SpeciesReferenceInMath",        false, ttags);
     setEnabled("EventIsNotPersistent",          false, ttags);
     setEnabled("EventIsPersistent",             false, ttags);
     setEnabled("EventUsesTriggerTimeValues",    false, ttags);
@@ -256,7 +256,7 @@ function resetAvailableTags()
     setEnabled("ConversionFactors",             false, ttags);
     // tests
     setEnabled("RandomEventExecution",          false, ttags);
-    setEnabled("SpeciesReferenceMath",          false, ttags);
+    setEnabled("SpeciesReferenceInMath",        false, ttags);
     setEnabled("EventIsNotPersistent",          false, ttags);
     setEnabled("EventUsesAssignmentTimeValues", false, ttags);
     setEnabled("EventT0Firing",                 false, ttags);
@@ -270,7 +270,7 @@ function resetAvailableTags()
     // tests
     setEnabled("ConversionFactors",             false, ttags);
     setEnabled("RandomEventExecution",          false, ttags);
-    setEnabled("SpeciesReferenceMath",          false, ttags);
+    setEnabled("SpeciesReferenceInMath",        false, ttags);
     setEnabled("EventIsNotPersistent",          false, ttags);
     setEnabled("EventUsesAssignmentTimeValues", false, ttags);
     setEnabled("EventT0Firing",                 false, ttags);
@@ -283,11 +283,15 @@ function resetAvailableTags()
     // tests
     setEnabled("ConversionFactors",             false, ttags);
     setEnabled("RandomEventExecution",          false, ttags);
-    setEnabled("SpeciesReferenceMath",          false, ttags);
+    setEnabled("SpeciesReferenceInMath",        false, ttags);
     setEnabled("EventIsNotPersistent",          false, ttags);
     setEnabled("EventT0Firing",                 false, ttags);
     break;
 
+  case "3.1":
+    // components
+    setEnabled("StoichiometryMath",             false, ctags);
+    break;
   }
   warn("", "init");
   propagate();
@@ -340,10 +344,10 @@ function propagate()
     setExcluded("FastReaction",           true, ttags);
     setExcluded("ReversibleReaction",     true, ttags);
     setExcluded("NonUnityStoichiometry",  true, ttags);
-    setExcluded("AssignedStoichiometry",  true, ttags);
+    setExcluded("AssignedVariableStoichiometry", true, ttags);
     setExcluded("AssignedConstantStoichiometry", true, ttags);
     setExcluded("LocalParameters",        true, ttags);
-    setExcluded("SpeciesReferenceMath",   true, ttags);
+    setExcluded("SpeciesReferenceInMath", true, ttags);
   }
 
   if (isExcluded("Parameter", ctags))
@@ -651,7 +655,7 @@ hookEvent("load", resetAllUnconditionally);
 
 <div id='pagetitle'><h1 class='pagetitle'>Step 1: Select SBML Tests </h1></div><!-- id='pagetitle' -->
 <div style="float: right; margin-top: 0; padding: 0 0 0 5px">
-  <img src="<%=OnlineSTS.getImageURL(request)%>/Icon-online-test-suite-64px.jpg" border="0">
+  <img src="<%=OnlineSTS.getImageURL(request)%>/Icon-online-test-suite-64px.jpg" border="0"/>
 </div>
 <p>
 The first step in using the online Test Suite is to obtain a set of test
@@ -710,39 +714,41 @@ all SBML Levels/Versions.  </p>
   <tr>
     <td width="30%" valign="top" style="padding: 0 0 0 1em">
         <input type="checkbox" name="ctags" onchange="propagate()" value="AssignmentRule" />
-            <span id="AssignmentRule">Assignment rules</span><br>
+            <span id="AssignmentRule">Assignment rules</span><br/>
         <input type="checkbox" name="ctags" onchange="propagate()" value="RateRule" />
-            <span id="RateRule">Rate rules</span><br>
+            <span id="RateRule">Rate rules</span><br/>
         <input type="checkbox" name="ctags" onchange="propagate()" value="AlgebraicRule" />
-            <span id="AlgebraicRule">Algebraic rules</span><br>
+            <span id="AlgebraicRule">Algebraic rules</span><br/>
         <input type="checkbox" name="ctags" onchange="propagate()" value="FunctionDefinition" />
-            <span id="FunctionDefinition">Function definition</span><br> 
+            <span id="FunctionDefinition">Function definition</span><br/> 
         <input type="checkbox" name="ctags" onchange="propagate()" value="InitialAssignment" />
-            <span id="InitialAssignment">Initial assignment</span><br>
+            <span id="InitialAssignment">Initial assignment</span><br/>
     </td>
     <td width="33%" valign="top" style="padding: 0 0 0 1em">
         <input type="checkbox" name="ctags" onchange="propagate()" value="EventNoDelay" />
-            <span id="EventNoDelay">Events without delays</span><br>
+            <span id="EventNoDelay">Events without delays</span><br/>
         <input type="checkbox" name="ctags" onchange="propagate()" value="EventWithDelay" />
-            <span id="EventWithDelay">Events with delays</span><br>
+            <span id="EventWithDelay">Events with delays</span><br/>
         <input type="checkbox" name="ctags" onchange="propagate()" value="EventPriority" />
-            <span id="EventPriority">Priorities for event triggers</span><br>
+            <span id="EventPriority">Priorities for event triggers</span><br/>
         <input type="checkbox" name="ctags" onchange="propagate()" value="CSymbolDelay" />
-            <span id="CSymbolDelay">&lt;csymbol&gt; for 'delay'</span><br>
+            <span id="CSymbolDelay">&lt;csymbol&gt; for 'delay'</span><br/>
         <input type="checkbox" name="ctags" onchange="propagate()" value="CSymbolTime" />
-            <span id="CSymbolTime">&lt;csymbol&gt; for 'time'</span><br>
+            <span id="CSymbolTime">&lt;csymbol&gt; for 'time'</span><br/>
+        <input type="checkbox" name="ctags" onchange="propagate()" value="CSymbolAvogadro" />
+            <span id="CSymbolAvogadro">&lt;csymbol&gt; for 'avogadro'</span><br/>
        </td>
     <td width="33%" valign="top" style="padding: 0 0 0 1em">
-        <input type="checkbox" name="ctags" onchange="propagate()" value="CSymbolAvogadro" />
-            <span id="CSymbolAvogadro">&lt;csymbol&gt; for 'avogadro'</span><br>
+        <input type="checkbox" name="ctags" onchange="propagate()" value="StoichiometryMath" />
+            <span id="StoichiometryMath">&lt;stoichiometryMath&gt;</span><br/>
         <input type="checkbox" name="ctags" onchange="propagate()" value="Compartment" />
-            <span id="Compartment">Compartments</span><br>
+            <span id="Compartment">Compartments</span><br/>
         <input type="checkbox" name="ctags" onchange="propagate()" value="Species" />
-            <span id="Species">Species</span><br>
+            <span id="Species">Species</span><br/>
         <input type="checkbox" name="ctags" onchange="propagate()" value="Reaction" />
-            <span id="Reaction">Reactions</span><br>
+            <span id="Reaction">Reactions</span><br/>
         <input type="checkbox" name="ctags" onchange="propagate()" value="Parameter" />
-            <span id="Parameter">Parameters</span><br>
+            <span id="Parameter">Parameters</span><br/>
     </td>   
   </tr>
 </table> 
@@ -754,112 +760,116 @@ all SBML Levels/Versions.  </p>
 <table class="borderless-table smaller-font" width="100%">
   <tr>
     <td width="30%" valign="top" style="padding: 0 0 0 1em">
-        <input type="checkbox" name="ttags" onchange="propagate()" value="InitialValueReassigned">
+        <input type="checkbox" name="ttags" onchange="propagate()" value="InitialValueReassigned"/>
             <span id="InitialValueReassigned" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="The initial values given in some model component declarations (e.g., species quantity) are overridden by other constructs (e.g., rules)."
-            >Initial entity values overriden</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="NonConstantParameter">
+	    title="The initial value of a species, compartment, parameter, or (in SBML Level 3) species reference, is determined by an initial assignment, assignment rule, or algebraic rule."
+            >Initial entity values overriden</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="NonConstantParameter"/>
             <span id="NonConstantParameter" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="The values of some parameters in the model change over time."
-            >Varying parameter values</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="LocalParameters">
+	    title="The model contains at least one parameter whose value changes over the course of the simulation."
+            >Varying parameter values</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="LocalParameters"/>
             <span id="LocalParameters" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="Local parameters are used in reactions, shadowing other parameters having the same identifiers elsewhere in the model."
-            >Local parameters in reactions</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="ConversionFactors">
+	    title="The model contains a kinetic law with a 'listOfParameters' (SBML Levels 1&ndash;2) or 'listOfLocalParameters' (Level 3)."
+            >Local parameters in reactions</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="ConversionFactors"/>
             <span id="ConversionFactors" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="Conversion factors are defined for species quantities in reactions."
-            >Conversion factors</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="0D-Compartment">
+	    title="The model itself, or a species it contains, has a value set for the 'conversionFactor' attribute."
+            >Conversion factors</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="0D-Compartment"/>
             <span id="0D-Compartment" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	     title="There is at least one zero-dimensional compartment."
-            >0-D compartments</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="NonConstantCompartment">
+	     title="A compartment with a value of 0 for its 'spatialDimensions' attribute is present in the model."
+            >0-D compartments</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="NonConstantCompartment"/>
             <span id="NonConstantCompartment" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="At least one compartment in the model has a size that varies as a function of time."
-            >Varying-size compartments</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="NonUnityCompartment">
+	    title="The model contains at least one compartment whose size changes over the course of the simulation."
+            >Varying-size compartments</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="NonUnityCompartment"/>
             <span id="NonUnityCompartment" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="At least one compartment in the model has a size that is not unity, i.e., it is numerically <i>not</i> 1 (in whatever unit is used)."
-            >Compartments with size &ne; 1</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="MultiCompartment">
+	    title="The model contains at least one compartment whose size is not 1.0 for at least part of the duration of the simulation."
+            >Compartments with size &ne; 1</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="MultiCompartment"/>
             <span id="MultiCompartment" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
 	    title="There is more than one compartment in the model."
-            >Multiple compartments</span><br>
+            >Multiple compartments</span><br/>
     </td>
     <td width="33%" valign="top" style="padding: 0 0 0 1em">
-        <input type="checkbox" name="ttags" onchange="propagate()" value="Amount">
-            <span id="Amount" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="At least one species has an initial value given in terms of an amount, not a concentration."
-            >Species using initial amounts</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="Concentration">
-            <span id="Concentration" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="At least one species has an initial value given in terms of a concentration, not an amount."
-            >Species using initial concentration</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="HasOnlySubstanceUnits">
+        <input type="checkbox" name="ttags" onchange="propagate()" value="HasOnlySubstanceUnits"/>
             <span id="HasOnlySubstanceUnits" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="At least one species is defined to be <i>always</i> interpreted in units of substance amount, not concentration."
-            >Species with 'hasOnlySubstanceUnits'</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="BoundaryCondition">
+	    title="A species with an attribute value of 'true' for 'hasOnlySubstanceUnits' is present in the model."
+            >Species with 'hasOnlySubstanceUnits'</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="BoundaryCondition"/>
             <span id="BoundaryCondition" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="One or more species are declared to be boundary conditions."
-            >Species as boundary conditions</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="ConstantSpecies">
+	    title="A species with a value of 'true' for its 'boundaryCondition' attribute is present in the model."
+            >Species as boundary conditions</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="ConstantSpecies"/>
             <span id="ConstantSpecies" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="One or more species are declared to be constant, i.e., their values are fixed throughout the simulation."
-            >Species declared as constant</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="FastReaction">
+	    title="A species with a value of 'true' for its 'constant' attribute is present in the model."
+            >Species declared as constant</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="FastReaction"/>
             <span id="FastReaction" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="At least one reaction has a value of <code>true</code> for its <code>fast</code> attribute, affecting its interpretation."
-            >'Fast' reactions</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="ReversibleReaction">
+	    title="A reaction with a value of 'true' for its 'fast' attribute is present in the model."
+            >'Fast' reactions</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="ReversibleReaction"/>
             <span id="ReversibleReaction" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="At least one reaction has a <code>reversible</code> attribute value of <code>true</code>, and this may or may not correspond to the behavior dictated by the reaction's rate expression."
-            >Reversible reactions</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="NonUnityStoichiometry">
+	    title="The model contains at least one reaction whose kinetic law produces a negative value for at least part of the duration of the simulation."
+            >Reversible reactions</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="NonUnityStoichiometry"/>
             <span id="NonUnityStoichiometry" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="At least one reactant or product in a reaction has a stoichiometry value <i>other</i> than&nbsp;1."
-            >Stoichiometries &ne; 1</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="AssignedStoichiometry">
-            <span id="AssignedStoichiometry" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="At least one reaction uses <code>stoichiometryMath</code> (in Level 2), or (in Level 3) a rule or an <code>InitialAssignment</code> sets a value to a <code>SpeciesReference</code> id."
-            >Math using stoichiometries</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="AssignedConstantStoichiometry">
+	    title="The model contains at least one species reference with a stoichiometry value that is not 1.0 for at least part of the duration of the simulation."
+            >Stoichiometries &ne; 1</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="AssignedConstantStoichiometry"/>
             <span id="AssignedConstantStoichiometry" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="<code>stoichiometryMath</code> is used (in Level 2), or (in Level 3) an <code>InitialAssignment</code> sets a  <code>SpeciesReference</code> id, but the stoichiometry value stays constant during simulation."
-            >Math using constant stoichiometries</span><br>
+	    title="The model contains a stoichiometry that is set by 'stoichiometryMath' (Level 2) or an initial assignment or rule (Level 3), but thereafter the value remains constant."
+            >Assigned constant stoichiometries</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="AssignedVariableStoichiometry"/>
+            <span id="AssignedVariableStoichiometry" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
+	    title="The model contains a stoichiometry that is set by 'stoichiometryMath' (Level 2) or an initial assignment, rule or event (Level 3), and the value is changed during simulation."
+            >Assigned variable stoichiometries</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="SpeciesReferenceInMath"/>
+            <span id="SpeciesReferenceInMath" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
+	    title="The model contains at least one species reference with an identifier that is used in a mathematical formula elsewhere in the model."
+            >Species reference id used in math</span><br/>
     </td>
     <td width="33%" valign="top" style="padding: 0 0 0 1em">
-        <input type="checkbox" name="ttags" onchange="propagate()" value="RandomEventExecution">
+        <input type="checkbox" name="ttags" onchange="propagate()" value="RandomEventExecution"/>
             <span id="RandomEventExecution" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="Two or more events have equal priority, effectively resulting in their order of execution being defined as random."
-            >Simultaneously scheduled events</span><br>
-        <input type="checkbox" name="ttags" value="EventUsesTriggerTimeValues" onchange="propagate()" >
+	    title="Two or more events execute at the same moment in time, and have, at that moment, identical priorities, so correct simulation requires randomly choosing which event to execute first."
+            >Random event execution</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="EventUsesTriggerTimeValues"/>
             <span id="EventUsesTriggerTimeValues" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="At least one event's assignments use entity values from the time the event was <i>triggered</i>, not when it executes its assignments, affecting the event's interpretation."
-            >Event uses trigger-time values</span><br>
-        <input type="checkbox" name="ttags" value="EventUsesAssignmentTimeValues" onchange="propagate()" >
+	    title="At least one event has a 'useValuesFromTriggerTime' attribute set to 'true' (Level 2 V.4 or later), or is assumed to use trigger time values by default (Level 2 prior to V.4)."
+            >Event uses trigger-time values</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="EventUsesAssignmentTimeValues"/>
             <span id="EventUsesAssignmentTimeValues" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="At least one event's assignments use entity values from the time the assignments are made, not when the event was triggered, affecting the event's interpretation."
-            >Event uses assignment-time values</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="EventIsPersistent">
+	    title="The model contains at least one event whose 'useValuesFromTriggerTime' attribute is set to 'false', and this makes a difference in the output of the simulation."
+            >Event uses assignment-time values</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="EventIsPersistent"/>
             <span id="EventIsPersistent" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="At least one <b>Event</b> has a <b>Trigger</b> with a value of <code>true</code> for the attribute <code>persistent</code>, affecting its interpretation."
-            >Persistent events</span><br>
-        <input type="checkbox" name="ttags" onchange="propagate()" value="EventIsNotPersistent">
+	    title="The simulation behavior of the model is influenced by an event that has a value of 'true' for its 'persistent' attribute (Level 3) or is assumed to be persistent by default (Level 2)."
+            >Persistent events</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="EventIsNotPersistent"/>
             <span id="EventIsNotPersistent" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="At least one <b>Event</b> has a <b>Trigger</b> with a value of <code>false</code> for the attribute <code>persistent</code>, affecting its interpretation."
-            >Non-persistent events</span><br>
-        <input type="checkbox" name="ttags" value="EventT0Firing" onchange="propagate()" >
+	    title="The simulation behavior of the model is influenced by an event that has a value of 'false' for its 'persistent' attribute (Level 3 only)."
+            >Non-persistent events</span><br/>
+        <input type="checkbox" name="ttags"  onchange="propagate()" value="EventT0Firing"/>
             <span id="EventT0Firing" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
-	    title="Event <b>Trigger</b> objects have different values for the attribute <code>initialValue</code>, affecting whether the event can trigger at time <i>t</i>=0."
-            >Event triggers at time = 0</span><br>
+	    title="An event has a trigger that evaluates to 'true' at time 0, and whether it fires at time 0 (possible in SBML Level 3; impossible in Level 2) makes a difference to the simulation."
+            >Event triggers at time = 0</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="Amount"/>
+            <span id="Amount" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
+	    title="The value of at least one species is requested to be output in units of amount, not concentration."
+            >Species using initial amounts</span><br/>
+        <input type="checkbox" name="ttags" onchange="propagate()" value="Concentration"/>
+            <span id="Concentration" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
+	    title="The value of at least one species is requested to be output in units of concentration, not amount."
+            >Species using initial concentration</span><br/>
     </td>         
   </tr>
 </table> 
 </div>
 
-<p style="margin-top: 1em">
+<p style="margin-top: 1.5em">
 When you are finished excluding tests, click the <i>Get test cases</i> button to download a
 zip archive of the test cases left:
 </p>
@@ -886,8 +896,8 @@ boxes before proceeding.
 </div>
 
 <center style="margin: 1.5em auto" class="ie-submit-button-fix">
-  <input name="submit" type="submit" value="Get test cases" onclick="changeNextLink('show')">
-  <input type="reset" value="&nbsp; Reset form &nbsp;" onclick="resetAll(true)" style="margin-left: 100pt; color: darkred">
+  <input name="submit" type="submit" value="Get test cases" onclick="changeNextLink('show')"/>
+  <input type="reset" value="&nbsp; Reset form &nbsp;" onclick="resetAll(true)" style="margin-left: 100pt; color: darkred"/>
 </center>
 </form> 
 
@@ -897,8 +907,8 @@ When you are ready, please proceed to Step 2.
 
 <center>
   <a href="<%=OnlineSTS.getHomeURL(request)%>/Step_2:_Running_the_tests">
-    <img border="0" align="center" 
-         src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-right-arrow.jpg">
+    <img border="0" align="middle" alt="Right arrow"
+         src="<%=OnlineSTS.getImageURL(request)%>/Icon-red-right-arrow.jpg"/>
     Go to the instructions for Step 2 (running the tests).
   </a>
 </center>
@@ -910,7 +920,7 @@ provide information about the operating system and web browser you are
 using.
 </div>
 
-<script>
+<script type="text/javascript">
 $("#tags span[title]").tooltip({
 opacity: 1, predelay: 100, offset: [0,0], effect: 'toggle', delay: 0
 });
