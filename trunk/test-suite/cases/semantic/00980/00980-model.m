@@ -16,9 +16,9 @@ The model contains:
 There are 2 events:
 
 [{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Use values from:*  |  *Delay*  | *Event Assignments* |
-| _E0 | $geq(time, 0.98)$ | Assignment time | $0.1$ | $y = y + x$ |
+| _E0 | $time &geq; 0.98$ | Assignment time | $0.1$ | $y = y + x$ |
 |  |  |  |  | $x = 2$ |
-| _E1 | $geq(time, 0.99)$ | Assignment time | $0.1$ | $p = 3$ |
+| _E1 | $time &geq; 0.99$ | Assignment time | $0.1$ | $p = 3$ |
 |  |  |  |  | $q = p + 1$ |]
 
 The initial conditions are as follows:

@@ -21,11 +21,11 @@ The model contains:
 There are 3 events:
 
 [{width:35em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  | *Event Assignments* |
-| A | $geq(time, 0.99)$ | $10$ | $S1 = 1$ |
+| A | $time &geq; 0.99$ | $10$ | $S1 = 1$ |
 |  |  |  | $S2 = 0$ |
-| B | $geq(time, 0.99)$ | $2 * S2$ | $S1 = 2$ |
+| B | $time &geq; 0.99$ | $2 * S2$ | $S1 = 2$ |
 |  |  |  | $S2 = 1$ |
-| C1 | $geq(time, 0.99)$ | $2 * S1$ | $S1 = 3$ |
+| C1 | $time &geq; 0.99$ | $2 * S1$ | $S1 = 3$ |
 |  |  |  | $S2 = 2$ |]
 
 The initial conditions are as follows:

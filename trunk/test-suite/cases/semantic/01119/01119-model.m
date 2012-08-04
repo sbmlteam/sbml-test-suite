@@ -18,10 +18,10 @@ The model contains:
 There are 4 events:
 
 [{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *Delay*  | *Event Assignments* |
-| E1 | $geq(time, 3)$ | $10$ | $1.5$ | $e1 = 3$ |
-| E2 | $geq(time, 3)$ | $5$ | $1.5$ | $e1 = 2$ |
-| E3 | $geq(time, 3)$ | $4$ | $1.5$ | $e2 = 3$ |
-| E4 | $geq(time, 3)$ | $9$ | $1.5$ | $e2 = 2$ |]
+| E1 | $time &geq; 3$ | $10$ | $1.5$ | $e1 = 3$ |
+| E2 | $time &geq; 3$ | $5$ | $1.5$ | $e1 = 2$ |
+| E3 | $time &geq; 3$ | $4$ | $1.5$ | $e2 = 3$ |
+| E4 | $time &geq; 3$ | $9$ | $1.5$ | $e2 = 2$ |]
 
 The initial conditions are as follows:
 

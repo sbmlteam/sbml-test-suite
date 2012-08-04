@@ -26,8 +26,8 @@ There are 2 reactions:
 There are 2 events:
 
 [{width:35em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Delay*  | *Event Assignments* |
-| E0 | $geq(A, 0.99)$ | $0$ | $k2 = 1$ |
-| E1 | $geq(A, 0.99)$ | $0.1$ | $k2 = 0$ |]
+| E0 | $A &geq; 0.99$ | $0$ | $k2 = 1$ |
+| E1 | $A &geq; 0.99$ | $0.1$ | $k2 = 0$ |]
 
 The initial conditions are as follows:
 

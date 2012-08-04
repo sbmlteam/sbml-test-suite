@@ -16,8 +16,8 @@ The model contains:
 There are 2 events:
 
 [{width:35em,margin-left:5em}|  *Event*  |  *Trigger*  |  *initialValue*  | *Event Assignments* |
-| E0 | $gt(p1, 0)$ | false | $p2 = 1$ |
-| E1 | $gt(p1, 0)$ | true | $p3 = 1$ |]
+| E0 | $p1 > 0$ | false | $p2 = 1$ |
+| E1 | $p1 > 0$ | true | $p3 = 1$ |]
 
 The initial conditions are as follows:
 

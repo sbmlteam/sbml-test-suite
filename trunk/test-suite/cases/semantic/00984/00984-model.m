@@ -17,7 +17,7 @@ The model contains:
 There is one event:
 
 [{width:30em,margin-left:5em}|  *Event*  |  *Trigger*  | *Event Assignments* |
-| _E0 | $geq(time, 0.99)$ | $temp = 1$ |]
+| _E0 | $time &geq; 0.99$ | $temp = 1$ |]
 
 
 There are 2 rules:

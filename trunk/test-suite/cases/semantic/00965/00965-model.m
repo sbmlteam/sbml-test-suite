@@ -18,17 +18,17 @@ The model contains:
 There are 5 events:
 
 [{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  | *Event Assignments* |
-| Qinc | $geq(time - reset, 0.01)$ | $10$ | false | $reset = time$ |
+| Qinc | $(time - reset) &geq; 0.01$ | $10$ | false | $reset = time$ |
 |  |  |  |  | $Rrun = 0$ |
 |  |  |  |  | $Qrun = Qrun + 1$ |
 |  |  |  |  | $Q = Q + 0.01$ |
-| Rinc | $geq(time - reset, 0.01)$ | $10$ | false | $reset = time$ |
+| Rinc | $(time - reset) &geq; 0.01$ | $10$ | false | $reset = time$ |
 |  |  |  |  | $Qrun = 0$ |
 |  |  |  |  | $Rrun = Rrun + 1$ |
 |  |  |  |  | $R = R + 0.01$ |
-| maxrun_check1 | $gt(Qrun, maxrun)$ | $9$ | true | $maxrun = Qrun$ |
-| maxrun_check2 | $gt(Rrun, maxrun)$ | $8$ | true | $maxrun = Rrun$ |
-| error_check | $gt(maxrun, 300)$ | $7$ | true | $error = 1$ |]
+| maxrun_check1 | $Qrun > maxrun$ | $9$ | true | $maxrun = Qrun$ |
+| maxrun_check2 | $Rrun > maxrun$ | $8$ | true | $maxrun = Rrun$ |
+| error_check | $maxrun > 300$ | $7$ | true | $error = 1$ |]
 
 
 There is one rule:

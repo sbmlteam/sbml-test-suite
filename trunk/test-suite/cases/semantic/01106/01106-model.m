@@ -27,7 +27,7 @@ Note:  the following stoichiometries are set separately:  Xref
 There is one event:
 
 [{width:30em,margin-left:5em}|  *Event*  |  *Trigger*  | *Event Assignments* |
-| _E0 | $geq(X, 2)$ | $p1 = 2$ |]
+| _E0 | $X &geq; 2$ | $p1 = 2$ |]
 
 
 There is one rule:

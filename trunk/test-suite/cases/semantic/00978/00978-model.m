@@ -37,18 +37,18 @@ The model contains:
 There are 12 events:
 
 [{width:45em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  |  *Use values from:*  | *Event Assignments* |
-| _E0 | $geq(time, 0.99)$ | $10$ | true | Trigger time | $multitrig = 2$ |
-| _E1 | $geq(time, 0.99)$ | $9$ | true | Trigger time | $multitrig = 0$ |
-| _E2 | $geq(time, 0.99)$ | $8$ | true | Trigger time | $multitrig = 2$ |
-| _E3 | $geq(time, 0.99)$ | $7$ | true | Trigger time | $multitrig = 0$ |
-| _E4 | $geq(time, 0.99)$ | $6$ | true | Trigger time | $multitrig = 2$ |
-| _E5 | $geq(time, 0.99)$ | $5$ | true | Trigger time | $multitrig = 0$ |
-| _E6 | $geq(time, 0.99)$ | $4$ | true | Trigger time | $multitrig = 2$ |
-| _E7 | $geq(time, 0.99)$ | $3$ | true | Trigger time | $multitrig = 0$ |
-| _E8 | $geq(time, 0.99)$ | $2$ | true | Trigger time | $multitrig = 2$ |
-| _E9 | $gt(multitrig, 1)$ | $1$ | true | Assignment time | $x = x + 1$ |
-| _E10 | $gt(multitrig, 1)$ | $1$ | true | Trigger time | $y = y + 1$ |
-| _E11 | $gt(multitrig, 1)$ | $1$ | false | Assignment time | $z = z + 3$ |]
+| _E0 | $time &geq; 0.99$ | $10$ | true | Trigger time | $multitrig = 2$ |
+| _E1 | $time &geq; 0.99$ | $9$ | true | Trigger time | $multitrig = 0$ |
+| _E2 | $time &geq; 0.99$ | $8$ | true | Trigger time | $multitrig = 2$ |
+| _E3 | $time &geq; 0.99$ | $7$ | true | Trigger time | $multitrig = 0$ |
+| _E4 | $time &geq; 0.99$ | $6$ | true | Trigger time | $multitrig = 2$ |
+| _E5 | $time &geq; 0.99$ | $5$ | true | Trigger time | $multitrig = 0$ |
+| _E6 | $time &geq; 0.99$ | $4$ | true | Trigger time | $multitrig = 2$ |
+| _E7 | $time &geq; 0.99$ | $3$ | true | Trigger time | $multitrig = 0$ |
+| _E8 | $time &geq; 0.99$ | $2$ | true | Trigger time | $multitrig = 2$ |
+| _E9 | $multitrig > 1$ | $1$ | true | Assignment time | $x = x + 1$ |
+| _E10 | $multitrig > 1$ | $1$ | true | Trigger time | $y = y + 1$ |
+| _E11 | $multitrig > 1$ | $1$ | false | Assignment time | $z = z + 3$ |]
 
 The initial conditions are as follows:
 
