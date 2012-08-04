@@ -25,7 +25,7 @@ There are 2 reactions:
 There is one event:
 
 [{width:30em,margin-left:5em}|  *Event*  |  *Trigger*  | *Event Assignments* |
-| _E0 | $gt(time, 0.99)$ | $k1 = 1$ |]
+| _E0 | $time > 0.99$ | $k1 = 1$ |]
 
 The initial conditions are as follows:
 
