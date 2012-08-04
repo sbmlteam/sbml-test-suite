@@ -1,7 +1,7 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
-=== Version 2.1.0 release (2012-02-06)
+=== Version 2.1.0 release (2012-08-06)
 
 * Bug fixes:
 
@@ -46,6 +46,9 @@
     are correct, the models are valid and present, and the settings
     file is of the right basic format.  See src\utilities\c++\
 
+  - We changed some cases' tolerances, because some developers
+    reported the cases had excessively stringent tolerances.
+
 * New cases:
 
   - New cases with the AssignedVariableStoichiometry tag (both L2
@@ -64,6 +67,12 @@
 
   - One new 'kitchen sink' test (1000) which tests almost all tags
     in one complicated model.
+
+Note: the syntax of some gnuplot commands changed from version 4.4
+to 4.6, and the script in src/utilities/plotresults/plotresults.sh
+will currently not work in gnuplot 4.6.  Make sure to use 4.4 if you
+attempt to recreate the plots using the scripts provided in the
+SBML Test Suite source directory.
 
 
 === Version 2.0.2 release (2011-11-15) ===
