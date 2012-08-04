@@ -128,7 +128,7 @@ contents = cases/semantic \
            NEWS.txt       \
            LICENSE.txt
 
-cases-dist: html plots sedml
+cases-dist: html plots sedml tags-map
 	@echo $(today) > $(ts-file)
 	make $(map-file)
 	zip -r sbml-test-cases-$(today).zip $(contents) -x@.zipexcludes
@@ -138,7 +138,7 @@ cases-dist: html plots sedml
 	@echo "---------------------------------------------------------------"
 
 
-$(map-file): $(ts-file)
+tags-map $(map-file): $(cases-m-files)
 	@echo "Making tags map file:"
 	src/utilities/make-tag-map/make-tag-map.sh $(map-file)
 
