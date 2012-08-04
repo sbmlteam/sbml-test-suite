@@ -24,7 +24,7 @@ There is one reaction:
 There is one event:
 
 [{width:30em,margin-left:5em}|  *Event*  |  *Trigger*  | *Event Assignments* |
-| event1 | $gt(S1, 2.1)$ | $C = 10$ |]
+| event1 | $S1 > 2.1$ | $C = 10$ |]
 
 The initial conditions are as follows:
 
