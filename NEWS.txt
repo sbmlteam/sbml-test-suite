@@ -1,6 +1,31 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
+=== Version 2.1.1 release (2012-08-21)
+
+General note: it is not clearly stated anywhere, but test case
+directories do not always contain all Level/Version combinations of
+SBML.  This happens for cases that contain a feature handled
+differently in one SBML Level compared to another.  In other words, in
+the individual cases/semantic/* directories, you may find models that
+are only provided in SBML Level 2 or Level 3 form, and this is normal;
+it does not indicate models are missing.
+
+* Bug fixes:
+
+  - In the version 2.1.0 cases archive distribution file, some case
+    directories contained SED-ML files even though there were no
+    corresponding SBML model.  This happened for Level 3 versions of
+    some models and changed between releases 2.0 and 2.1; the Level 3
+    versions of some cases were split out as separate cases in release
+    2.1, leaving only the Level 1-2 versions in the original test case
+    directory.  Unfortunately, when we generated the distribution
+    archive, we didn't properly delete all SED-ML files before
+    regenerating them, and so some old SED-ML files were left from the
+    time before the Level 3 models were split out as new cases.  This
+    problem was reported by Ilya Kiselev from DevelopmentOnTheEdge.com.
+
+
 === Version 2.1.0 release (2012-08-06)
 
 * Bug fixes:
