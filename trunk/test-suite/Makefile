@@ -46,6 +46,9 @@ html: $(cases-html-files)
 cases/semantic/%-model.html: cases/semantic/%-model.m
 	$(call make_html,$@)
 
+clean-html:
+	rm -f $(cases-html-files)
+
 #
 # 'make plots'
 #
@@ -73,40 +76,45 @@ cases/semantic/%-plot.svg: cases/semantic/%-results.csv
 convert-all-svg-to-jpg:
 	java -jar src/imported/batik/batik-rasterizer.jar -m image/jpeg -q 0.9 $(cases-svg-files)
 
+clean-plots:
+	rm -f $(cases-svg-files)
+	rm -f $(cases-jpg-files)
+
 #
 # 'make sedml'
 #
 
 ifeq "`uname`" "Darwin"
   define make_sedml_files
+    @echo "Creating SED-ML for $(1)"
     env DYLD_LIBRARY_PATH="src/utilities/sedml:$(DYLD_LIBRARY_PATH)" \
 	mono ./src/utilities/sedml/GenerateSedML.exe -c `dirname $(1)` -a
   endef
 else
   define make_sedml_files
+    @echo "Creating SED-ML for $(1)"
     env LD_LIBRARY_PATH="src/utilities/sedml:$(DYLD_LIBRARY_PATH)" \
 	mono ./src/utilities/sedml/GenerateSedML.exe -c `dirname $(1)` -a
   endef
 endif
 
-cases-sbml-files       = $(wildcard cases/semantic/*/*-sbml-l[1234]v[0-9].xml)
-cases-sedml-l1v2-files = $(patsubst %-l1v2.xml,%-l1v2-sedml.xml,$(cases-sbml-files))
-cases-sedml-l2v1-files = $(patsubst %-l2v1.xml,%-l2v1-sedml.xml,$(cases-sbml-files))
-cases-sedml-l2v2-files = $(patsubst %-l2v2.xml,%-l2v2-sedml.xml,$(cases-sbml-files))
-cases-sedml-l2v3-files = $(patsubst %-l2v3.xml,%-l2v3-sedml.xml,$(cases-sbml-files))
-cases-sedml-l2v4-files = $(patsubst %-l2v4.xml,%-l2v4-sedml.xml,$(cases-sbml-files))
-cases-sedml-l3v1-files = $(patsubst %-l3v1.xml,%-l3v1-sedml.xml,$(cases-sbml-files))
-all-sedml-files        = $(cases-sedml-l1v2-files) \
-                         $(cases-sedml-l2v1-files) \
-                         $(cases-sedml-l2v2-files) \
-                         $(cases-sedml-l2v3-files) \
-                         $(cases-sedml-l2v4-files) \
-                         $(cases-sedml-l3v1-files)
-
-sedml: $(all-sedml-files)
+cases-sbml-files = $(wildcard cases/semantic/*/*-sbml-l[1234]v[0-9].xml)
+all-sedml-files	:= $(patsubst %-l1v2.xml,%-l1v2-sedml.xml,$(cases-sbml-files))
+all-sedml-files	:= $(patsubst %-l2v1.xml,%-l2v1-sedml.xml,$(all-sedml-files))
+all-sedml-files	:= $(patsubst %-l2v2.xml,%-l2v2-sedml.xml,$(all-sedml-files))
+all-sedml-files	:= $(patsubst %-l2v3.xml,%-l2v3-sedml.xml,$(all-sedml-files))
+all-sedml-files	:= $(patsubst %-l2v4.xml,%-l2v4-sedml.xml,$(all-sedml-files))
+all-sedml-files	:= $(patsubst %-l3v1.xml,%-l3v1-sedml.xml,$(all-sedml-files))
 
 cases/semantic/%-sedml.xml: cases/semantic/%.xml src/utilities/sedml/GenerateSedML.exe
 	$(call make_sedml_files,$@)
+
+sedml: $(all-sedml-files)
+
+
+# Note: a simple rm -f $(all-sedml-files) doesn't work -- arg list is too long.
+clean-sedml:
+	$(foreach f,$(wildcard cases/semantic/*/*-sedml.xml),$(shell rm -f $f))
 
 
 # -----------------------------------------------------------------------------
@@ -117,10 +125,11 @@ cases/semantic/%-sedml.xml: cases/semantic/%.xml src/utilities/sedml/GenerateSed
 # ".zipexcludes" in this directory contains a list of files to be excluded
 # from the zip archive created.
 
-today    = $(shell date +"%F")
-ts-file  = .cases-archive-date
-map-file = cases/semantic/.cases-tags-map
-contents = cases/semantic \
+today		= $(shell date +"%F")
+cases-dist-name = sbml-test-cases-$(today).zip
+ts-file		= .cases-archive-date
+map-file	= cases/semantic/.cases-tags-map
+contents	= cases/semantic \
 	   $(ts-file)     \
 	   $(map-file)    \
            COPYING.html   \
@@ -131,7 +140,7 @@ contents = cases/semantic \
 cases-dist: html plots sedml tags-map
 	@echo $(today) > $(ts-file)
 	make $(map-file)
-	zip -r sbml-test-cases-$(today).zip $(contents) -x@.zipexcludes
+	zip -r $(cases-dist-name) $(contents) -x@.zipexcludes
 	@echo "---------------------------------------------------------------"
 	@echo "Next: upload zip file to SourceForge as updated test cases dist."
 	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
@@ -141,6 +150,9 @@ cases-dist: html plots sedml tags-map
 tags-map $(map-file): $(cases-m-files)
 	@echo "Making tags map file:"
 	src/utilities/make-tag-map/make-tag-map.sh $(map-file)
+
+clean-cases-dist:
+	rm -f $(cases-dist-name)
 
 
 # -----------------------------------------------------------------------------
@@ -159,12 +171,18 @@ dist-files = README.txt \
 	     VERSION.txt \
 	     docs/formatted/standalone-user-manual
 dist-jar   = src/front-ends/standalone/dist/SBMLTestSuite.jar
+dist-zip   = $(dist-dir).zip
 
 standalone-dist:
 	mkdir -p $(dist-dir)
 	cp -r $(dist-files) $(dist-dir)
 	cp $(dist-jar) $(dist-dir)
-	zip -r $(dist-dir).zip $(dist-dir)
+	zip -r $(dist-zip) $(dist-dir)
+
+clean-dist:
+	rm -f $(dist-zip)
+	rm -rf $(dist-dir)
+
 
 # -----------------------------------------------------------------------------
 # make docs
@@ -218,12 +236,24 @@ readme-html: README-HACKING.html
 README-HACKING.html: README-HACKING.txt
 	markdown README-HACKING.txt > README-HACKING.html
 
+clean-readme:
+	rm -f README-HACKING.html
+
 
 # -----------------------------------------------------------------------------
-# Common special targets
+# Cleaning.
 # -----------------------------------------------------------------------------
 
-.PHONY: docs html plots sedml readme-html
+clean: clean-readme clean-dist clean-cases-dist clean-html clean-plots clean-sedml
+
+
+# -----------------------------------------------------------------------------
+# Common special targets.
+# -----------------------------------------------------------------------------
+
+.PHONY: docs html plots sedml readme-html clean \
+	clean-readme clean-dist clean-cases-dist clean-html \
+	clean-plots clean-sedml
 
 .SUFFIXES: .png .svg .jpg .csv .html .xml .txt
 
