@@ -19,7 +19,7 @@ contains one reaction defined as:
 The model contains one rule which assigns value to species S3:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
- | Assignment | S3 | $multiply[k1, S2]$  |]
+ | Assignment | S3 | $multiply(k1, S2)$  |]
 
 The assignmentRule applies the functionDefinition defined as:
 
