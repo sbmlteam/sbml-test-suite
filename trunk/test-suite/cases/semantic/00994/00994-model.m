@@ -10,6 +10,9 @@ generatedBy:   Numeric
 
 Variable stoichiometry:  the stoichiometry is literally 'time'.
 
+The equivalent model using Level 3 constructs is present as 
+test 1109.
+
 The model contains:
 * 1 species (X)
 * 1 parameter (k1)

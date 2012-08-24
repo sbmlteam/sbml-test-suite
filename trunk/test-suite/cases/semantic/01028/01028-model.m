@@ -13,6 +13,9 @@ and a negative kinetic law.  This gives the same results, but during the simulat
 the kinetic law actually goes negative (a requirement for reversibe reactions).  
 The reaction listed below is therfore equivalent to the one in the file, but reversed from it.
 
+The version of this model using Level 3 constructs is present
+as test 1111.
+
 The model contains one compartment called C.  There are three species called 
 S1, S2 and S3 and three parameters called kf, kr and p1.  The model contains  one reaction
 defined as:

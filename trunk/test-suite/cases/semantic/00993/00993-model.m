@@ -10,6 +10,9 @@ generatedBy:   Numeric
 
 The stoichiometry of the reaction '-> nX' is set to be equal to p1, a parameter that is set by an algebraic rule to be equal to X.
 
+The equivalent model using Level 3 constructs is present as 
+test 1108.
+
 The model contains:
 * 1 species (X)
 * 2 parameters (p1, k1)

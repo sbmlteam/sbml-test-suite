@@ -8,7 +8,11 @@ testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Analytic
 
-Over the course of the simulation, the stoichiometry 'Xref' changes at a rate of 0.01/time, so the effective rate of synthesis increases as well, identically to the same model with k1 changing instead of Xref.  The Level 2 versions of this test create a new parameter 'parameterId_0' which functions identically to 'Xref' in the Level 3 version of the model.
+Note:  earlier versions of the test suite contained a 3.1 version of this test.
+That model was moved to its own test, because it did not have the 'StoichiometryMath'
+component.
+
+Over the course of the simulation, the stoichiometry 'Xref' changes at a rate of 0.01/time, so the effective rate of synthesis increases as well, identically to the same model with k1 changing instead of Xref.  The Level 2 versions of this test create a new parameter 'parameterId_0'.
 
 The model contains:
 * 1 species (X)
