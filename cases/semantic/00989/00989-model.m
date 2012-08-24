@@ -8,7 +8,11 @@ testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
- This model contains two reactions that do the same thing, one by having a kinetic law that varies with the produced species, and the other by having a variable stoichiometry set to equal the produced species, for a sort of auto-catalytic reaction.
+Note:  earlier versions of the test suite contained a 3.1 version of this test.
+That model was moved to its own test, because it did not have the 'StoichiometryMath'
+component.
+
+This model contains two reactions that do the same thing, one by having a kinetic law that varies with the produced species, and the other by having a variable stoichiometry set to equal the produced species, for a sort of auto-catalytic reaction.
  
 
 The model contains:

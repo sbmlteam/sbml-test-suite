@@ -8,6 +8,10 @@ testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
+Note:  earlier versions of the test suite contained a 3.1 version of this test.
+That model was moved to its own test, because it did not have the 'StoichiometryMath'
+component.
+
 The stoichiometry of the reaction '-> nX' is set to be equal to p1, a parameter that starts at 1 and increases at a rate of 1.
 
 The model contains:

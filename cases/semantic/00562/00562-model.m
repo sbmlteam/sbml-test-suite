@@ -8,6 +8,10 @@ testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
 
+Note:  earlier versions of the test suite contained a 3.1 version of this test.
+That model was moved to its own test, because it did not have the 'StoichiometryMath'
+component.
+
 The model contains one compartment called C.  There are four
 species called X0, X1, T and S1 and four parameters called k1, k2, k3 and p1.
 Species X0 is labeled as an SBML boundary species.  The model

@@ -1,7 +1,7 @@
 (*
 
 category:      Test
-synopsis:      [[Write description here.]]
+synopsis:      A combination test of almost everything but events.
 componentTags: AssignmentRule, CSymbolAvogadro, CSymbolTime, Compartment, FunctionDefinition, InitialAssignment, Parameter, RateRule, Reaction, Species
 testTags:      Amount, AssignedConstantStoichiometry, AssignedVariableStoichiometry, BoundaryCondition, ConstantSpecies, ConversionFactors, HasOnlySubstanceUnits, InitialValueReassigned, LocalParameters, MultiCompartment, NonConstantCompartment, NonConstantParameter, NonUnityCompartment, NonUnityStoichiometry, SpeciesReferenceInMath
 testType:      TimeCourse

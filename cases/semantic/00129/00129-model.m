@@ -1,5 +1,4 @@
 (* 
-
 category:      Test
 synopsis:      Basic single forward reaction involving two species and a
                stoichiometryMath element that uses a functionDefinition.
@@ -8,6 +7,10 @@ testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
+
+Note:  earlier versions of the test suite contained a 3.1 version of this test.
+That model was moved to its own test, because it did not have the 'StoichiometryMath'
+component.
 
 The model contains one compartment called "compartment".  There are two
 species named S1 and S2 and two parameters named k1 and p1.  The model

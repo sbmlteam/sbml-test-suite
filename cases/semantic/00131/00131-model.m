@@ -1,5 +1,4 @@
 (* 
-
 category:      Test
 synopsis:      Basic reactions with three species in a compartment 
                involving a stoichiometryMath element that uses a functionDefinition.
@@ -8,6 +7,10 @@ testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
+
+Note:  earlier versions of the test suite contained a 3.1 version of this test.
+That model was moved to its own test, because it did not have the 'StoichiometryMath'
+component.
 
 The model contains one compartment called "compartment".  There are three
 species named S1, S2 and S3 and three parameters named k1, k2 and p1.  The

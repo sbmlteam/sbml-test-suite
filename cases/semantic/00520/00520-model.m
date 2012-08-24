@@ -9,6 +9,10 @@ testType:      TimeCourse
 levels:        2.2, 2.3, 2.4
 generatedBy:   Numeric
 
+Note:  earlier versions of the test suite contained a 3.1 version of this test.
+That model was moved to its own test, because it did not have the 'StoichiometryMath'
+component.
+
 The model contains one compartment called C.  There are three species called 
 S1, S2 and S3 and four parameters called k1, k2, p1 and p2.  The model contains 
 two reactions defined as:
