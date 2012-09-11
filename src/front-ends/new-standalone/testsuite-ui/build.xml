@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="jar" name="testsuite_ui">
+	<property environment="env" />
+	<property name="core.location" value="../testsuite-core" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.6" />
+	<property name="source" value="1.6" />
+	<path id="core.classpath">
+		<pathelement location="${core.location}/bin" />
+	</path>
+	<path id="testsuite_ui.classpath">
+		<pathelement location="bin" />
+		<path refid="core.classpath" />
+		<pathelement location="./swt.jar" />
+		<pathelement location="./org.swtchart_0.7.0.v20110128.jar" />
+	</path>
+	<target name="init">
+		<mkdir dir="bin" />
+		<copy includeemptydirs="false" todir="bin">
+			<fileset dir="src">
+				<exclude name="**/*.launch" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="bin" />
+	</target>
+	<target depends="clean" name="cleanall">
+		<ant antfile="build.xml" dir="${core.location}" inheritAll="false" target="clean" />
+	</target>
+	<target depends="build-subprojects,build-project" name="build" />
+	<target name="build-subprojects">
+		<ant antfile="build.xml" dir="${core.location}" inheritAll="false" target="build-project" />
+	</target>
+	<target depends="init" name="build-project">
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="no">
+			<src path="src" />
+			<classpath refid="testsuite_ui.classpath" />
+		</javac>
+	</target>
+	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
+	<target name="jar" depends="build">
+		<manifestclasspath property="manifest.cp" jarfile="testsuite_ui.jar">
+			<classpath>
+				<pathelement location="swt.jar" />
+				<pathelement location="org.swtchart_0.7.0.v20110128.jar" />
+				<pathelement location="testsuite-core.jar" />
+			</classpath>
+		</manifestclasspath>
+		<jar jarfile="testsuite_ui.jar" destfile="testsuite_ui.jar">
+			<manifest>
+				<attribute name="Main-Class" value="org.sbml.testsuite.ui.Program" />
+				<attribute name="Class-Path" value="${manifest.cp}" />
+				<attribute name="Implementation-Title" value="SBML Test Suite" />
+				<attribute name="Implementation-Version" value="1.0.1" />
+			</manifest>
+			<fileset dir="bin" includes="**/*.class" />
+			<fileset dir="src" includes="data/**/*" />
+		</jar>
+	</target>
+</project>

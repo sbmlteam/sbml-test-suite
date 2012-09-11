@@ -1,0 +1,43 @@
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>.\testsuite_ui.jar</jar>
+  <outfile>.\win-installer\SBMLTestSuite.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir></chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <customProcName>true</customProcName>
+  <stayAlive>false</stayAlive>
+  <manifest></manifest>
+  <icon>.\ICON_CompareResults.ico</icon>
+  <classPath>
+    <mainClass>org.sbml.testsuite.ui.MainWindow</mainClass>
+    <cp>swt.jar</cp>
+    <cp>org.swtchart_0.7.0.v20110128.jar</cp>
+    <cp>simple-xml-2.6.4.jar</cp>
+    <cp>testsuite-core.jar</cp>
+  </classPath>
+  <jre>
+    <path></path>
+    <minVersion>1.6.0</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJdk</jdkPreference>
+    <force32>true</force32>
+    <opt>-D32 -Djava.library.path=&quot;%EXEDIR%&quot;</opt>
+  </jre>
+  <versionInfo>
+    <fileVersion>1.0.0.0</fileVersion>
+    <txtFileVersion>1.0</txtFileVersion>
+    <fileDescription>SBML TestSuite Runner</fileDescription>
+    <copyright>(c) 2012 Frank T. Bergmann</copyright>
+    <productVersion>1.0.0.0</productVersion>
+    <txtProductVersion>1.0</txtProductVersion>
+    <productName>testsuite</productName>
+    <companyName>Caltech</companyName>
+    <internalName>testsuite</internalName>
+    <originalFilename>SBMLTestSuite.exe</originalFilename>
+  </versionInfo>
+</launch4jConfig>
