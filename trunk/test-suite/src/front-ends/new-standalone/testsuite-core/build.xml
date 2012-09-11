@@ -6,6 +6,7 @@
 	<property name="source" value="1.5"/>
 	<path id="core.classpath">
 		<pathelement location="bin"/>
+		<pathelement location="libs/simple-xml-2.6.4.jar" />
 	</path>
 	<target name="init">
 		<mkdir dir="bin"/>
@@ -24,18 +25,19 @@
 	<target name="build-subprojects"/>
 	<target depends="init" name="build-project">
 		<echo message="${ant.project.name}: ${ant.file}"/>
-		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" 
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin"
 			source="${source}" target="${target}" includeantruntime="no" >
 			<src path="src"/>
+			<classpath refid="core.classpath" />
 		</javac>
 	</target>
 	<target name="javadoc">
-		<javadoc access="public" author="true" classpath="lib/libsbmlj.jar" 
+		<javadoc access="public" author="true" classpath="lib/libsbmlj.jar"
 			destdir="doc" doctitle="SBML Test Suite"
-			nodeprecated="false" nodeprecatedlist="false" 
-			noindex="false" nonavbar="false" notree="false" 
-			packagenames="org.sbml.**/*.*" 
-			source="1.5" sourcepath="src" splitindex="true" 
+			nodeprecated="false" nodeprecatedlist="false"
+			noindex="false" nonavbar="false" notree="false"
+			packagenames="org.sbml.**/*.*"
+			source="1.5" sourcepath="src" splitindex="true"
 			use="true" version="true">
 			<link href="http://java.sun.com/javase/6/docs/api/"/>
 		</javadoc>
