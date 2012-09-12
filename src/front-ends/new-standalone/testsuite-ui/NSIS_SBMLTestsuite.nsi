@@ -45,14 +45,14 @@ ShowUnInstDetails show
 Section "MainSection" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite try
-  File "win-installer\org.swtchart_0.7.0.v20110128.jar"
-  File "win-installer\SBMLTestSuite.exe"
+  File "stage\org.swtchart_0.7.0.v20110128.jar"
+  File "stage\SBMLTestSuite.exe"
   CreateDirectory "$SMPROGRAMS\SBML Testsuite"
   CreateShortCut "$SMPROGRAMS\SBML Testsuite\SBML Testsuite.lnk" "$INSTDIR\SBMLTestSuite.exe"
   CreateShortCut "$DESKTOP\SBML Testsuite.lnk" "$INSTDIR\SBMLTestSuite.exe"
-  File "win-installer\simple-xml-2.6.4.jar"
-  File "win-installer\swt.jar"
-  File "win-installer\testsuite-core.jar"
+  File "stage\simple-xml-2.6.4.jar"
+  File "stage\swt.jar"
+  File "stage\testsuite-core.jar"
 SectionEnd
 
 Section -AdditionalIcons
