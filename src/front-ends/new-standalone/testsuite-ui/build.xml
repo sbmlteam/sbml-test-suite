@@ -32,7 +32,7 @@
 	</target>
 	<target depends="build-subprojects,build-project" name="build" />
 	<target name="build-subprojects">
-		<ant antfile="build.xml" dir="${core.location}" inheritAll="false" target="build-project" />
+		<ant antfile="build.xml" dir="${core.location}" inheritAll="false" target="jar" />
 	</target>
 	<target depends="init" name="build-project">
 		<echo message="${ant.project.name}: ${ant.file}" />
@@ -60,5 +60,55 @@
 			<fileset dir="bin" includes="**/*.class" />
 			<fileset dir="src" includes="data/**/*" />
 		</jar>
+	</target>
+	<target name="stage-common" depends="jar">
+		<mkdir dir="stage" />
+		<copy file="../testsuite_ui.jar" todir="stage" />
+		<copy file="../testsuite-core.jar" todir="stage" />
+		<copy file="libs/swt.jar" todir="stage" />
+		<copy file="libs/org.swtchart_0.7.0.v20110128.jar" todir="stage" />
+		<copy file="libs/simple-xml-2.6.4.jar" todir="stage" />
+	</target>
+	<target name="stage-win32" depends="stage-common">
+		<delete file="stage/swt.jar" />
+		<copy file="libs/swt-win32.jar" tofile="stage/swt.jar" />
+	</target>
+	<target name="start-win32" depends="stage-win32">
+		<java fork="true" jar="stage/testsuite_ui.jar" />
+	</target>
+	<target name="stage-win64" depends="stage-common">
+		<delete file="stage/swt.jar" />
+		<copy file="libs/swt-win64.jar" tofile="stage/swt.jar" />
+	</target>
+	<target name="start-win64" depends="stage-win64">
+		<java fork="true" jar="stage/testsuite_ui.jar" />
+	</target>
+	<target name="stage-linux32" depends="stage-common">
+		<delete file="stage/swt.jar" />
+		<copy file="libs/swt-linux-x86.jar" tofile="stage/swt.jar" />
+	</target>
+	<target name="start-linux32" depends="stage-linux32">
+		<java fork="true" jar="stage/testsuite_ui.jar" />
+	</target>
+	<target name="stage-linux64" depends="stage-common">
+		<delete file="stage/swt.jar" />
+		<copy file="libs/swt-linux-x64.jar" tofile="stage/swt.jar" />
+	</target>
+	<target name="start-linux64" depends="stage-linux64">
+		<java fork="true" jar="stage/testsuite_ui.jar" />
+	</target>
+	<target name="stage-osx32" depends="stage-common">
+		<delete file="stage/swt.jar" />
+		<copy file="libs/swt-osx.jar" tofile="stage/swt.jar" />
+	</target>
+	<target name="start-osx32" depends="stage-osx32">
+		<java fork="true" jar="stage/testsuite_ui.jar" />
+	</target>
+	<target name="stage-osx64" depends="stage-common">
+		<delete file="stage/swt.jar" />
+		<copy file="libs/swt-osx-64.jar" tofile="stage/swt.jar" />
+	</target>
+	<target name="start-osx64" depends="stage-osx64">
+		<java fork="true" jar="stage/testsuite_ui.jar" />
 	</target>
 </project>
