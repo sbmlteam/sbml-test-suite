@@ -1,8 +1,8 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>.\testsuite_ui.jar</jar>
-  <outfile>.\win-installer\SBMLTestSuite.exe</outfile>
+  <jar>stage\testsuite_ui.jar</jar>
+  <outfile>.\stage\SBMLTestSuite.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>
