@@ -1,0 +1,29 @@
+#!/bin/bash
+DIRECTORY=$(cd `dirname $0` && pwd)
+STAGE_DIR="$DIRECTORY/stage"
+DMG="$DIRECTORY/SBML_Testsuite.dmg"
+APP_DIR="$STAGE_DIR/SBML Testsuite.app"
+STUB="/usr/share/java/Tools/Jar Bundler.app/Contents/MacOS/JavaApplicationStub"
+
+cd $DIRECTORY
+ant stage-osx32
+
+if [ -d "$APP_DIR" ]; then
+	rm -rf "$APP_DIR"
+fi
+
+mkdir "$APP_DIR"
+mkdir "$APP_DIR/Contents"
+mkdir "$APP_DIR/Contents/MacOS"
+mkdir "$APP_DIR/Contents/Resources"
+mkdir "$APP_DIR/Contents/Resources/Java"
+cp $STAGE_DIR/*jar "$APP_DIR/Contents/Resources/Java"
+cp "$DIRECTORY/Info.plist" "$APP_DIR/Contents"
+cp "$DIRECTORY/PkgInfo" "$APP_DIR/Contents"
+cp "$DIRECTORY/GenericApp.icns" "$APP_DIR/Contents/Resources"
+cp "$STUB" "$APP_DIR/Contents/MacOS"
+
+hdiutil create -ov -srcfolder "$APP_DIR" "$DMG"
+hdiutil internet-enable -yes "$DMG"
+
+
