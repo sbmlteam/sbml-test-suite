@@ -102,13 +102,13 @@
 		<copy file="libs/swt-osx.jar" tofile="stage/swt.jar" />
 	</target>
 	<target name="start-osx32" depends="stage-osx32">
-		<java fork="true" jar="stage/testsuite_ui.jar" />
+		<java fork="true" args="-d32 -XstartOnFirstThread" jar="stage/testsuite_ui.jar" />
 	</target>
 	<target name="stage-osx64" depends="stage-common">
 		<delete file="stage/swt.jar" />
 		<copy file="libs/swt-osx-64.jar" tofile="stage/swt.jar" />
 	</target>
 	<target name="start-osx64" depends="stage-osx64">
-		<java fork="true" jar="stage/testsuite_ui.jar" />
+		<java fork="true"  args="-XstartOnFirstThread" jar="stage/testsuite_ui.jar" />
 	</target>
 </project>
