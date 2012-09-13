@@ -1,7 +1,7 @@
 (*
 
 category:      Test
-synopsis:      [[Write description here.]]
+synopsis:      Testing that the species amount does not change, even in a changing compartment.
 componentTags: Compartment, RateRule, Species
 testTags:      Amount, ConstantSpecies, NonConstantCompartment, NonUnityCompartment
 testType:      TimeCourse
