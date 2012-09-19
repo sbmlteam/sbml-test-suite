@@ -25,6 +25,16 @@ it does not indicate models are missing.
     time before the Level 3 models were split out as new cases.  This
     problem was reported by Ilya Kiselev from DevelopmentOnTheEdge.com.
 
+  - Models 1117 and 1121 did not have proper 'synopsis' entries in their
+    .m files.  These have been added.
+
+  - The model ids in test 931 were changed from 'case_00930' to 'case_00931'
+
+* Changes since the last update:
+
+  - Models whose L3 versions were split to new test directories now mention
+    this fact in the description of the test in the .m file.
+
 
 === Version 2.1.0 release (2012-08-06)
 
