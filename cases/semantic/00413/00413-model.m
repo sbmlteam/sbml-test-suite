@@ -28,7 +28,7 @@ Both eventAssignments use functionDefinitions defined as follows:
 
 [{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
  |                             add    | x, y          | $x + y$     |
- |                             divide | x, y          | $x/y$       |]
+ |                             divide | x, y          | $x / y$       |]
 
 The initial conditions are as follows:
 

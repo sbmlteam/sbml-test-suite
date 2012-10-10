@@ -19,7 +19,7 @@ one reaction defined as:
 The model contains one rule:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
- | Rate | S3 | $0.15/exp(time)$  |]
+ | Rate | S3 | $0.15 / exp(time)$  |]
 where the symbol 'time' denotes the current simulation time.
 
 The initial conditions are as follows:

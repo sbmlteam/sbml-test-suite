@@ -14,7 +14,7 @@ a kinetic law that defines first order mass action kinetics with monoexponential
 decay (as referenced by SBO:0000333):
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-| S1 -> S2 | $(S1 * C)/k$  |]
+| S1 -> S2 | $(S1 * C) / k$  |]
 
 The initial conditions are as follows:
 

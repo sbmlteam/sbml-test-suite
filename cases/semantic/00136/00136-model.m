@@ -19,7 +19,7 @@ contains one reaction defined as:
 The model contains one initialAssignment:
 
 [{width:30em,margin-left:5em}| Variable | Formula |
- | k1 | $k2/100$  |]
+ | k1 | $k2 / 100$  |]
 
 Note: InitialAssignments override any declared initial values.  In this
 case the value calculated by the initialAssignment is consistent with the

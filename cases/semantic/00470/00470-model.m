@@ -19,7 +19,7 @@ reaction defined as:
 The model contains one initialAssignment:
 
 [{width:30em,margin-left:5em}| Variable | Formula |
- | k1 | $k2/100$  |]
+ | k1 | $k2 / 100$  |]
 
 Note: SBML's InitialAssignment construct override any declared initial
 values.  In this case the initial value declared for parameter k1 is

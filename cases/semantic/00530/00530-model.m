@@ -24,7 +24,7 @@ The model contains one initialAssignment:
 The initialAssignment uses a functionDefinition defined as:
 
 [{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
- |                             division | x, y          | $x/y$     |]
+ |                             division | x, y          | $x / y$     |]
 
 
 Note: SBML's InitialAssignment construct override any declared initial

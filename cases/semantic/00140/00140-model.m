@@ -19,7 +19,7 @@ contains one reaction defined as:
 The model contains one rule which assigns value to compartment "compartment":
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
- | Assignment | compartment | $k1/k1$  |]
+ | Assignment | compartment | $k1 / k1$  |]
 
 In this case the initial value declared for compartment "compartment" is
 iconsistent with the value calculated by the assignmentRule.  The

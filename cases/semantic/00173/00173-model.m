@@ -16,8 +16,8 @@ not species in this model.)
 The model contains two rules:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
- | Rate | S1 | $-Ceiling(S1 * p1)!/p2$  |
- | Rate | S2 | $Ceiling(S1 * p1)!/p2$  |]
+ | Rate | S1 | $-Ceiling(S1 * p1)! / p2$  |
+ | Rate | S2 | $Ceiling(S1 * p1)! / p2$  |]
 
 
 The initial conditions are as follows:

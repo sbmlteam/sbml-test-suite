@@ -23,7 +23,7 @@ The model contains three rules:
 The model contains two initialAssignments:
 
 [{width:30em,margin-left:5em}| Variable | Formula |
- | S1 | $k1/0.75$  |
+ | S1 | $k1 / 0.75$  |
  | S2 | $k2 * 3 \x 10^-17$  |]
 
 Note: InitialAssignments override any declared initial values.  The initial
