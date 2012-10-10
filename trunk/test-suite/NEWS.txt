@@ -13,6 +13,11 @@
   - The VERSION.txt file was not updated for 2.1.1 from 2.1.0.  Now it
     correctly reads the current release number (2.1.2).
 
+  - The documentation for some cases had misformatted division
+    operators: the '/' character was missing in some cases where a
+    division was being described.  Those parts of the documentation
+    should now be fixed.
+
 * Changes since the last update:
 
   - Models whose L3 versions were split to new test directories now mention
