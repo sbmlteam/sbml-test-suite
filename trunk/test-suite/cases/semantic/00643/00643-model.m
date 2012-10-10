@@ -29,7 +29,7 @@ with the value calculated by the assignmentRule.  The calculated value should be
 The model contains one initialAssignment:
 
 [{width:30em,margin-left:5em}| Variable | Formula |
- | S1 | $p1/2000$  |]
+ | S1 | $p1 / 2000$  |]
 
 Note: InitialAssignments override any declared initial values.  In this case the 
 value of species S1 calculated by the initialAssignment is consisent with the value 

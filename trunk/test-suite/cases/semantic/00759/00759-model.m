@@ -26,7 +26,7 @@ The model contains two events that assign values to species S2 and S1:
 Both eventAssignments use functionDefinitions defined as:
 [{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
  | add | x, y      | $x + y$   |
- | divide | x, y      | $x/y$   |]
+ | divide | x, y      | $x / y$   |]
 
 The initial conditions are as follows:
 

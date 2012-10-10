@@ -26,7 +26,7 @@ The model contains two rules:
 The model contains one initialAssignment:
 
 [{width:30em,margin-left:5em}| Variable | Formula |
- | S1 | $p1/0.5$  |]
+ | S1 | $p1 / 0.5$  |]
 
 Note: InitialAssignments override any declared initial values.  In this case the 
 value of species S1 is not declared by the model definition.  The calculated value should be used.

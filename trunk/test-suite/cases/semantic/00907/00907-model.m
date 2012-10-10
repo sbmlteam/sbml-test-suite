@@ -15,7 +15,7 @@ species in this model.)
 The model contains one rule:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
- | Rate                                 | c           | $-c /k1$  |]
+ | Rate                                 | c           | $-c / k1$  |]
 
 The initial conditions are as follows:
 

@@ -22,7 +22,7 @@ parameter has a scope local to the defining reaction.
 The model contains one initialAssignment:
 
 [{width:30em,margin-left:5em}| Variable | Formula |
- | C | $k/50$  |]
+ | C | $k / 50$  |]
 
 Note: SBML's InitialAssignment construct override any declared initial
 values.  In this case the initial value declared for compartment C is

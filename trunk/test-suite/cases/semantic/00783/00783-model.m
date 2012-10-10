@@ -19,7 +19,7 @@ reaction defined as:
   The model contains one initialAssignment:
 
 [{width:30em,margin-left:5em}| Variable | Formula |
- | C | $k2/9$  |]
+ | C | $k2 / 9$  |]
 
 Note: SBML's InitialAssignment construct override any declared initial
 values.  In this model, the initial value for the compartment C has not been

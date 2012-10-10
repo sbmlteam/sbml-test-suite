@@ -18,7 +18,7 @@ The model contains one rule:
 The model contains one initialAssignment:
 
 [{width:30em,margin-left:5em}| Variable | Formula |
- | c       | $3/2$  |]
+ | c       | $3 / 2$  |]
 
 Note: SBML's InitialAssignment construct override any declared initial
 values.  In this model, the initial value for the compartment c is

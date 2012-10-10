@@ -14,7 +14,7 @@ species named S1 and S2 and two parameters named p1 and p2.  The model
 contains one reaction defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-| S1 -> S2 | $Ceiling(S1 * p1)!/p2$  |]
+| S1 -> S2 | $Ceiling(S1 * p1)! / p2$  |]
 
 The initial conditions are as follows:
 

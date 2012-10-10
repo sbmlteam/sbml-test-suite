@@ -14,8 +14,8 @@ parameters called k1 and k2.
 The model contains two rules:
 
 [{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*         |
- | Rate                                 | P1           | $P2 * k2/exp(time)$  |
- | Rate                                 | P2           | $P1 * k1/exp(time)$  |]
+ | Rate                                 | P1           | $P2 * k2 / exp(time)$  |
+ | Rate                                 | P2           | $P1 * k1 / exp(time)$  |]
 where the symbol 'time' denotes the current simulation time.
 
 The initial conditions are as follows:

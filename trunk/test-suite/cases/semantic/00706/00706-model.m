@@ -31,7 +31,7 @@ value must be calculated using the assignmentRule.
 The model contains one initialAssignment:
 
 [{width:30em,margin-left:5em}| Variable | Formula |
- | S1 | $k/7.5$  |]
+ | S1 | $k / 7.5$  |]
 
 Note: InitialAssignments override any declared initial values.  The initial
 value of species S1 is inconsisent with the value declared by the model definition.  

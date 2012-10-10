@@ -19,7 +19,7 @@ contains one reaction defined as:
 The model contains one functionDefinition, which is used within the reaction, defined as:
 
 [{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
- | calculate | x, y, z | $Ceiling(x * y)!/z$ |]
+ | calculate | x, y, z | $Ceiling(x * y)! / z$ |]
 
 The initial conditions are as follows:
 

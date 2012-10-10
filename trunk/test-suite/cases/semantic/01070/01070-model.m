@@ -17,7 +17,7 @@ model contains two reactions defined as:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 * compartment$  |
-| S3 -> (2 * p1)S1  +  multiply(p1, 1/0.5)S2  | $k2 * S3 * compartment$  |]
+| S3 -> (2 * p1)S1  +  multiply(p1, 1 / 0.5)S2  | $k2 * S3 * compartment$  |]
 
 
 The model contains one functionDefinition defined as:

@@ -27,7 +27,7 @@ The model contains two functionDefinitions defined as:
 
 [{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
  | multiply | x, y | $x * y$ |
- | func1 | x, y | $x/(1 + y)$ |]
+ | func1 | x, y | $x / (1 + y)$ |]
 
 The initial conditions are as follows:
 
