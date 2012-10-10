@@ -10,6 +10,9 @@
 
   - The model ids in test 931 were changed from 'case_00930' to 'case_00931'
 
+  - The VERSION.txt file was not updated for 2.1.1 from 2.1.0.  Now it
+    correctly reads the current release number (2.1.2).
+
 * Changes since the last update:
 
   - Models whose L3 versions were split to new test directories now mention
