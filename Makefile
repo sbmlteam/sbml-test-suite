@@ -6,7 +6,7 @@
 ## This file is part of the SBML Test Suite.  Please visit http://sbml.org for
 ## more information about SBML, and the latest version of the SBML Test Suite.
 ##
-## Copyright (C) 2010-2011 jointly by the following organizations: 
+## Copyright (C) 2010-2012 jointly by the following organizations: 
 ##     1. California Institute of Technology, Pasadena, CA, USA
 ##     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK.
 ##
