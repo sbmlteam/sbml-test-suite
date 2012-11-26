@@ -6,10 +6,10 @@ componentTags:    Parameter, comp:ModelDefinition, comp:Port, comp:ReplacedEleme
 testTags:         comp:SubmodelOutput
 testType:         TimeCourse
 levels:           3.1
-requiredPackages: comp
 generatedBy:      Analytic||Numeric
+requiredPackages: comp
 
- This model contains a submodel with two parameters, one of which is replaced by the parameter in the containing model.
+{Write general description of why you have created the model here.}
 
 The 'flattened' version of this hierarchical model contains:
 * 2 parameters (param1, submod1__subparam2)

@@ -2,7 +2,7 @@
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" level="3" version="1" comp:required="true">
   <model>
     <listOfCompartments>
-      <compartment id="C" spatialDimensions="3" size="10" constant="false">
+      <compartment id="C" spatialDimensions="3" size="10" constant="true">
         <comp:listOfReplacedElements>
           <comp:replacedElement comp:idRef="sub1" comp:submodelRef="sub2">
             <comp:sBaseRef comp:idRef="C"/>
@@ -11,7 +11,7 @@
       </compartment>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" compartment="C" initialAmount="5" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+      <species id="S1" compartment="C" initialAmount="5" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="true">
         <comp:listOfReplacedElements>
           <comp:replacedElement comp:idRef="sub2" comp:submodelRef="sub3">
             <comp:sBaseRef comp:idRef="sub1">
@@ -33,18 +33,18 @@
   <comp:listOfModelDefinitions>
     <comp:modelDefinition id="moddef1">
       <listOfCompartments>
-        <compartment id="C" spatialDimensions="7" size="1" constant="false"/>
+        <compartment id="C" spatialDimensions="7" size="1" constant="true"/>
       </listOfCompartments>
       <listOfSpecies>
-        <species id="S1" compartment="C" initialConcentration="2.5" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+        <species id="S1" compartment="C" initialConcentration="2.5" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="true"/>
       </listOfSpecies>
     </comp:modelDefinition>
     <comp:modelDefinition id="moddef2">
       <listOfCompartments>
-        <compartment id="C" spatialDimensions="9" size="1" constant="false"/>
+        <compartment id="C" spatialDimensions="9" size="1" constant="true"/>
       </listOfCompartments>
       <listOfSpecies>
-        <species id="S1" compartment="C" initialAmount="9" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+        <species id="S1" compartment="C" initialAmount="9" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="true"/>
       </listOfSpecies>
       <comp:listOfSubmodels>
         <comp:submodel comp:id="sub1" comp:modelRef="moddef1"/>
@@ -52,10 +52,10 @@
     </comp:modelDefinition>
     <comp:modelDefinition id="moddef3">
       <listOfCompartments>
-        <compartment id="C" spatialDimensions="11" size="1" constant="false"/>
+        <compartment id="C" spatialDimensions="11" size="1" constant="true"/>
       </listOfCompartments>
       <listOfSpecies>
-        <species id="S1" compartment="C" initialAmount="11" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+        <species id="S1" compartment="C" initialAmount="11" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="true"/>
       </listOfSpecies>
       <comp:listOfSubmodels>
         <comp:submodel comp:id="sub1" comp:modelRef="moddef1"/>

@@ -6,8 +6,8 @@ componentTags:    Compartment, Species, comp:ModelDefinition, comp:Submodel
 testTags:         Amount, ConstantSpecies, comp:SubmodelOutput
 testType:         TimeCourse
 levels:           3.1
-requiredPackages: comp
 generatedBy:      Analytic
+requiredPackages: comp
 
 A simple multi-level aggregate model with species and compartments.
 

@@ -6,8 +6,8 @@ componentTags:    Compartment, Species, comp:ModelDefinition, comp:ReplacedEleme
 testTags:         Concentration, ConstantSpecies, NonUnityCompartment, comp:SubmodelOutput
 testType:         TimeCourse
 levels:           3.1
-requiredPackages: comp
 generatedBy:      Analytic
+requiredPackages: comp
 
  This model contains submodels three levels deep, with the top model replacing the species at the deepest level, and the compartment at a level two down.
 
@@ -37,7 +37,6 @@ make it easier to use the model in a discrete stochastic simulator, but
 their symbols represent their values in concentration units where they
 appear in expressions.
 
-{Keep this next line if 'generatedBy' is 'Analytic':}
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
