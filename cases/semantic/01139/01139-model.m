@@ -1,15 +1,15 @@
 (*
 
 category:         Test
-synopsis:         [[Write description here.]]
+synopsis:         A hierarchical model with a conversion factor.
 componentTags:    Parameter, RateRule, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
 testTags:         NonConstantParameter, comp:ConversionFactor
 testType:         TimeCourse
 levels:           3.1
+generatedBy:      Analytic
 requiredPackages: comp
-generatedBy:      Analytic||Numeric
 
-{Write general description of why you have created the model here.}
+This model is a simple test of a replacement with a conversion factor that affects the rate rule of the replaced parameter.
 
 The 'flattened' version of this hierarchical model contains:
 * 2 parameters (p8, conv)
@@ -25,7 +25,6 @@ The initial conditions are as follows:
 | Initial value of parameter conv | $0.1$ | constant |
 | Initial value of parameter p8 | $(4 * (p8 / conv) + 3) * conv$ | variable |]
 
-{Keep this next line if 'generatedBy' is 'Analytic':}
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 

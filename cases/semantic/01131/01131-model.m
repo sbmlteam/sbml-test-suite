@@ -6,10 +6,10 @@ componentTags:    Compartment, Species, comp:ModelDefinition, comp:ReplacedEleme
 testTags:         Concentration, ConstantSpecies, NonUnityCompartment, comp:SubmodelOutput
 testType:         TimeCourse
 levels:           3.1
-requiredPackages: comp
 generatedBy:      Analytic
+requiredPackages: comp
 
- This model contains submodels three levels deep.
+ This model contains submodels three levels deep.  A compartment replacement changes the concentration of a species.
 
 The 'flattened' version of this hierarchical model contains:
 * 8 species (S1, sub1__S1, sub2__S1, sub2__sub1__S1, sub3__S1, sub3__sub1__S1, sub3__sub2__S1, sub3__sub2__sub1__S1)

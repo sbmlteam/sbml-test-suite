@@ -6,10 +6,10 @@ componentTags:    InitialAssignment, Parameter, RateRule, comp:ModelDefinition, 
 testTags:         InitialValueReassigned, NonConstantParameter, comp:SubmodelOutput
 testType:         TimeCourse
 levels:           3.1
-requiredPackages: comp
 generatedBy:      Analytic
+requiredPackages: comp
 
- A replaced parameter in the submodel has an initial assignment and rate rule that still apply to it.
+{Write general description of why you have created the model here.}
 
 The 'flattened' version of this hierarchical model contains:
 * 2 parameters (param1, submod1__subparam2)

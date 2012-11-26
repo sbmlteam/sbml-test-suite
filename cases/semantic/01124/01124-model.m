@@ -6,8 +6,8 @@ componentTags:    Parameter, comp:ModelDefinition, comp:ReplacedElement, comp:Su
 testTags:         
 testType:         TimeCourse
 levels:           3.1
-requiredPackages: 
 generatedBy:      Analytic
+requiredPackages: 
 
  This hierarchical model replaces the single parameter in the submodel, and therefore behaves as if the submodel did not exist.  The comp package 'required' attribute is therefore 'false', meaning that the mathematical meaning of the model is not changed by the presence of 'comp' elements.
 

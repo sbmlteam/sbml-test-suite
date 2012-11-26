@@ -6,8 +6,8 @@ componentTags:    Parameter, comp:ModelDefinition, comp:ReplacedBy, comp:Submode
 testTags:         InitialValueReassigned
 testType:         TimeCourse
 levels:           3.1
-requiredPackages: comp
 generatedBy:      Analytic
+requiredPackages: comp
 
 This model has a parameter in the parent model replaced by a parameter in the submodel.
 

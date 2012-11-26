@@ -6,8 +6,8 @@ componentTags:    Parameter, comp:ModelDefinition, comp:Port, comp:ReplacedEleme
 testTags:         
 testType:         TimeCourse
 levels:           3.1
-requiredPackages: comp
-generatedBy:      Analytic||Numeric
+generatedBy:      Analytic
+requiredPackages: 
 
 This hierarchical model replaces the single parameter in the submodel, and therefore behaves as if the submodel did not exist.  The comp package 'required' attribute is therefore 'false', meaning that the mathematical meaning of the model is not changed by the presence of 'comp' elements.
 
@@ -18,7 +18,6 @@ The initial conditions are as follows:
 [{width:35em,margin-left:5em}|       | *Value* | *Constant* |
 | Initial value of parameter param1 | $10.42$ | constant |]
 
-{Keep this next line if 'generatedBy' is 'Analytic':}
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
