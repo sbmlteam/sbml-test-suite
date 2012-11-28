@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Competing events with alternating priorities, so one fires for 5 seconds, then the other fires for the next 5 seconds.
 componentTags: CSymbolTime, EventNoDelay, EventPriority, Parameter
-testTags:      NonConstantParameter, EventIsNotPersistent, RandomEventExecution
+testTags:      NonConstantParameter, EventIsNotPersistent
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic
