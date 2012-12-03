@@ -1,13 +1,13 @@
 (*
 
-category:         Test
-synopsis:         Hierarchical model with chained replacedBys.
-componentTags:    Parameter, comp:ModelDefinition, comp:ReplacedBy, comp:Submodel
-testTags:         
-testType:         TimeCourse
-levels:           3.1
-generatedBy:      Analytic
-requiredPackages: comp
+category:        Test
+synopsis:        Hierarchical model with chained replacedBys.
+componentTags:   Parameter, comp:ModelDefinition, comp:ReplacedBy, comp:Submodel
+testTags:        
+testType:        TimeCourse
+levels:          3.1
+generatedBy:     Analytic
+packagesPresent: comp
 
  The parameter in the parent model is replaced by a parameter in the submodel, which in turn is replaced by a parameter in *its* submodel.
 

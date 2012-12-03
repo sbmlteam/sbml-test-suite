@@ -1,13 +1,13 @@
 (*
 
-category:         Test
-synopsis:         A species replacing one thing and replaced by something else.
-componentTags:    Compartment, Species, comp:ModelDefinition, comp:ReplacedBy, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
-testTags:         Concentration, ConstantSpecies, NonUnityCompartment, comp:SubmodelOutput
-testType:         TimeCourse
-levels:           3.1
-generatedBy:      Analytic
-requiredPackages: comp
+category:        Test
+synopsis:        A species replacing one thing and replaced by something else.
+componentTags:   Compartment, Species, comp:ModelDefinition, comp:ReplacedBy, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
+testTags:        Concentration, ConstantSpecies, NonUnityCompartment, comp:SubmodelOutput
+testType:        TimeCourse
+levels:          3.1
+generatedBy:     Analytic
+packagesPresent: comp
 
  A three-level deep hierarchical model with a replaced compartment, and a top-level species that replaces a three-deep speces, and is replaced in turn by a two-deep species.
 

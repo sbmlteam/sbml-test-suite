@@ -1,13 +1,13 @@
 (*
 
-category:         Test
-synopsis:         A hierarchical model with a sub-submodel compartment replacement.
-componentTags:    Compartment, Species, comp:ModelDefinition, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
-testTags:         Concentration, ConstantSpecies, NonUnityCompartment, comp:SubmodelOutput
-testType:         TimeCourse
-levels:           3.1
-generatedBy:      Analytic
-requiredPackages: comp
+category:        Test
+synopsis:        A hierarchical model with a sub-submodel compartment replacement.
+componentTags:   Compartment, Species, comp:ModelDefinition, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
+testTags:        Concentration, ConstantSpecies, NonUnityCompartment, comp:SubmodelOutput
+testType:        TimeCourse
+levels:          3.1
+generatedBy:     Analytic
+packagesPresent: comp
 
  This model tests replacing a compartment in a sub-submodel with a comparment from the parent model, changing the concentration of the species in that submodel.
 

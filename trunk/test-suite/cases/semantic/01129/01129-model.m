@@ -1,13 +1,13 @@
 (*
 
-category:         Test
-synopsis:         An aggregate model with species.
-componentTags:    Compartment, Species, comp:ModelDefinition, comp:Submodel
-testTags:         Amount, ConstantSpecies, comp:SubmodelOutput
-testType:         TimeCourse
-levels:           3.1
-generatedBy:      Analytic
-requiredPackages: comp
+category:        Test
+synopsis:        An aggregate model with species.
+componentTags:   Compartment, Species, comp:ModelDefinition, comp:Submodel
+testTags:        Amount, ConstantSpecies, comp:SubmodelOutput
+testType:        TimeCourse
+levels:          3.1
+generatedBy:     Analytic
+packagesPresent: comp
 
 A simple multi-level aggregate model with species and compartments.
 

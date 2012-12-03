@@ -1,13 +1,13 @@
 (*
 
-category:         Test
-synopsis:         A hierarchical model with a three-level-deep replacement.
-componentTags:    Compartment, Species, comp:ModelDefinition, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
-testTags:         Concentration, ConstantSpecies, NonUnityCompartment, comp:SubmodelOutput
-testType:         TimeCourse
-levels:           3.1
-generatedBy:      Analytic
-requiredPackages: comp
+category:        Test
+synopsis:        A hierarchical model with a three-level-deep replacement.
+componentTags:   Compartment, Species, comp:ModelDefinition, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
+testTags:        Concentration, ConstantSpecies, NonUnityCompartment, comp:SubmodelOutput
+testType:        TimeCourse
+levels:          3.1
+generatedBy:     Analytic
+packagesPresent: comp
 
  This model contains submodels three levels deep, with the top model replacing the species at the deepest level, and the compartment at a level two down.
 

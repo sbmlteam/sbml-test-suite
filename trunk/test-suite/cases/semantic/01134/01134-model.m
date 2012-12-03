@@ -1,13 +1,13 @@
 (*
 
-category:         Test
-synopsis:         A species replacing one thing and replaced by something else, with ports.
-componentTags:    Compartment, Species, comp:ModelDefinition, comp:Port, comp:ReplacedBy, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
-testTags:         Concentration, NonUnityCompartment, comp:SubmodelOutput
-testType:         TimeCourse
-levels:           3.1
-generatedBy:      Analytic
-requiredPackages: comp
+category:        Test
+synopsis:        A species replacing one thing and replaced by something else, with ports.
+componentTags:   Compartment, Species, comp:ModelDefinition, comp:Port, comp:ReplacedBy, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
+testTags:        Concentration, NonUnityCompartment, comp:SubmodelOutput
+testType:        TimeCourse
+levels:          3.1
+generatedBy:     Analytic
+packagesPresent: comp
 
  This model is exactly the same as model 01133, but additionally contains ports in the parent model. They are (obviously) unused, so this is simply a test to ensure that their presence doesn't confuse the simulator.
 

@@ -1,13 +1,13 @@
 (*
 
-category:         Test
-synopsis:         A simple hierarchical model with a submodel parameter
-componentTags:    Parameter, comp:ModelDefinition, comp:Port, comp:ReplacedElement, comp:Submodel
-testTags:         comp:SubmodelOutput
-testType:         TimeCourse
-levels:           3.1
-generatedBy:      Analytic||Numeric
-requiredPackages: comp
+category:        Test
+synopsis:        A simple hierarchical model with a submodel parameter
+componentTags:   Parameter, comp:ModelDefinition, comp:Port, comp:ReplacedElement, comp:Submodel
+testTags:        comp:SubmodelOutput
+testType:        TimeCourse
+levels:          3.1
+generatedBy:     Analytic||Numeric
+packagesPresent: comp
 
 {Write general description of why you have created the model here.}
 
