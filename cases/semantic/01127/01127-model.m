@@ -1,13 +1,13 @@
 (*
 
-category:         Test
-synopsis:         A hierarchical model with a submodel initial assignment and rate rule.
-componentTags:    InitialAssignment, Parameter, RateRule, comp:ModelDefinition, comp:Port, comp:ReplacedElement, comp:Submodel
-testTags:         InitialValueReassigned, NonConstantParameter, comp:SubmodelOutput
-testType:         TimeCourse
-levels:           3.1
-generatedBy:      Analytic
-requiredPackages: comp
+category:        Test
+synopsis:        A hierarchical model with a submodel initial assignment and rate rule.
+componentTags:   InitialAssignment, Parameter, RateRule, comp:ModelDefinition, comp:Port, comp:ReplacedElement, comp:Submodel
+testTags:        InitialValueReassigned, NonConstantParameter, comp:SubmodelOutput
+testType:        TimeCourse
+levels:          3.1
+generatedBy:     Analytic
+packagesPresent: comp
 
 {Write general description of why you have created the model here.}
 

@@ -1,13 +1,13 @@
 (*
 
-category:         Test
-synopsis:         A hierarchical model testing ReplacedBy
-componentTags:    Parameter, comp:ModelDefinition, comp:ReplacedBy, comp:Submodel
-testTags:         InitialValueReassigned
-testType:         TimeCourse
-levels:           3.1
-generatedBy:      Analytic
-requiredPackages: comp
+category:        Test
+synopsis:        A hierarchical model testing ReplacedBy
+componentTags:   Parameter, comp:ModelDefinition, comp:ReplacedBy, comp:Submodel
+testTags:        InitialValueReassigned
+testType:        TimeCourse
+levels:          3.1
+generatedBy:     Analytic
+packagesPresent: comp
 
 This model has a parameter in the parent model replaced by a parameter in the submodel.
 

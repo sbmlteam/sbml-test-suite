@@ -1,13 +1,13 @@
 (*
 
-category:         Test
-synopsis:         Simple non-required comp model
-componentTags:    Parameter, comp:ModelDefinition, comp:Port, comp:ReplacedElement, comp:Submodel
-testTags:         
-testType:         TimeCourse
-levels:           3.1
-generatedBy:      Analytic
-requiredPackages: 
+category:        Test
+synopsis:        Simple non-required comp model
+componentTags:   Parameter, comp:ModelDefinition, comp:Port, comp:ReplacedElement, comp:Submodel
+testTags:        comp:NotRequired
+testType:        TimeCourse
+levels:          3.1
+generatedBy:     Analytic
+packagesPresent: comp
 
 This hierarchical model replaces the single parameter in the submodel, and therefore behaves as if the submodel did not exist.  The comp package 'required' attribute is therefore 'false', meaning that the mathematical meaning of the model is not changed by the presence of 'comp' elements.
 

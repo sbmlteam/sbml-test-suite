@@ -1,13 +1,13 @@
 (*
 
-category:         Test
-synopsis:         A hierarchical model with a conversion factor
-componentTags:    AssignmentRule, Parameter, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
-testTags:         InitialValueReassigned, NonConstantParameter, comp:ConversionFactor
-testType:         TimeCourse
-levels:           3.1
-generatedBy:      Analytic
-requiredPackages: comp
+category:        Test
+synopsis:        A hierarchical model with a conversion factor
+componentTags:   AssignmentRule, Parameter, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
+testTags:        InitialValueReassigned, NonConstantParameter, comp:ConversionFactor
+testType:        TimeCourse
+levels:          3.1
+generatedBy:     Analytic
+packagesPresent: comp
 
  This model is a simple test of a replacement with a conversion factor that affects the assignment rule of another parameter.
 

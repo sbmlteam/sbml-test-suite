@@ -1,13 +1,13 @@
 (*
 
-category:         Test
-synopsis:         Chained replaced/replacedBy elements.
-componentTags:    Parameter, comp:ModelDefinition, comp:ReplacedBy, comp:ReplacedElement, comp:Submodel
-testTags:         
-testType:         TimeCourse
-levels:           3.1
-generatedBy:      Analytic
-requiredPackages: comp
+category:        Test
+synopsis:        Chained replaced/replacedBy elements.
+componentTags:   Parameter, comp:ModelDefinition, comp:ReplacedBy, comp:ReplacedElement, comp:Submodel
+testTags:        
+testType:        TimeCourse
+levels:          3.1
+generatedBy:     Analytic
+packagesPresent: comp
 
  Despite starting off with five parameters at three levels, all aggregate parameters collapse down to a single parameter, as one set is replaced by parameters in models above them, and the other is replaced by parameters below them.
 
