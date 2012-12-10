@@ -120,7 +120,9 @@ bool getConstant(string id, Model* model,  const map<string, vector<double> >& r
     if (!param->getConstant()) return false;
     break;
   case SBML_REACTION:
-    if (variesIn(rxn->getKineticLaw()->getMath(), model, results)) return false;
+    if (rxn->isSetKineticLaw()) {
+      if (variesIn(rxn->getKineticLaw()->getMath(), model, results)) return false;
+    }
     break;
   case SBML_SPECIES_REFERENCE:
     if (!sr->getConstant()) return false;
@@ -582,3 +584,69 @@ void checkSpecies(Model* model, set<string>& components, set<string>& tests,  co
   }
 }
 
+#ifdef USE_COMP
+void checkComp(CompSBMLDocumentPlugin* compdoc, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results)
+{
+  //if (compdoc->getRequired()) {
+  //  components.insert("comp:Required");
+  //}
+  //else {
+  //  components.insert("comp:NotRequired");
+  //}
+
+  SBMLDocument* doc = compdoc->getSBMLDocument();
+  List* allElements = doc->getAllElements();
+  for (unsigned int e=0; e<allElements->getSize(); e++) {
+    SBase* element = static_cast<SBase*>(allElements->get(e));
+    ReplacedElement* re;
+    Submodel* submod;
+    switch(element->getTypeCode()) {
+    case SBML_COMP_SUBMODEL:
+      components.insert("comp:Submodel");
+      submod = static_cast<Submodel*>(element);
+      if (submod->isSetExtentConversionFactor()) {
+        tests.insert("comp:ExtentConversionFactor");
+      }
+      if (submod->isSetTimeConversionFactor()) {
+        tests.insert("comp:TimeConversionFactor");
+      }
+      break;
+    case SBML_COMP_MODELDEFINITION:
+      components.insert("comp:ModelDefinition");
+      break;
+    case SBML_COMP_EXTERNALMODELDEFINITION:
+      components.insert("comp:ExternalModelDefinition");
+      break;
+    case SBML_COMP_SBASEREF:
+      components.insert("comp:SBaseRef");
+      break;
+    case SBML_COMP_DELETION:
+      components.insert("comp:Deletion");
+      break;
+    case SBML_COMP_REPLACEDELEMENT:
+      components.insert("comp:ReplacedElement");
+      re = static_cast<ReplacedElement*>(element);
+      if (re->isSetConversionFactor()) {
+        tests.insert("comp:ConversionFactor");
+      }
+      break;
+    case SBML_COMP_REPLACEDBY:
+      components.insert("comp:ReplacedBy");
+      break;
+    case SBML_COMP_PORT:
+      components.insert("comp:Port");
+      break;
+    default:
+      break;
+    }
+  }
+  for (map<string, vector<double> >::const_iterator result=results.begin(); 
+    result != results.end(); result++) {
+      string id = result->first;
+      if (id.find("__") != string::npos) {
+        //It is probably a submodel element, renamed
+        tests.insert("comp:SubmodelOutput");
+      }
+  }
+}
+#endif
