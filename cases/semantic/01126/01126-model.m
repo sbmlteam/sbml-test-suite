@@ -6,7 +6,7 @@ componentTags:   Parameter, comp:ModelDefinition, comp:Port, comp:ReplacedElemen
 testTags:        comp:SubmodelOutput
 testType:        TimeCourse
 levels:          3.1
-generatedBy:     Analytic||Numeric
+generatedBy:     Analytic
 packagesPresent: comp
 
 {Write general description of why you have created the model here.}
@@ -19,7 +19,6 @@ The initial conditions are as follows:
 | Initial value of parameter param1 | $10.42$ | constant |
 | Initial value of parameter submod1__subparam2 | $6$ | constant |]
 
-{Keep this next line if 'generatedBy' is 'Analytic':}
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 

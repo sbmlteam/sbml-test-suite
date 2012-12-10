@@ -35,8 +35,4 @@ The initial conditions are as follows:
 | Initial concentration of species A__B__ES | $0.1$ | variable |
 | Initial volume of compartment 'A__comp' | $1$ | constant |]
 
-{Keep this next line if 'generatedBy' is 'Analytic':}
-Note: The test data for this model was generated from an analytical
-solution of the system of equations.
-
 *)

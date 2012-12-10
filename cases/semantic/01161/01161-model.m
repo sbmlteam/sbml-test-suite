@@ -28,7 +28,6 @@ The initial conditions are as follows:
 | Initial value of parameter sub1__p1 | $100$ | constant |
 | Initial volume of compartment 'sub1__C' | $1$ | constant |]
 
-{Keep this next line if 'generatedBy' is 'Analytic':}
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 

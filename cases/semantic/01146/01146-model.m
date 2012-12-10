@@ -25,7 +25,6 @@ The initial conditions are as follows:
 | Initial value of parameter timeconv | $60$ | constant |
 | Initial value of parameter sub1__sub1__t1 | $time / timeconv + 3$ | variable |]
 
-{Keep this next line if 'generatedBy' is 'Analytic':}
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
