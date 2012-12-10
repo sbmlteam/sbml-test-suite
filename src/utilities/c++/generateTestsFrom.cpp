@@ -17,6 +17,10 @@
 
 #include <sbml/SBMLTypes.h>
 
+#ifdef USE_COMP
+#include <sbml/packages/comp/common/CompExtensionTypes.h>
+#endif
+
 using namespace std;
 LIBSBML_CPP_NAMESPACE_USE
 
@@ -36,7 +40,7 @@ vector<string> createTranslations(SBMLDocument* document, const string oldfilena
   vector<string> ret;
   unsigned int level   = document->getLevel  ();
   unsigned int version = document->getVersion();
-  
+
   string lxvx = "l" + toString(level) + "v" + toString(version);
   size_t lxvx_place = filename.find(lxvx);
   if (lxvx_place==string::npos) {
@@ -521,10 +525,15 @@ bool allSpeciesSetAmountUsedConcentration(Model* model)
   return true;
 }
 
-string getModelSummary(Model* model,  const map<string, vector<double> >& results)
+string getModelSummary(Model* model,  const map<string, vector<double> >& results, bool flat)
 {
   stringstream ret;
-  ret << "The model contains:\n";
+  if (flat) {
+    ret << "The 'flattened' version of this hierarchical model contains:\n";
+  }
+  else {
+    ret << "The model contains:\n";
+  }
   vector<string> namelist;
   namelist = getIdListFrom(model->getListOfSpecies());
   if (namelist.size()>0) {
@@ -588,6 +597,29 @@ string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const ma
 {
   set<string> components;
   set<string> tests;
+  set<string> packages;
+
+#ifdef USE_COMP
+  SBMLDocument* doc = model->getSBMLDocument();
+  CompSBMLDocumentPlugin* compdoc = static_cast<CompSBMLDocumentPlugin*>(doc->getPlugin("comp"));
+  unsigned int nummds = 0;
+  unsigned int numxmds = 0;
+  if (compdoc != NULL) {
+    packages.insert("comp");
+    if (!compdoc->getRequired()) {
+      tests.insert("comp:NotRequired");
+    }
+    checkComp(compdoc, components, tests, results);
+    nummds = compdoc->getNumModelDefinitions();
+    numxmds = compdoc->getNumExternalModelDefinitions();
+  }
+  CompModelPlugin* modplug = static_cast<CompModelPlugin*>(model->getPlugin("comp"));
+  if (modplug != NULL) {
+    //Only draw other tags from the flattened model
+    model = modplug->flattenModel();
+  }
+#endif
+
   checkRules(model, components, tests);
   checkCompartments(model, components, tests, results);
   checkEvents(model, components, tests);
@@ -614,15 +646,15 @@ string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const ma
     components.insert("CSymbolTime");
   }
 
-
   string ret = "";
-  ret += "category:      Test\n";
-  ret += "synopsis:      [[Write description here.]]\n";
-  ret += "componentTags: " + getString(components) + "\n";
-  ret += "testTags:      " + getString(tests) + "\n";
-  ret += "testType:      TimeCourse\n";
-  ret += "levels:        " + getString(levelsandversions) + "\n";
-  ret += "generatedBy:   Analytic||Numeric\n";
+  ret += "category:        Test\n";
+  ret += "synopsis:        [[Write description here.]]\n";
+  ret += "componentTags:   " + getString(components) + "\n";
+  ret += "testTags:        " + getString(tests) + "\n";
+  ret += "testType:        TimeCourse\n";
+  ret += "levels:          " + getString(levelsandversions) + "\n";
+  ret += "generatedBy:     Analytic||Numeric\n";
+  ret += "packagesPresent: " + getString(packages) + "\n";
   ret += "\n";
   ret += "{Write general description of why you have created the model here.}\n";
   ret += "\n";
@@ -641,18 +673,70 @@ writeMFile(string contents, string modfilename)
   string filename = modfilename.replace(sbml_place, 14, "-model.m");
   ifstream infile(filename);
   string oldfile(""), tmp;
+  bool commented = false;
+  bool writeup = false;
+  int analytic = 0;
+  string description = "";
   while (!infile.eof() && infile.good()) {
     getline(infile, tmp);
     oldfile += tmp + "\n";
+    if (tmp.find("/*") != string::npos) {
+      commented = true;
+    }
+    if (!commented) {
+      if (tmp.find("synopsis:") != string::npos) {
+        size_t newsynopsis = contents.find("synopsis:");
+        size_t endsynop = contents.find("\n", newsynopsis);
+        contents.replace(newsynopsis, endsynop-newsynopsis, tmp);
+      }
+      if (tmp.find("model contains:") != string::npos) {
+        writeup = false;
+      }
+      if (writeup) {
+        if (tmp.find("packagesPresent")==string::npos &&
+            tmp.size() > 1) {
+              description += tmp;
+        }
+      }
+      if (tmp.find("generatedBy:") != string::npos) {
+        writeup = true;
+        size_t newsynopsis = contents.find("generatedBy:");
+        size_t endsynop = contents.find("\n", newsynopsis);
+        contents.replace(newsynopsis, endsynop-newsynopsis, tmp);
+        if (tmp.find("Analytic||Numeric") != string::npos) {
+          analytic = 0;
+        }
+        else if (tmp.find("Analytic") != string::npos) {
+          analytic = 1;
+        }
+        else if (tmp.find("Numeric") != string::npos) {
+          analytic = 2;
+        }
+      }
+    }
+  }
+  if (description.size() > 0) {
+    size_t gendisc = contents.find("{Write general");
+    contents.replace(gendisc, 67, description);
+  }
+  if (analytic > 0) {
+    size_t keepline = contents.find("{Keep this next");
+    if (analytic==1) {
+      contents.replace(keepline, 54, "");
+    }
+    else if (analytic==2) {
+      contents.replace(keepline, 54+68+38, "");
+    }
   }
   ofstream file(filename);
   file << contents << endl;
-  if (!oldfile.empty()) {
-    file << "/*" << endl
-         << "Previous version of this file:  " << endl
-         << oldfile << endl
-         << "*/" << endl;
-  }
+
+  //if (!oldfile.empty()) {
+  //  file << "/*" << endl
+  //       << "Previous version of this file:  " << endl
+  //       << oldfile << endl
+  //       << "*/" << endl;
+  //}
   file.close();
   cout << "Successfully wrote model description file " << modfilename << endl;
 }
@@ -662,7 +746,7 @@ void writeSettingsFile(string modfilename)
   size_t sbml_place = modfilename.find("-sbml-l");
   if (sbml_place==string::npos) {
     cerr << "Error:  the filename '" << modfilename
-         << "' doesn't have the substring '-sbml-l' in it.  Can't write .m file" << endl;
+         << "' doesn't have the substring '-sbml-l' in it.  Can't write settings file" << endl;
     return;
   }
   string filename = modfilename.replace(sbml_place, 14, "-settings.txt");
@@ -721,14 +805,30 @@ main (int argc, char* argv[])
   string lxvx = "sbml-l" + toString(level) + "v" + toString(version);
   size_t lxvx_place = filename.find(lxvx);
   string resultsfilename = filename;
-  resultsfilename.replace(lxvx_place,4,"results.csv");
+  resultsfilename.replace(lxvx_place,13,"results.csv");
   map<string, vector<double> >& results = getResults(resultsfilename);
 
   vector<string> levelsandversions = createTranslations(document, filename);
   if (!translateonly) {
     string mfile = "(*\n\n";
     mfile += getSuiteHeaders(levelsandversions, model, results);
-    mfile += getModelSummary(model, results);
+    bool flat = false;
+#ifdef USE_COMP
+    CompModelPlugin* cmp = static_cast<CompModelPlugin*>(model->getPlugin("comp"));
+    if (cmp != NULL && cmp->getNumSubmodels() > 0) {
+      model = cmp->flattenModel();
+      flat = true;
+      //Write out the flattened version of the model.
+      model->disablePackage(CompExtension::getXmlnsL3V1V1(), "comp");
+      SBMLDocument flatdoc(3,1);
+      flatdoc.setModel(model);
+      string flatfilename = filename;
+      size_t sbml_place = flatfilename.find(".xml");
+      flatfilename = flatfilename.insert(sbml_place, "-flat");
+      writeSBMLToFile(&flatdoc, flatfilename.c_str());
+    }
+#endif
+    mfile += getModelSummary(model, results, flat);
     mfile += "\n*)";
     writeMFile(mfile, filename);
     writeSettingsFile(filename);
