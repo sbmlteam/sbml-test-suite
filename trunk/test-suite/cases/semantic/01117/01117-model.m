@@ -25,7 +25,6 @@ The initial conditions are as follows:
 | Initial concentration of species S1 | $1$ | constant |
 | Initial volume of compartment 'C' | $1$ | variable |]
 
-{Keep this next line if 'generatedBy' is 'Analytic':}
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 

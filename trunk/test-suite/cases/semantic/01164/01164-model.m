@@ -6,7 +6,7 @@ componentTags:   Compartment, Reaction, Species, comp:ModelDefinition, comp:Subm
 testTags:        Amount, MultiCompartment, comp:SubmodelOutput
 testType:        TimeCourse
 levels:          3.1
-generatedBy:     Analytic
+generatedBy:     Numeric
 packagesPresent: comp
 
  A submodel with a two-step reaction is imported twice into the parent model, creating parallel sets of species affected by parallel reactions.
@@ -36,9 +36,5 @@ The initial conditions are as follows:
 | Initial concentration of species submod2__ES | $1$ | variable |
 | Initial volume of compartment 'submod1__comp' | $1$ | constant |
 | Initial volume of compartment 'submod2__comp' | $1$ | constant |]
-
-{Keep this next line if 'generatedBy' is 'Analytic':}
-Note: The test data for this model was generated from an analytical
-solution of the system of equations.
 
 *)

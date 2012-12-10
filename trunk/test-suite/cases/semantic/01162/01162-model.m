@@ -18,7 +18,6 @@ The initial conditions are as follows:
 [{width:35em,margin-left:5em}|       | *Value* | *Constant* |
 | Initial value of parameter p8 | $8$ | variable |]
 
-{Keep this next line if 'generatedBy' is 'Analytic':}
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
