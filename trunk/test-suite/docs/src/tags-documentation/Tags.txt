@@ -18,6 +18,14 @@ RateRule                	all		A rate rule is present in the model
 Reaction                	all		A reaction is present in the model
 Species                 	all		A species is present in the model
 StoichiometryMath		L2v1-L2v4  	A stoichiometryMath element is present in the model (as a child of a speciesReference element)
+comp:Deletion                   L3v1+           A deletion is present in the model, in the 'comp' namespace
+comp:ExternalModelDefinition	L3v1+           An external model definition is present in the model, in the 'comp' namespace
+comp:ModelDefintion             L3v1+           A model definition is present in the model, in the 'comp' namespace
+comp:Port                       L3v1+           A port is present in the model, in the 'comp' namespace
+comp:ReplacedBy                 L3v1+           A replacedBy element is present in the model, in the 'comp' namespace
+comp:ReplacedElement            L3v1+           A replacedElement element is present in the model, in the 'comp' namespace
+comp:SBaseRef                   L3v1+           An sBaseRef is present in the model, in the 'comp' namespace
+comp:Submodel                   L3v1+           A submodel is present in the model, in the 'comp' namespace
 
 testTags
 ========
@@ -48,6 +56,11 @@ NonUnityStoichiometry		all		The model contains at least one species reference wi
 RandomEventExecution		L3v1+		The model contains two or more events that execute at the same moment in time, and which have, at that moment, identical priorities, so that correct simulation of the model depends on randomly choosing which event to execute first
 ReversibleReaction		all		The model contains at least one reaction whose kinetic law produces a negative value for at least part of the duration of the simulation
 SpeciesReferenceInMath		L3v1+		The model contains at least one species reference with an identifier that is used in a mathematical formula elsewhere in the model
+comp:ConversionFactor           L3v1+           The model contains at least one replacedElement with a conversionFactor attribute, which affects the interpretation of the math in the model.
+comp:ExtentConversionFactor     L3v1+           The model contains at least one submodel with an extentConversionFactor attribute, which affects the interpretation of the reactions in the submodel.
+comp:TimeConversionFactor       L3v1+           The model contains at least one submodel with a timeConversionFactor attribute, which affects the interpretation of the math and the reactions in the submodel.
+comp:NotRequired                L3v1+           The interpretation of the requested test suite output is numerically identical, whether or not any 'comp' constructs are understood.
+comp:SubmodelOutput             L3v1+           The value of at least one non-replaced element of a submodel is requested in the output, denoted by the use of double-underscores in the requested element's ID.
 
 Removed testTags
 ================
