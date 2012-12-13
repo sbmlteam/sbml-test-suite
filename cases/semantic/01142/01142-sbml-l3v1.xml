@@ -113,7 +113,7 @@
       <listOfReactions>
         <reaction id="J0" reversible="true" fast="false">
           <listOfProducts>
-            <speciesReference species="s1" constant="true"/>
+            <speciesReference species="s1" stoichiometry="1" constant="true"/>
           </listOfProducts>
           <kineticLaw>
             <math xmlns="http://www.w3.org/1998/Math/MathML">
