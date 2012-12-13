@@ -33,7 +33,7 @@
             <math xmlns="http://www.w3.org/1998/Math/MathML">
               <apply>
                 <divide/>
-                <cn> 0.000001 </cn>
+                <cn> 0.00001 </cn>
                 <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
               </apply>
             </math>
