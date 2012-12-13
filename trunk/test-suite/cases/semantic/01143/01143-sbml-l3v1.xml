@@ -11,7 +11,7 @@
   <comp:listOfModelDefinitions>
     <comp:modelDefinition id="moddef1">
       <listOfCompartments>
-        <compartment id="C" constant="true"/>
+        <compartment id="C" size="1" constant="true"/>
       </listOfCompartments>
       <listOfSpecies>
         <species id="s1" compartment="C" initialAmount="1" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
@@ -19,7 +19,7 @@
       <listOfReactions>
         <reaction id="J0" reversible="true" fast="false">
           <listOfProducts>
-            <speciesReference species="s1" constant="true"/>
+            <speciesReference species="s1" stoichiometry="1" constant="true"/>
           </listOfProducts>
           <kineticLaw>
             <math xmlns="http://www.w3.org/1998/Math/MathML">
