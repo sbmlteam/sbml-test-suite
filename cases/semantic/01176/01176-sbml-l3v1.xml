@@ -49,21 +49,13 @@
           <kineticLaw>
             <math xmlns="http://www.w3.org/1998/Math/MathML">
               <apply>
-                <divide/>
+                <times/>
                 <apply>
-                  <times/>
-                  <apply>
-                    <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/delay"> delay </csymbol>
-                    <ci> t5 </ci>
-                    <cn> 0.2 </cn>
-                  </apply>
-                  <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
-                </apply>
-                <apply>
-                  <times/>
-                  <ci> s1 </ci>
+                  <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/delay"> delay </csymbol>
                   <ci> t5 </ci>
+                  <cn> 0.2 </cn>
                 </apply>
+                <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
               </apply>
             </math>
           </kineticLaw>

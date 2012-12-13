@@ -19,7 +19,7 @@ The 'flattened' version of this hierarchical model contains:
 There is one reaction:
 
 [{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
-| -> s1 | $1 / timeconv * (delay(t5, timeconv * 0.2) * (time / timeconv) / (s1 * t5))$ |]
+| -> s1 | $1 / timeconv * delay(t5, timeconv * 0.2) * (time / timeconv)$ |]
 
 
 There is one rule:

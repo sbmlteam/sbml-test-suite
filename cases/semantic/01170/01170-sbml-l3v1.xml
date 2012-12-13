@@ -13,7 +13,7 @@
     </listOfSpecies>
     <listOfParameters>
       <parameter id="timeconv" value="60" constant="true"/>
-      <parameter id="t3" value="1" constant="false">
+      <parameter id="t3" value="10" constant="false">
         <comp:listOfReplacedElements>
           <comp:replacedElement comp:idRef="t3" comp:submodelRef="sub1"/>
         </comp:listOfReplacedElements>

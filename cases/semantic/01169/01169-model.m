@@ -10,7 +10,7 @@ generatedBy:     Numeric
 packagesPresent: comp
 
  Time, extent, and replacement conversion factors all combine in this model to affect a variety of constructs.
- 
+
 The 'flattened' version of this hierarchical model contains:
 * 1 species (A__S1)
 * 10 parameters (extentconv, timeconv, Q, R, cf, X, U1, U2, A__k1, A__y)
@@ -25,8 +25,8 @@ There is one reaction:
 There are 2 events:
 
 [{width:35em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  | *Event Assignments* |
-| A___E0 | $gt(X / cf, 3)$ | $Q$ | $A__y = 4$ |
-| A___E1 | $gt(X / cf, 3)$ | $R$ | $A__y = 5$ |]
+| A___E0 | $gt(X / cf, 0.1515)$ | $Q$ | $A__y = 4$ |
+| A___E1 | $gt(X / cf, 0.1515)$ | $R$ | $A__y = 5$ |]
 
 
 There are 4 rules:

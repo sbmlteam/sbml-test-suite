@@ -3,8 +3,8 @@
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" level="3" version="1" comp:required="true">
   <model id="testmod" name="testmod">
     <listOfParameters>
-      <parameter id="extentconv" value=".01" constant="true"/>
-      <parameter id="timeconv" value=".01666667" constant="true"/>
+      <parameter id="extentconv" value="10" constant="true"/>
+      <parameter id="timeconv" value="60" constant="true"/>
       <parameter id="Q" constant="false">
         <comp:listOfReplacedElements>
           <comp:replacedElement comp:idRef="q" comp:submodelRef="A"/>

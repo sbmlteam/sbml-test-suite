@@ -2,16 +2,16 @@
 
 category:        Test
 synopsis:        A hierarchical model with a time conversion factor.
-componentTags:   CSymbolTime, Compartment, Parameter, Reaction, Species
-testTags:        Amount, HasOnlySubstanceUnits
+componentTags:   CSymbolTime, Compartment, Parameter, Reaction, Species, comp:ModelDefinition, comp:ReplacedBy, comp:ReplacedElement, comp:Submodel
+testTags:        Amount, HasOnlySubstanceUnits, comp:TimeConversionFactor
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic
-packagesPresent: 
+packagesPresent: comp
 
 This model contains a submodel with a reaction in it, contained in a model with a time conversion factor.
 
-The model contains:
+The 'flattened' version of this hierarchical model contains:
 * 1 species (s1)
 * 2 parameters (timeconv, t3)
 * 1 compartment (C)
