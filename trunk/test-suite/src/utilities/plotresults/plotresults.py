@@ -320,7 +320,7 @@ $(function () {
                 zoomType: 'xy',
                 height: 500,
                 width: 600,
-                spacingTop: 25
+                spacingTop: 37
             },
             colors: [
             '#4572A7', 
@@ -368,9 +368,9 @@ $(function () {
             self.file.write('''
             subtitle: {
                 floating: true,
-                y: -10,
-                x: 25,
-                text: 'Drag the mouse to zoom in on a rectangular region',
+                y: -27,
+                x: 20,
+                text: 'Drag the mouse to zoom in on a rectangular region.<br>Click on variable names in the legend to toggle their visibility.',
                 style: { color: '#bbb' }
             },''')
         self.file.write('''
@@ -400,7 +400,9 @@ $(function () {
                 margin: 10,
                 itemWidth: 100,
                 itemMarginBottom: 5,
-                symbolWidth: 50
+                symbolWidth: 50,
+                symbolPadding: 5,
+                x: 30
             },
             credits: {
                 enabled: false
@@ -409,8 +411,8 @@ $(function () {
             self.file.write('''
             exporting: {
                 buttons: {
-                    exportButton: { y: 0 },
-                    printButton: { y: 0 }
+                    exportButton: { y: 5 },
+                    printButton: { y: 5 }
                 }
             },''')
         else:
