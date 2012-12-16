@@ -376,18 +376,17 @@ $(function () {
         self.file.write('''
             xAxis: {
                 gridLineWidth: 1,
+                gridLineDashStyle: 'ShortDot',
                 tickPosition: 'inside',
-                lineColor: '#bbb'
+                lineWidth: 0
             },
             yAxis: {
+                gridLineWidth: 1,
+                gridLineDashStyle: 'ShortDot',
+                tickPosition: 'inside',
                 title: {
                     text: null
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
+                }
             },
             tooltip: {
                 borderWidth: 1,
