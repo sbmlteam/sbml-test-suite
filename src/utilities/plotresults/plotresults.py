@@ -227,7 +227,7 @@ body {
     font-family: Helvetica, Verdana, sans-serif;
 }
 </style>
-<script type="text/javascript">
+<script>
 $(function () {
 ''')
 
@@ -305,10 +305,10 @@ class HighchartsPlotGenerator(PlotGenerator):
 
     def write_code_start(self, column_labels, buttons):
         self.file.write('''
-<script language="javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-<script language="javascript" src="http://code.highcharts.com/highcharts.js"></script>
-<script language="javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
-<script type="text/javascript">
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script>
 $(function () {
     var chart;
     $(document).ready(function() {
