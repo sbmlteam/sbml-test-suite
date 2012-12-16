@@ -147,10 +147,13 @@ class PlotWriter():
         self.generator.write_code_start(column_labels, buttons)
 
     def write_data(self, column_labels, time, values):
-        for label in column_labels[1:]:
+        for col in range(1, len(column_labels)):
+            if col > 1: self.file.write(',')
+            label = column_labels[col]
             self.generator.write_series_start(label)
-            for i in range(0, len(values[label])):
-                self.file.write('[' + time[i] + ', ' + values[label][i] + '],\n')
+            for row in range(0, len(values[label])):
+                if row: self.file.write(',')
+                self.file.write('\n[' + time[row] + ', ' + values[label][row] + ']')
             self.generator.write_series_stop()
 
     def write_code_end(self, column_labels):
@@ -231,7 +234,7 @@ $(function () {
 ''')
 
     def write_series_start(self, label):
-        self.file.write('var ' + label + ' = [\n')
+        self.file.write('var ' + label + ' = [')
 
 
     def write_series_stop(self):
@@ -255,7 +258,7 @@ function doPlot() {
                crosshair: { mode: "x" },
                grid: { backgroundColor: "#fff", color: "#999",
                        borderColor: "#ccc", borderWidth: 1,
-                       hoverable: true, clickable: true},
+                       hoverable: true, clickable: true}
            });
     }
 
@@ -322,7 +325,7 @@ $(function () {
                 zoomType: 'xy',
                 height: 500,
                 width: 600,
-                spacingTop: 25,
+                spacingTop: 25
             },
             colors: [
             '#4572A7', 
@@ -353,15 +356,15 @@ $(function () {
             '#6D0D03',
             '#031A49',
             '#025214',
-            '#6D4903',
+            '#6D4903'
             ],
             plotOptions: {
                 line: {
                     dashStyle: 'Solid',
                     marker: {
-                        enabled: false,
-                    },
-                },
+                        enabled: false
+                    }
+                }
             },
             title: {
                 text: null
@@ -373,17 +376,17 @@ $(function () {
                 y: -10,
                 x: 25,
                 text: 'Drag the mouse to zoom in on a rectangular region',
-                style: { color: '#bbb' },
+                style: { color: '#bbb' }
             },''')
         self.file.write('''
             xAxis: {
                 gridLineWidth: 1,
                 tickPosition: 'inside',
-                lineColor: '#bbb',
+                lineColor: '#bbb'
             },
             yAxis: {
                 title: {
-                    text: null,
+                    text: null
                 },
                 plotLines: [{
                     value: 0,
@@ -396,14 +399,14 @@ $(function () {
                 formatter: function() {
                     return '<b>' + this.series.name + '</b> at time '
                            + this.x + '<br>= ' + this.y;
-                },
+                }
             },
             legend: {
                 borderWidth: 0,
                 margin: 10,
                 itemWidth: 100,
                 itemMarginBottom: 5,
-                symbolWidth: 50,
+                symbolWidth: 50
             },
             credits: {
                 enabled: false
@@ -414,7 +417,7 @@ $(function () {
                 buttons: {
                     exportButton: { y: 0 },
                     printButton: { y: 0 }
-                },
+                }
             },''')
         else:
             self.file.write('''
@@ -422,7 +425,7 @@ $(function () {
                 buttons: {
                     exportButton: { enabled: false },
                     printButton: { enabled: false }
-                },
+                }
             },''')
         self.file.write('''
             series: [
@@ -430,11 +433,11 @@ $(function () {
 
 
     def write_series_start(self, label):
-        self.file.write('{ name: "' + label + '", data: [\n')
+        self.file.write('\n{ name: "' + label + '", data: [')
 
 
     def write_series_stop(self):
-        self.file.write('] },\n')
+        self.file.write('] }')
 
 
     def write_code_end(self, column_labels):
