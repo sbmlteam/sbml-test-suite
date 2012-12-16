@@ -390,10 +390,10 @@ $(function () {
                 }]
             },
             tooltip: {
-                borderWidth: 2,
+                borderWidth: 1,
                 formatter: function() {
-                    return '<b>' + this.series.name + '</b> at time '
-                           + this.x + '<br>= ' + this.y;
+                    return 'At time ' + this.x + '<br><b>' + this.series.name
+                           + '<\/b> = ' + this.y;
                 }
             },
             legend: {
