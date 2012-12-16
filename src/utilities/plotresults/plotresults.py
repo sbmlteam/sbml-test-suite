@@ -427,7 +427,7 @@ $(function () {
 
 
     def write_series_start(self, label):
-        self.file.write('\n{ name: "' + label + '", data: [')
+        self.file.write('\n{ name: "' + label + '", shadow: false, data: [')
 
 
     def write_series_stop(self):
