@@ -15,8 +15,9 @@
 #   3. The remaining column on every line is a data value, one per column,
 #      for each variable at that time point.
 #
-# The resulting HTML file makes use of two JavaScript libraries: jQuery and
-# Flot (http://www.flotcharts.org).  
+# The resulting HTML file makes use of JavaScript libraries for the actual
+# plotting process.  Currently, two libraries are supported: Highcharts JS
+# and Flot.
 #
 # <!--------------------------------------------------------------------------
 # This file is part of the SBML Test Suite.  Please visit http://sbml.org for
@@ -118,7 +119,8 @@ def get_quiet_flag(direct_args = None):
 # Helper classes
 # -----------------------------------------------------------------------------
 # This provides handling for specific plotting libraries.  Currently we know
-# about Highcharts and Flot.
+# about Highcharts and Flot.  The library-specific bits are separated into
+# classes, one for each of the plotting libraries.
 
 class PlotWriter():
 
@@ -159,6 +161,9 @@ class PlotWriter():
         if self.complete:
             self.file.write('</body>\n</html>\n')
 
+#
+# Base class for the library-specific plot generators.
+#
 
 class PlotGenerator():
 
@@ -166,6 +171,10 @@ class PlotGenerator():
         self.file = file
 
 
+#
+# Generator for Flot (http://flotcharts.org)
+# 
+ 
 class FlotPlotGenerator(PlotGenerator):
 
     # Most, but not everything in Flot, is easily styled using CSS.  For some
@@ -286,6 +295,10 @@ function doPlot() {
 });
 </script>
 ''')
+
+#
+# Generator for Highcharts JS (http://highcharts.com)
+#
 
 class HighchartsPlotGenerator(PlotGenerator):
 
@@ -486,6 +499,8 @@ def parse_data_file(csv_file):
 
 
 def main():
+    # Start by reading the command line arguments.
+
     args              = parse_cmdline()
     data_fname        = get_data_file_name(args)
     second_data_fname = get_second_file_name(args)
@@ -510,10 +525,14 @@ def main():
         elif re.search('.csv$', second_data_fname) == None:
             stop("'" + second_data_fname + "' is not a .csv file", quietly)
 
+    # Parse the expected results CSV data file.
+    # FIXME -- STILL TO DO: parse the second CSV file.
+
     column_labels, time, values = parse_data_file(data_fname)
 
+    # Get down to business and write the output.
+
     writer = PlotWriter(library_name, complete)
- 
     writer.open(plot_fname)
     writer.write_html_start()
     writer.write_code_start(column_labels, show_buttons)
@@ -521,6 +540,8 @@ def main():
     writer.write_code_end(column_labels)
     writer.write_html_end()
     writer.close()
+
+    # Close out by printing some general information.
 
     if not quietly:
         print "Plotted " + str(len(column_labels) - 1) + " variables at " \
