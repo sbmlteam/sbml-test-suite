@@ -187,10 +187,8 @@ class FlotPlotGenerator(PlotGenerator):
 
     def write_code_start(self, column_labels, buttons):
         self.file.write('''
-<script language="javascript" type="text/javascript"
-        src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-<script language="javascript" type="text/javascript"
-        src="http://cdnjs.cloudflare.com/ajax/libs/flot/0.7/jquery.flot.min.js"></script>
+<script language="javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script language="javascript" src="http://cdnjs.cloudflare.com/ajax/libs/flot/0.7/jquery.flot.min.js"></script>
 <style>
 body {
    background-color: white;   
@@ -307,12 +305,9 @@ class HighchartsPlotGenerator(PlotGenerator):
 
     def write_code_start(self, column_labels, buttons):
         self.file.write('''
-<script language="javascript" type="text/javascript" 
-        src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-<script language="javascript" type="text/javascript" 
-        src="http://code.highcharts.com/highcharts.js"></script>
-<script language="javascript" type="text/javascript" 
-        src="http://code.highcharts.com/modules/exporting.js"></script>
+<script language="javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script language="javascript" src="http://code.highcharts.com/highcharts.js"></script>
+<script language="javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript">
 $(function () {
     var chart;
