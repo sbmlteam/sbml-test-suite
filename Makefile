@@ -74,6 +74,8 @@ cases/semantic/%-plot.jpg: cases/semantic/%-plot.html \
 		./src/utilities/rasterize/rasterize.js
 	phantomjs ./src/utilities/rasterize/rasterize.js $(patsubst %-plot.jpg,%-plot.html,$@) $@
 
+plots: htmlplots jpgplots
+
 htmlplots: $(cases-html-plot-files)
 
 pngplots: $(cases-png-plot-files)
