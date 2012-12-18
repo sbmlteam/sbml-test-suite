@@ -60,6 +60,7 @@ clean-html:
 cases-csv-files       = $(wildcard cases/semantic/*/*-results.csv)
 cases-html-plot-files = $(patsubst %-results.csv,%-plot.html,$(cases-csv-files))
 cases-png-plot-files  = $(patsubst %-results.csv,%-plot.png,$(cases-csv-files))
+cases-jpg-plot-files  = $(patsubst %-results.csv,%-plot.jpg,$(cases-csv-files))
 
 cases/semantic/%-plot.html: cases/semantic/%-results.csv \
 		./src/utilities/plotresults/plotresults.sh
@@ -69,9 +70,15 @@ cases/semantic/%-plot.png: cases/semantic/%-plot.html \
 		./src/utilities/rasterize/rasterize.js
 	phantomjs ./src/utilities/rasterize/rasterize.js $(patsubst %-plot.png,%-plot.html,$@) $@
 
+cases/semantic/%-plot.jpg: cases/semantic/%-plot.html \
+		./src/utilities/rasterize/rasterize.js
+	phantomjs ./src/utilities/rasterize/rasterize.js $(patsubst %-plot.jpg,%-plot.html,$@) $@
+
 htmlplots: $(cases-html-plot-files)
 
 pngplots: $(cases-png-plot-files)
+
+jpgplots: $(cases-jpg-plot-files)
 
 clean-plots:
 	rm -f $(cases-html-plot-files)
