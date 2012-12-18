@@ -53,32 +53,29 @@ clean-html:
 # 'make plots'
 #
 
-# 2011-06-15 <mhucka@caltech.edu> Changed the appearance of the plots to
-# use thicker lines so that they are more easily discernible.
-# Unfortunately, to do this required a change to the overal approach.
-# Because of the poor quality of gnuplot's output for JPG & PNG formats
-# (specifically due to its lack of anti-aliasing in those cases), I changed
-# this system to use a more complicated approach of first generating SVG
-# and then converting the SVG files to JPG.  The more complicated approach
-# involves generating SVG from gnuplot, then converting the SVG to JPEG
-# using Batik.
+# 2012-12-17 [MH] Completely changed the way the plots are done.  We now
+# create an HTML page with the help of JavaScript plotting libraries (by
+# default, Highcharts JS) and generate PNG images using PhantomJS.
 
-cases-csv-files = $(wildcard cases/semantic/*/*-results.csv)
-cases-svg-files = $(patsubst %-results.csv,%-plot.svg,$(cases-csv-files))
-cases-jpg-files = $(patsubst %-results.csv,%-plot.jpg,$(cases-csv-files))
+cases-csv-files       = $(wildcard cases/semantic/*/*-results.csv)
+cases-html-plot-files = $(patsubst %-results.csv,%-plot.html,$(cases-csv-files))
+cases-png-plot-files  = $(patsubst %-results.csv,%-plot.png,$(cases-csv-files))
 
-plots: $(cases-svg-files)
-	make convert-all-svg-to-jpg
+cases/semantic/%-plot.html: cases/semantic/%-results.csv \
+		./src/utilities/plotresults/plotresults.sh
+	./src/utilities/plotresults/plotresults.py -n -q -d $(patsubst %-plot.html,%-results.csv,$@) -o $@
 
-cases/semantic/%-plot.svg: cases/semantic/%-results.csv
-	./src/utilities/plotresults/plotresults.sh $(patsubst %-plot.svg,%-results.csv,$@)
+cases/semantic/%-plot.png: cases/semantic/%-plot.html \
+		./src/utilities/rasterize/rasterize.js
+	phantomjs ./src/utilities/rasterize/rasterize.js $(patsubst %-plot.png,%-plot.html,$@) $@
 
-convert-all-svg-to-jpg:
-	java -jar src/imported/batik/batik-rasterizer.jar -m image/jpeg -q 0.9 $(cases-svg-files)
+htmlplots: $(cases-html-plot-files)
+
+pngplots: $(cases-png-plot-files)
 
 clean-plots:
-	rm -f $(cases-svg-files)
-	rm -f $(cases-jpg-files)
+	rm -f $(cases-html-plot-files)
+	rm -f $(cases-png-plot-files)
 
 #
 # 'make sedml'
