@@ -53,7 +53,11 @@ import re
 
 __desc = '''Create a plot of the data stored in an SBML Test Suite case results
 CSV file.  The plot is in the form of an HTML file that uses JavaScript to
-draw the curves and provide additional capabilities.'''
+draw the curves and provide additional capabilities.  The HTML file produced 
+has the same name as the given DATA file, but with .html as the suffix.
+In addition to producing HTML, you can use the -i flag to make it produce a
+second file containing an image of the plot.  Use the argument to the -i flag
+to indicate the format of the image; e.g., 'png' or 'jpg'. '''
 
 __desc_end = '''This file is part of the SBML Test Suite.  Please visit
 http://sbml.org for more information about SBML, and the latest version of
@@ -70,19 +74,19 @@ def parse_cmdline(direct_args = None):
                         help="write a complete HTML page, not just a fragment")
 
     parser.add_argument("-n", "--no-buttons", action="store_const", const=True, 
-                        help="omit interactive buttons from the HTML output")
+                        help="omit interactive buttons and text from the HTML output")
 
     parser.add_argument("-d", "--data", required=True,
-                        help="specify the CSV file containing the data to plot")
-
-    parser.add_argument("-s", "--second", 
-                        help="(optional) specify second data CSV file to plot")
+                        help="the CSV file containing the data to plot")
 
     parser.add_argument("-o", "--output", required=True,
-                        help="specify the file where to write the plot")
+                        help="the HTML file where the output should be written")
+
+    parser.add_argument("-r", "--results", 
+                        help="(optional) a second CSV file to overlay over the data")
 
     parser.add_argument("-l", "--library", default="highcharts",
-                        help="library to use: 'highcharts' (default) or 'flot'")
+                        help="(optional) library to use: 'highcharts' (default) or 'flot'")
 
     return parser.parse_args(direct_args)
 
@@ -91,12 +95,12 @@ def get_data_file_name(direct_args = None):
     return expanded_path(direct_args.data)
 
 
+def get_results_file_name(direct_args = None):
+    return expanded_path(direct_args.results)
+
+
 def get_output_file_name(direct_args = None):
     return expanded_path(direct_args.output)
-
-
-def get_second_file_name(direct_args = None):
-    return expanded_path(direct_args.second)
 
 
 def get_complete_flag(direct_args = None):
@@ -160,7 +164,14 @@ class PlotWriter():
         self.generator.write_code_end(column_labels)
 
     def write_html_end(self):
-        self.file.write('<div id="placeholder"></div>\n<div id="legend"></div>\n')
+        self.file.write('''
+<div id="info-text">
+Drag the mouse to zoom in on a rectangular region.<br>
+Click on variable names in the legend to toggle their visibility.
+</div>
+<div id="placeholder"></div>
+<div id="legend"></div>
+''')
         if self.complete:
             self.file.write('</body>\n</html>\n')
 
@@ -308,15 +319,37 @@ class HighchartsPlotGenerator(PlotGenerator):
 <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
+<style>
+body {
+   background-color: white;   
+   font-family: Helvetica, Verdana, sans-serif;
+   font-size: 10pt;
+}
+@media print {
+  .no-print { display: none; }
+}
+#info-text {
+  position: absolute;
+  color: #bbb;
+  top: 5;
+  left: 150;
+  z-index: 2;
+  text-align: center;''')
+        if not buttons:
+            self.file.write('''
+  display: none;''')
+        self.file.write('''
+}
+</style>
 <script>
 $(function () {
     var chart;
     $(document).ready(function() {
         chart = new Highcharts.Chart({
             chart: {
+                backgroundColor: '#fff',
                 renderTo: 'placeholder',
                 type: 'line',
-                marginRight: 5,
                 zoomType: 'xy',
                 height: 500,
                 width: 600,
@@ -364,20 +397,12 @@ $(function () {
             title: {
                 text: null
             },''')
-        if buttons:
-            self.file.write('''
-            subtitle: {
-                floating: true,
-                y: -27,
-                x: 20,
-                text: 'Drag the mouse to zoom in on a rectangular region.<br>Click on variable names in the legend to toggle their visibility.',
-                style: { color: '#bbb' }
-            },''')
         self.file.write('''
             xAxis: {
                 gridLineWidth: 1,
                 gridLineDashStyle: 'ShortDot',
                 tickPosition: 'inside',
+                maxPadding: 0,
                 lineWidth: 0
             },
             yAxis: {
@@ -446,6 +471,9 @@ $(function () {
 </script>
 ''')
 
+# '''
+
+
 # -----------------------------------------------------------------------------
 # Body
 # -----------------------------------------------------------------------------
@@ -497,17 +525,40 @@ def parse_data_file(csv_file):
     return column_labels, time, values
 
 
+def generate_image(input_fname, output_fname):
+    # Foo.  PhantomJS won't read from stdin, hence this crud.
+
+    tmpfile = tempfile.NamedTemporaryFile()
+    tmpfile.write('''
+var page = require('webpage').create();
+var system = require('system');
+page.viewportSize = { width: 600, height: 400 };
+page.open("''' + input_fname + '''", function (status) {
+    if (status !== 'success') {
+        console.log('Unable to load the HTML file!');
+    } else {
+        window.setTimeout(function () {
+            page.render("''' + output_fname + '''");
+            phantom.exit();
+        }, 2000);
+    }
+});
+''')
+    tmpfile.flush()
+    return_code = subprocess.call(["phantomjs", tmpfile.name])
+
+
 def main():
     # Start by reading the command line arguments.
 
-    args              = parse_cmdline()
-    data_fname        = get_data_file_name(args)
-    second_data_fname = get_second_file_name(args)
-    plot_fname        = get_output_file_name(args)
-    library_name      = get_library_flag(args)
-    quietly           = get_quiet_flag(args)
-    complete          = get_complete_flag(args)
-    show_buttons      = not get_no_buttons_flag(args)
+    args          = parse_cmdline()
+    data_fname    = get_data_file_name(args)
+    results_fname = get_results_file_name(args)
+    plot_fname    = get_output_file_name(args)
+    library_name  = get_library_flag(args)
+    quietly       = get_quiet_flag(args)
+    complete      = get_complete_flag(args)
+    show_buttons  = not get_no_buttons_flag(args)
 
     # Sanity-check the arguments.
 
@@ -516,18 +567,24 @@ def main():
     elif re.search('.csv$', data_fname) == None:
         stop("'" + data_fname + "' is not a .csv file", quietly)
     elif re.search('.html$', plot_fname) == None:
-        stop("output file name should end in .html", quietly)
+        stop("'" + plot_fname + "' is not a .html file", quietly)
 
-    if second_data_fname != None:
-        if not valid_file(second_data_fname):
-            stop("cannot read file '" + second_data_fname + "'", quietly)
-        elif re.search('.csv$', second_data_fname) == None:
-            stop("'" + second_data_fname + "' is not a .csv file", quietly)
+    if results_fname != None:
+        if not valid_file(results_fname):
+            stop("cannot read file '" + results_fname + "'", quietly)
+        elif re.search('.csv$', results_fname) == None:
+            stop("'" + results_fname + "' is not a .csv file", quietly)
 
     # Parse the expected results CSV data file.
-    # FIXME -- STILL TO DO: parse the second CSV file.
+    # FIXME -- STILL TO DO: parse the second/results CSV file.
 
     column_labels, time, values = parse_data_file(data_fname)
+
+    if not quietly:
+        print "Plotting file " + data_fname + ":"
+        print "   " + str(len(time)) + " time points"
+        print "   " + str(len(column_labels) - 1) + " variables: " \
+            + ' '.join(column_labels[1:])
 
     # Get down to business and write the output.
 
@@ -540,12 +597,19 @@ def main():
     writer.write_html_end()
     writer.close()
 
-    # Close out by printing some general information.
-
     if not quietly:
-        print "Plotted " + str(len(column_labels) - 1) + " variables at " \
-            + str(len(time)) + " time points to file '" + plot_fname + "'."
+        print "Wrote " + plot_fname
 
+    # # Generate image file if requested.
+
+    # if image_type != None:
+    #     image_fname = data_fname.rsplit('.', 1)[0] + '.' + image_type
+    #     if not quietly:
+    #         print "Generating " + image_type + " image to file " + image_fname + " ..."
+    #     generate_image(plot_fname, image_fname)
+    #     if not quietly:
+    #         print "Done."
+ 
 
 if __name__ == '__main__':
     main()
