@@ -1,6 +1,16 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
+=== Version 2.2 release
+
+* Changes:
+
+   - Completely changed how plots are generated.  The new version uses
+     HTML-based plots, with interactive features thanks to the use of
+     the Highcharts JS JavaScript-based plotting library.  Past code
+     involving the use of gnuplot, batik, etc., is all gone.
+
+
 === Version 2.1.2 release (2012-10-09)
 
 * Bug fixes:
