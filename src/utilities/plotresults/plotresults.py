@@ -423,11 +423,11 @@ $(function () {
             legend: {
                 borderWidth: 0,
                 margin: 10,
-                itemWidth: 100,
+                itemWidth: 140,
                 itemMarginBottom: 5,
                 symbolWidth: 50,
                 symbolPadding: 5,
-                x: 30
+                x: 20
             },
             credits: {
                 enabled: false
@@ -497,7 +497,7 @@ def stop(message, be_quiet):
 
 def parse_data_file(csv_file):
     # Read the contents into 3 structures and return all 3:
-    #   column_labels: a vector of the column labels.  The first one
+    #   column_labels: a vector of unique column labels.  The first one
     #       will (or should be) 'time'
     #
     #   time: a vector of the time points.
@@ -506,23 +506,37 @@ def parse_data_file(csv_file):
     #       We skip the first column because we keep it in the separate
     #       'time' vector, so this dictionary stores just columns 2-n,
     #       where n is the total number of columns in the CSV file.
+    #
+    # This checks for the possibility that more than one column with
+    # the same label exists; if that's the case, it skips subsequent columns
+    # and returns the value from the first one only.
     column_labels = []
     time = []
     values = {}
+    duplicate_columns = []
     with open(csv_file, 'r') as csvfile:
         contents = csv.reader(csvfile, delimiter = ',')
+        seen_labels = []
 
         column_labels = contents.next();
         for label in column_labels[1:]:
             values[label] = []
+            duplicate_columns.append(label in seen_labels)
+            seen_labels.append(label)
 
         data_column_range = range(1, len(column_labels))
         for row in contents:
             time.append(row[0])
             for i in data_column_range:
-                values[column_labels[i]].append(row[i])
+                if not duplicate_columns[i - 1]:
+                    values[column_labels[i]].append(row[i])
 
-    return column_labels, time, values
+        unique_column_labels = []
+        for i in range(0, len(column_labels)):
+            if not duplicate_columns[i - 1]:
+                unique_column_labels.append(column_labels[i])
+
+    return unique_column_labels, time, values
 
 
 def generate_image(input_fname, output_fname):
