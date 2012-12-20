@@ -163,7 +163,7 @@ class PlotWriter():
     def write_code_end(self, column_labels):
         self.generator.write_code_end(column_labels)
 
-    def write_html_end(self):
+    def write_html_body(self):
         self.file.write('''
 <div id="info-text">
 Drag the mouse to zoom in on a rectangular region.<br>
@@ -172,6 +172,8 @@ Click on variable names in the legend to toggle their visibility.
 <div id="placeholder"></div>
 <div id="legend"></div>
 ''')
+
+    def write_html_end(self):
         if self.complete:
             self.file.write('</body>\n</html>\n')
 
@@ -507,9 +509,13 @@ def parse_data_file(csv_file):
     #       'time' vector, so this dictionary stores just columns 2-n,
     #       where n is the total number of columns in the CSV file.
     #
-    # This checks for the possibility that more than one column with
+    # If the data contains an infinite value ("INF" or a variant), then
+    # this returns an empty array for values, as an indicator.
+    #
+    # This also checks for the possibility that more than one column with
     # the same label exists; if that's the case, it skips subsequent columns
     # and returns the value from the first one only.
+    #
     column_labels = []
     time = []
     values = {}
@@ -517,8 +523,10 @@ def parse_data_file(csv_file):
     with open(csv_file, 'r') as csvfile:
         contents = csv.reader(csvfile, delimiter = ',')
         seen_labels = []
+        unique_column_labels = []
 
         column_labels = contents.next();
+        duplicate_columns = ['__00fake_first_entry00__']
         for label in column_labels[1:]:
             values[label] = []
             duplicate_columns.append(label in seen_labels)
@@ -528,12 +536,14 @@ def parse_data_file(csv_file):
         for row in contents:
             time.append(row[0])
             for i in data_column_range:
-                if not duplicate_columns[i - 1]:
-                    values[column_labels[i]].append(row[i])
+                if not duplicate_columns[i]:
+                    if str(row[i]).upper().find("INF") != -1:
+                        return unique_column_labels, time, []
+                    else:
+                        values[column_labels[i]].append(row[i])
 
-        unique_column_labels = []
         for i in range(0, len(column_labels)):
-            if not duplicate_columns[i - 1]:
+            if not duplicate_columns[i]:
                 unique_column_labels.append(column_labels[i])
 
     return unique_column_labels, time, values
@@ -596,18 +606,23 @@ def main():
 
     if not quietly:
         print "Plotting file " + data_fname + ":"
-        print "   " + str(len(time)) + " time points"
-        print "   " + str(len(column_labels) - 1) + " variables: " \
-            + ' '.join(column_labels[1:])
+        if not values:
+            print "  results contain unplottable values (e.g., INF)"
+        else:
+            print "   " + str(len(time)) + " time points"
+            print "   " + str(len(column_labels) - 1) + " variables: " \
+                + ' '.join(column_labels[1:])
 
     # Get down to business and write the output.
 
     writer = PlotWriter(library_name, complete)
     writer.open(plot_fname)
     writer.write_html_start()
-    writer.write_code_start(column_labels, show_buttons)
-    writer.write_data(column_labels, time, values)
-    writer.write_code_end(column_labels)
+    if values:
+        writer.write_code_start(column_labels, show_buttons)
+        writer.write_data(column_labels, time, values)
+        writer.write_code_end(column_labels)
+        writer.write_html_body()
     writer.write_html_end()
     writer.close()
 
