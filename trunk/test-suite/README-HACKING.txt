@@ -41,15 +41,16 @@ in the relevant subdirectory.
 
   * _Generation of plot files for test case results_
   
-    Similar to the approach for the HTML files, the plot files are not
-    stored in the SVN directory because they can be generated from the
-    .csv file.  The process for this involves using the script
-    src/utilities/plotresults/plotresults.sh and requires a recent
-    version of gnuplot.  In the top-level Makefile, the target "make
-    plots" will regenerate SVG and JPEG files for those cases whose
-    .csv files are more files are more recent than the corresponding
-    SVG and JPEG files.  This target is also executed automatically
-    when "make cases-dist" is executed.
+    Similar to the approach for the HTML files containing descriptions
+    of the models, the plots of the test results are not stored in the
+    SVN directory because they can be generated from the .csv data
+    files.  The process for this involves using the script
+    src/utilities/plotresults/plotresults.py.  In the top-level
+    Makefile, the target "make plots" will regenerate HTML and JPEG
+    plot files for those cases whose .csv files are more files are
+    more recent than the corresponding HTML and JPEG plot files.  This
+    target is also executed automatically when "make cases-dist" is
+    executed.
 
   * _Generation of SED-ML files_
 
