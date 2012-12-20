@@ -8,7 +8,8 @@
 
 This is a trivial variation on an example script provided as part of
 PhantomJS (http://phantomjs.org) for creating an image of an HTML
-page.  It is used in generating PNG images of SBML Test Suite plots.
+page.  It is used in generating JPG/PNG/etc. images from the
+HTML-based plot files created for the SBML Test Suite.
 
 Synopsis:
 
