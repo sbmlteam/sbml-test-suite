@@ -15,19 +15,18 @@ will distributed in the archive for the next major release (2.3).
     the Highcharts JS JavaScript-based plotting library.  Past code
     involving the use of gnuplot, batik, etc., is all gone.  
 
-  - As part of the previous change, SVG plot files are no longer
-    provided; instead, the files are HTML files containing SVG (and
+  - As part of the change noted above, SVG plot files are no longer
+    provided; instead, the files are HTML files with embedded SVG (and
     JavaScript code) within them.  The Makefile commands involving the
     generation of specific plot formats are now different; the
     commands are
 
-        make htmlplots
-        make jpgplots
-        make pngplots
+        make html-plots
+        make jpg-plots
+        make png-plots
 
     The command "make plots" still works as before, except for the
-    change mentioned above, that no SVG files are produced (but JPG
-    files are, as before).
+    change mentioned above, that no SVG files are produced.
 
   - Cases 1124-1188 are a new batch of test cases, the first for
     testing SBML Level 3 packages.  Along with this comes a change to
