@@ -1,14 +1,56 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
-=== Version 2.2 release
+=== Version 2.2 release (2012-12-21)
+
+IMPORTANT NOTE: the .zip archive distribution of cases ONLY contains
+cases #0-1123,1184,and 1185; cases #1124-1184 are available in the SVN
+repository only, and are not distributed in the archive for 2.2.  They
+will distributed in the archive for the next major release (2.3).
 
 * Changes:
 
-   - Completely changed how plots are generated.  The new version uses
-     HTML-based plots, with interactive features thanks to the use of
-     the Highcharts JS JavaScript-based plotting library.  Past code
-     involving the use of gnuplot, batik, etc., is all gone.
+  - Completely changed how plots are generated.  The new version uses
+    HTML-based plots, with interactive features thanks to the use of
+    the Highcharts JS JavaScript-based plotting library.  Past code
+    involving the use of gnuplot, batik, etc., is all gone.  
+
+  - As part of the previous change, SVG plot files are no longer
+    provided; instead, the files are HTML files containing SVG (and
+    JavaScript code) within them.  The Makefile commands involving the
+    generation of specific plot formats are now different; the
+    commands are
+
+        make htmlplots
+        make jpgplots
+        make pngplots
+
+    The command "make plots" still works as before, except for the
+    change mentioned above, that no SVG files are produced (but JPG
+    files are, as before).
+
+  - Cases 1124-1188 are a new batch of test cases, the first for
+    testing SBML Level 3 packages.  Along with this comes a change to
+    the format of the *-model.m file, which now includes a new line,
+ 
+        packagesPresent: X, Y, Z, ...
+
+    where "X, Y, Z, ..." is a list of Level 3 packages used in the
+    model; also, the componentTags and testTags have package-specific
+    tags (e.g., "comp:ModelDefinition") about the components and
+    tests related to the packages represented in the test.
+
+* Bug fixes:
+
+  - Case #967 was tagged as having a random event execution, but did
+    not actually have such.  The tag has been removed.
+
+  - Cleaned up some cruft accidentally left in test case description
+    *-model.m files for cases #1117, 1118, 1126, 1146, 1147, 1161-1164
+    and 1168.
+
+  - Some cases in the range 1117-1168 were erroneous labeled as being
+    analytic, when in fact they were generated numerically.
 
 
 === Version 2.1.2 release (2012-10-09)
