@@ -70,9 +70,9 @@ cases/semantic/%-plot.png: cases/semantic/%-plot.html \
 		./src/utilities/rasterize/rasterize.js
 	phantomjs ./src/utilities/rasterize/rasterize.js $(patsubst %-plot.png,%-plot.html,$@) $@
 
-cases/semantic/%-plot.jpg: cases/semantic/%-plot.html \
+cases/semantic/%-plot.jpg: cases/semantic/%-plot.html cases/semantic/%-plot.png \
 		./src/utilities/rasterize/rasterize.js
-	phantomjs ./src/utilities/rasterize/rasterize.js $(patsubst %-plot.jpg,%-plot.html,$@) $@
+	convert -quality 90 $(patsubst %-plot.jpg,%-plot.png,$@) $@
 
 plots: html-plots jpg-plots
 
