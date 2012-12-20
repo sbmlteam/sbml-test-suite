@@ -74,7 +74,7 @@ cases/semantic/%-plot.jpg: cases/semantic/%-plot.html cases/semantic/%-plot.png 
 		./src/utilities/rasterize/rasterize.js
 	convert -quality 90 $(patsubst %-plot.jpg,%-plot.png,$@) $@
 
-plots: html-plots png-plots
+plots: html-plots jpg-plots
 
 html-plots: $(cases-html-plot-files)
 
