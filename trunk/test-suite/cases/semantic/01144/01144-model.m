@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A hierarchical model with a submodel reaction modified by time and extent conversion factors.
 componentTags:   CSymbolTime, Compartment, Parameter, Reaction, Species, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
- testTags:        Amount, HasOnlySubstanceUnits, comp:ExtentConversionFactor, comp:SubmodelOutput, comp:TimeConversionFactor
+testTags:        Amount, HasOnlySubstanceUnits, comp:ExtentConversionFactor, comp:SubmodelOutput, comp:TimeConversionFactor
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic

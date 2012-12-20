@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A simple reaction with stoichiometry set to a parameter, which in turn is set to be the same as its species.
 componentTags: StoichiometryMath, AssignmentRule, Compartment, Parameter, Reaction, Species
- testTags:      Amount, AssignedVariableStoichiometry, HasOnlySubstanceUnits, InitialValueReassigned, NonUnityStoichiometry, NonConstantParameter
+testTags:      Amount, AssignedVariableStoichiometry, HasOnlySubstanceUnits, InitialValueReassigned, NonUnityStoichiometry, NonConstantParameter
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4
 generatedBy:   Numeric
