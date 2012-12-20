@@ -74,17 +74,18 @@ cases/semantic/%-plot.jpg: cases/semantic/%-plot.html \
 		./src/utilities/rasterize/rasterize.js
 	phantomjs ./src/utilities/rasterize/rasterize.js $(patsubst %-plot.jpg,%-plot.html,$@) $@
 
-plots: htmlplots jpgplots
+plots: html-plots jpg-plots
 
-htmlplots: $(cases-html-plot-files)
+html-plots: $(cases-html-plot-files)
 
-pngplots: $(cases-png-plot-files)
+png-plots: $(cases-png-plot-files)
 
-jpgplots: $(cases-jpg-plot-files)
+jpg-plots: $(cases-jpg-plot-files)
 
 clean-plots:
 	rm -f $(cases-html-plot-files)
 	rm -f $(cases-png-plot-files)
+	rm -f $(cases-jpg-plot-files)
 
 #
 # 'make sedml'
@@ -220,7 +221,7 @@ endif
 cases-dirs = $(wildcard cases/semantic/*)
 tmpfile    = .tmp.make.ignores
 
-svn-ignores: $(cases-html-files) $(cases-svg-files)
+svn-ignores: $(cases-html-plot-files) $(cases-jpg-plot-files)
 	@list='$(cases-dirs)'; for dir in $$list; do \
 	  name=`basename $$dir`; \
 	  echo $$name-model.html > $(tmpfile); \
