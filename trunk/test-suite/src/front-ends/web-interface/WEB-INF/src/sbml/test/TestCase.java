@@ -245,7 +245,7 @@ public class TestCase
 
         mFileName            = caseName + "-model.m";
         htmlFileName         = caseName + "-model.html";
-        plotFileName         = caseName + "-plot.jpg";
+        plotFileName         = caseName + "-plot.html";
         expectedDataFileName = caseName + "-results.csv";
         settingsFileName     = caseName + "-settings.txt";
 
