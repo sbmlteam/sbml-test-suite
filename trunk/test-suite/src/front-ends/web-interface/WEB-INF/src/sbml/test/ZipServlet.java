@@ -224,7 +224,7 @@ public class ZipServlet extends HttpServlet
         // 'rx' is the start of the regex, but note that it's not terminated.
         // We add some more pieces below, then close it off at the end.
 
-        String rx = new String("(\\d{5}-plot.jpg|\\d{5}-settings.txt|\\d{5}-model.html|\\d{5}-results.csv");
+        String rx = new String("(\\d{5}-plot.jpg|\\d{5}-settings.txt|\\d{5}-model.html|\\d{5}-model.m|\\d{5}-results.csv");
       
         if (levelAndVersion != null)      // Shouldn't happen, but let's be safe.
             for (int i = 0; i < KNOWN_LV_COMBOS.length; i++)
