@@ -233,10 +233,9 @@ else
     <p><c:import url="<%="file://" + thisCase.getHTMLFile().getPath()%>" /></p>
 
     The following is a plot of the <b>expected</b> results:</p>
-    
-    <center><img style="margin: 1em auto 3em -50px" 
-        src="<%=OnlineSTS.getServiceRootURL(request)%>/test-cases/<%=testName%>/<%=thisCase.getPlotFileName()%>"
-        align="center" alt="plot"> 
+
+    <center>
+      <c:import url="<%="file://" + thisCase.getPlotFile().getPath()%>" /></p>
     </center>
 
     <p> Component tags involved in test case: 
