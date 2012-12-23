@@ -154,7 +154,8 @@ class PlotWriter():
             self.generator.write_series_start(label)
             for row in range(0, len(values[label])):
                 if row: self.file.write(',')
-                self.file.write('\n[' + time[row] + ', ' + values[label][row] + ']')
+                self.file.write('\n[' + time[row] + ', '
+                                + values[label][row] + ']')
             self.generator.write_series_stop()
 
     def write_code_end(self, column_labels):
@@ -173,6 +174,25 @@ Click on variable names in the legend to toggle their visibility.
     def write_html_end(self):
         if self.complete:
             self.file.write('</body>\n</html>\n')
+
+    def write_empty_result(self):
+        self.file.write('''
+<svg version="1.1" id="Layer_1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="66.906738" height="66.906738"
+     viewBox="0 0 66.906738 66.906738"
+     style="overflow:visible;enable-background:new 0 0 66.906738 66.906738;"
+     xml:space="preserve">
+    <g>
+     <circle style="fill:#B51729;" cx="33.453613" cy="33.453369" r="33.453091"/>
+     <circle style="fill:#FFFFFF;" cx="33.453125" cy="33.453125" r="26.499931"/>
+    <polyline style="fill:#B51729;"
+     points="15.185547,10.589355 55.844727,51.248535 51.249023,55.844727 10.589844,15.185547"/>
+    </g>
+</svg>
+''')
+
 
 #
 # Base class for the library-specific plot generators.
@@ -588,7 +608,7 @@ def main():
     if not quietly:
         print "Plotting file " + data_fname + ":"
         if not values:
-            print "  results contain unplottable values (e.g., INF)"
+            print "  Results contain unplottable values (e.g., INF)"
         else:
             print "   " + str(len(time)) + " time points"
             print "   " + str(len(column_labels) - 1) + " variables: " \
@@ -604,6 +624,8 @@ def main():
         writer.write_data(column_labels, time, values)
         writer.write_code_end(column_labels)
         writer.write_html_body()
+    else:
+        writer.write_empty_result()
     writer.write_html_end()
     writer.close()
 
