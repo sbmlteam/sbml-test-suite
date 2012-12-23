@@ -163,12 +163,14 @@ class PlotWriter():
 
     def write_html_body(self):
         self.file.write('''
-<div id="info-text">
+<div id="plot-wrapper">
+<div id="info-text" class="no-print">
 Drag the mouse to zoom in on a rectangular region.<br>
 Click on variable names in the legend to toggle their visibility.
 </div>
 <div id="placeholder"></div>
 <div id="legend"></div>
+</div>
 ''')
 
     def write_html_end(self):
@@ -347,13 +349,18 @@ body {
 @media print {
   .no-print { display: none; }
 }
+#plot-wrapper {
+  display: inline-block;
+}
+#placeholder {
+  margin-top: 0.25em;
+}
 #info-text {
+  text-align: center;
   position: absolute;
-  color: #bbb;
-  top: 5;
-  left: 150;
-  z-index: 2;
-  text-align: center;''')
+  z-index: 100;
+  left: 170px;
+  color: #bbb;''')
         if not buttons:
             self.file.write('''
   display: none;''')
