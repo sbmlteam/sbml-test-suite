@@ -63,10 +63,11 @@ cases-png-plot-files  = $(patsubst %-results.csv,%-plot.png,$(cases-csv-files))
 cases-jpg-plot-files  = $(patsubst %-results.csv,%-plot.jpg,$(cases-csv-files))
 
 cases/semantic/%-plot.html: cases/semantic/%-results.csv
-	./src/utilities/plotresults/plotresults.py -n -q -d $(patsubst %-plot.html,%-results.csv,$@) -o $@
+	./src/utilities/plotresults/plotresults.py -q -d $(patsubst %-plot.html,%-results.csv,$@) -o $@
 
 cases/semantic/%-plot.png: cases/semantic/%-plot.html
-	phantomjs ./src/utilities/rasterize/rasterize.js $(patsubst %-plot.png,%-plot.html,$@) $@
+	./src/utilities/plotresults/plotresults.py -n -q -d $(patsubst %-plot.html,%-results.csv,$<) -o /tmp/$(notdir $<)
+	phantomjs ./src/utilities/rasterize/rasterize.js /tmp/$(notdir $<) $@
 
 cases/semantic/%-plot.jpg: cases/semantic/%-plot.html cases/semantic/%-plot.png
 	convert -quality 90 $(patsubst %-plot.jpg,%-plot.png,$@) $@
