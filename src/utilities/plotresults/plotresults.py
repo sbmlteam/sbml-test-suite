@@ -54,10 +54,7 @@ import re
 __desc = '''Create a plot of the data stored in an SBML Test Suite case results
 CSV file.  The plot is in the form of an HTML file that uses JavaScript to
 draw the curves and provide additional capabilities.  The HTML file produced 
-has the same name as the given DATA file, but with .html as the suffix.
-In addition to producing HTML, you can use the -i flag to make it produce a
-second file containing an image of the plot.  Use the argument to the -i flag
-to indicate the format of the image; e.g., 'png' or 'jpg'. '''
+has the same name as the given DATA file, but with .html as the suffix.'''
 
 __desc_end = '''This file is part of the SBML Test Suite.  Please visit
 http://sbml.org for more information about SBML, and the latest version of
@@ -477,7 +474,7 @@ $(function () {
 
 
 # -----------------------------------------------------------------------------
-# Body
+# Utility functions.
 # -----------------------------------------------------------------------------
 
 def valid_file(file):
@@ -510,7 +507,7 @@ def parse_data_file(csv_file):
     #       where n is the total number of columns in the CSV file.
     #
     # If the data contains an infinite value ("INF" or a variant), then
-    # this returns an empty array for values, as an indicator.
+    # this returns an empty array for the "values", as an indicator.
     #
     # This also checks for the possibility that more than one column with
     # the same label exists; if that's the case, it skips subsequent columns
@@ -526,6 +523,8 @@ def parse_data_file(csv_file):
         unique_column_labels = []
 
         column_labels = contents.next();
+        # In the next line, fake 1st entry is just to make indexing
+        # correspond 1-1 with column_labels, whose first column we skip.
         duplicate_columns = ['__00fake_first_entry00__']
         for label in column_labels[1:]:
             values[label] = []
@@ -538,6 +537,7 @@ def parse_data_file(csv_file):
             for i in data_column_range:
                 if not duplicate_columns[i]:
                     if str(row[i]).upper().find("INF") != -1:
+                        # We can't plot "INF" values, so bail out.
                         return unique_column_labels, time, []
                     else:
                         values[column_labels[i]].append(row[i])
@@ -549,28 +549,9 @@ def parse_data_file(csv_file):
     return unique_column_labels, time, values
 
 
-def generate_image(input_fname, output_fname):
-    # Foo.  PhantomJS won't read from stdin, hence this crud.
-
-    tmpfile = tempfile.NamedTemporaryFile()
-    tmpfile.write('''
-var page = require('webpage').create();
-var system = require('system');
-page.viewportSize = { width: 600, height: 400 };
-page.open("''' + input_fname + '''", function (status) {
-    if (status !== 'success') {
-        console.log('Unable to load the HTML file!');
-    } else {
-        window.setTimeout(function () {
-            page.render("''' + output_fname + '''");
-            phantom.exit();
-        }, 2000);
-    }
-});
-''')
-    tmpfile.flush()
-    return_code = subprocess.call(["phantomjs", tmpfile.name])
-
+# -----------------------------------------------------------------------------
+# The front-end interface.
+# -----------------------------------------------------------------------------
 
 def main():
     # Start by reading the command line arguments.
@@ -629,16 +610,6 @@ def main():
     if not quietly:
         print "Wrote " + plot_fname
 
-    # # Generate image file if requested.
-
-    # if image_type != None:
-    #     image_fname = data_fname.rsplit('.', 1)[0] + '.' + image_type
-    #     if not quietly:
-    #         print "Generating " + image_type + " image to file " + image_fname + " ..."
-    #     generate_image(plot_fname, image_fname)
-    #     if not quietly:
-    #         print "Done."
- 
 
 if __name__ == '__main__':
     main()
