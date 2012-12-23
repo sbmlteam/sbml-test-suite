@@ -12,12 +12,12 @@ The model contains one compartment called "C".  There are three
 species named S1, S2 and S3 and one parameter named k1.  The model contains one
 reaction defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $k1 * S1 * C$  |]
 
 The model contains one event that assigns value to species S3 defined as:
 
-[{width:30em,margin-left:5em}| | *Trigger*    | *Delay* | *Assignments* |
+[{width:30em,margin: 1em auto}| | *Trigger*    | *Delay* | *Assignments* |
  | Event1 | $S1 <= 0.00005 && S1 >= 0.00004$ | $3$   | $S3 = 2.5 \x 10^-4$    |]
  
 The persistent attribute of the Trigger is set to 'false'.  Thus, once the event has fired,
@@ -26,7 +26,7 @@ not take place.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*        |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*        |
 |Initial amount of S1                |$1.5 \x 10^-4$  |mole           |
 |Initial amount of S2                |$1.5 \x 10^-4$  |mole           |
 |Initial amount of S2                |$1.5 \x 10^-4$  |mole           |

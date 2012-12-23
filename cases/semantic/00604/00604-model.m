@@ -14,19 +14,19 @@ The model contains one compartment called C.  There are two
 species called S1 and S2 and one parameter called k1.  The model contains one
 reaction defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $C * multiply(k1,S1)$  |]
 
 
 The model contains one functionDefinition defined as:
 
-[{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Id*  |  *Arguments*  |  *Formula*  |
  | multiply | x, y | $x * y$ |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value*          |*Units*  |
 |Initial concentration of S1   |$1.5 \x 10^-3$ |mole litre^-1^                      |
 |Initial concentration of S2   |$1.5 \x 10^-3$ |mole litre^-1^                      |
 |Value of parameter k1         |$            1$ |second^-1^ |

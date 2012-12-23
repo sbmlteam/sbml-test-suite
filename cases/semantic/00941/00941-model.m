@@ -15,12 +15,12 @@ The model contains:
 
 There is one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Assignment | y | $2 + delay(x, 0.5)$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter x | $sin(10 * time)$ | constant |
 | Initial value of parameter y | $2 + delay(x, 0.5)$ | variable |]
 

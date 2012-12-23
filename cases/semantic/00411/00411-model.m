@@ -14,23 +14,23 @@ The model contains one compartment called C.  There are three species
 called S1, S2 and S3 and four parameters called k1, k2, k3 and k4.  The
 model contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 * C$  |
 | S3 -> S1 + S2 | $k2 * S3 * C$     |]
 
 The model contains one event that assigns a value to species S2:
 
-[{width:30em,margin-left:5em}| | *Trigger*  | *Delay* | *Assignments* |
+[{width:30em,margin: 1em auto}| | *Trigger*  | *Delay* | *Assignments* |
  | Event1                      | $S1 < 0.5$ | $0.5$   | $S2 = add(k3, k4)$    |]
  
 The eventAssignment uses a functionDefinition defined as:
 
-[{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Id*  |  *Arguments*  |  *Formula*  |
  |                             add    | x, y          | $x + y$     |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value* |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value* |*Units*  |
 |Initial amount of S1          |$1.0$   |mole                      |
 |Initial amount of S2          |$2.0$   |mole                      |
 |Initial amount of S3          |$1.0$   |mole                      |

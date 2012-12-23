@@ -15,14 +15,14 @@ The model contains:
 
 There are 3 rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Assignment | z | $delay(x, 1)$ |
 | Rate | x | $1$ |
 | Assignment | y | $delay(x, z)$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter z | $delay(x, 1)$ | variable |
 | Initial value of parameter x | $1$ | variable |
 | Initial value of parameter y | $delay(x, z)$ | variable |]

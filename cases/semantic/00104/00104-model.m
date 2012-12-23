@@ -13,24 +13,24 @@ The model contains one varying compartment called C.  There are two
 species called S1 and S2 and two parameters called k1 and p1.  The model
 contains one reaction defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $C * multiply(k1,S1)$  |]
 
 The model contains one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | C | $-p1 * C$  |]
 
 
 The model contains one functionDefinition defined as:
 
-[{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Id*  |  *Arguments*  |  *Formula*  |
  | multiply | x, y | $x * y$ |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$          1.5$ |mole                      |
 |Initial amount of S2                |$            0$ |mole                      |
 |Value of parameter k1               |$          0.9$ |second^-1^ |

@@ -12,12 +12,12 @@ The model contains one compartment called C.  There are three species called
 S1, S2 and S3 and three parameters called kf, kr and p1.  The model contains  one reaction
 defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 + S2 <-> S3 | $(kf * S1 * S2 - kr * S3) * C$  |]
 
 The model contains one initialAssignment:
 
-[{width:30em,margin-left:5em}| Variable | Formula |
+[{width:30em,margin: 1em auto}| Variable | Formula |
  | S1 | $p1 * 2$  |]
 
 Note: SBML's InitialAssignment construct override any declared initial
@@ -27,7 +27,7 @@ calculated value should be used.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*       |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value*       |*Units*  |
 |Initial amount of S1        |$0$ |mole                      |
 |Initial amount of S2        |$0.5$ |mole                      |
 |Initial amount of S3        |$0$ |mole                      |

@@ -15,7 +15,7 @@ The model contains:
 
 There are 4 events:
 
-[{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  | *Event Assignments* |
+[{width:40em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  | *Event Assignments* |
 | Qinc | $geq(time - reset, 0.01)$ | $1$ | false | $reset = time$ |
 |  |  |  |  | $Q = Q + 0.01$ |
 | Rinc | $geq(time - reset, 0.01)$ | $-1$ | false | $reset = time$ |
@@ -27,7 +27,7 @@ There are 4 events:
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter Q | $0$ | variable |
 | Initial value of parameter R | $0$ | variable |
 | Initial value of parameter reset | $0$ | variable |

@@ -20,14 +20,14 @@ It also contains 1 function definition(s):
 
 There is one reaction:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S3 + S1ref S1 -> S2ref S2 | $kinetics(k1, k2, k3, k4, k5, S1, S1ref, S3, S4, S2)$ |]
 Note:  the following stoichiometries are set separately:  S1ref, S2ref
 
 
 There are 4 rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Rate | comp | $1$ |
 | Assignment | comp2 | $k4$ |
 | Rate | k4 | $time$ |
@@ -35,7 +35,7 @@ There are 4 rules:
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial concentration of species S4 | $2$ | constant |
 | Initial amount of species S1 | $1$ | variable |
 | Initial concentration of species S2 | $3$ | variable |

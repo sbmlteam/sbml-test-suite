@@ -12,28 +12,28 @@ The model contains one compartment called C.  There are four
 species called X0, X1, T and S1 and three parameters called k1, k2 and k3.  The model
 contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | X0 -> T     | $C * k1 * X0$  |
 | T -> X1     | $C * k2 * S1$  |]
 
 The model contains one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Algebraic |   n/a    | $add(1, k3) * S1 - T$  |]
 
 The model contains one event that assigns value to species X1 defined as:
 
-[{width:30em,margin-left:5em}| | *Trigger*    | *Delay* | *Assignments* |
+[{width:30em,margin: 1em auto}| | *Trigger*    | *Delay* | *Assignments* |
  | Event1 | $greaterthan(X1, 0.5)$ | $-$   | $X1 = 1$    |]
 
 Both the rule and the event use functionDefinitions defined as:
-[{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Id*  |  *Arguments*  |  *Formula*  |
  | greaterthan | x, y      | $x > y$   |
  | add | x, y      | $x + y$   |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value* |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value* |*Units*  |
 |Initial amount of X0          |$1$     |mole                      |
 |Initial amount of X1          |$0$     |mole                      |
 |Initial amount of T           |$0$     |mole                      |

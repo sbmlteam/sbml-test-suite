@@ -23,7 +23,7 @@ It also contains 1 function definition(s):
 
 There are 23 events:
 
-[{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  | *Event Assignments* |
+[{width:40em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  | *Event Assignments* |
 | Rinc | $geq(time - reset, 0.01)$ | $10$ | false | $reset = time$ |
 |  |  |  |  | $chicount = chicount + 1$ |
 |  |  |  |  | $R = R + 0.01$ |
@@ -59,12 +59,12 @@ There are 23 events:
 
 There is one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Assignment | S | $Q + R$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter S | $Q + R$ | variable |
 | Initial value of parameter Q | $0$ | variable |
 | Initial value of parameter R | $0$ | variable |

@@ -15,7 +15,7 @@ The model contains:
 
 There are 28 rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Assignment | P1 | $pi$ |
 | Assignment | P3 | $piecewise(2, gt(1, 0.5), 3)$ |
 | Assignment | P4 | $piecewise(2, geq(1, 0.5), 3)$ |
@@ -47,7 +47,7 @@ There are 28 rules:
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter P1 | $pi$ | variable |
 | Initial value of parameter P3 | $piecewise(2, gt(1, 0.5), 3)$ | variable |
 | Initial value of parameter P4 | $piecewise(2, geq(1, 0.5), 3)$ | variable |

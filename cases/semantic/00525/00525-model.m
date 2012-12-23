@@ -13,7 +13,7 @@ The model contains one compartment called C.  There are two species called
 S1 and S2 and one parameter called k.  The model contains one 
 reaction defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $C * k * S1$  |]
 
 Reaction $S1 -> S2$ defines one local parameter k.  Note that this
@@ -21,7 +21,7 @@ parameter has a scope local to the defining reaction.
 
 The model contains one initialAssignment:
 
-[{width:30em,margin-left:5em}| Variable | Formula |
+[{width:30em,margin: 1em auto}| Variable | Formula |
  | C | $k / 50$  |]
 
 Note: SBML's InitialAssignment construct override any declared initial

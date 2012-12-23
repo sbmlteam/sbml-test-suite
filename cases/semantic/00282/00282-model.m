@@ -14,20 +14,20 @@ species named S1, S2 and S3 and two parameters named k1 and k2.
 Compartment "compartment" is 2-dimensional.  The model contains two
 reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $multiply(k1, S1, S2) * compartment$  |
 | S3 -> S1 + S2 | $k2 * S3 * compartment$  |]
 
 
 The model contains one functionDefinition defined as:
 
-[{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Id*  |  *Arguments*  |  *Formula*  |
  | multiply | x, y, z | $x * y * z$ |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1              |$ 1.0 \x 10^-6$ |mole                      |
 |Initial amount of S2              |$ 2.0 \x 10^-6$ |mole                      |
 |Initial amount of S3              |$ 1.0 \x 10^-6$ |mole                      |

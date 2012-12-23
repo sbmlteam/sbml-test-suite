@@ -15,18 +15,18 @@ Species S2 is labeled as an SBML boundary species.  The model
 contains two reactions defined as:
 
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 * C$  |
 | S3 -> S1 + S2 | $k2 * S3 * C$     |]
 
 The model contains one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Algebraic |   n/a    | $S4 - S1$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*                   |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*                   |
 |Initial amount of S1                |$1.0 \x 10^-3$  |mole                      |
 |Initial amount of S2                |$2.0 \x 10^-3$  |mole                      |
 |Initial amount of S3                |$1.0 \x 10^-3$  |mole                      |

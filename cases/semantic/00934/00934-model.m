@@ -20,7 +20,7 @@ The model contains:
 
 There are 3 events:
 
-[{width:35em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  | *Event Assignments* |
+[{width:35em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  | *Event Assignments* |
 | A | $time &geq; 0.99$ | $10$ | $S1 = 1$ |
 |  |  |  | $S2 = 0$ |
 | B | $time &geq; 0.99$ | $2 * S2$ | $S1 = 2$ |
@@ -30,7 +30,7 @@ There are 3 events:
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial amount of species S1 | $0$ | variable |
 | Initial amount of species S2 | $1$ | variable |
 | Initial volume of compartment 'C' | $1$ | constant |]

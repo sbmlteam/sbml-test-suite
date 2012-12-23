@@ -15,7 +15,7 @@ model.)
 
 The model contains three rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S3       | $multiply(k1, (S1 * S2))$  |
  | Rate | S1       | $k2 * S3 * S4 - multiply(k1, multiply(S1, S2))$  |
  | Rate | S2       | $k2 * S3 * S4 - multiply(k1, multiply(S1, S2))$  |]
@@ -23,13 +23,13 @@ The model contains three rules:
 
 The model contains one functionDefinition defined as:
 
-[{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Id*  |  *Arguments*  |  *Formula*  |
  | multiply | x, y | $x * y$ |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|      |*Value*          |*Units*  |
 |Value of parameter S1 |$1.0 \x 10^-1$ |any |
 |Value of parameter S2 |$2.0 \x 10^-1$ |same as S1 |
 |Value of parameter S3 |$1.0 \x 10^-1$ |same as S1 |

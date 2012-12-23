@@ -17,7 +17,7 @@ The model contains:
 
 There are 4 events:
 
-[{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *Delay*  | *Event Assignments* |
+[{width:40em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  |  *Delay*  | *Event Assignments* |
 | E1 | $time &geq; 3$ | $10$ | $1.5$ | $e1 = 3$ |
 | E2 | $time &geq; 3$ | $5$ | $1.5$ | $e1 = 2$ |
 | E3 | $time &geq; 3$ | $4$ | $1.5$ | $e2 = 3$ |
@@ -25,7 +25,7 @@ There are 4 events:
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter e1 | $0$ | variable |
 | Initial value of parameter e2 | $0$ | variable |]
 

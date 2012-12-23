@@ -14,20 +14,20 @@ species in this model.)
 
 The model contains two rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S1 | $-multiply(k1, S1)$  |
  | Rate | S2 | $multiply(k1, S1)$  |]
 
 
 The model contains one functionDefinition defined as:
 
-[{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Id*  |  *Arguments*  |  *Formula*  |
  | multiply | x, y | $x * y$ |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|      |*Value*          |*Units*  |
 |Value of parameter S1 |$1.5 \x 10^-2$ |any |
 |Value of parameter S2 |$1.5 \x 10^-2$ |same as S1 |
 |Value of parameter k1 |$            1$ |second^-1^ |]

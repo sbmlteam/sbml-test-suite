@@ -14,13 +14,13 @@ species named S1, S2 and S3 and one parameter named k1.  Species S3 is
 labeled as constant and therefore cannot be changed by rules or reactions.
 The model contains one reaction defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $k1 * S1 * S3 * compartment$  |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$          1.5$ |mole                      |
 |Initial amount of S2                |$          0.5$ |mole                      |
 |Initial amount of S3                |$          1.2$ |mole                      |

@@ -14,7 +14,7 @@ species called S1, S2, S3 and S4 and three parameters called k1, k2 and k3.
 Species S1 is labeled as an SBML boundary species.
 The model contains three reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 * C * s$  |
 | S3 -> S1 + S2 | $k2 * S3 * C * s$     |
 | S3 -> S1 + S4 | $k3 * S3 * C * s$     |]
@@ -22,7 +22,7 @@ where the symbol 's' denotes the current simulation time.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$2.0$  |mole                       |
 |Initial amount of S2                |$2.0$  |mole                       |
 |Initial amount of S3                |$0$              |mole                       |

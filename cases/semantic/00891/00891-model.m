@@ -13,14 +13,14 @@ parameter called k3.
 
 The model contains two rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate                                 | k1           | $-k1 * k3 * t$  |
  | Rate                                 | k2           | $k1 * k3 * t$   |]
 where the symbol 't' denotes the current simulation time.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*         |*Units*    |
+[{width:30em,margin: 1em auto}| |*Value*         |*Units*    |
 |Value of parameter k1         |$1.5 \x 10^-4$ |any        |
 |Value of parameter k2         |$            0$ |same as k1 |
 |Value of parameter k3         |$            1$ |second^-2^ |]

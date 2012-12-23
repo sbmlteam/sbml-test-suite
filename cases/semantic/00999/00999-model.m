@@ -18,7 +18,7 @@ The model contains:
 
 There are 9 rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Rate | comp2 | $1$ |
 | Assignment | p1 | $S1$ |
 | Assignment | p2 | $S2$ |
@@ -31,7 +31,7 @@ There are 9 rules:
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial concentration of species S1 | $1$ | variable |
 | Initial concentration of species S2 | $2$ | variable |
 | Initial amount of species S3 | $3$ | variable |

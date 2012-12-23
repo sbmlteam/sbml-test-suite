@@ -15,7 +15,7 @@ not species in this model.)
 
 The model contains three rules defined as:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S1  | $k3 * S3 - k1 * S1$  |
  | Rate | S2  | $k1 * S1 - k2 * S2$  |
  | Rate | S3  | $k2 * S2 - k3 * S3$  |]
@@ -23,7 +23,7 @@ The model contains three rules defined as:
 The model contains one event that assigns values to parameters S1, S2 and
 S3:
 
-[{width:30em,margin-left:5em}| | *Trigger*    | *Delay* | *Assignments* |
+[{width:30em,margin: 1em auto}| | *Trigger*    | *Delay* | *Assignments* |
  | Event1 | $S1 < 0.75$ | $-$   | $S2 = S3$    |
  |        |             |       | $S1 = S2$    |
  |        |             |       | $S3 = S1$    |]
@@ -34,7 +34,7 @@ point at which the event was triggered.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|      |*Value*          |*Units*  |
 |Initial amount of S1  |$1.0$  |any                      |
 |Initial amount of S2  |$2.0$  |same as S1                      |
 |Initial amount of S3  |$1.0$  |same as S1                      |

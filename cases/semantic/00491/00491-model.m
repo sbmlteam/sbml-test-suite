@@ -13,13 +13,13 @@ The model contains one compartment called C.  There are three species called
 S1, S2 and S3 and three parameters called k1, k2 and p1.  Compartment C is 
 0-dimensional.  The model contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 $  |
 | S3 -> S1 + S2 | $k2 * S3$  |]
 
   The model contains one initialAssignment:
 
-[{width:30em,margin-left:5em}| Variable | Formula |
+[{width:30em,margin: 1em auto}| Variable | Formula |
  | S1 | $p1 * 2$  |]
 
 Note: SBML's InitialAssignment construct override any declared initial

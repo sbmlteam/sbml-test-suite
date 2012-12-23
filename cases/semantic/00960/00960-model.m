@@ -16,7 +16,7 @@ The model contains:
 * 5 parameters (P1, P2, P3, P4, P5)
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter P1 | $avogadro$ | constant |
 | Initial value of parameter P2 | $time$ | constant |
 | Initial value of parameter P3 | $delay$ | constant |

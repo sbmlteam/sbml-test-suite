@@ -19,25 +19,25 @@ The model contains:
 
 There is one reaction:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | -> Xref X | $k1$ |]
 Note:  the following stoichiometries are set separately:  Xref
 
 
 There is one event:
 
-[{width:30em,margin-left:5em}|  *Event*  |  *Trigger*  | *Event Assignments* |
+[{width:30em,margin: 1em auto}|  *Event*  |  *Trigger*  | *Event Assignments* |
 | _E0 | $X &geq; 2$ | $p1 = 2$ |]
 
 
 There is one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Assignment | Xref | $p1$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial concentration of species X | $1$ | variable |
 | Initial value of parameter k1 | $1$ | constant |
 | Initial value of parameter p1 | $1$ | variable |

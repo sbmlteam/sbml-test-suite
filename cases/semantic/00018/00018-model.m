@@ -13,7 +13,7 @@ The model contains one compartment called "compartment".  There are four
 species named S1, S2, S3 and S4 and four parameters named k1, k2, k3 and
 k4.  The model contains four reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2    | $k1 * S1 * compartment$    |
 | S2 -> S1    | $k2 * S2 * compartment$    |
 | S2 -> S3 + S4 | $k3 * S2 * compartment$    |
@@ -21,7 +21,7 @@ k4.  The model contains four reactions defined as:
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$1.0 \x 10^-4$  |mole                       |
 |Initial amount of S2                |$2.0 \x 10^-4$  |mole                       |
 |Initial amount of S3                |$0$              |mole                       |

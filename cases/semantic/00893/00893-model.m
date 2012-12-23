@@ -13,7 +13,7 @@ constant parameter called k1.
  
 The model contains three rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | P3       | $k1 * s$  |
  | Rate | P1       | $-(P3 * P1)$  |
  | Rate | P2       | $P3 * P1$  |]
@@ -22,7 +22,7 @@ where the symbol 's' denotes the current simulation time.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|      |*Value*          |*Units*  |
 |Value of parameter P1 |$1.5 \x 10^-3$ |any |
 |Value of parameter P2 |$            0$ |same as P1 |
 |Value of parameter P3 |$  1 \x 10^-3$ |second^-1^ |

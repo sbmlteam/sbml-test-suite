@@ -17,19 +17,19 @@ The model contains:
 
 There is one reaction:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | -> X | $k1$ |]
 
 
 There are 2 rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Rate | Y | $Xref$ |
 | Assignment | Z | $Xref$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial concentration of species X | $0$ | variable |
 | Initial value of parameter Q | $Xref$ | constant |
 | Initial value of parameter k1 | $1$ | constant |

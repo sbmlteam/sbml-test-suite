@@ -14,7 +14,7 @@ parameters called k1 and k2.
 
 The model contains one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | assignmentRule | k1 | $k2 * 3$  |]
 
 
@@ -25,7 +25,7 @@ calculated using the assignmentRule.  The calculated value should be used.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|      |*Value*          |*Units*  |
 |Value of parameter k1 |$   1.0$ |any |
 |Value of parameter k2 |$0.3$ |same as k1 |]
 

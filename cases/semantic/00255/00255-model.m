@@ -15,14 +15,14 @@ Compartment "compartment" is 1-dimensional.  Species S4 is labeled as
 constant and therefore cannot be changed by rules or reactions.  The model
 contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 * compartment$  |
 | S3 -> S1 + S2 | $k2 * S3 * S4 * compartment$  |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$ 1.0 \x 10^-3$ |mole                      |
 |Initial amount of S2                |$ 1.5 \x 10^-3$ |mole                      |
 |Initial amount of S3                |$0.75 \x 10^-3$ |mole                      |

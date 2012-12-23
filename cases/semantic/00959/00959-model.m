@@ -15,7 +15,7 @@ The model contains:
 
 There are 26 rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Assignment | P1 | $sec(time)$ |
 | Assignment | P2 | $sec(-time)$ |
 | Assignment | P3 | $csc(time + 0.001)$ |
@@ -45,7 +45,7 @@ There are 26 rules:
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter P1 | $sec(time)$ | variable |
 | Initial value of parameter P2 | $sec(-time)$ | variable |
 | Initial value of parameter P3 | $csc(time + 0.001)$ | variable |

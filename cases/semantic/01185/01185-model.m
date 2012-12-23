@@ -18,12 +18,12 @@ The model contains:
 
 There is one reaction:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | -> S1 | $k1$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial amount of species S1 | $1$ | variable |
 | Initial value of parameter k1 | $y$ | constant |
 | Initial value of parameter y | $3$ | constant |

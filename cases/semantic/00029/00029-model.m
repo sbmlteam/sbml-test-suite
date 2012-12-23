@@ -13,7 +13,7 @@ species named S1.  The model does not contain any reactions.
   
 The model contains one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | assignmentRule | S1 | $3 + 4$  |]
 
 The rule assigns a value to species S1 which is consistent with the value
@@ -21,7 +21,7 @@ attributed to the species by the model definition.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*         |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*         |*Units*  |
 |Initial amount of S1                |$            7$ |mole                      |
 |Volume of compartment "compartment" |$            1$ |litre                     |]
 

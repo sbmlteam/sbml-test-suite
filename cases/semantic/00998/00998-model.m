@@ -18,12 +18,12 @@ The model contains:
 
 There is one reaction:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | -> S1 | $10 / S1$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial amount of species S1 | $5$ | variable |
 | Initial volume of compartment 'comp' | $5$ | constant |]
 

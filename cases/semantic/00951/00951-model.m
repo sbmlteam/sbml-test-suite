@@ -14,7 +14,7 @@ The model contains:
 * 3 parameters (P, Q, R)
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter P | $INF$ | constant |
 | Initial value of parameter Q | $-INF$ | constant |
 | Initial value of parameter R | $NaN$ | constant |]

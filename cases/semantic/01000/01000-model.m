@@ -20,14 +20,14 @@ It also contains 1 function definition(s):
 
 There is one reaction:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S3 + S1ref S1 -> S2ref S2 | $kinetics(k1, k2, k3, k4, k5, S1, S1ref, S3, S4, S2)$ |]
 Note:  the following stoichiometries are set separately:  S1ref, S2ref
 
 
 There are 8 events:
 
-[{width:55em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  |  *initialValue*  |  *Use values from:*  |  *Delay*  | *Event Assignments* |
+[{width:55em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  |  *initialValue*  |  *Use values from:*  |  *Delay*  | *Event Assignments* |
 | _E0 | $geq(time, 0.5)$ | (unset) | true | true | Trigger time | $0$ | $k4 = 0.1$ |
 | _E1 | $geq(time, 1)$ | $1$ | true | true | Trigger time | $2$ | $k3 = 4$ |
 | _E2 | $geq(time, 1)$ | $2$ | true | true | Assignment time | $2$ | $k4 = k3$ |
@@ -40,7 +40,7 @@ There are 8 events:
 
 There are 4 rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Rate | comp | $1$ |
 | Assignment | comp2 | $k4$ |
 | Rate | k4 | $time$ |
@@ -48,7 +48,7 @@ There are 4 rules:
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial concentration of species S4 | $2$ | constant |
 | Initial amount of species S1 | $1$ | variable |
 | Initial concentration of species S2 | $3$ | variable |

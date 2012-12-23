@@ -36,7 +36,7 @@ The model contains:
 
 There are 12 events:
 
-[{width:45em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  |  *Use values from:*  | *Event Assignments* |
+[{width:45em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  |  *Use values from:*  | *Event Assignments* |
 | _E0 | $time &geq; 0.99$ | $10$ | true | Trigger time | $multitrig = 2$ |
 | _E1 | $time &geq; 0.99$ | $9$ | true | Trigger time | $multitrig = 0$ |
 | _E2 | $time &geq; 0.99$ | $8$ | true | Trigger time | $multitrig = 2$ |
@@ -52,7 +52,7 @@ There are 12 events:
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter multitrig | $0$ | variable |
 | Initial value of parameter x | $0$ | variable |
 | Initial value of parameter y | $0$ | variable |

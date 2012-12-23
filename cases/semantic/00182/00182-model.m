@@ -14,14 +14,14 @@ species in this model.)
 
 The model contains two rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Algebraic |          | $S1 + S2-k1$  |
  | Rate      | S1       | $k2 * S2 $  |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|      |*Value*          |*Units*  |
 |Value of parameter S1 |$          0.5$ |any |
 |Value of parameter S2 |$          0.5$ |same as S1 |
 |Value of parameter k1 |$          1.0$ |same as S1 |

@@ -19,7 +19,7 @@ The model contains:
 * 5 parameters (a, b, c, d, e)
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter a | $plus()$ | constant |
 | Initial value of parameter b | $times()$ | constant |
 | Initial value of parameter c | $piecewise(and(), 1, 0)$ | constant |

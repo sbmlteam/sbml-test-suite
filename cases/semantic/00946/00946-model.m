@@ -20,24 +20,24 @@ The model contains:
 
 There is one reaction:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | -> S1 | $C * k1 / S1$ |]
 
 
 The model contains one event that assigns a value to the temporary parameter fakeC:
 
-[{width:30em,margin-left:5em}|  *Event*  |  *Trigger*  | *Event Assignments* |
+[{width:30em,margin: 1em auto}|  *Event*  |  *Trigger*  | *Event Assignments* |
 | event1 | $S1 > 2.1$ | $fakeC = 10$ |]
 
 
 And the model contains one assignment rule that assigns the value of fakeC to compartment C:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Assignment | C | $fakeC$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial amount of species S1 | $1$ | variable |
 | Initial value of parameter k1 | $1$ | constant |
 | Initial value of parameter fakeC | $1$ | variable |

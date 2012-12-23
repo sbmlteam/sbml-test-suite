@@ -13,12 +13,12 @@ The model contains one compartment called C.  There are two species called
 S1 and S2 and one parameter called k1.  The model contains one reaction
 defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $k1 * S1 * C$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*        |*Units*        |
+[{width:30em,margin: 1em auto}| |*Value*        |*Units*        |
 |Initial concentration of S1 |$1.5 \x 10^-1$  |mole litre^-1^ |
 |Initial concentration of S2 |$1.5 \x 10^-1$  |mole litre^-1^ |
 |Value of parameter k1       |$1$              |second^-1^     |

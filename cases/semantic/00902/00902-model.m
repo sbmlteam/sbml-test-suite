@@ -13,12 +13,12 @@ indeed c is a compartment and not species in this model.)
 
 The model contains one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*         |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*         |
  | Rate                                 | c           | $0.5 * c$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*         |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value*         |*Units*  |
 |Size of compartment c         |$1.5 \x 10^-2$ |litre        |]
 
 Note: The test data for this model was generated from an analytical

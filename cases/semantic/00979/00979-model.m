@@ -15,7 +15,7 @@ The model contains:
 
 There are 2 events:
 
-[{width:30em,margin-left:5em}|  *Event*  |  *Trigger*  | *Event Assignments* |
+[{width:30em,margin: 1em auto}|  *Event*  |  *Trigger*  | *Event Assignments* |
 | _E0 | $time &geq; 0.98$ | $y = y + x$ |
 |  |  | $x = 2$ |
 | _E1 | $time &geq; 0.99$ | $p = 3$ |
@@ -23,7 +23,7 @@ There are 2 events:
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter x | $0$ | variable |
 | Initial value of parameter y | $0$ | variable |
 | Initial value of parameter p | $0$ | variable |

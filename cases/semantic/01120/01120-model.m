@@ -16,18 +16,18 @@ The model contains:
 
 There is one event:
 
-[{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *initialValue*  |  *Delay*  | *Event Assignments* |
+[{width:40em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *initialValue*  |  *Delay*  | *Event Assignments* |
 | E1 | $comp &leq; 5.1$ | false | $1.05$ | $S3 = 4$ |]
 
 
 There is one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Rate | comp | $1$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial amount of species S3 | $2$ | variable |
 | Initial volume of compartment 'comp' | $1$ | variable |]
 
