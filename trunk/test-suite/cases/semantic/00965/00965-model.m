@@ -17,7 +17,7 @@ The model contains:
 
 There are 5 events:
 
-[{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  | *Event Assignments* |
+[{width:40em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  | *Event Assignments* |
 | Qinc | $(time - reset) &geq; 0.01$ | $10$ | false | $reset = time$ |
 |  |  |  |  | $Rrun = 0$ |
 |  |  |  |  | $Qrun = Qrun + 1$ |
@@ -33,12 +33,12 @@ There are 5 events:
 
 There is one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Assignment | S | $Q + R$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter S | $Q + R$ | variable |
 | Initial value of parameter Q | $0$ | variable |
 | Initial value of parameter R | $0$ | variable |
@@ -63,7 +63,7 @@ generatedBy:   Analytic
 
 The events are:
 
-[{width:30em,margin-left:5em}| | *Trigger*   | *Delay* | *Assignments* |
+[{width:30em,margin: 1em auto}| | *Trigger*   | *Delay* | *Assignments* |
  | Qinc | $time - reset >= 0.01$ | $-$   | $Q = Q + 0.01, Qrun = Qrun + 1, Rrun = 0, reset = time$      |
  | Rinc | $time - reset >= 0.01$ | $-$   | $R = R + 0.01, Rrun = Rrun + 1, Qrun = 0, reset = time$      |
  | maxrun_check1 | $Qrun > maxrun$ | $-$ | $maxrun = Qrun$ |
@@ -73,7 +73,7 @@ The events are:
 
  The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*|
+[{width:30em,margin: 1em auto}| |*Value*|
 |Value of parameter Q          |$0$  |
 |Value of parameter R          |$0$  |
 |Value of parameter S          |$0$  |

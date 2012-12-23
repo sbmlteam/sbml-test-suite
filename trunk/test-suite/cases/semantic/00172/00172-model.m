@@ -14,20 +14,20 @@ species in this model.)
 
 The model contains two rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S1 | $-k1 * S1$  |
  | Rate | S2 | $k1 * S1$  |]
 
 
 The model contains one event defined as:
 
-[{width:30em,margin-left:5em}| | Trigger      | Delay | Assignments |
+[{width:30em,margin: 1em auto}| | Trigger      | Delay | Assignments |
  | Event1 | $S1 < 0.1$ | $-$ | $S1 = 1$ |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|      |*Value*          |*Units*  |
 |Value of parameter S1 |$          1.0$ |any |
 |Value of parameter S2 |$          0.0$ |same as S1 |
 |Value of parameter k1 |$            1$ |second^-1^ |]

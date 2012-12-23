@@ -13,18 +13,18 @@ The model contains one compartment called "compartment".  There are two
 species named S1 and S2 and two parameters named p1 and p2.  The model
 contains one reaction defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $compartment * S1 * calculate(p1, p2)$  |]
 
 The model contains one functionDefinition, which is used within the reaction, defined as:
 
-[{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Id*  |  *Arguments*  |  *Formula*  |
  | calculate | x, y | $Piecewise({{x, True}}, y)$ |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$            1$ |mole                      |
 |Initial amount of S2                |$            0$ |mole                      |
 |Value of parameter p1               |$          1.5$ |second^-1^ |

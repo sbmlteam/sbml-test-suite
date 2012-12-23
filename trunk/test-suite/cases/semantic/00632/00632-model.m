@@ -13,17 +13,17 @@ The model contains one compartment called C.  There are two
 species called S1 and S2 and three parameters called k1, p1 and p2.  The model contains one
 reaction defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $C * k1 * S1$  |]
 
 The model contains one rule which assigns value to parameter k1:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | k1 | $multiply(p1, p2)$  |]
 
 The assignmentRule applies the functionDefinition defined as:
 
-[{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Id*  |  *Arguments*  |  *Formula*  |
  | multiply | x, y      | $x * y$   |]
  
 In this case there is no initial value declared for parameter k1.  Thus the
@@ -31,7 +31,7 @@ value must be calculated using the assignmentRule.
 
 The model contains one initialAssignment:
 
-[{width:30em,margin-left:5em}| Variable | Formula |
+[{width:30em,margin: 1em auto}| Variable | Formula |
  | S1 | $k1 / 7.5$  |]
 
 Note: InitialAssignments override any declared initial values.  The initial
@@ -40,7 +40,7 @@ The value calculated by the initialAssignment should be used.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$10$    |mole                      |
 |Initial amount of S2                |$         0.15$ |mole                      |
 |Value of parameter k1               |$   undeclared$ |second^-1^ |

@@ -16,19 +16,19 @@ The model contains:
 
 There is one event:
 
-[{width:30em,margin-left:5em}|  *Event*  |  *Trigger*  | *Event Assignments* |
+[{width:30em,margin: 1em auto}|  *Event*  |  *Trigger*  | *Event Assignments* |
 | _E0 | $time &geq; 0.99$ | $temp = 1$ |]
 
 
 There are 2 rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Assignment | y | $delay(x, temp)$ |
 | Rate | x | $1$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter y | $delay(x, temp)$ | variable |
 | Initial value of parameter x | $1$ | variable |
 | Initial value of parameter temp | $0$ | variable |

@@ -12,18 +12,18 @@ The model contains one compartment called C.  There are four
 species called S1, S2, S3 and S4 and three parameters called k1, k2 and p1.  The
 model contains one reaction defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> 2S2 | $k1 * S1 * C$  |]
 
 The model contains two rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S3 | $k2  *  S4$  |
  | Rate | S4 | $-k2  *  S4$  |]
 
 The model contains one initialAssignment:
 
-[{width:30em,margin-left:5em}| Variable | Formula |
+[{width:30em,margin: 1em auto}| Variable | Formula |
  | S1 | $p1 / 0.5$  |]
 
 Note: InitialAssignments override any declared initial values.  In this case the 
@@ -31,7 +31,7 @@ value of species S1 is not declared by the model definition.  The calculated val
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$ undeclared$ |mole                      |
 |Initial amount of S2                |$          2.0$ |mole                      |
 |Initial amount of S3                |$          1.5$ |mole                      |

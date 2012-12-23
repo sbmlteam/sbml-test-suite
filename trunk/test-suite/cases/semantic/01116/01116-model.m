@@ -14,7 +14,7 @@ The model contains:
 * 2 parameters (a, b)
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter a | $piecewise(1, true)$ | constant |
 | Initial value of parameter b | $piecewise(1, gt(a, 0), 2, leq(a, 0))$ | constant |]
 

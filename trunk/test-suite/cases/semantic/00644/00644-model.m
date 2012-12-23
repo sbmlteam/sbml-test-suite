@@ -13,13 +13,13 @@ The model contains one compartment called C.  There are four
 species called S1, S2, S3 and S4 and four parameters called k1, k2, k3 and p1.
 The model contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S3 | $k1 * S1 * C$  |
 | S3 -> S1 | $k2 * S3 * C$  |]
 
 The model contains two rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | S4 | $k3 * S1$  |
  | Rate       | S2 | $k2 * S3-k1 * S1$  |]
 
@@ -28,7 +28,7 @@ with the value calculated by the assignmentRule.  The calculated value should be
 
 The model contains one initialAssignment:
 
-[{width:30em,margin-left:5em}| Variable | Formula |
+[{width:30em,margin: 1em auto}| Variable | Formula |
  | S1 | $p1 / 2000$  |]
 
 Note: InitialAssignments override any declared initial values.  In this case the 
@@ -37,7 +37,7 @@ declared by the model definition.  The calculated value should be used.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$   1$ |mole                      |
 |Initial amount of S2                |$ 1.5 \x 10^-5$ |mole                      |
 |Initial amount of S3                |$   1 \x 10^-5$ |mole                      |

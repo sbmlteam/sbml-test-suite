@@ -13,13 +13,13 @@ The model contains one compartment called C.  There are four
 species called S1, S2, S3 and S4 and three parameters called k1, k2 and k3.
 The model contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 * C$  |
 | S3 -> S1 + S2 | $k2 * S3 * C$  |]
 
 The model contains one rule which assigns value to species S4:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | S4 | $k3 * S2$  |]
 
 In this case there is no initial value declared for species S4 and thus it
@@ -29,7 +29,7 @@ simulation.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value*          |*Units*  |
 |Initial concentration of S1   |$   1 \x 10^-5$ |mole litre^-1^                      |
 |Initial concentration of S2   |$ 1.5 \x 10^-5$ |mole litre^-1^                      |
 |Initial concentration of S3   |$   1 \x 10^-5$ |mole litre^-1^                      |

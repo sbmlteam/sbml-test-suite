@@ -13,7 +13,7 @@ The model contains one compartment called C.  There are four
 species called S1, S2, S3 and S4 and three parameters called k1, k2 and k3.
 The model contains three reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 * C$  |
 | S3 -> S1 + S2 | $k2 * S3 * C$     |
 | S3 -> S1 + S4 | $k3 * S3 * C$     |]
@@ -21,22 +21,22 @@ The model contains three reactions defined as:
 The model contains one rule which must be used to determine the value of
 parameter k2:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Algebraic |   n/a    | $subtract(k2, 0.9)$  |]
 
 The model contains one event that assigns value to species S4 defined as:
 
-[{width:30em,margin-left:5em}| | *Trigger*    | *Delay* | *Assignments* |
+[{width:30em,margin: 1em auto}| | *Trigger*    | *Delay* | *Assignments* |
  | Event1 | $greaterthan(S4, S3)$ | $-$   | $S4 = 2 * S4$    |]
 
 Both the rule and the event use functionDefinitions defined as:
-[{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Id*  |  *Arguments*  |  *Formula*  |
  | greaterthan | x, y      | $x > y$   |
  | subtract | x, y      | $x - y$   |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$2.0 \x 10^-1$  |mole                       |
 |Initial amount of S2                |$2.0 \x 10^-1$  |mole                       |
 |Initial amount of S3                |$0$              |mole                       |

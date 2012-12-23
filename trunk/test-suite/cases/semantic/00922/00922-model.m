@@ -14,7 +14,7 @@ parameters called k1 and k2.
 
 The model contains one initialAssignment:
 
-[{width:30em,margin-left:5em}| Variable | Formula |
+[{width:30em,margin: 1em auto}| Variable | Formula |
  | k1 | $k2 * 2.0$  |]
 
 Note: InitialAssignments override any declared initial values.  In this
@@ -23,7 +23,7 @@ calculated using the initialAssignment.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|      |*Value*          |*Units*  |
 |Value of parameter k1 |$   0.6$ |any |
 |Value of parameter k2 |$0.3$ |same as k1 |]
 

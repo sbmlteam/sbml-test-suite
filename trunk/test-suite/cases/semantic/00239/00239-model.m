@@ -14,12 +14,12 @@ species named S1 and S2 and one parameter named k1.  Compartment
 "compartment" is 0-dimensional.  Species S2 is labeled as an SBML boundary
 species.  The model contains one reaction defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $k1 * S1$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|      |*Value*          |*Units*  |
 |Initial amount of S1  |$1.5 \x 10^-1$ |mole                      |
 |Initial amount of S2  |$            0$ |mole                      |
 |Value of parameter k1 |$        1.023$ |second^-1^ |]

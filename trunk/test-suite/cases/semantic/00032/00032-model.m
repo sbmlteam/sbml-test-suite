@@ -12,13 +12,13 @@ The model contains one compartment called "compartment".  There are two
 species named S1 and S2 and one parameter named k1.  The model does not
 contain any reactions.  The model contains two rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Rate | S1       | $-(k1 * S1)$  |
 | Rate | S2       | $k1 * S1$     |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*         |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*         |*Units*  |
 |Initial amount of S1                |$1.5 \x 10^-2$ |mole                      |
 |Initial amount of S2                |$            0$ |mole                      |
 |Value of parameter k1               |$            1$ |second^-1^                |

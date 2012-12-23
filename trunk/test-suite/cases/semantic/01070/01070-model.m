@@ -15,20 +15,20 @@ The model contains one compartment called "compartment".  There are three
 species named S1, S2 and S3 and three parameters named k1, k2 and p1.  The
 model contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 * compartment$  |
 | S3 -> (2 * p1)S1  +  multiply(p1, 1 / 0.5)S2  | $k2 * S3 * compartment$  |]
 
 
 The model contains one functionDefinition defined as:
 
-[{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Id*  |  *Arguments*  |  *Formula*  |
  | multiply | x, y | $x * y$ |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$1.0 \x 10^-3$ |mole                      |
 |Initial amount of S2                |$2.0 \x 10^-3$ |mole                      |
 |Initial amount of S3                |$1.0 \x 10^-3$ |mole                      |

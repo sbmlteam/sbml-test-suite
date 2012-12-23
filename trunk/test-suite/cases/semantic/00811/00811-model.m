@@ -12,12 +12,12 @@ The model contains one compartment called C.  There are three species called
 S1, S2 and S3 and two parameters called kf and kr.  The model contains  one reaction
 defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 <-> S2 + S3 | $(kf * S1 - kr * S2 * S3) * C$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*       |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value*       |*Units*  |
 |Initial amount of S1        |$1.0$ |mole                      |
 |Initial amount of S2        |$0.5$ |mole                      |
 |Initial amount of S3        |$0$ |mole                      |

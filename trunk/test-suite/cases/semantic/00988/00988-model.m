@@ -18,20 +18,20 @@ The model contains:
 
 There are 2 reactions:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |  *Fast*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |  *Fast*  |
 | B -> A | $k1$ | slow |
 | A -> B | $k2 * A$ | fast |]
 
 
 There are 2 events:
 
-[{width:35em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Delay*  | *Event Assignments* |
+[{width:35em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Delay*  | *Event Assignments* |
 | E0 | $A &geq; 0.99$ | $0$ | $k2 = 1$ |
 | E1 | $A &geq; 0.99$ | $0.1$ | $k2 = 0$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial amount of species A | $0$ | variable |
 | Initial amount of species B | $2$ | variable |
 | Initial value of parameter k1 | $1$ | variable |

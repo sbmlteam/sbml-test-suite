@@ -17,7 +17,7 @@ The model contains:
 
 There are 5 rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Assignment | P1 | $avogadro$ |
 | Assignment | P2 | $time$ |
 | Assignment | P3 | $delay$ |
@@ -28,7 +28,7 @@ There are 5 rules:
  
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter P1 | $avogadro$ | variable |
 | Initial value of parameter P2 | $time$ | variable |
 | Initial value of parameter P3 | $delay$ | variable |

@@ -16,7 +16,7 @@ The reaction listed below is therfore equivalent to the one in the file, but rev
 The model contains one compartment called C.  There are two species called 
 S1 and S2.  The model contains  two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 <-> S2 | $(kf * S1 - kr * S2) * C$  |
 | S3 <-> S4 | $(kf * S3 - kr * S4) * C$  |]
 
@@ -25,7 +25,7 @@ scope local to the defining reaction.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*       |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value*       |*Units*  |
 |Initial amount of S1        |$1.0$ |mole                      |
 |Initial amount of S2        |$0$ |mole                      |
 |Value of local parameter kf (R1)       |$0.8$          |second^-1^ |

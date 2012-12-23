@@ -14,7 +14,7 @@ not species in this model.)
 
 The model contains three rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S1       | $k2 * S3-k1 * S1 * S2$  |
  | Rate | S2       | $k2 * S3-k1 * S1 * S2$  |
  | Rate | S3       | $k1 * S1 * S2-k2 * S3$  |]
@@ -22,7 +22,7 @@ The model contains three rules:
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|      |*Value*          |*Units*  |
 |Value of parameter S1 |$1.5 \x 10^-2$ |any                        |
 |Value of parameter S2 |$  2 \x 10^-2$ |same as S1                 |
 |Value of parameter S3 |$  1 \x 10^-2$ |same as S1                 |

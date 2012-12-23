@@ -17,19 +17,19 @@ The model contains:
 
 There are 2 reactions:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |  *Fast*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |  *Fast*  |
 | A -> B | $k1 * A$ | fast |
 | B -> C | $k1 * B$ | slow |]
 
 
 There is one event:
 
-[{width:30em,margin-left:5em}|  *Event*  |  *Trigger*  | *Event Assignments* |
+[{width:30em,margin: 1em auto}|  *Event*  |  *Trigger*  | *Event Assignments* |
 | _E0 | $time > 0.99$ | $k1 = 1$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial amount of species A | $1$ | variable |
 | Initial amount of species B | $0$ | variable |
 | Initial amount of species C | $0$ | variable |

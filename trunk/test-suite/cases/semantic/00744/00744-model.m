@@ -13,19 +13,19 @@ The model contains one compartment called C.  There are three species
 called S1, S2 and S3 and two parameters called k1 and k2.  The model
 contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 * C$  |
 | S3 -> S1 + S2 | $k2 * S3 * C$     |]
 
 The model contains two events that assign values to species S2 and S1:
 
-[{width:30em,margin-left:5em}| | *Trigger*   | *Delay* | *Assignments* |
+[{width:30em,margin: 1em auto}| | *Trigger*   | *Delay* | *Assignments* |
  | Event1                      | $S1 < 0.75$ | $-$     | $S2 = 1$      |
  | Event2                      | $S3 > 1.4$  | $-$     | $S1 = 1$      |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value* |*Units*                   |
+[{width:30em,margin: 1em auto}| |*Value* |*Units*                   |
 |Initial concentration of S1          |$1.0$   |mole litre^-1^                      |
 |Initial concentration of S2          |$2.0$   |mole litre^-1^                      |
 |Initial concentration of S3          |$1.0$   |mole litre^-1^                      |

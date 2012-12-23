@@ -13,19 +13,19 @@ The model contains one varying compartment called C.  There are three
 species called S1, S2 and S3 and three parameters called k1, k2 and p1.  The
 model contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 + S2 -> S3 | $k1 * S1 * S2 * C$  |
 | S3 -> S1 + S2 | $k2 * S3 * C$  |]
 
 The model contains one rule which defines the rate at which the volume of
 the compartment is changing:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | C | $-p1 * C$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*         |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*         |*Units*  |
 |Initial amount of S1                |$          1.0$ |mole                      |
 |Initial amount of S2                |$          2.0$ |mole                      |
 |Initial amount of S3                |$          1.0$ |mole                      |

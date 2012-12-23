@@ -13,7 +13,7 @@ There are two species named S1 and S3 and two parameters named k1 and k2.
 Compartment "compartment" contains species S1.  Compartment "compartment"1
 contains species S3.  The model contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S3  | $multiply(k1,S1) * compartment$  |
 | S3 -> S1 | $k2 * (S3-S1) * compartment1$  |]
 
@@ -21,13 +21,13 @@ The reactions occur between the species within different compartments:
 
 The model contains one functionDefinition defined as:
 
-[{width:30em,margin-left:5em}|  *Id*  |  *Arguments*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Id*  |  *Arguments*  |  *Formula*  |
  | multiply | x, y | $x * y$ |]
 
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                 |$          1.0$ |mole                      |
 |Initial amount of S3                 |$            0$ |mole                      |
 |Value of parameter k1                |$         0.75$ |second^-1^ |

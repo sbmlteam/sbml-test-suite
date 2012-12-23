@@ -11,7 +11,7 @@ generatedBy:   Numeric
 The model contains one compartment called C.  There are four
 species called X0, X1, T and S1 and one parameter k.  The model contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | X0 -> T     | $C * k * X0$  |
 | T -> X1     | $C * k * S1$  |]
 
@@ -21,12 +21,12 @@ scope local to the defining reaction.
 
 The model contains one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Algebraic |   n/a    | $(1 + k) * S1 - T$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value* |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value* |*Units*  |
 |Initial amount of X0          |$1$     |mole                      |
 |Initial amount of X1          |$0$     |mole                      |
 |Initial amount of T           |$0$     |mole                      |

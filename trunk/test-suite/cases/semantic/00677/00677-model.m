@@ -13,12 +13,12 @@ The model contains one compartment called C.  There are two
 species called S1 and S2 and one parameter called k1.  The model contains one
 reaction defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $C * k1 * S1$  |]
 
 The model contains one rule which assigns value to parameter k1:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | k1 | $0.75$  |]
 
 In this case there is no initial value declared for parameter k1.  Thus the
@@ -26,7 +26,7 @@ value must be calculated using the assignmentRule.
 
 The model contains one initialAssignment:
 
-[{width:30em,margin-left:5em}| Variable | Formula |
+[{width:30em,margin: 1em auto}| Variable | Formula |
  | S1 | $k1 / 7.5$  |]
 
 Note: InitialAssignments override any declared initial values.  The initial
@@ -35,7 +35,7 @@ The value calculated by the initialAssignment should be used.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$10$    |mole                      |
 |Initial amount of S2                |$         0.15$ |mole                      |
 |Value of parameter k1               |$   undeclared$ |second^-1^ |

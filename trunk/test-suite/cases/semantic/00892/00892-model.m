@@ -13,14 +13,14 @@ parameters called k1 and k2.
 
 The model contains two rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*         |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*         |
  | Rate                                 | P1           | $P2 * k2 / exp(time)$  |
  | Rate                                 | P2           | $P1 * k1 / exp(time)$  |]
 where the symbol 'time' denotes the current simulation time.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*         |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value*         |*Units*  |
 |Value of parameter P1         |$1.5 \x 10^-15$ |any        |
 |Value of parameter P2         |$            0$ |same as P1 |
 |Value of parameter k1         |$            1$ |second^-1^ |

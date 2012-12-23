@@ -13,12 +13,12 @@ The model contains one compartment called C.  There are two
 species called S1 and S2 and two parameters called k1 and p1.  The model contains
 one reaction:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $k1 * S1 * C$ |]
 
 The model contains one initialAssignment:
 
-[{width:30em,margin-left:5em}| Variable | Formula |
+[{width:30em,margin: 1em auto}| Variable | Formula |
  | S2       | $p1 * S1 * time$  |]
 where the symbol 'time' denotes the current simulation time.
 
@@ -30,7 +30,7 @@ calculated using the InitialAssignment at time = 0.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*        |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*        |
 |Initial amount of S1                |$1.5 \x 10^-3$  |mole           |
 |Initial amount of S2                |$undeclared$     |mole           |
 |Value of parameter p1               |$-0.5$           |second^-1^     |

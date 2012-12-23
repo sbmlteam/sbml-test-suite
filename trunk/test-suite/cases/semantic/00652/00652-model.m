@@ -13,13 +13,13 @@ The model contains one compartment called C.  There are four
 species called S1, S2, S3 and S4 and three parameters called k1, k2 and k3.
 The model contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S3 | $k1 * S1 * C$  |
 | S3 -> S1 | $k2 * S3 * C$  |]
 
 The model contains two rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | S4 | $k3 * S1$  |
  | Rate       | S2 | $k2 * S3-k1 * S1$  |]
 
@@ -29,12 +29,12 @@ calculated value should be used.
 
 The model contains one event that assigns a value to species S2:
 
-[{width:30em,margin-left:5em}| | *Trigger*    | *Delay* | *Assignments* |
+[{width:30em,margin: 1em auto}| | *Trigger*    | *Delay* | *Assignments* |
  | Event1 | $S1 > 0.000015$ | $-$   | $S3 = 0.00001$    |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*         |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*         |*Units*  |
 |Initial amount of S1                |$   1 \x 10^-5$ |mole                      |
 |Initial amount of S2                |$ 1.5 \x 10^-5$ |mole                      |
 |Initial amount of S3                |$   1 \x 10^-5$ |mole                      |

@@ -17,18 +17,18 @@ The model contains one compartment called C.  There are four species called
 S1, S2, S3 and S4 and two parameters called kf and kr.  The model contains  one reaction
 defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 <-> S2 + S3 | $(kf * S1 - kr * S2 * S3) * C$  |]
 
 The model contains one rule which specifies the rate at which species 
 S4 is varying:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S4 | $-0.5 * (kf * S1 - kr * S2 * S3)$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*       |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value*       |*Units*  |
 |Initial amount of S1        |$1.0$ |mole                      |
 |Initial amount of S2        |$0.5$ |mole                      |
 |Initial amount of S3        |$0$ |mole                      |

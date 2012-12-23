@@ -12,7 +12,7 @@ The model contains one compartment called C.  There are four
 species called X0, X1, T and S1 and two parameters called k1 and k3.  The model
 contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | X0 -> T     | $C * k * X0$  |
 | T -> X1     | $C * k * S1$  |]
 
@@ -22,7 +22,7 @@ used in reaction X0 -> T.
 
 The model contains two rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Algebraic |   n/a    | $(1 + k3) * S1 - T$  |
  | assignmentRule | k | $0.1$  |]
 
@@ -31,7 +31,7 @@ attributed to it by the model definition.  The calculated value should be used.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value* |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value* |*Units*  |
 |Initial amount of X0          |$1$     |mole                      |
 |Initial amount of X1          |$0$     |mole                      |
 |Initial amount of T           |$0$     |mole                      |

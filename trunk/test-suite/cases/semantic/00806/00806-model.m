@@ -13,12 +13,12 @@ S1 and S2 and one parameter called k.  The model contains one reaction that has
 a kinetic law that defines third order mass action kinetics with one reactant
 (as referenced by SBO:0000057):
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $k * S1 * S1 * S1 * C$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*       |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value*       |*Units*  |
 |Initial amount of S1        |$1.0$ |mole                      |
 |Initial amount of S2        |$0$ |mole                      |
 |Value of parameter k       |$0.65$          |litre^2^ mole^-2^ second^-1^ |

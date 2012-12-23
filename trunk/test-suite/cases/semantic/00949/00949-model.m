@@ -16,7 +16,7 @@ The model contains:
 * 1 parameter (P)
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter P | $3.7$ | constant |]
 
 Note: The test data for this model was generated from an analytical

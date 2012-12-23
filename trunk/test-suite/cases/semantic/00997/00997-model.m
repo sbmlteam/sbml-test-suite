@@ -15,14 +15,14 @@ The model contains:
 
 There are 3 events:
 
-[{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *initialValue*  | *Event Assignments* |
+[{width:40em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  |  *initialValue*  | *Event Assignments* |
 | E0 | $p1 &geq; 1$ | $2$ | false | $p2 = 1$ |
 | E1 | $p1 &geq; 1$ | $2$ | true | $p3 = 1$ |
 | E2 | $p1 &geq; 1$ | $1$ | false | $p1 = 0$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter p1 | $1$ | variable |
 | Initial value of parameter p2 | $0$ | variable |
 | Initial value of parameter p3 | $0$ | variable |]

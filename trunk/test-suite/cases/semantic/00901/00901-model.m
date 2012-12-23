@@ -14,12 +14,12 @@ species in this model.)
 
 The model contains one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate                                 | c           | $-c * k1$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*         |*Units*    |
+[{width:30em,margin: 1em auto}| |*Value*         |*Units*    |
 |Size of compartment c         |$            5$ |litre        |
 |Value of parameter k1         |$            1$ |second^-1^ |]
 

@@ -17,14 +17,14 @@ The model contains:
 
 There are 3 reactions:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | -> S1 | $k1$ |
 | 2S1 -> 3S2 | $k2 * S1 / S2$ |
 | S2 -> | $k3 * S2$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial amount of species S1 | $0$ | variable |
 | Initial amount of species S2 | $0.001$ | variable |
 | Initial value of parameter k1 | $1$ | constant |

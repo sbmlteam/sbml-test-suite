@@ -13,12 +13,12 @@ The model contains one compartment called "compartment".  There are two
 species named S1 and S2 and two parameters named k1 and k2.  The model
 contains one reaction defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $compartment * k1 * S1$  |]
 
 The model contains one initialAssignment:
 
-[{width:30em,margin-left:5em}| Variable | Formula |
+[{width:30em,margin: 1em auto}| Variable | Formula |
  | k1 | $k2 / 100$  |]
 
 Note: InitialAssignments override any declared initial values.  In this
@@ -27,7 +27,7 @@ value declared.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*         |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*         |*Units*  |
 |Initial amount of S1                |$            1$ |mole                      |
 |Initial amount of S2                |$          1.5$ |mole                      |
 |Value of parameter k1               |$          0.5$ |second^-1^ |

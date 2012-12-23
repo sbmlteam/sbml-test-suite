@@ -14,7 +14,7 @@ species called S1 and S2.
 
 The model contains two events that assign value to species S1, S2 and S3 defined as:
 
-[{width:30em,margin-left:5em}| | *Trigger*    | *Priority* | *Delay* | *Assignments* |
+[{width:30em,margin: 1em auto}| | *Trigger*    | *Priority* | *Delay* | *Assignments* |
  | Event1 | $t >= 1$ | $-1$  | $-$   | $S1 = 4$    |
  |        |          |      |       | $S2 = 5$    |
  |        |          |      |       | $S3 = 6$    |
@@ -28,7 +28,7 @@ assignments for Event1.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*        |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*        |
 |Initial amount of S1                |$0$  |mole           |
 |Initial amount of S2                |$0$              |mole           |
 |Initial amount of S2                |$0$              |mole           |

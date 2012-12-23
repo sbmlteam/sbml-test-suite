@@ -15,14 +15,14 @@ not species in this model.)
 
 The model contains three rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | S3 | $1 * S2$  |
  | Rate       | S1 | $-k2 * S1 $  |
  | Rate       | S2 | $k2 * S1 $  |]
 
 The model contains two initialAssignments:
 
-[{width:30em,margin-left:5em}| Variable | Formula |
+[{width:30em,margin: 1em auto}| Variable | Formula |
  | S1 | $k1 / 0.75$  |
  | S2 | $k2 * 3 \x 10^-17$  |]
 
@@ -32,7 +32,7 @@ by the initialAssignments.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|      |*Value*         |*Units*  |
+[{width:30em,margin: 1em auto}|      |*Value*         |*Units*  |
 |Value of parameter S1              |$   undeclared$ |any |
 |Value of parameter S2              |$   undeclared$ |same as S1 |
 |Value of parameter S3              |$   undeclared$ |same as S1 |

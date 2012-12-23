@@ -12,12 +12,12 @@ The model contains one varying compartment called c.
 
 The model contains one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*         |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*         |
  | Rate                                 | c           | $0.25 * c$  |]
 
 The model contains one initialAssignment:
 
-[{width:30em,margin-left:5em}| Variable | Formula |
+[{width:30em,margin: 1em auto}| Variable | Formula |
  | c       | $3 / 2$  |]
 
 Note: SBML's InitialAssignment construct override any declared initial
@@ -27,7 +27,7 @@ explicitly declared and must be calculated using the InitialAssignment.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*         |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value*         |*Units*  |
 |Size of compartment c         |$undeclared$ |litre        |]
 
 Note: The test data for this model was generated from an analytical

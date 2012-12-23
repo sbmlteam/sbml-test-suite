@@ -14,13 +14,13 @@ species in this model.)
 
 The model contains two rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Rate | S1       | $-k2 * S1 $  |
  | Rate | S2       | $k2 * S1 $  |]
 
 The model contains one initialAssignment:
 
-[{width:30em,margin-left:5em}| Variable | Formula |
+[{width:30em,margin: 1em auto}| Variable | Formula |
  | S1 | $k1 * S2$  |]
 
 Note: InitialAssignments override any declared initial values.  In this
@@ -29,7 +29,7 @@ calculated using the initialAssignment.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|      |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|      |*Value*          |*Units*  |
 |Value of parameter S1 |$   undeclared$ |any |
 |Value of parameter S2 |$2.0 \x 10^-1$ |same as S1 |
 |Value of parameter k1 |$         0.75$ |dimensionless |

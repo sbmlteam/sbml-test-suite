@@ -13,13 +13,13 @@ The model contains one compartment called "compartment".  There are four
 species named S1, S2, S3 and S4 and three parameters named p1, p2 and k1.
 The model contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $compartment * k1 * S1$  |
 | S3 -> S4 | $Piecewise({{p1, Xor(S2 < 2, S2 > 4, S2 < 1)}}, p2)$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$            5$ |mole                      |
 |Initial amount of S2                |$            0$ |mole                      |
 |Initial amount of S3                |$            4$ |mole                      |

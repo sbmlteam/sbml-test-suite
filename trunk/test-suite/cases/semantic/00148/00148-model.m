@@ -13,12 +13,12 @@ The model contains one compartment called "compartment".  There are two
 species named S1 and S2 and one parameter named k1.  The model contains one
 reaction defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $compartment * k1 * S1$  |]
 
 The model contains one rule which assigns value to parameter k1:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | k1 | $0.75$  |]
 
 In this case the initial value declared for parameter k1 is consistent with
@@ -27,7 +27,7 @@ the value calculated by the assignmentRule.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$          0.1$ |mole                      |
 |Initial amount of S2                |$         0.15$ |mole                      |
 |Value of parameter k1               |$         0.75$ |second^-1^ |

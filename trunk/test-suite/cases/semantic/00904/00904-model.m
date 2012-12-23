@@ -12,12 +12,12 @@ The model contains one varying 2-dimensional compartment called c.
 
 The model contains one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*         |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*         |
  | Rate                                 | c           | $0.25 * c$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*         |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value*         |*Units*  |
 |Size of compartment c         |$3.2$ |metre^2        |]
 
 Note: The test data for this model was generated from an analytical

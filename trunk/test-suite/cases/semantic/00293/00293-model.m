@@ -14,7 +14,7 @@ k2 and k4.  Compartment "compartment" contains species S1.  Compartment
 "compartment"1 contains species S3 and S5.  The model contains two
 reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S3 | $k1 * S1 * compartment$  |
 | S3 -> S1 | $k2 * (S3-S1) * compartment1$  |]
 
@@ -22,7 +22,7 @@ Both reactions occur between species within different compartments.
 
 The model contains one rule which assigns value to species S5:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | S5 | $k4 * S3$  |]
 
 In this case the initial value declared for species S5 is inconsistent with
@@ -32,7 +32,7 @@ considered during simulation.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                 |$          1.0$ |mole                      |
 |Initial amount of S3                 |$            0$ |mole                      |
 |Initial amount of S5                 |$          1.0$ |mole                      |

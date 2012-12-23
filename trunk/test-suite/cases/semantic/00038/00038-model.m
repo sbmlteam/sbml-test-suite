@@ -13,12 +13,12 @@ The model contains one compartment called "compartment".  There are three
 species named S1, S2 and S3 and two parameters named k1 and k2.  The model
 contains one reaction defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $compartment * k2 * S$  |]
 
 The model contains one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Assignment | S3       | $k1 * S2$  |]
 
 In this case there is no initial value declared for species S3.  Thus the
@@ -26,7 +26,7 @@ initial value must be calculated by the AssignmentRule.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*         |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*         |*Units*  |
 |Initial amount of S1                |$            1$ |mole                      |
 |Initial amount of S2                |$1.5 \x 10^-15$ |mole                      |
 |Initial amount of S3                |$   undeclared$ |mole                      |

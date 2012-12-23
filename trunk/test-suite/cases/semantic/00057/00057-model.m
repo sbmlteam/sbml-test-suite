@@ -12,7 +12,7 @@ generatedBy:   Numeric
 The model contains one compartment called "compartment".  There are three
 species named S1, S2 and S3.  The model contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $k * S1 * compartment,$  |
 | S2 -> S3 | $k * S2 * compartment,$  |]
 
@@ -22,7 +22,7 @@ scope local to the defining reaction.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$3.0 \x 10^-4$ |mole                      |
 |Initial amount of S2                |$            0$ |mole                      |
 |Initial amount of S3                |$            0$ |mole                      |

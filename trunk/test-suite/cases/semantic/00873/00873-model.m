@@ -14,7 +14,7 @@ species called A1, A2, A3 and A4 and four parameters called Kf1, Kr1, Kf
 and Kr.  Species A2 is labeled as an SBML boundary species.
 The model contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | A4 <-> A2 | $(Kf1 * A4 - Kr1 * A2) * C$  |
 | A1 + A2 <-> A3 | $(Kf * A1 * A2 - Kr * A3) * C$  |] 
 where the first reaction is marked as 'fast' and therefore should be assumed 
@@ -24,7 +24,7 @@ reactions.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of A1                |$2$  |mole           |
 |Initial amount of A2                |$3$              |mole           |
 |Initial amount of A3                |$4$              |mole           |

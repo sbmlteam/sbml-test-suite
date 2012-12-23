@@ -15,7 +15,7 @@ The model contains:
 
 There are 39 rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Assignment | P2 | $abs(-1)$ |
 | Assignment | P3 | $abs(1)$ |
 | Assignment | P4 | $acos(-1)$ |
@@ -58,7 +58,7 @@ There are 39 rules:
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter P1 | $3.7$ | constant |
 | Initial value of parameter P2 | $abs(-1)$ | variable |
 | Initial value of parameter P3 | $abs(1)$ | variable |

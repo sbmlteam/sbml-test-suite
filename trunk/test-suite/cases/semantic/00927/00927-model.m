@@ -15,12 +15,12 @@ amount of the species will remain constant.
 
 The model contains one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*         |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*         |
  | Rate                                 | c           | $0.5 * c$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value*         |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value*         |*Units*  |
 |Initial concentration of s    |$2$  |mole          |
 |Size of compartment c         |$1$ |litre        |]
 

@@ -12,7 +12,7 @@ The model contains four variable parameters called p1, p2, p3 and p4
 and two constant parameters called k1 and k2.  The model contains 
 four rules defined as:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Algebraic |   n/a    | $p4 + -1 * p1$  |
  | Rate      |   p1     | $-k1 * p1 * p2 + k2 * p3$  |
  | Rate      |   p2     | $-k1 * p1 * p2 + k2 * p3$  |
@@ -20,7 +20,7 @@ four rules defined as:
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*                   |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*                   |
 |Initial value of parameter p1       |$1.0 \x 10^-3$  |any                      |
 |Initial value of parameter p2       |$2.0 \x 10^-3$  |same as p1                      |
 |Initial value of parameter p3       |$1.0 \x 10^-3$  |same as p1                      |

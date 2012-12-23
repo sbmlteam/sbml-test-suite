@@ -12,18 +12,18 @@ The model contains one compartment called C.  There are four
 species called X0, X1, T and S1 and two parameters called k1 and k2.  The model
 contains two reactions defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | X0 -> T     | $C * k1 * X0$  |
 | T -> X1     | $C * k2 * T$  |]
 
 The model contains one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
  | Algebraic |   n/a    | $X0 + X1 + T - S1$  |]
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}| |*Value* |*Units*  |
+[{width:30em,margin: 1em auto}| |*Value* |*Units*  |
 |Initial amount of X0          |$1.25$  |mole                      |
 |Initial amount of X1          |$1.5$   |mole                      |
 |Initial amount of T           |$1$     |mole                      |

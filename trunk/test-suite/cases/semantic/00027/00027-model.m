@@ -12,7 +12,7 @@ generatedBy:   Numeric
 The model contains one compartment called "compartment".  There are two
 species named S1 and S2.  The model contains one reaction defined as:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | S1 -> S2 | $compartment * k * S1$  |]
 
 Reaction S1 -> S2 defines one local parameter k.
@@ -20,7 +20,7 @@ Reaction S1 -> S2 defines one local parameter k.
 The model contains one initialAssignment that assigns the initial value for
 compartment:
 
-[{width:30em,margin-left:5em}| Variable    | Formula      |
+[{width:30em,margin: 1em auto}| Variable    | Formula      |
  | compartment | $534 * 0.001$  |]
 
 Note: InitialAssignments override any declared initial values.  In this
@@ -29,7 +29,7 @@ attributed to the compartment by the model definition.
 
 The initial conditions are as follows:
 
-[{width:30em,margin-left:5em}|       |*Value*          |*Units*  |
+[{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
 |Initial amount of S1                |$1.5 \x 10^-2$  |mole                      |
 |Initial amount of S2                |$          0.0$ |mole                      |
 |Value of local parameter k          |$          100$ |second^-1^                |

@@ -16,7 +16,7 @@ The model contains:
 
 There are 4 events:
 
-[{width:40em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  | *Event Assignments* |
+[{width:40em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  | *Event Assignments* |
 | Qinc | $geq(time - reset, 0.01)$ | $1$ | false | $reset = time$ |
 |  |  |  |  | $Q = Q + 0.01$ |
 | Rinc | $geq(time - reset, 0.01)$ | $1$ | false | $reset = time$ |
@@ -28,12 +28,12 @@ There are 4 events:
 
 There is one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Assignment | S | $Q + R + T$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter tolerance | $5$ | constant |
 | Initial value of parameter S | $Q + R + T$ | variable |
 | Initial value of parameter Q | $0$ | variable |

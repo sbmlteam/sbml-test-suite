@@ -20,7 +20,7 @@ The model contains:
 
 There are 2 reactions:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | -> Xref X | $k1$ |
 | -> Y | $k1 * Y$ |]
 Note:  the following stoichiometries are set separately:  Xref
@@ -28,12 +28,12 @@ Note:  the following stoichiometries are set separately:  Xref
 
 There is one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Assignment | Xref | $X$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial amount of species X | $1$ | variable |
 | Initial amount of species Y | $1$ | variable |
 | Initial value of parameter k1 | $1$ | constant |
