@@ -543,9 +543,9 @@ def parse_data_file(csv_file):
         unique_column_labels = []
 
         column_labels = contents.next();
-        # In the next line, fake 1st entry is just to make indexing
+        # In the next line, the fake 1st entry is just to make indexing
         # correspond 1-1 with column_labels, whose first column we skip.
-        duplicate_columns = ['__00fake_first_entry00__']
+        duplicate_columns = [False]
         for label in column_labels[1:]:
             values[label] = []
             duplicate_columns.append(label in seen_labels)
