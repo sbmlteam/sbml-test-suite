@@ -7,7 +7,7 @@ testTags:      fbc:MinimizeObjective
 testType:      FluxBalanceSteadyState
 levels:        3.1
 generatedBy:   Numeric
-packagesRequired: 	   fbc
+packagesPresent: 	   fbc
 
  Minimize single objective function, infinite bounds.
 
