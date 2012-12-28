@@ -4,7 +4,7 @@
 === Version 2.2 release (2012-12-28)
 
 IMPORTANT NOTE: the .zip archive distribution of cases ONLY contains
-cases #0-1123,1184,and 1185; cases #1124-1184 are available in the SVN
+cases #0-1123,1184,and 1185; cases #1124-1196 are available in the SVN
 repository only, and are not distributed in the archive for 2.2.  They
 will distributed in the archive for the next major release (2.3).
 
@@ -28,7 +28,7 @@ will distributed in the archive for the next major release (2.3).
     The command "make plots" still works as before, except for the
     change mentioned above, that no SVG files are produced.
 
-  - Cases 1124-1188 are a new batch of test cases, the first for
+  - Cases 1124-1196 are a new batch of test cases, the first for
     testing SBML Level 3 packages.  Along with this comes a change to
     the format of the *-model.m file, which now includes a new line,
  
