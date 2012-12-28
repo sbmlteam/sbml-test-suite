@@ -7,7 +7,7 @@ testTags:      fbc:MaximizeObjective, fbc:BoundGreaterEqual
 testType:      FluxBalanceSteadyState
 levels:        3.1
 generatedBy:   Numeric
-packagesRequired: 	   fbc
+packagesPresent: 	   fbc
 
  Single objective, test R07 GE 0.5, R10 GE 0.5
 
