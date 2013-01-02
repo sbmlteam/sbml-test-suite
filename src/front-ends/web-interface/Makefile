@@ -51,7 +51,7 @@ web-dir     = web
 javac-flags = -g -Xlint:unchecked -d WEB-INF/classes -sourcepath WEB-INF/src
 
 classes: $(class-dir)/CaseSummary.class           \
-         $(class-dir)/CaseSummaryVector.class     \
+         $(class-dir)/CaseSummaryMap.class        \
          $(class-dir)/FormBean.class              \
          $(class-dir)/OnlineSTS.class             \
          $(class-dir)/OnlineSTSLogFormatter.class \
