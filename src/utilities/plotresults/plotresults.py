@@ -140,9 +140,9 @@ class PlotWriter():
     def close(self):
         self.file.close()
 
-    def write_html_start(self):
+    def write_html_start(self, title = ''):
         if self.complete:
-            self.file.write('<html>\n<body>')
+            self.file.write('<html><title>' + title + '</title>\n<body>')
 
     def write_code_start(self, column_labels, buttons):
         self.generator.write_code_start(column_labels, buttons)
@@ -625,7 +625,7 @@ def main():
 
     writer = PlotWriter(library_name, complete)
     writer.open(plot_fname)
-    writer.write_html_start()
+    writer.write_html_start(data_fname)
     if values:
         writer.write_code_start(column_labels, show_buttons)
         writer.write_data(column_labels, time, values)
