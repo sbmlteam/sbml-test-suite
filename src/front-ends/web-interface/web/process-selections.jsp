@@ -64,9 +64,9 @@ String levelAndVersion = request.getParameter("levelAndVersion");
 // 3. Build up a list of case files that we will zip up and return.
 //
 
-ServletContext context  = getServletContext();
-File casesRootDir       = new File(context.getRealPath("/test-cases"));
-CaseSummaryVector cases = new CaseSummaryVector(casesRootDir); 
+ServletContext context = getServletContext();
+File casesRootDir      = new File(context.getRealPath("/test-cases"));
+CaseSummaryMap cases   = new CaseSummaryMap(casesRootDir); 
  
 // For debugging:
 //
@@ -91,10 +91,7 @@ cases.retainIfHasLevelAndVersion(levelAndVersion);
 cases.removeIfTagged(ctags); 
 cases.removeIfTagged(ttags); 
  
-Vector<String> casesToReturn = new Vector<String>(); 
- 
-for (CaseSummary cs : cases) 
-    casesToReturn.add(cs.getCaseName()); 
+Set<Integer> casesToReturn = cases.keySet();
 
 OnlineSTS.logInfo(request, "Selection yielded " + casesToReturn.size()
                   + " cases " + "of level/version " + levelAndVersion);
