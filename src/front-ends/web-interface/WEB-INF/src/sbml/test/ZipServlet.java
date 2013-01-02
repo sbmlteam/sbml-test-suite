@@ -33,6 +33,7 @@ import java.io.*;
 import java.net.*;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.Vector;
 import java.util.regex.*;
 import java.util.zip.ZipEntry;
@@ -126,7 +127,7 @@ public class ZipServlet extends HttpServlet
                                "Session does not contain data path information.");
 
             @SuppressWarnings("unchecked")
-            Vector<String> cases = (Vector<String>) s.getAttribute("casesToReturn");
+            Set<Integer> cases = (Set<Integer>) s.getAttribute("casesToReturn");
 
             if (cases == null)
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
@@ -151,8 +152,8 @@ public class ZipServlet extends HttpServlet
 
             OnlineSTS.logInfo(request, "Zip'ing up " + cases.size() + " cases");
 
-            for (String caseName : cases)
-                addFilesToZip(caseName, root, ARCHIVE_NAME, includeFileRegex, zos);
+            for (Integer c : cases)
+                addFilesToZip(c.toString(), root, ARCHIVE_NAME, includeFileRegex, zos);
 
             zos.flush();
             zos.close();
@@ -224,7 +225,7 @@ public class ZipServlet extends HttpServlet
         // 'rx' is the start of the regex, but note that it's not terminated.
         // We add some more pieces below, then close it off at the end.
 
-        String rx = new String("(\\d{5}-plot.jpg|\\d{5}-settings.txt|\\d{5}-model.html|\\d{5}-model.m|\\d{5}-results.csv");
+        String rx = new String("(\\d{5}-plot.jpg|\\d{5}-plot.html|\\d{5}-settings.txt|\\d{5}-model.html|\\d{5}-model.m|\\d{5}-results.csv");
       
         if (levelAndVersion != null)      // Shouldn't happen, but let's be safe.
             for (int i = 0; i < KNOWN_LV_COMBOS.length; i++)
