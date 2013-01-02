@@ -111,10 +111,10 @@ if (testResultsMap == null)
 
 OnlineSTS.logInfo(request, "Showing report for resultsID " + resultsID);
 
-Vector<UserTestResult> results
-    = (Vector<UserTestResult>) testResultsMap.get("testResults");
+TreeMap<Integer, UserTestResult> results
+    = (TreeMap<Integer, UserTestResult>) testResultsMap.get("testResults");
 
-int highestCaseNumber = results.size() - 1;
+int highestCaseNumber = results.lastKey();
 
 int countPassed   = ((Integer) testResultsMap.get("countPassed")).intValue();
 int countFailed   = ((Integer) testResultsMap.get("countFailed")).intValue();
@@ -173,13 +173,8 @@ if (countFailed > 0)
     </tr>
     
 <%
-    // If a particular case result is missing from the user's uploaded set, the
-    // corresponding entry in the vector will be null.  Consequently, it's
-    // easier to loop over the vector using index numbers.
-    
-    for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
+    for (UserTestResult thisResult : results.values())
     {
-        UserTestResult thisResult = results.get(caseNum);
         if (thisResult != null && thisResult.getNumDifferences() > 0)
         {
             UserTestCase theCase = thisResult.getUserTestCase();
@@ -229,13 +224,8 @@ if (countProblems > 0)
     </tr>
 
 <%
-    // If a particular case result is missing from the user's uploaded set, the
-    // corresponding entry in the vector will be null.  Consequently, it's
-    // easier to loop over the vector using index numbers.
-    
-    for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
+    for (UserTestResult thisResult : results.values())
     {
-        UserTestResult thisResult = results.get(caseNum);
         if (thisResult != null && thisResult.hasError())
         {
             UserTestCase theCase = thisResult.getUserTestCase();

@@ -130,15 +130,13 @@ in a new window.  </p>
 
 <%
 //
-// 1. Extract the results passed to us by UploadUnzipText.  The result vector
-// will have an entry for every possible test case, in order, plus an unused
-// entry at position 0 (because there's no case numbered 00000).  If the user's
-// uploaded results didn't include a result for a particular case, the
-// corresponding entry in the vector will be null.
-//
+// 1. Extract the results passed to us by UploadUnzipText.  The TreeMap will
+// have an entry for every known test case, with either a value object (of
+// class UserTestResult) or a null.  If it's null, it means that the user's
+// uploaded results didn't include values for that particular case.
 
-Vector<UserTestResult> results
-    = (Vector<UserTestResult>) request.getAttribute("testResults");
+TreeMap<Integer, UserTestResult> results
+    = (TreeMap<Integer, UserTestResult>) request.getAttribute("testResults");
 
 if (results == null)
 {
@@ -178,7 +176,7 @@ sessionResults.put(resultsID, testResultsMap);
 Map<String, Integer> tmap = new HashMap<String, Integer>();
 Map<String, Integer> cmap = new HashMap<String, Integer>();
 
-int highestCaseNumber = results.size() - 1;
+int countTotal        = 0;
 int countMissing      = 0;
 int countFailed       = 0;
 int countPassed       = 0;
@@ -186,13 +184,15 @@ int countProblems     = 0;
 
 DecimalFormat caseNumFormatter = new DecimalFormat("00000");
 
-// If a particular case result is missing from the user's uploaded set, the
-// corresponding entry in the vector will be null.  Consequently, it's
-// easier to loop over the vector using index numbers.
+// The test results map will contain an entry for every known test case,
+// and if the user's results set didn't include a particular case, then
+// the entry's value in this map will be null.
 
-for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
+for (Map.Entry<Integer, UserTestResult> result : results.entrySet())
 {
-    UserTestResult thisResult = results.get(caseNum);
+    countTotal++;
+
+    int caseNum = result.getKey();
     String name = caseNumFormatter.format(caseNum);
     String color;
 
@@ -201,6 +201,7 @@ for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
               + "&resultsID=" + resultsID
               + "\" target=\"_blank\">");
 
+    UserTestResult thisResult = result.getValue();
     if (thisResult != null)
     {
         UserTestCase theCase = thisResult.getUserTestCase();
@@ -234,7 +235,7 @@ for (int caseNum = 1; caseNum <= highestCaseNumber; caseNum++)
     out.print("</a>");
     out.print("</td>");
 
-    if (caseNum % 45 == 0)              // Start a new row in the HTML table.
+    if (countTotal % 45 == 0)           // Start a new row in the HTML table.
     {
         out.print("</TR>");
         out.print("<TR>");
@@ -268,7 +269,7 @@ testResultsMap.put("timeOfRun"    , timeOfRun);
 </table> 
 
 <p style="margin-top: 2em">
-Total number of test cases analyzed: <b><%=highestCaseNumber%></b>
+Total number of test cases analyzed: <b><%=countTotal%></b>
 </p>
 <p>
 <img src="<%=baseURL%>/images/green.jpg" valign="top"/>

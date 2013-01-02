@@ -156,8 +156,8 @@ if (missingData || sessionExpired | badResultsID)
 // Finally, onward with the real work.
 //
 
-Vector<UserTestResult> results
-    = (Vector<UserTestResult>) testResultsMap.get("testResults");
+TreeMap<Integer, UserTestResult> results
+    = (TreeMap<Integer, UserTestResult>)testResultsMap.get("testResults");
 
 // Get the test *reference* data for this case, but don't get it via
 // thisResult because that might be null if this case wasn't in the

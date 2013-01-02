@@ -42,12 +42,12 @@ OnlineSTS.logInvocation(request);
 
 // Get our cases summary and related info.
 
-ServletContext context   = getServletContext();
-File casesRootDir        = new File(context.getRealPath("/test-cases"));
-CaseSummaryVector cs     = new CaseSummaryVector(casesRootDir);
+ServletContext context = getServletContext();
+File casesRootDir      = new File(context.getRealPath("/test-cases"));
+CaseSummaryMap cases   = new CaseSummaryMap(casesRootDir);
 
-int totalCases           = cs.getHighestCaseNumber();
-Long[] uniqueTagCodes    = cs.getUniqueTagCombinations();
+int totalCases         = cases.getHighestCaseNumber();
+Long[] uniqueTagCodes  = cases.getUniqueTagCombinations();
 
 // The tag strings are actually hardwired into this logic of this web page
 // (e.g., in the form below), but for list operations we work off the data
@@ -57,7 +57,7 @@ Long[] uniqueTagCodes    = cs.getUniqueTagCombinations();
 // don't know how we would do the hand-organized layout of the forms
 // tables.  I don't have time to change everything now.
 
-Vector<String> knownTags = cs.getKnownTags();
+Vector<String> knownTags = cases.getKnownTags();
 
 // We can't access these vectors and arrays in Javascript directly.  We'll
 // need to turn them into a format we can slurp into Javascript later.
