@@ -68,9 +68,9 @@ e=/bin/echo
 rm -f $mapfile
 cd cases/semantic
 
-alltags=`egrep '^componentTags:|testTags:' */*.m | tr -d '\015' |\
-    tr ',' '\012' | awk '{print $1}' | sort | uniq | grep -v '^$' |\
-    egrep -v 'componentTags:|testTags:'`
+alltags=`egrep -h '^componentTags:|testTags:' */*.m | tr -d '\015' |\
+    tr ',' '\012' | sed -e 's/componentTags://g;s/testTags://g' |\
+    awk '{print $1}' | sort | uniq | grep -v '^$'`
 $e $alltags > $mapfile
 
 for case in *; do
