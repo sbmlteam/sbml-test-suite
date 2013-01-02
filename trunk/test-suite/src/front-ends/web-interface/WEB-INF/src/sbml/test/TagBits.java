@@ -39,10 +39,16 @@ public class TagBits
     // 
 
     public TagBits(Vector<String> tags, Vector<String> allPossibleTags)
+        throws Exception
     {
         // Get the index of each tag in the list of all tags, and set its bit.
         for (String tag : tags)
+        {
+            if (allPossibleTags.indexOf(tag) == -1)
+                throw new Exception("-1 for " + tag);
+
             set(allPossibleTags.indexOf(tag));
+        }
     }
 
 

@@ -90,10 +90,10 @@ public class UploadUnzipTest extends HttpServlet
         ServletFileUpload reqHandler = new ServletFileUpload(factory);
 
         // Result files for the current 927 test suite cases adds up to ~1
-        // MB.  Adding some room for growth, if we get something > 5 MB,
+        // MB.  Adding some room for growth, if we get something > 10 MB,
         // something's wrong.
 
-        reqHandler.setSizeMax(5 * 1024 * 1024);
+        reqHandler.setSizeMax(10 * 1024 * 1024);
 
         // Unzip the user's uploaded archive.  This returns an ordered list
         // of the CSV file names extracted as a result.
@@ -106,7 +106,8 @@ public class UploadUnzipTest extends HttpServlet
         if (userCases != null)
             try
             {
-                Vector<UserTestResult> results = performAnalysis(userCases);
+                TreeMap<Integer, UserTestResult> results
+                    = performAnalysis(userCases);
                 OnlineSTS.logInfo(request, "Returning results to user.");
                 httpRequest.setAttribute("testResults", results);
                 RequestDispatcher dispatcher
@@ -139,24 +140,15 @@ public class UploadUnzipTest extends HttpServlet
     // --------------------------- Private methods ----------------------------
     // 
 
-    private Vector<UserTestResult> performAnalysis(TreeSet<UserTestCase> cases)
+    private TreeMap<Integer, UserTestResult> performAnalysis(TreeSet<UserTestCase> cases)
         throws ServletException, Exception
     {
-        // The user's set of results may not include a result for every
-        // test case.  In the results display (via showresults.jsp), we
-        // loop over all possible expected results, because we display the
-        // outcome to the user based on the complete set.  To make the
-        // subsequent operations simpler, we construct a full-sized vector
-        // here and return that at the end.  If the user didn't include a
-        // particular case in the uploaded results, we leave the entry null
-        // in the results vector.  IMPORTANT: the element at position 0 is
-        // always empty, because there's no case numbered 00000.
+        // Start by getting the collection of known test cases.
 
-        CaseSummaryVector caseSummaries;
-
+        CaseSummaryMap caseSummaries;
         try
         {
-            caseSummaries = new CaseSummaryVector(refCasesDir);
+            caseSummaries = new CaseSummaryMap(refCasesDir);
         }
         catch (Exception e)
         {
@@ -165,14 +157,21 @@ public class UploadUnzipTest extends HttpServlet
             return null;
         }
 
-        int highestNumber              = caseSummaries.getHighestCaseNumber();
-        Vector<UserTestResult> results = new Vector<UserTestResult>();
-        results.setSize(highestNumber + 1);  // +1 because we have no case 0.
+        // We will return a plain TreeMap that maps case numbers to user test
+        // results.  We initialize it with all the known test case numbers as
+        // the keys, with values set to null.  If, at the end, an entry
+        // remains null for a given case number, it means that the user's
+        // uploaded set did not include a result for that case.
+
+        TreeMap<Integer, UserTestResult> results
+            = new TreeMap<Integer, UserTestResult>();
+        for (Integer caseNum : caseSummaries.keySet())
+            results.put(caseNum, null);
 
         OnlineSTS.logInfo(httpRequest, "Starting analysis ...");
 
         caseLoop:
-        for (UserTestCase theCase : cases)
+        for (UserTestCase theCase : cases) // Looping over a TreeSet
         {
             String name = theCase.getCaseName();
             double[][] refData;
@@ -193,7 +192,7 @@ public class UploadUnzipTest extends HttpServlet
             }
 
             UserTestResult thisResult = new UserTestResult(theCase);
-            results.set(theCase.getCaseNum(), thisResult);
+            results.put(theCase.getCaseNum(), thisResult);
 
             // If we get an error reading the user's data file, we treat
             // it as their problem.  Log it and move on to the next case.
