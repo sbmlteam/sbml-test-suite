@@ -46,6 +46,7 @@ import csv
 import sys
 import os.path
 import re
+from itertools import cycle
 
 # -----------------------------------------------------------------------------
 # Command-line argument handling.
@@ -124,10 +125,42 @@ def get_quiet_flag(direct_args = None):
 # classes, one for each of the plotting libraries.
 
 class PlotWriter():
+    our_colors = [ '#4572A7' 
+                   , '#AA4643' 
+                   , '#89A54E' 
+                   , '#80699B' 
+                   , '#3D96AE' 
+                   , '#DB843D' 
+                   , '#92A8CD' 
+                   , '#A47D7C' 
+                   , '#B5CA92'
+                   , '#F9B7B0'
+                   , '#A9BDE6'
+                   , '#A6EBB5'
+                   , '#F9E0B0'
+                   , '#F97A6D'
+                   , '#7297E6'
+                   , '#67EB84'
+                   , '#F9C96D'
+                   , '#E62B17'
+                   , '#1D4599'
+                   , '#11AD34'
+                   , '#E69F17'
+                   , '#8F463F'
+                   , '#2F3F60'
+                   , '#2F6C3D'
+                   , '#8F743F'
+                   , '#6D0D03'
+                   , '#031A49'
+                   , '#025214'
+                   , '#6D4903'
+                   ]
+
 
     def __init__(self, library_name, complete):
         self.library   = library_name
         self.complete  = complete
+
 
     def open(self, file_name):
         self.file_name = file_name
@@ -137,29 +170,45 @@ class PlotWriter():
         else:
             self.generator = HighchartsPlotGenerator(self.file)
 
+
     def close(self):
         self.file.close()
+
 
     def write_html_start(self, title = ''):
         if self.complete:
             self.file.write('<html><title>' + title + '</title>\n<body>')
 
+
     def write_code_start(self, column_labels, buttons):
         self.generator.write_code_start(column_labels, buttons)
 
-    def write_data(self, column_labels, time, values):
+
+    def write_data(self, column_labels, time, expected_values, other_values):
+        colors = cycle(self.our_colors)
         for col in range(1, len(column_labels)):
             if col > 1: self.file.write(',')
             label = column_labels[col]
-            self.generator.write_series_start(label)
-            for row in range(0, len(values[label])):
+            color = colors.next()
+            self.generator.write_series_start(label, 'Solid', color)
+            for row in range(0, len(expected_values[label])):
                 if row: self.file.write(',')
                 self.file.write('\n[' + time[row] + ', '
-                                + values[label][row] + ']')
+                                + expected_values[label][row] + ']')
             self.generator.write_series_stop()
+            if any(other_values):
+                self.file.write(',')
+                self.generator.write_series_start(label + ' (u)', 'ShortDash', color)
+                for row in range(0, len(other_values[label])):
+                    if row: self.file.write(',')
+                    self.file.write('\n[' + time[row] + ', '
+                                    + other_values[label][row] + ']')
+                self.generator.write_series_stop()
+
 
     def write_code_end(self, column_labels):
         self.generator.write_code_end(column_labels)
+
 
     def write_html_body(self):
         self.file.write('''
@@ -173,9 +222,11 @@ Click on variable names in the legend to toggle their visibility.
 </div>
 ''')
 
+
     def write_html_end(self):
         if self.complete:
             self.file.write('</body>\n</html>\n')
+
 
     def write_empty_result(self):
         self.file.write('''
@@ -381,37 +432,6 @@ $(function () {
                 width: 600,
                 spacingTop: 37
             },
-            colors: [
-            '#4572A7', 
-            '#AA4643', 
-            '#89A54E', 
-            '#80699B', 
-            '#3D96AE', 
-            '#DB843D', 
-            '#92A8CD', 
-            '#A47D7C', 
-            '#B5CA92',
-            '#F9B7B0',
-            '#A9BDE6',
-            '#A6EBB5',
-            '#F9E0B0',
-            '#F97A6D',
-            '#7297E6',
-            '#67EB84',
-            '#F9C96D',
-            '#E62B17',
-            '#1D4599',
-            '#11AD34',
-            '#E69F17',
-            '#8F463F',
-            '#2F3F60',
-            '#2F6C3D',
-            '#8F743F',
-            '#6D0D03',
-            '#031A49',
-            '#025214',
-            '#6D4903'
-            ],
             plotOptions: {
                 line: {
                     dashStyle: 'Solid',
@@ -450,8 +470,8 @@ $(function () {
                 borderWidth: 0,
                 margin: 10,
                 itemWidth: 140,
-                itemMarginBottom: 5,
-                symbolWidth: 50,
+                itemMarginBottom: 10,
+                symbolWidth: 45,
                 symbolPadding: 5,
                 x: 20
             },
@@ -479,8 +499,12 @@ $(function () {
 ''')
 
 
-    def write_series_start(self, label):
-        self.file.write('\n{ name: "' + label + '", shadow: false, data: [')
+    def write_series_start(self, label, style, color):
+        self.file.write('\n{ name: "' + label + '"' 
+                        + ', color: "' + color + '"'                        
+                        + ', dashStyle: "' + style + '"'
+                        + ('' if style == 'Solid' else ', lineWidth: 4')
+                        + ', shadow: false, data: [')
 
 
     def write_series_stop(self):
@@ -501,7 +525,7 @@ $(function () {
 
 
 # -----------------------------------------------------------------------------
-# Utility functions.
+# Utility functions and misc. things.
 # -----------------------------------------------------------------------------
 
 def valid_file(file):
@@ -518,6 +542,7 @@ def expanded_path(path):
 def stop(message, be_quiet):
     if not be_quiet:
         print("Error: " + message)
+        print("Quitting.")
     sys.exit(1)
 
 
@@ -560,12 +585,14 @@ def parse_data_file(csv_file):
 
         data_column_range = range(1, len(column_labels))
         for row in contents:
+            if not any(row):
+                continue
             time.append(row[0])
             for i in data_column_range:
                 if not duplicate_columns[i]:
                     if str(row[i]).upper().find("INF") != -1:
                         # We can't plot "INF" values, so bail out.
-                        return unique_column_labels, time, []
+                        return column_labels, time, []
                     else:
                         values[column_labels[i]].append(row[i])
 
@@ -607,15 +634,37 @@ def main():
         elif re.search('.csv$', results_fname) == None:
             stop("'" + results_fname + "' is not a .csv file", quietly)
 
-    # Parse the expected results CSV data file.
-    # FIXME -- STILL TO DO: parse the second/results CSV file.
+    # Parse the CSV data files and do some simple error checking to
+    # make sure the results look like they belong together.
 
-    column_labels, time, values = parse_data_file(data_fname)
+    column_labels, time, data_values = parse_data_file(data_fname)
+
+    # Only read the 2nd data file if we read some data:
+    if results_fname != None and any(data_values):
+        r_column_labels, r_time, r_values = parse_data_file(results_fname)
+
+        if set(r_column_labels).symmetric_difference(column_labels) != set():
+            stop("'" + data_fname + "' and '" + results_fname \
+                 + " do not have the same column labels.", quietly)
+
+        # Time steps are trickier to compare because they're floating point
+        # numbers.  In the code for the rest of the SBML Test Suite, we use
+        # tolerances read from the .m files, but here we don't have those
+        # values and therefore can't apply the same algorithm.  So all we can
+        # do is compare the number of time steps and hope for the best.
+
+        if len(time) != len(r_time):
+            stop("'" + data_fname + "' and '" + results_fname \
+                 + " do not have the same number of time steps/rows.", quietly)
 
     if not quietly:
-        print "Plotting file " + data_fname + ":"
-        if not values:
-            print "  Results contain unplottable values (e.g., INF)"
+        if results_fname != None:
+            print "Plotting '" + data_fname + "' and '" + results_fname + "':"
+        else:
+            print "Plotting '" + data_fname + "':"
+
+        if not any(data_values):
+            print "   Data contains unplottable values (e.g., INF)."
         else:
             print "   " + str(len(time)) + " time points"
             print "   " + str(len(column_labels) - 1) + " variables: " \
@@ -626,9 +675,9 @@ def main():
     writer = PlotWriter(library_name, complete)
     writer.open(plot_fname)
     writer.write_html_start(data_fname)
-    if values:
+    if data_values:
         writer.write_code_start(column_labels, show_buttons)
-        writer.write_data(column_labels, time, values)
+        writer.write_data(column_labels, time, data_values, r_values)
         writer.write_code_end(column_labels)
         writer.write_html_body()
     else:
@@ -637,7 +686,7 @@ def main():
     writer.close()
 
     if not quietly:
-        print "Wrote " + plot_fname
+        print "Wrote '" + plot_fname + "'."
 
 
 if __name__ == '__main__':
