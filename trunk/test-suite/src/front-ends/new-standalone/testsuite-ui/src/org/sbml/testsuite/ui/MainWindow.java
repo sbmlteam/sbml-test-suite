@@ -879,12 +879,12 @@ public class MainWindow
     {
         for (TreeItem item : selection)
         {
-            delteSelectedResult(item);
+            deleteSelectedResult(item);
         }
     }
 
 
-    private void delteSelectedResult(TreeItem item)
+    private void deleteSelectedResult(TreeItem item)
     {
         model.getLastWrapper().deleteResult(model.getSuite()
                                                  .get(item.getText()));
