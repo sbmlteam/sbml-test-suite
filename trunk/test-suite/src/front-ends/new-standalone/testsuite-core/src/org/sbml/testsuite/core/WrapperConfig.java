@@ -53,8 +53,9 @@ import org.simpleframework.xml.core.Persister;
 @Default
 public class WrapperConfig
 {
+    static ExecutorService executor = Executors.newFixedThreadPool(20);
 
-    static ExecutorService                 executor = Executors.newFixedThreadPool(20);
+
     /**
      * Load a wrapper configuration from file
      * 
@@ -73,6 +74,8 @@ public class WrapperConfig
             config.unsupportedTags = new Vector<String>();
         return config;
     }
+
+
     /**
      * Simple test that checks whether a given process is running
      * 
@@ -97,6 +100,7 @@ public class WrapperConfig
         }
         return isRunning;
     }
+
     private String                         name;
     @Element(required = false)
     private String                         program;
@@ -106,10 +110,8 @@ public class WrapperConfig
 
     private Vector<String>                 unsupportedTags;
 
-
     @Element(required = false)
     private boolean                        supportsAllVersions;
-
 
     @Transient
     private HashMap<String, DelayedResult> resultCache;
@@ -493,8 +495,8 @@ public class WrapperConfig
      * @param callback
      *            a cancellation callback allowing to interrupt the execution
      */
-    public void
-            run(TestCase test, String testSuiteDir, CancelCallback callback)
+    public void run(TestCase test, String testSuiteDir,
+                    CancelCallback callback)
     {
         run(test, testSuiteDir, 250, callback);
     }
@@ -700,4 +702,87 @@ public class WrapperConfig
         serializer.write(this, file);
     }
 
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                 + ((arguments == null) ? 0 : arguments.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result
+                 + ((outputPath == null) ? 0 : outputPath.hashCode());
+        result = prime * result + ((program == null) ? 0 : program.hashCode());
+        result = prime * result
+                 + ((resultCache == null) ? 0 : resultCache.hashCode());
+        result = prime * result + (supportsAllVersions ? 1231 : 1237);
+        result = prime * result
+                 + ((unsupportedTags == null) ? 0 : unsupportedTags.hashCode());
+        return result;
+    }
+
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof WrapperConfig))
+            return false;
+        WrapperConfig other = (WrapperConfig) obj;
+        if (arguments == null)
+        {
+            if (other.arguments != null)
+                return false;
+        }
+        else if (!arguments.equals(other.arguments))
+            return false;
+        if (name == null)
+        {
+            if (other.name != null)
+                return false;
+        }
+        else if (!name.equals(other.name))
+            return false;
+        if (outputPath == null)
+        {
+            if (other.outputPath != null)
+                return false;
+        }
+        else if (!outputPath.equals(other.outputPath))
+            return false;
+        if (program == null)
+        {
+            if (other.program != null)
+                return false;
+        }
+        else if (!program.equals(other.program))
+            return false;
+        if (resultCache == null)
+        {
+            if (other.resultCache != null)
+                return false;
+        }
+        else if (!resultCache.equals(other.resultCache))
+            return false;
+        if (supportsAllVersions != other.supportsAllVersions)
+            return false;
+        if (unsupportedTags == null)
+        {
+            if (other.unsupportedTags != null)
+                return false;
+        }
+        else if (!unsupportedTags.equals(other.unsupportedTags))
+            return false;
+        return true;
+    }
 }
