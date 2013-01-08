@@ -32,17 +32,25 @@ package org.sbml.testsuite.ui;
 
 import java.util.Vector;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.sbml.testsuite.core.TestSuiteSettings;
 import org.sbml.testsuite.core.Util;
@@ -103,146 +111,184 @@ public class EditWrappers
     public EditWrappers(Composite parent, int style)
     {
         super(parent, style);
-        setLayout(new FormLayout());
+        final Shell shell = parent.getShell();
 
-        Label lblName = new Label(this, SWT.NONE);
+        FormLayout layout = new FormLayout();
+        setLayout(layout);
+
+        Label lblName = new Label(this, SWT.RIGHT);
+        lblName.setAlignment(SWT.RIGHT);
         FormData fd_lblName = new FormData();
+        fd_lblName.right = new FormAttachment(0, 170);
         fd_lblName.top = new FormAttachment(0, 10);
         lblName.setLayoutData(fd_lblName);
         lblName.setText("Name:");
+        lblName.setToolTipText("A name for this wrapper configuration.");
 
         txtName = new Text(this, SWT.BORDER);
-        fd_lblName.right = new FormAttachment(txtName, -6);
         FormData fd_txtName = new FormData();
-        fd_txtName.left = new FormAttachment(0, 161);
+        fd_txtName.left = new FormAttachment(0, 172);
+        fd_txtName.right = new FormAttachment(100, 0);
+        fd_txtName.top = new FormAttachment(lblName, 0, SWT.CENTER);
         txtName.setLayoutData(fd_txtName);
+        UIUtils.addCloseKeyListener(txtName, shell);
 
-        Label lblWrapperOutputDirectory = new Label(this, SWT.NONE);
-        FormData fd_lblWrapperOutputDirectory = new FormData();
-        fd_lblWrapperOutputDirectory.top = new FormAttachment(lblName, 12);
-        fd_lblWrapperOutputDirectory.right = new FormAttachment(lblName, 0,
-                                                                SWT.RIGHT);
-        lblWrapperOutputDirectory.setLayoutData(fd_lblWrapperOutputDirectory);
-        lblWrapperOutputDirectory.setText("Wrapper Output Directory: ");
-
-        txtWrapperOutputDir = new Text(this, SWT.BORDER);
-        FormData fd_txtWrapperOutputDir = new FormData();
-        fd_txtWrapperOutputDir.top = new FormAttachment(txtName, 6);
-        fd_txtWrapperOutputDir.left = new FormAttachment(
-                                                         lblWrapperOutputDirectory,
-                                                         6);
-        txtWrapperOutputDir.setLayoutData(fd_txtWrapperOutputDir);
-
-        Button cmdBrowseOutputDir = new Button(this, SWT.NONE);
-        cmdBrowseOutputDir.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent arg0) {
-                browseForOutputDir();
-            }
-        });
-        fd_txtWrapperOutputDir.right = new FormAttachment(cmdBrowseOutputDir,
-                                                          -6);
-        fd_txtName.right = new FormAttachment(cmdBrowseOutputDir, 0, SWT.RIGHT);
-        fd_txtName.bottom = new FormAttachment(cmdBrowseOutputDir, -4);
-        FormData fd_cmdBrowseOutputDir = new FormData();
-        fd_cmdBrowseOutputDir.top = new FormAttachment(
-                                                       lblWrapperOutputDirectory,
-                                                       -5, SWT.TOP);
-        fd_cmdBrowseOutputDir.right = new FormAttachment(100, -10);
-        cmdBrowseOutputDir.setLayoutData(fd_cmdBrowseOutputDir);
-        cmdBrowseOutputDir.setText("...");
-
-        Label lblUnsupportedTags = new Label(this, SWT.NONE);
-        FormData fd_lblUnsupportedTags = new FormData();
-        fd_lblUnsupportedTags.top = new FormAttachment(
-                                                       lblWrapperOutputDirectory,
-                                                       12);
-        fd_lblUnsupportedTags.right = new FormAttachment(lblName, 0, SWT.RIGHT);
-        lblUnsupportedTags.setLayoutData(fd_lblUnsupportedTags);
-        lblUnsupportedTags.setText("Unsupported Tags: ");
-
-        txtUnsupportedTags = new Text(this, SWT.BORDER);
-        FormData fd_txtUnsupportedTags = new FormData();
-        fd_txtUnsupportedTags.right = new FormAttachment(txtWrapperOutputDir,
-                                                         0, SWT.RIGHT);
-        fd_txtUnsupportedTags.top = new FormAttachment(txtWrapperOutputDir, 6);
-        fd_txtUnsupportedTags.left = new FormAttachment(txtName, 0, SWT.LEFT);
-        txtUnsupportedTags.setLayoutData(fd_txtUnsupportedTags);
-
-        Button cmdEditTags = new Button(this, SWT.NONE);
-        cmdEditTags.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent arg0) {
-                editUnsupportedTags();
-            }
-        });
-        cmdEditTags.setText("...");
-        FormData fd_cmdEditTags = new FormData();
-        fd_cmdEditTags.top = new FormAttachment(lblUnsupportedTags, -5, SWT.TOP);
-        fd_cmdEditTags.left = new FormAttachment(cmdBrowseOutputDir, 0,
-                                                 SWT.LEFT);
-        cmdEditTags.setLayoutData(fd_cmdEditTags);
-
-        Label lblWrapper = new Label(this, SWT.NONE);
-        lblWrapper.setText("Wrapper: ");
+        Label lblWrapper = new Label(this, SWT.RIGHT);
+        lblWrapper.setAlignment(SWT.RIGHT);
         FormData fd_lblWrapper = new FormData();
-        fd_lblWrapper.right = new FormAttachment(lblName, 0, SWT.RIGHT);
+        fd_lblWrapper.right = new FormAttachment(0, 170);
+        fd_lblWrapper.top = new FormAttachment(0, 38);
         lblWrapper.setLayoutData(fd_lblWrapper);
+        lblWrapper.setText("Wrapper path:");
+        lblWrapper.setToolTipText("Path to the wrapper script or program.");
 
         txtWrapper = new Text(this, SWT.BORDER);
-        fd_lblWrapper.top = new FormAttachment(txtWrapper, 3, SWT.TOP);
         FormData fd_txtWrapper = new FormData();
-        fd_txtWrapper.right = new FormAttachment(txtWrapperOutputDir, 0,
-                                                 SWT.RIGHT);
-        fd_txtWrapper.top = new FormAttachment(txtUnsupportedTags, 6);
-        fd_txtWrapper.left = new FormAttachment(txtName, 0, SWT.LEFT);
+        fd_txtWrapper.left = new FormAttachment(0, 172);
+        fd_txtWrapper.right = new FormAttachment(100, -55);
+        fd_txtWrapper.top = new FormAttachment(lblWrapper, 0, SWT.CENTER);
         txtWrapper.setLayoutData(fd_txtWrapper);
+        UIUtils.addCloseKeyListener(txtWrapper, shell);
 
         Button cmdBrowseWrapper = new Button(this, SWT.NONE);
+        cmdBrowseWrapper.setAlignment(SWT.CENTER);
+        FormData fd_cmdBrowseWrapper = new FormData();
+        fd_cmdBrowseWrapper.top = new FormAttachment(txtWrapper, -4, SWT.TOP);
+        fd_cmdBrowseWrapper.right = new FormAttachment(100, 5);
+        cmdBrowseWrapper.setLayoutData(fd_cmdBrowseWrapper);
+        cmdBrowseWrapper.setText("Edit");
         cmdBrowseWrapper.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0) {
                 browseForWrapper();
             }
         });
-        cmdBrowseWrapper.setText("...");
-        FormData fd_cmdBrowseWrapper = new FormData();
-        fd_cmdBrowseWrapper.top = new FormAttachment(cmdEditTags, 2);
-        fd_cmdBrowseWrapper.left = new FormAttachment(cmdBrowseOutputDir, 0,
-                                                      SWT.LEFT);
-        cmdBrowseWrapper.setLayoutData(fd_cmdBrowseWrapper);
+        UIUtils.addCloseKeyListener(cmdBrowseWrapper, shell);
+        
+        Label lblUnsupportedTags = new Label(this, SWT.RIGHT);
+        lblUnsupportedTags.setAlignment(SWT.RIGHT);
+        FormData fd_lblUnsupportedTags = new FormData();
+        fd_lblUnsupportedTags.right = new FormAttachment(0, 170);
+        fd_lblUnsupportedTags.top = new FormAttachment(0, 66);
+        lblUnsupportedTags.setLayoutData(fd_lblUnsupportedTags);
+        lblUnsupportedTags.setText("Unsupported tags:");
+        lblUnsupportedTags.setToolTipText(
+            "List of SBML Test Suite tags for tests that should be excluded. "
+            + "Use this if the application is known not to support certain "
+            + "SBML features or types of tests.");
 
-        Label lblWrapperArguments = new Label(this, SWT.NONE);
-        lblWrapperArguments.setText("Wrapper Arguments:");
+        txtUnsupportedTags = new Text(this, SWT.BORDER);
+        FormData fd_txtUnsupportedTags = new FormData();
+        fd_txtUnsupportedTags.left = new FormAttachment(0, 172);
+        fd_txtUnsupportedTags.right = new FormAttachment(100, -55);        
+        fd_txtUnsupportedTags.top = new FormAttachment(lblUnsupportedTags, 0, 
+                                                       SWT.CENTER);
+        txtUnsupportedTags.setLayoutData(fd_txtUnsupportedTags);
+        UIUtils.addCloseKeyListener(txtUnsupportedTags, shell);
+
+        Button cmdEditTags = new Button(this, SWT.NONE);
+        cmdEditTags.setAlignment(SWT.CENTER);
+        FormData fd_cmdEditTags = new FormData();
+        fd_cmdEditTags.top = new FormAttachment(lblUnsupportedTags, -6, 
+                                                SWT.TOP);
+        fd_cmdEditTags.right = new FormAttachment(100, 5);
+        cmdEditTags.setLayoutData(fd_cmdEditTags);
+        cmdEditTags.setText("Edit");
+        cmdEditTags.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0) {
+                editUnsupportedTags();
+            }
+        });
+        UIUtils.addCloseKeyListener(cmdEditTags, shell);
+
+        Label lblWrapperOutputDir = new Label(this, SWT.RIGHT);
+        lblWrapperOutputDir.setAlignment(SWT.RIGHT);
+        FormData fd_lblWrapperOutputDir = new FormData();
+        fd_lblWrapperOutputDir.right = new FormAttachment(0, 170);
+        fd_lblWrapperOutputDir.top = new FormAttachment(0, 94);
+        lblWrapperOutputDir.setLayoutData(fd_lblWrapperOutputDir);
+        lblWrapperOutputDir.setText("Output directory:");
+        lblWrapperOutputDir.setToolTipText("Directory on your system where "
+                                           + "files can be written.");
+
+        txtWrapperOutputDir = new Text(this, SWT.BORDER);
+        FormData fd_txtWrapperOutputDir = new FormData();
+        fd_txtWrapperOutputDir.left = new FormAttachment(0, 172);
+        fd_txtWrapperOutputDir.right = new FormAttachment(100, -55);
+        fd_txtWrapperOutputDir.top = new FormAttachment(lblWrapperOutputDir,
+                                                              0, SWT.CENTER);
+        txtWrapperOutputDir.setLayoutData(fd_txtWrapperOutputDir);
+        UIUtils.addCloseKeyListener(txtWrapperOutputDir, shell);
+
+        Button cmdBrowseOutputDir = new Button(this, SWT.NONE);
+        cmdBrowseOutputDir.setAlignment(SWT.CENTER);
+        FormData fd_cmdBrowseOutputDir = new FormData();
+        fd_cmdBrowseOutputDir.top = new FormAttachment(lblWrapperOutputDir, 
+                                                       -6, SWT.TOP);
+        fd_cmdBrowseOutputDir.right = new FormAttachment(100, 5);
+        cmdBrowseOutputDir.setLayoutData(fd_cmdBrowseOutputDir);
+        cmdBrowseOutputDir.setText("Edit");
+        cmdBrowseOutputDir.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0) {
+                browseForOutputDir();
+            }
+        });
+        UIUtils.addCloseKeyListener(cmdBrowseOutputDir, shell);
+        
+        Label lblWrapperArguments = new Label(this, SWT.RIGHT);
+        lblWrapperArguments.setAlignment(SWT.RIGHT);
+        lblWrapperArguments.setText("Arguments to wrapper:");
+        lblWrapperArguments.setToolTipText("Command line arguments that should "
+                                           + "be passed to the wrapper. See "
+                                           + "below for more information.");
         FormData fd_lblWrapperArguments = new FormData();
-        fd_lblWrapperArguments.right = new FormAttachment(lblName, 0, SWT.RIGHT);
+        fd_lblWrapperArguments.right = new FormAttachment(0, 170);
+        fd_lblWrapperArguments.top = new FormAttachment(0, 122);
         lblWrapperArguments.setLayoutData(fd_lblWrapperArguments);
 
         txtWrapperArgs = new Text(this, SWT.BORDER);
-        fd_lblWrapperArguments.top = new FormAttachment(txtWrapperArgs, 3,
-                                                        SWT.TOP);
         FormData fd_txtWrapperArgs = new FormData();
-        fd_txtWrapperArgs.right = new FormAttachment(txtName, 0, SWT.RIGHT);
-        fd_txtWrapperArgs.top = new FormAttachment(txtWrapper, 6);
-        fd_txtWrapperArgs.left = new FormAttachment(txtName, 0, SWT.LEFT);
+        fd_txtWrapperArgs.left = new FormAttachment(0, 172);
+        fd_txtWrapperArgs.right = new FormAttachment(100, 0);
+        fd_txtWrapperArgs.top = new FormAttachment(lblWrapperArguments, 0,
+                                                   SWT.CENTER);
         txtWrapperArgs.setLayoutData(fd_txtWrapperArgs);
-
+        UIUtils.addCloseKeyListener(txtWrapperArgs, shell);
+        
         btnWrapperCanRun = new Button(this, SWT.CHECK);
         FormData fd_btnWrapperCanRun = new FormData();
+        fd_btnWrapperCanRun.left = new FormAttachment(0, 170);
+        fd_btnWrapperCanRun.right = new FormAttachment(100, -31);
         fd_btnWrapperCanRun.top = new FormAttachment(txtWrapperArgs, 6);
-        fd_btnWrapperCanRun.right = new FormAttachment(txtName, -21, SWT.RIGHT);
-        fd_btnWrapperCanRun.left = new FormAttachment(txtName, 0, SWT.LEFT);
         btnWrapperCanRun.setLayoutData(fd_btnWrapperCanRun);
         btnWrapperCanRun.setText("Wrapper can run any SBML Level / Version");
+        UIUtils.addCloseKeyListener(btnWrapperCanRun, shell);
 
-        CLabel lblNewLabel = new CLabel(this, SWT.NONE);
+        Label lblNewLabel = new Label(this, SWT.WRAP);
         FormData fd_lblNewLabel = new FormData();
-        fd_lblNewLabel.bottom = new FormAttachment(100, -6);
-        fd_lblNewLabel.right = new FormAttachment(txtName, 0, SWT.RIGHT);
-        fd_lblNewLabel.top = new FormAttachment(0, 164);
         fd_lblNewLabel.left = new FormAttachment(0, 10);
+        fd_lblNewLabel.right = new FormAttachment(100, -10);
+        fd_lblNewLabel.bottom = new FormAttachment(100, -10);
+        fd_lblNewLabel.top = new FormAttachment(0, 170);
         lblNewLabel.setLayoutData(fd_lblNewLabel);
-        lblNewLabel.setText("You can use the following codes in the command line:"
+        Display display = Display.getCurrent();
+        Color gray = display.getSystemColor(SWT.COLOR_DARK_GRAY);
+        lblNewLabel.setForeground(gray);
+        FontData[] fontData = lblNewLabel.getFont().getFontData();
+        for (int i = 0; i < fontData.length; ++i) {
+            fontData[i].setHeight(11);
+        }
+        final Font newFont = new Font(display, fontData);
+        lblNewLabel.setFont(newFont);
+        lblNewLabel.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent e) {
+                newFont.dispose();
+            }
+        });
+        lblNewLabel.setText("You can use the following substitution codes in "
+            + "the wrapper command line arguments:"
             + "\n"
             + "\n\t%d \t= path to the directory containting all test cases"
             + "\n\t%n \t= current test case number (of the form NNNNN)"
@@ -250,11 +296,15 @@ public class EditWrappers
             + "\n\t%l \t= the SBML Level to be used"
             + "\n\t%v \t= the SBML Version to be used"
             + "\n"
-            + "\nThe current test case SBML file will be located in the directory %d/%n and be named '%n-sbml-l%lv%v.xml, "
-            + "\nwhere %l is the Level and %v is the Version of the  SBML file (for example '00123-sbml-l2v3.xml'). The "
-            + "\ntest settings file will be named '%n-settings.txt' in the same directory (for example '00123-settings.txt'). "
-            + "\nThe application must be instructed to write out the results into a file named '%o/%n.csv' (for example '00123.csv')");
-
+            + "\nEach test case consists of an SBML file and a settings file. "
+            + "The filesÊwill be located in the directory %d/%n. The SBML file "
+            + "will be named '%n-sbml-l%lv%v.xml, where "
+            + "%l is replaced by the SBML Level and %v is replaced by the "
+            + "Version within the Level. (Example: '00123-sbml-l2v3.xml'.) The "
+            + "test settings file will be named '%n-settings.txt' in the same "
+            + "directory. (Example: '00123-settings.txt'.)ÊThe application "
+            + "must be instructed to write out the results into a file named "
+            + "'%o/%n.csv' so that this test runner can find it.");
     }
 
 

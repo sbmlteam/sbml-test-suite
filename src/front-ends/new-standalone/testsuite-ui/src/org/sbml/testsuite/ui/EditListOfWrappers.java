@@ -33,6 +33,8 @@ package org.sbml.testsuite.ui;
 import java.util.Vector;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
@@ -42,6 +44,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.List;
 import org.sbml.testsuite.core.WrapperConfig;
 
@@ -51,11 +55,11 @@ import org.sbml.testsuite.core.WrapperConfig;
 public class EditListOfWrappers
     extends Composite
 {
-
     Vector<WrapperConfig> wrappers;
     List                  lstWrappers;
-    int                   lastSelected = -1;
-    EditWrappers          compWrapper;
+    int                   lastSelectedIndex = -1;
+    WrapperConfig         lastSelectedState = new WrapperConfig();
+    EditWrappers          wrapperForm;
 
 
     /**
@@ -67,37 +71,52 @@ public class EditListOfWrappers
     public EditListOfWrappers(Composite parent, int style)
     {
         super(parent, style);
+        final Shell shell = parent.getShell();
 
         wrappers = new Vector<WrapperConfig>();
 
-        setLayout(new GridLayout(1, false));
+        GridLayout gl_parent = new GridLayout(1, false);
+        gl_parent.marginWidth = 0;
+        gl_parent.marginTop = 0;
+        gl_parent.marginHeight = 0;
+        setLayout(gl_parent);
 
         SashForm sashForm = new SashForm(this, SWT.NONE);
-        sashForm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1,
-                                            1));
+        sashForm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,
+                                            1, 1));
 
         Composite composite = new Composite(sashForm, SWT.NONE);
-        composite.setLayout(new FormLayout());
+        FormLayout fl_composite = new FormLayout();
+        composite.setLayout(fl_composite);
 
         lstWrappers = new List(composite, SWT.BORDER);
-
+        lstWrappers.setToolTipText(
+            "List of wrapper configurations for running the Test Suite "
+            + "with your software application(s). You can define new "
+            + "configurations using the form at right.");
+        FormData fd_list = new FormData();
+        fd_list.top = new FormAttachment(0, 10);
+        fd_list.left = new FormAttachment(0, 0);
+        fd_list.right = new FormAttachment(100, 0);
+        fd_list.bottom = new FormAttachment(90, 0);        
+        lstWrappers.setLayoutData(fd_list);
         lstWrappers.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-
                 int index = lstWrappers.getSelectionIndex();
                 selectWrapper(index);
-
             }
         });
-        FormData fd_list = new FormData();
-        fd_list.top = new FormAttachment(0, 10);
-        fd_list.left = new FormAttachment(0, 10);
-        fd_list.right = new FormAttachment(100, -10);
-        lstWrappers.setLayoutData(fd_list);
+        UIUtils.addCloseKeyListener(lstWrappers, shell);
 
         Button btnadd = new Button(composite, SWT.NONE);
+        FormData fd_btnadd = new FormData();
+        fd_btnadd.width = 95;
+        fd_btnadd.left = new FormAttachment(0, -5);
+        fd_btnadd.top = new FormAttachment(lstWrappers, 4);
+        btnadd.setLayoutData(fd_btnadd);
+        btnadd.setText("&Add...");
         btnadd.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -105,37 +124,26 @@ public class EditListOfWrappers
                 addNewWrapper();
             }
         });
-        fd_list.bottom = new FormAttachment(btnadd, -6);
-        FormData fd_btnadd = new FormData();
-        fd_btnadd.width = 60;
-        fd_btnadd.left = new FormAttachment(0, 10);
-        fd_btnadd.bottom = new FormAttachment(100, -10);
-        // fd_btnadd.right = new FormAttachment(100, -92);
-
-        btnadd.setLayoutData(fd_btnadd);
-        btnadd.setText("&Add");
+        UIUtils.addCloseKeyListener(btnadd, shell);
 
         Button btnremove = new Button(composite, SWT.NONE);
+        FormData fd_btnremove = new FormData();
+        fd_btnremove.width = 95;
+        fd_btnremove.right = new FormAttachment(lstWrappers, 5, SWT.RIGHT);
+        fd_btnremove.top = new FormAttachment(lstWrappers, 4);
+        btnremove.setLayoutData(fd_btnremove);
+        btnremove.setText("&Remove...");
         btnremove.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-
                 removeWrapper();
-
             }
         });
-        btnremove.setText("&Remove");
-        FormData fd_btnremove = new FormData();
-        fd_btnremove.width = 60;
-        fd_btnremove.top = new FormAttachment(lstWrappers, 6);
-        fd_btnremove.right = new FormAttachment(100, -10);
-        // fd_btnremove.left = new FormAttachment(btnadd, 6);
-        btnremove.setLayoutData(fd_btnremove);
+        UIUtils.addCloseKeyListener(btnremove, shell);
 
-        compWrapper = new EditWrappers(sashForm, SWT.NONE);
-        sashForm.setWeights(new int[] {1, 3});
-
+        wrapperForm = new EditWrappers(sashForm, SWT.NONE);
+        sashForm.setWeights(new int[] {120, 280});
     }
 
 
@@ -165,11 +173,11 @@ public class EditListOfWrappers
      */
     public void commitPrevious()
     {
-        if (lastSelected != -1)
+        if (lastSelectedIndex != -1)
         {
-            wrappers.get(lastSelected).updateFrom(compWrapper.toConfig());
-            lstWrappers.setItem(lastSelected, wrappers.get(lastSelected)
-                                                      .getName());
+            wrappers.get(lastSelectedIndex).updateFrom(wrapperForm.toConfig());
+            lstWrappers.setItem(lastSelectedIndex,
+                                wrappers.get(lastSelectedIndex).getName());
         }
     }
 
@@ -191,8 +199,8 @@ public class EditListOfWrappers
      * @param lastWrapper
      *            the last selected wrapper
      */
-    public void
-            loadWrappers(Vector<WrapperConfig> wrappers, String lastWrapper)
+    public void loadWrappers(Vector<WrapperConfig> wrappers, 
+                             String lastWrapper)
     {
         this.wrappers = wrappers;
         lstWrappers.removeAll();
@@ -205,7 +213,6 @@ public class EditListOfWrappers
         }
 
         selectWrapper(lstWrappers.getSelectionIndex());
-
     }
 
 
@@ -217,7 +224,7 @@ public class EditListOfWrappers
         int index = lstWrappers.getSelectionIndex();
         if (index < 0 || index > wrappers.size()) return;
 
-        lastSelected = -1;
+        lastSelectedIndex = -1;
         wrappers.remove(index);
         lstWrappers.remove(index);
 
@@ -239,11 +246,20 @@ public class EditListOfWrappers
             addNewWrapper();
             return;
         }
-        compWrapper.setVisible(true);
+        wrapperForm.setVisible(true);
         this.layout();
         commitPrevious();
 
-        lastSelected = index;
-        compWrapper.loadFrom(wrappers.get(index));
+        lastSelectedIndex = index;
+        lastSelectedState.updateFrom(wrappers.get(index));
+        wrapperForm.loadFrom(wrappers.get(index));
+    }
+
+
+    public boolean changesPending()
+    {
+        WrapperConfig currentFormValues = wrapperForm.toConfig();
+        return (lastSelectedIndex != lstWrappers.getSelectionIndex())
+            || ! lastSelectedState.equals(currentFormValues);
     }
 }
