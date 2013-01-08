@@ -1,9 +1,9 @@
 //
-// @file AboutDialog.java
-// @brief About dialog for the SBML test suite
+// @file   AboutDialog.java
+// @brief  About dialog for the SBML Test Runner
 // @author Frank T. Bergmann
-// @date Created 2012-06-06 <fbergman@caltech.edu>
-//
+// @author Michael Hucka
+// @date   Created 2012-06-06 <fbergman@caltech.edu>
 //
 // ----------------------------------------------------------------------------
 // This file is part of the SBML Testsuite. Please visit http://sbml.org for
@@ -30,34 +30,37 @@
 
 package org.sbml.testsuite.ui;
 
-import org.eclipse.swt.widgets.Dialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
-import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Dialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.wb.swt.SWTResourceManager;
+
 
 /**
- * About dialog for the SBML test suite
+ * The "About" dialog for the SBML Test Suite Test Runner.
  */
 public class AboutDialog
     extends Dialog
 {
-
     protected Object result;
-    protected Shell  shlAboutSbmlTestsuite;
+    protected Shell  shlAboutTestRunner;
 
 
     /**
-     * Create the dialog.
+     * Constructor to create the dialog.
      * 
      * @param parent
      * @param style
@@ -65,7 +68,7 @@ public class AboutDialog
     public AboutDialog(Shell parent, int style)
     {
         super(parent, style);
-        setText("About SBML Testsuite");
+        setText("About the SBML Test Runner");
         createContents();
     }
 
@@ -78,13 +81,12 @@ public class AboutDialog
      */
     public void center(Rectangle shellBounds)
     {
-        if (shlAboutSbmlTestsuite == null) return;
+        if (shlAboutTestRunner == null) return;
 
-        Point dialogSize = shlAboutSbmlTestsuite.getSize();
-        shlAboutSbmlTestsuite.setLocation(shellBounds.x
+        Point dialogSize = shlAboutTestRunner.getSize();
+        shlAboutTestRunner.setLocation(shellBounds.x
             + (shellBounds.width - dialogSize.x) / 2, shellBounds.y
             + (shellBounds.height - dialogSize.y) / 2);
-
     }
 
 
@@ -93,38 +95,67 @@ public class AboutDialog
      */
     private void createContents()
     {
-        shlAboutSbmlTestsuite = new Shell(getParent(), getStyle());
-        shlAboutSbmlTestsuite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        shlAboutSbmlTestsuite.setSize(722, 564);
-        shlAboutSbmlTestsuite.setText("About SBML Testsuite");
-        shlAboutSbmlTestsuite.setLayout(new FormLayout());
-
-        Button btnclose = new Button(shlAboutSbmlTestsuite, SWT.NONE);
-        btnclose.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent arg0)
-            {
-                shlAboutSbmlTestsuite.close();
-            }
+        shlAboutTestRunner = new Shell(getParent(), SWT.DIALOG_TRIM);
+        shlAboutTestRunner.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
+        shlAboutTestRunner.setSize(288, 498);
+        shlAboutTestRunner.setText("About SBML Testsuite");
+        shlAboutTestRunner.setLayout(null);
+        shlAboutTestRunner.addListener(SWT.Close, new Listener() {
+            public void handleEvent(Event event) { shlAboutTestRunner.dispose(); }
         });
-        FormData fd_btnclose = new FormData();
-        fd_btnclose.bottom = new FormAttachment(100, -10);
-        fd_btnclose.right = new FormAttachment(100, -10);
-        fd_btnclose.width = 75;
-        btnclose.setLayoutData(fd_btnclose);
-        btnclose.setText("&Close");
-
-        Label label = new Label(shlAboutSbmlTestsuite, SWT.NONE);
-        label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        FormData fd_label = new FormData();
-        fd_label.bottom = new FormAttachment(100, 4);
-        fd_label.right = new FormAttachment(100, 4);
-        fd_label.top = new FormAttachment(0);
-        fd_label.left = new FormAttachment(0);
-        label.setLayoutData(fd_label);
-        label.setImage(SWTResourceManager.getImage(AboutDialog.class,
-                                                   "/data/TestSuiteLogo.png"));
-
+        shlAboutTestRunner.setFocus();
+        UIUtils.addCloseKeyListener(shlAboutTestRunner, shlAboutTestRunner);
+        UIUtils.addTraverseKeyListener(shlAboutTestRunner, shlAboutTestRunner);
+        
+        Label lblNewLabel = new Label(shlAboutTestRunner, SWT.NONE);
+        lblNewLabel.setImage(SWTResourceManager.getImage(AboutDialog.class, "/data/sts-icon-shadowed-270x136.png"));
+        lblNewLabel.setBounds(11, 10, 268, 134);
+        
+        Label lblNewLabel_1 = new Label(shlAboutTestRunner, SWT.NONE);
+        lblNewLabel_1.setFont(SWTResourceManager.getFont("Verdana", 20, SWT.BOLD));
+        lblNewLabel_1.setAlignment(SWT.CENTER);
+        lblNewLabel_1.setBounds(11, 140, 266, 25);
+        lblNewLabel_1.setText("The SBML Test Runner");
+        
+        Label sep1 = new Label(shlAboutTestRunner, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN | SWT.CENTER);
+        sep1.setBounds(16, 194, 255, 2);
+        
+        Label lblVersion = new Label(shlAboutTestRunner, SWT.RIGHT);
+        lblVersion.setAlignment(SWT.CENTER);
+        lblVersion.setFont(SWTResourceManager.getFont("Verdana", 11, SWT.ITALIC));
+        lblVersion.setBounds(102, 170, 84, 14);
+        lblVersion.setText("Version");
+        
+        Label lblTheSbmlTest = new Label(shlAboutTestRunner, SWT.WRAP);
+        lblTheSbmlTest.setBounds(14, 202, 260, 88);
+        lblTheSbmlTest.setText("The SBML Test Suite is a conformance testing system that tests the degree and correctness of SBML support in a given software system. The SBML Test Runner drives an application to perform each test in the Test Suite, and displays the results and conclusions.");
+        lblTheSbmlTest.setFont(SWTResourceManager.getFont("Verdana", 10, SWT.NORMAL));
+        
+        Label sep2 = new Label(shlAboutTestRunner, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN | SWT.CENTER);
+        sep2.setBounds(16, 300, 255, 2);
+        
+        Label lblNewLabel_2 = new Label(shlAboutTestRunner, SWT.NONE);
+        lblNewLabel_2.setFont(SWTResourceManager.getFont("Verdana", 10, SWT.NORMAL));
+        lblNewLabel_2.setBounds(14, 308, 266, 14);
+        lblNewLabel_2.setText("Written by Frank T. Bergmann and Michael Hucka.");
+        
+        Label lblNewLabel_3 = new Label(shlAboutTestRunner, SWT.WRAP);
+        lblNewLabel_3.setFont(SWTResourceManager.getFont("Verdana", 10, SWT.ITALIC));
+        lblNewLabel_3.setBounds(14, 340, 255, 49);
+        lblNewLabel_3.setText("For more information about this and other SBML Team software, as well as about SBML itself, please visit the following website:");
+        
+        Label sep3 = new Label(shlAboutTestRunner, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN | SWT.CENTER);
+        sep3.setBounds(16, 331, 255, 2);
+        
+        Label lblHttpsbmlorg = new Label(shlAboutTestRunner, SWT.CENTER);
+        lblHttpsbmlorg.setForeground(SWTResourceManager.getColor(65, 105, 225));
+        lblHttpsbmlorg.setFont(SWTResourceManager.getFont("Verdana", 11, SWT.BOLD));
+        lblHttpsbmlorg.setBounds(81, 390, 126, 20);
+        lblHttpsbmlorg.setText("http://sbml.org");
+        
+        Label lblNewLabel_4 = new Label(shlAboutTestRunner, SWT.NONE);
+        lblNewLabel_4.setImage(SWTResourceManager.getImage(AboutDialog.class, "/data/SBML.png"));
+        lblNewLabel_4.setBounds(95, 420, 99, 40);
     }
 
 
@@ -133,18 +164,17 @@ public class AboutDialog
      * 
      * @return the result
      */
-    public Object open()
+    public void open()
     {
-        shlAboutSbmlTestsuite.open();
-        shlAboutSbmlTestsuite.layout();
+        shlAboutTestRunner.open();
+        shlAboutTestRunner.layout();
         Display display = getParent().getDisplay();
-        while (!shlAboutSbmlTestsuite.isDisposed())
+        while (!shlAboutTestRunner.isDisposed())
         {
             if (!display.readAndDispatch())
             {
                 display.sleep();
             }
         }
-        return result;
     }
 }
