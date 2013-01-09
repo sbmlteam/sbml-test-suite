@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="jar" name="testsuite_ui">
+<project basedir="." default="jar" name="testsuite-ui">
+
+        <property name="version.num" value="3.0.0" />
+
 	<property environment="env" />
 	<property name="core.location" value="../testsuite-core" />
 	<property name="debuglevel" value="source,lines,vars" />
@@ -8,7 +11,7 @@
 	<path id="core.classpath">
 		<pathelement location="${core.location}/bin" />
 	</path>
-	<path id="testsuite_ui.classpath">
+	<path id="testsuite-ui.classpath">
 		<pathelement location="bin" />
 		<path refid="core.classpath" />
 		<pathelement location="./libs/swt.jar" />
@@ -16,6 +19,9 @@
 		<pathelement location="${core.location}/libs/simple-xml-2.6.4.jar" />
 	</path>
 	<target name="init">
+                <tstamp>
+                        <format property="timestamp" pattern="yyyy-MM-dd HH:mm zzz"/>
+                </tstamp>        
 		<mkdir dir="bin" />
 		<copy includeemptydirs="false" todir="bin">
 			<fileset dir="src">
@@ -38,24 +44,26 @@
 		<echo message="${ant.project.name}: ${ant.file}" />
 		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="no">
 			<src path="src" />
-			<classpath refid="testsuite_ui.classpath" />
+			<classpath refid="testsuite-ui.classpath" />
 		</javac>
 	</target>
 	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
 	<target name="jar" depends="build">
-		<manifestclasspath property="manifest.cp" jarfile="testsuite_ui.jar">
+		<manifestclasspath property="manifest.cp" jarfile="testsuite-ui.jar">
 			<classpath>
 				<pathelement location="swt.jar" />
 				<pathelement location="org.swtchart_0.7.0.v20110128.jar" />
 				<pathelement location="testsuite-core.jar" />
 			</classpath>
 		</manifestclasspath>
-		<jar jarfile="testsuite_ui.jar" destfile="../testsuite_ui.jar">
+		<jar jarfile="testsuite-ui.jar" destfile="../testsuite-ui.jar">
 			<manifest>
 				<attribute name="Main-Class" value="org.sbml.testsuite.ui.Program" />
 				<attribute name="Class-Path" value="${manifest.cp}" />
-				<attribute name="Implementation-Title" value="SBML Test Suite" />
-				<attribute name="Implementation-Version" value="1.0.1" />
+				<attribute name="Implementation-Title" value="SBML Test Runner" />
+				<attribute name="Implementation-Version" value="${version.num}" />
+				<attribute name="Built-Timestamp" value="${timestamp}" />
+				<attribute name="Built-By" value="${user.name}" />
 			</manifest>
 			<fileset dir="bin" includes="**/*.class" />
 			<fileset dir="src" includes="data/**/*" />
@@ -63,7 +71,7 @@
 	</target>
 	<target name="stage-common" depends="jar">
 		<mkdir dir="stage" />
-		<copy file="../testsuite_ui.jar" todir="stage" />
+		<copy file="../testsuite-ui.jar" todir="stage" />
 		<copy file="../testsuite-core.jar" todir="stage" />
 		<copy file="libs/swt.jar" todir="stage" />
 		<copy file="libs/org.swtchart_0.7.0.v20110128.jar" todir="stage" />
@@ -74,35 +82,35 @@
 		<copy file="libs/swt-win32.jar" tofile="stage/swt.jar" />
 	</target>
 	<target name="start-win32" depends="stage-win32">
-		<java fork="true" jar="stage/testsuite_ui.jar" />
+		<java fork="true" jar="stage/testsuite-ui.jar" />
 	</target>
 	<target name="stage-win64" depends="stage-common">
 		<delete file="stage/swt.jar" />
 		<copy file="libs/swt-win64.jar" tofile="stage/swt.jar" />
 	</target>
 	<target name="start-win64" depends="stage-win64">
-		<java fork="true" jar="stage/testsuite_ui.jar" />
+		<java fork="true" jar="stage/testsuite-ui.jar" />
 	</target>
 	<target name="stage-linux32" depends="stage-common">
 		<delete file="stage/swt.jar" />
 		<copy file="libs/swt-linux-x86.jar" tofile="stage/swt.jar" />
 	</target>
 	<target name="start-linux32" depends="stage-linux32">
-		<java fork="true" jar="stage/testsuite_ui.jar" />
+		<java fork="true" jar="stage/testsuite-ui.jar" />
 	</target>
 	<target name="stage-linux64" depends="stage-common">
 		<delete file="stage/swt.jar" />
 		<copy file="libs/swt-linux-x64.jar" tofile="stage/swt.jar" />
 	</target>
 	<target name="start-linux64" depends="stage-linux64">
-		<java fork="true" jar="stage/testsuite_ui.jar" />
+		<java fork="true" jar="stage/testsuite-ui.jar" />
 	</target>
 	<target name="stage-osx32" depends="stage-common">
 		<delete file="stage/swt.jar" />
 		<copy file="libs/swt-osx.jar" tofile="stage/swt.jar" />
 	</target>
 	<target name="start-osx32" depends="stage-osx32">
-		<java fork="true" jar="stage/testsuite_ui.jar" >
+		<java fork="true" jar="stage/testsuite-ui.jar" >
 			<arg value="-d32"/>
 			<arg value="-XstartOnFirstThread"/>
 		</java>
@@ -112,7 +120,7 @@
 		<copy file="libs/swt-osx-64.jar" tofile="stage/swt.jar" />
 	</target>
 	<target name="start-osx64" depends="stage-osx64">
-		<java fork="true" jar="stage/testsuite_ui.jar">
+		<java fork="true" jar="stage/testsuite-ui.jar">
 			<arg value="-XstartOnFirstThread"/>
 		</java>
 	</target>
