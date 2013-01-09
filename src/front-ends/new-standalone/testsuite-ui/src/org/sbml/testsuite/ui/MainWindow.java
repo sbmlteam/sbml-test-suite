@@ -417,7 +417,7 @@ public class MainWindow
                                                               "/data/sbml_256.png"));
         shlSbmlTestSuite.setMinimumSize(new Point(800, 600));
         shlSbmlTestSuite.setSize(450, 300);
-        shlSbmlTestSuite.setText("SBML Test Suite");
+        shlSbmlTestSuite.setText("SBML Test Runner");
         shlSbmlTestSuite.addListener(SWT.Close, new Listener() {
             @Override
             public void handleEvent(Event event)
@@ -1239,7 +1239,7 @@ public class MainWindow
     {
         if (!isMacOSX()) return;
 
-        CocoaUIEnhancer enhancer = new CocoaUIEnhancer("SBML Test Suite");
+        CocoaUIEnhancer enhancer = new CocoaUIEnhancer("SBML Test Runner");
         enhancer.hookApplicationMenu(display, new Listener() {
             @Override
             public void handleEvent(Event arg0)
