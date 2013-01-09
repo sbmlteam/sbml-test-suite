@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." default="jar" name="testsuite-core">
+
+        <property name="version.num" value="3.0.0" />
+
 	<property environment="env"/>
 	<property name="debuglevel" value="source,lines,vars"/>
 	<property name="target" value="1.5"/>
@@ -9,6 +12,9 @@
 		<pathelement location="libs/simple-xml-2.6.4.jar" />
 	</path>
 	<target name="init">
+                <tstamp>
+                        <format property="timestamp" pattern="yyyy-MM-dd HH:mm zzz"/>
+                </tstamp>        
 		<mkdir dir="bin"/>
 		<copy includeemptydirs="false" todir="bin">
 			<fileset dir="src">
@@ -52,8 +58,10 @@
 			<manifest>
 				<attribute name="Main-Class" value="org.sbml.testsuite.core.Main"/>
 				<attribute name="Class-Path" value="${manifest.cp}"/>
-				<attribute name="Implementation-Title" value="SBML Testsuite Core" />
-				<attribute name="Implementation-Version" value="1.5.1" />
+				<attribute name="Implementation-Title" value="SBML Test Suite Core" />
+				<attribute name="Implementation-Version" value="${version.num}" />
+				<attribute name="Built-Timestamp" value="${timestamp}" />
+				<attribute name="Built-By" value="${user.name}" />
 			</manifest>
 			<fileset dir="bin" includes="**/*.class"/>
 			<fileset dir="src" includes="data/**/*"/>
