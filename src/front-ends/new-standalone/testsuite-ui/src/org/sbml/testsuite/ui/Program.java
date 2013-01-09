@@ -1,9 +1,9 @@
 //
-// @file Program.java
-// @brief Starts the main form
+// @file   Program.java
+// @brief  Starts the main form
 // @author Frank T. Bergmann
-// @date Created 2012-06-06 <fbergman@caltech.edu>
-//
+// @author Michael Hucka
+// @date   Created 2012-06-06 <fbergman@caltech.edu>
 //
 // ----------------------------------------------------------------------------
 // This file is part of the SBML Testsuite. Please visit http://sbml.org for
@@ -26,9 +26,9 @@
 // in the file named "LICENSE.txt" included with this software distribution
 // and also available online as http://sbml.org/software/libsbml/license.html
 // ----------------------------------------------------------------------------
-//
 
 package org.sbml.testsuite.ui;
+
 
 /**
  * Starts the Main Window
@@ -51,6 +51,24 @@ public class Program
         {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * Returns the version number for this application.
+     * <p>
+     * This gets the information from the manifest file in the application
+     * JAR file.  It will fail to get a number if you are not running this
+     * from the JAR file (e.g., if you are running this from within Eclipse).
+     * <p>
+     * @return a string containing the version number.
+     */
+    public static String getVersion()
+    {
+        if (Program.class.getPackage().getImplementationVersion() == null)
+            return "unset";
+        else
+            return Program.class.getPackage().getImplementationVersion();
     }
 
 }
