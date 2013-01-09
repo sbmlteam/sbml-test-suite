@@ -1,9 +1,9 @@
 //
-// @file PreferenceDialog.java
-// @brief PreferenceDialog for the sbml test suite
+// @file   PreferenceDialog.java
+// @brief  PreferenceDialog for the sbml test suite
 // @author Frank T. Bergmann
-// @date Created 2012-06-06 <fbergman@caltech.edu>
-//
+// @author Michael Hucka
+// @date   Created 2012-06-06 <fbergman@caltech.edu>
 //
 // ----------------------------------------------------------------------------
 // This file is part of the SBML Testsuite. Please visit http://sbml.org for
@@ -26,24 +26,17 @@
 // in the file named "LICENSE.txt" included with this software distribution
 // and also available online as http://sbml.org/software/libsbml/license.html
 // ----------------------------------------------------------------------------
-//
 
 package org.sbml.testsuite.ui;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.DirectoryDialog;
@@ -199,6 +192,7 @@ public class PreferenceDialog
                 shell.close();          // Will invoke close listener.
             }
         });
+        UIUtils.addCloseKeyListener(btnCancel, shell);        
 
         Button btnSave = new Button(compButtons, SWT.NONE);
         btnSave.setBounds(85, 3, 75, 25);
@@ -213,6 +207,7 @@ public class PreferenceDialog
             }
         });
         btnSave.setFocus();
+        UIUtils.addCloseKeyListener(btnSave, shell);        
 
         shell.addListener(SWT.Close, new Listener() {
             public void handleEvent(Event event)
