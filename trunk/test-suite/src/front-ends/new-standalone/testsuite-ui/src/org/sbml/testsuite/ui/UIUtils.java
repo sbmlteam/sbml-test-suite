@@ -25,7 +25,6 @@
 // in the file named "LICENSE.txt" included with this software distribution
 // and also available online as http://sbml.org/software/libsbml/license.html
 // ----------------------------------------------------------------------------
-//
 
 package org.sbml.testsuite.ui;
 
@@ -75,11 +74,21 @@ public class UIUtils
     public static void addTraverseKeyListener(Control control, final Shell shell)
     {
         control.addListener(SWT.Traverse, new Listener() {
-                public void handleEvent (final Event event) {
-                    if (event.detail == SWT.TRAVERSE_ESCAPE) {
+                public void handleEvent (final Event event)
+                {
+                    if (event.detail == SWT.TRAVERSE_ESCAPE)
                         shell.close();
-                    }
                 }
             });
+    }
+
+    public static void addShellCloseListener(Control control, final Shell shell)
+    {
+        shell.addListener(SWT.Close, new Listener() {
+            public void handleEvent(Event event)
+            {
+                shell.dispose();
+            }
+        });
     }
 }
