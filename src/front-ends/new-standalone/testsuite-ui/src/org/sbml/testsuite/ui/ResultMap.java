@@ -1,10 +1,9 @@
 //
-// @file ResultMap.java
-// @brief ResultMap is a dialog providing overview information about the test
-// results
+// @file   ResultMap.java
+// @brief  Dialog providing an overview of the test results
 // @author Frank T. Bergmann
-// @date Created 2012-06-06 <fbergman@caltech.edu>
-//
+// @author Michael Hucka
+// @@date  Created 2012-06-06 <fbergman@caltech.edu>
 //
 // ----------------------------------------------------------------------------
 // This file is part of the SBML Testsuite. Please visit http://sbml.org for
@@ -27,7 +26,6 @@
 // in the file named "LICENSE.txt" included with this software distribution
 // and also available online as http://sbml.org/software/libsbml/license.html
 // ----------------------------------------------------------------------------
-//
 
 package org.sbml.testsuite.ui;
 
@@ -43,6 +41,10 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -53,9 +55,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.sbml.testsuite.core.DelayedResult;
 import org.sbml.testsuite.core.ResultType;
@@ -63,9 +67,10 @@ import org.sbml.testsuite.core.TestCase;
 import org.sbml.testsuite.core.TestSuite;
 import org.sbml.testsuite.core.Util;
 import org.sbml.testsuite.core.WrapperConfig;
+import org.eclipse.swt.custom.CLabel;
 
 /**
- * ResultMap is a dialog providing overview information about the test results
+ * ResultMap is a dialog providing overview information about the test results.
  */
 public class ResultMap
     extends Dialog
@@ -142,12 +147,19 @@ public class ResultMap
      */
     private void createContents()
     {
+        final String defaultHelpMsg = "Hover the pointer over a square for "
+            + "more information, left-click to jump to that result in the\n"
+            + "main window, and right-click for more options.";
+
         shell = new Shell(getParent(), getStyle());
         shell.setImage(SWTResourceManager.getImage(ResultMap.class,
                                                    "/data/sbml_256.png"));
-        shell.setSize(600, 450);
+        shell.setSize(595, 480);
         shell.setText(getText());
         shell.setLayout(new FormLayout());
+        UIUtils.addShellCloseListener(shell, shell);
+        UIUtils.addCloseKeyListener(shell, shell);
+        UIUtils.addTraverseKeyListener(shell, shell);
 
         canvas = new Canvas(shell, SWT.NONE);
         canvas.addMouseListener(new MouseAdapter() {
@@ -160,23 +172,11 @@ public class ResultMap
                                                                       ResultMap.this,
                                                                       0,
                                                                       lastName));
+                    shell.close();
                 }
             }
         });
 
-        canvas.addMouseMoveListener(new MouseMoveListener() {
-            public void mouseMove(MouseEvent arg0)
-            {
-                String name = getIdFromPoint(arg0);
-                if (name.length() > 0)
-                {
-                    if (suite != null)
-                        canvas.setToolTipText(suite.get(name).getToolTip());
-                    else
-                        canvas.setToolTipText(name);
-                }
-            }
-        });
         /*
          * canvas.addMouseTrackListener(new MouseTrackAdapter() {
          * @Override
@@ -202,6 +202,57 @@ public class ResultMap
         fd_canvas.right = new FormAttachment(100, -10);
         canvas.setLayoutData(fd_canvas);
 
+        final CLabel lblHelpMsg = new CLabel(shell, SWT.SHADOW_IN);
+        fd_canvas.bottom = new FormAttachment(lblHelpMsg, -5);
+        lblHelpMsg.setBounds(0, 0, 585, 34);
+
+        FontData[] defaultFontData = lblHelpMsg.getFont().getFontData();
+        defaultFontData[0].setHeight(10);
+        final Font defaultFont = new Font(getParent().getDisplay(), defaultFontData);
+        FontData[] italicFontData = lblHelpMsg.getFont().getFontData();
+        italicFontData[0].setStyle(SWT.ITALIC);
+        italicFontData[0].setHeight(11);
+        final Font italicFont = new Font(getParent().getDisplay(), italicFontData);
+
+        lblHelpMsg.setFont(italicFont);
+        lblHelpMsg.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));
+
+        FormData fd_lblHelpMsg = new FormData();
+        fd_lblHelpMsg.right = new FormAttachment(0, 582);
+        fd_lblHelpMsg.bottom = new FormAttachment(0, 405);
+        fd_lblHelpMsg.top = new FormAttachment(0, 370);
+        fd_lblHelpMsg.left = new FormAttachment(0, 12);
+        // Note: .bottom is set after cmdClose is defined below.
+        lblHelpMsg.setLayoutData(fd_lblHelpMsg);
+        lblHelpMsg.setText(defaultHelpMsg);
+
+        canvas.addMouseMoveListener(new MouseMoveListener() {
+            public void mouseMove(MouseEvent arg0)
+            {
+                String name = getIdFromPoint(arg0);
+                if (name.length() > 0)
+                {
+                    if (suite != null)
+                    {
+                        canvas.setToolTipText(suite.get(name).getToolTip());
+                    }
+                    else
+                    {
+                        canvas.setToolTipText(name);
+                    }
+                    lblHelpMsg.setText("Case #" + name);
+                    lblHelpMsg.setFont(defaultFont);
+                    lblHelpMsg.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
+                }
+                else
+                {
+                    lblHelpMsg.setText(defaultHelpMsg);
+                    lblHelpMsg.setFont(italicFont);
+                    lblHelpMsg.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));
+                }
+            }
+        });
+        
         Button cmdClose = new Button(shell, SWT.NONE);
         cmdClose.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -210,7 +261,6 @@ public class ResultMap
                 shell.close();
             }
         });
-        fd_canvas.bottom = new FormAttachment(100, -41);
 
         Menu menu = new Menu(canvas);
         canvas.setMenu(menu);
@@ -224,7 +274,7 @@ public class ResultMap
                 if (test != null) Util.openFile(test.getSBMLFile());
             }
         });
-        menuItem.setText("Open Original SBML File");
+        menuItem.setText("Open original SBML file");
 
         MenuItem menuItem_1 = new MenuItem(menu, SWT.NONE);
         menuItem_1.addSelectionListener(new SelectionAdapter() {
@@ -236,7 +286,7 @@ public class ResultMap
                 if (test != null) Util.openFile(wrapper.getResultFile(test));
             }
         });
-        menuItem_1.setText("Open Simulator Result File");
+        menuItem_1.setText("Open simulator results file");
 
         MenuItem menuItem_2 = new MenuItem(menu, SWT.NONE);
         menuItem_2.addSelectionListener(new SelectionAdapter() {
@@ -247,7 +297,7 @@ public class ResultMap
                 if (test != null) Util.openFile(test.getExpectedResultFile());
             }
         });
-        menuItem_2.setText("Open Expected Result File");
+        menuItem_2.setText("Open expected results file");
 
         MenuItem menuItem_3 = new MenuItem(menu, SWT.NONE);
         menuItem_3.addSelectionListener(new SelectionAdapter() {
@@ -258,7 +308,7 @@ public class ResultMap
                 if (test != null) Util.openFile(test.getDescriptionHTML());
             }
         });
-        menuItem_3.setText("Open Test Description");
+        menuItem_3.setText("Open test description file");
 
         MenuItem menuItem_4 = new MenuItem(menu, SWT.NONE);
         menuItem_4.addSelectionListener(new SelectionAdapter() {
@@ -269,7 +319,7 @@ public class ResultMap
                 if (test != null) Util.openFile(test.getCaseDirectory());
             }
         });
-        menuItem_4.setText("Open Test Directory");
+        menuItem_4.setText("Open test directory");
 
         new MenuItem(menu, SWT.SEPARATOR);
 
@@ -285,7 +335,7 @@ public class ResultMap
                 }
             }
         });
-        menuItem_6.setText("Re-Run Test");
+        menuItem_6.setText("Rerun test");
 
         new MenuItem(menu, SWT.SEPARATOR);
 
@@ -309,14 +359,18 @@ public class ResultMap
 
             }
         });
-        menuItem_10.setText("Delete Selected Result");
+        menuItem_10.setText("Delete selected result");
+
         FormData fd_cmdClose = new FormData();
         fd_cmdClose.width = 75;
         fd_cmdClose.bottom = new FormAttachment(100, -10);
         fd_cmdClose.right = new FormAttachment(100, -10);
         cmdClose.setLayoutData(fd_cmdClose);
         cmdClose.setText("&Close");
-
+        
+        UIUtils.addCloseKeyListener(cmdClose, shell);        
+        UIUtils.addTraverseKeyListener(cmdClose, shell);
+        
     }
 
 
@@ -417,7 +471,6 @@ public class ResultMap
      */
     public TestCase getTestFromPoint(MouseEvent arg0)
     {
-
         return getTestFromPoint(arg0.x, arg0.y);
     }
 
@@ -429,7 +482,6 @@ public class ResultMap
      */
     public Object open()
     {
-
         shell.open();
         shell.layout();
         Display display = getParent().getDisplay();
@@ -446,6 +498,14 @@ public class ResultMap
 
     protected void paintCanvas(GC gc)
     {
+        Device device = Display.getCurrent();
+        Color green   = new Color(device, 90, 200, 50);
+        Color red     = new Color(device, 255, 50, 40);
+        Color black   = new Color(device, 70, 70, 70);
+        Color gray    = new Color(device, 200, 200, 200);
+        Color blue    = new Color(device, 110, 140, 210);
+        Color yellow  = new Color(device, 252, 175, 55);
+
         if (keySets == null || keySets.length == 0)
         {
             gc.drawString("No Data ...", 10, 10);
@@ -458,26 +518,34 @@ public class ResultMap
         int i = 0;
         for (String key : keySets)
         {
-            int color = 0;
+            Color color;
             switch (data.get(key).getResult())
             {
             case Match:
-                color = SWT.COLOR_GREEN;
+                color = green;
                 break;
             case CannotSolve:
-                color = SWT.COLOR_YELLOW;
+                color = yellow;
                 break;
             case NoMatch:
-                color = SWT.COLOR_RED;
+                color = red;
                 break;
             case Unknown:
             default:
-                color = SWT.COLOR_DARK_GRAY;
+                color = gray;
                 break;
             }
 
-            gc.setBackground(shell.getDisplay().getSystemColor(color));
-            gc.fillRectangle(x, y, length, length);
+            /* for testing colors 
+            if (i % 7 == 0) color=blue;
+            if (i % 5 == 0) color=red;
+            if (i % 2 == 0) color=green;
+            if (i % 4 == 0) color=yellow;
+            if (i % 10 == 0) color=black;
+            */
+            
+            gc.setBackground(color);
+            gc.fillRoundRectangle(x, y, length, length, 5, 5);
 
             x += length + gap;
 
@@ -591,4 +659,5 @@ public class ResultMap
     {
         updateElement(id, new DelayedResult(result));
     }
+
 }
