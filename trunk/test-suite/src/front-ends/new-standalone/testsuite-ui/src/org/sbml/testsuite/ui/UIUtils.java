@@ -32,9 +32,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.ToolTip;
 
 
 /**
@@ -82,6 +84,7 @@ public class UIUtils
             });
     }
 
+
     public static void addShellCloseListener(Control control, final Shell shell)
     {
         shell.addListener(SWT.Close, new Listener() {
@@ -91,4 +94,47 @@ public class UIUtils
             }
         });
     }
+
+
+    /* The following is based on 
+     * http://stackoverflow.com/questions/1351245/setting-swt-tooltip-delays
+     * 
+     * Unfortunately, it doesn't seem to work, and I don't know why.
+     * The delay to the time the tooltip is shown doesn't seem to change.
+     */
+    
+    final static int DEFAULT_HIDE_DELAY = 200;
+    final static int DEFAULT_SHOW_DELAY = 100;
+
+    public static void addCustomToolTip(Control control, String head, String body)
+    {
+        final ToolTip tip = new ToolTip(control.getShell(), SWT.BALLOON);
+        final Display display = tip.getDisplay();
+        tip.setText(head);
+        tip.setMessage(body);
+        tip.setAutoHide(false);
+
+        control.addListener(SWT.MouseHover, new Listener() {
+            public void handleEvent(Event event) {
+                display.timerExec(DEFAULT_SHOW_DELAY, new Runnable() {
+                    public void run() 
+                    {
+                        tip.setVisible(true);
+                    }
+                });             
+            }
+        });
+
+        control.addListener(SWT.MouseExit, new Listener() {
+            public void handleEvent(Event event) {
+                display.timerExec(DEFAULT_HIDE_DELAY, new Runnable() {
+                    public void run() 
+                    {
+                        tip.setVisible(false);
+                    }
+                });
+            }
+        });
+    }
+
 }
