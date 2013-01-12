@@ -30,39 +30,30 @@ package org.sbml.testsuite.ui;
 
 import java.util.Arrays;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
 
 public class ListToolItem
     extends ToolItem
 {
-    static int MIN_CHAR_WIDTH = 30;
+    static int MIN_WIDTH_NUM_CHARS = 30;
 
-    static Color gradientStartColor;
-    static Color gradientStopColor;
-    static Color borderColor;
-    static Color fontColor;
+    private static Color gradientStartColor;
+    private static Color gradientStopColor;
+    private static Color borderColor;
+    private static Color fontColor;
 
     private String  buttonText;
     private Display display;
     
     private static int RIGHT_PADDING_AMOUNT = 10;
-    private boolean toggled = false;
+    private boolean depressed = false;
 
 
     @Override protected void checkSubclass() { }    
@@ -84,7 +75,7 @@ public class ListToolItem
                 {
                     if (eventIsWithinBounds(e))
                     {
-                        toggled = true;
+                        depressed = true;
                         notifyListeners(SWT.Selection, transmutedEvent(e));
                     }
                 }
@@ -98,13 +89,13 @@ public class ListToolItem
                     }
                 }
             });
-        // Note: this next one is on us, not the toolbar
+        // Note: this next listener is attached to us, not the toolbar.
         addListener(SWT.MouseUp, new Listener() {
                 public void handleEvent(Event e)
                 {
                     if (! eventIsWithinBounds(e))
                     {
-                        toggled = false;
+                        depressed = false;
                         repaintButton(e);
                     }
                 }
@@ -113,7 +104,7 @@ public class ListToolItem
                 public void handleEvent(Event e)
                 {
                     if (eventIsWithinBounds(e))
-                        toggled = false;
+                        depressed = false;
                 }
             });
 
@@ -121,9 +112,12 @@ public class ListToolItem
                 public void handleEvent(Event e)
                 {
                     if (! eventIsWithinBounds(e))
-                        toggled = false;
+                        depressed = false;
                 }
             });
+
+        // Cache some values so we don't have to keep getting them when
+        // listeners are invoked.
 
         display            = toolbar.getDisplay();
         gradientStartColor = display.getSystemColor(SWT.COLOR_WIDGET_HIGHLIGHT_SHADOW);
@@ -136,7 +130,7 @@ public class ListToolItem
     public ListToolItem(ToolBar toolbar, String initialText, int minCharWidth)
     {
         this(toolbar, initialText);
-        MIN_CHAR_WIDTH = minCharWidth;
+        MIN_WIDTH_NUM_CHARS = minCharWidth;
     }
 
 
@@ -147,19 +141,37 @@ public class ListToolItem
     }
 
 
+    /*
+     * We don't use the ToolItem setText() method to write the label because
+     * we need to draw the widget shape and the text on top of that.
+     * Instead, we store the true text in an internal field, and write spaces
+     * in the string handed to ToolItem.setText() so that it draws the arrow
+     * in the right place (which is to say, to the right of the text we do
+     * paint on the widget).
+     *
+     * The padding used in the calculation was determined empirically; I
+     * can't quite explain why it needs to be as much as it is, but that's
+     * what works best on Mac OS X.
+     *
+     * The minimum width on the widget helps keep it from being
+     * unattractively short when the text itself is short, and brings some
+     * regularity to the size of the widget across changes to the text.
+     */
     @Override
     public void setText(String string)
     {
         buttonText = string;
 
         int len = string.length();
-        int numChars = (len < MIN_CHAR_WIDTH) ? MIN_CHAR_WIDTH : len;
+        int numChars = (len < MIN_WIDTH_NUM_CHARS) ? MIN_WIDTH_NUM_CHARS : len;
 
         char[] charArray = new char[numChars + RIGHT_PADDING_AMOUNT];
         Arrays.fill(charArray, ' ');
         super.setText(new String(charArray));
         
-        toggled = false;
+        // If we changed the text, then it means the widget should be
+        // reverted back to its normal appearance.
+        depressed = false;
     }
 
     
@@ -168,7 +180,7 @@ public class ListToolItem
         if (e == null || e.gc == null) 
             return;
 
-        if (toggled)
+        if (depressed)
         {
             e.gc.setForeground(gradientStopColor);
             e.gc.setBackground(gradientStartColor);
@@ -198,8 +210,26 @@ public class ListToolItem
     }
 
 
+    /*
+     * The stupid drop-down scheme for ToolItem only invokes the drop-down
+     * menu if you click on the tiny triangle/arrow on the right-hand side.
+     * I find that infuriating.  I wanted to make the ToolItem respond to
+     * clicks anywhere in the widget, much like some Mac OS X toolbar widgets
+     * in applications like Numbers.  The problem then becomes that a mouse
+     * click outside of that triangle/arrow on the ToolItem doesn't invoke
+     * the menu.  So, what the code below does is take an event from anywhere
+     * in the widget and creates a fake SWT.ARROW event with fake x,y
+     * coordinates.  The result can be passed to ToolItem's normal
+     * mouseup/down listeners via a notifyListeners() call.
+     */
     private final Event transmutedEvent(Event e)
     {
+        // I couldn't get translated events to work by merely changing the
+        // x,y coordinate of the event and handing that to the
+        // notifyListeners() call.  I'm also not sure whether all the fields
+        // need to be set; the list below is probably not the minimum set,
+        // but I didn't want to waste time investigating what was.
+
         Event event     = new Event();
         event.detail    = SWT.ARROW;
         event.button    = e.button;
