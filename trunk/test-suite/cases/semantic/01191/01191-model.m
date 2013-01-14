@@ -7,7 +7,7 @@ testTags:      fbc:MaximizeObjective
 testType:      FluxBalanceSteadyState
 levels:        3.1
 generatedBy:   Numeric
-packagesPresent: 	   fbc
+packagesPresent: fbc
 
  Multiple objectives defined, optimize active one (maximize)
 
