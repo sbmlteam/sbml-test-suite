@@ -640,6 +640,9 @@ def main():
     column_labels, time, data_values = parse_data_file(data_fname)
 
     # Only read the 2nd data file if we read some data:
+    r_column_labels = []
+    r_time          = []
+    r_values        = []
     if results_fname != None and any(data_values):
         r_column_labels, r_time, r_values = parse_data_file(results_fname)
 
