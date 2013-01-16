@@ -1,6 +1,14 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
+=== Version 2.3 release (2013-01-16)
+
+The only real difference between this release and 2.2 is the addition
+of test cases for the SBML Level 3 packages of (a) Hierarchical Model
+Composition and (b) Flux Balance Constraints.  They are test cases
+#1124-1196 minus #1184-1185.
+
+
 === Version 2.2 release (2012-12-28)
 
 IMPORTANT NOTE: the .zip archive distribution of cases ONLY contains
