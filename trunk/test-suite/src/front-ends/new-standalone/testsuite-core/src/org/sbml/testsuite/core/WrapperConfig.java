@@ -30,8 +30,12 @@
 
 package org.sbml.testsuite.core;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.util.HashMap;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.TreeMap;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -53,9 +57,6 @@ import org.simpleframework.xml.core.Persister;
 @Default
 public class WrapperConfig
 {
-    static ExecutorService executor = Executors.newFixedThreadPool(20);
-
-
     /**
      * Load a wrapper configuration from file
      * 
@@ -114,7 +115,10 @@ public class WrapperConfig
     private boolean                        supportsAllVersions;
 
     @Transient
-    private HashMap<String, DelayedResult> resultCache;
+    private TreeMap<String, DelayedResult> resultCache;
+
+    static ExecutorService executor = Executors.newFixedThreadPool(20);
+
 
 
     /**
@@ -237,7 +241,7 @@ public class WrapperConfig
      */
     public void beginUpdate(TestSuite suite)
     {
-        resultCache = new HashMap<String, DelayedResult>();
+        resultCache = new TreeMap<String, DelayedResult>();
         for (final TestCase test : suite.getCases())
         {
 
@@ -293,7 +297,7 @@ public class WrapperConfig
     /**
      * @return the cache of all computed results
      */
-    public HashMap<String, DelayedResult> getCache()
+    public TreeMap<String, DelayedResult> getCache()
     {
         return resultCache;
     }
@@ -308,7 +312,7 @@ public class WrapperConfig
      */
     public ResultType getCachedResult(String id)
     {
-        HashMap<String, DelayedResult> cache = resultCache;
+        TreeMap<String, DelayedResult> cache = resultCache;
 
         return cache.get(id).getResult();
 
@@ -541,6 +545,7 @@ public class WrapperConfig
                     Thread.sleep(milli);
                 }
             }
+            p.destroy();
         }
         catch (Exception e)
         {
@@ -661,7 +666,7 @@ public class WrapperConfig
      *            the test suite to compare against
      * @return a map with test ids / delayed result objects
      */
-    public HashMap<String, DelayedResult> updateCache(TestSuite suite)
+    public TreeMap<String, DelayedResult> updateCache(TestSuite suite)
     {
         beginUpdate(suite);
         return resultCache;
