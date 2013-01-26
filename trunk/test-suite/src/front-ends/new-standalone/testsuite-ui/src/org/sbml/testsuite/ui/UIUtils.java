@@ -28,15 +28,18 @@
 
 package org.sbml.testsuite.ui;
 
+import java.io.InputStream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolTip;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 
 /**
@@ -44,6 +47,26 @@ import org.eclipse.swt.widgets.ToolTip;
  */
 public class UIUtils
 {
+    /**
+     * Return a resource we have embedded in our application.
+     */
+    public static Image getImageResource(String fileName)
+    {
+        return SWTResourceManager.getImage(UIUtils.class, 
+            "/org/sbml/testsuite/ui/resources/" + fileName);
+    }
+
+
+    /**
+     * Return a resource we have embedded in our application.
+     */
+    public static InputStream getFileResource(String fileName)
+    {
+        return UIUtils.class.getResourceAsStream(
+            "/org/sbml/testsuite/ui/resources/" + fileName);
+    }
+
+
     /**
      * Returns true if the key press involved a modifier key.
      * 
@@ -60,39 +83,43 @@ public class UIUtils
     }
 
 
-    public static void addCloseKeyListener(Control control, final Shell shell)
+    public static KeyListener createCloseKeyListener(final Shell shell)
     {
-        control.addKeyListener(new KeyListener() {
-                public void keyReleased(KeyEvent e) { return; }
-                public void keyPressed(KeyEvent e) 
-                {
-                    if (isModifierKey(e) && e.keyCode == 'w')
-                        shell.close();      // Will invoke shell close() listener.
-                }
-            });
+        return new KeyListener() {
+            @Override
+            public void keyReleased(KeyEvent e) { return; }
+            @Override
+            public void keyPressed(KeyEvent e) 
+            {
+                if (isModifierKey(e) && e.keyCode == 'w')
+                    shell.close();      // Will invoke shell close() listener.
+            }
+        };
     }
 
 
-    public static void addTraverseKeyListener(Control control, final Shell shell)
+    public static Listener createEscapeKeyListener(final Shell shell)
     {
-        control.addListener(SWT.Traverse, new Listener() {
-                public void handleEvent (final Event event)
-                {
-                    if (event.detail == SWT.TRAVERSE_ESCAPE)
-                        shell.close();
-                }
-            });
+        return new Listener() {
+            @Override
+            public void handleEvent (final Event event)
+            {
+                if (event.detail == SWT.TRAVERSE_ESCAPE)
+                    shell.close();
+            }
+        };
     }
 
 
-    public static void addShellCloseListener(Control control, final Shell shell)
+    public static Listener createShellCloseListener(final Shell shell)
     {
-        shell.addListener(SWT.Close, new Listener() {
+        return new Listener() {
+            @Override
             public void handleEvent(Event event)
             {
                 shell.dispose();
             }
-        });
+        };
     }
 
 
