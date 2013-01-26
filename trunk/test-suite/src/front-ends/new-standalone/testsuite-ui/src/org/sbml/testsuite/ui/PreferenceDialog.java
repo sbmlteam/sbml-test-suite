@@ -29,6 +29,7 @@
 
 package org.sbml.testsuite.ui;
 
+import java.io.File;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -48,6 +49,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.sbml.testsuite.core.TestSuiteSettings;
+import org.sbml.testsuite.core.WrapperConfig;
+
 
 /**
  * PreferenceDialog for the sbml test suite
@@ -55,8 +58,9 @@ import org.sbml.testsuite.core.TestSuiteSettings;
 public class PreferenceDialog
     extends Dialog
 {
-    protected TestSuiteSettings result;
     protected Shell             shell;
+    private TestSuiteSettings   result;
+    private TestSuiteSettings   previousResult;
     private Text                txtCasesDir;
     private String              origCasesDir;
     private EditListOfWrappers  wrappersEditor;
@@ -74,9 +78,9 @@ public class PreferenceDialog
      * @param parent
      * @param style
      */
-    public PreferenceDialog(Shell parent, int style)
+    public PreferenceDialog(Shell parent)
     {
-        super(parent, SWT.DIALOG_TRIM | SWT.RESIZE);
+        super(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
         setText("SBML Test Suite Preferences");
         createContents();
     }
@@ -88,8 +92,7 @@ public class PreferenceDialog
     private void createContents()
     {
         shell = new Shell(getParent(), getStyle());
-        shell.setImage(SWTResourceManager.getImage(PreferenceDialog.class,
-                                                   "/data/sbml_256.png"));
+        shell.setImage(UIUtils.getImageResource("sbml_256.png"));
         shell.setMinimumSize(new Point(630, 395));
         shell.setSize(740, 495);
         shell.setTouchEnabled(true);
@@ -119,7 +122,7 @@ public class PreferenceDialog
         txtCasesDir = new Text(outerComp, SWT.BORDER);
         txtCasesDir.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, 
                                                false, 3, 1));
-        UIUtils.addCloseKeyListener(txtCasesDir, shell);
+        txtCasesDir.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         Composite compBrowse = new Composite(outerComp, SWT.NONE);
         GridData gd_compBrowse = new GridData(SWT.FILL, SWT.CENTER, false, false,
@@ -189,10 +192,11 @@ public class PreferenceDialog
             public void widgetSelected(SelectionEvent arg0)
             {
                 needConfirmSave = false;
+                result = null;
                 shell.close();          // Will invoke close listener.
             }
         });
-        UIUtils.addCloseKeyListener(btnCancel, shell);        
+        btnCancel.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         Button btnSave = new Button(compButtons, SWT.NONE);
         btnSave.setBounds(85, 3, 75, 25);
@@ -202,12 +206,14 @@ public class PreferenceDialog
             public void widgetSelected(SelectionEvent arg0)
             {
                 result = getResult(true, shell, wrappersEditor);
+                if (! wrapperVerified(result.getLastWrapper()))
+                    return;
                 needConfirmSave = false;
                 shell.close();           // Will invoke close listener.
             }
         });
         btnSave.setFocus();
-        UIUtils.addCloseKeyListener(btnSave, shell);        
+        btnSave.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         shell.addListener(SWT.Close, new Listener() {
             public void handleEvent(Event event)
@@ -217,8 +223,30 @@ public class PreferenceDialog
                 shell.dispose();
             }
         });
-        UIUtils.addCloseKeyListener(shell, shell);
-        UIUtils.addTraverseKeyListener(shell, shell);
+        shell.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        shell.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
+    }
+
+
+    /**
+     * Open the dialog.
+     * 
+     * @return the result
+     */
+    public TestSuiteSettings open()
+    {
+        shell.open();
+        shell.layout();
+        Display display = getParent().getDisplay();
+        previousResult = getTestSuiteSettings(false);
+        while (!shell.isDisposed())
+        {
+            if (!display.readAndDispatch())
+            {
+                display.sleep();
+            }
+        }
+        return result;
     }
 
 
@@ -278,31 +306,22 @@ public class PreferenceDialog
     /**
      * @return the contents of the dialog as new settings object
      */
-    public TestSuiteSettings getTestSuiteSettings()
+    public TestSuiteSettings getTestSuiteSettings(boolean persistCurrentValues)
     {
-        return new TestSuiteSettings(txtCasesDir.getText(),
-                                     wrappersEditor.getWrappers());
-    }
+        TestSuiteSettings settings;
+        WrapperConfig currentWrapper = wrappersEditor.getSelectedWrapper();
 
+        if (currentWrapper != null)
+            settings = new TestSuiteSettings(txtCasesDir.getText(),
+                                             wrappersEditor.getWrappers(),
+                                             currentWrapper.getName());
+        else
+            settings = new TestSuiteSettings(txtCasesDir.getText(),
+                                             wrappersEditor.getWrappers());
 
-    /**
-     * Open the dialog.
-     * 
-     * @return the result
-     */
-    public TestSuiteSettings open()
-    {
-        shell.open();
-        shell.layout();
-        Display display = getParent().getDisplay();
-        while (!shell.isDisposed())
-        {
-            if (!display.readAndDispatch())
-            {
-                display.sleep();
-            }
-        }
-        return result;
+        if (persistCurrentValues)
+            settings.saveAsDefault();
+        return settings;
     }
 
 
@@ -321,27 +340,111 @@ public class PreferenceDialog
     }
 
 
-    public boolean confirmSave()
-    {
-        return AskUser.saveCancel("The configuration has been modified. Save "
-                                  + "your changes?", "Confirmation dialog", shell);
-    }
-    
-
     public TestSuiteSettings getResult(boolean save, Shell shell, 
                                        EditListOfWrappers wrappersEditor)
     {
         if (save)
         {
             wrappersEditor.commitPrevious();
-            return getTestSuiteSettings();
+            return getTestSuiteSettings(true);
         }
-        else
-        {
-            return null;
-        }
+        return null;
+    }
+
+
+    public boolean confirmSave()
+    {
+        return AskUser.saveCancel(shell, "The configuration has been modified.\n"
+                                  + "Save your changes?");
     }
     
+    
+    private boolean wrapperVerified(WrapperConfig wrapper)
+    {
+        if (wrapper == null) 
+            return false;
+
+        String program = wrapper.getProgram();
+        if (program == null || program.isEmpty())
+            return AskUser.informWithOverride(shell,
+                                              "The wrapper program was left unspecified "
+                                              + "\nin the wrapper configuration; consequently, "
+                                              + "\nthe wrapper cannot be used.");
+        else
+        {
+            File path = new File(program);
+            if (! path.exists())
+                return AskUser.informWithOverride(shell,
+                                                  "The path to the wrapper specified in "
+                                                  + "\nthe wrapper configuration does not appear "
+                                                  + "\nto exist; consequently, the wrapper "
+                                                  + "\ncannot be used.");
+            else if (! path.isFile())
+                return AskUser.informWithOverride(shell,
+                                                  "The path given for the wrapper program "
+                                                  + "\ndoes not appear to be a valid file; "
+                                                  + "\nconsequently, the wrapper cannot be used.");
+            else if (! path.canRead())
+                return AskUser.informWithOverride(shell,
+                                                  "The file for the program specified in "
+                                                  + "\nthe wrapper configuration does not appear "
+                                                  + "\nto be readable; consequently, "
+                                                  + "\nthe wrapper cannot be used.");
+            else if (! path.canExecute())
+                return AskUser.informWithOverride(shell,
+                                                  "The program specified in the "
+                                                  + "\nwrapper configuration does not appear "
+                                                  + "\nto be executable; consequently, "
+                                                  + "\nthe wrapper cannot be run.");
+        }
+
+        String outputPath = wrapper.getOutputPath();
+        if (outputPath == null || outputPath.isEmpty())
+            return AskUser.informWithOverride(shell,
+                                              "The output directory was left unspecified "
+                                              + "\nin the wrapper configuration; consequently, "
+                                              + "\nthe wrapper cannot be used.");
+        else
+        {
+            File path = new File(outputPath);
+            if (! path.exists())
+                return AskUser.informWithOverride(shell,
+                                                  "The output directory specified in the "
+                                                  + "\nwrapper configuration does not appear "
+                                                  + "\nto exist; consequently, the wrapper "
+                                                  + "\ncannot be used.");
+            else if (! path.isDirectory())
+                return AskUser.informWithOverride(shell,
+                                                  "The output directory specified in the "
+                                                  + "\nwrapper configuration does not appear "
+                                                  + "\nto be a valid directory; consequently, "
+                                                  + "\nthe wrapper cannot be used.");
+            else if (! path.canRead())
+                return AskUser.informWithOverride(shell,
+                                                  "The output directory specified in the "
+                                                  + "\nwrapper configuration does not appear "
+                                                  + "\nto be readable; consequently, "
+                                                  + "\nthe wrapper cannot be used.");
+            else if (! path.canWrite())
+                return AskUser.informWithOverride(shell,
+                                                  "The output directory specified in the "
+                                                  + "\nwrapper configuration does not appear "
+                                                  + "\nto be writable; consequently, "
+                                                  + "\nthe wrapper cannot be used.");
+        }
+
+        String args = wrapper.getArguments();
+        if (args == null || args.isEmpty())
+            return AskUser.informWithOverride(shell,
+                                              "The arguments to the wrapper program have "
+                                              + "\nbeen left undefined, which makes it impossible "
+                                              + "\nfor the SBML Test Runner to invoke the wrapper "
+                                              + "\nwith different test cases.");
+
+        return true;
+    }
+
+
     public boolean settingsHaveChanged()
     {
         if (origCasesDir == null)
