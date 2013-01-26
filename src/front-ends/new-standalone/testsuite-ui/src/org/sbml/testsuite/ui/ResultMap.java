@@ -32,7 +32,7 @@ package org.sbml.testsuite.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.TreeMap;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -79,7 +79,7 @@ public class ResultMap
     protected Object                       result;
     protected Shell                        shell;
     private Canvas                         canvas;
-    private HashMap<String, DelayedResult> data;
+    private TreeMap<String, DelayedResult> data;
     private String[]                       keySets;
     int                                    length = 11;
     int                                    gap    = 2;
@@ -152,14 +152,13 @@ public class ResultMap
             + "main window, and right-click for more options.";
 
         shell = new Shell(getParent(), getStyle());
-        shell.setImage(SWTResourceManager.getImage(ResultMap.class,
-                                                   "/data/sbml_256.png"));
-        shell.setSize(595, 480);
+        shell.setImage(UIUtils.getImageResource("sbml_256.png"));
+        shell.setSize(595, 520);
         shell.setText(getText());
         shell.setLayout(new FormLayout());
-        UIUtils.addShellCloseListener(shell, shell);
-        UIUtils.addCloseKeyListener(shell, shell);
-        UIUtils.addTraverseKeyListener(shell, shell);
+        shell.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        shell.addListener(SWT.Close, UIUtils.createShellCloseListener(shell));
+        shell.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
 
         canvas = new Canvas(shell, SWT.NONE);
         canvas.addMouseListener(new MouseAdapter() {
@@ -219,8 +218,8 @@ public class ResultMap
 
         FormData fd_lblHelpMsg = new FormData();
         fd_lblHelpMsg.right = new FormAttachment(0, 582);
-        fd_lblHelpMsg.bottom = new FormAttachment(0, 405);
-        fd_lblHelpMsg.top = new FormAttachment(0, 370);
+        fd_lblHelpMsg.bottom = new FormAttachment(0, 435);
+        fd_lblHelpMsg.top = new FormAttachment(0, 400);
         fd_lblHelpMsg.left = new FormAttachment(0, 12);
         // Note: .bottom is set after cmdClose is defined below.
         lblHelpMsg.setLayoutData(fd_lblHelpMsg);
@@ -367,10 +366,8 @@ public class ResultMap
         fd_cmdClose.right = new FormAttachment(100, -10);
         cmdClose.setLayoutData(fd_cmdClose);
         cmdClose.setText("&Close");
-        
-        UIUtils.addCloseKeyListener(cmdClose, shell);        
-        UIUtils.addTraverseKeyListener(cmdClose, shell);
-        
+        cmdClose.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        cmdClose.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
     }
 
 
@@ -498,14 +495,6 @@ public class ResultMap
 
     protected void paintCanvas(GC gc)
     {
-        Device device = Display.getCurrent();
-        Color green   = new Color(device, 90, 200, 50);
-        Color red     = new Color(device, 255, 50, 40);
-        Color black   = new Color(device, 70, 70, 70);
-        Color gray    = new Color(device, 200, 200, 200);
-        Color blue    = new Color(device, 110, 140, 210);
-        Color yellow  = new Color(device, 252, 175, 55);
-
         if (keySets == null || keySets.length == 0)
         {
             gc.drawString("No Data ...", 10, 10);
@@ -522,26 +511,26 @@ public class ResultMap
             switch (data.get(key).getResult())
             {
             case Match:
-                color = green;
+                color = ResultColor.green.getColor();
                 break;
             case CannotSolve:
-                color = yellow;
+                color = ResultColor.yellow.getColor();
                 break;
             case NoMatch:
-                color = red;
+                color = ResultColor.red.getColor();
                 break;
             case Unknown:
             default:
-                color = gray;
+                color = ResultColor.gray.getColor();
                 break;
             }
 
-            /* for testing colors 
-            if (i % 7 == 0) color=blue;
-            if (i % 5 == 0) color=red;
-            if (i % 2 == 0) color=green;
-            if (i % 4 == 0) color=yellow;
-            if (i % 10 == 0) color=black;
+            /* for testing colors
+            if (i % 7 == 0)  color=ResultColor.blue.getColor();
+            if (i % 5 == 0)  color=ResultColor.gray.getColor();
+            if (i % 2 == 0)  color=ResultColor.green.getColor();
+            if (i % 4 == 0)  color=ResultColor.red.getColor();
+            if (i % 10 == 0) color=ResultColor.yellow.getColor();
             */
             
             gc.setBackground(color);
@@ -578,7 +567,7 @@ public class ResultMap
      * @param cache
      *            cached results
      */
-    public void setData(HashMap<String, DelayedResult> cache)
+    public void setData(TreeMap<String, DelayedResult> cache)
     {
         data = cache;
         if (data != null && data.keySet().size() > 0)
