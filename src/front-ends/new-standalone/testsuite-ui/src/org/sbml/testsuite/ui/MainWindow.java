@@ -1,9 +1,9 @@
 //
-// @file MainWindow.java
-// @brief MainWindow of the SBML Test suite runner
+// @file   MainWindow.java
+// @brief  MainWindow of the SBML Test suite runner
 // @author Frank T. Bergmann
-// @date Created 2012-06-06 <fbergman@caltech.edu>
-//
+// @author Michael Hucka
+// @date   Created 2012-06-06 <fbergman@caltech.edu>
 //
 // ----------------------------------------------------------------------------
 // This file is part of the SBML Testsuite. Please visit http://sbml.org for
@@ -26,10 +26,10 @@
 // in the file named "LICENSE.txt" included with this software distribution
 // and also available online as http://sbml.org/software/libsbml/license.html
 // ----------------------------------------------------------------------------
-//
 
 package org.sbml.testsuite.ui;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedOutputStream;
@@ -38,17 +38,21 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import com.apple.eawt.Application;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -58,18 +62,22 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TaskBar;
+import org.eclipse.swt.widgets.TaskItem;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.sbml.testsuite.core.CancelCallback;
+import org.sbml.testsuite.core.DelayedResult;
 import org.sbml.testsuite.core.FilterFunction;
 import org.sbml.testsuite.core.ResultType;
 import org.sbml.testsuite.core.TestCase;
@@ -85,21 +93,21 @@ import org.swtchart.ISeries.SeriesType;
 import org.swtchart.ISeriesSet;
 import org.swtchart.Range;
 
+
 /**
  * MainWindow of the SBML Test suite runner
  */
 public class MainWindow
 {
-
     class DropdownSelectionListener
         extends SelectionAdapter
     {
-        private final ToolItem         dropdown;
+        private final ListToolItem     dropdown;
         private final Vector<MenuItem> items;
         private final Menu             menu;
 
 
-        public DropdownSelectionListener(ToolItem dropdown)
+        public DropdownSelectionListener(ListToolItem dropdown)
         {
             this.dropdown = dropdown;
             items = new Vector<MenuItem>();
@@ -117,7 +125,9 @@ public class MainWindow
                 {
                     MenuItem selected = (MenuItem) event.widget;
                     dropdown.setText(selected.getText());
-                    changeWrapper(selected.getText());
+                    WrapperConfig current = model.getLastWrapper();
+                    if (selected.getText() != current.getName())
+                        changeWrapper(selected.getText(), true);
                 }
             });
             if (items.size() == 0) dropdown.setText(item);
@@ -133,70 +143,145 @@ public class MainWindow
                 current.dispose();
             }
             items.clear();
+            //            dropdown.setText("");
         }
 
 
         public void select(String lastWrapperName)
         {
-            dropdown.setText(lastWrapperName);
-            changeWrapper(lastWrapperName);
+            select(lastWrapperName, true);
+        }
 
+
+        public void select(String lastWrapperName, boolean askToFlushCache)
+        {
+            dropdown.setText(lastWrapperName);
+            changeWrapper(lastWrapperName, askToFlushCache);
         }
 
 
         @Override
         public void widgetSelected(SelectionEvent event)
         {
-            if (event.detail == SWT.ARROW)
-            {
-                ToolItem item = (ToolItem) event.widget;
-                Rectangle rect = item.getBounds();
-                Point pt = item.getParent()
-                               .toDisplay(new Point(rect.x, rect.y));
-                menu.setLocation(pt.x, pt.y + rect.height);
-                menu.setVisible(true);
-            }
-            else
-            {
-                changeWrapper(dropdown.getText());
-            }
+            markAsRunning(false);
+            updatePlotsForSelection(treeItemForCase(lastCaseDone()));
+            ToolItem item = (ToolItem) event.widget;
+            Rectangle rect = item.getBounds();
+            Point pt = item.getParent()
+                    .toDisplay(new Point(rect.x, rect.y));
+            menu.setLocation(pt.x - 10,
+                             pt.y + rect.height/2 + rect.height/4 + 1);
+            menu.setVisible(true);
+            menu.getParent().update();
         }
     }
-
-    static int imageSize = 12;
-
-
-    /**
-     * Utility function determining the color for the given result type
-     * 
-     * @param result
-     *            the result
-     * @return the color for the result
+    
+    /*
+     * Strictly speaking, Label is documented in the SWT API docs as being
+     * something that is not intended to be subclassed.  However, I believe
+     * the intention behind that is to avoid distinctions in widgets.  Here,
+     * the purpose is to encapsulate our functionality for the status box
+     * in a convention manner.
      */
-    public static int getColorForResult(ResultType result)
+    class StatusMessageLabel
+        extends Label
     {
-        switch (result)
+        public StatusMessageLabel(Composite parent)
         {
-        case CannotSolve:
-            return SWT.COLOR_YELLOW;
-        case Match:
-            return SWT.COLOR_GREEN;
-        case NoMatch:
-            return SWT.COLOR_RED;
-        case Unknown:
-        default:
-            return SWT.COLOR_DARK_GRAY;
+            super(parent, SWT.WRAP);
+        }
+
+        public void updateStatus(TestCase testCase)
+        {
+            String msg = "MODEL SUMMARY: " + testCase.getSynopsis()
+                + "\nCOMPONENT TAGS: " + testCase.getComponentTagsString() + "."
+                + "\nTEST TAGS: " + testCase.getTestTagsString() + ".";
+
+            setText(msg);
+        }
+
+        public void updateStatus(String text)
+        {
+            setText(text);
+        }
+
+        @Override
+        protected void checkSubclass()
+        {
+            // Disable the check that prevents subclassing of SWT components.
         }
     }
 
+    private final int NUM_THREADS = 2;
+
+    private Composite                 cmpDifferences;
+    private Composite                 cmpGraphs;
+    //    private String                    current;
+    private GridLayout                gl_gridDifferences;
+    private GridLayout                gl_gridGraphs;
+
+    private StatusMessageLabel        lblStatusMessage;
+
+    private MenuItem                  menuItemOpen;
+    private MenuItem                  menuItemShowOnlyProblematic;
+    private MenuItem                  menuItemShowOnlyReally;
+    private MenuItem                  menuItemShowOnlySupported;
+    private MenuItem                  menuItemtest;
+
+    private MainModel                 model;
+
+    private final DecimalFormat       sciformat;
+
+    protected Shell                   shell;
+
+    private ToolBar                   toolBar;
+    private ListToolItem              wrapperPopupMenuButton;
+    private ToolItem                  buttonRun;
+
+    private Color                     foregroundColor;
+    private Color                     backgroundColor;
+
+    private Tree                      tree;
+
+    private DropdownSelectionListener wrapperPopupMenuListener;
+
+    private ResultMap                 dlgMap;
+    private FormData                  fd_sashForm;
+
+    private int                       initialCaseStartIndex = 0;
+    private boolean                   running = false;
+    private boolean                   restart = false;
+    private boolean                   closing = false;
+    private boolean                   ignoreDoubleClicks = false;
+    private TreeSet<String>           doneSet = new TreeSet<String>();
+
+    private CustomProgressBar         progressBar;
+    private int                       progressBarSteps = 100;
+    private int                       progressBarCurrent = 0;
+
+    private final Display             display;
+    private Thread                    uiThread = null;
+    private ExecutorService           executor;
+
 
     /**
-     * @return true if running on OS X
+     * Default constructor
      */
-    public static boolean isMacOSX()
+    public MainWindow()
     {
-        String osName = System.getProperty("os.name");
-        return osName.startsWith("Mac OS X");
+        Display.setAppName("SBML Test Runner");
+        display = new Display();
+        uiThread = Thread.currentThread();
+        sciformat = new DecimalFormat("##0.##E0");
+        foregroundColor = new Color(getDisplay(), 60, 60, 60);
+        backgroundColor = SWTResourceManager.getColor(SWT.COLOR_WHITE);
+        createContents();
+    }
+
+
+    public Display getDisplay()
+    {
+        return Display.findDisplay(uiThread);
     }
 
 
@@ -218,63 +303,14 @@ public class MainWindow
         }
     }
 
-    private final Color               black;
-    boolean                           closing;
-    private Composite                 cmpDifferences;
-    private Composite                 cmpGraphs;
-    private final int[]               colors = new int[] {SWT.COLOR_BLUE,
-        SWT.COLOR_CYAN, SWT.COLOR_DARK_BLUE, SWT.COLOR_DARK_CYAN,
-        SWT.COLOR_DARK_GREEN, SWT.COLOR_DARK_MAGENTA, SWT.COLOR_DARK_RED,
-        SWT.COLOR_DARK_YELLOW, SWT.COLOR_GRAY, SWT.COLOR_GREEN,
-        SWT.COLOR_MAGENTA, SWT.COLOR_RED     };
-    private String                    current;
-    private final Image               green;
-    private final Image               grey;
-    private GridLayout                gridDifferences;
-    private GridLayout                gridGraphs;
-
-    private Label                     lblNewLabel;
-    private MenuItem                  mntmopen;
-    private MenuItem                  mntmShowOnlyProblematic;
-    private MenuItem                  mntmShowOnlyReally;
-
-    private MenuItem                  mntmShowOnlySupported;
-
-    private MenuItem                  mntmtest;
-    private MainModel                 model;
-    private final Image               red;
-
-    private final DecimalFormat       sciformat;
-
-    protected Shell                   shlSbmlTestSuite;
-
-    private ToolItem                  tltmWrappers;
-
-    private ToolBar                   toolBar;
-
-    private Tree                      tree;
-
-    private DropdownSelectionListener wrapperListener;
-
-    private final Image               yellow;
-    private ResultMap                 dlgMap;
-    private FormData                  fd_sashForm;
-    private Display                   display;
-
 
     /**
-     * Default constructor
+     * @return true if running on OS X
      */
-    public MainWindow()
+    public static boolean isMacOSX()
     {
-        sciformat = new DecimalFormat("##0.##E0");
-        createContents();
-        black = SWTResourceManager.getColor(SWT.COLOR_BLACK);
-        grey = getImage(SWT.COLOR_DARK_GRAY);
-        green = getImage(SWT.COLOR_GREEN);
-        yellow = getImage(SWT.COLOR_YELLOW);
-        red = getImage(SWT.COLOR_RED);
-
+        String osName = System.getProperty("os.name");
+        return osName.startsWith("Mac OS X");
     }
 
 
@@ -282,8 +318,10 @@ public class MainWindow
                                  String title)
     {
         Chart chart1 = new Chart(composite, SWT.NONE);
-        chart1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        // chart1.getLegend().setVisible(false);
+        chart1.setBackground(backgroundColor);
+        Font titleFont = new Font(getDisplay(), "SansSerif", 14, SWT.ITALIC);
+
+        chart1.getTitle().setFont(titleFont);
         if (title == null || title.length() == 0)
         {
             chart1.getTitle().setVisible(false);
@@ -291,23 +329,47 @@ public class MainWindow
         else
         {
             chart1.getTitle().setText(title);
-            chart1.getTitle().setForeground(black);
+            chart1.getTitle().setForeground(foregroundColor);
         }
+
+        Font tickFont = new Font(getDisplay(), "SansSerif", 10, SWT.NORMAL);
+        
         chart1.getAxisSet().getXAxis(0).getTitle().setVisible(false);
-        chart1.getAxisSet().getXAxis(0).getTick().setForeground(black);
+        chart1.getAxisSet().getXAxis(0).getTick().setForeground(foregroundColor);
+        chart1.getAxisSet().getXAxis(0).getTick().setFont(tickFont);
 
         chart1.getAxisSet().getYAxis(0).getTitle().setVisible(false);
-        chart1.getAxisSet().getYAxis(0).getTick().setForeground(black);
+        chart1.getAxisSet().getYAxis(0).getTick().setForeground(foregroundColor);
+        chart1.getAxisSet().getYAxis(0).getTick().setFont(tickFont);
 
+        Font legendFont = new Font(getDisplay(), "SansSerif", 10, SWT.NORMAL);
+        
         chart1.getLegend().setPosition(SWT.BOTTOM);
+        chart1.getLegend().setFont(legendFont);
 
-        GridData gridData = new GridData();
-        gridData.horizontalAlignment = GridData.FILL;
-        gridData.verticalAlignment = GridData.FILL;
-        gridData.grabExcessHorizontalSpace = true;
-        gridData.grabExcessVerticalSpace = true;
+        /* The following use of a custom formatter is a hack to avoid getting a
+           truncated number on the right-hand side of the x-axis.  SWT Chart
+           doesn't provide a way to control the width of axis labels, nor the
+           padding on the inside of the graph, and I could not solve the
+           problem by manipulating the layout parameters of the Control
+           inside of which these graphs are placed.  The ugly hack I resorted
+           to here is fudging the formatter used by SWT Chart to generate the
+           label strings.  This custom formatter adds an extra space
+           character on the right of the labels.  The result makes the
+           truncation of the last x-axis label irrelevant. */
 
-        chart1.setLayoutData(gridData);
+        RightPaddedDecimalFormat fmt = new RightPaddedDecimalFormat("###.##");
+
+        chart1.getAxisSet().getXAxis(0).getTick().setFormat(fmt);
+
+        GridData gd_chart1 = new GridData();
+        gd_chart1.horizontalAlignment = GridData.FILL;
+        gd_chart1.verticalAlignment = GridData.FILL;
+        gd_chart1.grabExcessHorizontalSpace = true;
+        gd_chart1.grabExcessVerticalSpace = true;
+        gd_chart1.horizontalIndent = 5;
+
+        chart1.setLayoutData(gd_chart1);
 
         ISeriesSet seriesSet = chart1.getSeriesSet();
         double[] time = result.getTimeColumn();
@@ -315,6 +377,7 @@ public class MainWindow
         double min = Double.MAX_VALUE;
         double max = Double.MIN_VALUE;
 
+        PlotColorGenerator.reset();
         for (int i = 1; i < result.getNumColumns(); i++)
         {
             double[] ySeries = result.getColumn(i);
@@ -326,8 +389,7 @@ public class MainWindow
                                                                       result.getHeaders()
                                                                             .get(i));
             series.setLineWidth(2);
-            series.setLineColor(SWTResourceManager.getColor(colors[i
-                % colors.length]));
+            series.setLineColor(PlotColorGenerator.nextColor());
             series.setAntialias(SWT.ON);
             series.setSymbolType(PlotSymbolType.NONE);
             series.setYSeries(ySeries);
@@ -359,17 +421,14 @@ public class MainWindow
 
     private void addTreeItems(final FilterFunction func)
     {
-
         tree.removeAll();
         tree.clearAll(true);
-
         tree.setToolTipText("");
 
         WrapperConfig lastWrapper = model.getLastWrapper();
 
         for (final TestCase test : model.getSuite().getSortedCases())
         {
-
             ResultType result = lastWrapper.getCachedResult(test.getId());
             if (result == null)
             {
@@ -377,33 +436,125 @@ public class MainWindow
             }
             if (func == null || func.filter(test, result))
             {
-
                 final TreeItem treeItem = new TreeItem(tree, SWT.NONE);
-                setImage(treeItem, result);
                 treeItem.setData(result);
+                treeItem.setImage(ResultColor.getImageForResultType(result));
                 treeItem.setText(test.getId());
             }
-
         }
 
+        /*
         if (tree.getItemCount() > 0)
         {
             tree.select(tree.getItem(0));
-            updateSelection(tree.getItem(0));
+            updatePlotsForSelection(tree.getItem(0));
+        }
+        */
+    }
+
+
+    private void changeWrapper(String wrapperName, boolean confirmFlush)
+    {
+
+        WrapperConfig newWrapper = model.getSettings().getWrapper(wrapperName);
+        if (! newWrapper.canRun())
+        {
+            informUserBadWrapper(newWrapper);
+            return;
+        }
+
+        TreeItem viewing = lastSelection();
+
+        Vector<String> selection = getSelectedCases();
+        model.getSettings().setLastWrapper(newWrapper);
+        newWrapper.beginUpdate(model.getSuite());
+        addTreeItems();
+        setSelectedCases(selection);
+
+        if (confirmFlush
+            && haveResults(tree.getItems())
+            && AskUser.confirm(shell, "Should the current test results be\n"
+                               + "discarded? (Doing so would be\n"
+                               + "appropriate if they are from a\n"
+                               + "different simulator.)"))
+        {
+            deleteSelectedResults(tree.getItems());
+            doneSet.clear();
+            resetProgressBar();
+            tree.deselectAll();
+            tree.select(tree.getItem(0));
+            initialCaseStartIndex = 0;
+            updatePlotsForSelection(tree.getItem(0));
+        }
+        else
+        {
+            TreeItem toSelect = treeItemForCase(lastCaseWithCachedValue());
+            if (toSelect != null)
+                recenterTree(toSelect);
         }
     }
 
 
-    private void changeWrapper(String wrapperName)
+    private String lastCaseWithCachedValue()
     {
-        WrapperConfig current = model.getSettings().getWrapper(wrapperName);
-        if (current == null) return;
+        WrapperConfig wrapper = model.getLastWrapper();
+        if (wrapper == null)
+            return null;
+        TreeMap<String, DelayedResult> cache = wrapper.getCache();
+        String lastNotUnknown = null;
+        for (Map.Entry<String, DelayedResult> entry : cache.entrySet())
+            if (entry.getValue().getResult() != null
+                && entry.getValue().getResult() != ResultType.Unknown)
+                lastNotUnknown = entry.getKey();
+        return lastNotUnknown;
+    }
 
-        Vector<String> selection = getSelection();
-        model.getSettings().setLastWrapper(current);
-        current.beginUpdate(model.getSuite());
-        addTreeItems();
-        setSelection(selection);
+
+    private TreeItem treeItemForCase(String theCase)
+    {
+        if (theCase == null || theCase.equals(""))
+            return null;
+        TreeItem[] items = tree.getItems();
+        for (int i = 0; i < items.length; i++)
+            if (items[i].getText().equals(theCase))
+                return items[i];
+        return null;
+    }
+
+
+    private int linesVisibleInTree()
+    {
+        int visibleCount = 0;
+        Rectangle rect = tree.getClientArea();
+        TreeItem item = tree.getTopItem();
+        while (item != null)
+        {
+            visibleCount++;
+            Rectangle itemRect = item.getBounds();
+            if (itemRect.y + itemRect.height > rect.y + rect.height)
+                break;
+            else
+            {
+                int nextIndex = tree.indexOf(item) + 1;
+                if (nextIndex >= tree.getItemCount())
+                    break;
+                else
+                    item = tree.getItem(nextIndex);
+            }
+        }
+        return visibleCount;
+    }
+
+
+    private void recenterTree(TreeItem item)
+    {
+        int itemIndex    = tree.indexOf(item);
+        int visibleLines = linesVisibleInTree();
+        int newTopIndex  = itemIndex - visibleLines/2;
+        if (newTopIndex < 0) 
+            newTopIndex = 0;
+        tree.setTopItem(tree.getItem(newTopIndex));
+//        tree.select(item);
     }
 
 
@@ -412,251 +563,330 @@ public class MainWindow
      */
     protected void createContents()
     {
-        shlSbmlTestSuite = new Shell();
-        shlSbmlTestSuite.setImage(SWTResourceManager.getImage(MainWindow.class,
-                                                              "/data/sbml_256.png"));
-        shlSbmlTestSuite.setMinimumSize(new Point(800, 600));
-        shlSbmlTestSuite.setSize(450, 300);
-        shlSbmlTestSuite.setText("SBML Test Runner");
-        shlSbmlTestSuite.addListener(SWT.Close, new Listener() {
-            @Override
-            public void handleEvent(Event event)
-            {
-                closing = true;
-                fileQuit();
-            }
-        });
-        shlSbmlTestSuite.setLayout(new FormLayout());
+        shell = new Shell(SWT.CLOSE | SWT.TITLE | SWT.BORDER | SWT.MIN | SWT.RESIZE);
+        shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
+        shell.setMinimumSize(new Point(850, 650));
+        shell.setSize(850, 650);
+        shell.setText("SBML Test Runner");
+        shell.setLayout(new FormLayout());
+        shell.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        shell.addListener(SWT.Close, new Listener() {
+                @Override
+                public void handleEvent(Event event)
+                {
+                    event.doit = quitWithConfirmation();
+                }
+            });
+        shell.addListener(SWT.Dispose, new Listener() {
+                @Override
+                public void handleEvent(Event event)
+                {
+                    event.doit = false; // We let the close event handle it.
+                }
+            });
 
-        Menu menu = new Menu(shlSbmlTestSuite, SWT.BAR);
-        shlSbmlTestSuite.setMenuBar(menu);
+        // Set up a listener to stop things if the user presses the escape key.
+        shell.addListener(SWT.Traverse, new Listener() {
+                @Override
+                public void handleEvent (final Event event)
+                {
+                    if (event.detail == SWT.TRAVERSE_ESCAPE)
+                        markAsRunning(false);
+                }
+            });
 
-        MenuItem mntmNewSubmenu = new MenuItem(menu, SWT.CASCADE);
-        mntmNewSubmenu.setText("&File");
+        Menu menu = new Menu(shell, SWT.BAR);
+        shell.setMenuBar(menu);
 
-        Menu menu_1 = new Menu(mntmNewSubmenu);
-        mntmNewSubmenu.setMenu(menu_1);
+        MenuItem menuItemNewSubmenu = new MenuItem(menu, SWT.CASCADE);
+        menuItemNewSubmenu.setText("&File");
 
-        mntmopen = new MenuItem(menu_1, SWT.NONE);
-        mntmopen.addSelectionListener(new SelectionAdapter() {
+        Menu menu_1 = new Menu(menuItemNewSubmenu);
+        menuItemNewSubmenu.setMenu(menu_1);
+
+        menuItemOpen = new MenuItem(menu_1, SWT.NONE);
+        menuItemOpen.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                fileOpen();
-            }
-
-        });
-        mntmopen.setText("&Open");
-
-        new MenuItem(menu_1, SWT.SEPARATOR);
-
-        MenuItem mntmQuit = new MenuItem(menu_1, SWT.NONE);
-        mntmQuit.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent arg0)
-            {
-                fileQuit();
+                if (AskUser.confirm(shell,
+                                    "All existing results will be discarded. Proceed?"))
+                {
+                    running = false;
+                    restart = true;
+                    fileOpen();
+                }                    
             }
         });
-        mntmQuit.setText("Quit");
+        menuItemOpen.setText("&Open Cases Archive");
+        menuItemOpen.setAccelerator(SWT.MOD1 + 'O');
 
-        MenuItem mntmNewSubmenu_1 = new MenuItem(menu, SWT.CASCADE);
-        mntmNewSubmenu_1.setText("F&ilter");
+        if (!isMacOSX())
+        {
+            new MenuItem(menu_1, SWT.SEPARATOR);
+            MenuItem menuItemQuit = new MenuItem(menu_1, SWT.NONE);
+            menuItemQuit.addSelectionListener(new SelectionAdapter() {
+                    @Override
+                    public void widgetSelected(SelectionEvent arg0)
+                    {
+                        arg0.doit = quitWithConfirmation();
+                    }
+                });
+            menuItemQuit.setText("Quit");
+            menuItemQuit.setAccelerator(SWT.MOD1 + 'Q');
+        }
 
-        Menu menu_2 = new Menu(mntmNewSubmenu_1);
-        mntmNewSubmenu_1.setMenu(menu_2);
+        MenuItem menuItemNewSubmenu_1 = new MenuItem(menu, SWT.CASCADE);
+        menuItemNewSubmenu_1.setText("F&ilter");
 
-        mntmShowOnlyProblematic = new MenuItem(menu_2, SWT.CHECK);
-        mntmShowOnlyProblematic.addSelectionListener(new SelectionAdapter() {
+        Menu menu_2 = new Menu(menuItemNewSubmenu_1);
+        menuItemNewSubmenu_1.setMenu(menu_2);
+
+        menuItemShowOnlyProblematic = new MenuItem(menu_2, SWT.CHECK);
+        menuItemShowOnlyProblematic.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 filterShowOnlyProblematic();
             }
         });
-        mntmShowOnlyProblematic.setText("Show only problematic Entries");
+        menuItemShowOnlyProblematic.setText("Show Only Problematic Entries");
 
-        mntmShowOnlyReally = new MenuItem(menu_2, SWT.CHECK);
-        mntmShowOnlyReally.addSelectionListener(new SelectionAdapter() {
+        menuItemShowOnlyReally = new MenuItem(menu_2, SWT.CHECK);
+        menuItemShowOnlyReally.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 filterShowOnlyReallyProblematic();
             }
         });
-        mntmShowOnlyReally.setText("Show only really problematic Entries");
+        menuItemShowOnlyReally.setText("Show Only Really Problematic Entries");
 
         new MenuItem(menu_2, SWT.SEPARATOR);
 
-        mntmShowOnlySupported = new MenuItem(menu_2, SWT.CHECK);
-        mntmShowOnlySupported.addSelectionListener(new SelectionAdapter() {
+        menuItemShowOnlySupported = new MenuItem(menu_2, SWT.CHECK);
+        menuItemShowOnlySupported.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 filterShowOnlySupported();
             }
         });
-        mntmShowOnlySupported.setText("Show only supported Tests");
+        menuItemShowOnlySupported.setText("Show Only Supported Tests");
 
         new MenuItem(menu_2, SWT.SEPARATOR);
 
-        MenuItem mntmFilterByTags = new MenuItem(menu_2, SWT.NONE);
-        mntmFilterByTags.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemFilterByTags = new MenuItem(menu_2, SWT.NONE);
+        menuItemFilterByTags.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 filterByTags();
             }
         });
-        mntmFilterByTags.setText("Filter by Tags");
+        menuItemFilterByTags.setText("Filter by Tags");
 
-        MenuItem mntmFilterByTest = new MenuItem(menu_2, SWT.NONE);
-        mntmFilterByTest.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemFilterByTest = new MenuItem(menu_2, SWT.NONE);
+        menuItemFilterByTest.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 filterByRange();
             }
         });
-        mntmFilterByTest.setText("Filter by Test Range");
+        menuItemFilterByTest.setText("Filter by Test Range");
 
         new MenuItem(menu_2, SWT.SEPARATOR);
 
-        MenuItem mntmExcludeTestsBy = new MenuItem(menu_2, SWT.NONE);
-        mntmExcludeTestsBy.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemExcludeTestsBy = new MenuItem(menu_2, SWT.NONE);
+        menuItemExcludeTestsBy.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 filterExcludeByTag();
             }
         });
-        mntmExcludeTestsBy.setText("Exclude Tests By Tag");
+        menuItemExcludeTestsBy.setText("Exclude Tests By Tag");
 
-        MenuItem mntmExcludeTestsBy_1 = new MenuItem(menu_2, SWT.NONE);
-        mntmExcludeTestsBy_1.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemExcludeTestsBy_1 = new MenuItem(menu_2, SWT.NONE);
+        menuItemExcludeTestsBy_1.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 filterExcludeByRange();
             }
         });
-        mntmExcludeTestsBy_1.setText("Exclude Tests By Range");
+        menuItemExcludeTestsBy_1.setText("Exclude Tests By Range");
 
-        mntmtest = new MenuItem(menu, SWT.CASCADE);
-        mntmtest.setText("&Test");
+        menuItemtest = new MenuItem(menu, SWT.CASCADE);
+        menuItemtest.setText("&Test");
 
-        Menu menu_3 = new Menu(mntmtest);
-        mntmtest.setMenu(menu_3);
+        Menu menu_3 = new Menu(menuItemtest);
+        menuItemtest.setMenu(menu_3);
 
-        MenuItem mntmEditTestCase = new MenuItem(menu_3, SWT.NONE);
-        mntmEditTestCase.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemEditTestCase = new MenuItem(menu_3, SWT.NONE);
+        menuItemEditTestCase.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 editTestCase();
             }
         });
-        mntmEditTestCase.setText("Edit Test case");
+        menuItemEditTestCase.setText("Edit Test case");
 
         new MenuItem(menu_3, SWT.SEPARATOR);
 
-        MenuItem mntmRunSelected = new MenuItem(menu_3, SWT.NONE);
-        mntmRunSelected.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemRunSelected = new MenuItem(menu_3, SWT.NONE);
+        menuItemRunSelected.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
+                doneSet.clear();
+                running = false;
+                restart = true;
                 runSelected();
             }
         });
-        mntmRunSelected.setText("Run Selected");
+        menuItemRunSelected.setText("Run Selected");
+        menuItemRunSelected.setAccelerator(SWT.MOD1 + 'R');
 
-        MenuItem mntmRunByTag = new MenuItem(menu_3, SWT.NONE);
-        mntmRunByTag.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemRunByTag = new MenuItem(menu_3, SWT.NONE);
+        menuItemRunByTag.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
+                doneSet.clear();
+                running = false;
+                restart = true;
+                resetProgressBar();
                 runByTag();
             }
         });
-        mntmRunByTag.setText("Run By Tag");
+        menuItemRunByTag.setText("Run By Tag");
 
         new MenuItem(menu_3, SWT.SEPARATOR);
 
-        MenuItem mntmRunAllTests = new MenuItem(menu_3, SWT.NONE);
-        mntmRunAllTests.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemRunAllTests = new MenuItem(menu_3, SWT.NONE);
+        menuItemRunAllTests.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
+                doneSet.clear();
+                running = false;
+                restart = true;
+                resetProgressBar();
                 runAllTests();
             }
         });
-        mntmRunAllTests.setText("Run All Tests");
+        menuItemRunAllTests.setText("Run All Tests");
 
-        MenuItem mntmRunAllSupported = new MenuItem(menu_3, SWT.NONE);
-        mntmRunAllSupported.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemRunAllSupported = new MenuItem(menu_3, SWT.NONE);
+        menuItemRunAllSupported.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
+                doneSet.clear();
+                running = false;
+                restart = true;
+                resetProgressBar();
                 runAllSupported();
             }
         });
-        mntmRunAllSupported.setText("Run All Supported");
+        menuItemRunAllSupported.setText("Run All Supported");
 
-        MenuItem mntmRunAllNew = new MenuItem(menu_3, SWT.NONE);
-        mntmRunAllNew.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemRunAllNew = new MenuItem(menu_3, SWT.NONE);
+        menuItemRunAllNew.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
+                doneSet.clear();
+                running = false;
+                restart = true;
+                resetProgressBar();
                 runAllNewTests();
             }
         });
-        mntmRunAllNew.setText("Run All New Tests");
+        menuItemRunAllNew.setText("Run All New Tests");
 
         new MenuItem(menu_3, SWT.SEPARATOR);
 
-        MenuItem mntmDeleteSelectedResults = new MenuItem(menu_3, SWT.NONE);
-        mntmDeleteSelectedResults.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemDeleteSelectedResults = new MenuItem(menu_3, SWT.NONE);
+        menuItemDeleteSelectedResults.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 deleteSelectedResults();
             }
         });
-        mntmDeleteSelectedResults.setText("Delete Selected Results");
+        menuItemDeleteSelectedResults.setText("Delete Selected Results");
 
-        MenuItem mntmhelp = new MenuItem(menu, SWT.CASCADE);
-        mntmhelp.setText("&Help");
+        MenuItem menuItemhelp = new MenuItem(menu, SWT.CASCADE);
+        menuItemhelp.setText("&Help");
 
-        Menu menu_4 = new Menu(mntmhelp);
-        mntmhelp.setMenu(menu_4);
+        Menu menu_4 = new Menu(menuItemhelp);
+        menuItemhelp.setMenu(menu_4);
 
-        MenuItem mntmAbout = new MenuItem(menu_4, SWT.NONE);
-        mntmAbout.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemAbout = new MenuItem(menu_4, SWT.NONE);
+        menuItemAbout.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 showAbout();
             }
         });
-        mntmAbout.setText("About");
-
-        lblNewLabel = new Label(shlSbmlTestSuite, SWT.NONE);
-        FormData fd_lblNewLabel = new FormData();
-        fd_lblNewLabel.bottom = new FormAttachment(100, -5);
-        fd_lblNewLabel.left = new FormAttachment(0, 5);
-        fd_lblNewLabel.right = new FormAttachment(100, -5);
-        lblNewLabel.setLayoutData(fd_lblNewLabel);
-        lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
-        lblNewLabel.setText("Status");
-
-        SashForm sashForm = new SashForm(shlSbmlTestSuite, SWT.NONE);
-        fd_lblNewLabel.right = new FormAttachment(100);
+        menuItemAbout.setText("About");
+        
+        SashForm sashForm = new SashForm(shell, SWT.NONE);
+        sashForm.setSashWidth(5);
         fd_sashForm = new FormData();
-        fd_sashForm.bottom = new FormAttachment(lblNewLabel, -5);
+        if (!isMacOSX()) fd_sashForm.top = new FormAttachment(100, 0);
+        //        fd_sashForm.bottom = new FormAttachment(100, -120);
+        fd_sashForm.bottom = new FormAttachment(100, -140);
         fd_sashForm.right = new FormAttachment(100);
         fd_sashForm.left = new FormAttachment(0);
-        if (!isMacOSX()) fd_sashForm.top = new FormAttachment(100, 0);
         sashForm.setLayoutData(fd_sashForm);
+
+        Group statusGroup = new Group(shell, SWT.SHADOW_ETCHED_IN);
+        statusGroup.setText("Test case information");
+        FormData fd_statusGroup = new FormData();
+        fd_statusGroup.top = new FormAttachment(sashForm, 7);
+        fd_statusGroup.left = new FormAttachment(0, 5);
+        fd_statusGroup.right = new FormAttachment(100, -5);
+        //        fd_statusGroup.bottom = new FormAttachment(100, -5);
+        fd_statusGroup.bottom = new FormAttachment(100, -35);
+        statusGroup.setLayoutData(fd_statusGroup);
+
+        lblStatusMessage = new StatusMessageLabel(shell);
+        FormData fd_lblStatusMessage = new FormData();
+        fd_lblStatusMessage.top = new FormAttachment(sashForm, 27);
+        fd_lblStatusMessage.left = new FormAttachment(0, 15);
+        //        fd_lblStatusMessage.bottom = new FormAttachment(100, -10);
+        fd_lblStatusMessage.bottom = new FormAttachment(100, -40);
+        fd_lblStatusMessage.right = new FormAttachment(100, -15);
+        lblStatusMessage.setLayoutData(fd_lblStatusMessage);
+        lblStatusMessage.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        lblStatusMessage.updateStatus("");
+        Font statusFont = new Font(getDisplay(), "SansSerif", 12, SWT.ITALIC);
+        lblStatusMessage.setFont(statusFont);
+        lblStatusMessage.setForeground(foregroundColor);
+        lblStatusMessage.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
+
+        // Group progressGroup = new Group(shell, SWT.SHADOW_ETCHED_IN);
+        // FormData fd_progressGroup = new FormData();
+        // fd_progressGroup.top = new FormAttachment(sashForm, 110);
+        // fd_progressGroup.bottom = new FormAttachment(100, -8);
+        // fd_progressGroup.left = new FormAttachment(0, 8);
+        // fd_progressGroup.right = new FormAttachment(100, -8);
+        // progressGroup.setLayoutData(fd_progressGroup);
+
+        progressBar = new CustomProgressBar(shell, SWT.HORIZONTAL);
+        FormData fd_progressBar = new FormData();
+        fd_progressBar.top = new FormAttachment(sashForm, 110);
+        fd_progressBar.bottom = new FormAttachment(100, -10);
+        fd_progressBar.left = new FormAttachment(0, 8);
+        fd_progressBar.right = new FormAttachment(100, -8);
+        progressBar.setLayoutData(fd_progressBar);        
+        resetProgressBar();
 
         tree = new Tree(sashForm, SWT.BORDER | SWT.MULTI);
         // tree.
@@ -665,23 +895,23 @@ public class MainWindow
             public void widgetSelected(SelectionEvent arg0)
             {
 
-                updateSelection(tree.getSelection());
+                updatePlotsForSelection(tree.getSelection());
             }
         });
         tree.setSortDirection(SWT.UP);
 
-        Menu treeContext = new Menu(shlSbmlTestSuite);
-        MenuItem mnuOpenOriginalSBML = new MenuItem(treeContext, SWT.PUSH);
-        mnuOpenOriginalSBML.addSelectionListener(new SelectionAdapter() {
+        Menu treeContextMenu = new Menu(shell);
+        MenuItem menuItemOpenOriginalSBML = new MenuItem(treeContextMenu, SWT.PUSH);
+        menuItemOpenOriginalSBML.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 openOriginalSBML(tree.getSelection());
             }
         });
-        mnuOpenOriginalSBML.setText("Open Original SBML File");
-        MenuItem mnuOpenSimulatorResults = new MenuItem(treeContext, SWT.PUSH);
-        mnuOpenSimulatorResults.addSelectionListener(new SelectionAdapter() {
+        menuItemOpenOriginalSBML.setText("Open Original SBML File");
+        MenuItem menuItemOpenSimulatorResults = new MenuItem(treeContextMenu, SWT.PUSH);
+        menuItemOpenSimulatorResults.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
@@ -689,27 +919,27 @@ public class MainWindow
             }
 
         });
-        mnuOpenSimulatorResults.setText("Open Simulator Result File");
-        MenuItem mnuOpenExpectedResults = new MenuItem(treeContext, SWT.PUSH);
-        mnuOpenExpectedResults.addSelectionListener(new SelectionAdapter() {
+        menuItemOpenSimulatorResults.setText("Open Simulator Result File");
+        MenuItem menuItemOpenExpectedResults = new MenuItem(treeContextMenu, SWT.PUSH);
+        menuItemOpenExpectedResults.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 openExpectedResult(tree.getSelection());
             }
         });
-        mnuOpenExpectedResults.setText("Open Expected Result File");
-        MenuItem mnuOpenDescription = new MenuItem(treeContext, SWT.PUSH);
-        mnuOpenDescription.addSelectionListener(new SelectionAdapter() {
+        menuItemOpenExpectedResults.setText("Open Expected Result File");
+        MenuItem menuItemOpenDescription = new MenuItem(treeContextMenu, SWT.PUSH);
+        menuItemOpenDescription.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 openTestDescription(tree.getSelection());
             }
         });
-        mnuOpenDescription.setText("Open Test Description");
-        MenuItem mnuOpenTestDir = new MenuItem(treeContext, SWT.PUSH);
-        mnuOpenTestDir.addSelectionListener(new SelectionAdapter() {
+        menuItemOpenDescription.setText("Open Test Description");
+        MenuItem menuItemOpenTestDir = new MenuItem(treeContextMenu, SWT.PUSH);
+        menuItemOpenTestDir.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
@@ -717,49 +947,53 @@ public class MainWindow
             }
 
         });
-        mnuOpenTestDir.setText("Open Test Directory");
+        menuItemOpenTestDir.setText("Open Test Directory");
 
-        new MenuItem(treeContext, SWT.SEPARATOR);
+        new MenuItem(treeContextMenu, SWT.SEPARATOR);
 
-        MenuItem mnuRunTest = new MenuItem(treeContext, SWT.PUSH);
-        mnuRunTest.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemRunTest = new MenuItem(treeContextMenu, SWT.PUSH);
+        menuItemRunTest.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 reRunTests(tree.getSelection());
             }
         });
-        mnuRunTest.setText("Re-Run Test");
+        menuItemRunTest.setText("Rerun Test");
 
-        new MenuItem(treeContext, SWT.SEPARATOR);
+        new MenuItem(treeContextMenu, SWT.SEPARATOR);
 
-        MenuItem mnuSaveSedML = new MenuItem(treeContext, SWT.PUSH);
-        mnuSaveSedML.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemSaveSedML = new MenuItem(treeContextMenu, SWT.PUSH);
+        menuItemSaveSedML.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 saveSedML(tree.getSelection());
             }
         });
-        mnuSaveSedML.setText("Save SED-ML");
+        menuItemSaveSedML.setText("Save SED-ML");
 
-        new MenuItem(treeContext, SWT.SEPARATOR);
+        new MenuItem(treeContextMenu, SWT.SEPARATOR);
 
-        MenuItem mnuDeleteSelectd = new MenuItem(treeContext, SWT.PUSH);
-        mnuDeleteSelectd.addSelectionListener(new SelectionAdapter() {
+        MenuItem menuItemDeleteSelected = new MenuItem(treeContextMenu, SWT.PUSH);
+        menuItemDeleteSelected.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
                 deleteSelectedResults(tree.getSelection());
             }
         });
-        mnuDeleteSelectd.setText("Delete Selected Result");
+        menuItemDeleteSelected.setText("Delete Selected Result");
 
         // TODO: Remove when implemented
-        mntmEditTestCase.setEnabled(false);
-        mnuSaveSedML.setEnabled(false);
+        menuItemEditTestCase.setEnabled(false);
+        menuItemSaveSedML.setEnabled(false);
 
-        tree.setMenu(treeContext);
+        tree.setMenu(treeContextMenu);
+
+        /* I found the tooltip in the tree to get in my way far too much.
+           Instead of a tooltip, the system now has a larger message box
+           where info is displayed when a case number is clicked.
 
         // Implement a "fake" tooltip
         final Listener labelListener = new Listener() {
@@ -767,7 +1001,7 @@ public class MainWindow
             public void handleEvent(Event event)
             {
                 Label label = (Label) event.widget;
-                Shell shell = label.getShell();
+                Shell theShell = label.getShell();
                 switch (event.type)
                 {
                 case SWT.MouseDown:
@@ -777,11 +1011,11 @@ public class MainWindow
                     // the mouse down event went through to the table
                     tree.setSelection(new TreeItem[] {(TreeItem) e.item});
                     tree.notifyListeners(SWT.Selection, e);
-                    shell.dispose();
+                    theShell.dispose();
                     tree.setFocus();
                     break;
                 case SWT.MouseExit:
-                    shell.dispose();
+                    theShell.dispose();
                     break;
                 }
             }
@@ -791,11 +1025,9 @@ public class MainWindow
             Label label = null;
             Shell tip   = null;
 
-
             @Override
             public void handleEvent(Event event)
             {
-                Display display = shlSbmlTestSuite.getDisplay();
                 switch (event.type)
                 {
                 case SWT.Dispose:
@@ -814,7 +1046,7 @@ public class MainWindow
                     if (item != null)
                     {
                         if (tip != null && !tip.isDisposed()) tip.dispose();
-                        tip = new Shell(shlSbmlTestSuite, SWT.ON_TOP
+                        tip = new Shell(shell, SWT.ON_TOP
                             | SWT.NO_FOCUS | SWT.TOOL);
                         tip.setBackground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
                         FillLayout layout = new FillLayout();
@@ -834,6 +1066,7 @@ public class MainWindow
                         tip.setBounds(pt.x, pt.y, size.x, size.y);
                         tip.setVisible(true);
                     }
+
                 }
                 }
             }
@@ -842,30 +1075,50 @@ public class MainWindow
         tree.addListener(SWT.KeyDown, tableListener);
         tree.addListener(SWT.MouseMove, tableListener);
         tree.addListener(SWT.MouseHover, tableListener);
+        */
+        tree.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         Composite composite = new Composite(sashForm, SWT.NONE);
         composite.setLayout(new FormLayout());
 
         SashForm sashForm_1 = new SashForm(composite, SWT.VERTICAL);
+        sashForm_1.setSashWidth(5);
         FormData fd_sashForm_1 = new FormData();
         fd_sashForm_1.bottom = new FormAttachment(100);
         fd_sashForm_1.right = new FormAttachment(100);
         fd_sashForm_1.top = new FormAttachment(0);
         fd_sashForm_1.left = new FormAttachment(0);
         sashForm_1.setLayoutData(fd_sashForm_1);
+        FormData fd_lbl = new FormData();
+        fd_lbl.top = new FormAttachment(0);
+        fd_lbl.left = new FormAttachment(0);
+        fd_lbl.right = new FormAttachment(100);
+        fd_lbl.bottom = new FormAttachment(100);
 
-        cmpGraphs = new Composite(sashForm_1, SWT.NONE);
+        cmpGraphs = new Composite(sashForm_1, SWT.BORDER);
         cmpGraphs.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        gridGraphs = new GridLayout(1, true);
-        cmpGraphs.setLayout(gridGraphs);
+        gl_gridGraphs = new GridLayout(1, true);
+        gl_gridGraphs.marginRight = 15;
+        cmpGraphs.setLayout(gl_gridGraphs);
 
-        cmpDifferences = new Composite(sashForm_1, SWT.NONE);
+        cmpDifferences = new Composite(sashForm_1, SWT.BORDER);
         cmpDifferences.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        gridDifferences = new GridLayout(1, true);
-        cmpDifferences.setLayout(gridDifferences);
-        sashForm_1.setWeights(new int[] {1, 1});
-        sashForm.setWeights(new int[] {104, 343});
+        gl_gridDifferences = new GridLayout(1, true);
+        gl_gridDifferences.marginRight = 15;
+        cmpDifferences.setLayout(gl_gridDifferences);
+        sashForm_1.setWeights(new int[] {262, 262});
+        sashForm.setWeights(new int[] {120, 725});
 
+        TaskBar taskBar = display.getSystemTaskBar();
+        if (taskBar != null)
+        {
+            TaskItem item = taskBar.getItem(shell);
+            if (item != null)
+            {
+                item.setOverlayImage(UIUtils.getImageResource("icon_256x256.png"));
+                item.setOverlayText("SBML Test Runner");
+            }
+        }
     }
 
 
@@ -888,29 +1141,32 @@ public class MainWindow
     {
         model.getLastWrapper().deleteResult(model.getSuite()
                                                  .get(item.getText()));
-        item.setImage(grey);
+        item.setImage(ResultColor.gray.getImage());
+        item.setData(ResultType.Unknown);
     }
 
 
     protected void editPreferences()
     {
-        PreferenceDialog dialog = new PreferenceDialog(shlSbmlTestSuite,
-                                                       SWT.NONE);
+        PreferenceDialog dialog = new PreferenceDialog(shell);
 
         dialog.setTestSuiteSettings(model.getSettings());
-        dialog.center(shlSbmlTestSuite.getBounds());
+        dialog.center(shell.getBounds());
 
         TestSuiteSettings result = dialog.open();
         if (result != null)
         {
-            String lastWrapper = model.getSettings().getLastWrapperName();
+            String lastWrapper = result.getLastWrapperName();
             model.setSettings(result);
+            boolean askToFlushCache = false;
             if (lastWrapper != null && lastWrapper.length() > 0)
+            {
                 model.getSettings().setLastWrapper(lastWrapper);
+                askToFlushCache = true;
+            }
             result.saveAsDefault();
-            refreshList();
+            refreshList(askToFlushCache);
         }
-
     }
 
 
@@ -923,8 +1179,8 @@ public class MainWindow
 
     private void fileOpen()
     {
-        FileDialog dlg = new FileDialog(shlSbmlTestSuite, SWT.OPEN);
-        dlg.setFilterNames(new String[] {"SBML Testsuite archive files",
+        FileDialog dlg = new FileDialog(shell, SWT.OPEN);
+        dlg.setFilterNames(new String[] {"SBML Test Suite cases archives",
             "All files"});
         dlg.setFilterExtensions(new String[] {"*.zip", "*.*"});
         dlg.setText("Browse for test suite archive");
@@ -932,25 +1188,57 @@ public class MainWindow
         if (fileName != null)
         {
             openArchive(new File(fileName));
+            deleteSelectedResults(tree.getItems());
+            resetProgressBar();
+            if (tree.getItemCount() > 0)
+            {
+                tree.setSelection(tree.getItem(0));
+                updatePlotsForSelection(tree.getItem(0));
+            }
         }
     }
 
 
-    private void fileQuit()
+    private boolean quitWithConfirmation()
     {
-        if (!closing) this.shlSbmlTestSuite.close();
+        if (closing)
+        {
+            quit();
+            return true;
+        }
+        else
+        {
+            if (! running || AskUser.confirm(shell, 
+                                             "Processes are still running.\n"
+                                             + "Stop them and exit anyway?"))
+            {
+                if (running)
+                {
+                    running = false;
+                    waitForExecutor();
+                    try { Thread.sleep(2000); } catch (Exception e) { }
+                }
+                closing = true;
+                quit();
+                return true;
+            }
+        }
+        return false;
+    }
 
-        System.exit(0);
 
+    private void quit()
+    {
+        if (shell != null && ! shell.isDisposed())
+            shell.dispose();
     }
 
 
     protected void filterByRange()
     {
-        DialogFilterRange dialog = new DialogFilterRange(shlSbmlTestSuite,
-                                                         SWT.None);
+        DialogFilterRange dialog = new DialogFilterRange(shell, SWT.None);
         dialog.setDescription("Please select the range of tests to include.");
-        dialog.center(shlSbmlTestSuite.getBounds());
+        dialog.center(shell.getBounds());
         if (tree.getItemCount() > 0)
             dialog.setRange(tree.getItem(0).getText(),
                             tree.getItem(tree.getItemCount() - 1).getText());
@@ -975,12 +1263,11 @@ public class MainWindow
 
     protected void filterByTags()
     {
-        DialogFilterTags dialog = new DialogFilterTags(shlSbmlTestSuite,
-                                                       SWT.None);
+        DialogFilterTags dialog = new DialogFilterTags(shell, SWT.None);
         dialog.setDescription("Please select component and test tags to include.");
         dialog.setComponentTags(model.getSuite().getComponentTags());
         dialog.setTestTags(model.getSuite().getTestTags());
-        dialog.center(shlSbmlTestSuite.getBounds());
+        dialog.center(shell.getBounds());
         final Vector<String> selection = dialog.open();
         if (selection != null)
         {
@@ -999,10 +1286,9 @@ public class MainWindow
 
     protected void filterExcludeByRange()
     {
-        DialogFilterRange dialog = new DialogFilterRange(shlSbmlTestSuite,
-                                                         SWT.None);
+        DialogFilterRange dialog = new DialogFilterRange(shell, SWT.None);
         dialog.setDescription("Please select the range of tests to exclude.");
-        dialog.center(shlSbmlTestSuite.getBounds());
+        dialog.center(shell.getBounds());
         if (tree.getItemCount() > 0)
             dialog.setRange(tree.getItem(0).getText(),
                             tree.getItem(tree.getItemCount() - 1).getText());
@@ -1024,12 +1310,11 @@ public class MainWindow
 
     protected void filterExcludeByTag()
     {
-        DialogFilterTags dialog = new DialogFilterTags(shlSbmlTestSuite,
-                                                       SWT.None);
+        DialogFilterTags dialog = new DialogFilterTags(shell, SWT.None);
         dialog.setDescription("Please select component and test tags to exclude.");
         dialog.setComponentTags(model.getSuite().getComponentTags());
         dialog.setTestTags(model.getSuite().getTestTags());
-        dialog.center(shlSbmlTestSuite.getBounds());
+        dialog.center(shell.getBounds());
         final Vector<String> selection = dialog.open();
         if (selection != null)
         {
@@ -1042,16 +1327,15 @@ public class MainWindow
                 }
             });
         }
-
     }
 
 
     protected void filterShowOnlyProblematic()
     {
-        if (mntmShowOnlyProblematic.getSelection())
+        if (menuItemShowOnlyProblematic.getSelection())
         {
-            mntmShowOnlyReally.setSelection(false);
-            mntmShowOnlySupported.setSelection(false);
+            menuItemShowOnlyReally.setSelection(false);
+            menuItemShowOnlySupported.setSelection(false);
 
             addTreeItems(new FilterFunction() {
 
@@ -1081,11 +1365,10 @@ public class MainWindow
 
     protected void filterShowOnlyReallyProblematic()
     {
-        if (mntmShowOnlyReally.getSelection())
+        if (menuItemShowOnlyReally.getSelection())
         {
-
-            mntmShowOnlyProblematic.setSelection(false);
-            mntmShowOnlySupported.setSelection(false);
+            menuItemShowOnlyProblematic.setSelection(false);
+            menuItemShowOnlySupported.setSelection(false);
 
             addTreeItems(new FilterFunction() {
 
@@ -1109,16 +1392,15 @@ public class MainWindow
         {
             addTreeItems();
         }
-
     }
 
 
     protected void filterShowOnlySupported()
     {
-        if (mntmShowOnlySupported.getSelection())
+        if (menuItemShowOnlySupported.getSelection())
         {
-            mntmShowOnlyProblematic.setSelection(false);
-            mntmShowOnlyReally.setSelection(false);
+            menuItemShowOnlyProblematic.setSelection(false);
+            menuItemShowOnlyReally.setSelection(false);
 
             addTreeItems(new FilterFunction() {
 
@@ -1142,21 +1424,6 @@ public class MainWindow
         {
             addTreeItems();
         }
-    }
-
-
-    private Image getImage(int color)
-    {
-        Display display = shlSbmlTestSuite.getDisplay();
-        Image image = new Image(display, imageSize, imageSize);
-        GC gc = new GC(image);
-
-        gc.setBackground(display.getSystemColor(color));
-        gc.setForeground(display.getSystemColor(color));
-        gc.fillOval(1, 1, imageSize - 2, imageSize - 2);
-
-        gc.dispose();
-        return image;
     }
 
 
@@ -1186,7 +1453,7 @@ public class MainWindow
     }
 
 
-    private Vector<String> getSelection()
+    private Vector<String> getSelectedCases()
     {
         Vector<String> result = new Vector<String>();
         for (TreeItem item : tree.getSelection())
@@ -1202,6 +1469,7 @@ public class MainWindow
      */
     public void loadModel()
     {
+        boolean askToFlushCache = false;
         model = new MainModel();
         if (model.getSuite() == null || model.getSuite().getNumCases() == 0)
         {
@@ -1210,11 +1478,9 @@ public class MainWindow
             File destFile = new File(destDir, ".testsuite.zip");
             try
             {
-                Util.copyInputStream(getClass().getResourceAsStream("/data/sbml-test-cases.zip"),
-                                     new BufferedOutputStream(
-                                                              new FileOutputStream(
-                                                                                   destFile)));
-                openArchive(destFile);
+                Util.copyInputStream(UIUtils.getFileResource("sbml-test-cases.zip"),
+                                     new BufferedOutputStream(new FileOutputStream(destFile)));
+                askToFlushCache = openArchive(destFile);
                 destFile.delete();
             }
             catch (FileNotFoundException e)
@@ -1230,8 +1496,7 @@ public class MainWindow
 
             return;
         }
-        refreshList();
-
+        refreshList(askToFlushCache);
     }
 
 
@@ -1244,8 +1509,7 @@ public class MainWindow
             @Override
             public void handleEvent(Event arg0)
             {
-                fileQuit();
-
+                arg0.doit = quitWithConfirmation();
             }
 
         }, new Listener() {
@@ -1253,7 +1517,6 @@ public class MainWindow
             public void handleEvent(Event arg0)
             {
                 showAbout();
-
             }
 
         }, new Listener() {
@@ -1262,14 +1525,12 @@ public class MainWindow
             public void handleEvent(Event arg0)
             {
                 editPreferences();
-
             }
 
         });
 
-        toolBar = shlSbmlTestSuite.getToolBar();
-
-    }
+        toolBar = shell.getToolBar();
+    }   
 
 
     /**
@@ -1277,18 +1538,22 @@ public class MainWindow
      */
     public void open()
     {
-        display = Display.getDefault();
-
-        Monitor primary = display.getPrimaryMonitor();
+        Monitor primary = getDisplay().getPrimaryMonitor();
         Rectangle bounds = primary.getBounds();
-        Rectangle rect = shlSbmlTestSuite.getBounds();
+        Rectangle rect = shell.getBounds();
 
+        final Runnable doubleTimer = new Runnable() {
+                public void run() {
+                    ignoreDoubleClicks = false;
+                };
+        };
+        
         int x = bounds.x + (bounds.width - rect.width) / 2;
         int y = bounds.y + (bounds.height - rect.height) / 2;
 
-        shlSbmlTestSuite.setLocation(x, y);
+        shell.setLocation(x, y);
 
-        toolBar = new ToolBar(shlSbmlTestSuite, SWT.FLAT | SWT.RIGHT);
+        toolBar = new ToolBar(shell, SWT.FLAT | SWT.RIGHT);
         fd_sashForm.top = new FormAttachment(toolBar);
         FormData fd_toolBar = new FormData();
         fd_toolBar.right = new FormAttachment(100);
@@ -1296,119 +1561,295 @@ public class MainWindow
         fd_toolBar.left = new FormAttachment(0);
         toolBar.setLayoutData(fd_toolBar);
 
-        if (isMacOSX()) macify(display);
+        if (isMacOSX()) macify(getDisplay());
 
-        ToolItem tltmShowMap = new ToolItem(toolBar, SWT.NONE);
-        tltmShowMap.setImage(SWTResourceManager.getImage(MainWindow.class,
-                                                         "/data/map_22x22.png"));
-        tltmShowMap.addSelectionListener(new SelectionAdapter() {
+        ToolItem buttonShowMap = new ToolItem(toolBar, SWT.NONE);
+        buttonShowMap.setImage(UIUtils.getImageResource("show_thumbnails_shadowed.png"));
+        buttonShowMap.setHotImage(UIUtils.getImageResource("show_thumbnails_shadowed_highlighted.png"));
+        buttonShowMap.setToolTipText("Show the map of results");
+        buttonShowMap.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
+                if (ignoreDoubleClicks)
+                    return;
+                else
+                {
+                    ignoreDoubleClicks = true;
+                    getDisplay().timerExec(getDisplay().getDoubleClickTime(), doubleTimer);
+                }
                 showMap();
             }
         });
-        tltmShowMap.setText("Show Map");
+        
+        // sep0 offsets the width of the wrapper selector button on the other
+        // side of the toolbar, so that the stretchable fill separators are
+        // equal on both sides of the rewind/run/stop buttons.  That keeps
+        // the buttons in the middle when the whole panel is resized.
+        ToolItem sep0 = new ToolItem(toolBar, SWT.SEPARATOR);
+        sep0.setWidth(174);
 
-        tltmWrappers = new ToolItem(toolBar, SWT.DROP_DOWN);
-        tltmWrappers.setText("Switch Wrapper");
-        wrapperListener = new DropdownSelectionListener(tltmWrappers);
-        tltmWrappers.addSelectionListener(wrapperListener);
-
-        ToolItem tltmPreferences = new ToolItem(toolBar, SWT.NONE);
-        tltmPreferences.setImage(SWTResourceManager.getImage(MainWindow.class,
-                                                             "/data/applications-system.png"));
-        tltmPreferences.addSelectionListener(new SelectionAdapter() {
+        ToolItem sep1 = new ToolItem(toolBar, SWT.SEPARATOR);
+        sep1.setWidth(SWT.SEPARATOR_FILL);
+        
+        ToolItem buttonRestart = new ToolItem(toolBar, SWT.NONE);
+        buttonRestart.setImage(UIUtils.getImageResource("fast_backward_shadowed.png"));
+        buttonRestart.setHotImage(UIUtils.getImageResource("fast_backward_shadowed_highlighted.png"));
+        buttonRestart.setToolTipText("Clear results and reset to case 00001");
+        buttonRestart.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
+                if (ignoreDoubleClicks)
+                    return;
+                else
+                {
+                    ignoreDoubleClicks = true;
+                    getDisplay().timerExec(getDisplay().getDoubleClickTime(), doubleTimer);
+                }
+
+                if (AskUser.confirm(shell,
+                                    "All existing results will be discarded. Proceed?"))
+                {
+                    running = false;
+                    restart = true;
+                    initialCaseStartIndex = 0;
+                    deleteSelectedResults(tree.getItems());
+                    resetProgressBar();
+                    if (tree.getItemCount() > 0)
+                    {
+                        tree.setSelection(tree.getItem(0));
+                        updatePlotsForSelection(tree.getItem(0));
+                    }
+                }
+
+            }
+        });
+
+        ToolItem sep2 = new ToolItem(toolBar, SWT.SEPARATOR);
+        sep2.setWidth(12);
+        
+        buttonRun = new ToolItem(toolBar, SWT.NONE);
+        markAsRunning(false);
+        buttonRun.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e)
+            {
+                if (ignoreDoubleClicks)
+                    return;
+                else
+                {
+                    ignoreDoubleClicks = true;
+                    getDisplay().timerExec(getDisplay().getDoubleClickTime(),
+                                           doubleTimer);
+                }
+
+                if (!running)
+                {
+                    if (tree.getSelectionCount() > 1)
+                    {
+                        restart = true;
+                        runSelected();
+                    }
+                    else
+                        runAllTests();
+                }
+                else
+                {
+                    markAsRunning(false);
+                    TreeItem item = treeItemForCase(lastCaseWithCachedValue());
+                    if (item != null)
+                        recenterTree(item);
+                }
+            }
+
+        });
+
+        ToolItem sep3 = new ToolItem(toolBar, SWT.SEPARATOR);
+        sep3.setWidth(10);
+
+        ToolItem buttonRunFast = new ToolItem(toolBar, SWT.NONE);
+        buttonRunFast.setImage(UIUtils.getImageResource("forward_shadowed.png"));
+        buttonRunFast.setHotImage(UIUtils.getImageResource("forward_shadowed_highlighted.png"));
+        buttonRunFast.setToolTipText("Run only cases that still lack results");
+        buttonRunFast.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                if (ignoreDoubleClicks)
+                    return;
+                else
+                {
+                    ignoreDoubleClicks = true;
+                    getDisplay().timerExec(getDisplay().getDoubleClickTime(), doubleTimer);
+                }
+
+                if (!running)
+                {
+                    if (tree.getSelectionCount() > 1)
+                    {
+                        restart = true;
+                        runAllNewTestsInSelection();
+                    }
+                    else
+                        runAllNewTests();
+                }
+                else
+                {
+                    markAsRunning(false);
+                    TreeItem item = treeItemForCase(lastCaseWithCachedValue());
+                    if (item != null)
+                        recenterTree(item);
+                }
+            }
+        });
+        
+        ToolItem sep4 = new ToolItem(toolBar, SWT.SEPARATOR);
+        sep4.setWidth(SWT.SEPARATOR_FILL);
+
+        wrapperPopupMenuButton = new ListToolItem(toolBar, "(no wrapper chosen)", -3);
+        wrapperPopupMenuButton.setToolTipText("Switch the wrapper used to run the application");
+        wrapperPopupMenuListener = new DropdownSelectionListener(wrapperPopupMenuButton);
+        wrapperPopupMenuButton.addSelectionListener(wrapperPopupMenuListener);
+        
+        ToolItem sep5 = new ToolItem(toolBar, SWT.SEPARATOR);
+        sep5.setWidth(10);
+        
+        ToolItem buttonPreferences = new ToolItem(toolBar, SWT.NONE);
+        buttonPreferences.setImage(UIUtils.getImageResource("settings_shadowed.png"));
+        buttonPreferences.setHotImage(UIUtils.getImageResource("settings_shadowed_highlighted.png"));
+        buttonPreferences.setToolTipText("Preferences");
+        buttonPreferences.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                if (ignoreDoubleClicks)
+                    return;
+                else
+                {
+                    ignoreDoubleClicks = true;
+                    getDisplay().timerExec(getDisplay().getDoubleClickTime(),
+                                           doubleTimer);
+                }
+
                 editPreferences();
             }
         });
-        tltmPreferences.setText("Preferences");
-
-        ToolItem tltmRefresh = new ToolItem(toolBar, SWT.NONE);
-        tltmRefresh.setImage(SWTResourceManager.getImage(MainWindow.class,
-                                                         "/data/view-refresh.png"));
-        tltmRefresh.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent arg0)
-            {
-                refreshList();
-            }
-        });
-
-        shlSbmlTestSuite.open();
-        shlSbmlTestSuite.layout();
-
+               
         toolBar.pack();
         toolBar.layout();
         toolBar.redraw();
 
+        shell.open();
+        shell.layout();
+
         loadModel();
 
-        while (!shlSbmlTestSuite.isDisposed())
+        setProgressBarSteps(tree.getItemCount()); // Initial default.
+        TreeItem toSelect = treeItemForCase(lastCaseWithCachedValue());
+        if (toSelect != null)
         {
-            if (!display.readAndDispatch())
+            updatePlotsForSelection(toSelect);
+            recenterTree(toSelect);
+            tree.deselectAll();
+            tree.select(toSelect);
+            if (tree.indexOf(toSelect) > 0)
+                initialCaseStartIndex = tree.indexOf(toSelect);
+        }
+
+        try
+        {
+            while (! shell.isDisposed())
             {
-                display.sleep();
+                if (! getDisplay().readAndDispatch())
+                {
+                    getDisplay().sleep();
+                }
             }
         }
+        finally
+        {
+            if (shell != null && ! shell.isDisposed())
+                shell.dispose();
+            if (display != null && ! display.isDisposed())
+                display.dispose();
+        }
+        System.exit(0);
     }
 
 
-    private void openArchive(File file)
+    private void markAsRunning(boolean newRunState)
     {
-        shlSbmlTestSuite.setEnabled(false);
+        running = newRunState;
+        if (running)
+        {
+            buttonRun.setImage(UIUtils.getImageResource("pause_shadowed.png"));
+            buttonRun.setHotImage(UIUtils.getImageResource("pause_shadowed_highlighted.png"));
+            buttonRun.setToolTipText("Pause");
+        }
+        else
+        {
+            buttonRun.setImage(UIUtils.getImageResource("play_shadowed.png"));
+            buttonRun.setHotImage(UIUtils.getImageResource("play_shadowed_highlighted.png"));
+            buttonRun.setToolTipText("Run all tests");
+        }
+        buttonRun.getParent().redraw();
+    }
+
+
+    private boolean openArchive(File file)
+    {
+        boolean success = false;
+        shell.setEnabled(false);
         try
         {
-
-            ProgressDialog dialog = new ProgressDialog(shlSbmlTestSuite,
-                                                       SWT.None);
-            dialog.center(shlSbmlTestSuite.getBounds());
+            ProgressDialog dialog = new ProgressDialog(shell, file);
+            dialog.center(shell.getBounds());
             dialog.getStyledText()
-                  .setText("The new testsuite archive will now be extracted and loaded. This might take a while. \n\n\nExtracting Testsuite archive ...\n\n");
+                  .setText("Unpacking the archive. "
+                           + "This might take some time ...\n\n");
 
             dialog.openWithoutWait();
             Util.unzipArchive(file, new CancelCallback() {
-
                 @Override
                 public boolean cancellationRequested()
                 {
-                    display.readAndDispatch();
+                    getDisplay().readAndDispatch();
                     return false;
                 }
             });
-            dialog.getStyledText().append("Reading Testsuite ...\n\n");
-            display.readAndDispatch();
+            dialog.getStyledText().append("Extracting the test case files ...\n\n");
+            getDisplay().readAndDispatch();
             File casesDir = new File(Util.getInternalTestSuiteDir(),
                                      "/cases/semantic/");
             if (!casesDir.isDirectory() && casesDir.exists())
             {
                 dialog.getStyledText()
-                      .append("Error: Archive was no testsuite archive ...\n\n");
-                display.readAndDispatch();
+                      .append("Error: the archive was not in the expected format!"
+                              + "\n\nAborting.");
+                getDisplay().readAndDispatch();
                 Util.sleep(1000);
+                success = false;
             }
             else
             {
                 model.setTestSuiteDir(casesDir);
-                display.readAndDispatch();
-                dialog.getStyledText().append("Update UI ...\n\n");
-                display.readAndDispatch();
-                refreshList();
+                getDisplay().readAndDispatch();
+                dialog.getStyledText().append("Updating the list of tests ...\n\n");
+                getDisplay().readAndDispatch();
+                success = true;
             }
             dialog.close();
         }
         catch (Exception e)
         {
-            // TODO: handle exception
+            success = false;
         }
         finally
         {
-            shlSbmlTestSuite.setEnabled(true);
+            shell.setEnabled(true);
         }
-
+        return success;
     }
 
 
@@ -1468,10 +1909,9 @@ public class MainWindow
     }
 
 
-    protected void refreshList()
+    protected void refreshList(boolean confirm)
     {
-
-        wrapperListener.clear();
+        wrapperPopupMenuListener.clear();
 
         if (model.getWrappers().size() == 0)
         {
@@ -1479,12 +1919,13 @@ public class MainWindow
             editPreferences();
             return;
         }
-
-        for (WrapperConfig config : model.getWrappers())
-            wrapperListener.add(config.getName());
-        wrapperListener.select(model.getSettings()
-                                    .getLastWrapperNameOrDefault());
-
+        else
+        {
+            for (WrapperConfig config : model.getWrappers())
+                wrapperPopupMenuListener.add(config.getName());
+            String last = model.getSettings().getLastWrapperNameOrDefault();
+            wrapperPopupMenuListener.select(last, confirm);
+        }
     }
 
 
@@ -1504,7 +1945,6 @@ public class MainWindow
             }
             if (func == null || func.filter(test, result))
             {
-
                 items.add(item);
             }
 
@@ -1513,73 +1953,187 @@ public class MainWindow
     }
 
 
-    protected void reRunTests(TreeItem[] selection)
+    class QueuedTestRunner
+        implements Runnable
     {
-        final WrapperConfig lastWrapper = model.getLastWrapper();
-        if (lastWrapper == null || !lastWrapper.canRun()) return;
-        deleteSelectedResults(selection);
-        String absolutePath = model.getSuite().getCasesDirectory()
-                                   .getAbsolutePath();
-        for (final TreeItem item : selection)
+        private final TestCase testCase;
+        private final TreeItem currentItem;
+        private final String path;
+        private final WrapperConfig wrapper;
+        private final Thread displayThread;
+        private final String caseId;
+
+        QueuedTestRunner(TestCase theCase, TreeItem theItem, String thePath,
+                         WrapperConfig theWrapper, Thread thread)
         {
+            this.testCase = theCase;
+            this.currentItem = theItem;
+            this.path = thePath;
+            this.wrapper = theWrapper;
+            this.displayThread = thread;
+            this.caseId = theCase.getId();
+        }
 
-            final TestCase test = model.getSuite().get(item.getText());
-            lblNewLabel.setText("Running test: " + test.getId());
-            lastWrapper.run(test, absolutePath, 500, new CancelCallback() {
+        @Override
+        public void run()
+        {
+            if (!running)
+                return;
 
+            wrapper.run(testCase, path, 250, new CancelCallback() {
                 @Override
                 public boolean cancellationRequested()
                 {
-                    Display current2 = Display.getCurrent();
-                    current2.readAndDispatch();
-                    return false;
+                    return !running;
                 }
             });
 
-            item.getDisplay().asyncExec(new Runnable() {
+            final ResultType resultType = wrapper.getResultType(testCase);
+            doneSet.add(caseId);
 
+            final Display display = Display.findDisplay(displayThread);
+            display.asyncExec(new Runnable() {
                 @Override
                 public void run()
                 {
-                    ResultType resultType = lastWrapper.getResultType(test);
-                    setImage(item, resultType);
+                    currentItem.setImage(ResultColor.getImageForResultType(resultType));
+                    currentItem.setData(resultType);
                     if (dlgMap != null)
                     {
-                        dlgMap.updateElement(item.getText(), resultType);
+                        dlgMap.updateElement(currentItem.getText(), resultType);
                     }
-                    tree.update();
+                    currentItem.getParent().update();
+                    incrementProgressBar();
+
+                    // If this is the item currently being displayed, update
+                    // the plots, because they're the ones being shown.
+                    if (currentItem == lastSelection())
+                        updatePlotsForSelection(currentItem);
+                }
+            });
+        }   
+    }
+
+
+    protected void reRunTests(TreeItem[] selection)
+    {
+        final WrapperConfig lastWrapper = model.getLastWrapper();
+        if (lastWrapper == null || !lastWrapper.canRun())
+            return;
+
+        if (selection == null || selection.length == 0)
+        {
+            AskUser.inform(shell, "There is nothing to run!");
+            return;
+        }
+
+        markAsRunning(true);
+        String absolutePath = model.getSuite().getCasesDirectory()
+                                   .getAbsolutePath();
+
+        int selectionIndex = 0;
+        if (initialCaseStartIndex > 0)
+        {
+             selectionIndex = initialCaseStartIndex;
+             initialCaseStartIndex = 0;
+        }
+        if (restart)                    // Fresh run.
+        {
+            doneSet.clear();
+            restart = false;
+            resetProgressBar();
+            if (selection.length > 0)
+                setProgressBarSteps(selection.length - selectionIndex);
+        }
+        else                            // Continuing an interrupted run.
+        {
+            // Find, in the selection[] list, the last case that has a result.
+            // The next one after that in selection[] is the next case to do.
+            // If we don't find it, we start from 0 in selection[].
+            int index = lastCaseDoneInSelection(selection);
+            if (index >= 0)
+                selectionIndex = ++index;
+            if (doneSet.isEmpty() && selection.length > 0)
+                setProgressBarSteps(selection.length - selectionIndex);
+        }
+
+        // Explicitly clear results for whatever we're about to recalculate
+        int rememberSelectionIndex = selectionIndex;
+        while (selectionIndex < selection.length)
+            deleteSelectedResult(selection[selectionIndex++]);
+        selectionIndex = rememberSelectionIndex;
+
+        if (selectionIndex < selection.length)
+            recenterTree(selection[selectionIndex]);
+
+        Thread thisThread = Thread.currentThread();
+        executor = Executors.newFixedThreadPool(NUM_THREADS);
+        while (selectionIndex < selection.length)
+        {
+            if (! running) break;
+
+            TreeItem item = selection[selectionIndex];
+            TestCase testCase = model.getSuite().get(item.getText());
+            executor.execute(new QueuedTestRunner(testCase, item, absolutePath,
+                                                  lastWrapper, thisThread));
+            selectionIndex++;
+        }
+        waitForExecutor();
+
+        int lastIndex = lastCaseDoneInSelection(selection);
+        if (lastIndex < 0)
+            lastIndex = selection.length - 1;
+
+        final TreeItem lastItem = selection[lastIndex];
+        
+        tree.setSelection(lastItem);
+        tree.showSelection();
+        
+        if (! running)                  // interrupted
+        {
+            recenterTree(lastItem);
+
+            lastItem.getDisplay().asyncExec(new Runnable() {
+                @Override
+                public void run()
+                {
+                    updatePlotsForSelection(lastItem);
                 }
             });
 
-            shlSbmlTestSuite.update();
-            Display current3 = Display.getCurrent();
-            current3.readAndDispatch();
+            TestCase lastCase = model.getSuite().get(lastItem.getText());
+            lblStatusMessage.updateStatus(lastCase.getId());
         }
-
-        Display current2 = Display.getCurrent();
-        current2.update();
-
-        final TreeItem last = selection[selection.length - 1];
-        last.getDisplay().asyncExec(new Runnable() {
-
-            @Override
-            public void run()
-            {
-                updateSelection(last);
-            }
-        });
-
+        else
+        {
+            // lblStatusMessage.updateStatus("Done.");
+            markAsRunning(false);
+            doneSet.clear();
+        }
     }
 
 
     protected void runAllNewTests()
     {
+        runAllNewTests(tree.getItems());
+    }
+
+    protected void runAllNewTests(TreeItem[] selection)
+    {
         Vector<TreeItem> items = new Vector<TreeItem>();
-        for (TreeItem item : tree.getItems())
+        for (TreeItem item : selection)
         {
-            if (item.getImage().equals(grey)) items.add(item);
+            // if (item.getImage().equals(grey))
+            if (item.getData() == ResultType.Unknown)
+                items.add(item);
         }
         reRunTests(items.toArray(new TreeItem[0]));
+    }
+
+
+    protected void runAllNewTestsInSelection()
+    {
+        runAllNewTests(tree.getSelection());
     }
 
 
@@ -1588,10 +2142,11 @@ public class MainWindow
         Vector<TreeItem> items = new Vector<TreeItem>();
         for (TreeItem item : tree.getItems())
         {
-            if (!item.getImage().equals(yellow)) items.add(item);
+            // if (!item.getImage().equals(yellow))
+            if (item.getData() != ResultType.CannotSolve)
+                items.add(item);
         }
         reRunTests(items.toArray(new TreeItem[0]));
-
     }
 
 
@@ -1603,12 +2158,11 @@ public class MainWindow
 
     protected void runByTag()
     {
-        DialogFilterTags dialog = new DialogFilterTags(shlSbmlTestSuite,
-                                                       SWT.None);
+        DialogFilterTags dialog = new DialogFilterTags(shell, SWT.None);
         dialog.setDescription("Please select component and test tags to include.");
         dialog.setComponentTags(model.getSuite().getComponentTags());
         dialog.setTestTags(model.getSuite().getTestTags());
-        dialog.center(shlSbmlTestSuite.getBounds());
+        dialog.center(shell.getBounds());
         final Vector<String> selection = dialog.open();
         if (selection != null)
         {
@@ -1632,57 +2186,34 @@ public class MainWindow
 
     protected void saveSedML(TreeItem[] selection)
     {
-        System.err.println("Exporting SedML not yet supported");
-
+        System.err.println("Exporting SED-ML not yet supported");
     }
 
 
-    private void setImage(TreeItem item, ResultType result)
+    private void setSelectedCases(Vector<String> selection)
     {
-        if (item == null || result == null) return;
-        switch (result)
-        {
-        case CannotSolve:
-            item.setImage(yellow);
-            break;
-        case Match:
-            item.setImage(green);
-            break;
-        case NoMatch:
-            item.setImage(red);
-            break;
-        case Unknown:
-        default:
-            item.setImage(grey);
-            break;
-        }
-    }
-
-
-    private void setSelection(Vector<String> selection)
-    {
+        tree.deselectAll();
         for (String text : selection)
         {
             TreeItem item = getItem(text);
             if (item != null) tree.select(item);
         }
-
     }
 
 
     protected void showAbout()
     {
-        AboutDialog dialog = new AboutDialog(shlSbmlTestSuite, SWT.None);
-        dialog.center(shlSbmlTestSuite.getBounds());
+        AboutDialog dialog = new AboutDialog(shell, SWT.None);
+        dialog.center(shell.getBounds());
         dialog.open();
     }
 
 
     protected void showMap()
     {
-        dlgMap = new ResultMap(shlSbmlTestSuite, SWT.None, model.getSuite(),
+        dlgMap = new ResultMap(shell, SWT.None, model.getSuite(),
                                model.getLastWrapper());
-        dlgMap.center(shlSbmlTestSuite.getBounds());
+        dlgMap.center(shell.getBounds());
         dlgMap.setData(model.getLastWrapper().getCache());
         dlgMap.setReRunAction(new ActionListener() {
 
@@ -1705,7 +2236,7 @@ public class MainWindow
                 if (item == null) return;
                 tree.deselectAll();
                 tree.select(item);
-                updateSelection(item);
+                updatePlotsForSelection(item);
 
             }
         });
@@ -1714,14 +2245,10 @@ public class MainWindow
     }
 
 
-    private void updateSelection(TreeItem treeItem)
+    private void updatePlotsForSelection(TreeItem treeItem)
     {
         if (treeItem == null) return;
-        if (current != null && current.equals(treeItem.getText())) return;
-
-        current = treeItem.getText();
-
-        TestCase currentItem = model.getSuite().get(treeItem.getText());
+        //        if (current != null && current.equals(treeItem.getText())) return;
 
         // clear existing graphs
         for (int i = cmpGraphs.getChildren().length - 1; i >= 0; i--)
@@ -1735,35 +2262,144 @@ public class MainWindow
         }
 
         // generate new graphs
-        setImage(treeItem, model.getLastWrapper().getResultType(currentItem));
+
+        //        current = treeItem.getText();
+        String      itemName = treeItem.getText();
+        TestCase currentItem = model.getSuite().get(itemName);
+        
+        if ("FluxBalanceSteadyState".equals(currentItem.getTestType()))
+            return;                     // FIXME
+
+        ResultType resultType = model.getLastWrapper().getResultType(currentItem);
+        treeItem.setImage(ResultColor.getImageForResultType(resultType));
+        treeItem.setData(resultType);
         // .getCachedResult(current));
 
-        ResultSet expected = model.getSuite().get(current).getExpectedResult();
-        ResultSet data = model.getLastWrapper().getResultSet(currentItem);
+        ResultSet expected = model.getSuite().get(itemName).getExpectedResult();
+        ResultSet actual   = model.getLastWrapper().getResultSet(currentItem);
+        ResultSet diff     = ResultSet.diff(expected, actual);
 
-        ResultSet diff = ResultSet.diff(expected, data);
-
-        gridGraphs.numColumns = 2;
-        gridDifferences.numColumns = 1;
+        gl_gridGraphs.numColumns = 2;
+        gl_gridDifferences.numColumns = 1;
 
         if (expected != null)
-            addChartForData(cmpGraphs, expected, "Expected Result");
-        if (data != null) addChartForData(cmpGraphs, data, "Simulator Result");
+            addChartForData(cmpGraphs, expected,
+                            "Expected results for #" + itemName);
+        if (actual != null)
+            addChartForData(cmpGraphs, actual,
+                            "Simulator results for #" + itemName);
         if (diff != null)
-            addChartForData(cmpDifferences, diff, "Difference Plot");
+            addChartForData(cmpDifferences, diff, "Difference plot");
 
-        lblNewLabel.setText(currentItem.getStatusText());
+        lblStatusMessage.updateStatus(currentItem);
 
         cmpGraphs.layout();
         cmpDifferences.layout();
-
     }
 
 
-    protected void updateSelection(TreeItem[] selection)
+    protected void updatePlotsForSelection(TreeItem[] selection)
     {
         if (selection == null || selection.length == 0) return;
-        updateSelection(selection[0]);
+        updatePlotsForSelection(selection[0]);
+    }
 
+
+    private TreeItem lastSelection()
+    {
+        TreeItem[] selected = tree.getSelection();
+        if (selected.length == 0)
+            return null;
+        else if (selected.length > 0)
+            return selected[selected.length - 1];
+        else
+            return selected[0];
+    }
+
+
+    private String lastCaseDone()
+    {
+        if (doneSet.isEmpty())
+            return null;
+        else
+            return doneSet.last();
+    }
+
+
+    private int lastCaseDoneInSelection(TreeItem[] selection)
+    {
+        if (selection == null)
+            return -1;
+        else if (doneSet.isEmpty())
+            return -1;
+        else 
+        {
+            String lastCaseWithResult = doneSet.last();
+            for (int i = 0; i < selection.length; i++)
+            {
+                if (selection[i] == null)
+                    continue;
+                if (lastCaseWithResult.equals(selection[i].getText()))
+                    return i;
+            }
+            return -1;
+        }
+    }
+
+
+    private final void incrementProgressBar()
+    {
+        progressBarCurrent++;
+        double next = ((double)progressBarCurrent/(double)progressBarSteps);
+        progressBar.updateProgress(next);
+    }
+
+
+    private final void resetProgressBar()
+    {
+        progressBarCurrent = 0;
+        progressBar.updateProgress(0);
+    }
+
+
+    private final void setProgressBarSteps(int num)
+    {
+        progressBarSteps = num;
+    }
+
+
+    private void waitForExecutor()
+    {
+        if (executor == null)
+            return;
+        executor.shutdown();            // Finish the threads we started.
+        while (!executor.isTerminated())
+        {
+            getDisplay().readAndDispatch();
+        }
+    }
+
+    private void informUserBadWrapper(WrapperConfig wrapper)
+    {
+        if (wrapper == null) 
+            AskUser.inform(shell, "Empty wrapper selection");
+
+        if (! wrapper.canRun())
+        {
+            AskUser.inform(shell, "Something is wrong with the definition of "
+                           + "\nthe selected wrapper. Running tests will "
+                           + "\nnot be possible until the definition is "
+                           + "\ncorrected or a different wrapper is "
+                           + "\nselected.");
+        }
+    }
+
+
+    private boolean haveResults(TreeItem[] selection)
+    {
+        for (TreeItem item : selection)
+            if (item.getData() != ResultType.Unknown)
+                return true;
+        return false;
     }
 }
