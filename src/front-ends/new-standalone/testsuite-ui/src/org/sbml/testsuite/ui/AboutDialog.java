@@ -94,55 +94,53 @@ public class AboutDialog
     {
         shell = new Shell(getParent(), SWT.DIALOG_TRIM);
         shell.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
-        shell.setSize(288, 498);
+        shell.setSize(450, 380);
         shell.setText("About the SBML Test Runner");
         shell.setLayout(null);
         shell.addListener(SWT.Close, new Listener() {
             public void handleEvent(Event event) { shell.dispose(); }
         });
         shell.setFocus();
-        UIUtils.addCloseKeyListener(shell, shell);
-        UIUtils.addTraverseKeyListener(shell, shell);
+        shell.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        shell.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
         
         Label lblNewLabel = new Label(shell, SWT.NONE);
-        lblNewLabel.setImage(SWTResourceManager.getImage(AboutDialog.class, "/data/sts-icon-shadowed-270x136.png"));
-        lblNewLabel.setBounds(11, 10, 268, 134);
+        lblNewLabel.setImage(UIUtils.getImageResource("icon_128x128.png"));
+        lblNewLabel.setBounds(11, 10, 139, 138);
         
         Label lblNewLabel_1 = new Label(shell, SWT.NONE);
         lblNewLabel_1.setFont(SWTResourceManager.getFont("Verdana", 20, SWT.BOLD));
-        lblNewLabel_1.setAlignment(SWT.CENTER);
-        lblNewLabel_1.setBounds(11, 140, 266, 25);
+        lblNewLabel_1.setBounds(160, 7, 270, 25);
         lblNewLabel_1.setText("The SBML Test Runner");
         
-        Label sep1 = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN | SWT.CENTER);
-        sep1.setBounds(16, 194, 255, 2);
-        
         Label lblVersion = new Label(shell, SWT.RIGHT);
-        lblVersion.setAlignment(SWT.CENTER);
+        lblVersion.setAlignment(SWT.LEFT);
         lblVersion.setFont(SWTResourceManager.getFont("Verdana", 11, SWT.ITALIC));
-        lblVersion.setBounds(81, 170, 126, 14);
+        lblVersion.setBounds(160, 38, 126, 14);
         lblVersion.setText("Version: " + Program.getVersion());
         
         Label lblTheSbmlTest = new Label(shell, SWT.WRAP);
-        lblTheSbmlTest.setBounds(14, 202, 260, 88);
+        lblTheSbmlTest.setBounds(16, 154, 418, 67);
         lblTheSbmlTest.setText("The SBML Test Suite is a system for testing the degree and correctness of SBML support in a given SBML-compatible software program. The SBML Test Runner drives an application to perform each test in the Test Suite, and displays the results and conclusions.");
         lblTheSbmlTest.setFont(SWTResourceManager.getFont("Verdana", 10, SWT.NORMAL));
         
         Label sep2 = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN | SWT.CENTER);
-        sep2.setBounds(16, 300, 255, 2);
+        sep2.setBounds(16, 225, 417, 2);
         
         Label lblNewLabel_2 = new Label(shell, SWT.NONE);
-        lblNewLabel_2.setFont(SWTResourceManager.getFont("Verdana", 10, SWT.NORMAL));
-        lblNewLabel_2.setBounds(14, 308, 266, 14);
-        lblNewLabel_2.setText("Written by Frank T. Bergmann and Michael Hucka.");
+        lblNewLabel_2.setFont(SWTResourceManager.getFont("Verdana", 10, SWT.BOLD));
+        lblNewLabel_2.setBounds(160, 67, 270, 14);
+        lblNewLabel_2.setText("Authors: Frank T. Bergmann and Michael Hucka.");
+        
+        Label lblPartOfThe = new Label(shell, SWT.WRAP);
+        lblPartOfThe.setText("Part of the SBML Test Suite, written by Sarah Keating, Lucian Smith, Frank Bergmann, Kimberley Begley and Michael Hucka.");
+        lblPartOfThe.setFont(SWTResourceManager.getFont("Verdana", 10, SWT.NORMAL));
+        lblPartOfThe.setBounds(160, 93, 270, 49);
         
         Label lblNewLabel_3 = new Label(shell, SWT.WRAP);
         lblNewLabel_3.setFont(SWTResourceManager.getFont("Verdana", 10, SWT.ITALIC));
-        lblNewLabel_3.setBounds(14, 340, 255, 49);
+        lblNewLabel_3.setBounds(16, 235, 418, 49);
         lblNewLabel_3.setText("For more information about this and other SBML Team software, as well as about SBML itself, please visit the following website:");
-        
-        Label sep3 = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN | SWT.CENTER);
-        sep3.setBounds(16, 331, 255, 2);
         
         StyleRange styleRange = new StyleRange();
         styleRange.start = 0;
@@ -155,7 +153,7 @@ public class AboutDialog
         lblHttpsbmlorg.setToolTipText("Click to visit SBML.org.");
         lblHttpsbmlorg.setForeground(SWTResourceManager.getColor(65, 105, 225));
         lblHttpsbmlorg.setFont(SWTResourceManager.getFont("Verdana", 11, SWT.BOLD));
-        lblHttpsbmlorg.setBounds(92, 392, 103, 20);
+        lblHttpsbmlorg.setBounds(173, 274, 103, 20);
         lblHttpsbmlorg.setText("http://sbml.org");
         lblHttpsbmlorg.setStyleRange(styleRange);
         final Cursor handCursor = new Cursor(shell.getDisplay(), SWT.CURSOR_HAND);
@@ -181,9 +179,8 @@ public class AboutDialog
             });
         
         Label lblNewLabel_4 = new Label(shell, SWT.NONE);
-        lblNewLabel_4.setImage(SWTResourceManager.getImage(AboutDialog.class, 
-                                                           "/data/SBML.png"));
-        lblNewLabel_4.setBounds(95, 420, 99, 40);
+        lblNewLabel_4.setImage(UIUtils.getImageResource("SBML.png"));
+        lblNewLabel_4.setBounds(175, 300, 99, 40);
     }
 
 
