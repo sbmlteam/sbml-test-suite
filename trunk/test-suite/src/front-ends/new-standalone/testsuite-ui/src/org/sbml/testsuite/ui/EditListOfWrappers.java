@@ -56,7 +56,7 @@ public class EditListOfWrappers
     extends Composite
 {
     Vector<WrapperConfig> wrappers;
-    List                  lstWrappers;
+    List                  displayedWrappersList;
     int                   lastSelectedIndex = -1;
     WrapperConfig         lastSelectedState = new WrapperConfig();
     EditWrappers          wrapperForm;
@@ -89,8 +89,8 @@ public class EditListOfWrappers
         FormLayout fl_composite = new FormLayout();
         composite.setLayout(fl_composite);
 
-        lstWrappers = new List(composite, SWT.BORDER);
-        lstWrappers.setToolTipText(
+        displayedWrappersList = new List(composite, SWT.BORDER);
+        displayedWrappersList.setToolTipText(
             "List of wrapper configurations for running the Test Suite "
             + "with your software application(s). You can define new "
             + "configurations using the form at right.");
@@ -99,22 +99,22 @@ public class EditListOfWrappers
         fd_list.left = new FormAttachment(0, 0);
         fd_list.right = new FormAttachment(100, 0);
         fd_list.bottom = new FormAttachment(90, 0);        
-        lstWrappers.setLayoutData(fd_list);
-        lstWrappers.addSelectionListener(new SelectionAdapter() {
+        displayedWrappersList.setLayoutData(fd_list);
+        displayedWrappersList.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                int index = lstWrappers.getSelectionIndex();
+                int index = displayedWrappersList.getSelectionIndex();
                 selectWrapper(index);
             }
         });
-        UIUtils.addCloseKeyListener(lstWrappers, shell);
+        displayedWrappersList.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         Button btnadd = new Button(composite, SWT.NONE);
         FormData fd_btnadd = new FormData();
         fd_btnadd.width = 95;
         fd_btnadd.left = new FormAttachment(0, -5);
-        fd_btnadd.top = new FormAttachment(lstWrappers, 4);
+        fd_btnadd.top = new FormAttachment(displayedWrappersList, 4);
         btnadd.setLayoutData(fd_btnadd);
         btnadd.setText("&Add...");
         btnadd.addSelectionListener(new SelectionAdapter() {
@@ -124,13 +124,13 @@ public class EditListOfWrappers
                 addNewWrapper();
             }
         });
-        UIUtils.addCloseKeyListener(btnadd, shell);
+        btnadd.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         Button btnremove = new Button(composite, SWT.NONE);
         FormData fd_btnremove = new FormData();
         fd_btnremove.width = 95;
-        fd_btnremove.right = new FormAttachment(lstWrappers, 5, SWT.RIGHT);
-        fd_btnremove.top = new FormAttachment(lstWrappers, 4);
+        fd_btnremove.right = new FormAttachment(displayedWrappersList, 5, SWT.RIGHT);
+        fd_btnremove.top = new FormAttachment(displayedWrappersList, 4);
         btnremove.setLayoutData(fd_btnremove);
         btnremove.setText("&Remove...");
         btnremove.addSelectionListener(new SelectionAdapter() {
@@ -140,7 +140,7 @@ public class EditListOfWrappers
                 removeWrapper();
             }
         });
-        UIUtils.addCloseKeyListener(btnremove, shell);
+        btnremove.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         wrapperForm = new EditWrappers(sashForm, SWT.NONE);
         sashForm.setWeights(new int[] {120, 280});
@@ -154,9 +154,10 @@ public class EditListOfWrappers
     {
         WrapperConfig config = new WrapperConfig();
         config.setName("newWrapper");
-        lstWrappers.add(config.getName());
+        config.setArguments("%d %n %o %l %v");
+        displayedWrappersList.add(config.getName());
         wrappers.add(config);
-        lstWrappers.select(wrappers.size() - 1);
+        displayedWrappersList.select(wrappers.size() - 1);
         selectWrapper(wrappers.size() - 1);
     }
 
@@ -176,7 +177,7 @@ public class EditListOfWrappers
         if (lastSelectedIndex != -1)
         {
             wrappers.get(lastSelectedIndex).updateFrom(wrapperForm.toConfig());
-            lstWrappers.setItem(lastSelectedIndex,
+            displayedWrappersList.setItem(lastSelectedIndex,
                                 wrappers.get(lastSelectedIndex).getName());
         }
     }
@@ -188,6 +189,18 @@ public class EditListOfWrappers
     public Vector<WrapperConfig> getWrappers()
     {
         return wrappers;
+    }
+
+
+    public WrapperConfig getSelectedWrapper()
+    {
+        int index = displayedWrappersList.getSelectionIndex();
+        if (wrappers == null || wrappers.isEmpty())
+            return null;
+        if (index >= 0)
+            return wrappers.get(index);
+        else
+            return wrappers.get(0);
     }
 
 
@@ -203,16 +216,16 @@ public class EditListOfWrappers
                              String lastWrapper)
     {
         this.wrappers = wrappers;
-        lstWrappers.removeAll();
+        displayedWrappersList.removeAll();
 
         for (int i = 0; i < wrappers.size(); i++)
         {
-            lstWrappers.add(wrappers.get(i).getName());
+            displayedWrappersList.add(wrappers.get(i).getName());
             if (lastWrapper.equals(wrappers.get(i).getName()))
-                lstWrappers.setSelection(i);
+                displayedWrappersList.setSelection(i);
         }
 
-        selectWrapper(lstWrappers.getSelectionIndex());
+        selectWrapper(displayedWrappersList.getSelectionIndex());
     }
 
 
@@ -221,12 +234,12 @@ public class EditListOfWrappers
      */
     public void removeWrapper()
     {
-        int index = lstWrappers.getSelectionIndex();
+        int index = displayedWrappersList.getSelectionIndex();
         if (index < 0 || index > wrappers.size()) return;
 
         lastSelectedIndex = -1;
         wrappers.remove(index);
-        lstWrappers.remove(index);
+        displayedWrappersList.remove(index);
 
         index = index - 1;
         if (index < 0 || index > wrappers.size())
@@ -234,7 +247,7 @@ public class EditListOfWrappers
             index = 0;
         }
 
-        lstWrappers.setSelection(index);
+        displayedWrappersList.setSelection(index);
         selectWrapper(index);
     }
 
@@ -259,7 +272,7 @@ public class EditListOfWrappers
     public boolean changesPending()
     {
         WrapperConfig currentFormValues = wrapperForm.toConfig();
-        return (lastSelectedIndex != lstWrappers.getSelectionIndex())
+        return (lastSelectedIndex != displayedWrappersList.getSelectionIndex())
             || ! lastSelectedState.equals(currentFormValues);
     }
 }
