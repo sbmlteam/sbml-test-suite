@@ -30,13 +30,21 @@
 
 package org.sbml.testsuite.ui;
 
+import java.io.File;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ProgressBar;
@@ -49,7 +57,6 @@ import org.eclipse.wb.swt.SWTResourceManager;
 public class ProgressDialog
     extends Dialog
 {
-
     protected Object    result;
     private Shell       shell;
     private ProgressBar progressBar;
@@ -58,16 +65,31 @@ public class ProgressDialog
 
     /**
      * Create the dialog.
+     *
+     * @param parent
+     * @param file to mention in the dialog text
+     * 
+     * @wbp.parser.constructor
+     */
+    public ProgressDialog(Shell parent, File file)
+    {
+        super(parent, SWT.SHEET | SWT.PRIMARY_MODAL);
+        setText("Progress ...");
+        createContents(file);
+    }
+
+
+    /**
+     * Create the dialog.
      * 
      * @param parent
      * @param style
      */
-    public ProgressDialog(Shell parent, int style)
+    public ProgressDialog(Shell parent, int style, File file)
     {
         super(parent, style);
         setText("Progress ...");
-        createContents();
-
+        createContents(file);
     }
 
 
@@ -84,7 +106,6 @@ public class ProgressDialog
         Point dialogSize = getSize();
         setLocation(shellBounds.x + (shellBounds.width - dialogSize.x) / 2,
                     shellBounds.y + (shellBounds.height - dialogSize.y) / 2);
-
     }
 
 
@@ -100,30 +121,30 @@ public class ProgressDialog
     /**
      * Create contents of the dialog.
      */
-    private void createContents()
+    private void createContents(File file)
     {
         shell = new Shell(getParent(), getStyle());
-        shell.setSize(450, 300);
-        shell.setText(getText());
+        shell.setMinimumSize(new Point(350, 250));
+        shell.setSize(350, 250);
+        shell.setText("Processing " + file.getName());
         shell.setLayout(new FormLayout());
 
-        progressBar = new ProgressBar(shell, SWT.INDETERMINATE);
+        styledText = new StyledText(shell, SWT.READ_ONLY | SWT.WRAP);
+        FormData fd_styledText = new FormData();
+        fd_styledText.top = new FormAttachment(10);
+        fd_styledText.left = new FormAttachment(0, 10);
+        fd_styledText.right = new FormAttachment(100, -10);
+        fd_styledText.bottom = new FormAttachment(100, -30);
+        styledText.setLayoutData(fd_styledText);
+        styledText.setText("<p>Test</p>");
+        styledText.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
+
+        progressBar = new ProgressBar(shell, SWT.INDETERMINATE | SWT.BORDER);
         FormData fd_progressBar = new FormData();
         fd_progressBar.bottom = new FormAttachment(100, -10);
         fd_progressBar.right = new FormAttachment(100, -10);
         fd_progressBar.left = new FormAttachment(0, 10);
         progressBar.setLayoutData(fd_progressBar);
-
-        styledText = new StyledText(shell, SWT.READ_ONLY | SWT.WRAP);
-        styledText.setText("<p>Test</p>");
-        styledText.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
-        FormData fd_styledText = new FormData();
-        fd_styledText.right = new FormAttachment(progressBar, 0, SWT.RIGHT);
-        fd_styledText.bottom = new FormAttachment(progressBar, -10);
-        fd_styledText.top = new FormAttachment(0, 10);
-        fd_styledText.left = new FormAttachment(0, 92);
-        styledText.setLayoutData(fd_styledText);
-
     }
 
 
@@ -190,6 +211,7 @@ public class ProgressDialog
     {
         shell.open();
         shell.layout();
+        try { Thread.sleep(100); } catch (Exception e) { }
     }
 
 
