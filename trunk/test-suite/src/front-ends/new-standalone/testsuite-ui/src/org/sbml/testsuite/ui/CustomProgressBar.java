@@ -9,9 +9,9 @@
 // from the RCP Toolbox (https://sourceforge.net/projects/rcptoolbox/).  The
 // following is the author and license indicated in that file:
 //
-// Author Code Crofter
-// On behalf Polymorph Systems
-// License: Eclipse Public License
+//   Author Code Crofter
+//   On behalf Polymorph Systems
+//   License: Eclipse Public License
 //
 // No version of the Eclipse Public License is specified, but at the time the
 // original code was retrieved, the only license available was v. 1.0, defined
@@ -79,13 +79,18 @@ import org.eclipse.wb.swt.SWTResourceManager;
  * bar on the Mac.  I suspect what's happening is that their "fix" interacts
  * with the event queue used by Display's asyncExec(...).
  *
- * This progress bar does not suffer from that problem (which, incidentally,
- * further reinforces my belief that the source of the previous problem is
- * rooted in ProgressBar).  This progress bar admittedly does not look
- * identical to the Mac OS X native one, but its appearance is also not
+ * The progress bar implementation here (which is only slightly modified from
+ * the original CoolProgressBar) does not suffer from that problem -- a fact
+ * which, incidentally, further bolsters the conclusion that the previous
+ * problem lies is due to SWT's ProgressBar.  The use of CoolProgressBar was
+ * not driven by the belief that it's unique in avoiding the async event
+ * problem; it's just that CoolProgressBar was self-contained, simple, and
+ * provided an appearance that resembles native progress bars, at least on
+ * Mac OS X and roughly on Windows 7.  The progress bar admittedly does not
+ * look identical to the Mac OS X native one, but its appearance is also not
  * objectionable (IMHO), and by adjusting the color of the progress bar to
- * match some the color theme used in our interface, we can make it look like
- * this was a deliberate stylistic choice.
+ * match some the color theme used in our SBML Test Runner interface, we can
+ * make it look like this was a deliberate stylistic choice.
  *
  * The following is the documentation for the original CoolProgressBar upon
  * which this code is based:
@@ -196,10 +201,10 @@ public class CustomProgressBar extends Composite
     public CustomProgressBar(Composite parent, int style)
     {
         this(parent, style,
-             SWTResourceManager.getImage(MainWindow.class, "/data/border.png"),
-             SWTResourceManager.getImage(MainWindow.class, "/data/filled_region_horizontal.png"),
-             SWTResourceManager.getImage(MainWindow.class, "/data/empty_region.png"),
-             SWTResourceManager.getImage(MainWindow.class, "/data/border.png"));
+             UIUtils.getImageResource("border.png"),
+             UIUtils.getImageResource("filled_region_horizontal.png"),
+             UIUtils.getImageResource("empty_region.png"),
+             UIUtils.getImageResource("border.png"));
     }
 
     private GridLayout createLayout()
