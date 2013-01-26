@@ -131,7 +131,7 @@ public class EditWrappers
         fd_txtName.right = new FormAttachment(100, 0);
         fd_txtName.top = new FormAttachment(lblName, 0, SWT.CENTER);
         txtName.setLayoutData(fd_txtName);
-        UIUtils.addCloseKeyListener(txtName, shell);
+        txtName.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         Label lblWrapper = new Label(this, SWT.RIGHT);
         lblWrapper.setAlignment(SWT.RIGHT);
@@ -148,7 +148,7 @@ public class EditWrappers
         fd_txtWrapper.right = new FormAttachment(100, -55);
         fd_txtWrapper.top = new FormAttachment(lblWrapper, 0, SWT.CENTER);
         txtWrapper.setLayoutData(fd_txtWrapper);
-        UIUtils.addCloseKeyListener(txtWrapper, shell);
+        txtWrapper.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         Button cmdBrowseWrapper = new Button(this, SWT.NONE);
         cmdBrowseWrapper.setAlignment(SWT.CENTER);
@@ -163,7 +163,7 @@ public class EditWrappers
                 browseForWrapper();
             }
         });
-        UIUtils.addCloseKeyListener(cmdBrowseWrapper, shell);
+        cmdBrowseWrapper.addKeyListener(UIUtils.createCloseKeyListener(shell));
         
         Label lblUnsupportedTags = new Label(this, SWT.RIGHT);
         lblUnsupportedTags.setAlignment(SWT.RIGHT);
@@ -184,7 +184,7 @@ public class EditWrappers
         fd_txtUnsupportedTags.top = new FormAttachment(lblUnsupportedTags, 0, 
                                                        SWT.CENTER);
         txtUnsupportedTags.setLayoutData(fd_txtUnsupportedTags);
-        UIUtils.addCloseKeyListener(txtUnsupportedTags, shell);
+        txtUnsupportedTags.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         Button cmdEditTags = new Button(this, SWT.NONE);
         cmdEditTags.setAlignment(SWT.CENTER);
@@ -200,7 +200,7 @@ public class EditWrappers
                 editUnsupportedTags();
             }
         });
-        UIUtils.addCloseKeyListener(cmdEditTags, shell);
+        cmdEditTags.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         Label lblWrapperOutputDir = new Label(this, SWT.RIGHT);
         lblWrapperOutputDir.setAlignment(SWT.RIGHT);
@@ -219,7 +219,7 @@ public class EditWrappers
         fd_txtWrapperOutputDir.top = new FormAttachment(lblWrapperOutputDir,
                                                               0, SWT.CENTER);
         txtWrapperOutputDir.setLayoutData(fd_txtWrapperOutputDir);
-        UIUtils.addCloseKeyListener(txtWrapperOutputDir, shell);
+        txtWrapperOutputDir.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         Button cmdBrowseOutputDir = new Button(this, SWT.NONE);
         cmdBrowseOutputDir.setAlignment(SWT.CENTER);
@@ -235,7 +235,7 @@ public class EditWrappers
                 browseForOutputDir();
             }
         });
-        UIUtils.addCloseKeyListener(cmdBrowseOutputDir, shell);
+        cmdBrowseOutputDir.addKeyListener(UIUtils.createCloseKeyListener(shell));
         
         Label lblWrapperArguments = new Label(this, SWT.RIGHT);
         lblWrapperArguments.setAlignment(SWT.RIGHT);
@@ -255,7 +255,7 @@ public class EditWrappers
         fd_txtWrapperArgs.top = new FormAttachment(lblWrapperArguments, 0,
                                                    SWT.CENTER);
         txtWrapperArgs.setLayoutData(fd_txtWrapperArgs);
-        UIUtils.addCloseKeyListener(txtWrapperArgs, shell);
+        txtWrapperArgs.addKeyListener(UIUtils.createCloseKeyListener(shell));
         
         btnWrapperCanRun = new Button(this, SWT.CHECK);
         FormData fd_btnWrapperCanRun = new FormData();
@@ -264,7 +264,7 @@ public class EditWrappers
         fd_btnWrapperCanRun.top = new FormAttachment(txtWrapperArgs, 6);
         btnWrapperCanRun.setLayoutData(fd_btnWrapperCanRun);
         btnWrapperCanRun.setText("Wrapper can run any SBML Level / Version");
-        UIUtils.addCloseKeyListener(btnWrapperCanRun, shell);
+        btnWrapperCanRun.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         Label lblNewLabel = new Label(this, SWT.WRAP);
         FormData fd_lblNewLabel = new FormData();
@@ -297,12 +297,12 @@ public class EditWrappers
             + "\n\t%v \t= the SBML Version to be used"
             + "\n"
             + "\nEach test case consists of an SBML file and a settings file. "
-            + "The files will be located in the directory %d/%n. The SBML file "
+            + "The files will be located in the directory %d/%n. The SBML file "
             + "will be named '%n-sbml-l%lv%v.xml, where "
             + "%l is replaced by the SBML Level and %v is replaced by the "
             + "Version within the Level. (Example: '00123-sbml-l2v3.xml'.) The "
             + "test settings file will be named '%n-settings.txt' in the same "
-            + "directory. (Example: '00123-settings.txt'.) The application "
+            + "directory. (Example: '00123-settings.txt'.) The application "
             + "must be instructed to write out the results into a file named "
             + "'%o/%n.csv' so that this test runner can find it.");
     }
