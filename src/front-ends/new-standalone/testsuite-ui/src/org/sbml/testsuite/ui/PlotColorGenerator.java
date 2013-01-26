@@ -39,39 +39,83 @@ import org.eclipse.swt.widgets.Display;
  * and cycles back to the beginning of the list if a given plot needs more
  * colors than are in the list.  Every plot that uses this should always call
  * reset() to restart the colors from the beginning of the list.
+ *
+ * I created the colors by combining 3 sources, then swapping colors
+ * repeatedly until I found the color sequence and juxtapositions
+ * attractive (subjectively) and distinguishable:
+ *
+ * 1) A color scheme I created using the excellent tool colorschemedesigner.com
+ *    http://colorschemedesigner.com/#3K40zllqaTeSj
+ *
+ * 2) A blog post, the author of which I can't figure out, at the following
+ *    page (this is also where I first learned of colorschemedesigner.com):
+ *    http://guidolan.blogspot.com/2010/03/how-to-create-beautiful-gnuplot-graphs.html
+ *
+ * 3) The colors from the Highcharts JS library.
  */
 public class PlotColorGenerator
 {
-    private final static int[][] colors = { {146, 168, 205},
-                                            {170,  70,  67},
-                                            {137, 165,  78},
-                                            {128, 105, 155},
-                                            { 69, 114, 167},
-                                            {219, 132,  61},
-                                            { 61, 150, 174},
-                                            {164, 125, 124},
-                                            {181, 202, 146},
-                                            {249, 183, 176},
-                                            {169, 189, 230},
-                                            {166, 235, 181},
-                                            {249, 224, 176},
-                                            {249, 122, 109},
-                                            {114, 151, 230},
-                                            {103, 235, 132},
-                                            {249, 201, 109},
-                                            {230,  43,  23},
-                                            { 29,  69, 153},
-                                            { 17, 173,  52},
-                                            {230, 159,  23},
-                                            {143,  70,  63},
-                                            { 47,  63,  96},
-                                            { 47, 108,  61},
-                                            {143, 116,  63},
-                                            {109,  13,   3},
-                                            {  3,  26,  73},
-                                            {  2,  82,  20},
-                                            {109,  73,   3} };
-    private static int index = 0;
+    private final static int[][] colors = { 
+        {56,83,139},
+        {53,158,76},
+        {195,83,69},
+        {158,184,239},
+        {55,88,63},
+        {117,77,73},
+        {207,218,239},
+        {2,61,15},
+        {80,11,3},
+        {52,60,78},
+        {150,242,170},
+        {249,163,155},
+        {3,19,54},
+        {206,242,214},
+        {249,215,212},
+        {58, 81, 140},
+        {180, 124, 174},
+        {226, 206, 113},
+        {114, 151, 230},
+        {129, 132, 119},
+        {138, 198, 0},
+        {155, 191, 171},
+        {222, 219, 48},
+        {25, 91, 139},
+        {128, 105, 155},
+        {219, 132,  61},
+        {122, 160, 103},
+        {101, 111, 140},
+        {137, 165,  78},
+        { 69, 114, 167},
+        {170,  70,  67},
+        {232, 105, 70},
+        {90, 154, 112},
+        {146, 168, 205},
+        {104, 156, 226},
+        { 61, 150, 174},
+        {249, 183, 176},
+        {65, 54, 89},
+        {169, 189, 230},
+        {181, 202, 146},
+        {249, 224, 176},
+        {166, 235, 181},
+        {249, 122, 109},
+        {164, 125, 124},
+        {103, 235, 132},
+        {249, 201, 109},
+        {230,  43,  23},
+        { 29,  69, 153},
+        { 17, 173,  52},
+        {230, 159,  23},
+        {143,  70,  63},
+        { 47,  63,  96},
+        { 47, 108,  61},
+        {143, 116,  63},
+        {109,  13,   3},
+        {  3,  26,  73},
+        {  2,  82,  20},
+        {109,  73,   3},
+    };
+    private static int index = -1;
 
 
     public static Color nextColor()
@@ -90,7 +134,7 @@ public class PlotColorGenerator
 
     public static void reset()
     {
-        index = 0;
+        index = -1;
     }
 
 
