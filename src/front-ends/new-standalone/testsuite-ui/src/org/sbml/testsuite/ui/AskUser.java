@@ -33,48 +33,76 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
+import org.mihalis.opal.opalDialog.Dialog;
+import org.mihalis.opal.opalDialog.MessageArea;
+import org.mihalis.opal.opalDialog.FooterArea;
+import org.mihalis.opal.opalDialog.Dialog.OpalDialogType;
+import org.mihalis.opal.utils.ResourceManager;
+
+
 public class AskUser 
 {
-
-    static public boolean yesNo(final String question, final String title,
-                                final Shell shell)
+    static public boolean confirm(final Shell shell, final String question)
     {
-        final MessageBox messageBox
-            = new MessageBox(shell, SWT.ICON_QUESTION | SWT.NO | SWT.YES);
-        messageBox.setMessage(question);
-        messageBox.setText(title);
-        boolean response = (messageBox.open() == SWT.YES);
-        return response;
+        Dialog dialog         = new Dialog(shell);
+        MessageArea msgArea   = dialog.getMessageArea();
+        FooterArea footerArea = dialog.getFooterArea();
+
+        dialog.setTitle("Confirmation");
+        dialog.setButtonType(OpalDialogType.OK_CANCEL);
+        dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
+        msgArea.setIcon(Display.getCurrent().getSystemImage(SWT.ICON_WARNING));
+        msgArea.setText(question);
+        footerArea.setDefaultButtonIndex(1);
+        return dialog.show() == 0;
     }
+
+
+    static public boolean inform(final Shell shell, final String info)
+    {
+        Dialog dialog         = new Dialog(shell);
+        MessageArea msgArea   = dialog.getMessageArea();
+        FooterArea footerArea = dialog.getFooterArea();
+
+        dialog.setTitle(ResourceManager.getLabel(ResourceManager.INFORMATION));
+        dialog.setButtonType(OpalDialogType.CLOSE);
+        dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
+        msgArea.setIcon(Display.getCurrent().getSystemImage(SWT.ICON_INFORMATION));
+        msgArea.setText(info);
+        return dialog.show() == 0;
+    }
+
     
-
-    static public boolean saveCancel(final String question, final String title,
-                                     final Shell shell)
+    static public boolean informWithOverride(final Shell shell,
+                                             final String info)
     {
-        final MessageBox messageBox
-            = new MessageBox(shell, SWT.ICON_QUESTION | SWT.NO | SWT.YES);
-        messageBox.setMessage(question);
-        messageBox.setText(title);
-        boolean response = (messageBox.open() == SWT.YES);
-        return response;
+        Dialog dialog         = new Dialog(shell);
+        MessageArea msgArea   = dialog.getMessageArea();
+        FooterArea footerArea = dialog.getFooterArea();
+
+        dialog.setTitle(ResourceManager.getLabel(ResourceManager.INFORMATION));
+        dialog.setButtonType(OpalDialogType.CLOSE);
+        dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
+        msgArea.setIcon(Display.getCurrent().getSystemImage(SWT.ICON_INFORMATION));
+        msgArea.setText(info);
+        footerArea.addCheckBox("Proceed anyway", false);
+        dialog.show();
+        return footerArea.getCheckBoxValue();
     }
+
     
-
-    /**
-     * Main for testing only.
-     * 
-     * @param args
-     */
-    public static void main(String[] argv) 
+    static public boolean saveCancel(final Shell shell, final String question)
     {
-        final Display display = new Display();
-        final Shell shell = new Shell(display);        
-        
-        boolean r = yesNo("My question?", "This is the dialog title", shell);
-        yesNo("The answer was " + (r ? "yes" : "no"), "Title", shell);
+        Dialog dialog         = new Dialog(shell);
+        MessageArea msgArea   = dialog.getMessageArea();
+        FooterArea footerArea = dialog.getFooterArea();
 
-        r = saveCancel("save?", "This is the dialog title", shell);
-        yesNo("The answer was " + (r ? "yes" : "no"), "Title", shell);
+        dialog.setTitle("Save");
+        dialog.setButtonType(OpalDialogType.OK_CANCEL);
+        dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
+        msgArea.setIcon(Display.getCurrent().getSystemImage(SWT.ICON_QUESTION));
+        msgArea.setText(question);
+        footerArea.setDefaultButtonIndex(1);
+        return dialog.show() == 0;
     }
-
 }
