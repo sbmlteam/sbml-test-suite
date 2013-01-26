@@ -74,6 +74,10 @@ public class TestCase
 
     private Vector<String>   testTags;
 
+    private String           testType;
+
+    private Vector<String>   packagesPresent;
+
 
     /**
      * Default constructor
@@ -124,6 +128,24 @@ public class TestCase
     public String getComponentTagsString()
     {
         return Util.toString(componentTags);
+    }
+
+
+    /**
+     * @return the packagespresent
+     */
+    public Vector<String> getPackagesPresent()
+    {
+        return packagesPresent;
+    }
+
+
+    /**
+     * @return all packages present as (comma separated) string.
+     */
+    public String getPackagesPresentString()
+    {
+        return Util.toString(packagesPresent);
     }
 
 
@@ -213,6 +235,15 @@ public class TestCase
     public String getGeneratedBy()
     {
         return generatedBy;
+    }
+
+
+    /**
+     * @return the testType
+     */
+    public String getTestType()
+    {
+        return testType;
     }
 
 
@@ -482,6 +513,7 @@ public class TestCase
         componentTags = new Vector<String>();
         testTags = new Vector<String>();
         supportedVersions = new Vector<String>();
+        packagesPresent = new Vector<String>();
 
         componentTags.addAll(Util.split(Util.getSnippet(contents,
                                                         "componentTags:",
@@ -489,15 +521,22 @@ public class TestCase
                                         new char[] {',', ' ', '\n'}));
 
         testTags.addAll(Util.split(Util.getSnippet(contents, "testTags:",
-                                                   "testType:"), new char[] {
-            ',', ' ', '\n'}));
+                                                   "testType:"), 
+                                   new char[] { ',', ' ', '\n'}));
 
         supportedVersions.addAll(Util.split(Util.getSnippet(contents,
                                                             "levels:",
                                                             "generatedBy:"),
                                             new char[] {',', ' ', '\n'}));
 
-        generatedBy = Util.getSnippet(contents, "generatedBy:", "\n");
+        testType = Util.getSnippet(contents, "testType:", "levels:").trim();
+
+        generatedBy = Util.getSnippet(contents, "generatedBy:", "\n").trim();
+
+        packagesPresent.addAll(Util.split(Util.getSnippet(contents,
+                                                          "packagesPresent:",
+                                                          "\n"),
+                                            new char[] {',', ' ', '\n'}));
 
         lastModified = caseDirectory.lastModified();
 
