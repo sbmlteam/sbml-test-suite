@@ -109,8 +109,7 @@ public class DialogFilterRange
     private void createContents()
     {
         shlFilterRange = new Shell(getParent(), SWT.DIALOG_TRIM | SWT.RESIZE);
-        shlFilterRange.setImage(SWTResourceManager.getImage(DialogFilterRange.class,
-                                                            "/data/sbml_256.png"));
+        shlFilterRange.setImage(UIUtils.getImageResource("sbml_256.png"));
         shlFilterRange.setMinimumSize(new Point(300, 160));
         shlFilterRange.setSize(147, 83);
         shlFilterRange.setText("Filter By Range");
