@@ -42,26 +42,40 @@ import org.eclipse.swt.widgets.ToolItem;
 public class ListToolItem
     extends ToolItem
 {
-    static int MIN_WIDTH_NUM_CHARS = 30;
-
     private static Color gradientStartColor;
     private static Color gradientStopColor;
     private static Color borderColor;
     private static Color fontColor;
+    private static int   RIGHT_PADDING_AMOUNT = 10;
+    private static int   DEFAULT_PIXEL_HEIGHT = 20;
 
-    private String  buttonText;
-    private Display display;
+    private int          minWidthNumChars = 30;
+    private int          topIndent = 0;
+    private String       buttonText;
+    private Display      display;
     
-    private static int RIGHT_PADDING_AMOUNT = 10;
-    private boolean depressed = false;
+    private boolean      depressed = false;
 
 
     @Override protected void checkSubclass() { }    
     
 
-    public ListToolItem(ToolBar toolbar, String initialText)
+    /**
+     * The @p topIndent is useful when the other icons in a toolbar are not
+     * vertically centered.  For instance, if you are using images for the
+     * icons (as we are in the SBML Test Runner), the visible part of the
+     * icon may not be vertically centered within the canvas of the image
+     * because there may be space for shadows or just adjustments for
+     * different icon heights.  When ListToolItem is created, though, it
+     * can't know that, because the height that it gets by interrogating @p
+     * toolbar will have the full height as determined by placing all the
+     * items in the tool bar no matter what they are.  So, it may be
+     * necessary to add spacing using topIndent to align things vertically.
+     */
+    public ListToolItem(ToolBar toolbar, String initialText, int topIndent)
     {
         super(toolbar, SWT.DROP_DOWN);
+        this.topIndent = topIndent;
         setText(initialText);           // Our setText(), not ToolItem's.
         toolbar.addListener(SWT.Paint, new Listener() {
                 // This gets called repeatedly when the panel is being resized.
@@ -73,6 +87,15 @@ public class ListToolItem
         toolbar.addListener(SWT.MouseDown, new Listener() {
                 public void handleEvent(Event e)
                 {
+                    // This timer is a bit hacky, but solves the following
+                    // problem: the button is left in the "pressed" shape if 
+                    // you (1) click on it, (2) move the mouse off the toolbar, 
+                    // (3) click elsewhere. 
+                    display.timerExec(500, new Runnable() {
+                        public void run() {
+                            depressed = false;
+                        }
+                    });
                     if (eventIsWithinBounds(e))
                     {
                         depressed = true;
@@ -127,10 +150,11 @@ public class ListToolItem
     }
 
 
-    public ListToolItem(ToolBar toolbar, String initialText, int minCharWidth)
+    public ListToolItem(ToolBar toolbar, String initialText,
+                        int topIndent, int minCharWidth)
     {
-        this(toolbar, initialText);
-        MIN_WIDTH_NUM_CHARS = minCharWidth;
+        this(toolbar, initialText, topIndent);
+        minWidthNumChars = minCharWidth;
     }
 
 
@@ -163,7 +187,7 @@ public class ListToolItem
         buttonText = string;
 
         int len = string.length();
-        int numChars = (len < MIN_WIDTH_NUM_CHARS) ? MIN_WIDTH_NUM_CHARS : len;
+        int numChars = (len < minWidthNumChars) ? minWidthNumChars : len;
 
         char[] charArray = new char[numChars + RIGHT_PADDING_AMOUNT];
         Arrays.fill(charArray, ' ');
@@ -190,14 +214,18 @@ public class ListToolItem
             e.gc.setForeground(gradientStartColor);
             e.gc.setBackground(gradientStopColor);
         }
-        Rectangle r = getBounds();
-        e.gc.fillGradientRectangle(r.x - 10 , r.y + 3,
-                                   r.width + 9, r.height - 13, true);
+        Rectangle r   = getBounds();
+        int topOffset = 0;
+        if (DEFAULT_PIXEL_HEIGHT < r.height)
+            topOffset = (r.height - DEFAULT_PIXEL_HEIGHT)/2 - 2 + topIndent;
+
+        e.gc.fillGradientRectangle(r.x - 10 , r.y + topOffset,
+                                   r.width + 9, DEFAULT_PIXEL_HEIGHT, true);
         e.gc.setForeground(borderColor);
-        e.gc.drawRoundRectangle(r.x - 11 , r.y + 2,
-                                r.width + 10, r.height - 12, 7, 7);
+        e.gc.drawRoundRectangle(r.x - 11 , r.y + topOffset,
+                                r.width + 10, DEFAULT_PIXEL_HEIGHT, 7, 7);
         e.gc.setForeground(fontColor);
-        e.gc.drawText(buttonText, r.x - 6, r.y + 4, true);
+        e.gc.drawText(buttonText, r.x - 6, r.y + topOffset + 3, true);
         getParent().redraw();   // This gets rid of cheese left after moves.
     }
 
