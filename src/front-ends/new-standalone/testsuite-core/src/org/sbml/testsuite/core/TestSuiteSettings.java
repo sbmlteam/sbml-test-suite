@@ -45,21 +45,6 @@ import org.simpleframework.xml.core.Persister;
 @Default
 public class TestSuiteSettings
 {
-
-    /**
-     * Read the settings from the given file
-     * @param file the file to read from
-     * @return the new settings file
-     * @throws Exception possible io / deserialization exception
-     */
-    public static TestSuiteSettings fromFile(File file)
-        throws Exception
-    {
-        Serializer serializer = new Persister();
-        TestSuiteSettings suite = serializer.read(TestSuiteSettings.class, file);
-        suite.setSuite(TestSuite.forDirectory(suite.getCasesFile()));
-        return suite;
-    }
     private Vector<WrapperConfig> wrappers;
     private String                casesDir;
 
@@ -72,39 +57,6 @@ public class TestSuiteSettings
     @Transient
     private static TestSuiteSettings defaultSettings;
 
-    /**
-     * By default the settings will be persisted in the user directory/.testsuite.xml
-     * @see Util.getUserDir()
-     * @return the default file
-     */
-    public static File getDefaultFile()
-    {
-        String userDir = Util.getUserDir();
-        return new File(userDir + File.separator + ".testsuite.xml");
-    }
-
-    
-/**
- * Load the default settings
- * @return default settings
- */
-public static TestSuiteSettings loadDefault()
-{
-    if (defaultSettings != null) return defaultSettings;
-    
-    File defaultFile = getDefaultFile();
-    if (!defaultFile.exists()) return new TestSuiteSettings();
-    try
-    {
-        defaultSettings = fromFile(defaultFile);
-    }
-    catch (Exception e)
-    {
-        e.printStackTrace();
-        defaultSettings  = new TestSuiteSettings();
-    }
-    return defaultSettings;
-}
 
     /**
      * Default constructor
@@ -138,6 +90,73 @@ public static TestSuiteSettings loadDefault()
     {
         this(casesDir);
         this.wrappers = wrappers;
+    }
+
+
+    /**
+     * Constructs a new settings object with test suite directory, wrapper
+     * configurations and last wrapper.
+     *
+     * @param casesDir the test suite directory
+     * @param wrappers wrapper configurations
+     */
+    public TestSuiteSettings(String casesDir, Vector<WrapperConfig> wrappers,
+                             String lastWrapper)
+    {
+        this(casesDir);
+        this.wrappers = wrappers;
+        this.lastWrapper = lastWrapper;
+    }
+
+
+    /**
+     * Read the settings from the given file
+     * @param file the file to read from
+     * @return the new settings file
+     * @throws Exception possible io / deserialization exception
+     */
+    public static TestSuiteSettings fromFile(File file)
+        throws Exception
+    {
+        Serializer serializer = new Persister();
+        TestSuiteSettings suite = serializer.read(TestSuiteSettings.class, file);
+        suite.setSuite(TestSuite.forDirectory(suite.getCasesFile()));
+        return suite;
+    }
+
+
+    /**
+     * By default the settings will be persisted in the user directory/.testsuite.xml
+     * @see Util.getUserDir()
+     * @return the default file
+     */
+    public static File getDefaultFile()
+    {
+        String userDir = Util.getUserDir();
+        return new File(userDir + File.separator + ".testsuite.xml");
+    }
+
+    
+    /**
+     * Load the default settings
+     * @return default settings
+     */
+    public static TestSuiteSettings loadDefault()
+    {
+        if (defaultSettings != null) return defaultSettings;
+    
+        File defaultFile = getDefaultFile();
+        if (!defaultFile.exists()) return new TestSuiteSettings();
+        try
+        {
+            defaultSettings = fromFile(defaultFile);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            defaultSettings  = new TestSuiteSettings();
+        }
+        return defaultSettings;
     }
 
 
@@ -176,7 +195,7 @@ public static TestSuiteSettings loadDefault()
     public WrapperConfig getLastWrapper()
     {
         WrapperConfig result = getWrapper(lastWrapper);
-        if (result!= null) return result;
+        if (result != null) return result;
         if (wrappers.size() > 0)
             return wrappers.get(0);
         return null;
@@ -203,9 +222,8 @@ public static TestSuiteSettings loadDefault()
     {
         String last = getLastWrapperName();
         if (getWrapper(last) == null)
-        return getLastWrapper().getName();
+            return getLastWrapper().getName();
         return last;
-        
     }
 
 
