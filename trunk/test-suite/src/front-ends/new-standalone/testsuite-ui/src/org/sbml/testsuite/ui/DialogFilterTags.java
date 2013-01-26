@@ -154,8 +154,7 @@ public class DialogFilterTags
     private void createContents()
     {
         shlFilterTags = new Shell(getParent(), SWT.DIALOG_TRIM | SWT.RESIZE);
-        shlFilterTags.setImage(SWTResourceManager.getImage(DialogFilterTags.class,
-                                                           "/data/sbml_256.png"));
+        shlFilterTags.setImage(UIUtils.getImageResource("sbml_256.png"));
         shlFilterTags.setMinimumSize(new Point(570, 410));
         shlFilterTags.setSize(570, 410);
         shlFilterTags.setText("Filter Tags");
