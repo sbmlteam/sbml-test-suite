@@ -38,5 +38,6 @@ public enum ResultType
     Match,
     NoMatch,
     CannotSolve,
-    Unknown
+    Unknown,
+    Error
 }
