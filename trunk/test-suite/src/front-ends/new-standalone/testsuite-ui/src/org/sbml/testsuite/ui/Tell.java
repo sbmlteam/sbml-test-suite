@@ -1,5 +1,5 @@
 //
-// @file    AskUser.java
+// @file    Tell.java
 // @brief   Simple dialogs for user queries.
 // @author  Michael Hucka
 // @date    Created 2012-12-19 <mhucka@caltech.edu>
@@ -40,7 +40,7 @@ import org.mihalis.opal.opalDialog.Dialog.OpalDialogType;
 import org.mihalis.opal.utils.ResourceManager;
 
 
-public class AskUser 
+public class Tell 
 {
     static public boolean confirm(final Shell shell, final String question)
     {
@@ -52,6 +52,22 @@ public class AskUser
         dialog.setButtonType(OpalDialogType.OK_CANCEL);
         dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
         msgArea.setIcon(Display.getCurrent().getSystemImage(SWT.ICON_WARNING));
+        msgArea.setText(question);
+        footerArea.setDefaultButtonIndex(1);
+        return dialog.show() == 0;
+    }
+
+    
+    static public boolean saveCancel(final Shell shell, final String question)
+    {
+        Dialog dialog         = new Dialog(shell);
+        MessageArea msgArea   = dialog.getMessageArea();
+        FooterArea footerArea = dialog.getFooterArea();
+
+        dialog.setTitle("Save");
+        dialog.setButtonType(OpalDialogType.OK_CANCEL);
+        dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
+        msgArea.setIcon(Display.getCurrent().getSystemImage(SWT.ICON_QUESTION));
         msgArea.setText(question);
         footerArea.setDefaultButtonIndex(1);
         return dialog.show() == 0;
@@ -90,19 +106,20 @@ public class AskUser
         return footerArea.getCheckBoxValue();
     }
 
-    
-    static public boolean saveCancel(final Shell shell, final String question)
+
+    static public boolean error(final Shell shell, final String msg,
+                                final String details)
     {
         Dialog dialog         = new Dialog(shell);
         MessageArea msgArea   = dialog.getMessageArea();
         FooterArea footerArea = dialog.getFooterArea();
 
-        dialog.setTitle("Save");
-        dialog.setButtonType(OpalDialogType.OK_CANCEL);
+        dialog.setTitle("Error");
+        dialog.setButtonType(OpalDialogType.CLOSE);
         dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
-        msgArea.setIcon(Display.getCurrent().getSystemImage(SWT.ICON_QUESTION));
-        msgArea.setText(question);
-        footerArea.setDefaultButtonIndex(1);
+        msgArea.setIcon(Display.getCurrent().getSystemImage(SWT.ICON_ERROR));
+        msgArea.setText(msg);
+        footerArea.setDetailText(details);
         return dialog.show() == 0;
     }
 }
