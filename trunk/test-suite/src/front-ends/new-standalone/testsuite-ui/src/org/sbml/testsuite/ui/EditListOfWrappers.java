@@ -59,7 +59,7 @@ public class EditListOfWrappers
     List                  displayedWrappersList;
     int                   lastSelectedIndex = -1;
     WrapperConfig         lastSelectedState = new WrapperConfig();
-    EditWrappers          wrapperForm;
+    EditWrapper           wrapperForm;
 
 
     /**
@@ -142,7 +142,7 @@ public class EditListOfWrappers
         });
         btnremove.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
-        wrapperForm = new EditWrappers(sashForm, SWT.NONE);
+        wrapperForm = new EditWrapper(sashForm, SWT.NONE);
         sashForm.setWeights(new int[] {120, 280});
     }
 
@@ -178,7 +178,7 @@ public class EditListOfWrappers
         {
             wrappers.get(lastSelectedIndex).updateFrom(wrapperForm.toConfig());
             displayedWrappersList.setItem(lastSelectedIndex,
-                                wrappers.get(lastSelectedIndex).getName());
+                                          wrappers.get(lastSelectedIndex).getName());
         }
     }
 
@@ -215,7 +215,7 @@ public class EditListOfWrappers
     public void loadWrappers(Vector<WrapperConfig> wrappers, 
                              String lastWrapper)
     {
-        this.wrappers = wrappers;
+        this.wrappers = (Vector<WrapperConfig>) wrappers.clone();
         displayedWrappersList.removeAll();
 
         for (int i = 0; i < wrappers.size(); i++)
