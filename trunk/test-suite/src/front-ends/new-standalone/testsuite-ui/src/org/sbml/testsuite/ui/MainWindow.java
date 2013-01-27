@@ -84,6 +84,7 @@ import org.sbml.testsuite.core.TestCase;
 import org.sbml.testsuite.core.TestSuiteSettings;
 import org.sbml.testsuite.core.Util;
 import org.sbml.testsuite.core.WrapperConfig;
+import org.sbml.testsuite.core.RunOutcome;
 import org.sbml.testsuite.core.data.ResultSet;
 import org.sbml.testsuite.ui.model.MainModel;
 import org.swtchart.Chart;
@@ -211,8 +212,6 @@ public class MainWindow
             // Disable the check that prevents subclassing of SWT components.
         }
     }
-
-    private final int NUM_THREADS = 2;
 
     private Composite                 cmpDifferences;
     private Composite                 cmpGraphs;
@@ -473,10 +472,10 @@ public class MainWindow
 
         if (confirmFlush
             && haveResults(tree.getItems())
-            && AskUser.confirm(shell, "Should the current test results be\n"
-                               + "discarded? (Doing so would be\n"
-                               + "appropriate if they are from a\n"
-                               + "different simulator.)"))
+            && Tell.confirm(shell, "Should the current test results be\n"
+                            + "discarded? (Doing so would be\n"
+                            + "appropriate if they are from a\n"
+                            + "different simulator.)"))
         {
             deleteSelectedResults(tree.getItems());
             doneSet.clear();
@@ -609,8 +608,8 @@ public class MainWindow
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                if (AskUser.confirm(shell,
-                                    "All existing results will be discarded. Proceed?"))
+                if (Tell.confirm(shell,
+                                 "All existing results will be discarded. Proceed?"))
                 {
                     running = false;
                     restart = true;
@@ -1208,9 +1207,9 @@ public class MainWindow
         }
         else
         {
-            if (! running || AskUser.confirm(shell, 
-                                             "Processes are still running.\n"
-                                             + "Stop them and exit anyway?"))
+            if (! running || Tell.confirm(shell, 
+                                          "Processes are still running.\n"
+                                          + "Stop them and exit anyway?"))
             {
                 if (running)
                 {
@@ -1349,6 +1348,7 @@ public class MainWindow
                     case CannotSolve:
                     case NoMatch:
                     case Unknown:
+                    case Error:
                     default:
                         return true;
                     }
@@ -1382,6 +1382,7 @@ public class MainWindow
                         return false;
                     case NoMatch:
                     case Unknown:
+                    case Error:
                     default:
                         return true;
                     }
@@ -1414,6 +1415,7 @@ public class MainWindow
                     case Match:
                     case NoMatch:
                     case Unknown:
+                    case Error:
                     default:
                         return true;
                     }
@@ -1608,8 +1610,8 @@ public class MainWindow
                     getDisplay().timerExec(getDisplay().getDoubleClickTime(), doubleTimer);
                 }
 
-                if (AskUser.confirm(shell,
-                                    "All existing results will be discarded. Proceed?"))
+                if (Tell.confirm(shell,
+                                 "All existing results will be discarded. Proceed?"))
                 {
                     running = false;
                     restart = true;
@@ -1956,12 +1958,13 @@ public class MainWindow
     class QueuedTestRunner
         implements Runnable
     {
-        private final TestCase testCase;
-        private final TreeItem currentItem;
-        private final String path;
-        private final WrapperConfig wrapper;
-        private final Thread displayThread;
-        private final String caseId;
+        private TestCase testCase;
+        private TreeItem currentItem;
+        private String path;
+        private WrapperConfig wrapper;
+        private Thread displayThread;
+        private String caseId;
+        private RunOutcome runOutcome;
 
         QueuedTestRunner(TestCase theCase, TreeItem theItem, String thePath,
                          WrapperConfig theWrapper, Thread thread)
@@ -1972,6 +1975,12 @@ public class MainWindow
             this.wrapper = theWrapper;
             this.displayThread = thread;
             this.caseId = theCase.getId();
+            this.runOutcome = null;
+        }
+
+        public RunOutcome getOutcome()
+        {
+            return runOutcome;
         }
 
         @Override
@@ -1980,13 +1989,13 @@ public class MainWindow
             if (!running)
                 return;
 
-            wrapper.run(testCase, path, 250, new CancelCallback() {
-                @Override
-                public boolean cancellationRequested()
-                {
-                    return !running;
-                }
-            });
+            runOutcome = wrapper.run(testCase, path, 250,
+                                     new CancelCallback() {
+                                         public boolean cancellationRequested()
+                                         {
+                                             return !running;
+                                         }
+                                     });
 
             final ResultType resultType = wrapper.getResultType(testCase);
             doneSet.add(caseId);
@@ -2011,7 +2020,7 @@ public class MainWindow
                         updatePlotsForSelection(currentItem);
                 }
             });
-        }   
+        }
     }
 
 
@@ -2023,7 +2032,7 @@ public class MainWindow
 
         if (selection == null || selection.length == 0)
         {
-            AskUser.inform(shell, "There is nothing to run!");
+            Tell.inform(shell, "There is nothing to run!");
             return;
         }
 
@@ -2066,8 +2075,47 @@ public class MainWindow
         if (selectionIndex < selection.length)
             recenterTree(selection[selectionIndex]);
 
+        // Problem: we can't tell if running the wrapper will produce an
+        // error until we try.  If it fails, we want to inform the user.
+        // But, we don't want to queue up 1000+ processes and then face 1000+
+        // failures and try to report them all.  Solution: run the first one
+        // separately and watch for errors, then go on and run the rest.
+
         Thread thisThread = Thread.currentThread();
-        executor = Executors.newFixedThreadPool(NUM_THREADS);
+        RunOutcome runOutcome = null;
+        executor = Executors.newSingleThreadExecutor();
+        if (selectionIndex < selection.length)
+        {
+            TreeItem item = selection[selectionIndex];
+            TestCase testCase = model.getSuite().get(item.getText());
+            QueuedTestRunner runner
+                = new QueuedTestRunner(testCase, item, absolutePath,
+                                       lastWrapper, thisThread);
+            executor.execute(runner);
+            waitForExecutor();
+            runOutcome = runner.getOutcome();
+            selectionIndex++;
+        }
+
+        if (runOutcome != null && runOutcome.getCode() != RunOutcome.Code.success)
+        {
+            Tell.error(shell, "Encountered a problem while attempting to"
+                       + "\nrun the wrapper. Aborting execution. Please"
+                       + "\ncheck the wrapper and its configuration.",
+                       runOutcome.getMessage());
+            markAsRunning(false);
+            // Clear this result.
+            selectionIndex--;
+            TreeItem item = selection[selectionIndex];
+            if (item != null && doneSet != null && doneSet.contains(item.getText()))
+                doneSet.remove(item.getText());
+            return;
+        }
+
+        // If we get here, we can hopefully continue with the remaining cases.
+
+        int numThreads = Math.max(1, Runtime.getRuntime().availableProcessors() - 1);
+        executor = Executors.newFixedThreadPool(numThreads);
         while (selectionIndex < selection.length)
         {
             if (! running) break;
@@ -2079,6 +2127,9 @@ public class MainWindow
             selectionIndex++;
         }
         waitForExecutor();
+
+        // At this point, either all tests have concluded or the user
+        // interrupted execution.
 
         int lastIndex = lastCaseDoneInSelection(selection);
         if (lastIndex < 0)
@@ -2117,6 +2168,7 @@ public class MainWindow
     {
         runAllNewTests(tree.getItems());
     }
+
 
     protected void runAllNewTests(TreeItem[] selection)
     {
@@ -2382,15 +2434,15 @@ public class MainWindow
     private void informUserBadWrapper(WrapperConfig wrapper)
     {
         if (wrapper == null) 
-            AskUser.inform(shell, "Empty wrapper selection");
+            Tell.inform(shell, "Empty wrapper selection");
 
         if (! wrapper.canRun())
         {
-            AskUser.inform(shell, "Something is wrong with the definition of "
-                           + "\nthe selected wrapper. Running tests will "
-                           + "\nnot be possible until the definition is "
-                           + "\ncorrected or a different wrapper is "
-                           + "\nselected.");
+            Tell.inform(shell, "Something is wrong with the definition of "
+                        + "\nthe selected wrapper. Running tests will "
+                        + "\nnot be possible until the definition is "
+                        + "\ncorrected or a different wrapper is "
+                        + "\nselected.");
         }
     }
 
