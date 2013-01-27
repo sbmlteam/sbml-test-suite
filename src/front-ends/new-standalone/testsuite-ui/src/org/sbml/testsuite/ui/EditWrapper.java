@@ -1,9 +1,8 @@
 //
-// @file EditWrappers.java
+// @file EditWrapper.java
 // @brief Composite for editing a wrapper configuration
 // @author Frank T. Bergmann
 // @date Created 2012-06-06 <fbergman@caltech.edu>
-//
 //
 // ----------------------------------------------------------------------------
 // This file is part of the SBML Testsuite. Please visit http://sbml.org for
@@ -26,7 +25,6 @@
 // in the file named "LICENSE.txt" included with this software distribution
 // and also available online as http://sbml.org/software/libsbml/license.html
 // ----------------------------------------------------------------------------
-//
 
 package org.sbml.testsuite.ui;
 
@@ -59,7 +57,7 @@ import org.sbml.testsuite.core.WrapperConfig;
 /**
  * Composite for editing a wrapper configuration
  */
-public class EditWrappers
+public class EditWrapper
     extends Composite
 {
     private final Text   txtName;
@@ -108,7 +106,7 @@ public class EditWrappers
      * @param parent
      * @param style
      */
-    public EditWrappers(Composite parent, int style)
+    public EditWrapper(Composite parent, int style)
     {
         super(parent, style);
         final Shell shell = parent.getShell();
@@ -317,14 +315,12 @@ public class EditWrappers
         String selectedDirectory = dlg.open();
         if (selectedDirectory != null)
             txtWrapperOutputDir.setText(selectedDirectory);
-        
     }
 
 
     protected void editUnsupportedTags()
     {
-       DialogFilterTags dialog = new DialogFilterTags(getShell(),
-                                                      SWT.None);
+       DialogFilterTags dialog = new DialogFilterTags(getShell(), SWT.None);
        dialog.setDescription("Please select component and test tags to include.");
        dialog.setComponentTags(TestSuiteSettings.loadDefault().getSuite().getComponentTags());
        dialog.setTestTags(TestSuiteSettings.loadDefault().getSuite().getTestTags());
@@ -335,7 +331,6 @@ public class EditWrappers
        {
            txtUnsupportedTags.setText(Util.toString(selection));
        }
-        
     }
 
 
@@ -347,7 +342,6 @@ public class EditWrappers
         String fileName = dlg.open();
         if (fileName != null)
             txtWrapper.setText(fileName);
-        
     }
 
 
