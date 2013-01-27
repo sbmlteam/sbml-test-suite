@@ -89,7 +89,7 @@ public class TestSuiteSettings
     public TestSuiteSettings(String casesDir, Vector<WrapperConfig> wrappers)
     {
         this(casesDir);
-        this.wrappers = wrappers;
+        this.wrappers = (Vector<WrapperConfig>) wrappers.clone();
     }
 
 
@@ -104,7 +104,7 @@ public class TestSuiteSettings
                              String lastWrapper)
     {
         this(casesDir);
-        this.wrappers = wrappers;
+        this.wrappers = (Vector<WrapperConfig>) wrappers.clone();
         this.lastWrapper = lastWrapper;
     }
 
@@ -264,18 +264,18 @@ public class TestSuiteSettings
     /**
      * Save the current settings file as default
      */
-        public void saveAsDefault()
+    public void saveAsDefault()
+    {
+        try
         {
-            try
-            {
-                writeToFile(getDefaultFile());
-            }
-            catch (Exception e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            writeToFile(getDefaultFile());
         }
+        catch (Exception e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
 
     /**
