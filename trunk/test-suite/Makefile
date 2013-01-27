@@ -6,7 +6,7 @@
 ## This file is part of the SBML Test Suite.  Please visit http://sbml.org for
 ## more information about SBML, and the latest version of the SBML Test Suite.
 ##
-## Copyright (C) 2010-2012 jointly by the following organizations: 
+## Copyright (C) 2010-2013 jointly by the following organizations: 
 ##     1. California Institute of Technology, Pasadena, CA, USA
 ##     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK.
 ##
@@ -156,7 +156,7 @@ tags-map $(map-file): $(cases-m-files)
 	@echo "Making tags map file:"
 	src/utilities/make-tag-map/make-tag-map.sh $(map-file)
 
-clean-cases-dist:
+clean-cases-dist: clean-html clean-plots clean-sedml
 	rm -f $(cases-dist-name)
 
 
