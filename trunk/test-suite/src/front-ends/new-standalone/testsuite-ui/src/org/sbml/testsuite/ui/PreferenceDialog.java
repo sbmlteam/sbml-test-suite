@@ -192,6 +192,7 @@ public class PreferenceDialog
             public void widgetSelected(SelectionEvent arg0)
             {
                 needConfirmSave = false;
+                previousResult.saveAsDefault();
                 result = null;
                 shell.close();          // Will invoke close listener.
             }
@@ -354,8 +355,8 @@ public class PreferenceDialog
 
     public boolean confirmSave()
     {
-        return AskUser.saveCancel(shell, "The configuration has been modified.\n"
-                                  + "Save your changes?");
+        return Tell.saveCancel(shell, "The configuration has been modified.\n"
+                               + "Save your changes?");
     }
     
     
@@ -366,80 +367,80 @@ public class PreferenceDialog
 
         String program = wrapper.getProgram();
         if (program == null || program.isEmpty())
-            return AskUser.informWithOverride(shell,
-                                              "The wrapper program was left unspecified "
-                                              + "\nin the wrapper configuration; consequently, "
-                                              + "\nthe wrapper cannot be used.");
+            return Tell.informWithOverride(shell,
+                                           "The wrapper program was left unspecified "
+                                           + "\nin the wrapper configuration; consequently, "
+                                           + "\nthe wrapper cannot be used.");
         else
         {
             File path = new File(program);
             if (! path.exists())
-                return AskUser.informWithOverride(shell,
-                                                  "The path to the wrapper specified in "
-                                                  + "\nthe wrapper configuration does not appear "
-                                                  + "\nto exist; consequently, the wrapper "
-                                                  + "\ncannot be used.");
+                return Tell.informWithOverride(shell,
+                                               "The path to the wrapper specified in "
+                                               + "\nthe wrapper configuration does not appear "
+                                               + "\nto exist; consequently, the wrapper "
+                                               + "\ncannot be used.");
             else if (! path.isFile())
-                return AskUser.informWithOverride(shell,
-                                                  "The path given for the wrapper program "
-                                                  + "\ndoes not appear to be a valid file; "
-                                                  + "\nconsequently, the wrapper cannot be used.");
+                return Tell.informWithOverride(shell,
+                                               "The path given for the wrapper program "
+                                               + "\ndoes not appear to be a valid file; "
+                                               + "\nconsequently, the wrapper cannot be used.");
             else if (! path.canRead())
-                return AskUser.informWithOverride(shell,
-                                                  "The file for the program specified in "
-                                                  + "\nthe wrapper configuration does not appear "
-                                                  + "\nto be readable; consequently, "
-                                                  + "\nthe wrapper cannot be used.");
+                return Tell.informWithOverride(shell,
+                                               "The file for the program specified in "
+                                               + "\nthe wrapper configuration does not appear "
+                                               + "\nto be readable; consequently, "
+                                               + "\nthe wrapper cannot be used.");
             else if (! path.canExecute())
-                return AskUser.informWithOverride(shell,
-                                                  "The program specified in the "
-                                                  + "\nwrapper configuration does not appear "
-                                                  + "\nto be executable; consequently, "
-                                                  + "\nthe wrapper cannot be run.");
+                return Tell.informWithOverride(shell,
+                                               "The program specified in the "
+                                               + "\nwrapper configuration does not appear "
+                                               + "\nto be executable; consequently, "
+                                               + "\nthe wrapper cannot be run.");
         }
 
         String outputPath = wrapper.getOutputPath();
         if (outputPath == null || outputPath.isEmpty())
-            return AskUser.informWithOverride(shell,
-                                              "The output directory was left unspecified "
-                                              + "\nin the wrapper configuration; consequently, "
-                                              + "\nthe wrapper cannot be used.");
+            return Tell.informWithOverride(shell,
+                                           "The output directory was left unspecified "
+                                           + "\nin the wrapper configuration; consequently, "
+                                           + "\nthe wrapper cannot be used.");
         else
         {
             File path = new File(outputPath);
             if (! path.exists())
-                return AskUser.informWithOverride(shell,
-                                                  "The output directory specified in the "
-                                                  + "\nwrapper configuration does not appear "
-                                                  + "\nto exist; consequently, the wrapper "
-                                                  + "\ncannot be used.");
+                return Tell.informWithOverride(shell,
+                                               "The output directory specified in the "
+                                               + "\nwrapper configuration does not appear "
+                                               + "\nto exist; consequently, the wrapper "
+                                               + "\ncannot be used.");
             else if (! path.isDirectory())
-                return AskUser.informWithOverride(shell,
-                                                  "The output directory specified in the "
-                                                  + "\nwrapper configuration does not appear "
-                                                  + "\nto be a valid directory; consequently, "
-                                                  + "\nthe wrapper cannot be used.");
+                return Tell.informWithOverride(shell,
+                                               "The output directory specified in the "
+                                               + "\nwrapper configuration does not appear "
+                                               + "\nto be a valid directory; consequently, "
+                                               + "\nthe wrapper cannot be used.");
             else if (! path.canRead())
-                return AskUser.informWithOverride(shell,
-                                                  "The output directory specified in the "
-                                                  + "\nwrapper configuration does not appear "
-                                                  + "\nto be readable; consequently, "
-                                                  + "\nthe wrapper cannot be used.");
+                return Tell.informWithOverride(shell,
+                                               "The output directory specified in the "
+                                               + "\nwrapper configuration does not appear "
+                                               + "\nto be readable; consequently, "
+                                               + "\nthe wrapper cannot be used.");
             else if (! path.canWrite())
-                return AskUser.informWithOverride(shell,
-                                                  "The output directory specified in the "
-                                                  + "\nwrapper configuration does not appear "
-                                                  + "\nto be writable; consequently, "
-                                                  + "\nthe wrapper cannot be used.");
+                return Tell.informWithOverride(shell,
+                                               "The output directory specified in the "
+                                               + "\nwrapper configuration does not appear "
+                                               + "\nto be writable; consequently, "
+                                               + "\nthe wrapper cannot be used.");
         }
 
         String args = wrapper.getArguments();
         if (args == null || args.isEmpty())
-            return AskUser.informWithOverride(shell,
-                                              "The arguments to the wrapper program have "
-                                              + "\nbeen left undefined, which makes it impossible "
-                                              + "\nfor the SBML Test Runner to invoke the wrapper "
-                                              + "\nwith different test cases.");
+            return Tell.informWithOverride(shell,
+                                           "The arguments to the wrapper program have "
+                                           + "\nbeen left undefined, which makes it impossible "
+                                           + "\nfor the SBML Test Runner to invoke the wrapper "
+                                           + "\nwith different test cases.");
 
         return true;
     }
