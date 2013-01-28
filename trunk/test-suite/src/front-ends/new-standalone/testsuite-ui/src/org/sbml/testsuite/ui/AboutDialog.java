@@ -92,6 +92,9 @@ public class AboutDialog
      */
     private void createContents()
     {
+        // This next value is 5 when dpi = 96, and 0 when dpi = 72.
+        int offset = 20 - UIUtils.scaledFontSize(20);
+
         shell = new Shell(getParent(), SWT.DIALOG_TRIM);
         shell.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
         shell.setSize(450, 380);
@@ -106,40 +109,40 @@ public class AboutDialog
         
         Label lblNewLabel = new Label(shell, SWT.NONE);
         lblNewLabel.setImage(UIUtils.getImageResource("icon_128x128.png"));
-        lblNewLabel.setBounds(11, 10, 139, 138);
+        lblNewLabel.setBounds(8, 10, 139, 138);
         
         Label lblNewLabel_1 = new Label(shell, SWT.NONE);
-        lblNewLabel_1.setFont(SWTResourceManager.getFont("Verdana", 20, SWT.BOLD));
-        lblNewLabel_1.setBounds(160, 7, 270, 25);
+        lblNewLabel_1.setFont(UIUtils.getFont("Verdana", 20, SWT.BOLD));
+        lblNewLabel_1.setBounds(158, 7 + offset, 270, 25);
         lblNewLabel_1.setText("The SBML Test Runner");
         
         Label lblVersion = new Label(shell, SWT.RIGHT);
         lblVersion.setAlignment(SWT.LEFT);
-        lblVersion.setFont(SWTResourceManager.getFont("Verdana", 11, SWT.ITALIC));
-        lblVersion.setBounds(160, 38, 126, 14);
+        lblVersion.setFont(UIUtils.getFont("Verdana", 11, SWT.ITALIC));
+        lblVersion.setBounds(158, 38, 126, 14);
         lblVersion.setText("Version: " + Program.getVersion());
         
         Label lblTheSbmlTest = new Label(shell, SWT.WRAP);
-        lblTheSbmlTest.setBounds(16, 154, 418, 67);
+        lblTheSbmlTest.setBounds(16, 154 - offset, 418, 67);
         lblTheSbmlTest.setText("The SBML Test Suite is a system for testing the degree and correctness of SBML support in a given SBML-compatible software program. The SBML Test Runner drives an application to perform each test in the Test Suite, and displays the results and conclusions.");
-        lblTheSbmlTest.setFont(SWTResourceManager.getFont("Verdana", 10, SWT.NORMAL));
+        lblTheSbmlTest.setFont(UIUtils.getFont("Verdana", 10, SWT.NORMAL));
         
         Label sep2 = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN | SWT.CENTER);
-        sep2.setBounds(16, 225, 417, 2);
+        sep2.setBounds(16, 225 - 2*offset, 417, 2);
         
         Label lblNewLabel_2 = new Label(shell, SWT.NONE);
-        lblNewLabel_2.setFont(SWTResourceManager.getFont("Verdana", 10, SWT.BOLD));
-        lblNewLabel_2.setBounds(160, 67, 270, 14);
+        lblNewLabel_2.setFont(UIUtils.getFont("Verdana", 10, SWT.BOLD));
+        lblNewLabel_2.setBounds(158, 67 - offset, 270, 14);
         lblNewLabel_2.setText("Authors: Frank T. Bergmann and Michael Hucka.");
         
         Label lblPartOfThe = new Label(shell, SWT.WRAP);
         lblPartOfThe.setText("Part of the SBML Test Suite, written by Sarah Keating, Lucian Smith, Frank Bergmann, Kimberley Begley and Michael Hucka.");
-        lblPartOfThe.setFont(SWTResourceManager.getFont("Verdana", 10, SWT.NORMAL));
-        lblPartOfThe.setBounds(160, 93, 270, 49);
+        lblPartOfThe.setFont(UIUtils.getFont("Verdana", 10, SWT.NORMAL));
+        lblPartOfThe.setBounds(158, 93 + offset, 270, 49);
         
         Label lblNewLabel_3 = new Label(shell, SWT.WRAP);
-        lblNewLabel_3.setFont(SWTResourceManager.getFont("Verdana", 10, SWT.ITALIC));
-        lblNewLabel_3.setBounds(16, 235, 418, 49);
+        lblNewLabel_3.setFont(UIUtils.getFont("Verdana", 10, SWT.ITALIC));
+        lblNewLabel_3.setBounds(16, 235 - offset, 418, 49);
         lblNewLabel_3.setText("For more information about this and other SBML Team software, as well as about SBML itself, please visit the following website:");
         
         StyleRange styleRange = new StyleRange();
@@ -149,10 +152,9 @@ public class AboutDialog
         final StyledText lblHttpsbmlorg = new StyledText(shell, SWT.CENTER);
         lblHttpsbmlorg.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
         lblHttpsbmlorg.setEditable(false);
-        lblHttpsbmlorg.setAlwaysShowScrollBars(false);
         lblHttpsbmlorg.setToolTipText("Click to visit SBML.org.");
         lblHttpsbmlorg.setForeground(SWTResourceManager.getColor(65, 105, 225));
-        lblHttpsbmlorg.setFont(SWTResourceManager.getFont("Verdana", 11, SWT.BOLD));
+        lblHttpsbmlorg.setFont(UIUtils.getFont("Verdana", 11, SWT.BOLD));
         lblHttpsbmlorg.setBounds(173, 274, 103, 20);
         lblHttpsbmlorg.setText("http://sbml.org");
         lblHttpsbmlorg.setStyleRange(styleRange);
