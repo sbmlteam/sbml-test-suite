@@ -276,7 +276,7 @@ public class EditWrapper
         lblNewLabel.setForeground(gray);
         FontData[] fontData = lblNewLabel.getFont().getFontData();
         for (int i = 0; i < fontData.length; ++i) {
-            fontData[i].setHeight(11);
+            fontData[i].setHeight(UIUtils.scaledFontSize(11));
         }
         final Font newFont = new Font(display, fontData);
         lblNewLabel.setFont(newFont);
