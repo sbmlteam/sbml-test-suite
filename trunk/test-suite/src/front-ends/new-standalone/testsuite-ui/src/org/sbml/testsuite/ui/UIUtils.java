@@ -32,7 +32,12 @@ import java.io.InputStream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontMetrics;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -120,6 +125,30 @@ public class UIUtils
                 shell.dispose();
             }
         };
+    }
+
+
+    /**
+     * Takes a point size and returns an adjusted value based on the DPI of
+     * the current device.  The numbers were empirically determined using
+     * two systems with 72 and 96 dpi values.
+     */
+    public static int scaledFontSize(int pt)
+    {
+        final Device display = Display.getCurrent();
+        final Point dpi      = display.getDPI();
+        final Double scaled  = pt * 72.0/dpi.y * (0.0027777778 * dpi.y + 0.8);
+        return scaled.intValue();
+    }
+
+
+    /**
+     * Returns a font with a rescaled size based on the DPI of the current
+     * device.
+     */
+    public static Font getFont(String name, int size, int style)
+    {
+        return SWTResourceManager.getFont(name, scaledFontSize(size), style);
     }
 
 
