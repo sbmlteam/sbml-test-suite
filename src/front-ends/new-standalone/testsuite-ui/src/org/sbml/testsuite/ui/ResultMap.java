@@ -206,11 +206,11 @@ public class ResultMap
         lblHelpMsg.setBounds(0, 0, 585, 34);
 
         FontData[] defaultFontData = lblHelpMsg.getFont().getFontData();
-        defaultFontData[0].setHeight(10);
+        defaultFontData[0].setHeight(UIUtils.scaledFontSize(10));
         final Font defaultFont = new Font(getParent().getDisplay(), defaultFontData);
         FontData[] italicFontData = lblHelpMsg.getFont().getFontData();
         italicFontData[0].setStyle(SWT.ITALIC);
-        italicFontData[0].setHeight(11);
+        italicFontData[0].setHeight(UIUtils.scaledFontSize(11));
         final Font italicFont = new Font(getParent().getDisplay(), italicFontData);
 
         lblHelpMsg.setFont(italicFont);
