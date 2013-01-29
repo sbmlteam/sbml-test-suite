@@ -857,6 +857,8 @@ public class MainWindow
         lblStatusMessage.setFont(statusFont);
         lblStatusMessage.setForeground(foregroundColor);
         lblStatusMessage.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
+        if (! UIUtils.isMacOSX())
+            lblStatusMessage.moveAbove(statusGroup);
 
         // Group progressGroup = new Group(shell, SWT.SHADOW_ETCHED_IN);
         // FormData fd_progressGroup = new FormData();
