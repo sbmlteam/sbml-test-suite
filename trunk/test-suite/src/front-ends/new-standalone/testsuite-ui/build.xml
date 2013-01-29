@@ -67,6 +67,7 @@
 			</manifest>
 			<fileset dir="bin" includes="**/*.class" />
 			<fileset dir="src" includes="data/**/*" />
+			<fileset dir="src" includes="org/sbml/testsuite/ui/resources/*" />
 		</jar>
 	</target>
 	<target name="stage-common" depends="jar">
@@ -74,6 +75,7 @@
 		<copy file="../testsuite-ui.jar" todir="stage" />
 		<copy file="../testsuite-core.jar" todir="stage" />
 		<copy file="libs/swt.jar" todir="stage" />
+		<copy file="libs/opal-0.9.5.1.jar" todir="stage" />
 		<copy file="libs/org.swtchart_0.7.0.v20110128.jar" todir="stage" />
 		<copy file="libs/simple-xml-2.6.4.jar" todir="stage" />
 	</target>

@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "SBML Testsuite"
-!define PRODUCT_VERSION "1.0"
+!define PRODUCT_VERSION "3.0"
 !define PRODUCT_PUBLISHER "SBML Team"
 !define PRODUCT_WEB_SITE "http://sbml.org/Software/SBML_Test_Suite"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\SBMLTestSuite.exe"
@@ -53,6 +53,7 @@ Section "MainSection" SEC01
   File "stage\simple-xml-2.6.4.jar"
   File "stage\swt.jar"
   File "stage\testsuite-core.jar"
+  File "stage\opal-0.9.5.1.jar"
 SectionEnd
 
 Section -AdditionalIcons
