@@ -99,12 +99,12 @@ public class MainWindow
     class DropdownSelectionListener
         extends SelectionAdapter
     {
-        private final ListToolItem     dropdown;
+        private final ToolItem         dropdown;
         private final Vector<MenuItem> items;
         private final Menu             menu;
 
 
-        public DropdownSelectionListener(ListToolItem dropdown)
+        public DropdownSelectionListener(ToolItem dropdown)
         {
             this.dropdown = dropdown;
             items = new Vector<MenuItem>();
@@ -230,7 +230,7 @@ public class MainWindow
     protected Shell                   shell;
 
     private ToolBar                   toolBar;
-    private ListToolItem              wrapperPopupMenuButton;
+    private ToolItem                  wrapperPopupMenuButton;
     private ToolItem                  buttonRun;
 
     private Color                     foregroundColor;
@@ -1685,7 +1685,13 @@ public class MainWindow
         ToolItem sep4 = new ToolItem(toolBar, SWT.SEPARATOR);
         sep4.setWidth(SWT.SEPARATOR_FILL);
 
-        wrapperPopupMenuButton = new ListToolItem(toolBar, "(no wrapper chosen)", -3);
+        if (UIUtils.isMacOSX())
+            wrapperPopupMenuButton = new ListToolItem(toolBar, "(no wrapper chosen)", -3);
+        else
+        {
+            wrapperPopupMenuButton = new ToolItem(toolBar, SWT.DROP_DOWN);
+            wrapperPopupMenuButton.setText("(no wrapper chosen)");
+        }
         wrapperPopupMenuButton.setToolTipText("Switch the wrapper used to run the application");
         wrapperPopupMenuListener = new DropdownSelectionListener(wrapperPopupMenuButton);
         wrapperPopupMenuButton.addSelectionListener(wrapperPopupMenuListener);
