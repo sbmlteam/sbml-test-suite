@@ -29,7 +29,6 @@
 
 package org.sbml.testsuite.ui;
 
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedOutputStream;
@@ -77,11 +76,11 @@ import org.sbml.testsuite.core.CancelCallback;
 import org.sbml.testsuite.core.DelayedResult;
 import org.sbml.testsuite.core.FilterFunction;
 import org.sbml.testsuite.core.ResultType;
+import org.sbml.testsuite.core.RunOutcome;
 import org.sbml.testsuite.core.TestCase;
 import org.sbml.testsuite.core.TestSuiteSettings;
 import org.sbml.testsuite.core.Util;
 import org.sbml.testsuite.core.WrapperConfig;
-import org.sbml.testsuite.core.RunOutcome;
 import org.sbml.testsuite.core.data.ResultSet;
 import org.sbml.testsuite.ui.model.MainModel;
 import org.swtchart.Chart;
