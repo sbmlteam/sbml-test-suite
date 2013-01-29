@@ -152,6 +152,16 @@ public class UIUtils
     }
 
 
+    /**
+     * @return true if running on OS X
+     */
+    public static boolean isMacOSX()
+    {
+        String osName = System.getProperty("os.name");
+        return osName.startsWith("Mac OS X");
+    }
+
+
     /* The following is based on 
      * http://stackoverflow.com/questions/1351245/setting-swt-tooltip-delays
      * 

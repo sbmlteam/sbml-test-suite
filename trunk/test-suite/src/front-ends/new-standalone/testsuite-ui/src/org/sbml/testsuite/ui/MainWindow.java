@@ -302,16 +302,6 @@ public class MainWindow
     }
 
 
-    /**
-     * @return true if running on OS X
-     */
-    public static boolean isMacOSX()
-    {
-        String osName = System.getProperty("os.name");
-        return osName.startsWith("Mac OS X");
-    }
-
-
     private void addChartForData(Composite composite, ResultSet result,
                                  String title)
     {
@@ -619,7 +609,7 @@ public class MainWindow
         menuItemOpen.setText("&Open Cases Archive");
         menuItemOpen.setAccelerator(SWT.MOD1 + 'O');
 
-        if (!isMacOSX())
+        if (!UIUtils.isMacOSX())
         {
             new MenuItem(menu_1, SWT.SEPARATOR);
             MenuItem menuItemQuit = new MenuItem(menu_1, SWT.NONE);
@@ -837,7 +827,7 @@ public class MainWindow
         SashForm sashForm = new SashForm(shell, SWT.NONE);
         sashForm.setSashWidth(5);
         fd_sashForm = new FormData();
-        if (!isMacOSX()) fd_sashForm.top = new FormAttachment(100, 0);
+        if (!UIUtils.isMacOSX()) fd_sashForm.top = new FormAttachment(100, 0);
         //        fd_sashForm.bottom = new FormAttachment(100, -120);
         fd_sashForm.bottom = new FormAttachment(100, -140);
         fd_sashForm.right = new FormAttachment(100);
@@ -1504,7 +1494,7 @@ public class MainWindow
 
     private void macify(Display display)
     {
-        if (!isMacOSX()) return;
+        if (!UIUtils.isMacOSX()) return;
 
         CocoaUIEnhancer enhancer = new CocoaUIEnhancer("SBML Test Runner");
         enhancer.hookApplicationMenu(display, new Listener() {
@@ -1563,7 +1553,7 @@ public class MainWindow
         fd_toolBar.left = new FormAttachment(0);
         toolBar.setLayoutData(fd_toolBar);
 
-        if (isMacOSX()) macify(getDisplay());
+        if (UIUtils.isMacOSX()) macify(getDisplay());
 
         ToolItem buttonShowMap = new ToolItem(toolBar, SWT.NONE);
         buttonShowMap.setImage(UIUtils.getImageResource("show_thumbnails_shadowed.png"));
