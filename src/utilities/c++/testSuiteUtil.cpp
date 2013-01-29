@@ -18,6 +18,7 @@
 #include <sstream>
 
 #include <sbml/SBMLTypes.h>
+#include <sbml/packages/fbc/common/FbcExtensionTypes.h>
 
 using namespace std;
 LIBSBML_CPP_NAMESPACE_USE
@@ -646,6 +647,60 @@ void checkComp(CompSBMLDocumentPlugin* compdoc, set<string>& components, set<str
       if (id.find("__") != string::npos) {
         //It is probably a submodel element, renamed
         tests.insert("comp:SubmodelOutput");
+      }
+  }
+}
+#endif
+
+#ifdef USE_FBC
+void checkFbc(FbcModelPlugin* fbcmodplug, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results)
+{
+  List* allElements = fbcmodplug->getAllElements();
+  for (unsigned int e=0; e<allElements->getSize(); e++) {
+    SBase* element = static_cast<SBase*>(allElements->get(e));
+    FluxBound* fluxBound;
+    Objective* objective;
+    switch(element->getTypeCode()) {
+    case SBML_FBC_FLUXBOUND:
+      components.insert("fbc:FluxBound");
+      fluxBound = static_cast<FluxBound*>(element);
+      if (fluxBound->isSetOperation()) {
+        if (fluxBound->getOperation() == "lessEqual") {
+          tests.insert("fbc:BoundLessEqual");
+        }
+        else if (fluxBound->getOperation() == "greaterEqual") {
+          tests.insert("fbc:BoundGreaterEqual");
+        }
+        else if (fluxBound->getOperation() == "equal") {
+          tests.insert("fbc:BoundEqual");
+        }
+      }
+      break;
+    case SBML_FBC_OBJECTIVE:
+      components.insert("fbc:Objective");
+      objective = static_cast<Objective*>(element);
+      if (objective->isSetType()) {
+        if (objective->getType() == "maximize") {
+          tests.insert("fbc:MaximizeObjective");
+        }
+        else {
+          tests.insert("fbc:MinimizeObjective");
+        }
+      }
+      break;
+    case SBML_FBC_FLUXOBJECTIVE:
+      components.insert("fbc:FluxObjective");
+      break;
+    default:
+      break;
+    }
+  }
+  for (map<string, vector<double> >::const_iterator result=results.begin(); 
+    result != results.end(); result++) {
+      string id = result->first;
+      if (id.find("__") != string::npos) {
+        //It is probably a submodel element, renamed
+        tests.insert("fbc:SubmodelOutput");
       }
   }
 }

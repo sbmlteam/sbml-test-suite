@@ -16,6 +16,8 @@
 #include <sstream>
 
 #include <sbml/SBMLTypes.h>
+#include <sbml/extension/SBMLExtensionRegister.h>
+#include <sbml/conversion/SBMLConverterRegistry.h>
 
 #ifdef USE_COMP
 #include <sbml/packages/comp/common/CompExtensionTypes.h>
@@ -181,6 +183,9 @@ string getHalfReaction(ListOfSpeciesReferences* srs, vector<string>& stoichrefs,
 
 string getReactionTable(Model* model,  const map<string, vector<double> >& results)
 {
+#ifdef USE_FBC
+  FbcModelPlugin* fbc = static_cast<FbcModelPlugin*>(model->getPlugin("fbc"));
+#endif
   stringstream ret;
   bool anyfast = false;
   for (unsigned int r=0; r<model->getNumReactions(); r++) {
@@ -191,23 +196,87 @@ string getReactionTable(Model* model,  const map<string, vector<double> >& resul
   if (numrxns > 0) {
     ret << endl << "There ";
     if (numrxns>1) {
-      ret << "are " << numrxns << " reactions:";
+      ret << "are " << numrxns << " reactions";
     }
     else {
-      ret << "is one reaction:";
+      ret << "is one reaction";
     }
+
+#ifdef USE_FBC
+    FbcModelPlugin* fmp = static_cast<FbcModelPlugin*>(model->getPlugin("fbc"));
+    if (fmp->getNumFluxBounds()>0) {
+      ret << ", and " << fmp->getNumFluxBounds() << " flux bound";
+      if (fmp->getNumFluxBounds() > 1) {
+        ret << "s";
+      }
+    }
+#endif
+
+   ret << ":";
     ret << endl << endl;
-    ret << "[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |";
+    ret << "[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |";
     if (anyfast) {
       ret << "  *Fast*  |";
     }
     for (unsigned int r=0; r<model->getNumReactions(); r++) {
       Reaction* rxn = model->getReaction(r);
       ret  << endl<< "| ";
+      if (rxn->isSetId()) {
+        ret << rxn->getId() << ": ";
+      }
       ret << getHalfReaction(rxn->getListOfReactants(), stoichrefs, model, results);
       ret << "-> ";
       ret << getHalfReaction(rxn->getListOfProducts(), stoichrefs, model, results);
       ret << "| ";
+#ifdef USE_FBC
+      if (fbc != NULL) {
+        bool nobounds = true;
+        for (int b=0; b<fbc->getNumFluxBounds(); b++) {
+          FluxBound* fb = fbc->getFluxBound(b);
+          if (fb->getReaction() == rxn->getId()) {
+            if (nobounds) {
+              nobounds = false;
+              ret << "$";
+            }
+            else {
+              ret << " && ";
+            }
+            ret << rxn->getId() << " ";
+            if (fb->getOperation() == "greaterEqual") {
+              ret << ">=";
+            }
+            else if (fb->getOperation() == "lessEqual") {
+              ret << "<=";
+            }
+            else if (fb->getOperation() == "equal") {
+              ret << "==";
+            }
+            else {
+              assert(false);
+              ret << "??";
+            }
+            ret << " " ;
+            double fbval = fb->getValue();
+            if (fbval == numeric_limits<double>::infinity()) {
+              ret << "INF";
+            }
+            else if (fbval == -numeric_limits<double>::infinity()) {
+              ret << "-INF";
+            }
+            else {
+              ret << fbval;
+            }
+          }
+        }
+        if (nobounds) {
+          ret << "$(not set)$";
+        }
+        else {
+          ret << "$";
+        }
+      }
+      else 
+#endif
       if (rxn->isSetKineticLaw()) {
         ret << "$" << SBML_formulaToString(rxn->getKineticLaw()->getMath()) << "$";
       }
@@ -297,7 +366,7 @@ string getEventTable(Model* model)
       numextras++;
     }
     topline += " *Event Assignments* |";
-    ret << "[{width:" << 30 + numextras*5 << "em,margin-left:5em}" << topline;
+    ret << "[{width:" << 30 + numextras*5 << "em,margin: 1em auto}" << topline;
     for (unsigned int e = 0; e<model->getNumEvents(); e++) {
       ret << endl << "| ";
       Event* event = model->getEvent(e);
@@ -361,7 +430,7 @@ string getRuleTable(Model* model)
       ret << "is one rule:";
     }
     ret << endl << endl;
-    ret << "[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |";
+    ret << "[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |";
     for (unsigned int r=0; r<model->getNumRules(); r++) {
       Rule* rule = model->getRule(r);
       ret << endl << "| ";
@@ -503,7 +572,7 @@ string getInitialAssignmentTable(Model* model)
   stringstream ret;
   if (model->getNumParameters() + model->getNumSpecies() + model->getNumCompartments() == 0) return "";
   ret << "The initial conditions are as follows:" << endl << endl;
-  ret << "[{width:35em,margin-left:5em}|       | *Value* | *Constant* |";
+  ret << "[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |";
   ret << getInitialSpeciesLevels(model, true);
   ret << getInitialSpeciesLevels(model, false);
   ret << getInitialParameterLevels(model, true);
@@ -572,6 +641,47 @@ string getModelSummary(Model* model,  const map<string, vector<double> >& result
       }
     }
   }
+#ifdef USE_FBC
+  FbcModelPlugin* fmp = static_cast<FbcModelPlugin*>(model->getPlugin("fbc"));
+  namelist = getIdListFrom(fmp->getListOfObjectives());
+  if (namelist.size()>0) {
+    ret << "* " << namelist.size() << " objective";
+    if (namelist.size() > 1) ret << "s";
+    ret << " (" << getString(namelist) << ")";
+    ret << endl << endl;
+    ret << "The active objective is ";
+    Objective* obj = fmp->getActiveObjective();
+    if (obj == NULL) {
+      ret << "unset (which is an error)." << endl;
+    }
+    else {
+      ret << obj->getId() << ", which is to be ";
+      switch (obj->getObjectiveType()) {
+      case OBJECTIVE_TYPE_MAXIMIZE:
+        ret << "maximized";
+        break;
+      case OBJECTIVE_TYPE_MINIMIZE:
+        ret << "minimized";
+        break;
+      case OBJECTIVE_TYPE_UNKNOWN:
+        ret << "maximized or minimized, but it's unset which (this is an error)";
+        break;
+      }
+      ret << ":" << endl;
+      for (unsigned int fo = 0; fo<obj->getNumFluxObjectives(); fo++) {
+        FluxObjective* fluxobj = obj->getFluxObjective(fo);
+        double coeff = fluxobj->getCoefficient();
+        if (coeff < 0) {
+          ret << "  ";
+        }
+        else {
+          ret << "  + ";
+        }
+        ret << coeff << " " << fluxobj->getReaction() << endl;
+      }
+    }
+  }
+#endif
 
   ret << getReactionTable(model, results);
   ret << getEventTable(model);
@@ -598,9 +708,10 @@ string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const ma
   set<string> components;
   set<string> tests;
   set<string> packages;
+  SBMLDocument* doc = model->getSBMLDocument();
+  string testType = "timeCourse";
 
 #ifdef USE_COMP
-  SBMLDocument* doc = model->getSBMLDocument();
   CompSBMLDocumentPlugin* compdoc = static_cast<CompSBMLDocumentPlugin*>(doc->getPlugin("comp"));
   unsigned int nummds = 0;
   unsigned int numxmds = 0;
@@ -614,9 +725,25 @@ string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const ma
     numxmds = compdoc->getNumExternalModelDefinitions();
   }
   CompModelPlugin* modplug = static_cast<CompModelPlugin*>(model->getPlugin("comp"));
+  SBMLDocument newdoc = *doc;
   if (modplug != NULL) {
+    ConversionProperties* props = new ConversionProperties();
+    props->addOption("flatten comp");
+    SBMLConverter* converter = 
+      SBMLConverterRegistry::getInstance().getConverterFor(*props);
+    converter->setDocument(&newdoc);
+    converter->convert();
     //Only draw other tags from the flattened model
-    model = modplug->flattenModel();
+    model = newdoc.getModel();
+  }
+#endif
+
+#ifdef USE_FBC
+  FbcModelPlugin* fbcmodplug = static_cast<FbcModelPlugin*>(model->getPlugin("fbc"));
+  if (fbcmodplug != NULL) {
+    packages.insert("fbc");
+    checkFbc(fbcmodplug, components, tests, results);
+    testType = "FluxBalanceSteadyState";
   }
 #endif
 
@@ -651,7 +778,7 @@ string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const ma
   ret += "synopsis:        [[Write description here.]]\n";
   ret += "componentTags:   " + getString(components) + "\n";
   ret += "testTags:        " + getString(tests) + "\n";
-  ret += "testType:        TimeCourse\n";
+  ret += "testType:        " + testType + "\n";
   ret += "levels:          " + getString(levelsandversions) + "\n";
   ret += "generatedBy:     Analytic||Numeric\n";
   ret += "packagesPresent: " + getString(packages) + "\n";
@@ -814,9 +941,17 @@ main (int argc, char* argv[])
     mfile += getSuiteHeaders(levelsandversions, model, results);
     bool flat = false;
 #ifdef USE_COMP
+    SBMLDocument newdoc = *document;
     CompModelPlugin* cmp = static_cast<CompModelPlugin*>(model->getPlugin("comp"));
     if (cmp != NULL && cmp->getNumSubmodels() > 0) {
-      model = cmp->flattenModel();
+      ConversionProperties* props = new ConversionProperties();
+      props->addOption("flatten comp");
+      SBMLConverter* converter = 
+        SBMLConverterRegistry::getInstance().getConverterFor(*props);
+      converter->setDocument(&newdoc);
+      converter->convert();
+      //Only draw other tags from the flattened model
+      model = newdoc.getModel();
       flat = true;
       //Write out the flattened version of the model.
       model->disablePackage(CompExtension::getXmlnsL3V1V1(), "comp");
