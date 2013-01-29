@@ -305,7 +305,7 @@ public class MainWindow
     {
         Chart chart1 = new Chart(composite, SWT.NONE);
         chart1.setBackground(backgroundColor);
-        Font titleFont = UIUtils.getFont("SansSerif", 14, SWT.ITALIC);
+        Font titleFont = UIUtils.getFont("SansSerif", 12, SWT.ITALIC);
 
         chart1.getTitle().setFont(titleFont);
         if (title == null || title.length() == 0)
