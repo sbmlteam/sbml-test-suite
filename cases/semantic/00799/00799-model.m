@@ -28,7 +28,7 @@ explicitly declared and must be calculated using the InitialAssignment.
 
 The initial conditions are as follows:
 
-[{width 30em,margin-left 5em}| |*Value*        |*Units*  |
+[{width 30em,margin: 1em auto}| |*Value*        |*Units*  |
 |Initial concentration of S1        |$undeclared$     |mole litre^-1^                      |
 |Initial concentration of S2        |$2.0 \x 10^-3$  |mole litre^-1^                      |
 |Initial concentration of S3        |$1.0 \x 10^-3$  |mole litre^-1^                      |

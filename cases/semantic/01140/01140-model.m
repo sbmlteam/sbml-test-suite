@@ -18,12 +18,12 @@ The 'flattened' version of this hierarchical model contains:
 
 There is one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Rate | s8 | $(4 * (s8 / conv) + 3) * conv$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial amount of species s8 | $(4 * (s8 / conv) + 3) * conv$ | variable |
 | Initial value of parameter conv | $0.1$ | constant |
 | Initial volume of compartment 'C' | $1$ | constant |

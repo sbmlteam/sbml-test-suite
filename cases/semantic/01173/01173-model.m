@@ -16,13 +16,13 @@ The 'flattened' version of this hierarchical model contains:
 
 There are 2 rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Assignment | t1 | $time / timeconv$ |
 | Assignment | t3 | $delay(t1, timeconv * 3)$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter timeconv | $60$ | constant |
 | Initial value of parameter t1 | $time / timeconv$ | variable |
 | Initial value of parameter t3 | $delay(t1, timeconv * 3)$ | variable |]

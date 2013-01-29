@@ -28,7 +28,7 @@ inconsistent with the value returned by the InitialAssignment.
 
 The initial conditions are as follows:
 
-[{width 30em,margin-left 5em}| |*Value*  |*Units*  |
+[{width 30em,margin: 1em auto}| |*Value*  |*Units*  |
 |Initial amount of S1        |$1$        |mole                      |
 |Initial amount of S2        |$1.5$      |mole                      |
 |Value of parameter k1       |$0.5$      |second^-1^ |

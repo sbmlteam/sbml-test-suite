@@ -17,13 +17,13 @@ The 'flattened' version of this hierarchical model contains:
 
 There are 2 reactions:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | A__S + A__E -> A__ES | $(A__S + A__E) / A__ES$ |
 | A__ES -> A__E + A__D | $A__ES / (A__E + A__D)$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial concentration of species A__S | $10$ | variable |
 | Initial concentration of species A__E | $5$ | variable |
 | Initial concentration of species A__D | $7$ | variable |

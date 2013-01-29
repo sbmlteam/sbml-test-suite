@@ -28,7 +28,7 @@ inconsistent with the value returned by the InitialAssignment.
 
 The initial conditions are as follows:
 
-[{width 30em,margin-left 5em}| |*Value*        |*Units*  |
+[{width 30em,margin: 1em auto}| |*Value*        |*Units*  |
 |Initial concentration of S1        |$1.0 \x 10^-2$  |mole litre^-1^                      |
 |Initial concentration of S2        |$2.0 \x 10^-2$  |mole litre^-1^                      |
 |Initial concentration of S3        |$1.0 \x 10^-2$  |mole litre^-1^                      |

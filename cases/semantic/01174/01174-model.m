@@ -16,12 +16,12 @@ The 'flattened' version of this hierarchical model contains:
 
 There is one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Algebraic | $0$ | $t4 - delay(t3, timeconv * (time / timeconv / 2))$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter timeconv | $60$ | constant |
 | Initial value of parameter t3 | $time / timeconv + 3$ | constant |
 | Initial value of parameter t4 | $1$ | variable |]

@@ -18,26 +18,26 @@ The 'flattened' version of this hierarchical model contains:
 
 There is one reaction:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | -> s1 | $1 / timeconv * (t3 * (time / timeconv) / (s1 * delay(t5, timeconv * 2.000000e-001)))$ |]
 
 
 There is one event:
 
-[{width:35em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Delay*  | *Event Assignments* |
+[{width:35em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Delay*  | *Event Assignments* |
 |  | $gt(time / timeconv, 3)$ | $timeconv * (1 / (time / timeconv))$ | $t5 = time / timeconv$ |]
 
 
 There are 3 rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Rate | t1 | $(time / timeconv / t1 + 3) / timeconv$ |
 | Assignment | t3 | $delay(t1, timeconv * 3)$ |
 | Algebraic | $0$ | $t4 - delay(t3, timeconv * (time / timeconv / 2))$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial amount of species s1 | $0.001$ | variable |
 | Initial value of parameter timeconv | $60$ | constant |
 | Initial value of parameter t1 | $(time / timeconv / t1 + 3) / timeconv$ | variable |

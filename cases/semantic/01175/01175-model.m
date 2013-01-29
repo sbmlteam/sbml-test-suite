@@ -18,12 +18,12 @@ The 'flattened' version of this hierarchical model contains:
 
 There is one reaction:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | -> s1 | $1 / timeconv * (t5 * (time / timeconv) / (s1 * t5))$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial amount of species s1 | $0.001$ | variable |
 | Initial value of parameter timeconv | $60$ | constant |
 | Initial value of parameter t5 | $3.1$ | variable |

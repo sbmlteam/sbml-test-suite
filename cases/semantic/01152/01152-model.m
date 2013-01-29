@@ -16,12 +16,12 @@ The 'flattened' version of this hierarchical model contains:
 
 There is one event:
 
-[{width:30em,margin-left:5em}|  *Event*  |  *Trigger*  | *Event Assignments* |
+[{width:30em,margin: 1em auto}|  *Event*  |  *Trigger*  | *Event Assignments* |
 | sub1__E1 | $gt(time, 0.31)$ | $p8 = (800 + p8 / conv) * conv$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter conv | $0.1$ | constant |
 | Initial value of parameter p8 | $8$ | variable |]
 
