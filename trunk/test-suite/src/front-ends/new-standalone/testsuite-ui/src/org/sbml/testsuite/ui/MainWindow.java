@@ -44,6 +44,7 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -1568,15 +1569,33 @@ public class MainWindow
             }
         });
         
-        // sep0 offsets the width of the wrapper selector button on the other
-        // side of the toolbar, so that the stretchable fill separators are
-        // equal on both sides of the rewind/run/stop buttons.  That keeps
-        // the buttons in the middle when the whole panel is resized.
-        ToolItem sep0 = new ToolItem(toolBar, SWT.SEPARATOR);
-        sep0.setWidth(174);
-
+        // Stretchable fills work only on Mac OS X anyway, so we only bother to
+        // do the following there.
+        if (UIUtils.isMacOSX())
+        {
+        	// sep0 offsets the width of the wrapper selector button on the other
+        	// side of the toolbar, so that the stretchable fill separators are
+        	// equal on both sides of the rewind/run/stop buttons.  That keeps
+        	// the buttons in the middle when the whole panel is resized.
+        	ToolItem sep0 = new ToolItem(toolBar, SWT.SEPARATOR);
+        	sep0.setWidth(174);
+        }
+        else
+        {
+            ToolItem nonMacPadding = new ToolItem(toolBar, SWT.NONE);
+            nonMacPadding.setText(" ");
+            nonMacPadding.setEnabled(false);
+        }
+        
         ToolItem sep1 = new ToolItem(toolBar, SWT.SEPARATOR);
         sep1.setWidth(SWT.SEPARATOR_FILL);
+        
+        if (! UIUtils.isMacOSX())
+        {
+        	ToolItem nonMacPadding = new ToolItem(toolBar, SWT.NONE);
+        	nonMacPadding.setText(" ");
+        	nonMacPadding.setEnabled(false);
+        }
         
         ToolItem buttonRestart = new ToolItem(toolBar, SWT.NONE);
         buttonRestart.setImage(UIUtils.getImageResource("fast_backward_shadowed.png"));
@@ -1613,7 +1632,7 @@ public class MainWindow
         });
 
         ToolItem sep2 = new ToolItem(toolBar, SWT.NONE);
-        sep2.setText("  ");
+        sep2.setText(" ");
         sep2.setEnabled(false);
         
         buttonRun = new ToolItem(toolBar, SWT.NONE);
@@ -1653,7 +1672,7 @@ public class MainWindow
         });
 
         ToolItem sep3 = new ToolItem(toolBar, SWT.NONE);
-        sep3.setText("  ");
+        sep3.setText(" ");
         sep3.setEnabled(false);
 
         ToolItem buttonRunFast = new ToolItem(toolBar, SWT.NONE);
@@ -1692,9 +1711,23 @@ public class MainWindow
             }
         });
         
+        if (! UIUtils.isMacOSX())
+        {
+        	ToolItem nonMacPadding = new ToolItem(toolBar, SWT.NONE);
+        	nonMacPadding.setText(" ");
+        	nonMacPadding.setEnabled(false);
+        }
+        
         ToolItem sep4 = new ToolItem(toolBar, SWT.SEPARATOR);
         sep4.setWidth(SWT.SEPARATOR_FILL);
-
+        
+        if (! UIUtils.isMacOSX())
+        {
+        	ToolItem nonMacPadding = new ToolItem(toolBar, SWT.NONE);
+        	nonMacPadding.setText(" ");
+        	nonMacPadding.setEnabled(false);
+        }
+        
         if (UIUtils.isMacOSX())
             wrapperPopupMenuButton = new ListToolItem(toolBar, "(no wrapper chosen)", -3);
         else
