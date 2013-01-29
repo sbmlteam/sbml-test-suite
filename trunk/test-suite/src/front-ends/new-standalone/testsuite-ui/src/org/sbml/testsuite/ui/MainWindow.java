@@ -44,7 +44,6 @@ import java.util.TreeSet;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import com.apple.eawt.Application;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -318,7 +317,7 @@ public class MainWindow
     {
         Chart chart1 = new Chart(composite, SWT.NONE);
         chart1.setBackground(backgroundColor);
-        Font titleFont = new Font(getDisplay(), "SansSerif", 14, SWT.ITALIC);
+        Font titleFont = UIUtils.getFont("SansSerif", 14, SWT.ITALIC);
 
         chart1.getTitle().setFont(titleFont);
         if (title == null || title.length() == 0)
@@ -331,7 +330,7 @@ public class MainWindow
             chart1.getTitle().setForeground(foregroundColor);
         }
 
-        Font tickFont = new Font(getDisplay(), "SansSerif", 10, SWT.NORMAL);
+        Font tickFont = UIUtils.getFont("SansSerif", 10, SWT.NORMAL);
         
         chart1.getAxisSet().getXAxis(0).getTitle().setVisible(false);
         chart1.getAxisSet().getXAxis(0).getTick().setForeground(foregroundColor);
@@ -341,7 +340,7 @@ public class MainWindow
         chart1.getAxisSet().getYAxis(0).getTick().setForeground(foregroundColor);
         chart1.getAxisSet().getYAxis(0).getTick().setFont(tickFont);
 
-        Font legendFont = new Font(getDisplay(), "SansSerif", 10, SWT.NORMAL);
+        Font legendFont = UIUtils.getFont("SansSerif", 10, SWT.NORMAL);
         
         chart1.getLegend().setPosition(SWT.BOTTOM);
         chart1.getLegend().setFont(legendFont);
@@ -845,12 +844,13 @@ public class MainWindow
         fd_sashForm.left = new FormAttachment(0);
         sashForm.setLayoutData(fd_sashForm);
 
+        int offset = 20 - UIUtils.scaledFontSize(20);
         Group statusGroup = new Group(shell, SWT.SHADOW_ETCHED_IN);
         statusGroup.setText("Test case information");
         FormData fd_statusGroup = new FormData();
         fd_statusGroup.top = new FormAttachment(sashForm, 7);
-        fd_statusGroup.left = new FormAttachment(0, 5);
-        fd_statusGroup.right = new FormAttachment(100, -5);
+        fd_statusGroup.left = new FormAttachment(0, 5 + offset/2);
+        fd_statusGroup.right = new FormAttachment(100, -5 - offset/2);
         //        fd_statusGroup.bottom = new FormAttachment(100, -5);
         fd_statusGroup.bottom = new FormAttachment(100, -35);
         statusGroup.setLayoutData(fd_statusGroup);
@@ -865,7 +865,7 @@ public class MainWindow
         lblStatusMessage.setLayoutData(fd_lblStatusMessage);
         lblStatusMessage.addKeyListener(UIUtils.createCloseKeyListener(shell));
         lblStatusMessage.updateStatus("");
-        Font statusFont = new Font(getDisplay(), "SansSerif", 12, SWT.ITALIC);
+        Font statusFont = UIUtils.getFont("SansSerif", 12, SWT.ITALIC);
         lblStatusMessage.setFont(statusFont);
         lblStatusMessage.setForeground(foregroundColor);
         lblStatusMessage.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
