@@ -827,17 +827,17 @@ public class MainWindow
         if (!UIUtils.isMacOSX()) fd_sashForm.top = new FormAttachment(100, 0);
         //        fd_sashForm.bottom = new FormAttachment(100, -120);
         fd_sashForm.bottom = new FormAttachment(100, -140);
-        fd_sashForm.right = new FormAttachment(100);
-        fd_sashForm.left = new FormAttachment(0);
+        fd_sashForm.right = new FormAttachment(100, -6);
+        fd_sashForm.left = new FormAttachment(0, 6);
         sashForm.setLayoutData(fd_sashForm);
 
         int offset = 20 - UIUtils.scaledFontSize(20);
         Group statusGroup = new Group(shell, SWT.SHADOW_ETCHED_IN);
         statusGroup.setText("Test case information");
         FormData fd_statusGroup = new FormData();
-        fd_statusGroup.top = new FormAttachment(sashForm, 7);
-        fd_statusGroup.left = new FormAttachment(0, 5 + offset/2);
-        fd_statusGroup.right = new FormAttachment(100, -5 - offset/2);
+        fd_statusGroup.top = new FormAttachment(sashForm, 6);
+        fd_statusGroup.left = new FormAttachment(0, 4 + offset/2);
+        fd_statusGroup.right = new FormAttachment(100, -4 - offset/2);
         //        fd_statusGroup.bottom = new FormAttachment(100, -5);
         fd_statusGroup.bottom = new FormAttachment(100, -35);
         statusGroup.setLayoutData(fd_statusGroup);
@@ -869,8 +869,16 @@ public class MainWindow
         FormData fd_progressBar = new FormData();
         fd_progressBar.top = new FormAttachment(sashForm, 110);
         fd_progressBar.bottom = new FormAttachment(100, -10);
-        fd_progressBar.left = new FormAttachment(0, 8);
-        fd_progressBar.right = new FormAttachment(100, -8);
+        if (UIUtils.isMacOSX())
+        {
+            fd_progressBar.left = new FormAttachment(0, 7);
+            fd_progressBar.right = new FormAttachment(100, -7);
+        }
+        else
+        {
+            fd_progressBar.left = new FormAttachment(0, 6);
+            fd_progressBar.right = new FormAttachment(100, -6);
+        }
         progressBar.setLayoutData(fd_progressBar);        
         resetProgressBar();
 
