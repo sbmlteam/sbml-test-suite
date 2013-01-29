@@ -109,7 +109,7 @@ public class AboutDialog
         
         Label lblNewLabel = new Label(shell, SWT.NONE);
         lblNewLabel.setImage(UIUtils.getImageResource("icon_128x128.png"));
-        lblNewLabel.setBounds(8, 10, 139, 138);
+        lblNewLabel.setBounds(8 + offset/2, 10, 139, 138);
         
         Label lblNewLabel_1 = new Label(shell, SWT.NONE);
         lblNewLabel_1.setFont(UIUtils.getFont("Verdana", 20, SWT.BOLD));
@@ -132,7 +132,7 @@ public class AboutDialog
         
         Label lblNewLabel_2 = new Label(shell, SWT.NONE);
         lblNewLabel_2.setFont(UIUtils.getFont("Verdana", 10, SWT.BOLD));
-        lblNewLabel_2.setBounds(158, 67 - offset, 270, 14);
+        lblNewLabel_2.setBounds(158, 67 - offset, 270, 28);
         lblNewLabel_2.setText("Authors: Frank T. Bergmann and Michael Hucka.");
         
         Label lblPartOfThe = new Label(shell, SWT.WRAP);
@@ -142,7 +142,7 @@ public class AboutDialog
         
         Label lblNewLabel_3 = new Label(shell, SWT.WRAP);
         lblNewLabel_3.setFont(UIUtils.getFont("Verdana", 10, SWT.ITALIC));
-        lblNewLabel_3.setBounds(16, 235 - offset, 418, 49);
+        lblNewLabel_3.setBounds(16, 235 - offset, 418, 30);
         lblNewLabel_3.setText("For more information about this and other SBML Team software, as well as about SBML itself, please visit the following website:");
         
         StyleRange styleRange = new StyleRange();
@@ -155,7 +155,7 @@ public class AboutDialog
         lblHttpsbmlorg.setToolTipText("Click to visit SBML.org.");
         lblHttpsbmlorg.setForeground(SWTResourceManager.getColor(65, 105, 225));
         lblHttpsbmlorg.setFont(UIUtils.getFont("Verdana", 11, SWT.BOLD));
-        lblHttpsbmlorg.setBounds(173, 274, 103, 20);
+        lblHttpsbmlorg.setBounds(173 - 2*offset, 274, 103 + 3*offset, 20 + 2*offset);
         lblHttpsbmlorg.setText("http://sbml.org");
         lblHttpsbmlorg.setStyleRange(styleRange);
         final Cursor handCursor = new Cursor(shell.getDisplay(), SWT.CURSOR_HAND);
