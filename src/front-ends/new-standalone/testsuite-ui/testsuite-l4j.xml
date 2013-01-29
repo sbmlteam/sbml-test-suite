@@ -1,7 +1,7 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>stage\testsuite_ui.jar</jar>
+  <jar>stage\testsuite-ui.jar</jar>
   <outfile>.\stage\SBMLTestSuite.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
