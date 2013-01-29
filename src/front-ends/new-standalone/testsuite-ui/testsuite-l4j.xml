@@ -2,7 +2,7 @@
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
   <jar>stage\testsuite-ui.jar</jar>
-  <outfile>.\stage\SBMLTestSuite.exe</outfile>
+  <outfile>.\stage\SBMLTestRunner.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>
@@ -29,15 +29,15 @@
     <opt>-D32 -Djava.library.path=&quot;%EXEDIR%&quot;</opt>
   </jre>
   <versionInfo>
-    <fileVersion>1.0.0.0</fileVersion>
-    <txtFileVersion>1.0</txtFileVersion>
-    <fileDescription>SBML TestSuite Runner</fileDescription>
-    <copyright>(c) 2012 Frank T. Bergmann</copyright>
-    <productVersion>1.0.0.0</productVersion>
-    <txtProductVersion>1.0</txtProductVersion>
+    <fileVersion>3.0.0.0</fileVersion>
+    <txtFileVersion>3.0</txtFileVersion>
+    <fileDescription>SBML Test Runner</fileDescription>
+    <copyright>(c) 2013 Frank T. Bergmann and Michael Hucka</copyright>
+    <productVersion>3.0.0.0</productVersion>
+    <txtProductVersion>3.0</txtProductVersion>
     <productName>testsuite</productName>
     <companyName>Caltech</companyName>
     <internalName>testsuite</internalName>
-    <originalFilename>SBMLTestSuite.exe</originalFilename>
+    <originalFilename>SBMLTestRunner.exe</originalFilename>
   </versionInfo>
 </launch4jConfig>
