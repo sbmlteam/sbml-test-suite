@@ -217,9 +217,9 @@ public class ResultMap
         lblHelpMsg.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));
 
         FormData fd_lblHelpMsg = new FormData();
-        fd_lblHelpMsg.right = new FormAttachment(0, 582);
-        fd_lblHelpMsg.bottom = new FormAttachment(0, 435);
-        fd_lblHelpMsg.top = new FormAttachment(0, 400);
+        fd_lblHelpMsg.right = new FormAttachment(100, -12);
+        fd_lblHelpMsg.bottom = new FormAttachment(100, -45);
+        fd_lblHelpMsg.top = new FormAttachment(100, -85);
         fd_lblHelpMsg.left = new FormAttachment(0, 12);
         // Note: .bottom is set after cmdClose is defined below.
         lblHelpMsg.setLayoutData(fd_lblHelpMsg);
@@ -362,8 +362,8 @@ public class ResultMap
 
         FormData fd_cmdClose = new FormData();
         fd_cmdClose.width = 75;
-        fd_cmdClose.bottom = new FormAttachment(100, -10);
-        fd_cmdClose.right = new FormAttachment(100, -10);
+        fd_cmdClose.bottom = new FormAttachment(100, -5);
+        fd_cmdClose.right = new FormAttachment(100, -8);
         cmdClose.setLayoutData(fd_cmdClose);
         cmdClose.setText("&Close");
         cmdClose.addKeyListener(UIUtils.createCloseKeyListener(shell));
