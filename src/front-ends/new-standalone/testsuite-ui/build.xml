@@ -16,12 +16,13 @@
 		<path refid="core.classpath" />
 		<pathelement location="./libs/swt.jar" />
 		<pathelement location="./libs/org.swtchart_0.7.0.v20110128.jar" />
+		<pathelement location="./libs/opal-0.9.5.1.jar" />
 		<pathelement location="${core.location}/libs/simple-xml-2.6.4.jar" />
 	</path>
 	<target name="init">
                 <tstamp>
                         <format property="timestamp" pattern="yyyy-MM-dd HH:mm zzz"/>
-                </tstamp>        
+                </tstamp>
 		<mkdir dir="bin" />
 		<copy includeemptydirs="false" todir="bin">
 			<fileset dir="src">

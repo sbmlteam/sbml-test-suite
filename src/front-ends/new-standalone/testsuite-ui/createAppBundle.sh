@@ -1,8 +1,8 @@
 #!/bin/bash
 DIRECTORY=$(cd `dirname $0` && pwd)
 STAGE_DIR="$DIRECTORY/stage"
-DMG="$DIRECTORY/SBML_Testsuite.dmg"
-APP_DIR="$STAGE_DIR/SBML Testsuite.app"
+DMG="$DIRECTORY/SBML_Test_Runner.dmg"
+APP_DIR="$STAGE_DIR/SBML Test Runner.app"
 STUB="/usr/share/java/Tools/Jar Bundler.app/Contents/MacOS/JavaApplicationStub"
 
 cd $DIRECTORY
