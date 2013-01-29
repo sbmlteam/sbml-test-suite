@@ -1,7 +1,7 @@
 <project>
-    <shortName>sbmltestsuite</shortName>
-    <fullName>SBML Testsuite </fullName>
-    <version>2.0</version>
+    <shortName>sbmltestrunner</shortName>
+    <fullName>SBML Test Runner</fullName>
+    <version>3.0</version>
     <componentList>
         <component>
             <name>default</name>
@@ -12,9 +12,9 @@
             <desktopShortcutList>
                 <shortcut>
                     <comment>Starts the SBML Test Suite</comment>
-                    <exec>${installdir}/launcher/SBMLTestSuite</exec>
+                    <exec>${installdir}/launcher/SBMLTestRunner</exec>
                     <icon>${installdir}/ICON_CompareResults.png</icon>
-                    <name>SBML Testsuite</name>
+                    <name>SBML Test Runner</name>
                     <path>${installdir}</path>
                     <platforms>all</platforms>
                     <runAsAdmin>0</runAsAdmin>
@@ -39,13 +39,16 @@
                             <origin>stage/simple-xml-2.6.4.jar</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>stage/opal-0.9.5.1.jar</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>stage/swt.jar</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>stage/testsuite-core.jar</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>stage/testsuite_ui.jar</origin>
+                            <origin>stage/testsuite-ui.jar</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>ICON_CompareResults.png</origin>
@@ -113,14 +116,14 @@
                 <javaLauncher>
                     <allowCommandLineArguments>1</allowCommandLineArguments>
                     <arguments></arguments>
-                    <binaryName>SBMLTestSuite</binaryName>
-                    <classpath>org.swtchart_0.7.0.v20110128.jar;simple-xml-2.6.4.jar;swt.jar;testsuite-core.jar;</classpath>
-                    <jarFile>${installdir}/testsuite_ui.jar</jarFile>
+                    <binaryName>SBMLTestRunner</binaryName>
+                    <classpath>org.swtchart_0.7.0.v20110128.jar;opal-0.9.5.1.jar;simple-xml-2.6.4.jar;swt.jar;testsuite-core.jar;</classpath>
+                    <jarFile>${installdir}/testsuite-ui.jar</jarFile>
                     <mainClass>org.sbml.testsuite.ui.Program</mainClass>
                     <preferredJavaBinary></preferredJavaBinary>
                     <runInConsole>0</runInConsole>
                     <vmParameters></vmParameters>
-                    <windowsResourceFileVersion>1.0.0.0</windowsResourceFileVersion>
+                    <windowsResourceFileVersion>3.0.0.0</windowsResourceFileVersion>
                     <workingDirectory>${installdir}</workingDirectory>
                 </javaLauncher>
             </javaLauncherList>
@@ -131,10 +134,10 @@
             <showMessageOnError>0</showMessageOnError>
             <shortcutList>
                 <shortcut>
-                    <comment>Launch the SBML Testsuite</comment>
-                    <exec>${installdir}/launcher/SBMLTestSuite</exec>
+                    <comment>Launch the SBML Test Runner</comment>
+                    <exec>${installdir}/launcher/SBMLTestRunner</exec>
                     <icon>${installdir}/ICON_CompareResults.png</icon>
-                    <name>SBML Testsuite 2.0</name>
+                    <name>SBML Testsuite 3.0</name>
                     <path>${installdir}</path>
                     <platforms>all</platforms>
                     <runAsAdmin>0</runAsAdmin>
