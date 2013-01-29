@@ -142,8 +142,10 @@ public class PreferenceDialog
                                                      false, false, 1, 1);
         gd_btnBrowseCasesDir.exclude = true;
         btnBrowseCasesDir.setLayoutData(gd_btnBrowseCasesDir);
-        btnBrowseCasesDir.setBounds(2, 2, 58, 25);
-        
+        if (UIUtils.isMacOSX())
+            btnBrowseCasesDir.setBounds(2, 2, 58, 25);
+        else
+            btnBrowseCasesDir.setBounds(5, 0, 50, 25);
         btnBrowseCasesDir.setText("Edit");
         btnBrowseCasesDir.addSelectionListener(new SelectionAdapter() {
             @Override

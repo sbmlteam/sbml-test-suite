@@ -152,7 +152,13 @@ public class EditWrapper
         cmdBrowseWrapper.setAlignment(SWT.CENTER);
         FormData fd_cmdBrowseWrapper = new FormData();
         fd_cmdBrowseWrapper.top = new FormAttachment(txtWrapper, -4, SWT.TOP);
-        fd_cmdBrowseWrapper.right = new FormAttachment(100, 5);
+        if (UIUtils.isMacOSX())
+            fd_cmdBrowseWrapper.right = new FormAttachment(100, 5);
+        else
+        {
+            fd_cmdBrowseWrapper.right = new FormAttachment(100, 0);
+            fd_cmdBrowseWrapper.left = new FormAttachment(100, -50);
+        }
         cmdBrowseWrapper.setLayoutData(fd_cmdBrowseWrapper);
         cmdBrowseWrapper.setText("Edit");
         cmdBrowseWrapper.addSelectionListener(new SelectionAdapter() {
@@ -189,7 +195,13 @@ public class EditWrapper
         FormData fd_cmdEditTags = new FormData();
         fd_cmdEditTags.top = new FormAttachment(lblUnsupportedTags, -6, 
                                                 SWT.TOP);
-        fd_cmdEditTags.right = new FormAttachment(100, 5);
+        if (UIUtils.isMacOSX())
+            fd_cmdEditTags.right = new FormAttachment(100, 5);
+        else
+        {
+            fd_cmdEditTags.right = new FormAttachment(100, 0);
+            fd_cmdEditTags.left = new FormAttachment(100, -50);
+        }
         cmdEditTags.setLayoutData(fd_cmdEditTags);
         cmdEditTags.setText("Edit");
         cmdEditTags.addSelectionListener(new SelectionAdapter() {
@@ -224,7 +236,13 @@ public class EditWrapper
         FormData fd_cmdBrowseOutputDir = new FormData();
         fd_cmdBrowseOutputDir.top = new FormAttachment(lblWrapperOutputDir, 
                                                        -6, SWT.TOP);
-        fd_cmdBrowseOutputDir.right = new FormAttachment(100, 5);
+        if (UIUtils.isMacOSX())
+            fd_cmdBrowseOutputDir.right = new FormAttachment(100, 5);
+        else
+        {
+            fd_cmdBrowseOutputDir.right = new FormAttachment(100, 0);
+            fd_cmdBrowseOutputDir.left = new FormAttachment(100, -50);
+        }
         cmdBrowseOutputDir.setLayoutData(fd_cmdBrowseOutputDir);
         cmdBrowseOutputDir.setText("Edit");
         cmdBrowseOutputDir.addSelectionListener(new SelectionAdapter() {

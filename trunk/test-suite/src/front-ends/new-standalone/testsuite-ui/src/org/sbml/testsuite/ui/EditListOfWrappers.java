@@ -113,7 +113,10 @@ public class EditListOfWrappers
         Button btnadd = new Button(composite, SWT.NONE);
         FormData fd_btnadd = new FormData();
         fd_btnadd.width = 95;
-        fd_btnadd.left = new FormAttachment(0, -5);
+        if (UIUtils.isMacOSX())
+            fd_btnadd.left = new FormAttachment(0, -5);
+        else
+            fd_btnadd.left = new FormAttachment(2, -5);
         fd_btnadd.top = new FormAttachment(displayedWrappersList, 4);
         btnadd.setLayoutData(fd_btnadd);
         btnadd.setText("&Add...");
@@ -129,7 +132,10 @@ public class EditListOfWrappers
         Button btnremove = new Button(composite, SWT.NONE);
         FormData fd_btnremove = new FormData();
         fd_btnremove.width = 95;
-        fd_btnremove.right = new FormAttachment(displayedWrappersList, 5, SWT.RIGHT);
+        if (UIUtils.isMacOSX())
+            fd_btnremove.right = new FormAttachment(displayedWrappersList, 5, SWT.RIGHT);
+        else
+            fd_btnremove.right = new FormAttachment(displayedWrappersList, 0, SWT.RIGHT);
         fd_btnremove.top = new FormAttachment(displayedWrappersList, 4);
         btnremove.setLayoutData(fd_btnremove);
         btnremove.setText("&Remove...");
