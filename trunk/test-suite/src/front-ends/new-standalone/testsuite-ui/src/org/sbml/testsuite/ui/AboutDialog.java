@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -133,7 +134,10 @@ public class AboutDialog
         Label lblNewLabel_2 = new Label(shell, SWT.NONE);
         lblNewLabel_2.setFont(UIUtils.getFont("Verdana", 10, SWT.BOLD));
         lblNewLabel_2.setBounds(158, 67 - offset, 270, 28);
-        lblNewLabel_2.setText("Authors: Frank T. Bergmann and\nMichael Hucka.");
+        if (UIUtils.isMacOSX())
+            lblNewLabel_2.setText("Authors: Frank T. Bergmann and Michael Hucka.");
+        else
+            lblNewLabel_2.setText("Authors: Frank T. Bergmann and\nMichael Hucka.");
         
         Label lblPartOfThe = new Label(shell, SWT.WRAP);
         lblPartOfThe.setText("Part of the SBML Test Suite, written by Sarah Keating, Lucian Smith, Frank Bergmann, Kimberley Begley and Michael Hucka.");
