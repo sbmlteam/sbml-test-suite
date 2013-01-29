@@ -1604,8 +1604,9 @@ public class MainWindow
             }
         });
 
-        ToolItem sep2 = new ToolItem(toolBar, SWT.SEPARATOR);
-        sep2.setWidth(12);
+        ToolItem sep2 = new ToolItem(toolBar, SWT.NONE);
+        sep2.setText("  ");
+        sep2.setEnabled(false);
         
         buttonRun = new ToolItem(toolBar, SWT.NONE);
         markAsRunning(false);
@@ -1643,8 +1644,9 @@ public class MainWindow
 
         });
 
-        ToolItem sep3 = new ToolItem(toolBar, SWT.SEPARATOR);
-        sep3.setWidth(10);
+        ToolItem sep3 = new ToolItem(toolBar, SWT.NONE);
+        sep3.setText("  ");
+        sep3.setEnabled(false);
 
         ToolItem buttonRunFast = new ToolItem(toolBar, SWT.NONE);
         buttonRunFast.setImage(UIUtils.getImageResource("forward_shadowed.png"));
@@ -1696,8 +1698,9 @@ public class MainWindow
         wrapperPopupMenuListener = new DropdownSelectionListener(wrapperPopupMenuButton);
         wrapperPopupMenuButton.addSelectionListener(wrapperPopupMenuListener);
         
-        ToolItem sep5 = new ToolItem(toolBar, SWT.SEPARATOR);
-        sep5.setWidth(10);
+        ToolItem sep5 = new ToolItem(toolBar, SWT.NONE);
+        sep5.setText(" ");
+        sep5.setEnabled(false);
         
         ToolItem buttonPreferences = new ToolItem(toolBar, SWT.NONE);
         buttonPreferences.setImage(UIUtils.getImageResource("settings_shadowed.png"));
