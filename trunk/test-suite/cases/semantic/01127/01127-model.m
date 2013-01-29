@@ -16,12 +16,12 @@ The 'flattened' version of this hierarchical model contains:
 
 There is one rule:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Rate | param1 | $8 * submod1__subparam2 + param1$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter submod1__subparam2 | $6$ | constant |
 | Initial value of parameter param1 | $8 * submod1__subparam2 + param1$ | variable |]
 

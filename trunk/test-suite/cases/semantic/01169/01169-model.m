@@ -18,20 +18,20 @@ The 'flattened' version of this hierarchical model contains:
 
 There is one reaction:
 
-[{width:30em,margin-left:5em}|  *Reaction*  |  *Rate*  |
+[{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | A__S1 -> | $extentconv / timeconv * A__k1 * A__S1$ |]
 
 
 There are 2 events:
 
-[{width:35em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Priority*  | *Event Assignments* |
+[{width:35em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  | *Event Assignments* |
 | A___E0 | $gt(X / cf, 0.1515)$ | $Q$ | $A__y = 4$ |
 | A___E1 | $gt(X / cf, 0.1515)$ | $R$ | $A__y = 5$ |]
 
 
 There are 4 rules:
 
-[{width:30em,margin-left:5em}|  *Type*  |  *Variable*  |  *Formula*  |
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
 | Rate | U1 | $X / 100$ |
 | Assignment | U2 | $23$ |
 | Assignment | Q | $X / cf - 3$ |
@@ -39,7 +39,7 @@ There are 4 rules:
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial concentration of species A__S1 | $7.2$ | variable |
 | Initial value of parameter extentconv | $10$ | constant |
 | Initial value of parameter timeconv | $60$ | constant |

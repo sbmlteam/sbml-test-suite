@@ -16,12 +16,12 @@ The 'flattened' version of this hierarchical model contains:
 
 There is one event:
 
-[{width:30em,margin-left:5em}|  *Event*  |  *Trigger*  | *Event Assignments* |
+[{width:30em,margin: 1em auto}|  *Event*  |  *Trigger*  | *Event Assignments* |
 | sub1__E0 | $gt(time, 3)$ | $sub1__t1 = 3.3$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter sub1__t1 | $1$ | variable |
 | Initial value of parameter sub1__t2 | $1$ | variable |]
 

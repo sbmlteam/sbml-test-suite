@@ -15,7 +15,7 @@ The 'flattened' version of this hierarchical model contains:
 * 2 parameters (param1, submod1__subparam2)
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter param1 | $10.42$ | constant |
 | Initial value of parameter submod1__subparam2 | $6$ | constant |]
 

@@ -16,7 +16,7 @@ The 'flattened' version of this hierarchical model contains:
 * 7 compartments (C, sub1__C, sub2__C, sub3__C, sub3__sub1__C, sub3__sub2__C, sub3__sub2__sub1__C)
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial concentration of species sub1__S1 | $2.5$ | variable |
 | Initial amount of species sub2__S1 | $9$ | variable |
 | Initial concentration of species S1 | $2.5$ | variable |

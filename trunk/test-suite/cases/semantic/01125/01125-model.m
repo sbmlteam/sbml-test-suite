@@ -15,7 +15,7 @@ The 'flattened' version of this hierarchical model contains:
 * 1 parameter (param1)
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter param1 | $10.42$ | constant |]
 
 Note: The test data for this model was generated from an analytical

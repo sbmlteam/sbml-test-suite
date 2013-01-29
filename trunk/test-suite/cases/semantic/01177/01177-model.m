@@ -16,12 +16,12 @@ The 'flattened' version of this hierarchical model contains:
 
 There is one event:
 
-[{width:35em,margin-left:5em}|  *Event*  |  *Trigger*  |  *Delay*  | *Event Assignments* |
+[{width:35em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Delay*  | *Event Assignments* |
 |  | $gt(time / timeconv, 3)$ | $timeconv * (1 / (time / timeconv))$ | $t5 = time / timeconv$ |]
 
 The initial conditions are as follows:
 
-[{width:35em,margin-left:5em}|       | *Value* | *Constant* |
+[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter timeconv | $60$ | constant |
 | Initial value of parameter t5 | $1$ | variable |]
 
