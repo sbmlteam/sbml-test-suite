@@ -68,8 +68,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TaskBar;
-import org.eclipse.swt.widgets.TaskItem;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
@@ -1097,17 +1095,6 @@ public class MainWindow
         cmpDifferences.setLayout(gl_gridDifferences);
         sashForm_1.setWeights(new int[] {262, 262});
         sashForm.setWeights(new int[] {120, 725});
-
-        TaskBar taskBar = display.getSystemTaskBar();
-        if (taskBar != null)
-        {
-            TaskItem item = taskBar.getItem(shell);
-            if (item != null)
-            {
-                item.setOverlayImage(UIUtils.getImageResource("icon_256x256.png"));
-                item.setOverlayText("SBML Test Runner");
-            }
-        }
     }
 
 
