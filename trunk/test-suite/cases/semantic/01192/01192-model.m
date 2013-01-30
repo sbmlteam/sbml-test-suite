@@ -50,32 +50,4 @@ There are 26 reactions, and 52 flux bounds:
 | R25: A + T -> 0.5S + U | $R25 >= 0 && R25 <= 1000$ |
 | R26: S -> Y | $R26 >= 0 && R26 <= 1000$ |]
 
-The initial conditions are as follows:
-
-[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
-| Initial concentration of species A | $0$ | variable |
-| Initial concentration of species B | $0$ | variable |
-| Initial concentration of species C | $0$ | variable |
-| Initial concentration of species D | $0$ | variable |
-| Initial concentration of species E | $0$ | variable |
-| Initial concentration of species F | $0$ | variable |
-| Initial concentration of species G | $0$ | variable |
-| Initial concentration of species H | $0$ | variable |
-| Initial concentration of species I | $0$ | variable |
-| Initial concentration of species J | $0$ | variable |
-| Initial concentration of species K | $0$ | variable |
-| Initial concentration of species L | $0$ | variable |
-| Initial concentration of species M | $0$ | variable |
-| Initial concentration of species N | $0$ | variable |
-| Initial concentration of species O | $0$ | variable |
-| Initial concentration of species P | $0$ | variable |
-| Initial concentration of species Q | $0$ | variable |
-| Initial concentration of species R | $0$ | variable |
-| Initial concentration of species S | $0$ | variable |
-| Initial concentration of species T | $0$ | variable |
-| Initial concentration of species U | $0$ | variable |
-| Initial concentration of species X | $0$ | variable |
-| Initial concentration of species Y | $0$ | variable |
-| Initial volume of compartment 'Cell' | $1$ | variable |]
-
 *)
