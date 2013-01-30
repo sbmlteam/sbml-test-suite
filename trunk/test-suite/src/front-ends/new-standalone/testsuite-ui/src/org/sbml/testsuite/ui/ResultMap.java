@@ -495,6 +495,7 @@ public class ResultMap
 
     protected void paintCanvas(GC gc)
     {
+        gc.setAntialias(SWT.ON);
         if (keySets == null || keySets.length == 0)
         {
             gc.drawString("No Data ...", 10, 10);

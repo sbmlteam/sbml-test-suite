@@ -219,6 +219,7 @@ public class ListToolItem
         if (DEFAULT_PIXEL_HEIGHT < r.height)
             topOffset = (r.height - DEFAULT_PIXEL_HEIGHT)/2 - 2 + topIndent;
 
+        e.gc.setAntialias(SWT.ON);
         e.gc.fillGradientRectangle(r.x - 10 , r.y + topOffset,
                                    r.width + 9, DEFAULT_PIXEL_HEIGHT, true);
         e.gc.setForeground(borderColor);
