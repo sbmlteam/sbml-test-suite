@@ -28,6 +28,7 @@
 
 package org.sbml.testsuite.ui;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.GC;
@@ -103,6 +104,7 @@ public enum ResultColor
     {
         Image image = new Image(Display.getDefault(), imageSize, imageSize);
         GC gc = new GC(image);
+        gc.setAntialias(SWT.ON);
         gc.setBackground(getColor());
         gc.setForeground(getColor());
         gc.fillRoundRectangle(0, 0, imageSize, imageSize, 5, 5);
