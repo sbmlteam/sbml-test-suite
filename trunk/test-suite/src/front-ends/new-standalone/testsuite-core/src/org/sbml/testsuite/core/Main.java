@@ -30,6 +30,7 @@
 
 package org.sbml.testsuite.core;
 
+import org.sbml.testsuite.core.RunOutcome.Code;
 import org.sbml.testsuite.core.commandline.TestSuiteArguments;
 
 /**
@@ -48,11 +49,111 @@ public class Main
     public static void main(String[] rawArgs)
     {
         TestSuiteArguments args = new TestSuiteArguments(rawArgs);
-        if (args.isValid())
+        if (!args.isValid())
         {
             args.printArguments(System.err);
             System.exit(1);
         }
+
+        if (args.isShouldRun())
+        {
+            runWrapper(args);
+        }
+
     }
 
+
+    /**
+     * Runs the specified wrapper for over the given range.
+     * 
+     * @param args
+     *            the parsed arguments
+     */
+    public static void runWrapper(TestSuiteArguments args)
+    {
+        TestSuiteSettings settings = TestSuiteSettings.loadDefault();
+        WrapperConfig wrapper = settings.getWrapper(args.getWrapperName());
+        if (wrapper == null)
+        {
+            System.out.println(String.format("The wrapper '%s' does not exist.",
+                                             args.getWrapperName()));
+            System.exit(1);
+        }
+
+        if (!wrapper.canRun())
+        {
+            System.out.println(String.format("The wrapper '%s' cannot be executed.",
+                                             args.getWrapperName()));
+            System.exit(1);
+        }
+
+        TestCase test = settings.getSuite().get(args.getTestOrTestRange());
+        if (test != null)
+        {
+            System.out.println(String.format("Starting Wrapper %s for case %s",
+                                             wrapper.getName(), test.getId()));
+            RunOutcome result = wrapper.run(test, settings.getSuite()
+                                                          .getCasesDirectory()
+                                                          .getAbsolutePath());
+
+            if (result.getCode() == Code.success)
+            {
+                System.out.println(String.format("... run succeeded, result is: "
+                    + wrapper.getResultType(test).toString()));
+            }
+            else
+            {
+                System.out.println(result.getMessage());
+            }
+
+        }
+        else
+        {
+            String[] range = args.getTestOrTestRange().split("-");
+            if (range == null || range.length != 2)
+            {
+                System.out.println(String.format("Invalid test range '%s' specified",
+                                                 args.getTestOrTestRange()));
+                System.exit(1);
+            }
+            try
+            {
+
+                int lower = Integer.parseInt(range[0]);
+                int end = Integer.parseInt(range[1]);
+
+                for (int i = lower; i >= 0 && i <= end
+                    && i < settings.getSuite().getNumCases(); i++)
+                {
+                    test = settings.getSuite().get(i - 1);
+                    System.out.println(String.format("Starting Wrapper %s for case %s",
+                                                     wrapper.getName(),
+                                                     test.getId()));
+                    RunOutcome result = wrapper.run(test,
+                                                    settings.getSuite()
+                                                            .getCasesDirectory()
+                                                            .getAbsolutePath());
+                    if (result.getCode() == Code.success)
+                    {
+                        System.out.println(String.format("... run succeeded, result is: "
+                            + wrapper.getResultType(test).toString()));
+                    }
+                    else
+                    {
+                        System.out.println(result.getMessage());
+                    }
+                }
+            }
+            catch (NumberFormatException ex)
+            {
+                System.out.println(String.format("Invalid test range '%s' specified",
+                                                 args.getTestOrTestRange()));
+                System.exit(1);
+            }
+
+        }
+        System.out.println();
+        System.out.println("done ...");
+        System.exit(0);
+    }
 }

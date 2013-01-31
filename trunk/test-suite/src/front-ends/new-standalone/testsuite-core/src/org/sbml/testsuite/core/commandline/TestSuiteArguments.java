@@ -31,12 +31,18 @@
 package org.sbml.testsuite.core.commandline;
 
 import java.io.PrintStream;
+import org.sbml.testsuite.core.TestSuiteSettings;
 
 /**
  * TestSuiteArguments is a parser for command line arguments (unused)
  */
 public class TestSuiteArguments
 {
+    private boolean shouldRun;
+    private String  wrapperName;
+    private String  testOrTestRange;
+
+
     /**
      * Constructor parsing arguments
      * 
@@ -46,6 +52,29 @@ public class TestSuiteArguments
     public TestSuiteArguments(String args[])
     {
 
+        parseArgs(args);
+
+    }
+
+
+    public void parseArgs(String[] args)
+    {
+        for (int i = 0; i < args.length; i++)
+        {
+            String current = args[i].toLowerCase();
+            String first = (i + 1 < args.length ? args[i + 1] : null);
+            String second = (i + 2 < args.length ? args[i + 2] : null);
+
+            if ((current.equals("-r") || current.equals("--run"))
+                && first != null && second != null)
+            {
+                shouldRun = true;
+                wrapperName = first;
+                testOrTestRange = second;
+                i += 2;
+            }
+
+        }
     }
 
 
@@ -54,7 +83,8 @@ public class TestSuiteArguments
      */
     public boolean isValid()
     {
-        return false;
+        return (shouldRun && (wrapperName != null && TestSuiteSettings.loadDefault()
+                                                                      .getWrapper(wrapperName) != null));
     }
 
 
@@ -83,11 +113,86 @@ public class TestSuiteArguments
         stream.println("SBML TestSuite (core)");
         stream.println("=====================");
         stream.println();
-        if (message == null || message.length() == 0)
+        if (message != null && message.length() > 0)
         {
             stream.println(message);
             stream.println();
         }
         stream.println("Usage: ");
+        stream.println();
+        stream.println(" -r | --run <wrapperName> <test-range>");
+        stream.println();
+
+    }
+
+
+    /**
+     * If true the given wrapper and test range should be run.
+     * 
+     * @return the shouldRun
+     */
+    public boolean isShouldRun()
+    {
+        return shouldRun;
+    }
+
+
+    /**
+     * Specifies whether the given wrapper should be run
+     * 
+     * @param shouldRun
+     *            the shouldRun to set
+     */
+    public void setShouldRun(boolean shouldRun)
+    {
+        this.shouldRun = shouldRun;
+    }
+
+
+    /**
+     * Returns the selected wrapper
+     * 
+     * @return the wrapperName
+     */
+    public String getWrapperName()
+    {
+        return wrapperName;
+    }
+
+
+    /**
+     * Sets the wrapper for command line operations.
+     * 
+     * @param wrapperName
+     *            the wrapperName to set
+     */
+    public void setWrapperName(String wrapperName)
+    {
+        this.wrapperName = wrapperName;
+    }
+
+
+    /**
+     * Gets either a single test (by specifying a number), or a test range in
+     * the format: start-end (with start and end included).
+     * 
+     * @return the testOrTestRange
+     */
+    public String getTestOrTestRange()
+    {
+        return testOrTestRange;
+    }
+
+
+    /**
+     * Sets either a single test (by specifying a number), or a test range in
+     * the format: start-end (with start and end included).
+     * 
+     * @param testOrTestRange
+     *            the testOrTestRange to set
+     */
+    public void setTestOrTestRange(String testOrTestRange)
+    {
+        this.testOrTestRange = testOrTestRange;
     }
 }

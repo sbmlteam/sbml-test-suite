@@ -71,6 +71,8 @@ public class ResultSet
             // nevermind
         }
     }
+
+
     /**
      * Computes a result set with absolute differences between two results
      * 
@@ -155,9 +157,7 @@ public class ResultSet
         }
     }
 
-
     private Vector<String> headers;
-
 
     private double[][]     data;
 
@@ -333,6 +333,16 @@ public class ResultSet
         {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line = reader.readLine();
+            if (line == null)
+            {
+
+                // if this happens we have an empty file present, this is not
+                // good! The best we can do at this point is to close the reader
+                // and return.
+                // that will flag the file as invalid later on.
+                reader.close();
+                return;
+            }
             String[] values = line.split(",");
             headers = new Vector<String>();
             for (int i = 0; i < values.length; i++)
