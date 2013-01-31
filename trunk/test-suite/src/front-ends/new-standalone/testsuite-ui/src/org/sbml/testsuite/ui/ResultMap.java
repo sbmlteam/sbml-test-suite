@@ -160,7 +160,7 @@ public class ResultMap
         shell.addListener(SWT.Close, UIUtils.createShellCloseListener(shell));
         shell.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
 
-        canvas = new Canvas(shell, SWT.NONE);
+        canvas = new Canvas(shell, SWT.DOUBLE_BUFFERED);
         canvas.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseUp(MouseEvent arg0)
