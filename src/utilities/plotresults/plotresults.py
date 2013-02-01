@@ -77,6 +77,9 @@ def parse_cmdline(direct_args = None):
     parser.add_argument("-d", "--data", required=True,
                         help="the CSV file containing the data to plot")
 
+    parser.add_argument("-t", "--type", default="timeseries",
+                        help="(optional) type of data: 'timeseries' (default) or 'steadystate'")
+
     parser.add_argument("-o", "--output", required=True,
                         help="the HTML file where the output should be written")
 
@@ -103,6 +106,10 @@ def get_output_file_name(direct_args = None):
 
 def get_complete_flag(direct_args = None):
     return direct_args.complete
+
+
+def get_type_flag(direct_args = None):
+    return direct_args.type
 
 
 def get_library_flag(direct_args = None):
@@ -180,34 +187,67 @@ class PlotWriter():
             self.file.write('<html><title>' + title + '</title>\n<body>')
 
 
-    def write_code_start(self, column_labels, buttons):
-        self.generator.write_code_start(column_labels, buttons)
+    def write_code_start(self, column_labels, buttons, type):
+        self.generator.write_code_start(column_labels, buttons, type)
+        if type == 'steadystate':
+            self.file.write('''
+            xAxis: {
+                labels: {
+                    useHTML: 'true',
+                    formatter: function() {
+                        return '<br>' + this.value;
+                    },
+                    style: {
+                        fontWeight: 'bold',
+                        fontSize: 14,
+                    }
+                },
+                categories: [''')
+            for col in range(0, len(column_labels)):
+                if col > 0: self.file.write(', ')
+                self.file.write("'" + column_labels[col] + "'")
+            self.file.write(''']
+            },''')
+        self.file.write('''
+            series: [
+''')
 
 
-    def write_data(self, column_labels, time, expected_values, other_values):
-        colors = cycle(self.our_colors)
-        for col in range(1, len(column_labels)):
-            if col > 1: self.file.write(',')
-            label = column_labels[col]
-            color = colors.next()
-            self.generator.write_series_start(label, 'Solid', color)
-            for row in range(0, len(expected_values[label])):
-                if row: self.file.write(',')
-                self.file.write('\n[' + time[row] + ', '
-                                + expected_values[label][row] + ']')
-            self.generator.write_series_stop()
-            if any(other_values):
-                self.file.write(',')
-                self.generator.write_series_start(label + ' (u)', 'ShortDash', color)
-                for row in range(0, len(other_values[label])):
+    def write_data(self, column_labels, time, expected_values, other_values, type):
+        if type == 'steadystate':
+            self.file.write('''
+                { name: "data", color: "rgba(30, 50, 170, .6)", shadow: false, data: 
+[''')
+            for col in range(0, len(column_labels)):
+                if col > 0: self.file.write(', ')
+                label = column_labels[col]
+                print expected_values[label][0]
+                self.file.write(expected_values[label][0])
+            self.file.write(']\n}')
+        else:
+            colors = cycle(self.our_colors)
+            for col in range(1, len(column_labels)):
+                if col > 1: self.file.write(',')
+                label = column_labels[col]
+                color = colors.next()
+                self.generator.write_series_start(label, 'Solid', color)
+                for row in range(0, len(expected_values[label])):
                     if row: self.file.write(',')
                     self.file.write('\n[' + time[row] + ', '
-                                    + other_values[label][row] + ']')
+                                    + expected_values[label][row] + ']')
                 self.generator.write_series_stop()
+                if any(other_values):
+                    self.file.write(',')
+                    self.generator.write_series_start(label + ' (u)', 'ShortDash', color)
+                    for row in range(0, len(other_values[label])):
+                        if row: self.file.write(',')
+                        self.file.write('\n[' + time[row] + ', '
+                                        + other_values[label][row] + ']')
+                    self.generator.write_series_stop()
 
 
-    def write_code_end(self, column_labels):
-        self.generator.write_code_end(column_labels)
+    def write_code_end(self, column_labels, type):
+        self.generator.write_code_end(column_labels, type)
 
 
     def write_html_body(self):
@@ -268,7 +308,7 @@ class FlotPlotGenerator(PlotGenerator):
     # style="..."  attributes on the HTML elements.  Thus, there are two
     # places where styling is controlled.
 
-    def write_code_start(self, column_labels, buttons):
+    def write_code_start(self, column_labels, buttons, type):
         self.file.write('''
 <script language="javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script language="javascript" src="http://cdnjs.cloudflare.com/ajax/libs/flot/0.7/jquery.flot.min.js"></script>
@@ -322,7 +362,7 @@ $(function () {
         self.file.write('];\n')
 
 
-    def write_code_end(self, column_labels):
+    def write_code_end(self, column_labels, type):
         self.file.write('''
 function doPlot() {
     $.plot($("#placeholder"),
@@ -386,7 +426,7 @@ function doPlot() {
 
 class HighchartsPlotGenerator(PlotGenerator):
 
-    def write_code_start(self, column_labels, buttons):
+    def write_code_start(self, column_labels, buttons, type):
         self.file.write('''
 <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
@@ -423,29 +463,56 @@ $(function () {
     var chart;
     $(document).ready(function() {
         chart = new Highcharts.Chart({
+            credits: {
+                enabled: false
+            },
             chart: {
                 backgroundColor: '#fff',
-                renderTo: 'placeholder',
-                type: 'line',
+                renderTo: 'placeholder',''')
+        if type == 'steadystate':
+            self.file.write('''
+                type: 'scatter',''')
+        else:
+            self.file.write('''
+                type: 'line',''')
+        self.file.write('''
                 zoomType: 'xy',
                 height: 500,
                 width: 600,
                 spacingTop: 37
             },
-            plotOptions: {
+            plotOptions: {''')
+        if type == 'steadystate':
+            self.file.write('''
+                scatter: {
+                    dashStyle: 'Solid',
+                    marker: {
+                        radius: 5
+                    }
+                }
+''')
+        else:
+            self.file.write('''
                 line: {
                     dashStyle: 'Solid',
                     marker: {
                         enabled: false
                     }
                 }
+''')
+        self.file.write('''
             },
             title: {
                 text: null
-            },''')
+            },
+            xAxis: {''')
+        if type == 'steadystate':
+            self.file.write('''
+                gridLineWidth: 0,''')
+        else:
+            self.file.write('''
+                gridLineWidth: 1,''')
         self.file.write('''
-            xAxis: {
-                gridLineWidth: 1,
                 gridLineDashStyle: 'ShortDot',
                 tickPosition: 'inside',
                 maxPadding: 0,
@@ -460,7 +527,18 @@ $(function () {
                 }
             },
             tooltip: {
-                borderWidth: 1,
+                borderWidth: 1,''')
+        if type == 'steadystate':
+            self.file.write('''
+                formatter: function() {
+                    return '<b>' + this.x + '</b> = ' + this.y;
+                }
+            },
+            legend: {
+                enabled: false
+            },''')
+        else:
+            self.file.write('''
                 formatter: function() {
                     return 'At time ' + this.x + '<br><b>' + this.series.name
                            + '<\/b> = ' + this.y;
@@ -475,9 +553,7 @@ $(function () {
                 symbolPadding: 5,
                 x: 20
             },
-            credits: {
-                enabled: false
-            },''')
+''')
         if buttons:
             self.file.write('''
             exporting: {
@@ -494,9 +570,6 @@ $(function () {
                     printButton: { enabled: false }
                 }
             },''')
-        self.file.write('''
-            series: [
-''')
 
 
     def write_series_start(self, label, style, color):
@@ -511,7 +584,7 @@ $(function () {
         self.file.write('] }')
 
 
-    def write_code_end(self, column_labels):
+    def write_code_end(self, column_labels, type):
         self.file.write('''
 ]
         });
@@ -546,10 +619,10 @@ def stop(message, be_quiet):
     sys.exit(1)
 
 
-def parse_data_file(csv_file):
+def parse_data_file(csv_file, type):
     # Read the contents into 3 structures and return all 3:
     #   column_labels: a vector of unique column labels.  The first one
-    #       will (or should be) 'time'
+    #       will (or should be) 'time' if the type is not 'steadystate'
     #
     #   time: a vector of the time points.
     # 
@@ -575,15 +648,21 @@ def parse_data_file(csv_file):
         unique_column_labels = []
 
         column_labels = contents.next();
-        # In the next line, the fake 1st entry is just to make indexing
-        # correspond 1-1 with column_labels, whose first column we skip.
-        duplicate_columns = [False]
-        for label in column_labels[1:]:
+        # In duplicate_columns, the fake 1st entry is just to make indexing
+        # correspond 1-1 with column_labels, whose first column we skip if
+        # the plot type is time-series.
+        if type == 'steadystate':
+            start = 0
+            duplicate_columns = []
+        else:
+            start = 1
+            duplicate_columns = [False]
+        for label in column_labels[start:]:
             values[label] = []
             duplicate_columns.append(label in seen_labels)
             seen_labels.append(label)
 
-        data_column_range = range(1, len(column_labels))
+        data_column_range = range(start, len(column_labels))
         for row in contents:
             if not any(row):
                 continue
@@ -618,6 +697,7 @@ def main():
     quietly       = get_quiet_flag(args)
     complete      = get_complete_flag(args)
     show_buttons  = not get_no_buttons_flag(args)
+    type          = get_type_flag(args)
 
     # Sanity-check the arguments.
 
@@ -634,17 +714,21 @@ def main():
         elif re.search('.csv$', results_fname) == None:
             stop("'" + results_fname + "' is not a .csv file", quietly)
 
+    if type != 'steadystate' and type != 'timeseries':
+        stop("Only 'timeseries' and 'steadystate' are permitted --type values",
+             quietly)
+
     # Parse the CSV data files and do some simple error checking to
     # make sure the results look like they belong together.
 
-    column_labels, time, data_values = parse_data_file(data_fname)
+    column_labels, time, data_values = parse_data_file(data_fname, type)
 
     # Only read the 2nd data file if we read some data:
     r_column_labels = []
     r_time          = []
     r_values        = []
     if results_fname != None and any(data_values):
-        r_column_labels, r_time, r_values = parse_data_file(results_fname)
+        r_column_labels, r_time, r_values = parse_data_file(results_fname, type)
 
         if set(r_column_labels).symmetric_difference(column_labels) != set():
             stop("'" + data_fname + "' and '" + results_fname \
@@ -669,9 +753,13 @@ def main():
         if not any(data_values):
             print "   Data contains unplottable values (e.g., INF)."
         else:
-            print "   " + str(len(time)) + " time points"
-            print "   " + str(len(column_labels) - 1) + " variables: " \
-                + ' '.join(column_labels[1:])
+            if type == 'steadystate':
+                start = 0
+            else:
+                print "   " + str(len(time)) + " time points"
+                start = 1
+            print "   " + str(len(column_labels) - start) + " variables: " \
+                + ' '.join(column_labels[start:])
 
     # Get down to business and write the output.
 
@@ -679,9 +767,9 @@ def main():
     writer.open(plot_fname)
     writer.write_html_start(data_fname)
     if data_values:
-        writer.write_code_start(column_labels, show_buttons)
-        writer.write_data(column_labels, time, data_values, r_values)
-        writer.write_code_end(column_labels)
+        writer.write_code_start(column_labels, show_buttons, type)
+        writer.write_data(column_labels, time, data_values, r_values, type)
+        writer.write_code_end(column_labels, type)
         writer.write_html_body()
     else:
         writer.write_empty_result()
