@@ -1,6 +1,14 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
+=== Version 2.3.2 release (2013-02-03)
+
+* Changes:
+
+  - FBC package test case results are now plotted in a more sensible
+    way, using a different plot type.
+
+
 === Version 2.3.1 release (2013-01-27)
 
 The only difference is a change to the settings of case 993.  The
