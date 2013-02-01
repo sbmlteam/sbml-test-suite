@@ -221,7 +221,6 @@ class PlotWriter():
             for col in range(0, len(column_labels)):
                 if col > 0: self.file.write(', ')
                 label = column_labels[col]
-                print expected_values[label][0]
                 self.file.write(expected_values[label][0])
             self.file.write(']\n}')
         else:
