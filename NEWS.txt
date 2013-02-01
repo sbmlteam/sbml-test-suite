@@ -5,8 +5,26 @@
 
 * Changes:
 
+  - The settings.txt files for the FBC tests (01186-01196) now
+    have their 'start', 'duration', and 'steps' lines set to be
+    blank instead of having dummy values that were not used.
+
   - FBC package test case results are now plotted in a more sensible
     way, using a different plot type.
+
+  - The absolute and relative errors for FBC tests were relaxed
+    to 0.001.
+
+  - The *-model.m files for the FBC tests were modified to include
+    more detailed descriptions of the models.
+
+  - The test tags 'BoundaryCondition' and 'NonUnityStoichiometry'
+    were added to all FBC tests (as they all contained those elements)
+    and the tags fbc:BoundGreaterEqual, fbc:BoundLessEqual, and
+    fbc:BoundEqual were added to several tests where they had been
+    missing.
+
+  - The tolerances for tests 00983 and 00993 were relaxed by request.
 
 
 === Version 2.3.1 release (2013-01-27)
