@@ -63,10 +63,20 @@ cases-png-plot-files  = $(patsubst %-results.csv,%-plot.png,$(cases-csv-files))
 cases-jpg-plot-files  = $(patsubst %-results.csv,%-plot.jpg,$(cases-csv-files))
 
 cases/semantic/%-plot.html: cases/semantic/%-results.csv
-	./src/utilities/plotresults/plotresults.py -q -d $(patsubst %-plot.html,%-results.csv,$@) -o $@
+	@mfile=$(patsubst %-plot.html,%-model.m,$@) ;\
+	if test -n "`grep 'packagesPresent: *fbc' $$mfile`"; then \
+	  ./src/utilities/plotresults/plotresults.py -q -t steadystate -d $(patsubst %-plot.html,%-results.csv,$@) -o $@ ;\
+	else \
+	  ./src/utilities/plotresults/plotresults.py -q -d $(patsubst %-plot.html,%-results.csv,$@) -o $@ ;\
+	fi
 
 cases/semantic/%-plot.png: cases/semantic/%-plot.html
-	./src/utilities/plotresults/plotresults.py -n -q -d $(patsubst %-plot.html,%-results.csv,$<) -o /tmp/$(notdir $<)
+	@mfile=$(patsubst %-plot.png,%-model.m,$@) ;\
+	if test -n "`grep 'packagesPresent: *fbc' $$mfile`"; then \
+	  ./src/utilities/plotresults/plotresults.py -n -q -t steadystate -d $(patsubst %-plot.html,%-results.csv,$<) -o /tmp/$(notdir $<) ;\
+	else \
+	  ./src/utilities/plotresults/plotresults.py -n -q -d $(patsubst %-plot.html,%-results.csv,$<) -o /tmp/$(notdir $<) ;\
+	fi
 	phantomjs ./src/utilities/rasterize/rasterize.js /tmp/$(notdir $<) $@
 
 cases/semantic/%-plot.jpg: cases/semantic/%-plot.html cases/semantic/%-plot.png
