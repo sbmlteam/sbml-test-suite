@@ -37,7 +37,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -249,7 +251,8 @@ public class MainWindow
     private boolean                   restart = false;
     private boolean                   closing = false;
     private boolean                   ignoreDoubleClicks = false;
-    private TreeSet<String>           doneSet = new TreeSet<String>();
+    private SortedSet<String>         doneSet
+        = Collections.synchronizedSortedSet(new TreeSet<String>());
 
     private CustomProgressBar         progressBar;
     private int                       progressBarSteps = 100;
@@ -2014,21 +2017,32 @@ public class MainWindow
         @Override
         public void run()
         {
+            // The user may have interrupted the runner while this process
+            // was queued up for execution. Start by checking for that.
+
             if (!running)
                 return;
+
+            // This next call does synchronous execution of the wrapper.
 
             runOutcome = wrapper.run(testCase, path, 250,
                                      new CancelCallback() {
                                          public boolean cancellationRequested()
                                          {
+                                             // if (!running) System.out.println("Interrupted in " + caseId);
                                              return !running;
                                          }
                                      });
 
-            final ResultType resultType = wrapper.getResultType(testCase);
-            doneSet.add(caseId);
+            // Check if we were interrupted while running the wrapper.  If we
+            // were, we don't want to mark the result as completed.
 
-            final Display display = Display.findDisplay(displayThread);
+            if (!running)
+                return;
+
+            doneSet.add(caseId);
+            final ResultType resultType = wrapper.getResultType(testCase);
+            final Display display       = Display.findDisplay(displayThread);
             display.asyncExec(new Runnable() {
                 @Override
                 public void run()
@@ -2128,7 +2142,7 @@ public class MainWindow
         if (runOutcome != null && runOutcome.getCode() != RunOutcome.Code.success)
         {
             Tell.error(shell, "Encountered a problem while attempting to"
-                       + "\nrun the wrapper. Aborting execution. Please"
+                       + "\nrun the wrapper. Execution stopped. Please"
                        + "\ncheck the wrapper and its configuration.",
                        runOutcome.getMessage());
             markAsRunning(false);
@@ -2137,6 +2151,7 @@ public class MainWindow
             TreeItem item = selection[selectionIndex];
             if (item != null && doneSet != null && doneSet.contains(item.getText()))
                 doneSet.remove(item.getText());
+            lblStatusMessage.updateStatus("Stopped.");    
             return;
         }
 
