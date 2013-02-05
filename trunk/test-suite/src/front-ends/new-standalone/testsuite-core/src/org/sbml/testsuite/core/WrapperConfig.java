@@ -425,13 +425,21 @@ public class WrapperConfig
      */
     public ResultType getResultTypeInternal(TestCase test)
     {
-        if (test.matches(getUnsupportedTags())) return ResultType.CannotSolve;
-
         ResultSet deliveredResult = getResultSet(test);
-        if (deliveredResult == null) return ResultType.Unknown;
+        if (deliveredResult == null)    // Wrapper didn't produce a result.
+        {
+            if (test.matches(getUnsupportedTags()))
+                return ResultType.Unsupported; // We know why it didn't.
+            else
+                return ResultType.Unknown;     // We don't know why.
+        }
+
+        // The wrapper produced a result.  
+
+        if (test.matches(getUnsupportedTags()))
+            return ResultType.CannotSolve; // We ignore them anyway.
 
         ResultSet expectedResult = test.getExpectedResult();
-
         CompareResultSet set = new CompareResultSet(expectedResult,
                                                     deliveredResult);
         if (set.compareUsingTestSuite(test.getSettings().getAbsoluteError(),
@@ -520,7 +528,7 @@ public class WrapperConfig
         Runtime rt = Runtime.getRuntime();
         String cmd = getProgram() + " "
             + getExpandedArguments(test, testSuiteDir);
-        Process process;
+        Process process = null;
 
         // ProcessBuilder builder = new ProcessBuilder(getProgram(),
         // getExpandedArguments(test, testSuiteDir));
@@ -539,8 +547,6 @@ public class WrapperConfig
                     Thread.sleep(milli);
                 }
             }
-
-            process.destroy();
         }
         catch (IOException ex)
         {
@@ -573,6 +579,11 @@ public class WrapperConfig
                                   "Unexpected error running: " + cmd);
             // TODO Auto-generated catch block
             // e.printStackTrace();
+        }
+        finally
+        {
+            if (process != null)
+                process.destroy();
         }
 
         resultCache.put(test.getId(),
