@@ -44,7 +44,7 @@ public enum ResultColor
     red    ( "red",    255,  50,  40, ResultType.NoMatch),
     black  ( "black",  70,   70,  70, ResultType.Error),
     gray   ( "gray",   200, 200, 200, ResultType.Unknown),
-    blue   ( "blue",   110, 140, 210, null),
+    blue   ( "blue",   110, 140, 210, ResultType.Unsupported),
     yellow ( "yellow", 252, 175,  55, ResultType.CannotSolve);
 
     private final String name;
