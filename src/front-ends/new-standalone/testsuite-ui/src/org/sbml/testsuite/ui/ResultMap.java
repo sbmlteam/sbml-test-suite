@@ -517,6 +517,9 @@ public class ResultMap
             case CannotSolve:
                 color = ResultColor.yellow.getColor();
                 break;
+            case Unsupported:
+                color = ResultColor.blue.getColor();
+                break;
             case NoMatch:
                 color = ResultColor.red.getColor();
                 break;
