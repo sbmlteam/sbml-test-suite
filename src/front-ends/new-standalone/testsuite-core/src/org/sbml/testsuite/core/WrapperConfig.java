@@ -116,6 +116,14 @@ public class WrapperConfig
 
     static ExecutorService                 executor = Executors.newFixedThreadPool(20);
 
+    /** Factors used to compute the duration for testing the results file */
+    private final static int               FILE_CHECK_GRANULARITY_WINDOWS = 2;
+    private final static int               FILE_CHECK_GRANULARITY_MACOSX  = 1;
+    private final static int               FILE_CHECK_GRANULARITY_LINUX   = 1;
+
+    /** Factor used to calculate duration of testing for file existence. */
+    private static int                     fileCheckFactor;
+
 
     /**
      * Default Constructor
@@ -129,6 +137,21 @@ public class WrapperConfig
         this.arguments = "";
         supportsAllVersions = false;
         unsupportedTags = new Vector<String>();
+
+        // Compute the factor used to adjust file check times. We use
+        // different values depending on the operating system, because some
+        // systems have coarser file stat granularity than others.  (E.g.,
+        // FAT file system timestamps have a granularity of 2 sec.)
+
+        String osName = System.getProperty("os.name");
+        if (osName.startsWith("Windows"))
+            fileCheckFactor = FILE_CHECK_GRANULARITY_WINDOWS;
+        else if (osName.startsWith("Mac"))
+            fileCheckFactor = FILE_CHECK_GRANULARITY_MACOSX;
+        else if (osName.startsWith("Darwin"))
+            fileCheckFactor = FILE_CHECK_GRANULARITY_MACOSX;
+        else
+            fileCheckFactor = FILE_CHECK_GRANULARITY_LINUX;
     }
 
 
@@ -545,6 +568,22 @@ public class WrapperConfig
                     if (callback != null && callback.cancellationRequested())
                         return new RunOutcome(RunOutcome.Code.success, cmd);
                     Thread.sleep(milli);
+                }
+            }
+
+            // On some systems, after the process exits, the output file it
+            // writes doesn't exist yet. Unfortunately, sometimes a wrapper
+            // never writes the file at all. Since we don't know if the file
+            // will ever show up, we can't block waiting for it.  So we test
+            // for a while and give up after a 1-2 sec., depending on the OS.
+
+            File expectedFile = getResultFile(test);
+            if (! expectedFile.exists())
+            {
+                for (int count = (10 * fileCheckFactor); count > 0; count--)
+                {
+                    Thread.sleep(100);
+                    if (expectedFile.exists()) break;
                 }
             }
         }
