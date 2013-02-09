@@ -130,11 +130,16 @@ public class UIUtils
 
     /**
      * Takes a point size and returns an adjusted value based on the DPI of
-     * the current device.  The numbers were empirically determined using
-     * two systems with 72 and 96 dpi values.
+     * the current device.  The numbers were empirically determined using two
+     * systems with 72 and 96 dpi values.  The adjustments are not done on
+     * Macs because something in the system (SWT? underlying Mac OS X font 
+     * libraries? don't know) adjusts the sizes even for Retina displays.
      */
-    public static int scaledFontSize(int pt)
+    public static final int scaledFontSize(int pt)
     {
+        if (isMacOSX())
+            return pt;
+        
         final Device display = Display.getCurrent();
         final Point dpi      = display.getDPI();
         final Double scaled  = pt * 72.0/dpi.y * (0.0027777778 * dpi.y + 0.8);
