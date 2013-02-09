@@ -317,7 +317,12 @@ public class MainWindow
         }
         else
         {
-            chart1.getTitle().setText(title);
+            // The extra spaces are to avoid truncation of the last character
+            // on the right, which seems to happen (noticeably on Windows)
+            // because the font is italic and (evidently) something in SWT or
+            // SWT Charts isn't computing the label width properly.
+
+            chart1.getTitle().setText(" " + title + " ");
             chart1.getTitle().setForeground(foregroundColor);
         }
 
