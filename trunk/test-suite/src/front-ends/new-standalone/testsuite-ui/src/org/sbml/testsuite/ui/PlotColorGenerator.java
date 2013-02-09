@@ -56,8 +56,8 @@ import org.eclipse.swt.widgets.Display;
 public class PlotColorGenerator
 {
     private final static int[][] colors = { 
-        {  3,  19,  54}, 
-        { 62,  95, 158},
+        {  6,  19,  54}, 
+        { 75, 105, 170},
         {153, 179, 234}, 
         {207, 218, 239}, 
         { 47, 108,  61},
