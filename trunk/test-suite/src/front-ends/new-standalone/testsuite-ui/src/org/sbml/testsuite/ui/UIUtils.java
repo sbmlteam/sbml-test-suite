@@ -34,10 +34,12 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -125,6 +127,25 @@ public class UIUtils
                 shell.dispose();
             }
         };
+    }
+
+
+
+    /**
+     * Returns a font object based on the default button font.
+     *
+     * I don't understand why, but on Mac OS X, the label font size is not
+     * the same as the button font size.  This looks wrong, as if it's our
+     * mistake and not the defaults.  To compensate, we find out the button
+     * font size and then set the labels to the same size.  This method
+     * is a convenience function to get the font object.
+     */
+    public static final Font getDefaultLabelFont()
+    {
+        Button tmp = new Button(new Shell(), SWT.NONE);
+        FontData[] tmpFontData = tmp.getFont().getFontData();
+        tmp.dispose();
+        return new Font(Display.getCurrent(), tmpFontData);
     }
 
 
