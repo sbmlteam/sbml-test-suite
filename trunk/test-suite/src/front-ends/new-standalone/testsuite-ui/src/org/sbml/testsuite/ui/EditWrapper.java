@@ -297,12 +297,13 @@ public class EditWrapper
         btnWrapperThreadsOK.addKeyListener(UIUtils.createCloseKeyListener(shell));
         btnWrapperThreadsOK.setSelection(true);
 
+        int offset = 20 - UIUtils.scaledFontSize(20);
+
         Label lblUsageInfo1 = new Label(this, SWT.WRAP);
         FormData fd_lblUsageInfo1 = new FormData();
         fd_lblUsageInfo1.left = new FormAttachment(0, 10);
         fd_lblUsageInfo1.right = new FormAttachment(100, -10);
-        fd_lblUsageInfo1.bottom = new FormAttachment(100, -10);
-        fd_lblUsageInfo1.top = new FormAttachment(0, 195);
+        fd_lblUsageInfo1.top = new FormAttachment(0, 195 - offset/2);
         lblUsageInfo1.setLayoutData(fd_lblUsageInfo1);
         Color gray = display.getSystemColor(SWT.COLOR_DARK_GRAY);
         lblUsageInfo1.setForeground(gray);
@@ -324,7 +325,6 @@ public class EditWrapper
         FormData fd_lblUsageInfo2 = new FormData();
         fd_lblUsageInfo2.left = new FormAttachment(0, 10);
         fd_lblUsageInfo2.right = new FormAttachment(100, -10);
-        fd_lblUsageInfo2.bottom = new FormAttachment(100, -10);
         fd_lblUsageInfo2.top = new FormAttachment(0, 218);
         lblUsageInfo2.setLayoutData(fd_lblUsageInfo2);
         lblUsageInfo2.setForeground(gray);
@@ -345,7 +345,6 @@ public class EditWrapper
         FormData fd_lblUsageInfo3 = new FormData();
         fd_lblUsageInfo3.left = new FormAttachment(0, 10);
         fd_lblUsageInfo3.right = new FormAttachment(100, -10);
-        fd_lblUsageInfo3.bottom = new FormAttachment(100, -10);
         fd_lblUsageInfo3.top = new FormAttachment(0, 296);
         lblUsageInfo3.setLayoutData(fd_lblUsageInfo3);
         lblUsageInfo3.setForeground(gray);
