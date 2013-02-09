@@ -2034,7 +2034,6 @@ public class MainWindow
                                      new CancelCallback() {
                                          public boolean cancellationRequested()
                                          {
-                                             // if (!running) System.out.println("Interrupted in " + caseId);
                                              return !running;
                                          }
                                      });
