@@ -63,7 +63,8 @@ public class EditWrapper
     private final Text   txtUnsupportedTags;
     private final Text   txtWrapper;
     private final Text   txtWrapperArgs;
-    private final Button btnWrapperCanRun;
+    private final Button btnWrapperAnyLV;
+    private final Button btnWrapperThreadsOK;
 
 
     /**
@@ -77,7 +78,7 @@ public class EditWrapper
                                                  txtWrapperOutputDir.getText(),
                                                  txtWrapperArgs.getText(),
                                                  txtUnsupportedTags.getText(),
-                                                 btnWrapperCanRun.getSelection());
+                                                 btnWrapperAnyLV.getSelection());
 
         return config;
     }
@@ -94,7 +95,7 @@ public class EditWrapper
         txtUnsupportedTags.setText(config.getUnsupportedTagsString());
         txtWrapper.setText(config.getProgram());
         txtWrapperArgs.setText(config.getArguments());
-        btnWrapperCanRun.setSelection(config.isSupportsAllVersions());
+        btnWrapperAnyLV.setSelection(config.isSupportsAllVersions());
     }
 
 
@@ -108,6 +109,7 @@ public class EditWrapper
     {
         super(parent, style);
         final Shell shell = parent.getShell();
+        final Display display = Display.getCurrent();
 
         FormLayout layout = new FormLayout();
         setLayout(layout);
@@ -117,6 +119,7 @@ public class EditWrapper
         FormData fd_lblName = new FormData();
         fd_lblName.right = new FormAttachment(0, 170);
         fd_lblName.top = new FormAttachment(0, 10);
+        lblName.setFont(UIUtils.getDefaultLabelFont());
         lblName.setLayoutData(fd_lblName);
         lblName.setText("Name:");
         lblName.setToolTipText("A name for this wrapper configuration.");
@@ -124,7 +127,7 @@ public class EditWrapper
         txtName = new Text(this, SWT.BORDER);
         FormData fd_txtName = new FormData();
         fd_txtName.left = new FormAttachment(0, 172);
-        fd_txtName.right = new FormAttachment(100, 0);
+        fd_txtName.right = new FormAttachment(100, -55);
         fd_txtName.top = new FormAttachment(lblName, 0, SWT.CENTER);
         txtName.setLayoutData(fd_txtName);
         txtName.addKeyListener(UIUtils.createCloseKeyListener(shell));
@@ -134,6 +137,7 @@ public class EditWrapper
         FormData fd_lblWrapper = new FormData();
         fd_lblWrapper.right = new FormAttachment(0, 170);
         fd_lblWrapper.top = new FormAttachment(0, 38);
+        lblWrapper.setFont(UIUtils.getDefaultLabelFont());
         lblWrapper.setLayoutData(fd_lblWrapper);
         lblWrapper.setText("Wrapper path:");
         lblWrapper.setToolTipText("Path to the wrapper script or program.");
@@ -172,6 +176,7 @@ public class EditWrapper
         FormData fd_lblUnsupportedTags = new FormData();
         fd_lblUnsupportedTags.right = new FormAttachment(0, 170);
         fd_lblUnsupportedTags.top = new FormAttachment(0, 66);
+        lblUnsupportedTags.setFont(UIUtils.getDefaultLabelFont());
         lblUnsupportedTags.setLayoutData(fd_lblUnsupportedTags);
         lblUnsupportedTags.setText("Unsupported tags:");
         lblUnsupportedTags.setToolTipText(
@@ -215,6 +220,7 @@ public class EditWrapper
         FormData fd_lblWrapperOutputDir = new FormData();
         fd_lblWrapperOutputDir.right = new FormAttachment(0, 170);
         fd_lblWrapperOutputDir.top = new FormAttachment(0, 94);
+        lblWrapperOutputDir.setFont(UIUtils.getDefaultLabelFont());
         lblWrapperOutputDir.setLayoutData(fd_lblWrapperOutputDir);
         lblWrapperOutputDir.setText("Output directory:");
         lblWrapperOutputDir.setToolTipText("Directory on your system where "
@@ -252,6 +258,7 @@ public class EditWrapper
         cmdBrowseOutputDir.addKeyListener(UIUtils.createCloseKeyListener(shell));
         
         Label lblWrapperArguments = new Label(this, SWT.RIGHT);
+        lblWrapperArguments.setFont(UIUtils.getDefaultLabelFont());
         lblWrapperArguments.setAlignment(SWT.RIGHT);
         lblWrapperArguments.setText("Arguments to wrapper:");
         lblWrapperArguments.setToolTipText("Command line arguments that should "
@@ -265,60 +272,97 @@ public class EditWrapper
         txtWrapperArgs = new Text(this, SWT.BORDER);
         FormData fd_txtWrapperArgs = new FormData();
         fd_txtWrapperArgs.left = new FormAttachment(0, 172);
-        fd_txtWrapperArgs.right = new FormAttachment(100, 0);
+        fd_txtWrapperArgs.right = new FormAttachment(100, -55);
         fd_txtWrapperArgs.top = new FormAttachment(lblWrapperArguments, 0,
                                                    SWT.CENTER);
         txtWrapperArgs.setLayoutData(fd_txtWrapperArgs);
         txtWrapperArgs.addKeyListener(UIUtils.createCloseKeyListener(shell));
         
-        btnWrapperCanRun = new Button(this, SWT.CHECK);
-        FormData fd_btnWrapperCanRun = new FormData();
-        fd_btnWrapperCanRun.left = new FormAttachment(0, 170);
-        fd_btnWrapperCanRun.right = new FormAttachment(100, -31);
-        fd_btnWrapperCanRun.top = new FormAttachment(txtWrapperArgs, 6);
-        btnWrapperCanRun.setLayoutData(fd_btnWrapperCanRun);
-        btnWrapperCanRun.setText("Wrapper can run any SBML Level / Version");
-        btnWrapperCanRun.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        btnWrapperAnyLV = new Button(this, SWT.CHECK);
+        FormData fd_btnWrapperAnyLV = new FormData();
+        fd_btnWrapperAnyLV.left = new FormAttachment(0, 170);
+        fd_btnWrapperAnyLV.right = new FormAttachment(100, -31);
+        fd_btnWrapperAnyLV.top = new FormAttachment(txtWrapperArgs, 6);
+        btnWrapperAnyLV.setLayoutData(fd_btnWrapperAnyLV);
+        btnWrapperAnyLV.setText("Wrapper can handle any SBML Level/Version");
+        btnWrapperAnyLV.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
-        Label lblNewLabel = new Label(this, SWT.WRAP);
-        FormData fd_lblNewLabel = new FormData();
-        fd_lblNewLabel.left = new FormAttachment(0, 10);
-        fd_lblNewLabel.right = new FormAttachment(100, -10);
-        fd_lblNewLabel.bottom = new FormAttachment(100, -10);
-        fd_lblNewLabel.top = new FormAttachment(0, 170);
-        lblNewLabel.setLayoutData(fd_lblNewLabel);
-        Display display = Display.getCurrent();
+        btnWrapperThreadsOK = new Button(this, SWT.CHECK);
+        FormData fd_btnWrapperThreadsOK = new FormData();
+        fd_btnWrapperThreadsOK.left = new FormAttachment(0, 170);
+        fd_btnWrapperThreadsOK.right = new FormAttachment(100, -31);
+        fd_btnWrapperThreadsOK.top = new FormAttachment(btnWrapperAnyLV, 2);
+        btnWrapperThreadsOK.setLayoutData(fd_btnWrapperThreadsOK);
+        btnWrapperThreadsOK.setText("Wrapper can be run in parallel threads");
+        btnWrapperThreadsOK.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        btnWrapperThreadsOK.setSelection(true);
+
+        Label lblUsageInfo1 = new Label(this, SWT.WRAP);
+        FormData fd_lblUsageInfo1 = new FormData();
+        fd_lblUsageInfo1.left = new FormAttachment(0, 10);
+        fd_lblUsageInfo1.right = new FormAttachment(100, -10);
+        fd_lblUsageInfo1.bottom = new FormAttachment(100, -10);
+        fd_lblUsageInfo1.top = new FormAttachment(0, 195);
+        lblUsageInfo1.setLayoutData(fd_lblUsageInfo1);
         Color gray = display.getSystemColor(SWT.COLOR_DARK_GRAY);
-        lblNewLabel.setForeground(gray);
-        FontData[] fontData = lblNewLabel.getFont().getFontData();
+        lblUsageInfo1.setForeground(gray);
+        FontData[] fontData = lblUsageInfo1.getFont().getFontData();
         for (int i = 0; i < fontData.length; ++i) {
             fontData[i].setHeight(UIUtils.scaledFontSize(11));
         }
         final Font newFont = new Font(display, fontData);
-        lblNewLabel.setFont(newFont);
-        lblNewLabel.addDisposeListener(new DisposeListener() {
+        lblUsageInfo1.setFont(newFont);
+        lblUsageInfo1.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent e) {
                 newFont.dispose();
             }
         });
-        lblNewLabel.setText("You can use the following substitution codes in "
-            + "the wrapper command line arguments:"
-            + "\n"
-            + "\n\t%d \t= path to the directory containting all test cases"
+        lblUsageInfo1.setText("You can use the following substitution codes in "
+                              + "the wrapper command line arguments:");
+
+        Label lblUsageInfo2 = new Label(this, SWT.WRAP);
+        FormData fd_lblUsageInfo2 = new FormData();
+        fd_lblUsageInfo2.left = new FormAttachment(0, 10);
+        fd_lblUsageInfo2.right = new FormAttachment(100, -10);
+        fd_lblUsageInfo2.bottom = new FormAttachment(100, -10);
+        fd_lblUsageInfo2.top = new FormAttachment(0, 218);
+        lblUsageInfo2.setLayoutData(fd_lblUsageInfo2);
+        lblUsageInfo2.setForeground(gray);
+        lblUsageInfo2.setFont(newFont);
+        lblUsageInfo2.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent e) {
+                newFont.dispose();
+            }
+        });
+        lblUsageInfo2.setText(
+            "\t%d \t= path to the directory containting all test cases"
             + "\n\t%n \t= current test case number (of the form NNNNN)"
             + "\n\t%o \t= directory where the CSV output file should be written"
             + "\n\t%l \t= the SBML Level to be used"
-            + "\n\t%v \t= the SBML Version to be used"
-            + "\n"
-            + "\nEach test case consists of an SBML file and a settings file. "
-            + "The files will be located in the directory %d/%n. The SBML file "
-            + "will be named '%n-sbml-l%lv%v.xml, where "
-            + "%l is replaced by the SBML Level and %v is replaced by the "
-            + "Version within the Level. (Example: '00123-sbml-l2v3.xml'.) The "
-            + "test settings file will be named '%n-settings.txt' in the same "
-            + "directory. (Example: '00123-settings.txt'.) The application "
-            + "must be instructed to write out the results into a file named "
-            + "'%o/%n.csv' so that this test runner can find it.");
+            + "\n\t%v \t= the SBML Version to be used");
+
+        Label lblUsageInfo3 = new Label(this, SWT.WRAP);
+        FormData fd_lblUsageInfo3 = new FormData();
+        fd_lblUsageInfo3.left = new FormAttachment(0, 10);
+        fd_lblUsageInfo3.right = new FormAttachment(100, -10);
+        fd_lblUsageInfo3.bottom = new FormAttachment(100, -10);
+        fd_lblUsageInfo3.top = new FormAttachment(0, 296);
+        lblUsageInfo3.setLayoutData(fd_lblUsageInfo3);
+        lblUsageInfo3.setForeground(gray);
+        lblUsageInfo3.setFont(newFont);
+        lblUsageInfo3.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent e) {
+                newFont.dispose();
+            }
+        });
+        lblUsageInfo3.setText(
+            "Each test case consists of an SBML file and a settings file. The "
+            + "files are located in the directory named %d/%n. The SBML file for "
+            + "the test model is named '%n-sbml-l%lv%v.xml'. (Example: "
+            + "'00123-sbml-l2v3.xml'.) The settings file is named "
+            + "'%n-settings.txt' in the same directory. The wrapper or  "
+            + "application must be instructed to write out the results into a "
+            + "file named '%o/%n.csv' so that the SBML Test Runner can find it.");
     }
 
 
