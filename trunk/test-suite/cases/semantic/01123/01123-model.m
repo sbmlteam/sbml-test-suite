@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Test of proper interpretation of a boundary species set hasOnlySubstanceUnits=true in a reaction rate.
 componentTags: Compartment, RateRule, Reaction, Species
-testTags:      Amount, BoundaryCondition, NonConstantCompartment, NonUnityCompartment
+testTags:      Amount, BoundaryCondition, HasOnlySubstanceUnits, NonConstantCompartment, NonUnityCompartment
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Numeric

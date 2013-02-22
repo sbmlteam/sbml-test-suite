@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A hierarchical model with a replaced rate rule.
 componentTags:   Parameter, RateRule, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
-testTags:        NonConstantParameter, comp:SubmodelOutput, comp:NotRequired
+testTags:        NonConstantParameter, comp:NotRequired
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic

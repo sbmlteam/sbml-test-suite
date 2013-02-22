@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A hierarchical model with a conversion factor on a species.
 componentTags:   Compartment, Parameter, RateRule, Species, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
-testTags:        Amount, HasOnlySubstanceUnits, comp:ConversionFactor
+testTags:        Amount, HasOnlySubstanceUnits, MultiCompartment, comp:ConversionFactor
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic

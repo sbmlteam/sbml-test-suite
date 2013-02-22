@@ -15,14 +15,11 @@
     </listOfParameters>
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" fast="false">
-        <listOfProducts>
-          <speciesReference species="S1"/>
-        </listOfProducts>
         <listOfReactants>
           <speciesReference species="S2">
             <stoichiometryMath>
               <math xmlns="http://www.w3.org/1998/Math/MathML">
-               <apply>
+                <apply>
                   <times/>
                   <cn type="integer"> 4 </cn>
                   <ci> p1 </ci>
@@ -31,26 +28,32 @@
             </stoichiometryMath>
           </speciesReference>
         </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S1"/>
+        </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply><minus /><apply>
-              <times/>
-              <ci> C </ci>
-             <apply>
-                <plus/>
-               <apply>
-                  <times/>
-                  <ci> kf </ci>
-                  <ci> S1 </ci>
-                </apply>
-               <apply>
-                  <times/>
-                  <cn type="integer"> -1 </cn>
-                  <ci> kr </ci>
-                  <ci> S2 </ci>
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> C </ci>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <times/>
+                    <ci> kf </ci>
+                    <ci> S1 </ci>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <cn type="integer"> -1 </cn>
+                    <ci> kr </ci>
+                    <ci> S2 </ci>
+                  </apply>
                 </apply>
               </apply>
-            </apply></apply>
+            </apply>
           </math>
         </kineticLaw>
       </reaction>

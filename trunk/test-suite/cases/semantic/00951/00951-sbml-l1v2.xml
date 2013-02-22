@@ -18,6 +18,9 @@
         </listOfUnits>
       </unitDefinition>
     </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment name="c" volume="1" units="volume"/>
+    </listOfCompartments>
     <listOfParameters>
       <parameter name="P" value="INF"/>
       <parameter name="Q" value="-INF"/>

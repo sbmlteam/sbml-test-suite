@@ -2,8 +2,8 @@
 
 category:        Test
 synopsis:        This hierarchical model contains a deleted event.
-componentTags:   CSymbolTime, EventNoDelay, Parameter, comp:Deletion, comp:ModelDefinition, comp:Submodel
-testTags:        NonConstantParameter, comp:SubmodelOutput
+componentTags:   Parameter, comp:Deletion, comp:ModelDefinition, comp:Submodel
+testTags:        comp:SubmodelOutput
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Numeric

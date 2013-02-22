@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A hierarchical model with a conversion factor
 componentTags:   AssignmentRule, Parameter, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
-testTags:        InitialValueReassigned, NonConstantParameter, comp:ConversionFactor
+testTags:        InitialValueReassigned, NonConstantParameter, comp:ConversionFactor, comp:SubmodelOutput
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic

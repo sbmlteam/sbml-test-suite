@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A model that tests how not to vary a species.
 componentTags: Compartment, RateRule, Species
-testTags:      Amount, ConstantSpecies, NonConstantCompartment, NonUnityCompartment
+testTags:      Amount, BoundaryCondition, ConstantSpecies, NonConstantCompartment, NonUnityCompartment
 testType:      TimeCourse
 levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
