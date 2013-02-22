@@ -19,6 +19,7 @@
 
 #include <sbml/SBMLTypes.h>
 #include <sbml/packages/fbc/common/FbcExtensionTypes.h>
+#include <sbml/packages/comp/common/CompExtensionTypes.h>
 
 using namespace std;
 LIBSBML_CPP_NAMESPACE_USE
@@ -86,7 +87,39 @@ bool hasActualErrors(SBMLDocument* document)
   for (unsigned int e=0; e<document->getNumErrors(); e++) {
     if (document->getError(e)->getSeverity() >= LIBSBML_SEV_ERROR) return true;
   }
+#ifdef USE_COMP
+  CompModelPlugin* compmod = static_cast<CompModelPlugin*>(document->getModel()->getPlugin("comp"));
+  if (compmod != NULL && compmod->getNumSubmodels() > 0) {
+    SBMLDocument flat(*document);
+    ConversionProperties* props = new ConversionProperties();
+    props->addOption("flatten comp");
+    SBMLConverter* converter = 
+      SBMLConverterRegistry::getInstance().getConverterFor(*props);
+    converter->setDocument(&flat);
+    int result = converter->convert();
+    flat.checkConsistency();
+    bool flaterrors = false;
+    SBMLErrorLog* errlog = document->getErrorLog();
+    for (unsigned int e=0; e<flat.getNumErrors(); e++) {
+      if (flat.getError(e)->getSeverity() >= LIBSBML_SEV_ERROR) {
+        flaterrors = true;
+        errlog->add(*(flat.getError(e)));
+      }
+    }
+    if (flaterrors) return true;
+ }
+#endif
   return false;
+}
+
+void printActualErrors(SBMLDocument* document)
+{
+  for (unsigned int e=0; e<document->getNumErrors(); e++) {
+    if (document->getError(e)->getSeverity() >= LIBSBML_SEV_ERROR) {
+      cerr << document->getError(e)->getMessage();
+    }
+  }
+
 }
 
 bool variesIn(string id, ListOfSpeciesReferences* srs,  const map<string, vector<double> >& results)
@@ -529,7 +562,7 @@ void checkSpeciesRefs(Model* model, ListOfSpeciesReferences* losr, set<string>& 
   }
 }
 
-void checkReactions(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results)
+void checkReactions(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results, bool fbc)
 {
   if (model->getNumReactions() > 0) {
     components.insert("Reaction");
@@ -539,7 +572,9 @@ void checkReactions(Model* model, set<string>& components, set<string>& tests,  
         tests.insert("FastReaction");
       }
       if (rxn->isSetReversible() && rxn->getReversible()) {
-        tests.insert("ReversibleReaction [?]");
+        if (!fbc) {
+          tests.insert("ReversibleReaction [?]");
+        }
       }
       ListOfSpeciesReferences* reactants = rxn->getListOfReactants();
       checkSpeciesRefs(model, reactants, components, tests, results);
@@ -555,12 +590,14 @@ void checkReactions(Model* model, set<string>& components, set<string>& tests,  
   }
 }
 
-void checkSpecies(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results)
+void checkSpecies(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results, bool fbc)
 {
   //Must call this after 'checkCompartments' because we look in 'tests' for 'NonUnityCompartment'.
   if (model->getNumSpecies() > 0) {
     components.insert("Species");
-    tests.insert("Amount||Concentration");
+    if (!fbc) {
+      tests.insert("Amount||Concentration");
+    }
     for (unsigned int s=0; s<model->getNumSpecies(); s++) {
       Species* species = model->getSpecies(s);
       if (species->isSetBoundaryCondition() && species->getBoundaryCondition()) {

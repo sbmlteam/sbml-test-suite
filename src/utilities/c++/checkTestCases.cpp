@@ -15,6 +15,8 @@
 #include <set>
 #include <sstream>
 
+#include <sbml/extension/SBMLExtensionRegister.h>
+#include <sbml/conversion/SBMLConverterRegistry.h>
 #include <sbml/SBMLTypes.h>
 
 using namespace std;
@@ -46,7 +48,7 @@ set<string> getList(string line)
 }
 
 bool
-parseMFile(string modfilename, set<string>& levels, set<string>& componenttags, set<string>& testtags)
+parseMFile(string modfilename, set<string>& levels, set<string>& componenttags, set<string>& testtags, bool& fbc)
 {
   size_t mod = modfilename.find("-model.m");
   if (mod ==string::npos) {
@@ -66,16 +68,16 @@ parseMFile(string modfilename, set<string>& levels, set<string>& componenttags, 
   bool isNumeric = false;
   while (!infile.eof() && infile.good()) {
     getline(infile, line);
-    if (line.find("componentTags") != string::npos) {
+    if (line.find("componentTags:") != string::npos) {
       componenttags = getList(line);
     }
-    if (line.find("testTags") != string::npos) {
+    else if (line.find("testTags:") != string::npos) {
       testtags = getList(line);
     }
-    if (line.find("levels") != string::npos) {
+    else if (line.find("levels:") != string::npos) {
       levels = getList(line);
     }
-    if (line.find("category") != string::npos) {
+    else if (line.find("category:") != string::npos) {
       set<string> split = getList(line);
       if (split.size() != 1 || *split.begin() != "Test") {
         cerr << "Error in " << modfilename << ": line is malformed ('" << line << "')" << endl;
@@ -83,14 +85,24 @@ parseMFile(string modfilename, set<string>& levels, set<string>& componenttags, 
       }
       foundcat = true;
     }
-    if (line.find("testType") != string::npos) {
+    else if (line.find("testType") != string::npos) {
       set<string> split = getList(line);
-      if (split.size() != 1 || *split.begin() != "TimeCourse") {
+      if (split.size() != 1) {
         cerr << "Error in " << modfilename << ": line is malformed ('" << line << "')" << endl;
+      }
+      else if (*split.begin() == "TimeCourse") {
+        fbc = false;
+      }
+      else if (*split.begin() == "FluxBalanceSteadyState") {
+        fbc = true;
+      }
+      else {
+        cerr << "Error in " << modfilename << ": unknown test type ";
+        cerr << "'" << *split.begin() << "'" << endl;
       }
       foundttype = true;
     }
-    if (line.find("generatedBy:") != string::npos) {
+    else if (line.find("generatedBy:") != string::npos) {
       set<string> split = getList(line);
       if (split.size() != 1 || (*split.begin() != "Analytic" && *split.begin() != "Numeric")) {
         cerr << "Error in " << modfilename << ": line is malformed ('" << line << "')" << endl;
@@ -98,13 +110,13 @@ parseMFile(string modfilename, set<string>& levels, set<string>& componenttags, 
       if (split.size() ==1 && *split.begin() == "Numeric") isNumeric = true;
       foundgenby = true;
     }
-    if (line.find("{Keep this next line") != string::npos) {
+    else if (line.find("{Keep this next line") != string::npos) {
       cerr << "Error in " << modfilename << ": forgot to delete the line '" << line << "'" << endl;
       if (isNumeric) {
         cerr << "  (Also, don't forget to delete the following lines as well, as these results were generated numerically.)" << endl;
       }
     }
-    if (line.find("{Write general description") != string::npos) {
+    else if (line.find("{Write general description") != string::npos) {
       cerr << "Error in " << modfilename << ": forgot to replace the line '" << line << "'" << endl;
     }
   }
@@ -133,9 +145,19 @@ void checkLevels(string filename, set<string> levels) {
     string lv = *l;
     lv.replace(lv.find("."), 1, "v");
     string newfile = filename + "-sbml-l" + lv + ".xml";
-    ifstream lvfile(newfile);
-    if (!lvfile.good()) {
+    SBMLDocument* doc = readSBML(newfile.c_str());
+    if (doc->getModel() == NULL) {
       cerr << "Error:  unable to read file '" << newfile << ".  Perhaps this level and version does not actually exist?" << endl;
+    }
+  if (hasActualErrors(doc))
+  {
+    cerr << "Error:  the test model '" << newfile << "' is invalid.  Encountered the following SBML errors:" << endl;
+    printActualErrors(doc);
+    return;
+  }
+    if (hasActualErrors(doc)) {
+      cerr << "Encountered the following SBML errors:" << endl;
+      printActualErrors(doc);
     }
   }
   set<string> allLevels;
@@ -157,7 +179,7 @@ void checkLevels(string filename, set<string> levels) {
   }
 }
 
-void deduceTags(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results)
+void deduceTags(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results, bool fbc)
 {
   checkRules(model, components, tests);
   checkCompartments(model, components, tests, results);
@@ -169,8 +191,8 @@ void deduceTags(Model* model, set<string>& components, set<string>& tests,  cons
     components.insert("InitialAssignment");
   }
   checkParameters(model, components, tests, results);
-  checkReactions(model, components, tests, results);
-  checkSpecies(model, components, tests, results);
+  checkReactions(model, components, tests, results, fbc);
+  checkSpecies(model, components, tests, results, fbc);
   if (model->isSetConversionFactor()) {
     tests.insert("ConversionFactors");
   }
@@ -224,7 +246,7 @@ bool checkLine(ifstream& infile, const string& begin, const string& settingsfile
 {
   string line;
   getline(infile, line);
-  if (line.find(begin + ": ") == string::npos) {
+  if (line.find(begin + ":") == string::npos) {
     cerr << "Error:  no '" + begin + "' line in the correct place in settings file " << settingsfile << endl;
     return true;
   }
@@ -256,7 +278,7 @@ bool checkPossible(ifstream& infile, const string& begin, bool shouldbe, const s
   return false;
 }
 
-void checkSettingsFile(const string& filename, bool known_amount, bool known_conc)
+void checkSettingsFile(const string& filename, bool known_amount, bool known_conc, bool fbc)
 {
   string settingsfile = filename;
   size_t mod = settingsfile.find("-model");
@@ -267,9 +289,18 @@ void checkSettingsFile(const string& filename, bool known_amount, bool known_con
     cerr << "Error:  could not open the settings file " << settingsfile << endl;
     return;
   }
+  if (fbc) {
+    string line;
+    getline(infile, line);
+    getline(infile, line);
+    getline(infile, line);
+  }
+  else {
   if (checkLine(infile, "start", settingsfile)) return;
   if (checkLine(infile, "duration", settingsfile)) return;
   if (checkLine(infile, "steps", settingsfile)) return;
+}
+
   if (checkLine(infile, "variables", settingsfile)) return;
   if (checkLine(infile, "absolute", settingsfile)) return;
   if (checkLine(infile, "relative", settingsfile)) return;
@@ -277,7 +308,7 @@ void checkSettingsFile(const string& filename, bool known_amount, bool known_con
   if (checkPossible(infile, "concentration", known_conc, settingsfile)) return;
 }
 
-void checkSimilarTests(set<string>& tests, set<string>& known_tests, const string& filename) 
+void checkSimilarTests(set<string>& tests, set<string>& known_tests, const string& filename, bool fbc) 
 {
   bool known_amount  = known_tests.find("Amount") != known_tests.end();
   bool known_conc    = known_tests.find("Concentration") != known_tests.end();
@@ -289,7 +320,7 @@ void checkSimilarTests(set<string>& tests, set<string>& known_tests, const strin
     known_tests.erase("Concentration");
     tests.erase("Amount||Concentration");
   }
-  checkSettingsFile(filename, known_amount, known_conc);
+  checkSettingsFile(filename, known_amount, known_conc, fbc);
 
   //EventIsNotPersistent
   if(tests.find("EventIsNotPersistent [?]") != tests.end() && known_tests.find("EventIsNotPersistent") == known_tests.end()) {
@@ -348,11 +379,11 @@ void checkSimilarTests(set<string>& tests, set<string>& known_tests, const strin
 
 }
 
-void compareTests(set<string>& tests, set<string>& known_tests, const string& filename, set<string>& components)
+void compareTests(set<string>& tests, set<string>& known_tests, const string& filename, set<string>& components, bool fbc)
 {
   removeIdenticals(tests, known_tests);
   checkUnaddableTests(known_tests, components, filename);
-  checkSimilarTests(tests, known_tests, filename);
+  checkSimilarTests(tests, known_tests, filename, fbc);
 
   for (set<string>::iterator c=tests.begin(); c != tests.end(); c++) {
     cerr << "Error in " << filename << ":  testTag " << *c << " should be tested by this model, but the tag was not listed." << endl;
@@ -362,7 +393,7 @@ void compareTests(set<string>& tests, set<string>& known_tests, const string& fi
   }
 }
 
-void checkTags(const string& filename, set<string> known_components, set<string> known_tests)
+void checkTags(const string& filename, set<string> known_components, set<string> known_tests, bool fbc)
 {
   //Actually need the model for this
   string l3v1 = filename;
@@ -383,17 +414,35 @@ void checkTags(const string& filename, set<string> known_components, set<string>
       return;
     }
   }
-  if (hasActualErrors(document))
-  {
-    cerr << "Error:  the L3v1 version of the test model (" << l3v1 << ") is invalid.  Encountered the following SBML errors:" << endl;
-    document->printErrors(cerr);
-    return;
-  }
   map<string, vector<double> > results = getResults(resultsfile);
   set<string> components, tests;
-  deduceTags(model, components, tests, results);
+#ifdef USE_COMP
+  CompSBMLDocumentPlugin* compdoc = static_cast<CompSBMLDocumentPlugin*>(document->getPlugin("comp"));
+  SBMLDocument flat(3,1);
+  if (compdoc != NULL) {
+    if (compdoc->getRequired() == false) {
+      tests.insert("comp:NotRequired");
+    }
+    flat = *document;
+    checkComp(compdoc, components, tests, results);
+    ConversionProperties* props = new ConversionProperties();
+    props->addOption("flatten comp");
+    SBMLConverter* converter = 
+      SBMLConverterRegistry::getInstance().getConverterFor(*props);
+    converter->setDocument(&flat);
+    int result = converter->convert();
+    model = flat.getModel();
+  }
+#endif
+#ifdef USE_FBC
+  FbcModelPlugin* fbcmodplug = static_cast<FbcModelPlugin*>(model->getPlugin("fbc"));
+  if (fbcmodplug != NULL) {
+    checkFbc(fbcmodplug, components, tests, results);
+  }
+#endif
+  deduceTags(model, components, tests, results, fbc);
   //Have to check tests before components because checking the tests uses the components list.
-  compareTests(tests, known_tests, filename, components);
+  compareTests(tests, known_tests, filename, components, fbc);
   compareComponents(components, known_components, filename);
   delete document;
 }
@@ -410,12 +459,13 @@ main (int argc, char* argv[])
   for (int file=1; file<argc; file++) {
     string filename   = argv[file];
     set<string> levels, componenttags, testtags;
-    if (parseMFile(filename, levels, componenttags, testtags)) {
+    bool fbc = false;
+    if (parseMFile(filename, levels, componenttags, testtags, fbc)) {
       cerr << "Unable to parse .m file " << filename;
       continue;
     }
     checkLevels(filename, levels);
-    checkTags(filename, componenttags, testtags);
+    checkTags(filename, componenttags, testtags, fbc);
     cout << "Successfully parsed model description file " << filename << endl;
   }
   return 0;
