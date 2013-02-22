@@ -16,6 +16,9 @@
     </listOfParameters>
     <listOfReactions>
       <reaction id="reaction1" name="reaction1" fast="false">
+        <listOfReactants>
+          <speciesReference species="S3"/>
+        </listOfReactants>
         <listOfProducts>
           <speciesReference species="S1"/>
           <speciesReference species="S2">
@@ -30,9 +33,6 @@
             </stoichiometryMath>
           </speciesReference>
         </listOfProducts>
-        <listOfReactants>
-          <speciesReference species="S3"/>
-        </listOfReactants>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply><minus /><apply>

@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A hierarchical model testing ReplacedBy
 componentTags:   Parameter, comp:ModelDefinition, comp:ReplacedBy, comp:Submodel
-testTags:        InitialValueReassigned
+testTags:        
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic

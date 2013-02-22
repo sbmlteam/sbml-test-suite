@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A species replacing one thing and replaced by something else, with ports.
 componentTags:   Compartment, Species, comp:ModelDefinition, comp:Port, comp:ReplacedBy, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
-testTags:        Concentration, NonUnityCompartment, comp:SubmodelOutput
+testTags:        Concentration, MultiCompartment, NonUnityCompartment, comp:SubmodelOutput
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic

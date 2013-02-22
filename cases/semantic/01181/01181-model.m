@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A hierarchical model with extent and time conversion and a reference to a modified reaction.
 componentTags:   AssignmentRule, Compartment, Parameter, Reaction, Species, comp:ModelDefinition, comp:Submodel
-testTags:        Amount, HasOnlySubstanceUnits, InitialValueReassigned, comp:ExtentConversionFactor, comp:TimeConversionFactor
+testTags:        Amount, HasOnlySubstanceUnits, InitialValueReassigned, comp:ExtentConversionFactor, comp:SubmodelOutput, comp:TimeConversionFactor
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic

@@ -2,7 +2,7 @@
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" level="3" version="1" comp:required="true">
   <model>
     <listOfCompartments>
-      <compartment id="C8" size="8" constant="true">
+      <compartment id="C8" size="8" constant="false">
         <comp:listOfReplacedElements>
           <comp:replacedElement comp:idRef="C80" comp:submodelRef="sub1" comp:conversionFactor="conv"/>
         </comp:listOfReplacedElements>

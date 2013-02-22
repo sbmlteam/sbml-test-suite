@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A hierarchical model with a sub-submodel compartment replacement.
 componentTags:   Compartment, Species, comp:ModelDefinition, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
-testTags:        Concentration, ConstantSpecies, NonUnityCompartment, comp:SubmodelOutput
+testTags:        Concentration, ConstantSpecies, NonUnityCompartment, MultiCompartment, comp:SubmodelOutput
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic

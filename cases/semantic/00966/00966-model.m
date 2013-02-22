@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Competing events with the same priority, jointly causing a parameter to monotonically increase, calculating a chi-squared statistic to ensure randomness.  NOTE:  STOCHASTIC TEST. This test is designed to fail with a frequency of 0.00002, but it still may happen.
 componentTags: AssignmentRule, CSymbolTime, EventNoDelay, EventPriority, FunctionDefinition, Parameter
-testTags:      EventIsNotPersistent, EventIsPersistent, EventUsesTriggerTimeValues, InitialValueReassigned, NonConstantParameter, RandomEventExecution
+testTags:      EventIsNotPersistent, EventIsPersistent, EventUsesTriggerTimeValues, NonConstantParameter, RandomEventExecution
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Analytic

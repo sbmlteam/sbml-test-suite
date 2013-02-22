@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A simple reaction with stoichiometry the same as its species.  For convenience, another reaction is present with the same kinetics, as the species is used in the kinetic law instead.
 componentTags: AssignmentRule, Compartment, Parameter, Reaction, Species
-testTags:      Amount, AssignedVariableStoichiometry, NonUnityStoichiometry, HasOnlySubstanceUnits
+testTags:      Amount, AssignedVariableStoichiometry, InitialValueReassigned, NonUnityStoichiometry, HasOnlySubstanceUnits
 testType:      TimeCourse
 levels:        3.1
 generatedBy:   Numeric

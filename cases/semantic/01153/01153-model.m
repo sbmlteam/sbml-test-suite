@@ -2,8 +2,8 @@
 
 category:        Test
 synopsis:        A hierarchical model with a deleted rate rule and initial assignment
-componentTags:   InitialAssignment, Parameter, RateRule, comp:Deletion, comp:ModelDefinition, comp:Port, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
-testTags:        InitialValueReassigned, NonConstantParameter, comp:SubmodelOutput
+componentTags:   InitialAssignment, Parameter, comp:Deletion, comp:ModelDefinition, comp:Port, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
+testTags:        InitialValueReassigned, comp:SubmodelOutput
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic

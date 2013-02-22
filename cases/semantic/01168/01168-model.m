@@ -9,7 +9,7 @@ levels:          3.1
 generatedBy:     Numeric
 packagesPresent: comp
 
-{Write general description of why you have created the model here.}
+This model tests multiple layers of external model definitions, where the model referenced by an external model definition contains a submodel which is itself defined in a third file via an external model definition in the second file.
 
 The 'flattened' version of this hierarchical model contains:
 * 7 species (A__S, A__A__E, A__A__D, A__A__ES, A__B__E, A__B__D, A__B__ES)

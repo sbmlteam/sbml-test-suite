@@ -9,7 +9,7 @@ levels:          3.1
 generatedBy:     Analytic
 packagesPresent: comp
 
-{Write general description of why you have created the model here.}
+ The parent model contains a parameter that replaces a paramter of the submodel. That submodel has an initial assignment and a rate rule that both affect that replaced parameter, and should continue to affect the replacement parameter.
 
 The 'flattened' version of this hierarchical model contains:
 * 2 parameters (param1, submod1__subparam2)

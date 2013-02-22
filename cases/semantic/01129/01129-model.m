@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        An aggregate model with species.
 componentTags:   Compartment, Species, comp:ModelDefinition, comp:Submodel
-testTags:        Amount, ConstantSpecies, comp:SubmodelOutput
+testTags:        Amount, ConstantSpecies, MultiCompartment, comp:SubmodelOutput
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic

@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A species replacing one thing and replaced by something else.
 componentTags:   Compartment, Species, comp:ModelDefinition, comp:ReplacedBy, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
-testTags:        Concentration, ConstantSpecies, NonUnityCompartment, comp:SubmodelOutput
+testTags:        Concentration, ConstantSpecies, MultiCompartment, NonUnityCompartment, comp:SubmodelOutput
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic

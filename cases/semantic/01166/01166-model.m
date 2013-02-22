@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A hierarchical model from the specification that uses replacements of deletions
 componentTags:   Compartment, Reaction, Species, comp:Deletion, comp:ModelDefinition, comp:Port, comp:ReplacedElement, comp:Submodel
-testTags:        Amount, comp:SubmodelOutput, comp:NotRequired
+testTags:        Amount, comp:NotRequired
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Numeric
