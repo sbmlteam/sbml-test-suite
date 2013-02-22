@@ -26,8 +26,6 @@
 using namespace std;
 LIBSBML_CPP_NAMESPACE_USE
 
-#include "testSuiteUtil.cpp"
-
 template <class T>
 inline std::string toString (const T& t)
 {
@@ -35,6 +33,8 @@ inline std::string toString (const T& t)
   ss << t;
   return ss.str();
 }
+
+#include "testSuiteUtil.cpp"
 
 vector<string> createTranslations(SBMLDocument* document, const string oldfilename)
 {
@@ -204,7 +204,7 @@ string getReactionTable(Model* model,  const map<string, vector<double> >& resul
 
 #ifdef USE_FBC
     FbcModelPlugin* fmp = static_cast<FbcModelPlugin*>(model->getPlugin("fbc"));
-    if (fmp->getNumFluxBounds()>0) {
+    if (fmp != NULL && fmp->getNumFluxBounds()>0) {
       ret << ", and " << fmp->getNumFluxBounds() << " flux bound";
       if (fmp->getNumFluxBounds() > 1) {
         ret << "s";
@@ -231,7 +231,7 @@ string getReactionTable(Model* model,  const map<string, vector<double> >& resul
 #ifdef USE_FBC
       if (fbc != NULL) {
         bool nobounds = true;
-        for (int b=0; b<fbc->getNumFluxBounds(); b++) {
+        for (unsigned int b=0; b<fbc->getNumFluxBounds(); b++) {
           FluxBound* fb = fbc->getFluxBound(b);
           if (fb->getReaction() == rxn->getId()) {
             if (nobounds) {
@@ -641,43 +641,48 @@ string getModelSummary(Model* model,  const map<string, vector<double> >& result
       }
     }
   }
+
+  bool fbc = false;
 #ifdef USE_FBC
   FbcModelPlugin* fmp = static_cast<FbcModelPlugin*>(model->getPlugin("fbc"));
-  namelist = getIdListFrom(fmp->getListOfObjectives());
-  if (namelist.size()>0) {
-    ret << "* " << namelist.size() << " objective";
-    if (namelist.size() > 1) ret << "s";
-    ret << " (" << getString(namelist) << ")";
-    ret << endl << endl;
-    ret << "The active objective is ";
-    Objective* obj = fmp->getActiveObjective();
-    if (obj == NULL) {
-      ret << "unset (which is an error)." << endl;
-    }
-    else {
-      ret << obj->getId() << ", which is to be ";
-      switch (obj->getObjectiveType()) {
-      case OBJECTIVE_TYPE_MAXIMIZE:
-        ret << "maximized";
-        break;
-      case OBJECTIVE_TYPE_MINIMIZE:
-        ret << "minimized";
-        break;
-      case OBJECTIVE_TYPE_UNKNOWN:
-        ret << "maximized or minimized, but it's unset which (this is an error)";
-        break;
+  if (fmp != NULL) {
+    namelist = getIdListFrom(fmp->getListOfObjectives());
+    if (namelist.size()>0) {
+      fbc = true;
+      ret << "* " << namelist.size() << " objective";
+      if (namelist.size() > 1) ret << "s";
+      ret << " (" << getString(namelist) << ")";
+      ret << endl << endl;
+      ret << "The active objective is ";
+      Objective* obj = fmp->getActiveObjective();
+      if (obj == NULL) {
+        ret << "unset (which is an error)." << endl;
       }
-      ret << ":" << endl;
-      for (unsigned int fo = 0; fo<obj->getNumFluxObjectives(); fo++) {
-        FluxObjective* fluxobj = obj->getFluxObjective(fo);
-        double coeff = fluxobj->getCoefficient();
-        if (coeff < 0) {
-          ret << "  ";
+      else {
+        ret << obj->getId() << ", which is to be ";
+        switch (obj->getObjectiveType()) {
+        case OBJECTIVE_TYPE_MAXIMIZE:
+          ret << "maximized";
+          break;
+        case OBJECTIVE_TYPE_MINIMIZE:
+          ret << "minimized";
+          break;
+        case OBJECTIVE_TYPE_UNKNOWN:
+          ret << "maximized or minimized, but it's unset which (this is an error)";
+          break;
         }
-        else {
-          ret << "  + ";
+        ret << ":" << endl;
+        for (unsigned int fo = 0; fo<obj->getNumFluxObjectives(); fo++) {
+          FluxObjective* fluxobj = obj->getFluxObjective(fo);
+          double coeff = fluxobj->getCoefficient();
+          if (coeff < 0) {
+            ret << "  ";
+          }
+          else {
+            ret << "  + ";
+          }
+          ret << coeff << " " << fluxobj->getReaction() << endl;
         }
-        ret << coeff << " " << fluxobj->getReaction() << endl;
       }
     }
   }
@@ -686,7 +691,9 @@ string getModelSummary(Model* model,  const map<string, vector<double> >& result
   ret << getReactionTable(model, results);
   ret << getEventTable(model);
   ret << getRuleTable(model);
-  ret << getInitialAssignmentTable(model);
+  if (!fbc) {
+    ret << getInitialAssignmentTable(model);
+  }
   ret << endl;
 
   if (allSpeciesSetAmountUsedConcentration(model)) {
@@ -738,12 +745,14 @@ string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const ma
   }
 #endif
 
+  bool fbc = false;
 #ifdef USE_FBC
   FbcModelPlugin* fbcmodplug = static_cast<FbcModelPlugin*>(model->getPlugin("fbc"));
   if (fbcmodplug != NULL) {
     packages.insert("fbc");
     checkFbc(fbcmodplug, components, tests, results);
     testType = "FluxBalanceSteadyState";
+    fbc = true;
   }
 #endif
 
@@ -757,8 +766,8 @@ string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const ma
     components.insert("InitialAssignment");
   }
   checkParameters(model, components, tests, results);
-  checkReactions(model, components, tests, results);
-  checkSpecies(model, components, tests, results);
+  checkReactions(model, components, tests, results, fbc);
+  checkSpecies(model, components, tests, results, fbc);
   if (model->isSetConversionFactor()) {
     tests.insert("ConversionFactors");
   }
@@ -868,7 +877,7 @@ writeMFile(string contents, string modfilename)
   cout << "Successfully wrote model description file " << modfilename << endl;
 }
 
-void writeSettingsFile(string modfilename)
+void writeSettingsFile(string modfilename, bool fbc)
 {
   size_t sbml_place = modfilename.find("-sbml-l");
   if (sbml_place==string::npos) {
@@ -879,13 +888,25 @@ void writeSettingsFile(string modfilename)
   string filename = modfilename.replace(sbml_place, 14, "-settings.txt");
   ifstream infile(filename);
   if (infile.good()) return; //Don't overwrite old settings files.
+  string start = "0";
+  string duration = "__";
+  string steps = "__";
+  string variables = "__";
+  string abs = "0.0001";
+  string rel = "0.0001";
+  if (fbc) {
+    start = "";
+    duration = "";
+    steps = "";
+    abs = "";
+  }
   ofstream file(filename);
-  file << "start: 0" << endl;
-  file << "duration: __" << endl;
-  file << "steps: __" << endl;
-  file << "variables: __" << endl;
-  file << "absolute: 0.0001" << endl;
-  file << "relative: 0.0001" << endl;
+  file << "start: " << start << endl;
+  file << "duration: " << duration << endl;
+  file << "steps: " << steps << endl;
+  file << "variables: " << variables << endl;
+  file << "absolute: " << abs << endl;
+  file << "relative: " << rel << endl;
   file << "amount: " << endl;
   file << "concentration: " << endl;
 }
@@ -922,7 +943,7 @@ main (int argc, char* argv[])
   if (hasActualErrors(document))
   {
     cerr << "Encountered the following SBML errors:" << endl;
-    document->printErrors(cerr);
+    printActualErrors(document);
     return 1;
   }
 
@@ -966,7 +987,14 @@ main (int argc, char* argv[])
     mfile += getModelSummary(model, results, flat);
     mfile += "\n*)";
     writeMFile(mfile, filename);
-    writeSettingsFile(filename);
+    bool fbc = false;
+#ifdef USE_FBC
+    FbcModelPlugin* fbcmodplug = static_cast<FbcModelPlugin*>(document->getModel()->getPlugin("fbc"));
+    if (fbcmodplug != NULL) {
+      fbc = true;
+    }
+#endif
+    writeSettingsFile(filename, fbc);
   }
 
   delete document;
