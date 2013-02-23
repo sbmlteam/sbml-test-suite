@@ -32,6 +32,7 @@ package org.sbml.testsuite.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.SortedMap;
 import java.util.TreeMap;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
@@ -79,7 +80,7 @@ public class ResultMap
     protected Object                       result;
     protected Shell                        shell;
     private Canvas                         canvas;
-    private TreeMap<String, DelayedResult> data;
+    private SortedMap<String, DelayedResult> data;
     private String[]                       keySets;
     int                                    length = 11;
     int                                    gap    = 2;
@@ -571,7 +572,7 @@ public class ResultMap
      * @param cache
      *            cached results
      */
-    public void setData(TreeMap<String, DelayedResult> cache)
+    public void setData(SortedMap<String, DelayedResult> cache)
     {
         data = cache;
         if (data != null && data.keySet().size() > 0)
