@@ -563,7 +563,7 @@ public class WrapperConfig
                 while (isRunning(process))
                 {
                     if (callback != null && callback.cancellationRequested())
-                        return new RunOutcome(RunOutcome.Code.success, cmd);
+                        return new RunOutcome(RunOutcome.Code.interrupted, cmd);
                     Thread.sleep(milli);
                 }
             }
