@@ -560,7 +560,7 @@ public class WrapperConfig
                 process.waitFor();
             else
             {
-                if (isRunning(process))
+                while (isRunning(process))
                 {
                     if (callback != null && callback.cancellationRequested())
                         return new RunOutcome(RunOutcome.Code.success, cmd);
