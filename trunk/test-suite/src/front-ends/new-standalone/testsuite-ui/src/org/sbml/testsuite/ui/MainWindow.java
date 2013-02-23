@@ -40,7 +40,7 @@ import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Map;
 import java.util.SortedSet;
-import java.util.TreeMap;
+import java.util.SortedMap;
 import java.util.TreeSet;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
@@ -48,10 +48,16 @@ import java.util.concurrent.Executors;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
@@ -59,7 +65,9 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
@@ -494,7 +502,7 @@ public class MainWindow
         WrapperConfig wrapper = model.getLastWrapper();
         if (wrapper == null)
             return null;
-        TreeMap<String, DelayedResult> cache = wrapper.getCache();
+        SortedMap<String, DelayedResult> cache = wrapper.getCache();
         String lastNotUnknown = null;
         for (Map.Entry<String, DelayedResult> entry : cache.entrySet())
             if (entry.getValue().getResult() != null
@@ -1223,6 +1231,10 @@ public class MainWindow
 
     private void quit()
     {
+        running = false;
+        if (executor == null) return;
+        executor.shutdownNow();
+
         if (shell != null && ! shell.isDisposed())
             shell.dispose();
     }
@@ -1539,6 +1551,7 @@ public class MainWindow
         Rectangle bounds = primary.getBounds();
         Rectangle rect = shell.getBounds();
 
+        final int doubleClickTime = getDisplay().getDoubleClickTime();
         final Runnable doubleTimer = new Runnable() {
                 public void run() {
                     ignoreDoubleClicks = false;
@@ -1573,7 +1586,7 @@ public class MainWindow
                 else
                 {
                     ignoreDoubleClicks = true;
-                    getDisplay().timerExec(getDisplay().getDoubleClickTime(), doubleTimer);
+                    getDisplay().timerExec(doubleClickTime, doubleTimer);
                 }
                 showMap();
             }
@@ -1620,7 +1633,7 @@ public class MainWindow
                 else
                 {
                     ignoreDoubleClicks = true;
-                    getDisplay().timerExec(getDisplay().getDoubleClickTime(), doubleTimer);
+                    getDisplay().timerExec(doubleClickTime, doubleTimer);
                 }
 
                 if (Tell.confirm(shell,
@@ -1656,8 +1669,7 @@ public class MainWindow
                 else
                 {
                     ignoreDoubleClicks = true;
-                    getDisplay().timerExec(getDisplay().getDoubleClickTime(),
-                                           doubleTimer);
+                    getDisplay().timerExec(doubleClickTime, doubleTimer);
                 }
 
                 if (!running)
@@ -1698,7 +1710,7 @@ public class MainWindow
                 else
                 {
                     ignoreDoubleClicks = true;
-                    getDisplay().timerExec(getDisplay().getDoubleClickTime(), doubleTimer);
+                    getDisplay().timerExec(doubleClickTime, doubleTimer);
                 }
 
                 if (!running)
@@ -1766,8 +1778,7 @@ public class MainWindow
                 else
                 {
                     ignoreDoubleClicks = true;
-                    getDisplay().timerExec(getDisplay().getDoubleClickTime(),
-                                           doubleTimer);
+                    getDisplay().timerExec(doubleClickTime, doubleTimer);
                 }
 
                 editPreferences();
@@ -1778,6 +1789,7 @@ public class MainWindow
         toolBar.layout();
         toolBar.redraw();
 
+        shell.pack();
         shell.open();
         shell.layout();
 
@@ -1998,26 +2010,22 @@ public class MainWindow
         private TreeItem currentItem;
         private String path;
         private WrapperConfig wrapper;
-        private Thread displayThread;
+        private Display display;
         private String caseId;
         private RunOutcome runOutcome;
 
         QueuedTestRunner(TestCase theCase, TreeItem theItem, String thePath,
-                         WrapperConfig theWrapper, Thread thread)
+                         WrapperConfig theWrapper, Display display)
         {
             this.testCase = theCase;
             this.currentItem = theItem;
             this.path = thePath;
             this.wrapper = theWrapper;
-            this.displayThread = thread;
+            this.display = display;
             this.caseId = theCase.getId();
             this.runOutcome = null;
         }
 
-        public RunOutcome getOutcome()
-        {
-            return runOutcome;
-        }
 
         @Override
         public void run()
@@ -2025,39 +2033,30 @@ public class MainWindow
             // The user may have interrupted the runner while this process
             // was queued up for execution. Start by checking for that.
 
-            if (!running)
-                return;
+            if (!running) return;
 
             // This next call does synchronous execution of the wrapper.
 
             runOutcome = wrapper.run(testCase, path, 250,
-                                     new CancelCallback() {
-                                         public boolean cancellationRequested()
-                                         {
-                                             return !running;
-                                         }
-                                     });
+                new CancelCallback() {
+                    public boolean cancellationRequested()
+                    {
+                        return !running;
+                    }
+            });
 
             // Check if we were interrupted while running the wrapper.  If we
             // were, we don't want to mark the result as completed.
 
-            if (!running)
-                return;
+            if (!running) return;
 
             doneSet.add(caseId);
             final ResultType resultType = wrapper.getResultType(testCase);
-            final Display display       = Display.findDisplay(displayThread);
             display.asyncExec(new Runnable() {
                 @Override
                 public void run()
                 {
-                    currentItem.setImage(ResultColor.getImageForResultType(resultType));
-                    currentItem.setData(resultType);
-                    if (dlgMap != null)
-                    {
-                        dlgMap.updateElement(currentItem.getText(), resultType);
-                    }
-                    currentItem.getParent().update();
+                    updateItemStatus(currentItem, resultType);
                     incrementProgressBar();
 
                     // If this is the item currently being displayed, update
@@ -2129,21 +2128,18 @@ public class MainWindow
 
         Thread thisThread = Thread.currentThread();
         RunOutcome runOutcome = null;
-        executor = Executors.newSingleThreadExecutor();
         if (selectionIndex < selection.length)
         {
             TreeItem item = selection[selectionIndex];
             TestCase testCase = model.getSuite().get(item.getText());
-            QueuedTestRunner runner
-                = new QueuedTestRunner(testCase, item, absolutePath,
-                                       lastWrapper, thisThread);
-            executor.execute(runner);
-            waitForExecutor();
-            runOutcome = runner.getOutcome();
+            runOutcome = lastWrapper.run(testCase, absolutePath);
+            updateItemStatus(item, lastWrapper.getResultType(testCase));
+            incrementProgressBar();
             selectionIndex++;
         }
 
-        if (runOutcome != null && runOutcome.getCode() != RunOutcome.Code.success)
+        if (runOutcome != null
+            && runOutcome.getCode() != RunOutcome.Code.success)
         {
             Tell.error(shell, "Encountered a problem while attempting to"
                        + "\nrun the wrapper. Execution stopped. Please"
@@ -2153,9 +2149,10 @@ public class MainWindow
             // Clear this result.
             selectionIndex--;
             TreeItem item = selection[selectionIndex];
-            if (item != null && doneSet != null && doneSet.contains(item.getText()))
+            if (item != null && doneSet != null
+                && doneSet.contains(item.getText()))
                 doneSet.remove(item.getText());
-            lblStatusMessage.updateStatus("Stopped.");    
+            lblStatusMessage.updateStatus("Stopped.");
             return;
         }
 
@@ -2170,7 +2167,7 @@ public class MainWindow
             TreeItem item = selection[selectionIndex];
             TestCase testCase = model.getSuite().get(item.getText());
             executor.execute(new QueuedTestRunner(testCase, item, absolutePath,
-                                                  lastWrapper, thisThread));
+                                                  lastWrapper, display));
             selectionIndex++;
         }
         waitForExecutor();
@@ -2501,4 +2498,21 @@ public class MainWindow
                 return true;
         return false;
     }
+
+
+    public void updateItemStatus(final TreeItem currentItem,
+                                 final ResultType resultType)
+    {
+       if (currentItem == null) return;
+       if (currentItem.isDisposed()) return;
+
+       currentItem.setImage(ResultColor.getImageForResultType(resultType));
+       currentItem.setData(resultType);
+       currentItem.getParent().update();
+
+       if (dlgMap != null)
+       {
+           dlgMap.updateElement(currentItem.getText(), resultType);
+       }
+   }
 }
