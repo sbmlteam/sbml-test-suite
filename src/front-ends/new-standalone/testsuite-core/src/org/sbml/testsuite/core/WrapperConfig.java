@@ -32,6 +32,8 @@ package org.sbml.testsuite.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
@@ -82,11 +84,9 @@ public class WrapperConfig
      * 
      * @return true, if process is running, false otherwise.
      */
-    public static boolean isRunning(Process p)
+    public final static boolean isRunning(final Process p)
     {
         if (p == null) return false;
-
-        boolean isRunning = false;
 
         try
         {
@@ -94,10 +94,11 @@ public class WrapperConfig
         }
         catch (IllegalThreadStateException e)
         {
-            isRunning = true;
+            return true;
         }
-        return isRunning;
+        return false;
     }
+
 
     private String                         name;
     @Element(required = false)
@@ -112,7 +113,7 @@ public class WrapperConfig
     private boolean                        supportsAllVersions;
 
     @Transient
-    private TreeMap<String, DelayedResult> resultCache;
+    private SortedMap<String, DelayedResult> resultCache;
 
     static ExecutorService                 executor = Executors.newFixedThreadPool(20);
 
@@ -260,13 +261,11 @@ public class WrapperConfig
      */
     public void beginUpdate(TestSuite suite)
     {
-        resultCache = new TreeMap<String, DelayedResult>();
+        resultCache = Collections.synchronizedSortedMap(new TreeMap<String,
+                                                        DelayedResult>());
         for (final TestCase test : suite.getCases())
         {
-
-            resultCache.put(test.getId(), new DelayedResult(WrapperConfig.this,
-                                                            test));
-
+            resultCache.put(test.getId(), new DelayedResult(this, test));
         }
     }
 
@@ -316,7 +315,7 @@ public class WrapperConfig
     /**
      * @return the cache of all computed results
      */
-    public TreeMap<String, DelayedResult> getCache()
+    public SortedMap<String, DelayedResult> getCache()
     {
         return resultCache;
     }
@@ -331,10 +330,8 @@ public class WrapperConfig
      */
     public ResultType getCachedResult(String id)
     {
-        TreeMap<String, DelayedResult> cache = resultCache;
-
+        SortedMap<String, DelayedResult> cache = resultCache;
         return cache.get(id).getResult();
-
     }
 
 
@@ -510,7 +507,7 @@ public class WrapperConfig
      * @param testSuiteDir
      *            the test cases directory
      */
-    public RunOutcome run(TestCase test, String testSuiteDir)
+    public RunOutcome run(final TestCase test, final String testSuiteDir)
     {
         return run(test, testSuiteDir, null);
     }
@@ -526,8 +523,8 @@ public class WrapperConfig
      * @param callback
      *            a cancellation callback allowing to interrupt the execution
      */
-    public RunOutcome run(TestCase test, String testSuiteDir,
-                          CancelCallback callback)
+    public RunOutcome run(final TestCase test, final String testSuiteDir,
+                          final CancelCallback callback)
     {
         return run(test, testSuiteDir, 250, callback);
     }
@@ -545,8 +542,8 @@ public class WrapperConfig
      * @param callback
      *            a cancellation callback allowing to interrupt the execution
      */
-    public RunOutcome run(TestCase test, String testSuiteDir, int milli,
-                          CancelCallback callback)
+    public RunOutcome run(final TestCase test, final String testSuiteDir,
+                          final int milli, final CancelCallback callback)
     {
         Runtime rt = Runtime.getRuntime();
         String cmd = getProgram() + " "
@@ -571,11 +568,14 @@ public class WrapperConfig
                 }
             }
 
-            // On some systems, after the process exits, the output file it
-            // writes doesn't exist yet. Unfortunately, sometimes a wrapper
-            // never writes the file at all. Since we don't know if the file
-            // will ever show up, we can't block waiting for it.  So we test
-            // for a while and give up after a 1-2 sec., depending on the OS.
+            // Sometimes, after the process exits, the output file that it
+            // writes may not instantly show up in the file system.
+            // Unfortunately, sometimes a wrapper never writes the file at
+            // all.  We don't want to fail if we don't immediately see the
+            // file after the process exits, but we also don't know if the
+            // file will *ever* show up.  We can't block waiting for it, so
+            // the following is a compromise: we test for a time period and
+            // give up after a 1-2 sec., depending on the OS.
 
             File expectedFile = getResultFile(test);
             if (! expectedFile.exists())
@@ -589,31 +589,31 @@ public class WrapperConfig
         }
         catch (IOException ex)
         {
-            resultCache.put(test.getId(), new DelayedResult(ResultType.Error));
+            addErrorToCache(test);
             return new RunOutcome(RunOutcome.Code.ioError,
                                   "IO exception running command: " + cmd);
         }
         catch (SecurityException ex)
         {
-            resultCache.put(test.getId(), new DelayedResult(ResultType.Error));
+            addErrorToCache(test);
             return new RunOutcome(RunOutcome.Code.securityError,
                                   "Security exception running command: " + cmd);
         }
         catch (IllegalArgumentException ex)
         {
-            resultCache.put(test.getId(), new DelayedResult(ResultType.Error));
+            addErrorToCache(test);
             return new RunOutcome(RunOutcome.Code.argumentError,
                                   "Badly formed command line: " + cmd);
         }
         catch (InterruptedException ex)
         {
-            resultCache.put(test.getId(), new DelayedResult(ResultType.Error));
+            addErrorToCache(test);
             return new RunOutcome(RunOutcome.Code.interrupted,
                                   "Process interrupted: " + cmd);
         }
         catch (Exception e)
         {
-            resultCache.put(test.getId(), new DelayedResult(ResultType.Error));
+            addErrorToCache(test);
             return new RunOutcome(RunOutcome.Code.unknownError,
                                   "Unexpected error running: " + cmd);
             // TODO Auto-generated catch block
@@ -625,9 +625,21 @@ public class WrapperConfig
                 process.destroy();
         }
 
+        addResultToCache(test);
+        return new RunOutcome(RunOutcome.Code.success, cmd);
+    }
+
+
+    public void addResultToCache(final TestCase test)
+    {
         resultCache.put(test.getId(),
                         new DelayedResult(getResultTypeInternal(test)));
-        return new RunOutcome(RunOutcome.Code.success, cmd);
+    }
+
+
+    public void addErrorToCache(final TestCase test)
+    {
+        resultCache.put(test.getId(), new DelayedResult(ResultType.Error));
     }
 
 
@@ -737,7 +749,7 @@ public class WrapperConfig
      *            the test suite to compare against
      * @return a map with test ids / delayed result objects
      */
-    public TreeMap<String, DelayedResult> updateCache(TestSuite suite)
+    public SortedMap<String, DelayedResult> updateCache(TestSuite suite)
     {
         beginUpdate(suite);
         return resultCache;
