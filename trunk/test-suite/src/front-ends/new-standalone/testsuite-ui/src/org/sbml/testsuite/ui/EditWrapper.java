@@ -78,7 +78,9 @@ public class EditWrapper
                                                  txtWrapperOutputDir.getText(),
                                                  txtWrapperArgs.getText(),
                                                  txtUnsupportedTags.getText(),
-                                                 btnWrapperAnyLV.getSelection());
+                                                 btnWrapperAnyLV.getSelection(),
+                                                 btnWrapperThreadsOK.getSelection()
+                                                 );
 
         return config;
     }
@@ -96,6 +98,7 @@ public class EditWrapper
         txtWrapper.setText(config.getProgram());
         txtWrapperArgs.setText(config.getArguments());
         btnWrapperAnyLV.setSelection(config.isSupportsAllVersions());
+        btnWrapperThreadsOK.setSelection(config.isConcurrencyAllowed());
     }
 
 
@@ -293,9 +296,8 @@ public class EditWrapper
         fd_btnWrapperThreadsOK.right = new FormAttachment(100, -31);
         fd_btnWrapperThreadsOK.top = new FormAttachment(btnWrapperAnyLV, 2);
         btnWrapperThreadsOK.setLayoutData(fd_btnWrapperThreadsOK);
-        btnWrapperThreadsOK.setText("Wrapper can be run in parallel threads");
+        btnWrapperThreadsOK.setText("Wrapper can be run in parallel");
         btnWrapperThreadsOK.addKeyListener(UIUtils.createCloseKeyListener(shell));
-        btnWrapperThreadsOK.setSelection(true);
 
         int offset = 20 - UIUtils.scaledFontSize(20);
 
