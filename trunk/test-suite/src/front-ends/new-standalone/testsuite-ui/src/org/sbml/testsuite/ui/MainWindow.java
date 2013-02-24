@@ -184,12 +184,13 @@ public class MainWindow
         }
     }
     
+
     /*
      * Strictly speaking, Label is documented in the SWT API docs as being
      * something that is not intended to be subclassed.  However, I believe
      * the intention behind that is to avoid distinctions in widgets.  Here,
      * the purpose is to encapsulate our functionality for the status box
-     * in a convention manner.
+     * in a convenient manner.
      */
     class StatusMessageLabel
         extends Label
@@ -219,6 +220,59 @@ public class MainWindow
             // Disable the check that prevents subclassing of SWT components.
         }
     }
+
+
+    /**
+     * Helper class for executing processes.
+     */
+    class TaskExecutor
+    {
+        private ExecutorService ex;
+
+        public TaskExecutor()
+        {
+            init(false);
+        }
+
+        public void init(boolean concurrencyOK)
+        {
+            if (ex != null && ! ex.isTerminated())
+                ex.shutdownNow();
+
+            if (concurrencyOK)
+            {
+                int numProcs   = Runtime.getRuntime().availableProcessors();
+                int numThreads = Math.max(1, numProcs - 1);
+                ex = Executors.newFixedThreadPool(numThreads);
+            }
+            else
+            {
+                ex = Executors.newSingleThreadExecutor();
+            }
+        }
+
+        public void execute(Runnable command)
+        {
+            ex.execute(command);
+        }
+
+        public void waitForProcesses()
+        {
+            if (ex == null)
+                return;
+            ex.shutdown();        // Finish the threads we started.
+            while (!ex.isTerminated())
+            {
+                getDisplay().readAndDispatch();
+            }
+        }
+
+        public void shutdownNow()
+        {
+            ex.shutdownNow();
+        }
+    }
+
 
     private Composite                 cmpDifferences;
     private Composite                 cmpGraphs;
@@ -268,7 +322,7 @@ public class MainWindow
 
     private final Display             display;
     private Thread                    uiThread = null;
-    private ExecutorService           executor;
+    private TaskExecutor              executor = new TaskExecutor();
 
 
     /**
@@ -464,6 +518,9 @@ public class MainWindow
             informUserBadWrapper(newWrapper);
             return;
         }
+
+        // New wrapper may have different policy for execution.  Re-init.
+        executor.init(newWrapper.isConcurrencyAllowed());
 
         TreeItem viewing = lastSelection();
 
@@ -1217,7 +1274,7 @@ public class MainWindow
                 if (running)
                 {
                     running = false;
-                    waitForExecutor();
+                    executor.waitForProcesses();
                     try { Thread.sleep(2000); } catch (Exception e) { }
                 }
                 closing = true;
@@ -2126,7 +2183,6 @@ public class MainWindow
         // failures and try to report them all.  Solution: run the first one
         // separately and watch for errors, then go on and run the rest.
 
-        Thread thisThread = Thread.currentThread();
         RunOutcome runOutcome = null;
         if (selectionIndex < selection.length)
         {
@@ -2158,8 +2214,6 @@ public class MainWindow
 
         // If we get here, we can hopefully continue with the remaining cases.
 
-        int numThreads = Math.max(1, Runtime.getRuntime().availableProcessors() - 1);
-        executor = Executors.newFixedThreadPool(numThreads);
         while (selectionIndex < selection.length)
         {
             if (! running) break;
@@ -2170,7 +2224,7 @@ public class MainWindow
                                                   lastWrapper, display));
             selectionIndex++;
         }
-        waitForExecutor();
+        executor.waitForProcesses();
 
         // At this point, either all tests have concluded or the user
         // interrupted execution.
@@ -2464,17 +2518,6 @@ public class MainWindow
     }
 
 
-    private void waitForExecutor()
-    {
-        if (executor == null)
-            return;
-        executor.shutdown();            // Finish the threads we started.
-        while (!executor.isTerminated())
-        {
-            getDisplay().readAndDispatch();
-        }
-    }
-
     private void informUserBadWrapper(WrapperConfig wrapper)
     {
         if (wrapper == null) 
@@ -2503,16 +2546,16 @@ public class MainWindow
     public void updateItemStatus(final TreeItem currentItem,
                                  final ResultType resultType)
     {
-       if (currentItem == null) return;
-       if (currentItem.isDisposed()) return;
+        if (currentItem == null) return;
+        if (currentItem.isDisposed()) return;
 
-       currentItem.setImage(ResultColor.getImageForResultType(resultType));
-       currentItem.setData(resultType);
-       currentItem.getParent().update();
+        currentItem.setImage(ResultColor.getImageForResultType(resultType));
+        currentItem.setData(resultType);
+        currentItem.getParent().update();
 
-       if (dlgMap != null)
-       {
-           dlgMap.updateElement(currentItem.getText(), resultType);
-       }
-   }
+        if (dlgMap != null)
+        {
+            dlgMap.updateElement(currentItem.getText(), resultType);
+        }
+    }
 }
