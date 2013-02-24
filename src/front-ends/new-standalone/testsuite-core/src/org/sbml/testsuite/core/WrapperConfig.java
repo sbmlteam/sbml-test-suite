@@ -56,50 +56,6 @@ import org.simpleframework.xml.core.Persister;
 @Default
 public class WrapperConfig
 {
-    /**
-     * Load a wrapper configuration from file
-     * 
-     * @param file
-     *            the filename
-     * @return the wrapper object
-     * @throws Exception
-     *             IO / Deserialization exceptions
-     */
-    public static WrapperConfig fromFile(File file)
-        throws Exception
-    {
-        Serializer serializer = new Persister();
-        WrapperConfig config = serializer.read(WrapperConfig.class, file);
-        if (config.unsupportedTags == null)
-            config.unsupportedTags = new Vector<String>();
-        return config;
-    }
-
-
-    /**
-     * Simple test that checks whether a given process is running
-     * 
-     * @param p
-     *            the process
-     * 
-     * @return true, if process is running, false otherwise.
-     */
-    public final static boolean isRunning(final Process p)
-    {
-        if (p == null) return false;
-
-        try
-        {
-            p.exitValue();
-        }
-        catch (IllegalThreadStateException e)
-        {
-            return true;
-        }
-        return false;
-    }
-
-
     private String                         name;
     @Element(required = false)
     private String                         program;
@@ -112,18 +68,13 @@ public class WrapperConfig
     @Element(required = false)
     private boolean                        supportsAllVersions;
 
+    @Element(required = false)
+    private boolean                        concurrentThreadsOK;
+
     @Transient
     private SortedMap<String, DelayedResult> resultCache;
 
     static ExecutorService                 executor = Executors.newFixedThreadPool(20);
-
-    /** Factors used to compute the duration for testing the results file */
-    private final static int               FILE_CHECK_GRANULARITY_WINDOWS = 2;
-    private final static int               FILE_CHECK_GRANULARITY_MACOSX  = 1;
-    private final static int               FILE_CHECK_GRANULARITY_LINUX   = 1;
-
-    /** Factor used to calculate duration of testing for file existence. */
-    private static int                     fileCheckFactor;
 
 
     /**
@@ -136,23 +87,9 @@ public class WrapperConfig
         this.program = "";
         this.outputPath = "";
         this.arguments = "";
-        supportsAllVersions = false;
-        unsupportedTags = new Vector<String>();
-
-        // Compute the factor used to adjust file check times. We use
-        // different values depending on the operating system, because some
-        // systems have coarser file stat granularity than others.  (E.g.,
-        // FAT file system timestamps have a granularity of 2 sec.)
-
-        String osName = System.getProperty("os.name");
-        if (osName.startsWith("Windows"))
-            fileCheckFactor = FILE_CHECK_GRANULARITY_WINDOWS;
-        else if (osName.startsWith("Mac"))
-            fileCheckFactor = FILE_CHECK_GRANULARITY_MACOSX;
-        else if (osName.startsWith("Darwin"))
-            fileCheckFactor = FILE_CHECK_GRANULARITY_MACOSX;
-        else
-            fileCheckFactor = FILE_CHECK_GRANULARITY_LINUX;
+        this.concurrentThreadsOK = false;
+        this.supportsAllVersions = false;
+        this.unsupportedTags = new Vector<String>();
     }
 
 
@@ -211,14 +148,18 @@ public class WrapperConfig
      * @param supportsAllVersions
      *            boolean indicating whether this simulator supports *all*
      *            levels / versions of SBML
+     * @param concurrentThreadsOK
+     *            boolean indicating whether this wrapper can be executed
+     *            in parallel threads.
      */
     public WrapperConfig(String name, String program, String outputPath,
                          String arguments, String unsupportedTags,
-                         boolean supportsAllVersions)
+                         boolean supportsAllVersions, boolean concurrentThreadsOK)
     {
         this(name, program, outputPath, arguments);
         this.unsupportedTags = new Vector<String>(Util.split(unsupportedTags));
         this.supportsAllVersions = supportsAllVersions;
+        this.concurrentThreadsOK = concurrentThreadsOK;
     }
 
 
@@ -242,14 +183,38 @@ public class WrapperConfig
      * @param supportsAllVersions
      *            boolean indicating whether this simulator supports *all*
      *            levels / versions of SBML
+     * @param concurrentThreadsOK
+     *            boolean indicating whether this wrapper can be executed
+     *            in parallel threads.
      */
     public WrapperConfig(String name, String program, String outputPath,
                          String arguments, Vector<String> unsupportedTags,
-                         boolean supportsAllVersions)
+                         boolean supportsAllVersions, boolean concurrentThreadsOK)
     {
         this(name, program, outputPath, arguments);
         this.unsupportedTags = unsupportedTags;
         this.supportsAllVersions = supportsAllVersions;
+        this.concurrentThreadsOK = concurrentThreadsOK;
+    }
+
+
+    /**
+     * Load a wrapper configuration from file
+     * 
+     * @param file
+     *            the filename
+     * @return the wrapper object
+     * @throws Exception
+     *             IO / Deserialization exceptions
+     */
+    public static WrapperConfig fromFile(File file)
+        throws Exception
+    {
+        Serializer serializer = new Persister();
+        WrapperConfig config = serializer.read(WrapperConfig.class, file);
+        if (config.unsupportedTags == null)
+            config.unsupportedTags = new Vector<String>();
+        return config;
     }
 
 
@@ -500,6 +465,16 @@ public class WrapperConfig
 
 
     /**
+     * @return boolean indicating whether this wrapper can be executed in
+     * parallel threads.
+     */
+    public boolean isConcurrencyAllowed()
+    {
+        return concurrentThreadsOK;
+    }
+
+
+    /**
      * Executed the given test
      * 
      * @param test
@@ -568,19 +543,18 @@ public class WrapperConfig
                 }
             }
 
-            // Sometimes, after the process exits, the output file that it
-            // writes may not instantly show up in the file system.
-            // Unfortunately, sometimes a wrapper never writes the file at
-            // all.  We don't want to fail if we don't immediately see the
-            // file after the process exits, but we also don't know if the
-            // file will *ever* show up.  We can't block waiting for it, so
-            // the following is a compromise: we test for a time period and
-            // give up after a 1-2 sec., depending on the OS.
+            // Sometimes, after the process exits, the output that it writes
+            // may not instantly show up in the file system.  Unfortunately,
+            // sometimes a wrapper never writes the file at all.  We don't
+            // want to fail if we don't immediately see the file after the
+            // process exits, but we also don't know if the file will *ever*
+            // show up.  We can't block waiting for it, so the following is a
+            // compromise: we test for a time period and give up after ~1 sec.
 
             File expectedFile = getResultFile(test);
             if (! expectedFile.exists())
             {
-                for (int count = (10 * fileCheckFactor); count > 0; count--)
+                for (int count = 11; count > 0; count--)
                 {
                     Thread.sleep(100);
                     if (expectedFile.exists()) break;
@@ -707,6 +681,16 @@ public class WrapperConfig
 
 
     /**
+     * @return boolean indicating whether this wrapper can be executed in
+     * parallel threads.
+     */
+    public void setConcurrencyAllowed(boolean concurrentThreadsOK)
+    {
+        this.concurrentThreadsOK = concurrentThreadsOK;
+    }
+
+
+    /**
      * Sets the string containing a comma separated list of unsupported test /
      * component tags
      * 
@@ -772,6 +756,7 @@ public class WrapperConfig
         this.program = other.program;
         this.supportsAllVersions = other.supportsAllVersions;
         this.unsupportedTags = new Vector<String>(other.unsupportedTags);
+        this.concurrentThreadsOK = other.concurrentThreadsOK;
     }
 
 
@@ -852,11 +837,36 @@ public class WrapperConfig
         }
         else if (!resultCache.equals(other.resultCache)) return false;
         if (supportsAllVersions != other.supportsAllVersions) return false;
+        if (concurrentThreadsOK != other.concurrentThreadsOK) return false;
         if (unsupportedTags == null)
         {
             if (other.unsupportedTags != null) return false;
         }
         else if (!unsupportedTags.equals(other.unsupportedTags)) return false;
         return true;
+    }
+
+
+    /**
+     * Simple test that checks whether a given process is running
+     * 
+     * @param p
+     *            the process
+     * 
+     * @return true, if process is running, false otherwise.
+     */
+    private final static boolean isRunning(final Process p)
+    {
+        if (p == null) return false;
+
+        try
+        {
+            p.exitValue();
+        }
+        catch (IllegalThreadStateException e)
+        {
+            return true;
+        }
+        return false;
     }
 }
