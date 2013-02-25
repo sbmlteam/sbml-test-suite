@@ -511,16 +511,12 @@ public class MainWindow
 
     private void changeWrapper(String wrapperName, boolean confirmFlush)
     {
-
         WrapperConfig newWrapper = model.getSettings().getWrapper(wrapperName);
         if (! newWrapper.canRun())
         {
             informUserBadWrapper(newWrapper);
             return;
         }
-
-        // New wrapper may have different policy for execution.  Re-init.
-        executor.init(newWrapper.isConcurrencyAllowed());
 
         TreeItem viewing = lastSelection();
 
@@ -2214,6 +2210,7 @@ public class MainWindow
 
         // If we get here, we can hopefully continue with the remaining cases.
 
+        executor.init(lastWrapper.isConcurrencyAllowed());
         while (selectionIndex < selection.length)
         {
             if (! running) break;
