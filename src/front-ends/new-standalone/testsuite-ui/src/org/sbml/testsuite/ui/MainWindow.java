@@ -1215,7 +1215,7 @@ public class MainWindow
                 {
                     running = false;
                     executor.waitForProcesses(getDisplay());
-                    try { Thread.sleep(2000); } catch (Exception e) { }
+                    Util.sleep(2000);
                 }
                 closing = true;
                 quit();
