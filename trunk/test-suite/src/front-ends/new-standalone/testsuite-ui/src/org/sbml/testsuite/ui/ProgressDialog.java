@@ -50,6 +50,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.sbml.testsuite.core.Util;
 
 /**
  * ProgressDialog basic progress dialog
@@ -211,7 +212,7 @@ public class ProgressDialog
     {
         shell.open();
         shell.layout();
-        try { Thread.sleep(100); } catch (Exception e) { }
+        Util.sleep(100);
     }
 
 
