@@ -43,8 +43,6 @@ import java.util.SortedSet;
 import java.util.SortedMap;
 import java.util.TreeSet;
 import java.util.Vector;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
@@ -222,58 +220,6 @@ public class MainWindow
     }
 
 
-    /**
-     * Helper class for executing processes.
-     */
-    class TaskExecutor
-    {
-        private ExecutorService ex;
-
-        public TaskExecutor()
-        {
-            init(false);
-        }
-
-        public void init(boolean concurrencyOK)
-        {
-            if (ex != null && ! ex.isTerminated())
-                ex.shutdownNow();
-
-            if (concurrencyOK)
-            {
-                int numProcs   = Runtime.getRuntime().availableProcessors();
-                int numThreads = Math.max(1, numProcs - 1);
-                ex = Executors.newFixedThreadPool(numThreads);
-            }
-            else
-            {
-                ex = Executors.newSingleThreadExecutor();
-            }
-        }
-
-        public void execute(Runnable command)
-        {
-            ex.execute(command);
-        }
-
-        public void waitForProcesses()
-        {
-            if (ex == null)
-                return;
-            ex.shutdown();        // Finish the threads we started.
-            while (!ex.isTerminated())
-            {
-                getDisplay().readAndDispatch();
-            }
-        }
-
-        public void shutdownNow()
-        {
-            ex.shutdownNow();
-        }
-    }
-
-
     private Composite                 cmpDifferences;
     private Composite                 cmpGraphs;
     //    private String                    current;
@@ -317,8 +263,6 @@ public class MainWindow
         = Collections.synchronizedSortedSet(new TreeSet<String>());
 
     private CustomProgressBar         progressBar;
-    private int                       progressBarSteps = 100;
-    private int                       progressBarCurrent = 0;
 
     private final Display             display;
     private Thread                    uiThread = null;
@@ -535,7 +479,7 @@ public class MainWindow
         {
             deleteSelectedResults(tree.getItems());
             doneSet.clear();
-            resetProgressBar();
+            progressBar.resetSteps();
             tree.deselectAll();
             tree.select(tree.getItem(0));
             initialCaseStartIndex = 0;
@@ -813,7 +757,7 @@ public class MainWindow
                 doneSet.clear();
                 running = false;
                 restart = true;
-                resetProgressBar();
+                progressBar.resetSteps();
                 runByTag();
             }
         });
@@ -829,7 +773,7 @@ public class MainWindow
                 doneSet.clear();
                 running = false;
                 restart = true;
-                resetProgressBar();
+                progressBar.resetSteps();
                 runAllTests();
             }
         });
@@ -843,7 +787,7 @@ public class MainWindow
                 doneSet.clear();
                 running = false;
                 restart = true;
-                resetProgressBar();
+                progressBar.resetSteps();
                 runAllSupported();
             }
         });
@@ -857,7 +801,7 @@ public class MainWindow
                 doneSet.clear();
                 running = false;
                 restart = true;
-                resetProgressBar();
+                progressBar.resetSteps();
                 runAllNewTests();
             }
         });
@@ -952,7 +896,7 @@ public class MainWindow
             fd_progressBar.right = new FormAttachment(100, -6);
         }
         progressBar.setLayoutData(fd_progressBar);        
-        resetProgressBar();
+        progressBar.resetSteps();
 
         tree = new Tree(sashForm, SWT.BORDER | SWT.MULTI);
         // tree.
@@ -1244,7 +1188,7 @@ public class MainWindow
         {
             openArchive(new File(fileName));
             deleteSelectedResults(tree.getItems());
-            resetProgressBar();
+            progressBar.resetSteps();
             if (tree.getItemCount() > 0)
             {
                 tree.setSelection(tree.getItem(0));
@@ -1270,7 +1214,7 @@ public class MainWindow
                 if (running)
                 {
                     running = false;
-                    executor.waitForProcesses();
+                    executor.waitForProcesses(getDisplay());
                     try { Thread.sleep(2000); } catch (Exception e) { }
                 }
                 closing = true;
@@ -1696,7 +1640,7 @@ public class MainWindow
                     restart = true;
                     initialCaseStartIndex = 0;
                     deleteSelectedResults(tree.getItems());
-                    resetProgressBar();
+                    progressBar.resetSteps();
                     if (tree.getItemCount() > 0)
                     {
                         tree.setSelection(tree.getItem(0));
@@ -1848,7 +1792,7 @@ public class MainWindow
 
         loadModel();
 
-        setProgressBarSteps(tree.getItemCount()); // Initial default.
+        progressBar.setMaxSteps(tree.getItemCount()); // Initial default.
         TreeItem toSelect = treeItemForCase(lastCaseWithCachedValue());
         if (toSelect != null)
         {
@@ -2110,7 +2054,7 @@ public class MainWindow
                 public void run()
                 {
                     updateItemStatus(currentItem, resultType);
-                    incrementProgressBar();
+                    progressBar.updateProgressStep();
 
                     // If this is the item currently being displayed, update
                     // the plots, because they're the ones being shown.
@@ -2148,9 +2092,9 @@ public class MainWindow
         {
             doneSet.clear();
             restart = false;
-            resetProgressBar();
+            progressBar.resetSteps();
             if (selection.length > 0)
-                setProgressBarSteps(selection.length - selectionIndex);
+                progressBar.setMaxSteps(selection.length - selectionIndex);
         }
         else                            // Continuing an interrupted run.
         {
@@ -2161,7 +2105,7 @@ public class MainWindow
             if (index >= 0)
                 selectionIndex = ++index;
             if (doneSet.isEmpty() && selection.length > 0)
-                setProgressBarSteps(selection.length - selectionIndex);
+                progressBar.setMaxSteps(selection.length - selectionIndex);
         }
 
         // Explicitly clear results for whatever we're about to recalculate
@@ -2186,7 +2130,7 @@ public class MainWindow
             TestCase testCase = model.getSuite().get(item.getText());
             runOutcome = lastWrapper.run(testCase, absolutePath);
             updateItemStatus(item, lastWrapper.getResultType(testCase));
-            incrementProgressBar();
+            progressBar.updateProgressStep();
             selectionIndex++;
         }
 
@@ -2221,7 +2165,7 @@ public class MainWindow
                                                   lastWrapper, display));
             selectionIndex++;
         }
-        executor.waitForProcesses();
+        executor.waitForProcesses(getDisplay());
 
         // At this point, either all tests have concluded or the user
         // interrupted execution.
@@ -2491,27 +2435,6 @@ public class MainWindow
             }
             return -1;
         }
-    }
-
-
-    private final void incrementProgressBar()
-    {
-        progressBarCurrent++;
-        double next = ((double)progressBarCurrent/(double)progressBarSteps);
-        progressBar.updateProgress(next);
-    }
-
-
-    private final void resetProgressBar()
-    {
-        progressBarCurrent = 0;
-        progressBar.updateProgress(0);
-    }
-
-
-    private final void setProgressBarSteps(int num)
-    {
-        progressBarSteps = num;
     }
 
 
