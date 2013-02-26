@@ -20,6 +20,8 @@
 
 package org.sbml.testsuite.ui;
 
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
@@ -146,10 +148,16 @@ public class CustomProgressBar extends Composite
     private final int recommendedHeight;
 
     /** The current progressed pixel position*/
-    private int progressedPosition = 0;
+    private AtomicInteger progressedPosition = new AtomicInteger(0);
 
     /** The current progress percentage 0 -> 1*/
-    private double progressedPercentage = 0;
+    private AtomicLong progressedPercentage = new AtomicLong(0);
+
+    /** The current progress in terms of steps. */
+    private AtomicInteger progressedSteps = new AtomicInteger(0);
+
+    /** The number of steps, when using stepping. Default is 100.*/
+    private AtomicInteger maxSteps = new AtomicInteger(100);
 
 
     /**
@@ -187,8 +195,10 @@ public class CustomProgressBar extends Composite
                 @Override
                 public void controlResized(ControlEvent e)
                 {
-                    double val = (horizontal ? progressedPercentage : 1 - progressedPercentage);
-                    progressedPosition = (int) (calculatePotentialFillExtent() * val);
+                    long progress = progressedPercentage.get();
+                    double percent = Double.longBitsToDouble(progress);
+                    double val = (horizontal ? percent : 1 - percent);
+                    progressedPosition.set((int) (calculatePotentialFillExtent() * val));
                     fillRegion.setLayoutData(
                          createFilledLayoutData(new Rectangle(0, 0,
                                                               recommendedWidth, 
@@ -247,15 +257,15 @@ public class CustomProgressBar extends Composite
         {
             gd.minimumHeight = recommendedHeight;				
             gd.heightHint = recommendedHeight;
-            gd.widthHint = progressedPosition;
-            gd.minimumWidth = progressedPosition;
+            gd.widthHint = progressedPosition.get();
+            gd.minimumWidth = progressedPosition.get();
         }
         else
         {
             gd.minimumWidth = recommendedWidth;
             gd.widthHint = recommendedWidth;
-            gd.heightHint = progressedPosition;
-            gd.minimumHeight = progressedPosition;
+            gd.heightHint = progressedPosition.get();
+            gd.minimumHeight = progressedPosition.get();
         }
         return gd;
     }
@@ -294,27 +304,50 @@ public class CustomProgressBar extends Composite
             percentage = 0;
         else if (percentage > 1)
             percentage = 1;
-        progressedPercentage = percentage;
-        progressedPosition = 
-            (int)(calculatePotentialFillExtent()*(horizontal?percentage:1-percentage));
-        fillRegion.setLayoutData(createFilledLayoutData(new Rectangle(0,0,recommendedWidth,recommendedHeight)));
+        progressedPercentage.set(Double.doubleToLongBits(percentage));
+        progressedPosition.set((int)(calculatePotentialFillExtent()
+                                     * (horizontal ? percentage : 1 - percentage)));
+        Rectangle rect = new Rectangle(0,0,recommendedWidth,recommendedHeight);
+        fillRegion.setLayoutData(createFilledLayoutData(rect));
         layout();	
     }
 	
+    /**
+     * Update the progress when using step mode.
+     */
+    public void updateProgressStep()
+    {
+        progressedSteps.getAndIncrement();
+        updateProgress((double)progressedSteps.get()/(double)maxSteps.get());
+    }
+
+    public void setMaxSteps(int num)
+    {
+        maxSteps.set(num);
+    }
+
+    public void resetSteps()
+    {
+        progressedSteps.set(0);
+        updateProgress(0);
+    }
+
     /** calculate the potential fill extent of the progress bar*/
     private int calculatePotentialFillExtent()
     {
         if (horizontal)
-            return getClientArea().width - leftBorder.getBounds().width - rightBorder.getBounds().width;
+            return getClientArea().width - leftBorder.getBounds().width
+                - rightBorder.getBounds().width;
         else
-            return getClientArea().height - leftBorder.getBounds().height - rightBorder.getBounds().height;
+            return getClientArea().height - leftBorder.getBounds().height
+                - rightBorder.getBounds().height;
     }
 
     /** The current progress range 0 -> 1*/
     public double getCurrentProgress()
     {
         checkWidget();
-        return progressedPercentage; 
+        return Double.longBitsToDouble(progressedPercentage.get()); 
     }
 	
     @Override
