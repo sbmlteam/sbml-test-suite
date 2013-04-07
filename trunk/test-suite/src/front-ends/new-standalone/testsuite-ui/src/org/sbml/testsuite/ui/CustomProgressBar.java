@@ -321,6 +321,28 @@ public class CustomProgressBar extends Composite
         updateProgress((double)progressedSteps.get()/(double)maxSteps.get());
     }
 
+    /**
+     * Set current steps to a specific value.
+     */
+    public void updateProgressSteps(int num)
+    {
+        if (num >= maxSteps.get())
+        {
+            progressedSteps.set(maxSteps.get());
+            updateProgress(1);
+        }
+        else if (num <= 0)
+        {
+            progressedSteps.set(0);
+            updateProgress(0);
+        }
+        else
+        {
+            progressedSteps.set(num);
+            updateProgress((double)num/(double)maxSteps.get());
+        }
+    }
+
     public void setMaxSteps(int num)
     {
         maxSteps.set(num);
