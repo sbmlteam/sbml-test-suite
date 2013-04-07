@@ -69,7 +69,7 @@ import org.eclipse.swt.widgets.Control;
 /**
  * Filter dialog for test / component tags
  */
-public class DialogFilterTags
+public class FilterDialog
     extends Dialog
 {
     private Label             lblDescription;
@@ -93,7 +93,7 @@ public class DialogFilterTags
      * @param parent
      * @param style
      */
-    public DialogFilterTags(Shell parent, int style)
+    public FilterDialog(Shell parent, int style)
     {
         super(parent, style);
         createContents();
