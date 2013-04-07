@@ -1,5 +1,5 @@
 //
-// @file   DialogTags.java
+// @file   TagsDialog.java
 // @brief  Get a list of tags from the user
 // @author Michael Hucka
 // @author Frank T. Bergmann
@@ -58,7 +58,7 @@ import org.eclipse.swt.widgets.Control;
 /**
  * Filter dialog for test / component tags
  */
-public class DialogTags
+public class TagsDialog
     extends Dialog
 {
     private LabeledList      lblLstComponentTags;
@@ -73,7 +73,7 @@ public class DialogTags
      * @param parent
      * @param style
      */
-    public DialogTags(Shell parent, int style)
+    public TagsDialog(Shell parent, int style)
     {
         super(parent, style);
         createContents();
