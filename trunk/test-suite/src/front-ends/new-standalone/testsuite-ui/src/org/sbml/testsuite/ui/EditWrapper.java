@@ -526,7 +526,7 @@ public class EditWrapper
 
     protected void editUnsupportedTags()
     {
-       DialogTags dialog = new DialogTags(getShell(), SWT.None);
+       TagsDialog dialog = new TagsDialog(getShell(), SWT.None);
        dialog.setTitle("Select unsupported tags");
        dialog.setComponentTags(TestSuiteSettings.loadDefault().getSuite().getComponentTags());
        dialog.setTestTags(TestSuiteSettings.loadDefault().getSuite().getTestTags());
