@@ -64,6 +64,8 @@ public class TestCase
 
     private String           id;
 
+    private int              idNumber;
+
     private long             lastModified;
 
     private TestCaseSettings settings;
@@ -290,7 +292,7 @@ public class TestCase
      */
     public int getIndex()
     {
-        return Integer.parseInt(getId());
+        return idNumber;
     }
 
 
@@ -359,11 +361,7 @@ public class TestCase
      */
     public File getSBMLFile(int level, int version)
     {
-        boolean hasFile = supportedVersions.contains(String.format("%d.%d",
-                                                                   level,
-                                                                   version));
-        if (!hasFile) return null;
-
+        if (! supportsLevelVersion(level, version)) return null;
         return new File(caseDirectory, String.format("%s-sbml-l%dv%d.xml", id,
                                                      level, version));
     }
@@ -505,6 +503,7 @@ public class TestCase
         caseDirectory = modelDesc.getParentFile();
 
         id = caseDirectory.getName();
+        idNumber = Integer.parseInt(id);
 
         String contents = Util.readAllText(modelDesc);
 
@@ -747,7 +746,9 @@ public class TestCase
      */
     public void setId(String id)
     {
+        if (id == null) return;
         this.id = id;
+        this.idNumber = Integer.parseInt(id);
     }
 
 
@@ -778,6 +779,20 @@ public class TestCase
     public void setSupportedVersions(Vector<String> supportedVersions)
     {
         this.supportedVersions = supportedVersions;
+    }
+
+
+    /**
+     * @param level
+     *            the SBML Level
+     * @param version
+     *            the Version within the SBML Level
+     */
+    public boolean supportsLevelVersion(int level, int version)
+    {
+        if (level == 0) return true;    // 0 indicates "highest".
+        return supportedVersions.contains(String.format("%d.%d",
+                                                        level, version));
     }
 
 
