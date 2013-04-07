@@ -76,21 +76,23 @@ public class DelayedResult
         this.result = result;
         wrapperConfig = null;
         isDone = true;
-
     }
 
 
     /**
      * Constructs a new DelayedResult with a wrapper configuration and a test
-     * case.
+     * case, for a specified Level/Version combination.
      * This will immediately schedule the computation for the result.
      * 
      * @param wrapperConfig
      *            the configuration of the wrapper
      * @param test
      *            the test to get the result for
+     * @param lv
+     *            the SBML Level/Version to use for the test case
      */
-    public DelayedResult(WrapperConfig wrapperConfig, final TestCase test)
+    public DelayedResult(WrapperConfig wrapperConfig, final TestCase test,
+                         final LevelVersion lv)
     {
         this.wrapperConfig = wrapperConfig;
         result = ResultType.Unknown;
@@ -101,14 +103,15 @@ public class DelayedResult
             public ResultType call()
                 throws Exception
             {
-                result = DelayedResult.this.wrapperConfig.getResultTypeInternal(test);
+                WrapperConfig wrapper = DelayedResult.this.wrapperConfig;
+                result = wrapper.getResultTypeInternal(test, lv.getLevel(),
+                                                       lv.getVersion());
                 isDone = true;
                 return result;
             }
 
         });
         WrapperConfig.executor.execute(worker);
-
     }
 
 
