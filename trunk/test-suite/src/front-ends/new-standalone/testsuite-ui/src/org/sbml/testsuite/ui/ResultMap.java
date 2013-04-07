@@ -62,7 +62,6 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.sbml.testsuite.core.DelayedResult;
 import org.sbml.testsuite.core.ResultType;
 import org.sbml.testsuite.core.TestCase;
 import org.sbml.testsuite.core.TestSuite;
@@ -74,23 +73,25 @@ import org.eclipse.swt.custom.CLabel;
  * ResultMap is a dialog providing overview information about the test results.
  */
 public class ResultMap
-    extends Dialog
 {
+    protected Object                 result;
+    protected Shell                  shell;
+    private Canvas                   canvas;
+    private SortedMap<String, Color> data;
+    private String[]                 keySets;
+    int                              length = 11;
+    int                              gap    = 2;
+    private int                      itemsPerLine;
+    TestSuite                        suite;
+    WrapperConfig                    wrapper;
+    private String                   lastName;
+    private Shell                    parentShell;
 
-    protected Object                       result;
-    protected Shell                        shell;
-    private Canvas                         canvas;
-    private SortedMap<String, DelayedResult> data;
-    private String[]                       keySets;
-    int                                    length = 11;
-    int                                    gap    = 2;
-    private int                            itemsPerLine;
-    TestSuite                              suite;
-    WrapperConfig                          wrapper;
-    private String                         lastName;
+    private ActionListener           singleClickAction;
+    private ActionListener           reRunAction;
 
-    private ActionListener                 singleClickAction;
-    private ActionListener                 reRunAction;
+    final static int                 dialogStyle 
+        = SWT.DIALOG_TRIM | SWT.TOOL | SWT.RESIZE | SWT.MODELESS;
 
 
     /**
@@ -101,9 +102,9 @@ public class ResultMap
      */
     public ResultMap(Shell parent, int style)
     {
-        super(parent, SWT.DIALOG_TRIM | SWT.RESIZE);
-        setText("Result Map");
+        this.parentShell = parent;
         createContents();
+        shell.setText("Map of test results");
     }
 
 
@@ -111,18 +112,18 @@ public class ResultMap
      * Craetes a new dialog with test suite and selected wrapper
      * 
      * @param parent
-     * @param style
      * @param suite
      *            test suite
      * @param wrapper
      *            selected wrapper configuration
      */
-    public ResultMap(Shell parent, int style, TestSuite suite,
-                     WrapperConfig wrapper)
+    public ResultMap(Shell parent, TestSuite suite, WrapperConfig wrapper)
     {
-        this(parent, style);
-        this.suite = suite;
+        this(parent, dialogStyle);
+        this.parentShell = parent;
         this.wrapper = wrapper;
+        shell.setText("Map of test results for wrapper \""
+                      + wrapper.getName() + "\"");
     }
 
 
@@ -143,6 +144,12 @@ public class ResultMap
     }
 
 
+    private Shell getParent()
+    {
+        return this.parentShell;
+    }
+
+
     /**
      * Create contents of the dialog.
      */
@@ -152,10 +159,10 @@ public class ResultMap
             + "more information, left-click to jump to that result in the\n"
             + "main window, and right-click for more options.";
 
-        shell = new Shell(getParent(), getStyle());
+        shell = new Shell(dialogStyle);
         shell.setImage(UIUtils.getImageResource("sbml_256.png"));
         shell.setSize(595, 520);
-        shell.setText(getText());
+        shell.setMinimumSize(595, 520);
         shell.setLayout(new FormLayout());
         shell.addKeyListener(UIUtils.createCloseKeyListener(shell));
         shell.addListener(SWT.Close, UIUtils.createShellCloseListener(shell));
@@ -261,6 +268,8 @@ public class ResultMap
                 shell.close();
             }
         });
+        shell.setDefaultButton(cmdClose);
+        cmdClose.setFocus();
 
         Menu menu = new Menu(canvas);
         canvas.setMenu(menu);
@@ -369,6 +378,9 @@ public class ResultMap
         cmdClose.setText("&Close");
         cmdClose.addKeyListener(UIUtils.createCloseKeyListener(shell));
         cmdClose.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
+
+        shell.pack();
+        shell.layout();
     }
 
 
@@ -481,7 +493,6 @@ public class ResultMap
     public Object open()
     {
         shell.open();
-        shell.layout();
         Display display = getParent().getDisplay();
         while (!shell.isDisposed())
         {
@@ -509,33 +520,16 @@ public class ResultMap
         int i = 0;
         for (String key : keySets)
         {
-            Color color;
-            switch (data.get(key).getResult())
-            {
-            case Match:
-                color = ResultColor.green.getColor();
-                break;
-            case CannotSolve:
-                color = ResultColor.yellow.getColor();
-                break;
-            case Unsupported:
-                color = ResultColor.blue.getColor();
-                break;
-            case NoMatch:
-                color = ResultColor.red.getColor();
-                break;
-            case Unknown:
-            default:
-                color = ResultColor.gray.getColor();
-                break;
-            }
+            Color color = data.get(key);
 
-            /* for testing colors
-            if (i % 7 == 0)  color=ResultColor.blue.getColor();
-            if (i % 5 == 0)  color=ResultColor.gray.getColor();
+            /* For testing colors
+            if (i % 7 == 0)  color=ResultColor.brown.getColor();
             if (i % 2 == 0)  color=ResultColor.green.getColor();
-            if (i % 4 == 0)  color=ResultColor.red.getColor();
+            if (i % 6 == 0)  color=ResultColor.red.getColor();
+            if (i % 5 == 0)  color=ResultColor.gray.getColor();
             if (i % 10 == 0) color=ResultColor.yellow.getColor();
+            if (i % 13 == 0) color=ResultColor.white.getColor();
+            if (i % 17 == 0) color=ResultColor.black.getColor();
             */
             
             gc.setBackground(color);
@@ -567,14 +561,14 @@ public class ResultMap
 
 
     /**
-     * Initializes the canvas from the cached results
+     * Initializes the canvas from the given results map.
      * 
      * @param cache
-     *            cached results
+     *            map of results.
      */
-    public void setData(SortedMap<String, DelayedResult> cache)
+    public void setData(SortedMap<String, Color> results)
     {
-        data = cache;
+        data = results;
         if (data != null && data.keySet().size() > 0)
             keySets = data.keySet().toArray(new String[0]);
         else
@@ -628,30 +622,21 @@ public class ResultMap
      * @param id
      *            the id
      * @param result
-     *            a delayed result
+     *            a ResultType
      */
-    public void updateElement(String id, DelayedResult result)
+    public void updateElement(String id, Color color)
     {
         if (canvas.isDisposed()) return;
 
-        data.put(id, result);
+        data.put(id, color);
 
         canvas.redraw();
         // canvas.update();
     }
 
-
-    /**
-     * Updates the element with given id to the new result
-     * 
-     * @param id
-     *            the id
-     * @param result
-     *            the result type
-     */
-    public void updateElement(String id, ResultType result)
+    public void close()
     {
-        updateElement(id, new DelayedResult(result));
+        shell.close();
     }
 
 }
