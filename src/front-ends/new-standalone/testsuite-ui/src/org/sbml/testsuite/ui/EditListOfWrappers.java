@@ -61,6 +61,7 @@ public class EditListOfWrappers
     WrapperConfig         lastSelectedState = new WrapperConfig();
     EditWrapper           wrapperForm;
 
+    private final String  NO_WRAPPER = "-- no wrapper --";
 
     /**
      * Create the composite.
@@ -143,13 +144,13 @@ public class EditListOfWrappers
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                removeWrapper();
+                removeWrapper(shell);
             }
         });
         btnremove.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         wrapperForm = new EditWrapper(sashForm, SWT.NONE);
-        sashForm.setWeights(new int[] {120, 280});
+        sashForm.setWeights(new int[] {120, 300});
     }
 
 
@@ -161,6 +162,22 @@ public class EditListOfWrappers
         WrapperConfig config = new WrapperConfig();
         config.setName("newWrapper");
         config.setArguments("%d %n %o %l %v");
+        displayedWrappersList.add(config.getName());
+        wrappers.add(config);
+        displayedWrappersList.select(wrappers.size() - 1);
+        selectWrapper(wrappers.size() - 1);
+    }
+
+
+    /**
+     * Adds the "-- no wrapper --" wrapper to the list.
+     */
+    public void addNoWrapper()
+    {
+        WrapperConfig config = new WrapperConfig();
+        config.setName(NO_WRAPPER);
+        config.setArguments("");
+        config.setViewOnly(true);
         displayedWrappersList.add(config.getName());
         wrappers.add(config);
         displayedWrappersList.select(wrappers.size() - 1);
@@ -238,10 +255,17 @@ public class EditListOfWrappers
     /**
      * Removes the selected wrapper
      */
-    public void removeWrapper()
+    public void removeWrapper(Shell shell)
     {
         int index = displayedWrappersList.getSelectionIndex();
         if (index < 0 || index > wrappers.size()) return;
+
+        if (NO_WRAPPER.equals(wrappers.get(index).getName()))
+        {
+            Tell.inform(shell, "This special pseudo-wrapper is meant to be "
+                        + "\npermanently available and cannot be removed.");
+            return;
+        }
 
         lastSelectedIndex = -1;
         wrappers.remove(index);
@@ -262,7 +286,7 @@ public class EditListOfWrappers
     {
         if (index < 0 || index > wrappers.size() || wrappers.size() == 0)
         {
-            addNewWrapper();
+            addNoWrapper();
             return;
         }
         wrapperForm.setVisible(true);
