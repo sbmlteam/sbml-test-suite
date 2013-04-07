@@ -35,10 +35,11 @@ package org.sbml.testsuite.core;
  */
 public enum ResultType
 {
-    Match,
-    NoMatch,
-    CannotSolve,
-    Unsupported,
-    Unknown,
-    Error
+    Match,          // Tool's results match expected results for case.
+    NoMatch,        // Tool's results don't match expected results for case.
+    CannotSolve,    // Tool does not support one or more tags of the case.
+    Unsupported,    // Tool does not support one or more tags of the case.
+    Unknown,        // No result returned by tool.
+    Unavailable,    // Case is not available as requested (e.g. no such L/V).
+    Error           // Encountered error while trying to run wrapper.
 }
