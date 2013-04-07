@@ -31,6 +31,8 @@ package org.sbml.testsuite.ui;
 
 import java.io.File;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
@@ -50,6 +52,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.sbml.testsuite.core.TestSuiteSettings;
 import org.sbml.testsuite.core.WrapperConfig;
+import org.eclipse.swt.widgets.Control;
 
 
 /**
@@ -93,9 +96,8 @@ public class PreferenceDialog
     {
         shell = new Shell(getParent(), getStyle());
         shell.setImage(UIUtils.getImageResource("sbml_256.png"));
-        shell.setMinimumSize(new Point(630, 395));
-        shell.setSize(740, 495);
-        shell.setTouchEnabled(true);
+        shell.setMinimumSize(new Point(630, 410));
+        shell.setSize(740, 520);
         shell.setText("Preferences");
         GridLayout gl_shell = new GridLayout(1, true);
         gl_shell.marginWidth = 10;
@@ -164,7 +166,7 @@ public class PreferenceDialog
         wrappersEditor = new EditListOfWrappers(outerComp, SWT.NONE);
         GridData gd_wrappersEditor = new GridData(SWT.FILL, SWT.TOP, true,
                                                   true, 5, 1);
-        gd_wrappersEditor.heightHint = 378;
+        gd_wrappersEditor.heightHint = 400;
         gd_wrappersEditor.widthHint = 300;
         gd_wrappersEditor.minimumWidth = 300;
         gd_wrappersEditor.horizontalIndent = 0;
@@ -200,10 +202,14 @@ public class PreferenceDialog
             }
         });
         btnCancel.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        btnCancel.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shell));
+        btnCancel.setFocus();
 
         Button btnSave = new Button(compButtons, SWT.NONE);
         btnSave.setBounds(85, 3, 75, 25);
         btnSave.setText("Save");
+        outerComp.setTabList(new Control[]{compButtons, wrappersEditor, 
+                                           txtCasesDir, compBrowse});
         btnSave.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -215,8 +221,10 @@ public class PreferenceDialog
                 shell.close();           // Will invoke close listener.
             }
         });
-        btnSave.setFocus();
+
         btnSave.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        btnSave.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shell));
+        shell.setDefaultButton(btnSave);
 
         shell.addListener(SWT.Close, new Listener() {
             public void handleEvent(Event event)
@@ -228,6 +236,9 @@ public class PreferenceDialog
         });
         shell.addKeyListener(UIUtils.createCloseKeyListener(shell));
         shell.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
+        shell.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shell));
+
+        shell.layout();
     }
 
 
@@ -239,7 +250,6 @@ public class PreferenceDialog
     public TestSuiteSettings open()
     {
         shell.open();
-        shell.layout();
         Display display = getParent().getDisplay();
         previousResult = getTestSuiteSettings(false);
         while (!shell.isDisposed())
@@ -367,7 +377,14 @@ public class PreferenceDialog
         if (wrapper == null) 
             return false;
 
+        if ("-- no wrapper --".equals(wrapper.getName()))
+            return true;
+
+        if (wrapper.isViewOnly())
+            return true;
+        
         String program = wrapper.getProgram();
+
         if (program == null || program.isEmpty())
             return Tell.informWithOverride(shell,
                                            "The wrapper program was left unspecified "
@@ -434,6 +451,35 @@ public class PreferenceDialog
                                                + "\nwrapper configuration does not appear "
                                                + "\nto be writable; consequently, "
                                                + "\nthe wrapper cannot be used.");
+            else if (MarkerFile.exists(path))
+            {
+                String prog = MarkerFile.getContents(path);
+                String question;
+
+                // If we can read the marker file, use the content to make a
+                // more informative dialog.  If we can't read it, but it
+                // exists, we still know this directory must have been used
+                // for a run, so we still ask.
+
+                if (prog != null && prog.length() > 0)
+                    question = "The output directory you have chosen appears"
+                        + "\nto contain the results of a previous run of"
+                        + "\n\n   " + prog + "\n\n"
+                        + "Choose OK to associate those results with the"
+                        + "\ncurrent wrapper, or choose Cancel to go back"
+                        + "\nto the Preferences panel so that you can change"
+                        + "\nthe directory.";
+                else
+                    question = "The output directory you have chosen appears"
+                        + "\nto contain the results of a previous run of"
+                        + "\nthe SBML Test Runner. Choose OK to associate"
+                        + "\nthose results with the current wrapper, or"
+                        + "\nchoose Cancel to go back to the Preferences"
+                        + "\npanel so that you can change the directory.";
+
+                if (! Tell.saveCancel(shell, question))
+                    return false;
+            }
         }
 
         String args = wrapper.getArguments();
