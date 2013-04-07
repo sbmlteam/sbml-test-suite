@@ -90,6 +90,46 @@ public class UIUtils
     }
 
 
+    /**
+     * Returns true if the key press involved a shift key.
+     *
+     * @return true if the key had shift set, false otherwise.
+     */
+    public static boolean isShiftKey(KeyEvent e)
+    {
+        return (e.stateMask & SWT.SHIFT) == SWT.SHIFT;
+    }
+
+
+    /**
+     * Returns true if the key press involved a modifier key.
+     * 
+     * This handles platform-specific combination, such as using control on
+     * Windows vs Command on Mac OS X.  This is different from
+     * isModifierKey(...) because SWT's KeyEvent does not inherit from Event
+     * and KeyEvent cannot be cast to Event.
+     *
+     * @return true if the key had a modifier set, false otherwise.
+     */
+    public static boolean isModifier(Event e)
+    {
+        // SWT.MOD1 is supposed to be set to SWT.CONTROL on Windows and to
+        // SWT.COMMAND on the Macintosh.
+        return (e.stateMask & SWT.MOD1) == SWT.MOD1;
+    }
+
+
+    /**
+     * Returns true if the key press involved a shift key.
+     *
+     * @return true if the key had a modifier set, false otherwise.
+     */
+    public static boolean isShift(Event e)
+    {
+        return (e.stateMask & SWT.SHIFT) == SWT.SHIFT;
+    }
+
+
     public static KeyListener createCloseKeyListener(final Shell shell)
     {
         return new KeyListener() {
@@ -113,6 +153,22 @@ public class UIUtils
             {
                 if (event.detail == SWT.TRAVERSE_ESCAPE)
                     shell.close();
+            }
+        };
+    }
+
+
+    public static Listener createCancelKeyListener(final Shell shell)
+    {
+        return new Listener() {
+            @Override
+            public void handleEvent (final Event e)
+            {
+                if (isMacOSX())
+                {
+                    if (isModifier(e) && e.keyCode == '.')
+                        shell.close();
+                }
             }
         };
     }
@@ -181,9 +237,9 @@ public class UIUtils
     /**
      * @return true if running on OS X
      */
-    public static boolean isMacOSX()
+    public final static boolean isMacOSX()
     {
-        String osName = System.getProperty("os.name");
+        final String osName = System.getProperty("os.name");
         return osName.startsWith("Mac OS X");
     }
 
