@@ -29,8 +29,8 @@
 package org.sbml.testsuite.ui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 import org.mihalis.opal.opalDialog.Dialog;
@@ -42,6 +42,30 @@ import org.mihalis.opal.utils.ResourceManager;
 
 public class Tell 
 {
+    private static Image questionIcon;
+    private static Image warningIcon;
+    private static Image infoIcon;
+    private static Image errorIcon;
+
+    static
+    {
+        // The SWT code for Display.getSystemImage() returns the same icons
+        // for ICON_INFORMATION and ICON_QUESTION.  (I looked at the Java
+        // code for SWT 4.2 -- it's hard-wired that way, perhaps because of
+        // Mac OS X requirements.) IMHO, that's confusing.  I made our own
+        // icon, based on ICON_INFORMATION.
+
+        if (UIUtils.isMacOSX())
+            questionIcon = UIUtils.getImageResource("icon_question.png");
+        else
+            questionIcon = Display.getCurrent().getSystemImage(SWT.ICON_QUESTION);
+
+        warningIcon = Display.getCurrent().getSystemImage(SWT.ICON_WARNING);
+        infoIcon    = Display.getCurrent().getSystemImage(SWT.ICON_INFORMATION);
+        errorIcon   = Display.getCurrent().getSystemImage(SWT.ICON_ERROR);
+    }    
+
+
     static public boolean confirm(final Shell shell, final String question)
     {
         Dialog dialog         = new Dialog(shell);
@@ -51,7 +75,7 @@ public class Tell
         dialog.setTitle("Confirmation");
         dialog.setButtonType(OpalDialogType.OK_CANCEL);
         dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
-        msgArea.setIcon(Display.getCurrent().getSystemImage(SWT.ICON_WARNING));
+        msgArea.setIcon(warningIcon);
         msgArea.setText(question);
         footerArea.setDefaultButtonIndex(1);
         return dialog.show() == 0;
@@ -67,7 +91,7 @@ public class Tell
         dialog.setTitle("Save");
         dialog.setButtonType(OpalDialogType.OK_CANCEL);
         dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
-        msgArea.setIcon(Display.getCurrent().getSystemImage(SWT.ICON_QUESTION));
+        msgArea.setIcon(questionIcon);
         msgArea.setText(question);
         footerArea.setDefaultButtonIndex(1);
         return dialog.show() == 0;
@@ -78,12 +102,11 @@ public class Tell
     {
         Dialog dialog         = new Dialog(shell);
         MessageArea msgArea   = dialog.getMessageArea();
-        FooterArea footerArea = dialog.getFooterArea();
 
         dialog.setTitle(ResourceManager.getLabel(ResourceManager.INFORMATION));
         dialog.setButtonType(OpalDialogType.CLOSE);
         dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
-        msgArea.setIcon(Display.getCurrent().getSystemImage(SWT.ICON_INFORMATION));
+        msgArea.setIcon(infoIcon);
         msgArea.setText(info);
         return dialog.show() == 0;
     }
@@ -99,7 +122,7 @@ public class Tell
         dialog.setTitle(ResourceManager.getLabel(ResourceManager.INFORMATION));
         dialog.setButtonType(OpalDialogType.CLOSE);
         dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
-        msgArea.setIcon(Display.getCurrent().getSystemImage(SWT.ICON_INFORMATION));
+        msgArea.setIcon(infoIcon);
         msgArea.setText(info);
         footerArea.addCheckBox("Proceed anyway", false);
         dialog.show();
@@ -117,9 +140,43 @@ public class Tell
         dialog.setTitle("Error");
         dialog.setButtonType(OpalDialogType.CLOSE);
         dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
-        msgArea.setIcon(Display.getCurrent().getSystemImage(SWT.ICON_ERROR));
+        msgArea.setIcon(errorIcon);
         msgArea.setText(msg);
-        footerArea.setDetailText(details);
+        if (details != null && details.length() > 0)
+            footerArea.setDetailText(details);
         return dialog.show() == 0;
     }
+
+
+    static public String simpleQuery(final Shell shell, final String title)
+    {
+        Dialog dialog = new Dialog(shell);        
+        MessageArea msgArea   = dialog.getMessageArea();
+
+        dialog.setTitle(title);
+        dialog.setButtonType(OpalDialogType.OK_CANCEL);
+        dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
+        msgArea.setIcon(questionIcon);
+        msgArea.addTextBox("");
+
+        // This doesn't seem to do anything -- why?
+
+        // final Shell dialogShell = dialog.getShell();
+        // dialogShell.addListener(SWT.KeyDown, 
+        //                         UIUtils.createCancelKeyListener(dialogShell));
+        // dialogShell.addListener(SWT.Close, new Listener() {
+        //     public void handleEvent(Event event)
+        //     {
+        //         dialogShell.dispose();
+        //     }
+        // });
+        // dialogShell.addKeyListener(UIUtils.createCloseKeyListener(dialogShell));
+
+        if (dialog.show() == 0)
+            return dialog.getMessageArea().getTextBoxValue();
+        else
+            return null;
+
+    }
+
 }
