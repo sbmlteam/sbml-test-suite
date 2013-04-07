@@ -4,7 +4,6 @@
 // @author Frank T. Bergmann
 // @date Created 2012-06-06 <fbergman@caltech.edu>
 //
-//
 // ----------------------------------------------------------------------------
 // This file is part of the SBML Testsuite. Please visit http://sbml.org for
 // more information about SBML, and the latest version of the SBML Test Suite.
@@ -26,7 +25,6 @@
 // in the file named "LICENSE.txt" included with this software distribution
 // and also available online as http://sbml.org/software/libsbml/license.html
 // ----------------------------------------------------------------------------
-//
 
 package org.sbml.testsuite.core;
 
@@ -59,11 +57,15 @@ public class WrapperConfig
     private String                         name;
     @Element(required = false)
     private String                         program;
+    @Element(required = false)
     private String                         outputPath;
     @Element(required = false)
     private String                         arguments;
 
     private Vector<String>                 unsupportedTags;
+
+    @Element(required = false)
+    private boolean                        viewOnly;
 
     @Element(required = false)
     private boolean                        supportsAllVersions;
@@ -87,6 +89,7 @@ public class WrapperConfig
         this.program = "";
         this.outputPath = "";
         this.arguments = "";
+        this.viewOnly = false;
         this.concurrentThreadsOK = false;
         this.supportsAllVersions = false;
         this.unsupportedTags = new Vector<String>();
@@ -178,6 +181,46 @@ public class WrapperConfig
      * @param arguments
      *            additional arguments
      * @param unsupportedTags
+     *            a comma separated list of test / component tags not supported
+     *            by this simulator
+     * @param supportsAllVersions
+     *            boolean indicating whether this simulator supports *all*
+     *            levels / versions of SBML
+     * @param concurrentThreadsOK
+     *            boolean indicating whether this wrapper can be executed
+     *            in parallel threads.
+     * @param viewOnly
+     *            boolean indicating whether this wrapper is a view-only
+     *            pseudo-wrapper.
+     */
+    public WrapperConfig(String name, String program, String outputPath,
+                         String arguments, String unsupportedTags,
+                         boolean supportsAllVersions, boolean concurrentThreadsOK,
+                         boolean viewOnly)
+    {
+        this(name, program, outputPath, arguments);
+        this.unsupportedTags = new Vector<String>(Util.split(unsupportedTags));
+        this.supportsAllVersions = supportsAllVersions;
+        this.concurrentThreadsOK = concurrentThreadsOK;
+        this.viewOnly = viewOnly;
+    }
+
+
+    /**
+     * Constructs a new config with name, program, outputPath, arguments as well
+     * as a list
+     * of unsupported test flags and a boolean indicating whether the wrapper
+     * can run all levels / versions of SBML
+     * 
+     * @param name
+     *            the name of the simulator
+     * @param program
+     *            the wrapper executable
+     * @param outputPath
+     *            the output path of the wrapper
+     * @param arguments
+     *            additional arguments
+     * @param unsupportedTags
      *            a string vector of test / component tags not supported by this
      *            simulator
      * @param supportsAllVersions
@@ -195,6 +238,46 @@ public class WrapperConfig
         this.unsupportedTags = unsupportedTags;
         this.supportsAllVersions = supportsAllVersions;
         this.concurrentThreadsOK = concurrentThreadsOK;
+    }
+
+
+    /**
+     * Constructs a new config with name, program, outputPath, arguments as well
+     * as a list
+     * of unsupported test flags and a boolean indicating whether the wrapper
+     * can run all levels / versions of SBML
+     * 
+     * @param name
+     *            the name of the simulator
+     * @param program
+     *            the wrapper executable
+     * @param outputPath
+     *            the output path of the wrapper
+     * @param arguments
+     *            additional arguments
+     * @param unsupportedTags
+     *            a string vector of test / component tags not supported by this
+     *            simulator
+     * @param supportsAllVersions
+     *            boolean indicating whether this simulator supports *all*
+     *            levels / versions of SBML
+     * @param concurrentThreadsOK
+     *            boolean indicating whether this wrapper can be executed
+     *            in parallel threads.
+     * @param viewOnly
+     *            boolean indicating whether this wrapper is a view-only
+     *            pseudo-wrapper.
+     */
+    public WrapperConfig(String name, String program, String outputPath,
+                         String arguments, Vector<String> unsupportedTags,
+                         boolean supportsAllVersions, boolean concurrentThreadsOK,
+                         boolean viewOnly)
+    {
+        this(name, program, outputPath, arguments);
+        this.unsupportedTags = unsupportedTags;
+        this.supportsAllVersions = supportsAllVersions;
+        this.concurrentThreadsOK = concurrentThreadsOK;
+        this.viewOnly = viewOnly;
     }
 
 
@@ -224,13 +307,13 @@ public class WrapperConfig
      * @param suite
      *            the tests to compare against
      */
-    public void beginUpdate(TestSuite suite)
+    public void beginUpdate(TestSuite suite, LevelVersion lv)
     {
         resultCache = Collections.synchronizedSortedMap(new TreeMap<String,
                                                         DelayedResult>());
         for (final TestCase test : suite.getCases())
         {
-            resultCache.put(test.getId(), new DelayedResult(this, test));
+            resultCache.put(test.getId(), new DelayedResult(this, test, lv));
         }
     }
 
@@ -242,6 +325,7 @@ public class WrapperConfig
      */
     public boolean canRun()
     {
+        if (viewOnly) return true;
         if (program == null || program.length() == 0) return false;
         if (outputPath == null || outputPath.length() == 0) return false;
 
@@ -295,6 +379,7 @@ public class WrapperConfig
      */
     public ResultType getCachedResult(String id)
     {
+        if (viewOnly) return null;
         SortedMap<String, DelayedResult> cache = resultCache;
         return cache.get(id).getResult();
     }
@@ -309,16 +394,15 @@ public class WrapperConfig
      *            the test suite directory
      * @return expanded argument string
      */
-    private String getExpandedArguments(TestCase test, String testSuiteDir)
+    private String getExpandedArguments(TestCase test, int level, int version,
+                                        String testSuiteDir)
     {
         String arguments = getArguments();
         arguments = arguments.replace("%d", testSuiteDir);
         arguments = arguments.replace("%o", getOutputPath());
         arguments = arguments.replace("%n", test.getId());
-        arguments = arguments.replace("%l", test.getHighestSupportedLevel()
-            + "");
-        arguments = arguments.replace("%v", test.getHighestSupportedVersion()
-            + "");
+        arguments = arguments.replace("%l", Integer.toString(level));
+        arguments = arguments.replace("%v", Integer.toString(version));
         return arguments;
     }
 
@@ -329,6 +413,15 @@ public class WrapperConfig
     public String getName()
     {
         return name;
+    }
+
+
+    /**
+     * @return true if this is a view-only wrapper
+     */
+    public boolean getViewOnly()
+    {
+        return viewOnly;
     }
 
 
@@ -362,7 +455,6 @@ public class WrapperConfig
     {
         return new File(getOutputPath() + File.separator + test.getId()
             + ".csv");
-
     }
 
 
@@ -378,7 +470,6 @@ public class WrapperConfig
         File testFile = getResultFile(test);
         if (!testFile.exists()) return null;
         return ResultSet.fromFile(testFile);
-
     }
 
 
@@ -391,13 +482,60 @@ public class WrapperConfig
      */
     public ResultType getResultType(TestCase test)
     {
-        ResultType result = getResultTypeInternal(test);
+        ResultType result = getResultTypeInternal(test, 0, 0);
         if (resultCache != null)
         {
             resultCache.put(test.getId(), new DelayedResult(result));
         }
         return result;
+    }
 
+
+    /**
+     * Gets the result type for the given test (computes it immidiately)
+     * 
+     * @param test
+     *            the test to get the result type for
+     * @param lv
+     *            the SBML Level & Version of the test case to use
+     *
+     * @return the result type
+     */
+    public ResultType getResultType(TestCase test, LevelVersion lv)
+    {
+        ResultType result;
+        if (lv != null)
+            result = getResultTypeInternal(test, lv.getLevel(), lv.getVersion());
+        else
+            result = getResultTypeInternal(test, 0, 0);
+
+        if (resultCache != null)
+            resultCache.put(test.getId(), new DelayedResult(result));
+
+        return result;
+    }
+
+
+    /**
+     * Gets the result type for the given test (computes it immidiately)
+     * 
+     * @param test
+     *            the test to get the result type for
+     * @param level
+     *            the SBML Level of the test case to use (0 = highest)
+     * @param version
+     *            the Version within the SBML Level to use (0 = highest)
+     *
+     * @return the result type
+     */
+    public ResultType getResultType(TestCase test, int level, int version)
+    {
+        ResultType result = getResultTypeInternal(test, level, version);
+
+        if (resultCache != null)
+            resultCache.put(test.getId(), new DelayedResult(result));
+
+        return result;
     }
 
 
@@ -408,8 +546,11 @@ public class WrapperConfig
      *            the test
      * @return the result type
      */
-    public ResultType getResultTypeInternal(TestCase test)
+    public ResultType getResultTypeInternal(TestCase test, int level, int version)
     {
+        if (level != 0 && ! test.supportsLevelVersion(level, version))
+            return ResultType.Unavailable;
+        
         ResultSet deliveredResult = getResultSet(test);
         if (deliveredResult == null)    // Wrapper didn't produce a result.
         {
@@ -460,7 +601,18 @@ public class WrapperConfig
      */
     public boolean isSupportsAllVersions()
     {
+        if (viewOnly) return true;
         return supportsAllVersions;
+    }
+
+
+    /**
+     * @return boolean indicating whether this wrapper is a view-only
+     *         pseudo-wrapper
+     */
+    public boolean isViewOnly()
+    {
+        return viewOnly;
     }
 
 
@@ -470,12 +622,14 @@ public class WrapperConfig
      */
     public boolean isConcurrencyAllowed()
     {
+        if (viewOnly) return true;
         return concurrentThreadsOK;
     }
 
 
     /**
-     * Executed the given test
+     * Executed the given test using the highest Level+Version of the SBML
+     * file for this test case.
      * 
      * @param test
      *            the test to execute
@@ -484,7 +638,7 @@ public class WrapperConfig
      */
     public RunOutcome run(final TestCase test, final String testSuiteDir)
     {
-        return run(test, testSuiteDir, null);
+        return run(test, 0, 0, testSuiteDir, null);
     }
 
 
@@ -493,15 +647,20 @@ public class WrapperConfig
      * 
      * @param test
      *            the test to execute
+     * @param level
+     *            the SBML Level of the test case to use (0 = highest)
+     * @param version
+     *            the Version within the SBML Level to use (0 = highest)
      * @param testSuiteDir
      *            the test cases directory
      * @param callback
      *            a cancellation callback allowing to interrupt the execution
      */
-    public RunOutcome run(final TestCase test, final String testSuiteDir,
+    public RunOutcome run(final TestCase test, int level, int version,
+                          final String testSuiteDir, 
                           final CancelCallback callback)
     {
-        return run(test, testSuiteDir, 250, callback);
+        return run(test, level, version, testSuiteDir, 250, callback);
     }
 
 
@@ -510,6 +669,10 @@ public class WrapperConfig
      * 
      * @param test
      *            the test to execute
+     * @param level
+     *            the SBML Level of the test case to use (0 = highest)
+     * @param version
+     *            the Version within the SBML Level to use (0 = highest)
      * @param testSuiteDir
      *            the test cases directory
      * @param milli
@@ -520,17 +683,101 @@ public class WrapperConfig
     public RunOutcome run(final TestCase test, final String testSuiteDir,
                           final int milli, final CancelCallback callback)
     {
+        int level   = test.getHighestSupportedLevel();
+        int version = test.getHighestSupportedVersion();
+        return run(test, level, version, testSuiteDir, milli, callback);
+    }
+
+
+    /**
+     * Executed the given test
+     * 
+     * @param test
+     *            the test to execute
+     * @param level
+     *            the SBML Level of the test case to use (0 = highest)
+     * @param version
+     *            the Version within the SBML Level to use (0 = highest)
+     * @param testSuiteDir
+     *            the test cases directory
+     * @param milli
+     *            milliseconds to wait between calling the callback
+     * @param callback
+     *            a cancellation callback allowing to interrupt the execution
+     */
+    public RunOutcome run(final TestCase test, final LevelVersion lv,
+                          final String testSuiteDir, final int milli, 
+                          final CancelCallback callback)
+    {
+        int level;
+        int version;
+        if (lv == null || lv.isHighest())
+        {
+            level   = test.getHighestSupportedLevel();
+            version = test.getHighestSupportedVersion();
+        }
+        else
+        {
+            level   = lv.getLevel();
+            version = lv.getVersion();
+        }
+        return run(test, level, version, testSuiteDir, milli, callback);
+    }
+
+
+    /**
+     * Executed the given test
+     * 
+     * @param test
+     *            the test to execute
+     * @param level
+     *            the SBML Level of the test case to use (0 = highest)
+     * @param version
+     *            the Version within the SBML Level to use (0 = highest)
+     * @param testSuiteDir
+     *            the test cases directory
+     * @param milli
+     *            milliseconds to wait between calling the callback
+     * @param callback
+     *            a cancellation callback allowing to interrupt the execution
+     */
+    public RunOutcome run(final TestCase test, int level, int version,
+                          final String testSuiteDir, final int milli,
+                          final CancelCallback callback)
+    {
+        if (viewOnly)
+            return new RunOutcome(RunOutcome.Code.success, "View only");
+
+        if (level == 0)
+        {
+            level   = test.getHighestSupportedLevel();
+            version = test.getHighestSupportedVersion();
+        }
+
         Runtime rt = Runtime.getRuntime();
         String cmd = getProgram() + " "
-            + getExpandedArguments(test, testSuiteDir);
-        Process process = null;
+            + getExpandedArguments(test, level, version, testSuiteDir);
+
+        if (! test.supportsLevelVersion(level, version))
+        {
+            addUnavailableToCache(test);
+            return new RunOutcome(RunOutcome.Code.success, cmd);
+        }
 
         // ProcessBuilder builder = new ProcessBuilder(getProgram(),
         // getExpandedArguments(test, testSuiteDir));
+        Process process         = null;
+        StreamEater errorEater  = null;
+        StreamEater outputEater = null;
         try
         {
             // Process p = builder.start();
             process = rt.exec(cmd);
+            errorEater = new StreamEater(process.getErrorStream());
+            outputEater = new StreamEater(process.getInputStream());
+            errorEater.start();
+            outputEater.start();
+
             if (callback == null || milli < 0)
                 process.waitFor();
             else
@@ -543,10 +790,10 @@ public class WrapperConfig
                 }
             }
 
-            // Sometimes, after the process exits, the output that it writes
+            // It is possible that after the process exits, its output file
             // may not instantly show up in the file system.  Unfortunately,
             // sometimes a wrapper never writes the file at all.  We don't
-            // want to fail if we don't immediately see the file after the
+            // want to fail if we don't *immediately* see the file after the
             // process exits, but we also don't know if the file will *ever*
             // show up.  We can't block waiting for it, so the following is a
             // compromise: we test for a time period and give up after ~1 sec.
@@ -564,34 +811,37 @@ public class WrapperConfig
         catch (IOException ex)
         {
             addErrorToCache(test);
-            return new RunOutcome(RunOutcome.Code.ioError,
-                                  "IO exception running command: " + cmd);
+            return outcomeWithInfo(RunOutcome.Code.ioError, 
+                                   "IO exception running command",
+                                   cmd, outputEater, errorEater);
         }
         catch (SecurityException ex)
         {
             addErrorToCache(test);
-            return new RunOutcome(RunOutcome.Code.securityError,
-                                  "Security exception running command: " + cmd);
+            return outcomeWithInfo(RunOutcome.Code.securityError,
+                                   "Security exception running command",
+                                   cmd, outputEater, errorEater);
         }
         catch (IllegalArgumentException ex)
         {
             addErrorToCache(test);
-            return new RunOutcome(RunOutcome.Code.argumentError,
-                                  "Badly formed command line: " + cmd);
+            return outcomeWithInfo(RunOutcome.Code.argumentError,
+                                   "Badly formed command line",
+                                   cmd, outputEater, errorEater);
         }
         catch (InterruptedException ex)
         {
             addErrorToCache(test);
-            return new RunOutcome(RunOutcome.Code.interrupted,
-                                  "Process interrupted: " + cmd);
+            return outcomeWithInfo(RunOutcome.Code.interrupted,
+                                   "Process interrupted",
+                                   cmd, outputEater, errorEater);
         }
         catch (Exception e)
         {
             addErrorToCache(test);
-            return new RunOutcome(RunOutcome.Code.unknownError,
-                                  "Unexpected error running: " + cmd);
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
+            return outcomeWithInfo(RunOutcome.Code.unknownError,
+                                   "Unexpected error running",
+                                   cmd, outputEater, errorEater);
         }
         finally
         {
@@ -599,21 +849,47 @@ public class WrapperConfig
                 process.destroy();
         }
 
-        addResultToCache(test);
+        addResultToCache(test, level, version);
         return new RunOutcome(RunOutcome.Code.success, cmd);
     }
 
 
-    public void addResultToCache(final TestCase test)
+    public RunOutcome outcomeWithInfo(RunOutcome.Code code, String msg,
+                                      String cmd, StreamEater outputEater,
+                                      StreamEater errorEater)
+    {
+        String outputText = "";
+        String errorText  = "";
+        
+        if (outputEater != null)
+            outputText = outputEater.getOutput();
+        if (errorEater != null)
+            errorText = errorEater.getOutput();
+
+        return new RunOutcome(code,
+                              msg + ": " + cmd + "\n"
+                              + "Standard output: " + outputText + "\n"
+                              + "Standard error: " + errorText);
+    }
+
+
+    public void addResultToCache(final TestCase test, final int level,
+                                 final int version)
     {
         resultCache.put(test.getId(),
-                        new DelayedResult(getResultTypeInternal(test)));
+                        new DelayedResult(getResultTypeInternal(test, level, version)));
     }
 
 
     public void addErrorToCache(final TestCase test)
     {
         resultCache.put(test.getId(), new DelayedResult(ResultType.Error));
+    }
+
+
+    public void addUnavailableToCache(final TestCase test)
+    {
+        resultCache.put(test.getId(), new DelayedResult(ResultType.Unavailable));
     }
 
 
@@ -638,6 +914,18 @@ public class WrapperConfig
     public void setName(String name)
     {
         this.name = name;
+    }
+
+
+    /**
+     * Sets whether this wrapper is a view-only pseudo-wrapper.
+     * 
+     * @param yesNo
+     *            whether it is, or not
+     */
+    public void setViewOnly(boolean yesNo)
+    {
+        this.viewOnly = yesNo;
     }
 
 
@@ -733,9 +1021,10 @@ public class WrapperConfig
      *            the test suite to compare against
      * @return a map with test ids / delayed result objects
      */
-    public SortedMap<String, DelayedResult> updateCache(TestSuite suite)
+    public SortedMap<String, DelayedResult> updateCache(TestSuite suite,
+                                                        LevelVersion lv)
     {
-        beginUpdate(suite);
+        beginUpdate(suite, lv);
         return resultCache;
     }
 
@@ -754,6 +1043,7 @@ public class WrapperConfig
         this.name = other.name;
         this.outputPath = other.outputPath;
         this.program = other.program;
+        this.viewOnly = other.viewOnly;
         this.supportsAllVersions = other.supportsAllVersions;
         this.unsupportedTags = new Vector<String>(other.unsupportedTags);
         this.concurrentThreadsOK = other.concurrentThreadsOK;
@@ -836,6 +1126,7 @@ public class WrapperConfig
             if (other.resultCache != null) return false;
         }
         else if (!resultCache.equals(other.resultCache)) return false;
+        if (viewOnly != other.viewOnly) return false;
         if (supportsAllVersions != other.supportsAllVersions) return false;
         if (concurrentThreadsOK != other.concurrentThreadsOK) return false;
         if (unsupportedTags == null)
