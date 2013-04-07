@@ -1891,7 +1891,7 @@ public class MainWindow
     {
         boolean filterWasInEffect = notificationBanner.isVisible();
 
-        DialogFilterTags dialog = new DialogFilterTags(shell, SWT.None);
+        FilterDialog dialog = new FilterDialog(shell, SWT.None);
         //        dialog.setDescription("Please select component and test tags to include and/or exclude.");
         dialog.setComponentTags(model.getSuite().getComponentTags());
         dialog.setTestTags(model.getSuite().getTestTags());
