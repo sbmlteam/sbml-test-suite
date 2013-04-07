@@ -51,6 +51,9 @@ public class TestSuiteSettings
     @Element(required = false)
     private String                lastWrapper;
 
+    @Element(required = false)
+    private LevelVersion          lastLVcombo;
+
     @Transient
     private TestSuite suite;
     
@@ -67,6 +70,7 @@ public class TestSuiteSettings
         wrappers = new Vector<WrapperConfig>();
         casesDir = "";
         lastWrapper = "";
+        lastLVcombo = new LevelVersion(0, 0); // 0 indicates "highest".
     }
 
 
@@ -110,6 +114,23 @@ public class TestSuiteSettings
 
 
     /**
+     * Constructs a new settings object with test suite directory, wrapper
+     * configurations and last wrapper.
+     *
+     * @param casesDir the test suite directory
+     * @param wrappers wrapper configurations
+     */
+    public TestSuiteSettings(String casesDir, Vector<WrapperConfig> wrappers,
+                             String lastWrapper, LevelVersion lv)
+    {
+        this(casesDir);
+        this.wrappers = (Vector<WrapperConfig>) wrappers.clone();
+        this.lastWrapper = lastWrapper;
+        this.lastLVcombo = lv;
+    }
+
+
+    /**
      * Read the settings from the given file
      * @param file the file to read from
      * @return the new settings file
@@ -146,7 +167,12 @@ public class TestSuiteSettings
         if (defaultSettings != null) return defaultSettings;
     
         File defaultFile = getDefaultFile();
-        if (!defaultFile.exists()) return new TestSuiteSettings();
+        if (!defaultFile.exists() || !defaultFile.isFile()
+            || !defaultFile.canRead() || defaultFile.length() == 0)
+        {
+             return new TestSuiteSettings();
+        }
+
         try
         {
             defaultSettings = fromFile(defaultFile);
@@ -224,6 +250,15 @@ public class TestSuiteSettings
         if (getWrapper(last) == null)
             return getLastWrapper().getName();
         return last;
+    }
+
+
+    /**
+     * @return the last LevelVersion combination specified.
+     */
+    public LevelVersion getLastLevelVersion()
+    {
+        return lastLVcombo;
     }
 
 
@@ -310,6 +345,7 @@ public class TestSuiteSettings
         saveAsDefault();
     }
 
+
     /**
      * set the name of the last wrapper and save settings
      * @param lastWrapper the last used wrapper configuration
@@ -321,6 +357,25 @@ public class TestSuiteSettings
         setLastWrapper(lastWrapper.getName());
     }
 
+
+    /**
+     * Set the SBML level/version combination being used for testing.
+     */
+    public void setLastLevelVersion(LevelVersion lv)
+    {
+        lastLVcombo = lv;
+    }
+
+
+    /**
+     * Set the SBML level/version combination being used for testing.
+     */
+    public void setLastLevelVersion(int level, int version)
+    {
+        lastLVcombo = new LevelVersion(level, version);
+    }
+
+
     /**
      * @param suite
      *            the suite to set
@@ -329,7 +384,7 @@ public class TestSuiteSettings
     {
         this.suite = suite;
         for (WrapperConfig config : getWrappers())
-            config.beginUpdate(suite);
+            config.beginUpdate(suite, lastLVcombo);
     }
 
 
