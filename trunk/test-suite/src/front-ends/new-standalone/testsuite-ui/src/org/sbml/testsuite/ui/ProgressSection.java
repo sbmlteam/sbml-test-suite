@@ -70,11 +70,13 @@ public class ProgressSection
         progressBar = new CustomProgressBar(comp.getShell(), SWT.HORIZONTAL);
         FormData fd_progressBar = new FormData();
         fd_progressBar.top = new FormAttachment(comp, topOffset + 22);
-        fd_progressBar.bottom = new FormAttachment(100, -5);
+        fd_progressBar.bottom = new FormAttachment(100, -15);
         fd_progressBar.left = new FormAttachment(0, 110);
         fd_progressBar.right = new FormAttachment(100, -110);
         progressBar.setLayoutData(fd_progressBar);
         progressBar.resetSteps();
+        if (! UIUtils.isMacOSX())
+            progressBar.moveAbove(this);
 
         // Default values -- this should be reset immediately by caller.
 
