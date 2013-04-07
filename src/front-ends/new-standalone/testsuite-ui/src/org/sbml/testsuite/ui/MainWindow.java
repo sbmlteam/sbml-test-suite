@@ -828,32 +828,21 @@ public class MainWindow
             }
         });
 
-        // SWT insanity warning: the listener does not get called at the
-        // right time w.r.t. selections in the tree.  On Mac OS X 10.8 at
-        // least, if you select-all in the tree, then click a single item,
-        // the values of tree.getSelected() and tree.getSelectionCount() at
-        // the time the listener is called are the values *prior* to the
-        // selection.  E.g., getSelectionCount() is the entire count in the
-        // tree, not 1 as it should be.  You might think it's just slow, but
-        // no amount of delay inserted into the listener changes that -- in
-        // other words, the listener is not getting called after the tree is
-        // updated!  (Yes, I tried using addSelectionListener instead.  Same
-        // behavior.)  So, you can't call tree.getSelection() in here.  This
-        // listener would also have been the proper place to update the
-        // selection count in ProgressSection, but due to the same problem, I
-        // had to do it from within the dispatch loop in open().
-
-        tree.addListener(SWT.Selection, new Listener() {
+        Listener treeSelectionListener = new Listener() {
             @Override
             public void handleEvent(Event event)
             {
-                // Don't call tree.getSelection(); it returns the wrong thing.
-                // Thankfully, we can still find out what's been selected by
-                // looking at the event itself.
-
                 updatePlotsForSelection((TreeItem) event.item);
+                delayedUpdate(new Runnable() {
+                    public void run()
+                    {
+                        if (tree != null && !tree.isDisposed())
+                            progressSection.setSelectedCount(tree.getSelectionCount());
+                    }});
             }
-        });
+        };
+        tree.addListener(SWT.Selection, treeSelectionListener);
+        tree.addListener(SWT.DefaultSelection, treeSelectionListener);
 
         // The following changes the selection color of tree items by making
         // it almost transparent.  This is needed because otherwise, the
@@ -2189,7 +2178,6 @@ public class MainWindow
         toolBar.redraw();
 
         shell.pack();
-        shell.open();
         shell.layout();
 
         loadModel();
@@ -2211,21 +2199,14 @@ public class MainWindow
             recenterTree(toSelect);
         }
 
+        shell.open();
+
         try
         {
             while (! shell.isDisposed())
             {
                 if (! getDisplay().readAndDispatch())
                     getDisplay().sleep();
-
-                // The next item is here because the selection listener on Tree
-                // doesn't get called at a time when getSelectionCount() gives
-                // the correct answer.  Therefore, we can't update the
-                // selection count from within the listener.  Doing an update
-                // from here seems better than having a separate polling loop.
-
-                if (tree != null && ! tree.isDisposed())
-                    progressSection.setSelectedCount(tree.getSelectionCount());
             }
         }
         finally
@@ -3142,5 +3123,33 @@ public class MainWindow
             return false;  
         }  
         return true;  
+    }
+
+
+    // Some SWT UI operations don't work properly if attempted immediately.
+    // This is particularly the case in selection listeners on Tree: the
+    // listener does not get called at the right time w.r.t. selections in
+    // the tree.  On Mac OS X 10.8 at least, if you select-all in the tree,
+    // then click a single item, the values of tree.getSelected() and
+    // tree.getSelectionCount() at the time the selection listener is called
+    // are the values *prior* to the selection.  E.g., getSelectionCount() is
+    // the entire count in the tree, not 1 as it should be.  It is possible
+    // that the selection listener is not called at the right time (maybe
+    // it's called before the internal SWT code updates the tree item count?)
+    // or else there's a need for a delay.  In either case, forking off the
+    // update to a separate thread that waits before doing its work seems to
+    // solve the problem reliably.  The following code encapsulates this
+    // operation and makes it easier to do elsewhere in our code.
+
+    private void delayedUpdate(final Runnable runnable)
+    {
+        final Display display = getDisplay();
+        display.asyncExec(new Runnable() {
+                @Override
+                public void run()
+                {
+                    display.timerExec(100, runnable);
+                }
+            });
     }
 }
