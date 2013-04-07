@@ -31,13 +31,20 @@
 package org.sbml.testsuite.ui;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Listener;
+
 
 /**
  * Utility Composite holding a list and a label
@@ -45,10 +52,10 @@ import org.eclipse.swt.widgets.Button;
 public class LabeledList
     extends Composite
 {
-
     private Label  label;
     private List   list;
-    private Button cmdAdd;
+    private Button button1;
+    private Button button2;
 
 
     /**
@@ -63,29 +70,39 @@ public class LabeledList
         setLayout(new FormLayout());
 
         label = new Label(this, SWT.NONE);
-        FormData fd_lblNewLabel = new FormData();
-        fd_lblNewLabel.left = new FormAttachment(0, 10);
-        label.setLayoutData(fd_lblNewLabel);
+        FormData fd_lblLabel = new FormData();
+        fd_lblLabel.left = new FormAttachment(0, 10);
+        label.setLayoutData(fd_lblLabel);
         label.setText("New Label");
 
-        list = new List(this, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+        list = new List(this, SWT.MULTI | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
         FormData fd_list = new FormData();
         fd_list.bottom = new FormAttachment(100, -10);
         fd_list.right = new FormAttachment(100, -10);
         fd_list.left = new FormAttachment(0, 10);
         list.setLayoutData(fd_list);
+        
+        button1 = new Button(this, SWT.NONE);
+        button1.setText("Button 1");
+        fd_list.top = new FormAttachment(button1, 6);
+        fd_lblLabel.top = new FormAttachment(button1, 5, SWT.TOP);
+        FormData fd_button1 = new FormData();
+        fd_button1.width = 80;
+        fd_button1.top = new FormAttachment(0, 5);
+        fd_button1.right = new FormAttachment(100, -81);
+        button1.setLayoutData(fd_button1);
 
-        cmdAdd = new Button(this, SWT.NONE);
-        fd_list.top = new FormAttachment(cmdAdd, 6);
-        fd_lblNewLabel.top = new FormAttachment(cmdAdd, 5, SWT.TOP);
-        cmdAdd.setToolTipText("Add selected component tags to selection.");
-        cmdAdd.setText("Add");
-        FormData fd_button = new FormData();
-        fd_button.width = 75;
-        fd_button.top = new FormAttachment(0, 5);
-        fd_button.right = new FormAttachment(100, -10);
-        cmdAdd.setLayoutData(fd_button);
+        button2 = new Button(this, SWT.NONE);
+        button2.setText("Button 2");
+        fd_list.top = new FormAttachment(button2, 6);
+        fd_lblLabel.top = new FormAttachment(button2, 5, SWT.TOP);
+        FormData fd_button2 = new FormData();
+        fd_button2.width = 80;
+        fd_button2.top = new FormAttachment(0, 5);
+        fd_button2.right = new FormAttachment(100, -5);
+        button2.setLayoutData(fd_button2);
 
+        pack();
     }
 
 
@@ -97,11 +114,20 @@ public class LabeledList
 
 
     /**
-     * @return the add button
+     * @return the include button
      */
-    public Button getAddButton()
+    public Button getButton1()
     {
-        return cmdAdd;
+        return button1;
+    }
+
+
+    /**
+     * @return the exclude button
+     */
+    public Button getButton2()
+    {
+        return button2;
     }
 
 
@@ -129,9 +155,10 @@ public class LabeledList
      * @param isVisible
      *            indication whether the button should be visible
      */
-    public void setButtonVisible(boolean isVisible)
+    public void setButtonsVisible(boolean isVisible)
     {
-        cmdAdd.setVisible(isVisible);
+        button1.setVisible(isVisible);
+        button2.setVisible(isVisible);
     }
 
 
