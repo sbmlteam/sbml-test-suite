@@ -2,7 +2,7 @@
 // @file   ResultColor.java
 // @brief  Class to encapsulate the colors we use for result indicators.
 // @author Michael Hucka
-// @@date  Created 2013-01-13 <mhucka@caltech.edu>
+// @date   Created 2013-01-13 <mhucka@caltech.edu>
 //
 // ----------------------------------------------------------------------------
 // This file is part of the SBML Testsuite. Please visit http://sbml.org for
@@ -30,23 +30,25 @@ package org.sbml.testsuite.ui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.wb.swt.SWTResourceManager;
 import org.sbml.testsuite.core.*;
 
 
 public enum ResultColor
 {
     green  ( "green",  90,  200,  50, ResultType.Match),
-    red    ( "red",    255,  50,  40, ResultType.NoMatch),
-    black  ( "black",  70,   70,  70, ResultType.Error),
-    gray   ( "gray",   200, 200, 200, ResultType.Unknown),
-    blue   ( "blue",   110, 140, 210, ResultType.Unsupported),
-    yellow ( "yellow", 252, 175,  55, ResultType.CannotSolve);
-
+    red    ( "red",    240,  30,  20, ResultType.NoMatch),
+    yellow ( "yellow", 252, 175,  55, ResultType.CannotSolve),
+    brown  ( "brown",  157, 114,  53, ResultType.Unsupported),
+    white  ( "white",  255, 255, 255, ResultType.Unavailable),
+    gray   ( "gray",   195, 195, 195, ResultType.Unknown),
+    black  ( "black",  30,   30,  30, ResultType.Error);
+    
     private final String name;
     private final int r;
     private final int g;
@@ -89,10 +91,18 @@ public enum ResultColor
                 return c.getImage(imageSize);
         return null;
     }
-    
+
     public static Image getImageForResultType(ResultType type)
     {
         return getImageForResultType(type, DEFAULT_IMAGE_SIZE);
+    }
+
+    public static Color getColorForResultType(ResultType type)
+    {
+        for (ResultColor c : ResultColor.values())
+            if (c.resultType == type)
+                return c.getColor();
+        return null;
     }
 
     public Color getColor()
@@ -102,13 +112,29 @@ public enum ResultColor
 
     private Image createImage(int imageSize)
     {
+        final Color white = SWTResourceManager.getColor(SWT.COLOR_WHITE);
+
         Image image = new Image(Display.getDefault(), imageSize, imageSize);
         GC gc = new GC(image);
-        gc.setAntialias(SWT.ON);
+        gc.setAntialias(SWT.ON);      // It's the default on Macs, but not Win.
         gc.setBackground(getColor());
-        gc.setForeground(getColor());
         gc.fillRoundRectangle(0, 0, imageSize, imageSize, 5, 5);
+
+        // Due to antialiasing, the corners are not pure white.  This screws
+        // up our ability to set transparency.  The following deliberately
+        // paints the corner pixels white so that we can then set them to
+        // transparent.  (This of course assumes that the background where
+        // this is being used is in fact white.)
+
+        gc.setBackground(white);
+        gc.fillRectangle(0, 0, 1, 1);
+        gc.fillRectangle(0, imageSize - 1, 1, 1);
+        gc.fillRectangle(imageSize - 1, 0, 1, 1);
+        gc.fillRectangle(imageSize - 1, imageSize - 1, 1, 1);
         gc.dispose();
-        return image;
+
+        ImageData data = image.getImageData();
+        data.transparentPixel = data.palette.getPixel(white.getRGB());
+        return new Image(Display.getDefault(), data);
     }
 }
