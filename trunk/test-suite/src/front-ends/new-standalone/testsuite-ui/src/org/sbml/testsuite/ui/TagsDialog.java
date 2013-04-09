@@ -51,6 +51,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 import org.sbml.testsuite.core.Util;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Control;
@@ -61,10 +63,11 @@ import org.eclipse.swt.widgets.Control;
 public class TagsDialog
     extends Dialog
 {
-    private LabeledList      lblLstComponentTags;
-    private LabeledList      lblLstTestTags;
-    protected Shell          shlFilterTags;
-    protected Vector<String> selectedTags;
+    private Tree           treeCompTags;
+    private Tree           treeTestTags;
+    private Shell          shell;
+    private Vector<String> selectedTags;
+    private boolean        exitOK = false;
 
 
     /**
@@ -78,7 +81,7 @@ public class TagsDialog
         super(parent, style);
         createContents();
         setText("Choose tags");
-        shlFilterTags.layout();
+        shell.layout();
     }
 
 
@@ -90,7 +93,7 @@ public class TagsDialog
      */
     public void center(Rectangle shellBounds)
     {
-        if (shlFilterTags == null) return;
+        if (shell == null) return;
 
         Point dialogSize = getSize();
         setLocation(shellBounds.x + (shellBounds.width - dialogSize.x) / 2,
@@ -109,16 +112,16 @@ public class TagsDialog
         int margin = 5;
         int offset = 20 - UIUtils.scaledFontSize(20);
 
-        shlFilterTags = new Shell(getParent(), SWT.DIALOG_TRIM | SWT.RESIZE);
-        shlFilterTags.setImage(UIUtils.getImageResource("icon_256x256.png"));
-        shlFilterTags.setMinimumSize(new Point(totalWidth, totalHeight));
-        shlFilterTags.setSize(totalWidth, totalHeight);
-        shlFilterTags.setText("Choose tags");
-        shlFilterTags.setLayout(new FormLayout());
+        shell = new Shell(getParent(), SWT.DIALOG_TRIM | SWT.RESIZE);
+        shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
+        shell.setMinimumSize(new Point(totalWidth, totalHeight));
+        shell.setSize(totalWidth, totalHeight);
+        shell.setText("Choose tags");
+        shell.setLayout(new FormLayout());
 
         // Top button for handy clear-all command.
 
-        Button cmdClearAll = new Button(shlFilterTags, SWT.NONE);
+        Button cmdClearAll = new Button(shell, SWT.NONE);
         cmdClearAll.setText("Clear all");
         cmdClearAll.setToolTipText("Clear all selections");
         FormData fd_cmdClearAll = new FormData();
@@ -138,7 +141,7 @@ public class TagsDialog
         // Buttons at the bottom.  Done here so that the middle section can
         // refer to the buttons to anchor the bottom of their layout.
 
-        Button cmdOk = new Button(shlFilterTags, SWT.NONE);
+        Button cmdOk = new Button(shell, SWT.NONE);
         FormData fd_cmdOk = new FormData();
         fd_cmdOk.width = buttonWidth;
         fd_cmdOk.bottom = new FormAttachment(100, -(margin + offset));
@@ -152,9 +155,9 @@ public class TagsDialog
                 okPressed();
             }
         });
-        cmdOk.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shlFilterTags));
+        cmdOk.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shell));
 
-        Button cmdCancel = new Button(shlFilterTags, SWT.NONE);
+        Button cmdCancel = new Button(shell, SWT.NONE);
         cmdCancel.setText("Cancel");
         FormData fd_cmdCancel = new FormData();
         fd_cmdCancel.width = buttonWidth;
@@ -169,10 +172,10 @@ public class TagsDialog
             }
         });
         cmdCancel.setFocus();
-        cmdCancel.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shlFilterTags));
+        cmdCancel.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shell));
 
-        shlFilterTags.setDefaultButton(cmdOk);
-        shlFilterTags.addListener(SWT.Traverse, new Listener() {
+        shell.setDefaultButton(cmdOk);
+        shell.addListener(SWT.Traverse, new Listener() {
             public void handleEvent(Event event)
             {
                 switch (event.detail)
@@ -189,68 +192,134 @@ public class TagsDialog
             }
         });
 
-        SashForm sashForm = new SashForm(shlFilterTags, SWT.VERTICAL);
+        SashForm sashForm = new SashForm(shell, SWT.VERTICAL);
         FormData fd_sashForm = new FormData();
-        fd_sashForm.top = new FormAttachment(cmdClearAll, margin);
-        fd_sashForm.bottom = new FormAttachment(cmdCancel, -offset);
-        fd_sashForm.left = new FormAttachment(0, 0);
-        fd_sashForm.right = new FormAttachment(100, 0);
+        fd_sashForm.top = new FormAttachment(cmdClearAll, 0);
+        fd_sashForm.bottom = new FormAttachment(cmdCancel, -(margin + offset));
+        fd_sashForm.left = new FormAttachment(0, margin);
+        fd_sashForm.right = new FormAttachment(100, -margin);
         sashForm.setLayoutData(fd_sashForm);
 
-        lblLstComponentTags = new LabeledList(sashForm, SWT.MULTI);
-        lblLstComponentTags.setLabel("Select Component Tags: ");
-        lblLstComponentTags.getButton1().setVisible(false);
+        Composite compComponentTags = new Composite(sashForm, SWT.NONE);
+        compComponentTags.setLayout(new FormLayout());
 
-        lblLstComponentTags.getButton2().setText("Clear");
-        lblLstComponentTags.getButton2()
-                           .setToolTipText("Clear tag selections");
-        lblLstComponentTags.getButton2()
-                           .addSelectionListener(new SelectionAdapter() {
+        Label lblComponentTags = new Label(compComponentTags, SWT.NONE);
+        lblComponentTags.setText("Select Component Tags:");
+        FormData fd_lblComponentTags = new FormData();
+        fd_lblComponentTags.top = new FormAttachment(0, margin);
+        fd_lblComponentTags.left = new FormAttachment(0, margin);
+        lblComponentTags.setLayoutData(fd_lblComponentTags);
+
+        Button btnClearCompTags = new Button(compComponentTags, SWT.NONE);
+        btnClearCompTags.setText("Clear");
+        btnClearCompTags.setToolTipText("Clear tag selections");
+        FormData fd_btnClearCompTags = new FormData();
+        fd_btnClearCompTags.width = buttonWidth;
+        fd_btnClearCompTags.top = new FormAttachment(0);
+        fd_btnClearCompTags.right = new FormAttachment(100, -offset);
+        btnClearCompTags.setLayoutData(fd_btnClearCompTags);
+        btnClearCompTags.addSelectionListener(new SelectionAdapter() {
                                @Override
                                public void widgetSelected(SelectionEvent arg0)
                                {
                                    clearSelectedComponentTags();
                                }
                            });
-        ((FormData) lblLstComponentTags.getList().getLayoutData()).right
-            = new FormAttachment(100, -10);
 
-        lblLstTestTags = new LabeledList(sashForm, SWT.MULTI);
-        lblLstTestTags.setLabel("Select Test Tags:");
-        lblLstTestTags.getButton1().setVisible(false);
+        treeCompTags = new Tree(compComponentTags, SWT.BORDER | SWT.CHECK | SWT.MULTI);
+        FormData fd_treeCompTags = new FormData();
+        fd_treeCompTags.top = new FormAttachment(lblComponentTags, 2*margin + offset);
+        fd_treeCompTags.bottom = new FormAttachment(100, -margin);
+        fd_treeCompTags.left = new FormAttachment(0, margin + 1);
+        fd_treeCompTags.right = new FormAttachment(100, -(margin + 1));
+        treeCompTags.setLayoutData(fd_treeCompTags);
+        // NB: the code is not identical for the 2 trees.
+        treeCompTags.addListener(SWT.MouseDoubleClick, new Listener() {
+            @Override
+            public void handleEvent(Event event)
+            {
+                // Make double-click toggle the selection status.
 
-        lblLstTestTags.getButton2().setText("Clear");
-        lblLstTestTags.getButton2()
-                      .setToolTipText("Clear tag selections");
-        lblLstTestTags.getButton2()
-                      .addSelectionListener(new SelectionAdapter() {
-                          @Override
-                          public void widgetSelected(SelectionEvent arg0)
-                          {
-                              clearSelectedTestTags();
-                          }
-                      });
+                Point point = new Point(event.x, event.y);
+                TreeItem item = treeCompTags.getItem(point);
+                if (item == null) return;
+                item.setChecked(!item.getChecked());
+            }
+        });
+
+        Composite compTestTags = new Composite(sashForm, SWT.NONE);
+        compTestTags.setLayout(new FormLayout());
+
+        Label lblTestTags = new Label(compTestTags, SWT.NONE);
+        FormData fd_lblTestTags = new FormData();
+        fd_lblTestTags.top = new FormAttachment(0, margin);
+        fd_lblTestTags.left = new FormAttachment(0, margin);
+        lblTestTags.setLayoutData(fd_lblTestTags);
+        lblTestTags.setText("Select Component Tags:");
+
+        Button btnClearTestTags = new Button(compTestTags, SWT.NONE);
+        btnClearTestTags.setText("Clear");
+        btnClearTestTags.setToolTipText("Clear tag selections");
+        FormData fd_btnClearTestTags = new FormData();
+        fd_btnClearTestTags.width = buttonWidth;
+        fd_btnClearTestTags.top = new FormAttachment(0);
+        fd_btnClearTestTags.right = new FormAttachment(100, -offset);
+        btnClearTestTags.setLayoutData(fd_btnClearTestTags);
+        btnClearTestTags.addSelectionListener(new SelectionAdapter() {
+                               @Override
+                               public void widgetSelected(SelectionEvent arg0)
+                               {
+                                   clearSelectedTestTags();
+                               }
+                           });
+
+        treeTestTags = new Tree(compTestTags, SWT.BORDER | SWT.CHECK | SWT.MULTI);
+        FormData fd_treeTestTags = new FormData();
+        fd_treeTestTags.top = new FormAttachment(lblTestTags, 2*margin + offset);
+        fd_treeTestTags.bottom = new FormAttachment(100, -margin);
+        fd_treeTestTags.left = new FormAttachment(0, margin + 1);
+        fd_treeTestTags.right = new FormAttachment(100, -(margin + 1));
+        treeTestTags.setLayoutData(fd_treeTestTags);
+        treeTestTags.addListener(SWT.MouseDoubleClick, new Listener() {
+            @Override
+            public void handleEvent(Event event)
+            {
+                // Make double-click toggle the selection status.
+
+                Point point = new Point(event.x, event.y);
+                TreeItem item = treeTestTags.getItem(point);
+                if (item == null) return;
+                item.setChecked(!item.getChecked());
+            }
+        });
+
+        // Final set-up.
 
         sashForm.setWeights(new int[] {1, 1});
 
-        shlFilterTags.pack();
-        shlFilterTags.setTabList(new Control[]{cmdCancel, cmdClearAll, 
+        shell.pack();
+        shell.setTabList(new Control[]{cmdCancel, cmdClearAll, 
                                                sashForm, cmdOk});
-        shlFilterTags.layout();
+        shell.layout();
     }
 
 
+    /**
+     * @return true if the user clicked OK, false if they clicked Cancel.
+     */
     public boolean open()
     {
         // Remember the populated lists in case the user cancels out.
+        // If the user clicks OK, the value of selectedTags will be changed.
+        // Callers get the value returned by getSelectedTags();
 
         selectedTags = readTags();
 
         // Open the dialog and wait for the user to close it.
 
-        shlFilterTags.open();
+        shell.open();
         Display display = getParent().getDisplay();
-        while (!shlFilterTags.isDisposed())
+        while (!shell.isDisposed())
         {
             if (!display.readAndDispatch())
             {
@@ -258,9 +327,7 @@ public class TagsDialog
             }
         }
 
-        // If there are any non-empty tags lists, return true.
-
-        return selectedTags != null && !selectedTags.isEmpty();
+         return exitOK;
     }
 
 
@@ -272,9 +339,13 @@ public class TagsDialog
      */
     public void setComponentTags(Collection<String> items)
     {
-        lblLstComponentTags.getList().removeAll();
+        treeCompTags.removeAll();
+        treeCompTags.clearAll(true);
         for (String tag : items)
-            lblLstComponentTags.getList().add(tag);
+        {
+            TreeItem treeItem = new TreeItem(treeCompTags, SWT.NONE);
+            treeItem.setText(tag);
+        }
     }
 
 
@@ -286,9 +357,13 @@ public class TagsDialog
      */
     public void setTestTags(Collection<String> items)
     {
-        lblLstTestTags.getList().removeAll();
+        treeTestTags.removeAll();
+        treeTestTags.clearAll(true);
         for (String tag : items)
-            lblLstTestTags.getList().add(tag);
+        {
+            TreeItem treeItem = new TreeItem(treeTestTags, SWT.NONE);
+            treeItem.setText(tag);
+        }
     }
 
 
@@ -300,7 +375,7 @@ public class TagsDialog
      */
     public void setTitle(String text)
     {
-        shlFilterTags.setText(text);
+        shell.setText(text);
     }
 
 
@@ -316,48 +391,66 @@ public class TagsDialog
     public void setSelectedTags(Collection<String> tags)
     {
         if (tags == null || tags.isEmpty()) return;
+        if (treeCompTags == null) return;
+        if (treeTestTags == null) return;
 
-        // The List class's setSelection() method has this immensely useful
-        // feature that it ignores items that aren't in the list.  This
-        // makes our code very simple: we don't have to separate out the
-        // lists of component and test tags ahead of time.
+        //        String[] tagsArray = tags.toArray(new String[0]);
 
-        String[] tagsArray = tags.toArray(new String[0]);
-        lblLstComponentTags.getList().setSelection(tagsArray);
-        lblLstTestTags.getList().setSelection(tagsArray);
+    outer: for (String tag : tags)
+        {
+            for (TreeItem item : treeCompTags.getItems())
+                if (tag.equals(item.getText()))
+                {
+                    item.setChecked(true);
+                    continue outer;
+                }
+            for (TreeItem item : treeTestTags.getItems())
+                if (tag.equals(item.getText()))
+                {
+                    item.setChecked(true);
+                    continue outer;
+                }
+        }
     }
 
 
     private void okPressed()
     {
         selectedTags = readTags();
-        shlFilterTags.close();
+        exitOK = true;
+        shell.close();
     }
 
 
     private void cancelPressed()
     {
-        shlFilterTags.close();
+        shell.close();
     }
 
 
     private void clearSelectedComponentTags()
     {
-        lblLstComponentTags.getList().deselectAll();
+        for (TreeItem item : treeCompTags.getItems())
+            item.setChecked(false);
     }
 
 
     private void clearSelectedTestTags()
     {
-        lblLstTestTags.getList().deselectAll();
+        for (TreeItem item : treeTestTags.getItems())
+            item.setChecked(false);
     }
 
 
     private Vector<String> readTags()
     {
         Vector<String> result = new Vector<String>();
-        result.addAll(Arrays.asList(lblLstComponentTags.getList().getSelection()));
-        result.addAll(Arrays.asList(lblLstTestTags.getList().getSelection()));
+        for (TreeItem item : treeCompTags.getItems())
+            if (item.getChecked())
+                result.add(item.getText());
+        for (TreeItem item : treeTestTags.getItems())
+            if (item.getChecked())
+                result.add(item.getText());
         return result;
     }
 
@@ -367,7 +460,7 @@ public class TagsDialog
      */
     public Point getSize()
     {
-        return shlFilterTags.getSize();
+        return shell.getSize();
     }
 
 
@@ -381,6 +474,6 @@ public class TagsDialog
      */
     public void setLocation(int x, int y)
     {
-        shlFilterTags.setLocation(x, y);
+        shell.setLocation(x, y);
     }
 }
