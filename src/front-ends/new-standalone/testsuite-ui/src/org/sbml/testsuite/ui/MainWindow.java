@@ -795,13 +795,12 @@ public class MainWindow
 
         // ------------------ middle: tree & plot panels ----------------------
 
+        int offset = 20 - UIUtils.scaledFontSize(20);
+
         SashForm sashForm = new SashForm(shell, SWT.NONE);
         sashForm.setSashWidth(5);
         fd_sashForm = new FormData();
-        if (UIUtils.isMacOSX())
-            fd_sashForm.top = new FormAttachment(notificationBanner, 0, SWT.BOTTOM);
-        else
-            fd_sashForm.top = new FormAttachment(shell, 45);
+        fd_sashForm.top = new FormAttachment(notificationBanner, offset, SWT.BOTTOM);
         fd_sashForm.bottom = new FormAttachment(100, -200);
         fd_sashForm.left = new FormAttachment(0, 6);
         fd_sashForm.right = new FormAttachment(100, -6);
