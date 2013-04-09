@@ -1044,7 +1044,7 @@ public class MainWindow
                 });
             }
         });
-        menuItemShowMap.setText("Show Results Map");
+        menuItemShowMap.setText("Show Results Map\tCtrl+M");
         menuItemShowMap.setAccelerator(SWT.MOD1 + 'M');
 
         new MenuItem(menuFileMenuItems, SWT.SEPARATOR);
@@ -1057,7 +1057,7 @@ public class MainWindow
                 syncFiles();
             }
         });
-        menuItemRefreshResults.setText("Refresh Test Results");
+        menuItemRefreshResults.setText("Refresh Test Results\tCtrl+G");
         menuItemRefreshResults.setAccelerator(SWT.MOD1 + 'G');
 
         new MenuItem(menuFileMenuItems, SWT.SEPARATOR);
@@ -1072,7 +1072,7 @@ public class MainWindow
                 fileOpen();
             }
         });
-        menuItemOpen.setText("Open Cases Archive");
+        menuItemOpen.setText("Open Cases Archive\tCtrl+O");
         menuItemOpen.setAccelerator(SWT.MOD1 + 'O');
 
         if (!UIUtils.isMacOSX())
@@ -1086,7 +1086,7 @@ public class MainWindow
                         arg0.doit = quitWithConfirmation();
                     }
                 });
-            menuItemQuit.setText("Quit");
+            menuItemQuit.setText("Quit\tCtrl+Q");
             menuItemQuit.setAccelerator(SWT.MOD1 + 'Q');
         }
 
@@ -1104,7 +1104,7 @@ public class MainWindow
                 selectAll();
             }
         });
-        menuItemSelectAll.setText("Select All");
+        menuItemSelectAll.setText("Select All\tCtrl+A");
         menuItemSelectAll.setAccelerator(SWT.MOD1 | 'A');
 
         menuItemDeselectAll = new MenuItem(menu_edit, SWT.NONE);
@@ -1115,7 +1115,7 @@ public class MainWindow
                 deselectAll();
             }
         });
-        menuItemDeselectAll.setText("Deselect All");
+        menuItemDeselectAll.setText("Deselect All\tCtrl+Shift+A");
         menuItemDeselectAll.setAccelerator(SWT.MOD1 + SWT.SHIFT + 'A');
 
         new MenuItem(menu_edit, SWT.SEPARATOR);
@@ -1138,7 +1138,7 @@ public class MainWindow
                 }
             }
         });
-        menuItemJumpToCase.setText("Jump to Case");
+        menuItemJumpToCase.setText("Jump to Case\tCtrl+J");
         menuItemJumpToCase.setAccelerator(SWT.MOD1 + 'J');
 
         MenuItem menuItemNewSubmenu_1 = new MenuItem(menuBar, SWT.CASCADE);
@@ -1163,7 +1163,7 @@ public class MainWindow
                });
             }
         });
-        menuItemFilter.setText("Filter Visible Test Cases");
+        menuItemFilter.setText("Filter Visible Test Cases\tCtrl+T");
         menuItemFilter.setAccelerator(SWT.MOD1 + 'T');
 
         new MenuItem(menu_2, SWT.SEPARATOR);
@@ -1255,7 +1255,7 @@ public class MainWindow
                 runOrPause();
             }
         });
-        menuItemRunSelected.setText("Run Selected");
+        menuItemRunSelected.setText("Run Selected\tCtrl+R");
         menuItemRunSelected.setAccelerator(SWT.MOD1 + 'R');
 
         MenuItem menuItemRunByFilter = new MenuItem(menu_3, SWT.NONE);
@@ -1267,7 +1267,7 @@ public class MainWindow
                 runByFilter();
             }
         });
-        menuItemRunByFilter.setText("Run By Tag and/or Number");
+        menuItemRunByFilter.setText("Run By Tag and/or Number\tCtrl+Shift+R");
         menuItemRunByFilter.setAccelerator(SWT.MOD1 + SWT.SHIFT + 'R');
 
         new MenuItem(menu_3, SWT.SEPARATOR);
