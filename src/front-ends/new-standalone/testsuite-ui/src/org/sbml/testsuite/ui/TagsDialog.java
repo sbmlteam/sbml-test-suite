@@ -126,7 +126,7 @@ public class TagsDialog
         cmdClearAll.setToolTipText("Clear all selections");
         FormData fd_cmdClearAll = new FormData();
         fd_cmdClearAll.width = buttonWidth;
-        fd_cmdClearAll.top = new FormAttachment(0, margin);
+        fd_cmdClearAll.top = new FormAttachment(0, margin + offset);
         fd_cmdClearAll.right = new FormAttachment(100, -(margin + offset));
         cmdClearAll.setLayoutData(fd_cmdClearAll);
         cmdClearAll.addSelectionListener(new SelectionAdapter() {
@@ -194,7 +194,7 @@ public class TagsDialog
 
         SashForm sashForm = new SashForm(shell, SWT.VERTICAL);
         FormData fd_sashForm = new FormData();
-        fd_sashForm.top = new FormAttachment(cmdClearAll, 0);
+        fd_sashForm.top = new FormAttachment(cmdClearAll, offset);
         fd_sashForm.bottom = new FormAttachment(cmdCancel, -(margin + offset));
         fd_sashForm.left = new FormAttachment(0, margin);
         fd_sashForm.right = new FormAttachment(100, -margin);
