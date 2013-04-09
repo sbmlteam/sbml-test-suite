@@ -1397,6 +1397,13 @@ public class MainWindow
         lvSelectionMenuListener = new LVSelectionMenuListener(lvSelectionMenuButton);
         lvSelectionMenuButton.addSelectionListener(lvSelectionMenuListener);
         
+        if (! UIUtils.isMacOSX())
+        {
+            ToolItem nonMacPadding = new ToolItem(toolBar, SWT.NONE);
+            nonMacPadding.setText(" ");
+            nonMacPadding.setEnabled(false);
+        }
+        
         ToolItem sep2 = new ToolItem(toolBar, SWT.SEPARATOR);
         sep2.setWidth(SWT.SEPARATOR_FILL);
         
