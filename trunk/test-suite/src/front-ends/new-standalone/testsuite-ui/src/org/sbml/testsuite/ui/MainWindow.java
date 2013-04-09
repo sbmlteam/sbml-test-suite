@@ -738,7 +738,7 @@ public class MainWindow
      */
     protected void createContents()
     {
-        shell = new Shell(SWT.CLOSE | SWT.INHERIT_DEFAULT | SWT.TITLE | SWT.BORDER | SWT.MIN | SWT.RESIZE);
+        shell = new Shell(SWT.CLOSE | SWT.INHERIT_DEFAULT | SWT.TITLE | SWT.BORDER | SWT.MIN | SWT.MAX | SWT.RESIZE);
         shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
         shell.setMinimumSize(new Point(850, 650));
         shell.setSize(850, 650);
@@ -2820,19 +2820,16 @@ public class MainWindow
         dlgMap.center(shell.getBounds());
         dlgMap.setData(treeToSortedMap(tree));
         dlgMap.setReRunAction(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e)
             {
                 TreeItem item = getItem(e.getActionCommand());
                 if (item == null) return;
                 reRunTests(new TreeItem[] {item});
-
             }
         });
 
         dlgMap.setSingleClickAction(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -2840,8 +2837,8 @@ public class MainWindow
                 if (item == null) return;
                 tree.deselectAll();
                 tree.select(item);
+                recenterTree(item);
                 updatePlotsForSelection(item);
-
             }
         });
         dlgMap.open();
