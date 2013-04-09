@@ -46,11 +46,14 @@ public class NotificationBanner
     extends CLabel
 {
     private FormAttachment bottomAttachment = new FormAttachment(0, 0);
-
+    private int            initialBottomOffset = 0;
 
     public NotificationBanner(Shell shell, int style, int topOffset)
     {
         super(shell, style);
+
+        initialBottomOffset = topOffset;
+        bottomAttachment.offset = topOffset;
 
         FormData formData = new FormData();
         formData.top = new FormAttachment(0, topOffset);
@@ -70,13 +73,13 @@ public class NotificationBanner
             for (int i = 0; i < fontData.length; ++i)
                 if (fontData[i].getHeight() > tallest)
                     tallest = fontData[i].getHeight();
-            tallest += 4;
-            bottomAttachment.offset = tallest;
+            tallest += 6;
+            bottomAttachment.offset += tallest;
             setVisible(true);
         }
         else
         {
-            bottomAttachment.offset = 0;
+            bottomAttachment.offset = initialBottomOffset;
             setVisible(false);
         }
 
