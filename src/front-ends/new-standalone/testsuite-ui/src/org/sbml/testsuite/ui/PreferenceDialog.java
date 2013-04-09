@@ -95,7 +95,7 @@ public class PreferenceDialog
     private void createContents()
     {
         shell = new Shell(getParent(), getStyle());
-        shell.setImage(UIUtils.getImageResource("sbml_256.png"));
+        shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
         shell.setMinimumSize(new Point(630, 410));
         shell.setSize(740, 520);
         shell.setText("Preferences");
@@ -116,7 +116,14 @@ public class PreferenceDialog
         outerComp.setLayout(gl_outerComp);
 
         Label lblTestCasesDir = new Label(outerComp, SWT.NONE);
-        lblTestCasesDir.setText("Test Cases Directory:");
+
+        // This is a total hack, but I can't see how else to avoid overly-tight
+        // space here except if we completely change the layout model.
+
+        String lbl = "Test Cases Directory:";
+        if (!UIUtils.isMacOSX()) lbl += " ";
+        lblTestCasesDir.setText(lbl);
+
         lblTestCasesDir.setToolTipText("The folder/directory where the SBML "
                                        + "Test Suite case files are located "
                                        + "on your computer.");

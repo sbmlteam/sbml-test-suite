@@ -64,8 +64,7 @@ public class ProgressSection
         fd_countLabel.right = new FormAttachment(100, -15);
         fd_countLabel.left = new FormAttachment(100, -110);
         countLabel.setLayoutData(fd_countLabel);
-        if (! UIUtils.isMacOSX())
-            countLabel.moveAbove(this);
+        countLabel.moveAbove(this);
 
         progressBar = new CustomProgressBar(comp.getShell(), SWT.HORIZONTAL);
         FormData fd_progressBar = new FormData();
@@ -75,8 +74,7 @@ public class ProgressSection
         fd_progressBar.right = new FormAttachment(100, -110);
         progressBar.setLayoutData(fd_progressBar);
         progressBar.resetSteps();
-        if (! UIUtils.isMacOSX())
-            progressBar.moveAbove(this);
+        progressBar.moveAbove(this);
 
         // Default values -- this should be reset immediately by caller.
 

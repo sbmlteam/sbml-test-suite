@@ -781,9 +781,13 @@ public class MainWindow
 
         Font statusFont = UIUtils.getFont("SansSerif", 12, SWT.ITALIC);
 
-        // --------------------- filter notifications -------------------------
+        // --------------------- notifications of filters ---------------------
 
-        notificationBanner = new NotificationBanner(shell, SWT.CENTER);
+        Rectangle r = toolBar.getBounds();
+        if (r.height != 0)
+            notificationBanner = new NotificationBanner(shell, SWT.CENTER, r.height);
+        else
+            notificationBanner = new NotificationBanner(shell, SWT.CENTER, 45);
         notificationBanner.setFont(statusFont);
         notificationBanner.setForeground(backgroundColor);
         notificationBanner.setBackground(foregroundColor);
@@ -794,7 +798,10 @@ public class MainWindow
         SashForm sashForm = new SashForm(shell, SWT.NONE);
         sashForm.setSashWidth(5);
         fd_sashForm = new FormData();
-        fd_sashForm.top = new FormAttachment(notificationBanner, 0, SWT.BOTTOM);
+        if (UIUtils.isMacOSX())
+            fd_sashForm.top = new FormAttachment(notificationBanner, 0, SWT.BOTTOM);
+        else
+            fd_sashForm.top = new FormAttachment(shell, 45);
         fd_sashForm.bottom = new FormAttachment(100, -200);
         fd_sashForm.left = new FormAttachment(0, 6);
         fd_sashForm.right = new FormAttachment(100, -6);
@@ -1325,6 +1332,8 @@ public class MainWindow
             }
         });
         menuItemAbout.setText("About");
+
+        if (UIUtils.isMacOSX()) macify(getDisplay());
     }
 
 
@@ -1336,15 +1345,19 @@ public class MainWindow
                     ignoreDoubleClicks = false;
                 };
         };
-        
-        toolBar = new ToolBar(shell, SWT.FLAT | SWT.RIGHT);
-        FormData fd_toolBar = new FormData();
-        fd_toolBar.top = new FormAttachment(0);
-        fd_toolBar.left = new FormAttachment(0);
-        fd_toolBar.right = new FormAttachment(100);
-        toolBar.setLayoutData(fd_toolBar);
 
-        if (UIUtils.isMacOSX()) macify(getDisplay());
+        if (UIUtils.isMacOSX())
+            toolBar = shell.getToolBar();
+
+        if (toolBar == null)
+        {
+            toolBar = new ToolBar(shell, SWT.FLAT | SWT.RIGHT);
+            FormData fd_toolBar = new FormData();
+            fd_toolBar.top = new FormAttachment(0);
+            fd_toolBar.left = new FormAttachment(0);
+            fd_toolBar.right = new FormAttachment(100);
+            toolBar.setLayoutData(fd_toolBar);
+        }
 
         ToolItem buttonShowMap = new ToolItem(toolBar, SWT.NONE);
         buttonShowMap.setImage(UIUtils.getImageResource("show_thumbnails_shadowed.png"));
@@ -2154,8 +2167,6 @@ public class MainWindow
             }
 
         });
-
-        toolBar = shell.getToolBar();
     }   
 
 
