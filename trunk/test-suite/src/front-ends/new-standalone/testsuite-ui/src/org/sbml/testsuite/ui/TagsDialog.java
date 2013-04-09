@@ -107,9 +107,10 @@ public class TagsDialog
         int totalHeight = 500;
         int buttonWidth = 80;
         int margin = 5;
+        int offset = 20 - UIUtils.scaledFontSize(20);
 
         shlFilterTags = new Shell(getParent(), SWT.DIALOG_TRIM | SWT.RESIZE);
-        shlFilterTags.setImage(UIUtils.getImageResource("sbml_256.png"));
+        shlFilterTags.setImage(UIUtils.getImageResource("icon_256x256.png"));
         shlFilterTags.setMinimumSize(new Point(totalWidth, totalHeight));
         shlFilterTags.setSize(totalWidth, totalHeight);
         shlFilterTags.setText("Choose tags");
@@ -123,7 +124,7 @@ public class TagsDialog
         FormData fd_cmdClearAll = new FormData();
         fd_cmdClearAll.width = buttonWidth;
         fd_cmdClearAll.top = new FormAttachment(0, margin);
-        fd_cmdClearAll.right = new FormAttachment(100, -margin);
+        fd_cmdClearAll.right = new FormAttachment(100, -(margin + offset));
         cmdClearAll.setLayoutData(fd_cmdClearAll);
         cmdClearAll.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -137,28 +138,11 @@ public class TagsDialog
         // Buttons at the bottom.  Done here so that the middle section can
         // refer to the buttons to anchor the bottom of their layout.
 
-        Button cmdCancel = new Button(shlFilterTags, SWT.NONE);
-        cmdCancel.setText("Cancel");
-        FormData fd_cmdCancel = new FormData();
-        fd_cmdCancel.width = buttonWidth;
-        fd_cmdCancel.bottom = new FormAttachment(100, -margin);
-        fd_cmdCancel.right = new FormAttachment(100, -(buttonWidth + margin));
-        cmdCancel.setLayoutData(fd_cmdCancel);
-        cmdCancel.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent arg0)
-            {
-                cancelPressed();
-            }
-        });
-        cmdCancel.setFocus();
-        cmdCancel.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shlFilterTags));
-
         Button cmdOk = new Button(shlFilterTags, SWT.NONE);
         FormData fd_cmdOk = new FormData();
         fd_cmdOk.width = buttonWidth;
-        fd_cmdOk.bottom = new FormAttachment(100, -margin);
-        fd_cmdOk.right = new FormAttachment(100, -margin);
+        fd_cmdOk.bottom = new FormAttachment(100, -(margin + offset));
+        fd_cmdOk.right = new FormAttachment(100, -(margin + offset));
         cmdOk.setLayoutData(fd_cmdOk);
         cmdOk.setText("OK");
         cmdOk.addSelectionListener(new SelectionAdapter() {
@@ -169,6 +153,23 @@ public class TagsDialog
             }
         });
         cmdOk.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shlFilterTags));
+
+        Button cmdCancel = new Button(shlFilterTags, SWT.NONE);
+        cmdCancel.setText("Cancel");
+        FormData fd_cmdCancel = new FormData();
+        fd_cmdCancel.width = buttonWidth;
+        fd_cmdCancel.bottom = new FormAttachment(100, -(margin + offset));
+        fd_cmdCancel.right = new FormAttachment(cmdOk, -margin);
+        cmdCancel.setLayoutData(fd_cmdCancel);
+        cmdCancel.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                cancelPressed();
+            }
+        });
+        cmdCancel.setFocus();
+        cmdCancel.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shlFilterTags));
 
         shlFilterTags.setDefaultButton(cmdOk);
         shlFilterTags.addListener(SWT.Traverse, new Listener() {
@@ -191,7 +192,7 @@ public class TagsDialog
         SashForm sashForm = new SashForm(shlFilterTags, SWT.VERTICAL);
         FormData fd_sashForm = new FormData();
         fd_sashForm.top = new FormAttachment(cmdClearAll, margin);
-        fd_sashForm.bottom = new FormAttachment(cmdCancel, 0);
+        fd_sashForm.bottom = new FormAttachment(cmdCancel, -offset);
         fd_sashForm.left = new FormAttachment(0, 0);
         fd_sashForm.right = new FormAttachment(100, 0);
         sashForm.setLayoutData(fd_sashForm);

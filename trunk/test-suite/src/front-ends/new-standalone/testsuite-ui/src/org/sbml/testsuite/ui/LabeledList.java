@@ -44,6 +44,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 
 /**
@@ -69,38 +70,44 @@ public class LabeledList
         super(parent, SWT.NONE);
         setLayout(new FormLayout());
 
+        int margin = 5;
+        int offset = 20 - UIUtils.scaledFontSize(20);
+
         label = new Label(this, SWT.NONE);
         FormData fd_lblLabel = new FormData();
-        fd_lblLabel.left = new FormAttachment(0, 10);
+        fd_lblLabel.left = new FormAttachment(0, 2*margin);
         label.setLayoutData(fd_lblLabel);
         label.setText("New Label");
 
         list = new List(this, SWT.MULTI | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
         FormData fd_list = new FormData();
-        fd_list.bottom = new FormAttachment(100, -10);
-        fd_list.right = new FormAttachment(100, -10);
-        fd_list.left = new FormAttachment(0, 10);
+        fd_list.bottom = new FormAttachment(100, -margin);
+        fd_list.left = new FormAttachment(0, 2*margin);
+        fd_list.right = new FormAttachment(100, -2*margin);
         list.setLayoutData(fd_list);
         
-        button1 = new Button(this, SWT.NONE);
-        button1.setText("Button 1");
-        fd_list.top = new FormAttachment(button1, 6);
-        fd_lblLabel.top = new FormAttachment(button1, 5, SWT.TOP);
-        FormData fd_button1 = new FormData();
-        fd_button1.width = 80;
-        fd_button1.top = new FormAttachment(0, 5);
-        fd_button1.right = new FormAttachment(100, -81);
-        button1.setLayoutData(fd_button1);
+        int buttonWidth = 80;
+
+        // button1 is left of button2, but we use button2 to align button1.
 
         button2 = new Button(this, SWT.NONE);
         button2.setText("Button 2");
-        fd_list.top = new FormAttachment(button2, 6);
-        fd_lblLabel.top = new FormAttachment(button2, 5, SWT.TOP);
         FormData fd_button2 = new FormData();
-        fd_button2.width = 80;
-        fd_button2.top = new FormAttachment(0, 5);
-        fd_button2.right = new FormAttachment(100, -5);
+        fd_button2.width = buttonWidth;
+        fd_button2.top = new FormAttachment(0, margin);
+        fd_button2.right = new FormAttachment(100, -(margin + offset));
         button2.setLayoutData(fd_button2);
+
+        button1 = new Button(this, SWT.NONE);
+        button1.setText("Button 1");
+        FormData fd_button1 = new FormData();
+        fd_button1.width = buttonWidth;
+        fd_button1.top = new FormAttachment(0, margin);
+        fd_button1.right = new FormAttachment(button2, -offset);
+        button1.setLayoutData(fd_button1);
+
+        fd_list.top = new FormAttachment(button1, offset);
+        fd_lblLabel.top = new FormAttachment(button1, margin, SWT.TOP);
 
         pack();
     }

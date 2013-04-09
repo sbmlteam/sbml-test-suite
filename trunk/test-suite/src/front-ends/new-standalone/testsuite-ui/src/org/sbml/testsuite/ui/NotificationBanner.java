@@ -32,6 +32,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
@@ -47,12 +48,12 @@ public class NotificationBanner
     private FormAttachment bottomAttachment = new FormAttachment(0, 0);
 
 
-    public NotificationBanner(Shell shell, int style)
+    public NotificationBanner(Shell shell, int style, int topOffset)
     {
         super(shell, style);
 
         FormData formData = new FormData();
-        formData.top = new FormAttachment(0, 0);
+        formData.top = new FormAttachment(0, topOffset);
         formData.bottom = bottomAttachment;
         formData.left = new FormAttachment(0, 0);
         formData.right = new FormAttachment(100, 0);

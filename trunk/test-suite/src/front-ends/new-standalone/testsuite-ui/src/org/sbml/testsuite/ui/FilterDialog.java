@@ -221,22 +221,23 @@ public class FilterDialog
         int totalHeight = 600;
 
         shlFilterTags = new Shell(getParent(), SWT.DIALOG_TRIM | SWT.RESIZE);
-        shlFilterTags.setImage(UIUtils.getImageResource("sbml_256.png"));
+        shlFilterTags.setImage(UIUtils.getImageResource("icon_256x256.png"));
         shlFilterTags.setMinimumSize(new Point(totalWidth, totalHeight));
         shlFilterTags.setSize(totalWidth, totalHeight);
         shlFilterTags.setText("Filter Tags");
         shlFilterTags.setLayout(new FormLayout());
         
-        int topLabelHeight = 30;
         int margin = 5;
+        int topLabelHeight = 30 + margin;
         int buttonWidth = 80;
+        int offset = 20 - UIUtils.scaledFontSize(20);
 
         lblDescription = new Label(shlFilterTags, SWT.LEFT);
         FormData fd_lblDescription = new FormData();
         fd_lblDescription.top = new FormAttachment(0, 2*margin);
         fd_lblDescription.bottom = new FormAttachment(0, margin + topLabelHeight);
         fd_lblDescription.left = new FormAttachment(0, margin);
-        fd_lblDescription.right = new FormAttachment(100, -(buttonWidth + 2*margin));
+        fd_lblDescription.right = new FormAttachment(100, -(buttonWidth + 2*margin + offset));
         lblDescription.setLayoutData(fd_lblDescription);
 
         Button cmdClearAll = new Button(shlFilterTags, SWT.NONE);
@@ -244,8 +245,8 @@ public class FilterDialog
         cmdClearAll.setToolTipText("Clear all selections");
         FormData fd_cmdClearAll = new FormData();
         fd_cmdClearAll.width = buttonWidth;
-        fd_cmdClearAll.top = new FormAttachment(0, margin);
-        fd_cmdClearAll.right = new FormAttachment(100, -margin);
+        fd_cmdClearAll.top = new FormAttachment(0, 2*margin + offset);
+        fd_cmdClearAll.right = new FormAttachment(100, -(2*margin + offset) + 1);
         cmdClearAll.setLayoutData(fd_cmdClearAll);
         cmdClearAll.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -260,12 +261,12 @@ public class FilterDialog
 
         // Section for filtering by case numbers.
 
-        int numberGroupHeight = 75 + 2*margin;
+        int numberGroupHeight = 76 + 2*margin;
 
         Group numberGroup = new Group(shlFilterTags, SWT.SHADOW_ETCHED_IN);
         numberGroup.setText("Filter by case numbers");
         FormData fd1 = new FormData();
-        fd1.top = new FormAttachment(shlFilterTags, topLabelHeight);
+        fd1.top = new FormAttachment(shlFilterTags, topLabelHeight + 2*offset);
         fd1.bottom = new FormAttachment(0, topLabelHeight + margin + numberGroupHeight);
         fd1.left = new FormAttachment(0, margin);
         fd1.right = new FormAttachment(100, -margin);
@@ -284,6 +285,7 @@ public class FilterDialog
         fd_numberUsageInfo.left = new FormAttachment(0, 3*margin);
         fd_numberUsageInfo.right = new FormAttachment(100, -3*margin);
         numberUsageInfo.setLayoutData(fd_numberUsageInfo);
+        numberUsageInfo.moveAbove(numberGroup);
         Color gray = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY);
         numberUsageInfo.setForeground(gray);
         FontData[] fontData = numberUsageInfo.getFont().getFontData();
@@ -310,54 +312,41 @@ public class FilterDialog
         fd_lblInclude.top = new FormAttachment(numberUsageInfo, 2*margin);
         fd_lblInclude.left = new FormAttachment(0, 3*margin);
         lblInclude.setLayoutData(fd_lblInclude);
+        lblInclude.moveAbove(numberGroup);
         lblInclude.setText("Include cases:");
         
         txtInclude = new Text(shlFilterTags, SWT.BORDER);
         FormData fd_txtInclude = new FormData();
         fd_txtInclude.top = new FormAttachment(numberUsageInfo, 2*margin);
         fd_txtInclude.left = new FormAttachment(lblInclude, margin);
-        fd_txtInclude.right = new FormAttachment(0, 290);
+        fd_txtInclude.right = new FormAttachment(0, 300);
         txtInclude.setLayoutData(fd_txtInclude);
+        txtInclude.moveAbove(numberGroup);
         
         txtExclude = new Text(shlFilterTags, SWT.BORDER);
         FormData fd_txtExclude = new FormData();
         fd_txtExclude.top = new FormAttachment(numberUsageInfo, 2*margin);
-        fd_txtExclude.left = new FormAttachment(100, -200);
+        fd_txtExclude.left = new FormAttachment(100, -205);
         fd_txtExclude.right = new FormAttachment(100, -3*margin);
         txtExclude.setLayoutData(fd_txtExclude);
+        txtExclude.moveAbove(numberGroup);
 
         Label lblExclude = new Label(shlFilterTags, SWT.RIGHT);
         FormData fd_lblExclude = new FormData();
         fd_lblExclude.top = new FormAttachment(numberUsageInfo, 2*margin);
         fd_lblExclude.right = new FormAttachment(txtExclude, -2*margin);
         lblExclude.setLayoutData(fd_lblExclude);
+        lblExclude.moveAbove(numberGroup);
         lblExclude.setText("Exclude cases:");
 
         // Buttons at the bottom.  Done here so that the middle section can
         // refer to the buttons to anchor the bottom of their layout.
 
-        Button cmdCancel = new Button(shlFilterTags, SWT.NONE);
-        cmdCancel.setText("Cancel");
-        FormData fd_cmdCancel = new FormData();
-        fd_cmdCancel.width = buttonWidth;
-        fd_cmdCancel.bottom = new FormAttachment(100, -2*margin);
-        fd_cmdCancel.right = new FormAttachment(100, -(buttonWidth + margin));
-        cmdCancel.setLayoutData(fd_cmdCancel);
-        cmdCancel.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent arg0)
-            {
-                cancelPressed();
-            }
-        });
-        cmdCancel.setFocus();
-        cmdCancel.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shlFilterTags));
-
         Button cmdOk = new Button(shlFilterTags, SWT.NONE);
         FormData fd_cmdOk = new FormData();
         fd_cmdOk.width = buttonWidth;
-        fd_cmdOk.bottom = new FormAttachment(100, -2*margin);
-        fd_cmdOk.right = new FormAttachment(100, -margin);
+        fd_cmdOk.bottom = new FormAttachment(100, -(margin + offset));
+        fd_cmdOk.right = new FormAttachment(100, -(2*margin + offset));
         cmdOk.setLayoutData(fd_cmdOk);
         cmdOk.setText("OK");
         cmdOk.addSelectionListener(new SelectionAdapter() {
@@ -368,6 +357,23 @@ public class FilterDialog
             }
         });
         cmdOk.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shlFilterTags));
+
+        Button cmdCancel = new Button(shlFilterTags, SWT.NONE);
+        cmdCancel.setText("Cancel");
+        FormData fd_cmdCancel = new FormData();
+        fd_cmdCancel.width = buttonWidth;
+        fd_cmdCancel.bottom = new FormAttachment(100, -(margin + offset));
+        fd_cmdCancel.right = new FormAttachment(cmdOk, -offset);
+        cmdCancel.setLayoutData(fd_cmdCancel);
+        cmdCancel.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                cancelPressed();
+            }
+        });
+        cmdCancel.setFocus();
+        cmdCancel.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shlFilterTags));
 
         shlFilterTags.setDefaultButton(cmdOk);
         shlFilterTags.addListener(SWT.Traverse, new Listener() {
@@ -391,12 +397,12 @@ public class FilterDialog
 
         Group tagsGroup = new Group(shlFilterTags, SWT.SHADOW_ETCHED_IN);
         tagsGroup.setText("Filter by tags");
-        FormData fd2 = new FormData();
-        fd2.top = new FormAttachment(numberGroup, margin);
-        fd2.bottom = new FormAttachment(cmdCancel, -margin);
-        fd2.left = new FormAttachment(0, margin);
-        fd2.right = new FormAttachment(100, -margin);
-        tagsGroup.setLayoutData(fd2);
+        FormData fd_tagsGroup = new FormData();
+        fd_tagsGroup.top = new FormAttachment(numberGroup, margin);
+        fd_tagsGroup.bottom = new FormAttachment(cmdCancel, -(margin + offset));
+        fd_tagsGroup.left = new FormAttachment(0, margin);
+        fd_tagsGroup.right = new FormAttachment(100, -margin);
+        tagsGroup.setLayoutData(fd_tagsGroup);
 
         Label spacer2 = new Label(shlFilterTags, SWT.NONE);
         FormData fd_spacer2 = new FormData();
@@ -411,6 +417,7 @@ public class FilterDialog
         fd_tagsUsageInfo.left = new FormAttachment(0, 3*margin);
         fd_tagsUsageInfo.right = new FormAttachment(100, -3*margin);
         tagsUsageInfo.setLayoutData(fd_tagsUsageInfo);
+        tagsUsageInfo.moveAbove(tagsGroup);
         tagsUsageInfo.setForeground(gray);
         tagsUsageInfo.setFont(newFont);
         tagsUsageInfo.addDisposeListener(new DisposeListener() {
@@ -429,10 +436,11 @@ public class FilterDialog
         SashForm sashForm = new SashForm(shlFilterTags, SWT.NONE);
         FormData fd_sashForm = new FormData();
         fd_sashForm.top = new FormAttachment(tagsUsageInfo, margin);
-        fd_sashForm.bottom = new FormAttachment(cmdCancel, -margin);
-        fd_sashForm.left = new FormAttachment(0, margin);
-        fd_sashForm.right = new FormAttachment(100, -margin);
+        fd_sashForm.bottom = new FormAttachment(cmdCancel, -3*margin);
+        fd_sashForm.left = new FormAttachment(0, margin + 1);
+        fd_sashForm.right = new FormAttachment(100, -margin - 1);
         sashForm.setLayoutData(fd_sashForm);
+        if (!UIUtils.isMacOSX()) sashForm.moveAbove(tagsGroup);
 
         SashForm sashForm_left = new SashForm(sashForm, SWT.VERTICAL);
 
