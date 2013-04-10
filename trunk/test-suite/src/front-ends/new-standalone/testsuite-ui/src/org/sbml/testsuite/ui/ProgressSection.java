@@ -74,7 +74,7 @@ public class ProgressSection
         fd_progressBar.right = new FormAttachment(100, -110);
         progressBar.setLayoutData(fd_progressBar);
         progressBar.resetSteps();
-        progressBar.moveAbove(this);
+        if (!UIUtils.isMacOSX()) progressBar.moveAbove(this);
 
         // Default values -- this should be reset immediately by caller.
 
