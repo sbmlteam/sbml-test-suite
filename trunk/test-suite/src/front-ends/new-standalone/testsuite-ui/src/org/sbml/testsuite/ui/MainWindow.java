@@ -851,38 +851,42 @@ public class MainWindow
         tree.addListener(SWT.DefaultSelection, treeSelectionListener);
 
         // The following changes the selection color of tree items by making
-        // it almost transparent.  This is needed because otherwise, the
-        // system's coloring of select items may make the case result color
-        // impossible to distinguish (depending on the system's/user's choice
-        // of selection color).
+        // it almost transparent.  This is needed because otherwise, on Mac
+        // OS, the system's coloring of select items may make the case result
+        // color impossible to distinguish (depending on the system's/user's
+        // choice of selection color).
         
-        final Color listSelectionColor
-            = getDisplay().getSystemColor(SWT.COLOR_LIST_SELECTION);
-        final Color blackColor
-            = getDisplay().getSystemColor(SWT.COLOR_BLACK);
-        tree.addListener(SWT.EraseItem, new Listener() {
-                final public void handleEvent(final Event event)
-                {
-                    // First check if this item is really selected.
+        if (UIUtils.isMacOSX())
+        {
+            final Color listSelectionColor
+                = getDisplay().getSystemColor(SWT.COLOR_LIST_SELECTION);
+            final Color blackColor
+                = getDisplay().getSystemColor(SWT.COLOR_BLACK);
+            tree.addListener(SWT.EraseItem, new Listener() {
+                    final public void handleEvent(final Event event)
+                    {
+                        // First check if this item is really selected.
 
-                    if ((event.detail & SWT.SELECTED) == 0) return; 
+                        if ((event.detail & SWT.SELECTED) == 0) return; 
 
-                    // Set the selection alpha to almost transparent.
-                    // Set the foreground color to black to make it stand out.
+                        // Set the selection alpha to almost transparent. Set
+                        // the foreground color to black to make it stand out.
 
-                    GC gc = event.gc;				
-                    gc.setAntialias(SWT.ON);
-                    gc.setAlpha(10);
-                    gc.setBackground(listSelectionColor);
-                    gc.setAlpha(255);
-                    gc.setForeground(blackColor);
-                    gc.fillRectangle(0, event.y, tree.getClientArea().width,
-                                     event.height);
+                        GC gc = event.gc;				
+                        gc.setAntialias(SWT.ON);
+                        gc.setAlpha(10);
+                        gc.setBackground(listSelectionColor);
+                        gc.setAlpha(255);
+                        gc.setForeground(blackColor);
+                        gc.fillRectangle(0, event.y,
+                                         tree.getClientArea().width,
+                                         event.height);
 
-                    event.detail &= ~SWT.HOT;
-                    event.detail &= ~SWT.SELECTED;
-                }
-            });
+                        event.detail &= ~SWT.HOT;
+                        event.detail &= ~SWT.SELECTED;
+                    }
+                });
+        }
 
         /* I found the tooltip in the tree to get in my way far too much.
            Instead of a tooltip, the system now has a larger message box
@@ -1076,7 +1080,18 @@ public class MainWindow
 
         if (!UIUtils.isMacOSX())
         {
+            MenuItem menuItemPrefs = new MenuItem(menuFileMenuItems, SWT.NONE);
+            menuItemPrefs.addSelectionListener(new SelectionAdapter() {
+                    @Override
+                    public void widgetSelected(SelectionEvent arg0)
+                    {
+                        editPreferences();
+                    }
+                });
+            menuItemPrefs.setText("Properties");
+
             new MenuItem(menuFileMenuItems, SWT.SEPARATOR);
+
             MenuItem menuItemQuit = new MenuItem(menuFileMenuItems, SWT.NONE);
             menuItemQuit.addSelectionListener(new SelectionAdapter() {
                     @Override
