@@ -160,9 +160,11 @@ public class EditWrapper
         txtName.setLayoutData(fd_txtName);
         txtName.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
+        int offset = 20 - UIUtils.scaledFontSize(20);
+
         btnWrapperViewOnly = new Button(this, SWT.CHECK);
         FormData fd_btnWrapperViewOnly = new FormData();
-        fd_btnWrapperViewOnly.left = new FormAttachment(0, 170);
+        fd_btnWrapperViewOnly.left = new FormAttachment(0, 170 + offset);
         fd_btnWrapperViewOnly.right = new FormAttachment(100, -31);
         fd_btnWrapperViewOnly.top = new FormAttachment(txtName, 6);
         btnWrapperViewOnly.setLayoutData(fd_btnWrapperViewOnly);
@@ -177,7 +179,7 @@ public class EditWrapper
 
         btnWrapperAnyLV = new Button(this, SWT.CHECK);
         FormData fd_btnWrapperAnyLV = new FormData();
-        fd_btnWrapperAnyLV.left = new FormAttachment(0, 170);
+        fd_btnWrapperAnyLV.left = new FormAttachment(0, 170 + offset);
         fd_btnWrapperAnyLV.right = new FormAttachment(100, -31);
         fd_btnWrapperAnyLV.top = new FormAttachment(btnWrapperViewOnly, 2);
         btnWrapperAnyLV.setLayoutData(fd_btnWrapperAnyLV);
@@ -186,7 +188,7 @@ public class EditWrapper
 
         btnWrapperThreadsOK = new Button(this, SWT.CHECK);
         FormData fd_btnWrapperThreadsOK = new FormData();
-        fd_btnWrapperThreadsOK.left = new FormAttachment(0, 170);
+        fd_btnWrapperThreadsOK.left = new FormAttachment(0, 170 + offset);
         fd_btnWrapperThreadsOK.right = new FormAttachment(100, -31);
         fd_btnWrapperThreadsOK.top = new FormAttachment(btnWrapperAnyLV, 2);
         btnWrapperThreadsOK.setLayoutData(fd_btnWrapperThreadsOK);
@@ -340,8 +342,6 @@ public class EditWrapper
         txtWrapperArgs.setLayoutData(fd_txtWrapperArgs);
         txtWrapperArgs.addKeyListener(UIUtils.createCloseKeyListener(shell));
         
-        int offset = 20 - UIUtils.scaledFontSize(20);
-
         Label lblUsageInfo1 = new Label(this, SWT.WRAP);
         FormData fd_lblUsageInfo1 = new FormData();
         fd_lblUsageInfo1.left = new FormAttachment(0, 10);
