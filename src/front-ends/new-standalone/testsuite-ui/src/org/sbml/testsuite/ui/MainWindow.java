@@ -783,9 +783,8 @@ public class MainWindow
 
         // --------------------- notifications of filters ---------------------
 
-        Rectangle r = toolBar.getBounds();
-        if (r.height != 0)
-            notificationBanner = new NotificationBanner(shell, SWT.CENTER, r.height);
+        if (UIUtils.isMacOSX())
+            notificationBanner = new NotificationBanner(shell, SWT.CENTER, 0);
         else
             notificationBanner = new NotificationBanner(shell, SWT.CENTER, 45);
         notificationBanner.setFont(statusFont);
