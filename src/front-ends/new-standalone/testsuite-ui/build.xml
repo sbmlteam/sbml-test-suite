@@ -4,20 +4,20 @@
         <property name="version.num" value="3.0.0" />
 
 	<property environment="env" />
-	<property name="core.location" value="../testsuite-core" />
+	<property name="testsuite-core.location" value="../testsuite-core" />
 	<property name="debuglevel" value="source,lines,vars" />
 	<property name="target" value="1.6" />
 	<property name="source" value="1.6" />
-	<path id="core.classpath">
-		<pathelement location="${core.location}/bin" />
+	<path id="testsuite-core.classpath">
+		<pathelement location="${testsuite-core.location}/bin" />
+                <pathelement location="${testsuite-core.location}/libs/simple-xml-2.6.4.jar"/>
 	</path>
 	<path id="testsuite-ui.classpath">
 		<pathelement location="bin" />
-		<path refid="core.classpath" />
+		<path refid="testsuite-core.classpath" />
 		<pathelement location="./libs/swt.jar" />
 		<pathelement location="./libs/org.swtchart_0.7.0.v20110128.jar" />
 		<pathelement location="./libs/opal-0.9.5.1.jar" />
-		<pathelement location="${core.location}/libs/simple-xml-2.6.4.jar" />
 	</path>
 	<target name="init">
                 <tstamp>
@@ -28,18 +28,21 @@
 			<fileset dir="src">
 				<exclude name="**/*.launch" />
 				<exclude name="**/*.java" />
+                                <exclude name="data/*"/>
 			</fileset>
 		</copy>
 	</target>
 	<target name="clean">
 		<delete dir="bin" />
+		<delete dir="stage" />
+                <delete file="../testsuite-ui.jar"/>
 	</target>
 	<target depends="clean" name="cleanall">
-		<ant antfile="build.xml" dir="${core.location}" inheritAll="false" target="clean" />
+		<ant antfile="build.xml" dir="${testsuite-core.location}" inheritAll="false" target="clean" />
 	</target>
 	<target depends="build-subprojects,build-project" name="build" />
 	<target name="build-subprojects">
-		<ant antfile="build.xml" dir="${core.location}" inheritAll="false" target="jar" />
+		<ant antfile="build.xml" dir="${testsuite-core.location}" inheritAll="false" target="jar" />
 	</target>
 	<target depends="init" name="build-project">
 		<echo message="${ant.project.name}: ${ant.file}" />
@@ -49,7 +52,7 @@
 		</javac>
 	</target>
 	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
-	<target name="jar" depends="build">
+	<target name="jar" depends="init,build-subprojects">
 		<manifestclasspath property="manifest.cp" jarfile="testsuite-ui.jar">
 			<classpath>
 				<pathelement location="opal-0.9.5.1.jar" />
@@ -68,7 +71,6 @@
 				<attribute name="Built-By" value="${user.name}" />
 			</manifest>
 			<fileset dir="bin" includes="**/*.class" />
-			<fileset dir="src" includes="data/**/*" />
 			<fileset dir="src" includes="org/sbml/testsuite/ui/resources/*" />
 		</jar>
 	</target>
@@ -126,6 +128,7 @@
 	<target name="start-osx64" depends="stage-osx64">
 		<java fork="true" jar="stage/testsuite-ui.jar">
 			<arg value="-XstartOnFirstThread"/>
+			<arg value='-Xdock:name="SBML Test Runner"'/>
 		</java>
 	</target>
 </project>
