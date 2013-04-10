@@ -4,20 +4,20 @@
         <property name="version.num" value="3.0.0" />
 
 	<property environment="env" />
-	<property name="testsuite-core.location" value="../testsuite-core" />
+	<property name="core.location" value="../testsuite-core" />
 	<property name="debuglevel" value="source,lines,vars" />
 	<property name="target" value="1.6" />
 	<property name="source" value="1.6" />
-	<path id="testsuite-core.classpath">
-		<pathelement location="${testsuite-core.location}/bin" />
-                <pathelement location="${testsuite-core.location}/libs/simple-xml-2.6.4.jar"/>
+	<path id="core.classpath">
+		<pathelement location="${core.location}/bin" />
 	</path>
 	<path id="testsuite-ui.classpath">
 		<pathelement location="bin" />
-		<path refid="testsuite-core.classpath" />
+		<path refid="core.classpath" />
 		<pathelement location="./libs/swt.jar" />
 		<pathelement location="./libs/org.swtchart_0.7.0.v20110128.jar" />
 		<pathelement location="./libs/opal-0.9.5.1.jar" />
+                <pathelement location="${core.location}/libs/simple-xml-2.6.4.jar"/>
 	</path>
 	<target name="init">
                 <tstamp>
@@ -38,11 +38,11 @@
                 <delete file="../testsuite-ui.jar"/>
 	</target>
 	<target depends="clean" name="cleanall">
-		<ant antfile="build.xml" dir="${testsuite-core.location}" inheritAll="false" target="clean" />
+		<ant antfile="build.xml" dir="${core.location}" inheritAll="false" target="clean" />
 	</target>
 	<target depends="build-subprojects,build-project" name="build" />
 	<target name="build-subprojects">
-		<ant antfile="build.xml" dir="${testsuite-core.location}" inheritAll="false" target="jar" />
+		<ant antfile="build.xml" dir="${core.location}" inheritAll="false" target="jar" />
 	</target>
 	<target depends="init" name="build-project">
 		<echo message="${ant.project.name}: ${ant.file}" />
@@ -52,7 +52,7 @@
 		</javac>
 	</target>
 	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
-	<target name="jar" depends="init,build-subprojects">
+	<target name="jar" depends="build">
 		<manifestclasspath property="manifest.cp" jarfile="testsuite-ui.jar">
 			<classpath>
 				<pathelement location="opal-0.9.5.1.jar" />
