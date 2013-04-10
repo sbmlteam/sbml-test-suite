@@ -20,7 +20,7 @@ mkdir "$APP_DIR/Contents/Resources/Java"
 cp $STAGE_DIR/*jar "$APP_DIR/Contents/Resources/Java"
 cp "$DIRECTORY/Info.plist" "$APP_DIR/Contents"
 cp "$DIRECTORY/PkgInfo" "$APP_DIR/Contents"
-cp "$DIRECTORY/GenericApp.icns" "$APP_DIR/Contents/Resources"
+cp "$DIRECTORY/src/org/sbml/testsuite/ui/resources/SBML Test Runner logo.icns" "$APP_DIR/Contents/Resources/GenericApp.icns"
 cp "$STUB" "$APP_DIR/Contents/MacOS"
 
 hdiutil create -ov -srcfolder "$APP_DIR" "$DMG"
