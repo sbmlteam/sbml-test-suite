@@ -1035,10 +1035,7 @@ public class MainWindow
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                // The timerExec() below is to compensate for the SWT problem
-                // described at http://stackoverflow.com/q/15825088/743730
-
-                getDisplay().timerExec(100, new Runnable() {
+                delayedUpdate(new Runnable() {
                     public void run()
                     {
                         showMap();
@@ -1138,17 +1135,22 @@ public class MainWindow
             @Override
             public void widgetSelected(SelectionEvent event)
             {
-                TreeItem item = getCaseFromUser();
-                if (item == null)
-                    return;
-                else
-                {
-                    deselectAll();
-                    tree.select(item);
-                    updatePlotsForSelection(item);
-                    recenterTree(item);
-                    progressSection.setSelectedCount(1);
-                }
+                delayedUpdate(new Runnable() {
+                    public void run()
+                    {
+                        TreeItem item = getCaseFromUser();
+                        if (item == null)
+                            return;
+                        else
+                        {
+                            deselectAll();
+                            tree.select(item);
+                            updatePlotsForSelection(item);
+                            recenterTree(item);
+                            progressSection.setSelectedCount(1);
+                        }
+                    }
+                });
             }
         });
         menuItemJumpToCase.setText("Jump to Case\tCtrl+J");
@@ -1165,10 +1167,7 @@ public class MainWindow
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                // The timerExec() below is to compensate for the SWT problem
-                // described at http://stackoverflow.com/q/15825088/743730
-
-                getDisplay().timerExec(100, new Runnable() {
+                delayedUpdate(new Runnable() {
                     public void run()
                     {
                         filterShowByTagOrNumber();
@@ -1584,16 +1583,7 @@ public class MainWindow
                     ignoreDoubleClicks = true;
                     getDisplay().timerExec(doubleClickTime, doubleTimer);
                 }
-
-                // The timerExec() below is to compensate for the SWT problem
-                // described at http://stackoverflow.com/q/15825088/743730
-
-                getDisplay().timerExec(100, new Runnable() {
-                    public void run()
-                    {
-                        editPreferences();
-                    }
-                });
+                editPreferences();
             }
         });
     }
