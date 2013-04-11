@@ -20,17 +20,17 @@
                 <pathelement location="${core.location}/libs/simple-xml-2.6.4.jar"/>
 	</path>
 	<target name="init">
-                <tstamp>
-                        <format property="timestamp" pattern="yyyy-MM-dd HH:mm zzz"/>
-                </tstamp>
-		<mkdir dir="bin" />
-		<copy includeemptydirs="false" todir="bin">
-			<fileset dir="src">
-				<exclude name="**/*.launch" />
-				<exclude name="**/*.java" />
-                                <exclude name="data/*"/>
-			</fileset>
-		</copy>
+          <tstamp>
+            <format property="timestamp" pattern="yyyy-MM-dd HH:mm zzz"/>
+          </tstamp>
+          <mkdir dir="bin" />
+          <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+              <exclude name="**/*.launch" />
+              <exclude name="**/*.java" />
+              <exclude name="data/*"/>
+            </fileset>
+          </copy>
 	</target>
 	<target name="clean">
 		<delete dir="bin" />
@@ -131,4 +131,47 @@
 			<arg value='-Xdock:name="SBML Test Runner"'/>
 		</java>
 	</target>
+
+        <condition property="isWindows" value="true">
+          <os family="windows" />
+        </condition>
+        <condition property="isLinux" value="true">
+          <os family="unix" />
+        </condition>
+        <condition property="isMac" value="true">
+          <os family="mac" />
+        </condition>
+
+        <target name="runnable-jar" depends="runnable-jar-mac-auto,runnable-jar-windows-auto,runnable-jar-linux-auto" />
+
+        <target name="runnable-jar-mac-auto"     if="isMac"     depends="init,stage-osx64,runnable-jar-common" />
+        <target name="runnable-jar-windows-auto" if="isWindows" depends="init,stage-win64,runnable-jar-common" />
+        <target name="runnable-jar-linux-auto"   if="isLinux"   depends="init,stage-linux64,runnable-jar-common" />
+
+        <target name="runnable-jar-mac"     depends="init,stage-osx64,runnable-jar-common" />
+        <target name="runnable-jar-windows" depends="init,stage-win64,runnable-jar-common" />
+        <target name="runnable-jar-linux"   depends="init,stage-linux64,runnable-jar-common" />
+
+        <target name="runnable-jar-mac32"     depends="init,stage-osx32,runnable-jar-common" />
+        <target name="runnable-jar-windows32" depends="init,stage-win32,runnable-jar-common" />
+        <target name="runnable-jar-linux32"   depends="init,stage-linux32,runnable-jar-common" />
+
+        <target name="runnable-jar-mac64"     depends="init,stage-osx64,runnable-jar-common" />
+        <target name="runnable-jar-windows64" depends="init,stage-win64,runnable-jar-common" />
+        <target name="runnable-jar-linux64"   depends="init,stage-linux64,runnable-jar-common" />
+
+        <target name="runnable-jar-common">
+          <jar destfile="sbmltestrunner.jar">
+            <manifest>
+              <attribute name="Main-Class" value="org.sbml.testsuite.ui.Program"/>
+              <attribute name="Implementation-Title" value="SBML Test Runner" />
+              <attribute name="Implementation-Version" value="${version.num}" />
+              <attribute name="Built-Timestamp" value="${timestamp}" />
+              <attribute name="Built-By" value="${user.name}" />
+            </manifest>
+            <zipgroupfileset dir="stage" />
+            <fileset dir="src" includes="org/sbml/testsuite/ui/resources" />
+          </jar>
+        </target>
+
 </project>
