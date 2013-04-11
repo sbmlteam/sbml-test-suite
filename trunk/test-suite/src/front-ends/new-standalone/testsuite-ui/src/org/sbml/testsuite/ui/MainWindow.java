@@ -546,6 +546,7 @@ public class MainWindow
         tree.setToolTipText("");
 
         final WrapperConfig wrapper = model.getLastWrapper();
+        final boolean viewOnly = wrapperIsViewOnly(wrapper);
 
         BusyIndicator.showWhile(getDisplay(), new Runnable() {
                 public void run()
@@ -554,23 +555,19 @@ public class MainWindow
                     // Otherwise, on the mac, it doesn't get shown.
                     getDisplay().update();
 
-                    ResultType result = ResultType.Unknown;
-                    Image img = ResultColor.getImageForResultType(result);
-
                     for (final TestCase test : model.getSuite().getSortedCases())
                     {
-                        if (!wrapperIsViewOnly(wrapper))
-                        {
-                            result = wrapper.getCachedResult(test.getId());
-                            img = ResultColor.getImageForResultType(result);
-                        }
+                        ResultType result = wrapper.getResultType(test, currentLV);
+                        Image img = ResultColor.getImageForResultType(result);
                         if (func == null || func.filter(test, result))
                         {                        
                             TreeItem treeItem = new TreeItem(tree, SWT.NONE);
                             treeItem.setData(ITEM_RESULT, result);
                             treeItem.setImage(img);
                             treeItem.setText(test.getId());
-                            if (result == ResultType.Unknown || result == null)
+
+                            if ((result == ResultType.Unknown || result == null)
+                                && !viewOnly)
                                 treeItem.setData(ITEM_RERUN, true);
                             else
                                 treeItem.setData(ITEM_RERUN, false);
@@ -2573,9 +2570,7 @@ public class MainWindow
             progressSection.setStatus(RunStatus.Running);
             runOutcome = wrapper.run(testCase, currentLV.getLevel(),
                                      currentLV.getVersion(), absolutePath, null);
-            updateItemStatus(item, wrapper.getResultType(testCase,
-                                                         currentLV.getLevel(),
-                                                         currentLV.getVersion()));
+            updateItemStatus(item, wrapper.getResultType(testCase, currentLV));
             progressSection.incrementDoneCount();
             selectionIndex++;
         }
