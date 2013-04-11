@@ -508,6 +508,8 @@ public class ResultMap
 
     protected void paintCanvas(GC gc)
     {
+        if (gc == null) return;
+
         gc.setAntialias(SWT.ON);
         if (keySets == null || keySets.length == 0)
         {
