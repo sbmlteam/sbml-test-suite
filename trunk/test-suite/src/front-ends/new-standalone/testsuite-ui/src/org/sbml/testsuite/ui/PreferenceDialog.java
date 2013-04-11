@@ -222,7 +222,8 @@ public class PreferenceDialog
             public void widgetSelected(SelectionEvent arg0)
             {
                 result = getResult(true, shell, wrappersEditor);
-                if (! wrapperVerified(result.getLastWrapper()))
+                if (!wrapperVerified(result.getLastWrapper(),
+                                     previousResult.getLastWrapper()))
                     return;
                 needConfirmSave = false;
                 shell.close();           // Will invoke close listener.
@@ -379,18 +380,19 @@ public class PreferenceDialog
     }
     
     
-    private boolean wrapperVerified(WrapperConfig wrapper)
+    private boolean wrapperVerified(WrapperConfig newWrapper,
+                                    WrapperConfig oldWrapper)
     {
-        if (wrapper == null) 
+        if (newWrapper == null) 
             return false;
 
-        if ("-- no wrapper --".equals(wrapper.getName()))
+        if ("-- no wrapper --".equals(newWrapper.getName()))
             return true;
 
-        if (wrapper.isViewOnly())
+        if (newWrapper.isViewOnly())
             return true;
         
-        String program = wrapper.getProgram();
+        String program = newWrapper.getProgram();
 
         if (program == null || program.isEmpty())
             return Tell.informWithOverride(shell,
@@ -425,7 +427,7 @@ public class PreferenceDialog
                                                + "\nthe wrapper cannot be run.");
         }
 
-        String outputPath = wrapper.getOutputPath();
+        String outputPath = newWrapper.getOutputPath();
         if (outputPath == null || outputPath.isEmpty())
             return Tell.informWithOverride(shell,
                                            "The output directory was left unspecified "
@@ -460,42 +462,65 @@ public class PreferenceDialog
                                                + "\nthe wrapper cannot be used.");
             else if (MarkerFile.exists(path))
             {
+                // If we find a marker file in the output, it means the
+                // output directory probably contains the results of a past
+                // run of either this wrapper or a different wrapper.  We
+                // need to warn the user if it looks like the results came
+                // from a different wrapper program.
+
                 String prog = MarkerFile.getContents(path);
-                String question;
+                String question = "Choose OK to associate the"
+                    + "\nresults with the current wrapper, or choose"
+                    + "\nCancel to go back to the Preferences panel"
+                    + "\nso that you can change the directory.";
+                String intro;
 
-                // If we can read the marker file, use the content to make a
-                // more informative dialog.  If we can't read it, but it
-                // exists, we still know this directory must have been used
-                // for a run, so we still ask.
-
-                if (prog != null && prog.length() > 0)
-                    question = "The output directory you have chosen appears"
+                if (prog == null || prog.length() == 0)
+                    intro = "The output directory you have chosen appears"
                         + "\nto contain the results of a previous run of"
-                        + "\n\n   " + prog + "\n\n"
-                        + "Choose OK to associate those results with the"
-                        + "\ncurrent wrapper, or choose Cancel to go back"
-                        + "\nto the Preferences panel so that you can change"
-                        + "\nthe directory.";
+                        + "\nthe SBML Test Runner. ";
                 else
-                    question = "The output directory you have chosen appears"
+                    intro = "The output directory you have chosen appears"
                         + "\nto contain the results of a previous run of"
-                        + "\nthe SBML Test Runner. Choose OK to associate"
-                        + "\nthose results with the current wrapper, or"
-                        + "\nchoose Cancel to go back to the Preferences"
-                        + "\npanel so that you can change the directory.";
+                        + "\n\n   " + prog + "\n";
 
-                if (! Tell.saveCancel(shell, question))
-                    return false;
+                // The contents of the marker file should never be null,
+                // because we're the program that writes it in the first
+                // place.  But, we have to program defensively.
+
+                if (prog == null || prog.length() == 0)
+                {
+                    // Bummer, it's empty.  Can't do much, but only bother the
+                    // user if they are changing the wrapper program.
+
+                    if (!oldWrapper.getProgram().equals(newWrapper.getProgram()))
+                        return Tell.saveCancel(shell, intro + question);
+                }
+                else if (!newWrapper.getProgram().equals(prog))
+                {
+                    // If the results were generated by a different program,
+                    // confirm association of the results with *this* wrapper.
+
+                    String details = "Since the results in this directory appear"
+                        + "\nto have come from a different wrapper, the"
+                        + "\nSBML Test Runner needs your help to determine"
+                        + "\nwhether it makes sense to associate those"
+                        + "\nresults with the currently-selected wrapper,"
+                        + "\n\n    " + newWrapper.getProgram() + "\n";
+
+                    return Tell.saveCancel(shell, intro + details + question);
+                }
             }
         }
 
-        String args = wrapper.getArguments();
+        String args = newWrapper.getArguments();
         if (args == null || args.isEmpty())
             return Tell.informWithOverride(shell,
                                            "The arguments to the wrapper program have "
                                            + "\nbeen left undefined, which makes it impossible "
                                            + "\nfor the SBML Test Runner to invoke the wrapper "
-                                           + "\nwith different test cases.");
+                                           + "\nwith different test cases. Please provide"
+                                           + "\nsuitable arguments.");
 
         return true;
     }
