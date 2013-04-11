@@ -413,9 +413,15 @@ public class EditWrapper
     }
 
 
+    private boolean wrapperIsViewOnly()
+    {
+        return btnWrapperViewOnly.getSelection();
+    }
+
+
     private void updateForViewOnlyWrapper()
     {
-        if (btnWrapperViewOnly.getSelection())
+        if (wrapperIsViewOnly())
         {
             lblWrapper.setEnabled(false);
             lblWrapper.setForeground(inactiveTextColor);
@@ -427,10 +433,6 @@ public class EditWrapper
             cmdEditTags.setEnabled(false);
             lblWrapperArguments.setEnabled(false);
             lblWrapperArguments.setForeground(inactiveTextColor);
-            lblWrapperOutputDir.setEnabled(false);
-            lblWrapperOutputDir.setForeground(inactiveTextColor);
-            txtWrapperOutputDir.setEnabled(false);
-            cmdBrowseOutputDir.setEnabled(false);
             btnWrapperThreadsOK.setEnabled(false);
             btnWrapperAnyLV.setEnabled(false);
             btnWrapperAnyLV.setSelection(true);
@@ -448,10 +450,6 @@ public class EditWrapper
             cmdEditTags.setEnabled(true);
             lblWrapperArguments.setEnabled(true);
             lblWrapperArguments.setForeground(normalTextColor);
-            lblWrapperOutputDir.setEnabled(true);
-            lblWrapperOutputDir.setForeground(normalTextColor);
-            txtWrapperOutputDir.setEnabled(true);
-            cmdBrowseOutputDir.setEnabled(true);
             btnWrapperThreadsOK.setEnabled(true);
             btnWrapperAnyLV.setEnabled(true);
             txtWrapperArgs.setEnabled(true);
@@ -479,8 +477,9 @@ public class EditWrapper
             retry = false;
             dlg.setFilterPath(selectedDir);
             selectedDir = dlg.open();
-            if (selectedDir != null && MarkerFile.exists(selectedDir)
-                && ! confirmOutputDir(selectedDir))
+            if (!wrapperIsViewOnly() && selectedDir != null
+                && MarkerFile.exists(selectedDir)
+                && !confirmOutputDir(selectedDir))
                 retry = true;
         }
         while (retry);
