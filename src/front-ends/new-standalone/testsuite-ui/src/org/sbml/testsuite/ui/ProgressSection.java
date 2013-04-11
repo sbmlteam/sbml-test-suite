@@ -34,9 +34,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.sbml.testsuite.core.TestCase;
 
 
 public class ProgressSection
@@ -84,14 +82,16 @@ public class ProgressSection
     }
         
 
-    public void setFont(Font font)
+    @Override
+    public void setMessageFont(Font font)
     {
         message.setFont(font);
         countLabel.setFont(font);
     }
 
 
-    public void setTextColor(Color color)
+    @Override
+    public void setMessageTextColor(Color color)
     {
         message.setForeground(color);
         countLabel.setForeground(color);
