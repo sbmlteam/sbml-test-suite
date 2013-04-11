@@ -29,13 +29,10 @@
 
 package org.sbml.testsuite.ui;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Vector;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
@@ -45,6 +42,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -53,9 +51,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-import org.sbml.testsuite.core.Util;
-import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.widgets.Control;
 
 /**
  * Filter dialog for test / component tags
@@ -204,7 +199,7 @@ public class TagsDialog
         compComponentTags.setLayout(new FormLayout());
 
         Label lblComponentTags = new Label(compComponentTags, SWT.NONE);
-        lblComponentTags.setText("Select Component Tags:");
+        lblComponentTags.setText("Unsupported Component Tags:");
         FormData fd_lblComponentTags = new FormData();
         fd_lblComponentTags.top = new FormAttachment(0, margin);
         fd_lblComponentTags.left = new FormAttachment(0, margin);
@@ -255,7 +250,7 @@ public class TagsDialog
         fd_lblTestTags.top = new FormAttachment(0, margin);
         fd_lblTestTags.left = new FormAttachment(0, margin);
         lblTestTags.setLayoutData(fd_lblTestTags);
-        lblTestTags.setText("Select Component Tags:");
+        lblTestTags.setText("Unsupported Test Tags:");
 
         Button btnClearTestTags = new Button(compTestTags, SWT.NONE);
         btnClearTestTags.setText("Clear");
