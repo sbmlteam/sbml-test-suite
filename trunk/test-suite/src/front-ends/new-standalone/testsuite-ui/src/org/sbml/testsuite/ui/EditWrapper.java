@@ -32,8 +32,6 @@ import java.util.Vector;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -46,10 +44,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -419,6 +415,13 @@ public class EditWrapper
     }
 
 
+    private boolean wrapperIsNoWrapper()
+    {
+        return (txtName.getText() != null
+                && "-- no wrapper --".equals(txtName.getText()));
+    }
+
+
     private void updateForViewOnlyWrapper()
     {
         if (wrapperIsViewOnly())
@@ -427,10 +430,6 @@ public class EditWrapper
             lblWrapper.setForeground(inactiveTextColor);
             txtWrapper.setEnabled(false);
             cmdBrowseWrapper.setEnabled(false);
-            lblUnsupportedTags.setEnabled(false);
-            lblUnsupportedTags.setForeground(inactiveTextColor);
-            txtUnsupportedTags.setEnabled(false);
-            cmdEditTags.setEnabled(false);
             lblWrapperArguments.setEnabled(false);
             lblWrapperArguments.setForeground(inactiveTextColor);
             btnWrapperThreadsOK.setEnabled(false);
@@ -444,10 +443,6 @@ public class EditWrapper
             lblWrapper.setForeground(normalTextColor);
             txtWrapper.setEnabled(true);
             cmdBrowseWrapper.setEnabled(true);
-            lblUnsupportedTags.setEnabled(true);
-            lblUnsupportedTags.setForeground(normalTextColor);
-            txtUnsupportedTags.setEnabled(true);
-            cmdEditTags.setEnabled(true);
             lblWrapperArguments.setEnabled(true);
             lblWrapperArguments.setForeground(normalTextColor);
             btnWrapperThreadsOK.setEnabled(true);
@@ -459,9 +454,30 @@ public class EditWrapper
 
     private void updateForNoWrapper()
     {
-        if (txtName.getText() != null
-            && txtName.getText().equals("-- no wrapper --"))
-            btnWrapperViewOnly.setEnabled(false);            
+        if (wrapperIsNoWrapper())
+        {
+            btnWrapperViewOnly.setEnabled(false);
+            lblUnsupportedTags.setEnabled(false);
+            lblUnsupportedTags.setForeground(inactiveTextColor);
+            txtUnsupportedTags.setEnabled(false);
+            cmdEditTags.setEnabled(false);
+            lblWrapperOutputDir.setEnabled(false);
+            lblWrapperOutputDir.setForeground(inactiveTextColor);
+            txtWrapperOutputDir.setEnabled(false);
+            cmdBrowseOutputDir.setEnabled(false);
+        }
+        else
+        {
+            btnWrapperViewOnly.setEnabled(true);
+            lblUnsupportedTags.setEnabled(true);
+            lblUnsupportedTags.setForeground(normalTextColor);
+            txtUnsupportedTags.setEnabled(true);
+            cmdEditTags.setEnabled(true);
+            lblWrapperOutputDir.setEnabled(true);
+            lblWrapperOutputDir.setForeground(normalTextColor);
+            txtWrapperOutputDir.setEnabled(true);
+            cmdBrowseOutputDir.setEnabled(true);
+        }
     }
 
 
