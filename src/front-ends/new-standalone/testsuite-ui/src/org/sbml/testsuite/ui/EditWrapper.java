@@ -499,27 +499,47 @@ public class EditWrapper
     private boolean confirmOutputDir(String dir)
     {
         String prog = MarkerFile.getContents(dir);
-        String question;
+        String intro;
+        String question = "Choose OK to associate"
+            + "\nthose results with the current wrapper, or"
+            + "\nchoose Cancel to go back to the Preferences"
+            + "\npanel so that you can change the directory.";
 
         // If we can read the marker file, use the content to make a more
         // informative dialog.  If we can't read it, but it exists, we still
         // know this directory must have been used for a run, so we still ask.
 
         if (prog != null && prog.length() > 0)
-            question = "The directory you have chosen appears to"
-                + "\ncontain the results of a previous run of"
-                + "\n\n   " + prog + "\n\n"
-                + "Choose OK to associate those results with the"
-                + "\ncurrent wrapper, or choose Cancel to pick"
-                + "\na different directory.";
-        else
-            question = "The directory you have chosen appears to"
-                + "\ncontain the results of a previous run of"
-                + "\nthe SBML Test Runner. Choose OK to associate"
-                + "\nthose results with the current wrapper, or"
-                + "\nchoose Cancel to pick a different directory.";
+        {
+            // Skip the question if the wrapper program hasn't changed.
 
-        return Tell.saveCancel(getShell(), question);
+            if (txtWrapper.getText().equals(prog))
+                return true;
+            else
+                intro = "The directory you have chosen appears to"
+                    + "\ncontain the results of a previous run of"
+                    + "\nthe SBML Test Runner, but for a different"
+                    + "\nwrapper program,"
+                    + "\n\n   " + prog
+                    + "\nThe SBML Test Runner cannot know whether"
+                    + "\nthe results in the directory can be reused"
+                    + "\nfor the current wrapper. ";
+        }
+        else
+        {
+            // We found results, but for some reason the marker file is
+            // empty, which is a situation that shouldn't arise because we
+            // wrote the file in the first place.  Still, need to check.
+
+            intro = "The directory you have chosen appears to"
+                + "\ncontain the results of a previous run of"
+                + "\nthe SBML Test Runner. The SBML Test Runner"
+                + "\ncannot know whether the results in the"
+                + "\ndirectory can be reused for the current"
+                + "\nwrapper. ";
+        }
+
+        return Tell.saveCancel(getShell(), intro + question);
     }
 
 
