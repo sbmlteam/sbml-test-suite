@@ -39,51 +39,29 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Scanner;
-import java.util.SortedSet;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.Vector;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.events.ArmEvent;
-import org.eclipse.swt.events.ArmListener;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseMoveListener;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
@@ -1685,7 +1663,7 @@ public class MainWindow
         if (num == null) return null;
         if (!isInteger(num))
         {
-            Tell.error(shell, "Input does not appear to be a number.",
+            Tell.error(shell, num + " does not appear to be a number.",
                        "The input must be given as a number from 1 to "
                        + getHighestCaseNumber() + ".");
             return null;
@@ -2440,7 +2418,6 @@ public class MainWindow
         private String path;
         private WrapperConfig wrapper;
         private Display display;
-        private String caseId;
         private RunOutcome runOutcome;
         private LevelVersion levelVersion;
 
@@ -2452,7 +2429,6 @@ public class MainWindow
             this.path = path;
             this.wrapper = wrapper;
             this.display = display;
-            this.caseId = theCase.getId();
             this.runOutcome = null;
             this.levelVersion = lv;
         }
@@ -2585,7 +2561,6 @@ public class MainWindow
             markAsRunning(false);
             // Clear this result.
             selectionIndex--;
-            TreeItem item = selection[selectionIndex];
             descriptionSection.setMessage("Stopped.");
             return;
         }
