@@ -122,6 +122,7 @@ public class ResultMap
         this(parent, dialogStyle);
         this.parentShell = parent;
         this.wrapper = wrapper;
+        this.suite = suite;
         shell.setText("Map of test results for wrapper \""
                       + wrapper.getName() + "\"");
     }
