@@ -83,49 +83,49 @@
 		<copy file="libs/org.swtchart_0.7.0.v20110128.jar" todir="stage" />
 		<copy file="libs/simple-xml-2.6.4.jar" todir="stage" />
 	</target>
-	<target name="stage-win32" depends="stage-common">
+	<target name="stage-win-32" depends="stage-common">
 		<delete file="stage/swt.jar" />
-		<copy file="libs/swt-win32.jar" tofile="stage/swt.jar" />
+		<copy file="libs/swt-win-32.jar" tofile="stage/swt.jar" />
 	</target>
-	<target name="start-win32" depends="stage-win32">
+	<target name="start-win-32" depends="stage-win-32">
 		<java fork="true" jar="stage/testsuite-ui.jar" />
 	</target>
-	<target name="stage-win64" depends="stage-common">
+	<target name="stage-win-64" depends="stage-common">
 		<delete file="stage/swt.jar" />
-		<copy file="libs/swt-win64.jar" tofile="stage/swt.jar" />
+		<copy file="libs/swt-win-64.jar" tofile="stage/swt.jar" />
 	</target>
-	<target name="start-win64" depends="stage-win64">
+	<target name="start-win-64" depends="stage-win-64">
 		<java fork="true" jar="stage/testsuite-ui.jar" />
 	</target>
-	<target name="stage-linux32" depends="stage-common">
+	<target name="stage-linux-32" depends="stage-common">
 		<delete file="stage/swt.jar" />
 		<copy file="libs/swt-linux-x86.jar" tofile="stage/swt.jar" />
 	</target>
-	<target name="start-linux32" depends="stage-linux32">
+	<target name="start-linux-32" depends="stage-linux-32">
 		<java fork="true" jar="stage/testsuite-ui.jar" />
 	</target>
-	<target name="stage-linux64" depends="stage-common">
+	<target name="stage-linux-64" depends="stage-common">
 		<delete file="stage/swt.jar" />
-		<copy file="libs/swt-linux-x64.jar" tofile="stage/swt.jar" />
+		<copy file="libs/swt-linux-x-64.jar" tofile="stage/swt.jar" />
 	</target>
-	<target name="start-linux64" depends="stage-linux64">
+	<target name="start-linux-64" depends="stage-linux-64">
 		<java fork="true" jar="stage/testsuite-ui.jar" />
 	</target>
-	<target name="stage-osx32" depends="stage-common">
+	<target name="stage-osx-32" depends="stage-common">
 		<delete file="stage/swt.jar" />
 		<copy file="libs/swt-osx.jar" tofile="stage/swt.jar" />
 	</target>
-	<target name="start-osx32" depends="stage-osx32">
+	<target name="start-osx-32" depends="stage-osx-32">
 		<java fork="true" jar="stage/testsuite-ui.jar" >
 			<arg value="-d32"/>
 			<arg value="-XstartOnFirstThread"/>
 		</java>
 	</target>
-	<target name="stage-osx64" depends="stage-common">
+	<target name="stage-osx-64" depends="stage-common">
 		<delete file="stage/swt.jar" />
-		<copy file="libs/swt-osx-64.jar" tofile="stage/swt.jar" />
+		<copy file="libs/swt-osx--64.jar" tofile="stage/swt.jar" />
 	</target>
-	<target name="start-osx64" depends="stage-osx64">
+	<target name="start-osx-64" depends="stage-osx-64">
 		<java fork="true" jar="stage/testsuite-ui.jar">
 			<arg value="-XstartOnFirstThread"/>
 			<arg value='-Xdock:name="SBML Test Runner"'/>
@@ -142,23 +142,33 @@
           <os family="mac" />
         </condition>
 
-        <target name="runnable-jar" depends="runnable-jar-mac-auto,runnable-jar-windows-auto,runnable-jar-linux-auto" />
+        <target name="runnable-jar"          depends="rn-jar-mac-auto, rn-jar-win-auto, rn-jar-linux-auto" />
 
-        <target name="runnable-jar-mac-auto"     if="isMac"     depends="init,stage-osx64,runnable-jar-common" />
-        <target name="runnable-jar-windows-auto" if="isWindows" depends="init,stage-win64,runnable-jar-common" />
-        <target name="runnable-jar-linux-auto"   if="isLinux"   depends="init,stage-linux64,runnable-jar-common" />
+        <target name="runnable-jar-32"       depends="rn-jar-mac-auto-32, rn-jar-win-auto-32, rn-jar-linux-auto-32" />
+        <target name="runnable-jar-64"       depends="rn-jar-mac-auto-64, rn-jar-win-auto-64, rn-jar-linux-auto-64" />
 
-        <target name="runnable-jar-mac"     depends="init,stage-osx64,runnable-jar-common" />
-        <target name="runnable-jar-windows" depends="init,stage-win64,runnable-jar-common" />
-        <target name="runnable-jar-linux"   depends="init,stage-linux64,runnable-jar-common" />
+        <target name="runnable-jar-mac"      depends="init, stage-osx-64, runnable-jar-common" />
+        <target name="runnable-jar-win"      depends="init, stage-win-64, runnable-jar-common" />
+        <target name="runnable-jar-linux"    depends="init, stage-linux-64, runnable-jar-common" />
 
-        <target name="runnable-jar-mac32"     depends="init,stage-osx32,runnable-jar-common" />
-        <target name="runnable-jar-windows32" depends="init,stage-win32,runnable-jar-common" />
-        <target name="runnable-jar-linux32"   depends="init,stage-linux32,runnable-jar-common" />
+        <target name="runnable-jar-mac-32"   depends="init, stage-osx-32, runnable-jar-common" />
+        <target name="runnable-jar-win-32"   depends="init, stage-win-32, runnable-jar-common" />
+        <target name="runnable-jar-linux-32" depends="init, stage-linux-32, runnable-jar-common" />
 
-        <target name="runnable-jar-mac64"     depends="init,stage-osx64,runnable-jar-common" />
-        <target name="runnable-jar-windows64" depends="init,stage-win64,runnable-jar-common" />
-        <target name="runnable-jar-linux64"   depends="init,stage-linux64,runnable-jar-common" />
+        <target name="runnable-jar-mac-64"   depends="init, stage-osx-64, runnable-jar-common" />
+        <target name="runnable-jar-win-64"   depends="init, stage-win-64, runnable-jar-common" />
+        <target name="runnable-jar-linux-64" depends="init, stage-linux-64, runnable-jar-common" />
+
+        <target name="rn-jar-mac-auto"      if="isMac"   depends="init, stage-osx-64, runnable-jar-common" />
+        <target name="rn-jar-win-auto"      if="isWin"   depends="init, stage-win-64, runnable-jar-common" />
+        <target name="rn-jar-linux-auto"    if="isLinux" depends="init, stage-linux-64, runnable-jar-common" />
+
+        <target name="rn-jar-mac-auto-32"   if="isMac"   depends="init, stage-osx-32, runnable-jar-common" />
+        <target name="rn-jar-mac-auto-64"   if="isMac"   depends="init, stage-osx-64, runnable-jar-common" />
+        <target name="rn-jar-win-auto-32"   if="isWin"   depends="init, stage-win-32, runnable-jar-common" />
+        <target name="rn-jar-win-auto-64"   if="isWin"   depends="init, stage-win-64, runnable-jar-common" />
+        <target name="rn-jar-linux-auto-32" if="isLinux" depends="init, stage-linux-32, runnable-jar-common" />
+        <target name="rn-jar-linux-auto-64" if="isLinux" depends="init, stage-linux-64, runnable-jar-common" />
 
         <target name="runnable-jar-common">
           <jar destfile="sbmltestrunner.jar">
