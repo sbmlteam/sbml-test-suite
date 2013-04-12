@@ -1,0 +1,8 @@
+[From the web page http://glyphicons.com/glyphicons-licenses/ on 2013-04-12]
+
+GLYPHICONS FREE
+are released under the Creative Commons Attribution 3.0 Unported (CC BY
+3.0). The GLYPHICONS FREE can be used both commercially and for personal use,
+but you must always add a link to glyphicons.com in a prominent place
+(e.g. the footer of a website), include the CC-BY license and the reference
+to glyphicons.com on every page using GLYPHICONS.

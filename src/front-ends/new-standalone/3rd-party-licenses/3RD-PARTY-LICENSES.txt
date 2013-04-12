@@ -1,0 +1,14 @@
+         Third-party software and materials incorporated into
+                         the SBML Test Runner
+
+The SBML Test Runner makes use of a number of software libraries and
+other materials created by other parties.  They are incorporated into
+the SBML Test Runner application and also included in the SBML Test
+Runner source code repository.  For your convenience, copies of the
+license files are gathered in the subdirectory licenses/lib-licenses/.
+
+
+======================================================================
+Glyphicons
+======================================================================
+
