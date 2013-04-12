@@ -2,6 +2,9 @@
 <project basedir="." default="jar" name="testsuite-ui">
 
         <property name="version.num" value="3.0.0" />
+        <property name="app.name" value="SBML Test Runner" />
+        <property name="app.main.class" value="org.sbml.testsuite.ui.Program" />
+        <property name="app.icon" value="src/org/sbml/testsuite/ui/resources/SBML Test Runner logo.icns" />
 
 	<property environment="env" />
 	<property name="core.location" value="../testsuite-core" />
@@ -68,9 +71,9 @@
 		</manifestclasspath>
 		<jar jarfile="testsuite-ui.jar" destfile="../testsuite-ui.jar">
 			<manifest>
-				<attribute name="Main-Class" value="org.sbml.testsuite.ui.Program" />
+				<attribute name="Main-Class" value="${app.main.class}" />
 				<attribute name="Class-Path" value="${manifest.cp}" />
-				<attribute name="Implementation-Title" value="SBML Test Runner" />
+				<attribute name="Implementation-Title" value="${app.name}" />
 				<attribute name="Implementation-Version" value="${version.num}" />
 				<attribute name="Built-Timestamp" value="${timestamp}" />
 				<attribute name="Built-By" value="${user.name}" />
@@ -133,7 +136,7 @@
 	<target name="start-osx-64" depends="stage-osx-64">
 		<java fork="true" jar="stage/testsuite-ui.jar">
 			<arg value="-XstartOnFirstThread"/>
-			<arg value='-Xdock:name="SBML Test Runner"'/>
+			<arg value='-Xdock:name="${app.name}"'/>
 		</java>
 	</target>
 
@@ -189,8 +192,8 @@
         <target name="runnable-jar-common">
           <jar destfile="sbmltestrunner.jar">
             <manifest>
-              <attribute name="Main-Class" value="org.sbml.testsuite.ui.Program"/>
-              <attribute name="Implementation-Title" value="SBML Test Runner" />
+              <attribute name="Main-Class" value="${app.main.class}"/>
+              <attribute name="Implementation-Title" value="${app.name}" />
               <attribute name="Implementation-Version" value="${version.num}" />
               <attribute name="Built-Timestamp" value="${timestamp}" />
               <attribute name="Built-By" value="${user.name}" />
@@ -212,18 +215,90 @@
           <mkdir dir="dist" />
           <jarbundler dir="dist"
                       verbose="true"
-                      name="SBML Test Runner"
-                      mainclass="org.sbml.testsuite.ui.Program"
+                      name="${app.name}"
+                      mainclass="${app.main.class}"
                       bundleid="org.sbml.testsuite"
                       version="${version.num}"
-                      icon="src/org/sbml/testsuite/ui/resources/SBML Test Runner logo.icns"
-                      infostring="SBML Test Runner version ${version.num}"
+                      icon="${app.icon}"
+                      infostring="${app.name} version ${version.num}"
                       jvmversion="1.6+"
                       startOnMainThread="true"
-                      arguments='-Xdock:name="SBML Test Suite"'
+                      arguments='-Xdock:name="${app.name}"'
                       jar="sbmltestrunner.jar">
             <resourcefilelist dir=".." files="LICENSE.txt" />
           </jarbundler>
+        </target>
+
+        <target name="mac-dmg" depends="mac-app">
+          <property name="mountdir" value="/tmp"/>
+          <property name="dmg.name" value="dist/${app.name}-${version.num}.dmg"/>
+          <property name="dmg.tmp.name" value="dist/${app.name}-${version.num}-tmp.dmg"/>
+
+          <delete file="dist/${app.name}-${version.num}.dmg" failonerror="false"/>
+
+          <!-- Create a temporary image -->
+          <exec executable="hdiutil">
+            <arg value="create"/>
+            <arg value="-srcfolder"/>
+            <arg value="dist/${app.name}.app"/>
+            <arg value="-volname"/>
+            <arg value="${app.name}"/>
+            <arg value="-ov"/>
+            <arg path="${dmg.tmp.name}"/>
+            <arg value="-format"/>
+            <arg value="UDRW"/>
+          </exec>
+
+          <!-- attach the temporary image -->
+          <exec executable="/usr/bin/hdiutil" os="Mac OS X" failonerror="true">
+            <arg value="attach"/>
+            <arg value="${dmg.tmp.name}"/>
+            <arg value="-readwrite"/>
+            <arg value="-mountroot"/>
+            <arg value="${mountdir}/"/>
+          </exec>
+
+          <!-- copy the volume icon -->
+          <copy file="${app.icon}"
+                tofile="${mountdir}/${app.name}/.VolumeIcon.icns"
+                overwrite="true"/>
+
+          <!-- indicate we want a custom icon -->
+          <exec executable="SetFile" os="Mac OS X">
+            <arg value="-a"/>
+            <arg value="C"/>
+            <arg value="${mountdir}/${app.name}"/>
+          </exec>
+
+          <!-- add a symbolic link to the Applications directory -->
+          <symlink link="${mountdir}/${app.name}" resource="/Applications"/>
+
+          <!-- detach the temporary image -->
+          <exec executable="/usr/bin/hdiutil" os="Mac OS X" failonerror="true">
+            <arg value="detach"/>
+            <arg value="${mountdir}/${app.name}"/>
+          </exec>
+
+          <!-- compress it to a new image -->
+          <exec executable="/usr/bin/hdiutil" os="Mac OS X" failonerror="true">
+            <arg value="convert"/>
+            <arg value="${dmg.tmp.name}"/>
+            <arg value="-format"/>
+            <arg value="UDZO"/>
+            <arg value="-o"/>
+            <arg value="${dmg.name}"/>
+          </exec>
+
+          <!-- set property on the image -->
+          <exec executable="hdiutil">
+            <arg value="internet-enable"/>
+            <arg value="-yes"/>
+            <arg path="${dmg.name}"/>
+          </exec>
+
+          <!-- Delete the temporary image -->
+          <delete file="${dmg.tmp.name}" quiet="yes" failonerror="false"/>
+
         </target>
 
 </project>
