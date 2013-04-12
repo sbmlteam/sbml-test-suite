@@ -1,304 +1,304 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." default="jar" name="testsuite-ui">
 
-        <property name="version.num" value="3.0.0" />
-        <property name="app.name" value="SBML Test Runner" />
-        <property name="app.main.class" value="org.sbml.testsuite.ui.Program" />
-        <property name="app.icon" value="src/org/sbml/testsuite/ui/resources/SBML Test Runner logo.icns" />
+  <property name="version.num" value="3.0.0" />
+  <property name="app.name" value="SBML Test Runner" />
+  <property name="app.main.class" value="org.sbml.testsuite.ui.Program" />
+  <property name="app.icon" value="src/org/sbml/testsuite/ui/resources/SBML Test Runner logo.icns" />
 
-	<property environment="env" />
-	<property name="core.location" value="../testsuite-core" />
-	<property name="debuglevel" value="source,lines,vars" />
-	<property name="target" value="1.6" />
-	<property name="source" value="1.6" />
-	<path id="core.classpath">
-		<pathelement location="${core.location}/bin" />
-	</path>
-	<path id="testsuite-ui.classpath">
-		<pathelement location="bin" />
-		<path refid="core.classpath" />
-		<pathelement location="./libs/swt.jar" />
-		<pathelement location="./libs/org.swtchart_0.7.0.v20110128.jar" />
-		<pathelement location="./libs/opal-0.9.5.1.jar" />
-                <pathelement location="${core.location}/libs/simple-xml-2.6.4.jar"/>
-	</path>
-	<target name="init">
-          <tstamp>
-            <format property="timestamp" pattern="yyyy-MM-dd HH:mm zzz"/>
-          </tstamp>
-          <mkdir dir="bin" />
-          <copy includeemptydirs="false" todir="bin">
-            <fileset dir="src">
-              <exclude name="**/*.launch" />
-              <exclude name="**/*.java" />
-              <exclude name="data/*"/>
-            </fileset>
-          </copy>
-	</target>
-	<target name="clean">
-		<delete dir="bin" />
-		<delete dir="stage" />
-                <delete file="../testsuite-ui.jar"/>
-	</target>
-	<target depends="clean" name="cleanall">
-		<ant antfile="build.xml" dir="${core.location}" inheritAll="false" target="clean" />
-	</target>
-	<target depends="build-subprojects,build-project" name="build" />
-	<target name="build-subprojects">
-		<ant antfile="build.xml" dir="${core.location}" inheritAll="false" target="jar" />
-	</target>
-	<target depends="init" name="build-project">
-		<echo message="${ant.project.name}: ${ant.file}" />
-		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="no">
-			<src path="src" />
-			<classpath refid="testsuite-ui.classpath" />
-		</javac>
-	</target>
-	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
+  <property environment="env" />
+  <property name="core.location" value="../testsuite-core" />
+  <property name="debuglevel" value="source,lines,vars" />
+  <property name="target" value="1.6" />
+  <property name="source" value="1.6" />
+  <path id="core.classpath">
+    <pathelement location="${core.location}/bin" />
+  </path>
+  <path id="testsuite-ui.classpath">
+    <pathelement location="bin" />
+    <path refid="core.classpath" />
+    <pathelement location="./libs/swt.jar" />
+    <pathelement location="./libs/org.swtchart_0.7.0.v20110128.jar" />
+    <pathelement location="./libs/opal-0.9.5.1.jar" />
+    <pathelement location="${core.location}/libs/simple-xml-2.6.4.jar"/>
+  </path>
+  <target name="init">
+    <tstamp>
+      <format property="timestamp" pattern="yyyy-MM-dd HH:mm zzz"/>
+    </tstamp>
+    <mkdir dir="bin" />
+    <copy includeemptydirs="false" todir="bin">
+      <fileset dir="src">
+        <exclude name="**/*.launch" />
+        <exclude name="**/*.java" />
+        <exclude name="data/*"/>
+      </fileset>
+    </copy>
+  </target>
+  <target name="clean">
+    <delete dir="bin" />
+    <delete dir="stage" />
+    <delete file="../testsuite-ui.jar"/>
+  </target>
+  <target depends="clean" name="cleanall">
+    <ant antfile="build.xml" dir="${core.location}" inheritAll="false" target="clean" />
+  </target>
+  <target depends="build-subprojects,build-project" name="build" />
+  <target name="build-subprojects">
+    <ant antfile="build.xml" dir="${core.location}" inheritAll="false" target="jar" />
+  </target>
+  <target depends="init" name="build-project">
+    <echo message="${ant.project.name}: ${ant.file}" />
+    <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="no">
+      <src path="src" />
+      <classpath refid="testsuite-ui.classpath" />
+    </javac>
+  </target>
+  <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
 
- 	<!-- =================================================================== -->
-	<!-- Basic jars                                                          -->
-	<!-- =================================================================== -->
+  <!-- =================================================================== -->
+  <!-- Basic jars                                                          -->
+  <!-- =================================================================== -->
 
-	<target name="jar" depends="build">
-		<manifestclasspath property="manifest.cp" jarfile="testsuite-ui.jar">
-			<classpath>
-				<pathelement location="opal-0.9.5.1.jar" />
-				<pathelement location="swt.jar" />
-				<pathelement location="org.swtchart_0.7.0.v20110128.jar" />
-				<pathelement location="testsuite-core.jar" />
-			</classpath>
-		</manifestclasspath>
-		<jar jarfile="testsuite-ui.jar" destfile="../testsuite-ui.jar">
-			<manifest>
-				<attribute name="Main-Class" value="${app.main.class}" />
-				<attribute name="Class-Path" value="${manifest.cp}" />
-				<attribute name="Implementation-Title" value="${app.name}" />
-				<attribute name="Implementation-Version" value="${version.num}" />
-				<attribute name="Built-Timestamp" value="${timestamp}" />
-				<attribute name="Built-By" value="${user.name}" />
-			</manifest>
-			<fileset dir="bin" includes="**/*.class" />
-			<fileset dir="src" includes="org/sbml/testsuite/ui/resources/*" />
-		</jar>
-	</target>
-	<target name="stage-common" depends="jar">
-		<mkdir dir="stage" />
-		<copy file="../testsuite-ui.jar" todir="stage" />
-		<copy file="../testsuite-core.jar" todir="stage" />
-		<copy file="libs/swt.jar" todir="stage" />
-		<copy file="libs/opal-0.9.5.1.jar" todir="stage" />
-		<copy file="libs/org.swtchart_0.7.0.v20110128.jar" todir="stage" />
-		<copy file="libs/simple-xml-2.6.4.jar" todir="stage" />
-	</target>
-	<target name="stage-win-32" depends="stage-common">
-		<delete file="stage/swt.jar" />
-		<copy file="libs/swt-win32.jar" tofile="stage/swt.jar" />
-	</target>
-	<target name="start-win-32" depends="stage-win-32">
-		<java fork="true" jar="stage/testsuite-ui.jar" />
-	</target>
-	<target name="stage-win-64" depends="stage-common">
-		<delete file="stage/swt.jar" />
-		<copy file="libs/swt-win64.jar" tofile="stage/swt.jar" />
-	</target>
-	<target name="start-win-64" depends="stage-win-64">
-		<java fork="true" jar="stage/testsuite-ui.jar" />
-	</target>
-	<target name="stage-linux-32" depends="stage-common">
-		<delete file="stage/swt.jar" />
-		<copy file="libs/swt-linux-x86.jar" tofile="stage/swt.jar" />
-	</target>
-	<target name="start-linux-32" depends="stage-linux-32">
-		<java fork="true" jar="stage/testsuite-ui.jar" />
-	</target>
-	<target name="stage-linux-64" depends="stage-common">
-		<delete file="stage/swt.jar" />
-		<copy file="libs/swt-linux-x64.jar" tofile="stage/swt.jar" />
-	</target>
-	<target name="start-linux-64" depends="stage-linux-64">
-		<java fork="true" jar="stage/testsuite-ui.jar" />
-	</target>
-	<target name="stage-osx-32" depends="stage-common">
-		<delete file="stage/swt.jar" />
-		<copy file="libs/swt-osx.jar" tofile="stage/swt.jar" />
-	</target>
-	<target name="start-osx-32" depends="stage-osx-32">
-		<java fork="true" jar="stage/testsuite-ui.jar" >
-			<arg value="-d32"/>
-			<arg value="-XstartOnFirstThread"/>
-		</java>
-	</target>
-	<target name="stage-osx-64" depends="stage-common">
-		<delete file="stage/swt.jar" />
-		<copy file="libs/swt-osx-64.jar" tofile="stage/swt.jar" />
-	</target>
-	<target name="start-osx-64" depends="stage-osx-64">
-		<java fork="true" jar="stage/testsuite-ui.jar">
-			<arg value="-XstartOnFirstThread"/>
-			<arg value='-Xdock:name="${app.name}"'/>
-		</java>
-	</target>
+  <target name="jar" depends="build">
+    <manifestclasspath property="manifest.cp" jarfile="testsuite-ui.jar">
+      <classpath>
+        <pathelement location="opal-0.9.5.1.jar" />
+        <pathelement location="swt.jar" />
+        <pathelement location="org.swtchart_0.7.0.v20110128.jar" />
+        <pathelement location="testsuite-core.jar" />
+      </classpath>
+    </manifestclasspath>
+    <jar jarfile="testsuite-ui.jar" destfile="../testsuite-ui.jar">
+      <manifest>
+        <attribute name="Main-Class" value="${app.main.class}" />
+        <attribute name="Class-Path" value="${manifest.cp}" />
+        <attribute name="Implementation-Title" value="${app.name}" />
+        <attribute name="Implementation-Version" value="${version.num}" />
+        <attribute name="Built-Timestamp" value="${timestamp}" />
+        <attribute name="Built-By" value="${user.name}" />
+      </manifest>
+      <fileset dir="bin" includes="**/*.class" />
+      <fileset dir="src" includes="org/sbml/testsuite/ui/resources/*" />
+    </jar>
+  </target>
+  <target name="stage-common" depends="jar">
+    <mkdir dir="stage" />
+    <copy file="../testsuite-ui.jar" todir="stage" />
+    <copy file="../testsuite-core.jar" todir="stage" />
+    <copy file="libs/swt.jar" todir="stage" />
+    <copy file="libs/opal-0.9.5.1.jar" todir="stage" />
+    <copy file="libs/org.swtchart_0.7.0.v20110128.jar" todir="stage" />
+    <copy file="libs/simple-xml-2.6.4.jar" todir="stage" />
+  </target>
+  <target name="stage-win-32" depends="stage-common">
+    <delete file="stage/swt.jar" />
+    <copy file="libs/swt-win32.jar" tofile="stage/swt.jar" />
+  </target>
+  <target name="start-win-32" depends="stage-win-32">
+    <java fork="true" jar="stage/testsuite-ui.jar" />
+  </target>
+  <target name="stage-win-64" depends="stage-common">
+    <delete file="stage/swt.jar" />
+    <copy file="libs/swt-win64.jar" tofile="stage/swt.jar" />
+  </target>
+  <target name="start-win-64" depends="stage-win-64">
+    <java fork="true" jar="stage/testsuite-ui.jar" />
+  </target>
+  <target name="stage-linux-32" depends="stage-common">
+    <delete file="stage/swt.jar" />
+    <copy file="libs/swt-linux-x86.jar" tofile="stage/swt.jar" />
+  </target>
+  <target name="start-linux-32" depends="stage-linux-32">
+    <java fork="true" jar="stage/testsuite-ui.jar" />
+  </target>
+  <target name="stage-linux-64" depends="stage-common">
+    <delete file="stage/swt.jar" />
+    <copy file="libs/swt-linux-x64.jar" tofile="stage/swt.jar" />
+  </target>
+  <target name="start-linux-64" depends="stage-linux-64">
+    <java fork="true" jar="stage/testsuite-ui.jar" />
+  </target>
+  <target name="stage-osx-32" depends="stage-common">
+    <delete file="stage/swt.jar" />
+    <copy file="libs/swt-osx.jar" tofile="stage/swt.jar" />
+  </target>
+  <target name="start-osx-32" depends="stage-osx-32">
+    <java fork="true" jar="stage/testsuite-ui.jar" >
+      <arg value="-d32"/>
+      <arg value="-XstartOnFirstThread"/>
+    </java>
+  </target>
+  <target name="stage-osx-64" depends="stage-common">
+    <delete file="stage/swt.jar" />
+    <copy file="libs/swt-osx-64.jar" tofile="stage/swt.jar" />
+  </target>
+  <target name="start-osx-64" depends="stage-osx-64">
+    <java fork="true" jar="stage/testsuite-ui.jar">
+      <arg value="-XstartOnFirstThread"/>
+      <arg value='-Xdock:name="${app.name}"'/>
+    </java>
+  </target>
 
- 	<!-- =================================================================== -->
-	<!-- Executable jars                                                     -->
- 	<!--                                                                     -->
-	<!-- These bundle dependent libraries and make it possible for a user    -->
-	<!-- to execute "java -jar sbmltestrunner.jar" to start the app.         -->
-	<!-- =================================================================== -->
+  <!-- =================================================================== -->
+  <!-- Executable jars                                                     -->
+  <!--                                                                     -->
+  <!-- These bundle dependent libraries and make it possible for a user    -->
+  <!-- to execute "java -jar sbmltestrunner.jar" to start the app.         -->
+  <!-- =================================================================== -->
 
-        <condition property="isWindows" value="true">
-          <os family="windows" />
-        </condition>
-        <condition property="isLinux" value="true">
-          <os family="unix" />
-        </condition>
-        <condition property="isMac" value="true">
-          <os family="mac" />
-        </condition>
+  <condition property="isWindows" value="true">
+    <os family="windows" />
+  </condition>
+  <condition property="isLinux" value="true">
+    <os family="unix" />
+  </condition>
+  <condition property="isMac" value="true">
+    <os family="mac" />
+  </condition>
 
- 	<!-- The following targets are meant to be invoked by users.           -->
+  <!-- The following targets are meant to be invoked by users.           -->
 
-        <target name="runnable-jar"          depends="rn-jar-mac-auto, rn-jar-win-auto, rn-jar-linux-auto" />
+  <target name="runnable-jar"          depends="rn-jar-mac-auto, rn-jar-win-auto, rn-jar-linux-auto" />
 
-        <target name="runnable-jar-32"       depends="rn-jar-mac-auto-32, rn-jar-win-auto-32, rn-jar-linux-auto-32" />
-        <target name="runnable-jar-64"       depends="rn-jar-mac-auto-64, rn-jar-win-auto-64, rn-jar-linux-auto-64" />
+  <target name="runnable-jar-32"       depends="rn-jar-mac-auto-32, rn-jar-win-auto-32, rn-jar-linux-auto-32" />
+  <target name="runnable-jar-64"       depends="rn-jar-mac-auto-64, rn-jar-win-auto-64, rn-jar-linux-auto-64" />
 
-        <target name="runnable-jar-mac"      depends="init, stage-osx-64, runnable-jar-common" />
-        <target name="runnable-jar-win"      depends="init, stage-win-64, runnable-jar-common" />
-        <target name="runnable-jar-linux"    depends="init, stage-linux-64, runnable-jar-common" />
+  <target name="runnable-jar-mac"      depends="init, stage-osx-64, runnable-jar-common" />
+  <target name="runnable-jar-win"      depends="init, stage-win-64, runnable-jar-common" />
+  <target name="runnable-jar-linux"    depends="init, stage-linux-64, runnable-jar-common" />
 
-        <target name="runnable-jar-mac-32"   depends="init, stage-osx-32, runnable-jar-common" />
-        <target name="runnable-jar-win-32"   depends="init, stage-win-32, runnable-jar-common" />
-        <target name="runnable-jar-linux-32" depends="init, stage-linux-32, runnable-jar-common" />
+  <target name="runnable-jar-mac-32"   depends="init, stage-osx-32, runnable-jar-common" />
+  <target name="runnable-jar-win-32"   depends="init, stage-win-32, runnable-jar-common" />
+  <target name="runnable-jar-linux-32" depends="init, stage-linux-32, runnable-jar-common" />
 
-        <target name="runnable-jar-mac-64"   depends="init, stage-osx-64, runnable-jar-common" />
-        <target name="runnable-jar-win-64"   depends="init, stage-win-64, runnable-jar-common" />
-        <target name="runnable-jar-linux-64" depends="init, stage-linux-64, runnable-jar-common" />
+  <target name="runnable-jar-mac-64"   depends="init, stage-osx-64, runnable-jar-common" />
+  <target name="runnable-jar-win-64"   depends="init, stage-win-64, runnable-jar-common" />
+  <target name="runnable-jar-linux-64" depends="init, stage-linux-64, runnable-jar-common" />
 
- 	<!-- The following targets are internal and not really meant for users -->
+  <!-- The following targets are internal and not really meant for users -->
 
-        <target name="rn-jar-mac-auto"      if="isMac"   depends="init, stage-osx-64, runnable-jar-common" />
-        <target name="rn-jar-win-auto"      if="isWin"   depends="init, stage-win-64, runnable-jar-common" />
-        <target name="rn-jar-linux-auto"    if="isLinux" depends="init, stage-linux-64, runnable-jar-common" />
+  <target name="rn-jar-mac-auto"      if="isMac"   depends="init, stage-osx-64, runnable-jar-common" />
+  <target name="rn-jar-win-auto"      if="isWin"   depends="init, stage-win-64, runnable-jar-common" />
+  <target name="rn-jar-linux-auto"    if="isLinux" depends="init, stage-linux-64, runnable-jar-common" />
 
-        <target name="rn-jar-mac-auto-32"   if="isMac"   depends="init, stage-osx-32, runnable-jar-common" />
-        <target name="rn-jar-mac-auto-64"   if="isMac"   depends="init, stage-osx-64, runnable-jar-common" />
-        <target name="rn-jar-win-auto-32"   if="isWin"   depends="init, stage-win-32, runnable-jar-common" />
-        <target name="rn-jar-win-auto-64"   if="isWin"   depends="init, stage-win-64, runnable-jar-common" />
-        <target name="rn-jar-linux-auto-32" if="isLinux" depends="init, stage-linux-32, runnable-jar-common" />
-        <target name="rn-jar-linux-auto-64" if="isLinux" depends="init, stage-linux-64, runnable-jar-common" />
+  <target name="rn-jar-mac-auto-32"   if="isMac"   depends="init, stage-osx-32, runnable-jar-common" />
+  <target name="rn-jar-mac-auto-64"   if="isMac"   depends="init, stage-osx-64, runnable-jar-common" />
+  <target name="rn-jar-win-auto-32"   if="isWin"   depends="init, stage-win-32, runnable-jar-common" />
+  <target name="rn-jar-win-auto-64"   if="isWin"   depends="init, stage-win-64, runnable-jar-common" />
+  <target name="rn-jar-linux-auto-32" if="isLinux" depends="init, stage-linux-32, runnable-jar-common" />
+  <target name="rn-jar-linux-auto-64" if="isLinux" depends="init, stage-linux-64, runnable-jar-common" />
 
-        <target name="runnable-jar-common">
-          <jar destfile="sbmltestrunner.jar">
-            <manifest>
-              <attribute name="Main-Class" value="${app.main.class}"/>
-              <attribute name="Implementation-Title" value="${app.name}" />
-              <attribute name="Implementation-Version" value="${version.num}" />
-              <attribute name="Built-Timestamp" value="${timestamp}" />
-              <attribute name="Built-By" value="${user.name}" />
-            </manifest>
-            <zipgroupfileset dir="stage" />
-            <fileset dir="src" includes="org/sbml/testsuite/ui/resources" />
-          </jar>
-        </target>
+  <target name="runnable-jar-common">
+    <jar destfile="sbmltestrunner.jar">
+      <manifest>
+        <attribute name="Main-Class" value="${app.main.class}"/>
+        <attribute name="Implementation-Title" value="${app.name}" />
+        <attribute name="Implementation-Version" value="${version.num}" />
+        <attribute name="Built-Timestamp" value="${timestamp}" />
+        <attribute name="Built-By" value="${user.name}" />
+      </manifest>
+      <zipgroupfileset dir="stage" />
+      <fileset dir="src" includes="org/sbml/testsuite/ui/resources" />
+    </jar>
+  </target>
 
- 	<!-- =================================================================== -->
-	<!-- Applications and distributions                                      -->
- 	<!--                                                                     -->
- 	<!-- This requires JarBundler (http://informagen.com/JarBundler/)        -->
-	<!-- =================================================================== -->
+  <!-- =================================================================== -->
+  <!-- Applications and distributions                                      -->
+  <!--                                                                     -->
+  <!-- This requires JarBundler (http://informagen.com/JarBundler/)        -->
+  <!-- =================================================================== -->
 
-        <taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" />
+  <taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" />
 
-        <target name="mac-app" depends="runnable-jar-mac">
-          <mkdir dir="dist" />
-          <jarbundler dir="dist"
-                      verbose="true"
-                      name="${app.name}"
-                      mainclass="${app.main.class}"
-                      bundleid="org.sbml.testsuite"
-                      version="${version.num}"
-                      icon="${app.icon}"
-                      infostring="${app.name} version ${version.num}"
-                      jvmversion="1.6+"
-                      startOnMainThread="true"
-                      arguments='-Xdock:name="${app.name}"'
-                      jar="sbmltestrunner.jar">
-            <resourcefilelist dir=".." files="LICENSE.txt" />
-          </jarbundler>
-        </target>
+  <target name="mac-app" depends="runnable-jar-mac">
+    <mkdir dir="dist" />
+    <jarbundler dir="dist"
+                verbose="true"
+                name="${app.name}"
+                mainclass="${app.main.class}"
+                bundleid="org.sbml.testsuite"
+                version="${version.num}"
+                icon="${app.icon}"
+                infostring="${app.name} version ${version.num}"
+                jvmversion="1.6+"
+                startOnMainThread="true"
+                arguments='-Xdock:name="${app.name}"'
+                jar="sbmltestrunner.jar">
+      <resourcefilelist dir=".." files="LICENSE.txt" />
+    </jarbundler>
+  </target>
 
-        <target name="mac-dmg" depends="mac-app">
-          <property name="mountdir" value="/tmp"/>
-          <property name="dmg.name" value="dist/${app.name}-${version.num}.dmg"/>
-          <property name="dmg.tmp.name" value="dist/${app.name}-${version.num}-tmp.dmg"/>
+  <target name="mac-dmg" depends="mac-app">
+    <property name="mountdir" value="/tmp"/>
+    <property name="dmg.name" value="dist/${app.name}-${version.num}.dmg"/>
+    <property name="dmg.tmp.name" value="dist/${app.name}-${version.num}-tmp.dmg"/>
 
-          <delete file="dist/${app.name}-${version.num}.dmg" failonerror="false"/>
+    <delete file="dist/${app.name}-${version.num}.dmg" failonerror="false"/>
 
-          <!-- Create a temporary image -->
-          <exec executable="hdiutil">
-            <arg value="create"/>
-            <arg value="-srcfolder"/>
-            <arg value="dist/${app.name}.app"/>
-            <arg value="-volname"/>
-            <arg value="${app.name}"/>
-            <arg value="-ov"/>
-            <arg path="${dmg.tmp.name}"/>
-            <arg value="-format"/>
-            <arg value="UDRW"/>
-          </exec>
+    <!-- Create a temporary image -->
+    <exec executable="hdiutil">
+      <arg value="create"/>
+      <arg value="-srcfolder"/>
+      <arg value="dist/${app.name}.app"/>
+      <arg value="-volname"/>
+      <arg value="${app.name}"/>
+      <arg value="-ov"/>
+      <arg path="${dmg.tmp.name}"/>
+      <arg value="-format"/>
+      <arg value="UDRW"/>
+    </exec>
 
-          <!-- attach the temporary image -->
-          <exec executable="/usr/bin/hdiutil" os="Mac OS X" failonerror="true">
-            <arg value="attach"/>
-            <arg value="${dmg.tmp.name}"/>
-            <arg value="-readwrite"/>
-            <arg value="-mountroot"/>
-            <arg value="${mountdir}/"/>
-          </exec>
+    <!-- attach the temporary image -->
+    <exec executable="/usr/bin/hdiutil" os="Mac OS X" failonerror="true">
+      <arg value="attach"/>
+      <arg value="${dmg.tmp.name}"/>
+      <arg value="-readwrite"/>
+      <arg value="-mountroot"/>
+      <arg value="${mountdir}/"/>
+    </exec>
 
-          <!-- copy the volume icon -->
-          <copy file="${app.icon}"
-                tofile="${mountdir}/${app.name}/.VolumeIcon.icns"
-                overwrite="true"/>
+    <!-- copy the volume icon -->
+    <copy file="${app.icon}"
+          tofile="${mountdir}/${app.name}/.VolumeIcon.icns"
+          overwrite="true"/>
 
-          <!-- indicate we want a custom icon -->
-          <exec executable="SetFile" os="Mac OS X">
-            <arg value="-a"/>
-            <arg value="C"/>
-            <arg value="${mountdir}/${app.name}"/>
-          </exec>
+    <!-- indicate we want a custom icon -->
+    <exec executable="SetFile" os="Mac OS X">
+      <arg value="-a"/>
+      <arg value="C"/>
+      <arg value="${mountdir}/${app.name}"/>
+    </exec>
 
-          <!-- add a symbolic link to the Applications directory -->
-          <symlink link="${mountdir}/${app.name}" resource="/Applications"/>
+    <!-- add a symbolic link to the Applications directory -->
+    <symlink link="${mountdir}/${app.name}" resource="/Applications"/>
 
-          <!-- detach the temporary image -->
-          <exec executable="/usr/bin/hdiutil" os="Mac OS X" failonerror="true">
-            <arg value="detach"/>
-            <arg value="${mountdir}/${app.name}"/>
-          </exec>
+    <!-- detach the temporary image -->
+    <exec executable="/usr/bin/hdiutil" os="Mac OS X" failonerror="true">
+      <arg value="detach"/>
+      <arg value="${mountdir}/${app.name}"/>
+    </exec>
 
-          <!-- compress it to a new image -->
-          <exec executable="/usr/bin/hdiutil" os="Mac OS X" failonerror="true">
-            <arg value="convert"/>
-            <arg value="${dmg.tmp.name}"/>
-            <arg value="-format"/>
-            <arg value="UDZO"/>
-            <arg value="-o"/>
-            <arg value="${dmg.name}"/>
-          </exec>
+    <!-- compress it to a new image -->
+    <exec executable="/usr/bin/hdiutil" os="Mac OS X" failonerror="true">
+      <arg value="convert"/>
+      <arg value="${dmg.tmp.name}"/>
+      <arg value="-format"/>
+      <arg value="UDZO"/>
+      <arg value="-o"/>
+      <arg value="${dmg.name}"/>
+    </exec>
 
-          <!-- set property on the image -->
-          <exec executable="hdiutil">
-            <arg value="internet-enable"/>
-            <arg value="-yes"/>
-            <arg path="${dmg.name}"/>
-          </exec>
+    <!-- set property on the image -->
+    <exec executable="hdiutil">
+      <arg value="internet-enable"/>
+      <arg value="-yes"/>
+      <arg path="${dmg.name}"/>
+    </exec>
 
-          <!-- Delete the temporary image -->
-          <delete file="${dmg.tmp.name}" quiet="yes" failonerror="false"/>
+    <!-- Delete the temporary image -->
+    <delete file="${dmg.tmp.name}" quiet="yes" failonerror="false"/>
 
-        </target>
+  </target>
 
 </project>
