@@ -213,7 +213,8 @@
 
   <taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" />
 
-  <target name="mac-app" depends="runnable-jar-mac">
+  <target name="mac-app-lion" depends="runnable-jar-mac">
+    <delete dir="dist/${app.name}.app" failonerror="false"/>
     <mkdir dir="dist" />
     <jarbundler dir="dist"
                 verbose="true"
@@ -222,7 +223,7 @@
                 bundleid="org.sbml.testsuite"
                 version="${version.num}"
                 icon="${app.icon}"
-                infostring="${app.name} version ${version.num}"
+                infostring="${app.name} ${version.num} for OS X 10.7 and 10.8"
                 jvmversion="1.6+"
                 startOnMainThread="true"
                 arguments='-Xdock:name="${app.name}"'
@@ -231,12 +232,46 @@
     </jarbundler>
   </target>
 
-  <target name="mac-dmg" depends="mac-app">
-    <property name="mountdir" value="/tmp"/>
-    <property name="dmg.name" value="dist/${app.name}-${version.num}.dmg"/>
-    <property name="dmg.tmp.name" value="dist/${app.name}-${version.num}-tmp.dmg"/>
+  <target name="mac-app-snow-leopard" depends="runnable-jar-mac">
+    <delete dir="dist/${app.name}.app" failonerror="false"/>
+    <mkdir dir="dist" />
+    <jarbundler dir="dist"
+                verbose="true"
+                name="${app.name}"
+                mainclass="${app.main.class}"
+                bundleid="org.sbml.testsuite"
+                version="${version.num}"
+                icon="${app.icon}"
+                infostring="${app.name} ${version.num} for OS X 10.6"
+                jvmversion="1.6+"
+                startOnMainThread="true"
+                arguments='-Xdock:name="${app.name}"'
+                jar="sbmltestrunner.jar">
+      <resourcefilelist dir=".." files="LICENSE.txt" />
+    </jarbundler>
+    <copy file="dev/app-builders/macos/snow-leopard/JavaApplicationStub"
+          tofile="dist/${app.name}.app/Contents/MacOS/JavaApplicationStub"
+          overwrite="true"/>
+  </target>
 
-    <delete file="dist/${app.name}-${version.num}.dmg" failonerror="false"/>
+  <target name="mac-dmg-lion"         depends="mac-app-lion, mac-dmg-name-lion, mac-dmg-common" />
+  <target name="mac-dmg-snow-leopard" depends="mac-app-snow-leopard, mac-dmg-name-snow-leopard, mac-dmg-common" />
+
+  <target name="mac-dmg-name-lion">
+    <property name="dmg.basename" value="dist/${app.name}-${version.num}-lion"/>
+  </target>
+
+  <target name="mac-dmg-name-snow-leopard">
+    <property name="dmg.basename" value="dist/${app.name}-${version.num}-snow-leopard"/>
+  </target>
+
+  <target name="mac-dmg-common" depends="mac-app-lion">
+    <property name="dmg.name"     value="${dmg.basename}.dmg"/>
+    <property name="dmg.tmp.name" value="${dmg.basename}-tmp.dmg"/>
+    <property name="mountdir"     value="/tmp"/>
+
+    <delete file="${dmg.name}" failonerror="false"/>
+    <delete file="${dmg.tmp.name}" failonerror="false"/>
 
     <!-- Create a temporary image -->
     <exec executable="hdiutil">
