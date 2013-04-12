@@ -379,7 +379,6 @@ public class WrapperConfig
      */
     public ResultType getCachedResult(String id)
     {
-        if (viewOnly) return null;
         SortedMap<String, DelayedResult> cache = resultCache;
         return cache.get(id).getResult();
     }
