@@ -1,5 +1,13 @@
-2013-02-21 <mhucka@caltech.edu>
+                About the src/data directory contents
+                   2013-04-12 <mhucka@caltech.edu>
 
-Where some of these icons came from:
+This directory contains sources for images and other data used in the
+"resources" directory of the SBML Test Runner code, which (relative to the
+current directory) is
 
-* Glyphicons: the "Glyphicons Free" version from http://glyphicons.com
+  ../src/org/sbml/testsuite/ui/resources
+
+The icon files with "glyphicons" in the name originally came from the
+"Glyphicons Free" distribution of icons from http://glyphicons.com/.
+The icons are licensed under the Creative Commons 3.0 license by their
+developers.
