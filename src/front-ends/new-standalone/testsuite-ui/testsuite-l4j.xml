@@ -12,7 +12,7 @@
   <customProcName>true</customProcName>
   <stayAlive>false</stayAlive>
   <manifest></manifest>
-  <icon>.\ICON_CompareResults.ico</icon>
+  <icon>.\dev\icons\ICON_CompareResults.ico</icon>
   <classPath>
     <mainClass>org.sbml.testsuite.ui.MainWindow</mainClass>
     <cp>swt.jar</cp>
