@@ -1,0 +1,1 @@
+This icon is used by the l4j script below, that turns the jar into an executable.
