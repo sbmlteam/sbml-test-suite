@@ -1,1 +1,1 @@
-java -d32 -XstartOnFirstThread -Xdock:name="SBML Test Suite" -jar testsuite_ui.jar
+java -XstartOnFirstThread -Xdock:name="SBML Test Suite" -cp stage -jar stage/testsuite-ui.jar
