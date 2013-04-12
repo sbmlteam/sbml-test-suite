@@ -1,6 +1,6 @@
-Licensing and Distribution Terms for the SBML Test Suite:
+       Licensing and Distribution Terms for the SBML Test Suite
 
-Copyright (C) 2010-2013 jointly by the following organizations: 
+Copyright (C) 2010-2013 jointly by the following organizations:
     1. California Institute of Technology, Pasadena, CA, USA
     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK.
 
@@ -35,3 +35,32 @@ online at the Internet address http://sbml.org/software/COPYING.html
 for your convenience.  You may also write to obtain a copy from the
 Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301, USA.
+
+         Third-party software and materials incorporated into
+                         the SBML Test Runner
+
+The SBML Test Runner makes use of a number of software libraries and
+other materials created by other parties.  They are incorporated into
+the SBML Test Runner application and also included in the SBML Test
+Runner source code repository.  For your convenience, copies of the
+license files are gathered in the subdirectory 3rd-party-licenses/.
+
+1. Simple Widget Toolkit (SWT) -- http://www.eclipse.org/swt/
+   [checked 2013-04-12]
+   Eclipse Public License v1.0
+
+2. Simple XML Framework -- http://simple.sourceforge.net
+   [checked 2013-04-12]
+   Apache License 2.0
+
+3. Opal Widgets -- http://code.google.com/a/eclipselabs.org/p/opal/
+   [checked 2013-04-12]
+   Eclipse Public License v1.0   
+   
+4. SWTChart -- http://www.swtchart.org
+   [checked 2013-04-12]
+   Eclipse Public License v1.0      
+
+5. Glyphicons Free -- http://glyphicons.com
+   [checked 2013-04-12]   
+   Creative Commons 3.0
