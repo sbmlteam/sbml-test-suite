@@ -52,6 +52,11 @@
 		</javac>
 	</target>
 	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
+
+ 	<!-- =================================================================== -->
+	<!-- Basic jars                                                          -->
+	<!-- =================================================================== -->
+
 	<target name="jar" depends="build">
 		<manifestclasspath property="manifest.cp" jarfile="testsuite-ui.jar">
 			<classpath>
@@ -85,14 +90,14 @@
 	</target>
 	<target name="stage-win-32" depends="stage-common">
 		<delete file="stage/swt.jar" />
-		<copy file="libs/swt-win-32.jar" tofile="stage/swt.jar" />
+		<copy file="libs/swt-win32.jar" tofile="stage/swt.jar" />
 	</target>
 	<target name="start-win-32" depends="stage-win-32">
 		<java fork="true" jar="stage/testsuite-ui.jar" />
 	</target>
 	<target name="stage-win-64" depends="stage-common">
 		<delete file="stage/swt.jar" />
-		<copy file="libs/swt-win-64.jar" tofile="stage/swt.jar" />
+		<copy file="libs/swt-win64.jar" tofile="stage/swt.jar" />
 	</target>
 	<target name="start-win-64" depends="stage-win-64">
 		<java fork="true" jar="stage/testsuite-ui.jar" />
@@ -106,7 +111,7 @@
 	</target>
 	<target name="stage-linux-64" depends="stage-common">
 		<delete file="stage/swt.jar" />
-		<copy file="libs/swt-linux-x-64.jar" tofile="stage/swt.jar" />
+		<copy file="libs/swt-linux-x64.jar" tofile="stage/swt.jar" />
 	</target>
 	<target name="start-linux-64" depends="stage-linux-64">
 		<java fork="true" jar="stage/testsuite-ui.jar" />
@@ -123,7 +128,7 @@
 	</target>
 	<target name="stage-osx-64" depends="stage-common">
 		<delete file="stage/swt.jar" />
-		<copy file="libs/swt-osx--64.jar" tofile="stage/swt.jar" />
+		<copy file="libs/swt-osx-64.jar" tofile="stage/swt.jar" />
 	</target>
 	<target name="start-osx-64" depends="stage-osx-64">
 		<java fork="true" jar="stage/testsuite-ui.jar">
@@ -131,6 +136,13 @@
 			<arg value='-Xdock:name="SBML Test Runner"'/>
 		</java>
 	</target>
+
+ 	<!-- =================================================================== -->
+	<!-- Executable jars                                                     -->
+ 	<!--                                                                     -->
+	<!-- These bundle dependent libraries and make it possible for a user    -->
+	<!-- to execute "java -jar sbmltestrunner.jar" to start the app.         -->
+	<!-- =================================================================== -->
 
         <condition property="isWindows" value="true">
           <os family="windows" />
@@ -141,6 +153,8 @@
         <condition property="isMac" value="true">
           <os family="mac" />
         </condition>
+
+ 	<!-- The following targets are meant to be invoked by users.           -->
 
         <target name="runnable-jar"          depends="rn-jar-mac-auto, rn-jar-win-auto, rn-jar-linux-auto" />
 
@@ -158,6 +172,8 @@
         <target name="runnable-jar-mac-64"   depends="init, stage-osx-64, runnable-jar-common" />
         <target name="runnable-jar-win-64"   depends="init, stage-win-64, runnable-jar-common" />
         <target name="runnable-jar-linux-64" depends="init, stage-linux-64, runnable-jar-common" />
+
+ 	<!-- The following targets are internal and not really meant for users -->
 
         <target name="rn-jar-mac-auto"      if="isMac"   depends="init, stage-osx-64, runnable-jar-common" />
         <target name="rn-jar-win-auto"      if="isWin"   depends="init, stage-win-64, runnable-jar-common" />
@@ -182,6 +198,32 @@
             <zipgroupfileset dir="stage" />
             <fileset dir="src" includes="org/sbml/testsuite/ui/resources" />
           </jar>
+        </target>
+
+ 	<!-- =================================================================== -->
+	<!-- Applications and distributions                                      -->
+ 	<!--                                                                     -->
+ 	<!-- This requires JarBundler (http://informagen.com/JarBundler/)        -->
+	<!-- =================================================================== -->
+
+        <taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" />
+
+        <target name="mac-app" depends="runnable-jar-mac">
+          <mkdir dir="dist" />
+          <jarbundler dir="dist"
+                      verbose="true"
+                      name="SBML Test Runner"
+                      mainclass="org.sbml.testsuite.ui.Program"
+                      bundleid="org.sbml.testsuite"
+                      version="${version.num}"
+                      icon="src/org/sbml/testsuite/ui/resources/SBML Test Runner logo.icns"
+                      infostring="SBML Test Runner version ${version.num}"
+                      jvmversion="1.6+"
+                      startOnMainThread="true"
+                      arguments='-Xdock:name="SBML Test Suite"'
+                      jar="sbmltestrunner.jar">
+            <resourcefilelist dir=".." files="LICENSE.txt" />
+          </jarbundler>
         </target>
 
 </project>
