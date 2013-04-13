@@ -277,7 +277,7 @@
     <property name="dmg.basename" value="dist/${app.name}-${version.num}-snow-leopard"/>
   </target>
 
-  <target name="mac-dmg-common" depends="mac-app-lion">
+  <target name="mac-dmg-common">
     <property name="dmg.name"     value="${dmg.basename}.dmg"/>
     <property name="dmg.tmp.name" value="${dmg.basename}-tmp.dmg"/>
     <property name="mountdir"     value="/tmp"/>
