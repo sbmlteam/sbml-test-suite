@@ -232,6 +232,14 @@
     </jarbundler>
   </target>
 
+  <!-- If you're building on a later version of the OS such as Lion, the   -->
+  <!-- .app will not work on earlier versions like Snow Leopard because    -->
+  <!-- the version of JavaApplicationStub is different on Snow Leopard.    -->
+  <!-- I solved this by copying JavaApplicationStub from a Snow Leopard    -->
+  <!-- machine, then setting up the build target below to create the .app  -->
+  <!-- normally but overrite the JavaApplicationStub with the special      -->
+  <!-- version.                                                            -->
+
   <target name="mac-app-snow-leopard" depends="runnable-jar-mac">
     <delete dir="dist/${app.name}.app" failonerror="false"/>
     <mkdir dir="dist" />
@@ -254,8 +262,12 @@
           overwrite="true"/>
   </target>
 
+  <!-- The following targets are meant to be invoked by users.           -->
+
   <target name="mac-dmg-lion"         depends="mac-app-lion, mac-dmg-name-lion, mac-dmg-common" />
   <target name="mac-dmg-snow-leopard" depends="mac-app-snow-leopard, mac-dmg-name-snow-leopard, mac-dmg-common" />
+
+  <!-- The following targets are internal and not really meant for users -->
 
   <target name="mac-dmg-name-lion">
     <property name="dmg.basename" value="dist/${app.name}-${version.num}-lion"/>
