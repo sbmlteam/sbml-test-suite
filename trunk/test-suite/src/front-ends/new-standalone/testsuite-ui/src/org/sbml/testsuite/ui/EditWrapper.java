@@ -124,6 +124,15 @@ public class EditWrapper
 
 
     /**
+     * Sets the focus on the wrapper name field.
+     */
+    public void setFocusOnName()
+    {
+        txtName.setFocus();
+    }
+
+
+    /**
      * Create the composite.
      * 
      * @param parent

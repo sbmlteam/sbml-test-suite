@@ -166,6 +166,7 @@ public class EditListOfWrappers
         wrappers.add(config);
         displayedWrappersList.select(wrappers.size() - 1);
         selectWrapper(wrappers.size() - 1);
+        wrapperForm.setFocusOnName();
     }
 
 
