@@ -2175,6 +2175,7 @@ public class MainWindow
 
         shell.pack();
         shell.layout();
+        shell.open();
 
         loadModel();
 
@@ -2194,8 +2195,6 @@ public class MainWindow
             updatePlotsForSelection(toSelect);
             recenterTree(toSelect);
         }
-
-        shell.open();
 
         try
         {
@@ -2285,9 +2284,8 @@ public class MainWindow
             }
             else
             {
-                model.setTestSuiteDir(casesDir);
-                getDisplay().readAndDispatch();
                 dialog.getStyledText().append("Updating the list of tests ...\n\n");
+                model.setTestSuiteDir(casesDir);
                 getDisplay().readAndDispatch();
                 success = true;
             }
