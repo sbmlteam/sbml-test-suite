@@ -810,12 +810,15 @@ public class MainWindow
 
         Listener treeSelectionListener = new Listener() {
             @Override
-            public void handleEvent(Event event)
+            public void handleEvent(final Event event)
             {
-                updatePlotsForSelection((TreeItem) event.item);
                 delayedUpdate(new Runnable() {
                     public void run()
                     {
+                        if (tree.getSelectionCount() == 1)
+                            updatePlotsForSelection((TreeItem) event.item);
+                        else
+                            clearPlots();
                         if (tree != null && !tree.isDisposed())
                             progressSection.setSelectedCount(tree.getSelectionCount());
                     }});
