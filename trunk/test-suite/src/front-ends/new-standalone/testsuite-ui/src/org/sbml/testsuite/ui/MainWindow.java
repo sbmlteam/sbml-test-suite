@@ -1062,7 +1062,7 @@ public class MainWindow
                         editPreferences();
                     }
                 });
-            menuItemPrefs.setText("Properties");
+            menuItemPrefs.setText("Properties\tCtrl+,");
 
             new MenuItem(menuFileMenuItems, SWT.SEPARATOR);
 
@@ -1882,7 +1882,6 @@ public class MainWindow
         boolean filterWasInEffect = notificationBanner.isVisible();
 
         FilterDialog dialog = new FilterDialog(shell, SWT.None);
-        //        dialog.setDescription("Please select component and test tags to include and/or exclude.");
         dialog.setComponentTags(model.getSuite().getComponentTags());
         dialog.setTestTags(model.getSuite().getTestTags());
 
