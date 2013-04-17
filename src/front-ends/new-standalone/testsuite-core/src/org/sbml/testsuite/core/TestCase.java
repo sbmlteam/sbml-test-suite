@@ -604,7 +604,10 @@ public class TestCase
 
 
     /**
-     * 
+     * If a given tag is a package prefix (e.g., "fbc"), we treat
+     * it as a wildcard.  In that case, if this test case has any tag with
+     * that prefix, this returns a match (true).
+     *
      * @param tags
      *            a number of tags
      * @param includeComponentTags
@@ -616,17 +619,32 @@ public class TestCase
      */
     public boolean matches(Vector<String> tags, boolean includeComponentTags)
     {
-        boolean hasTag = false;
         for (String tag : tags)
         {
-            if (testTags.contains(tag.trim())
-                || (includeComponentTags && componentTags.contains(tag.trim())))
+            tag = tag.trim();
+            if (testTags.contains(tag) || prefixMatch(testTags, tag))
+                return true;
+            if (includeComponentTags &&
+                (componentTags.contains(tag) || prefixMatch(componentTags, tag)))
+                return true;
+        }
+        return false;
+    }
+
+
+    private final boolean prefixMatch(final Vector<String> tags, final String prefix)
+    {
+        for (final String tag : tags)
+        {
+            final int colonIndex = tag.indexOf(':');
+            if (colonIndex > -1)
             {
-                hasTag = true;
-                break;
+                final String thisPrefix = tag.substring(0, colonIndex);
+                if (thisPrefix.equals(prefix))
+                    return true;
             }
         }
-        return hasTag;
+        return false;
     }
 
 
