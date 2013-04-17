@@ -42,32 +42,10 @@ import java.util.Vector;
  */
 public class TestSuite
 {
-
-    /**
-     *  Creates a test suite for a directory
-     * @param dir the directory
-     * @return the new test suite
-     */
-    public static TestSuite forDirectory(File dir)
-    {
-        TestSuite test = new TestSuite();
-        test.initializeFromDirectory(dir);
-        return test;
-    }
-
-    private Vector<TestCase> cases;
-
-
     private File             casesDirectory;
-
-
-    /**
-     * Default constructor
-     */
-    public TestSuite()
-    {
-        cases = new Vector<TestCase>();
-    }
+    private Vector<TestCase> cases               = new Vector<TestCase>();
+    private Vector<String>   cachedTestTags      = new Vector<String>();
+    private Vector<String>   cachedComponentTags = new Vector<String>();
 
 
     /**
@@ -75,10 +53,19 @@ public class TestSuite
      * @param directory the directory
      */
     public TestSuite(File directory)
-
     {
-        this();
         initializeFromDirectory(directory);
+    }
+
+
+    /**
+     * Creates a test suite for a directory
+     * @param dir the directory
+     * @return the new test suite
+     */
+    public static TestSuite forDirectory(File dir)
+    {
+        return new TestSuite(dir);
     }
 
 
@@ -125,24 +112,32 @@ public class TestSuite
 
 
     /**
-     * @return a sorted vector of all unique component tags included in the test cases of this suite
+     * @return a sorted vector of all unique component tags included in the
+     * test cases of this suite
      */
     public Vector<String> getComponentTags()
     {
+        if (cachedComponentTags != null && !cachedComponentTags.isEmpty())
+            return cachedComponentTags;
+
         Vector<String> result = new Vector<String>();
+
         for (TestCase item : cases)
         {
             for (String tag : item.getComponentTags())
             {
                 String trimmed = tag.trim();  
-                if (trimmed.length() > 0 && !result.contains(trimmed)) result.add(trimmed);
+                if (trimmed.length() > 0 && !result.contains(trimmed))
+                    result.add(trimmed);
             }
         }
 
         Collections.sort(result);
 
-        return result;
+        // Cache the value for next time.
 
+        cachedComponentTags = result;
+        return result;
     }
 
 
@@ -194,10 +189,14 @@ public class TestSuite
 
 
     /**
-     * @return a sorted vector of all unique test tags included in all the test cases of this suite
+     * @return a sorted vector of all unique test tags included in all the test
+     * cases of this suite
      */
     public Vector<String> getTestTags()
     {
+        if (cachedTestTags != null && !cachedTestTags.isEmpty())
+            return cachedTestTags;
+
         Vector<String> result = new Vector<String>();
 
         for (TestCase item : cases)
@@ -205,14 +204,17 @@ public class TestSuite
             for (String tag : item.getTestTags())
             {
                 String trimmed = tag.trim();                
-                if (trimmed.length() > 0 &&  !result.contains(trimmed)) result.add(trimmed);
+                if (trimmed.length() > 0 && !result.contains(trimmed))
+                    result.add(trimmed);
             }
         }
 
         Collections.sort(result);
 
-        return result;
+        // Cache the value for next time.
 
+        cachedTestTags = result;
+        return result;
     }
 
 
@@ -226,23 +228,22 @@ public class TestSuite
         casesDirectory = directory;
 
         String[] files = directory.list(new FilenameFilter() {
-
             public boolean accept(File arg0, String arg1)
             {
-
                 return arg1.length() == 5;
             }
         });
+
+        cachedTestTags.clear();
+        cachedComponentTags.clear();
 
         for (String file : files)
         {
             TestCase newTestCase = new TestCase(new File(casesDirectory, file));
             String id = newTestCase.getId();
-            if (Util.isNullOrEmpty(id)) return;
+            if (Util.isNullOrEmpty(id)) continue;
             cases.add(newTestCase);
-
         }
-
     }
 
 
@@ -304,6 +305,16 @@ public class TestSuite
         for (TestCase item : cases)
         {
             updated = updated | item.updateIfNewer();
+        }
+
+        if (updated)
+        {
+            // Need to update our caches.
+
+            cachedTestTags.clear();
+            cachedComponentTags.clear();
+            getComponentTags();
+            getTestTags();
         }
 
         return updated;
