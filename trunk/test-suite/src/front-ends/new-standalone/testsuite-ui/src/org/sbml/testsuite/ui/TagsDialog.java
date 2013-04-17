@@ -60,8 +60,10 @@ public class TagsDialog
 {
     private Tree           treeCompTags;
     private Tree           treeTestTags;
+    private Tree           treePackages;
     private Shell          shell;
     private Vector<String> selectedTags;
+    private Vector<String> packages;
     private boolean        exitOK = false;
 
 
@@ -130,6 +132,7 @@ public class TagsDialog
             {
                 clearSelectedComponentTags();
                 clearSelectedTestTags();
+                clearSelectedPackages();
             }
         });
 
@@ -195,6 +198,66 @@ public class TagsDialog
         fd_sashForm.right = new FormAttachment(100, -margin);
         sashForm.setLayoutData(fd_sashForm);
 
+        Composite compPackages = new Composite(sashForm, SWT.NONE);
+        compPackages.setLayout(new FormLayout());
+
+        Label lblPackages = new Label(compPackages, SWT.NONE);
+        FormData fd_lblPackages = new FormData();
+        fd_lblPackages.top = new FormAttachment(0, margin);
+        fd_lblPackages.left = new FormAttachment(0, margin);
+        lblPackages.setLayoutData(fd_lblPackages);
+        lblPackages.setText("Unsupported Packages:");
+
+        Button btnClearPackages = new Button(compPackages, SWT.NONE);
+        btnClearPackages.setText("Clear");
+        btnClearPackages.setToolTipText("Clear package selections");
+        FormData fd_btnClearPackages = new FormData();
+        fd_btnClearPackages.width = buttonWidth;
+        fd_btnClearPackages.top = new FormAttachment(0);
+        fd_btnClearPackages.right = new FormAttachment(100, -offset);
+        btnClearPackages.setLayoutData(fd_btnClearPackages);
+        btnClearPackages.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                clearSelectedPackages();
+                updateTagsForAllPackages(treeCompTags);
+                updateTagsForAllPackages(treeTestTags);
+            }
+        });
+
+        treePackages = new Tree(compPackages, SWT.BORDER | SWT.CHECK | SWT.MULTI);
+        FormData fd_treePackages = new FormData();
+        fd_treePackages.top = new FormAttachment(lblPackages, 2*margin + offset);
+        fd_treePackages.bottom = new FormAttachment(100, -margin);
+        fd_treePackages.left = new FormAttachment(0, margin + 1);
+        fd_treePackages.right = new FormAttachment(100, -(margin + 1));
+        treePackages.setLayoutData(fd_treePackages);
+        treePackages.addListener(SWT.Selection, new Listener() {
+            @Override
+            public void handleEvent(Event event)
+            {
+                TreeItem item = (TreeItem) event.item;
+                updateTagsForPackage(treeCompTags, item.getText(), item.getChecked());
+                updateTagsForPackage(treeTestTags, item.getText(), item.getChecked());
+            }
+        });
+
+        treePackages.addListener(SWT.MouseDoubleClick, new Listener() {
+            @Override
+            public void handleEvent(Event event)
+            {
+                // Make double-click toggle the selection status.
+
+                Point point = new Point(event.x, event.y);
+                TreeItem item = treePackages.getItem(point);
+                if (item == null) return;
+                item.setChecked(!item.getChecked());
+                updateTagsForPackage(treeCompTags, item.getText(), item.getChecked());
+                updateTagsForPackage(treeTestTags, item.getText(), item.getChecked());
+            }
+        });
+
         Composite compComponentTags = new Composite(sashForm, SWT.NONE);
         compComponentTags.setLayout(new FormLayout());
 
@@ -214,12 +277,17 @@ public class TagsDialog
         fd_btnClearCompTags.right = new FormAttachment(100, -offset);
         btnClearCompTags.setLayoutData(fd_btnClearCompTags);
         btnClearCompTags.addSelectionListener(new SelectionAdapter() {
-                               @Override
-                               public void widgetSelected(SelectionEvent arg0)
-                               {
-                                   clearSelectedComponentTags();
-                               }
-                           });
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                clearSelectedComponentTags();
+
+                // If we deselect tags, some will have been tags belonging to
+                // packages. That means we no longer have that entire package
+                // unsupported.  So, unmark the packages affected.
+                clearPackagesByClearedTags(treeCompTags);
+            }
+        });
 
         treeCompTags = new Tree(compComponentTags, SWT.BORDER | SWT.CHECK | SWT.MULTI);
         FormData fd_treeCompTags = new FormData();
@@ -228,7 +296,6 @@ public class TagsDialog
         fd_treeCompTags.left = new FormAttachment(0, margin + 1);
         fd_treeCompTags.right = new FormAttachment(100, -(margin + 1));
         treeCompTags.setLayoutData(fd_treeCompTags);
-        // NB: the code is not identical for the 2 trees.
         treeCompTags.addListener(SWT.MouseDoubleClick, new Listener() {
             @Override
             public void handleEvent(Event event)
@@ -241,6 +308,26 @@ public class TagsDialog
                 item.setChecked(!item.getChecked());
             }
         });
+
+        // This next code is used for both tags trees.  Its purpose is this:
+        // if we deselected a tag from a package, and that package was
+        // previously selected, then unselect it.
+
+        SelectionAdapter pkgUpdateListener = new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent event)
+            {
+                TreeItem item = (TreeItem) event.item;
+                if (!item.getChecked())
+                {
+                    String pkgPrefix = getPackagePrefix(item.getText());
+                    if (pkgPrefix != null)
+                        setPackageSelection(pkgPrefix, false);
+                }
+            }
+        };
+
+        treeCompTags.addSelectionListener(pkgUpdateListener);
 
         Composite compTestTags = new Composite(sashForm, SWT.NONE);
         compTestTags.setLayout(new FormLayout());
@@ -261,12 +348,16 @@ public class TagsDialog
         fd_btnClearTestTags.right = new FormAttachment(100, -offset);
         btnClearTestTags.setLayoutData(fd_btnClearTestTags);
         btnClearTestTags.addSelectionListener(new SelectionAdapter() {
-                               @Override
-                               public void widgetSelected(SelectionEvent arg0)
-                               {
-                                   clearSelectedTestTags();
-                               }
-                           });
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                clearSelectedTestTags();
+                // If we deselect tags, some will have been tags belonging to
+                // packages. That means we no longer have that entire package
+                // unsupported.  So, unmark the packages affected.
+                clearPackagesByClearedTags(treeCompTags);
+            }
+        });
 
         treeTestTags = new Tree(compTestTags, SWT.BORDER | SWT.CHECK | SWT.MULTI);
         FormData fd_treeTestTags = new FormData();
@@ -287,14 +378,15 @@ public class TagsDialog
                 item.setChecked(!item.getChecked());
             }
         });
+        treeTestTags.addSelectionListener(pkgUpdateListener);
 
         // Final set-up.
 
-        sashForm.setWeights(new int[] {1, 1});
+        sashForm.setWeights(new int[] {1, 2, 2});
 
         shell.pack();
         shell.setTabList(new Control[]{cmdCancel, cmdClearAll, 
-                                               sashForm, cmdOk});
+                                       sashForm, cmdOk});
         shell.layout();
     }
 
@@ -340,6 +432,7 @@ public class TagsDialog
         {
             TreeItem treeItem = new TreeItem(treeCompTags, SWT.NONE);
             treeItem.setText(tag);
+            addPackage(tag);
         }
     }
 
@@ -358,7 +451,68 @@ public class TagsDialog
         {
             TreeItem treeItem = new TreeItem(treeTestTags, SWT.NONE);
             treeItem.setText(tag);
+            addPackage(tag);
         }
+    }
+
+
+    private final String getPackagePrefix(final String tag)
+    {
+        final int colonIndex = tag.indexOf(':');
+        if (colonIndex > -1)
+            return tag.substring(0, colonIndex);
+        else
+            return null;
+    }
+
+
+    private void addPackage(String tag)
+    {
+        String pkgPrefix = getPackagePrefix(tag);
+        if (pkgPrefix != null)
+        {
+            for (TreeItem item : treePackages.getItems())
+                if (item.getText().equals(pkgPrefix))
+                    return;
+            TreeItem treeItem = new TreeItem(treePackages, SWT.NONE);
+            treeItem.setText(pkgPrefix);
+        }
+    }
+
+
+    private void updateTagsForPackage(Tree tree, String prefix, boolean checked)
+    {
+        for (TreeItem item : tree.getItems())
+            if (prefix.equals(getPackagePrefix(item.getText())))
+                item.setChecked(checked);
+    }
+
+
+    private void updateTagsForAllPackages(Tree tree)
+    {
+        for (TreeItem item : tree.getItems())
+        {
+            String tagPrefix = getPackagePrefix(item.getText());
+            if (tagPrefix != null)
+            {
+                for (TreeItem pkgItem : treePackages.getItems())
+                    if (tagPrefix.equals(pkgItem.getText()))
+                        item.setChecked(pkgItem.getChecked());
+            }
+        }
+    }
+
+
+    private void setPackageSelection(String pkg, boolean checked)
+    {
+        if (pkg == null || pkg.length() == 0) return;
+
+        for (TreeItem item : treePackages.getItems())
+            if (pkg.equals(item.getText()))
+            {
+                item.setChecked(checked);
+                return;
+            }
     }
 
 
@@ -388,8 +542,7 @@ public class TagsDialog
         if (tags == null || tags.isEmpty()) return;
         if (treeCompTags == null) return;
         if (treeTestTags == null) return;
-
-        //        String[] tagsArray = tags.toArray(new String[0]);
+        if (treePackages == null) return;
 
     outer: for (String tag : tags)
         {
@@ -405,7 +558,24 @@ public class TagsDialog
                     item.setChecked(true);
                     continue outer;
                 }
+            for (TreeItem item : treePackages.getItems())
+                if (tag.equals(item.getText()))
+                {
+                    item.setChecked(true);
+                    continue outer;
+                }
         }
+
+        // If any packages are marked, then go back and check all tags
+        // prefixed by that package tag.
+
+        for (TreeItem item : treePackages.getItems())
+            if (item.getChecked())
+            {
+                String pkg = item.getText();
+                updateTagsForPackage(treeCompTags, pkg, true);
+                updateTagsForPackage(treeTestTags, pkg, true);
+            }
     }
 
 
@@ -437,15 +607,62 @@ public class TagsDialog
     }
 
 
+    private void clearSelectedPackages()
+    {
+        for (TreeItem item : treePackages.getItems())
+            item.setChecked(false);
+    }
+
+
+    private void clearPackagesByClearedTags(Tree tree)
+    {
+        for (TreeItem item : tree.getItems())
+        {
+            String pkg = getPackagePrefix(item.getText());
+            if (pkg != null)
+                setPackageSelection(pkg, false);
+        }
+    }
+
+
     private Vector<String> readTags()
     {
         Vector<String> result = new Vector<String>();
-        for (TreeItem item : treeCompTags.getItems())
+
+        // If a whole package is marked unsupported, we collapse the list of
+        // other tags prefixed by that package, and leave only the package.
+
+        Vector<String> packages = new Vector<String>();
+        for (TreeItem item : treePackages.getItems())
             if (item.getChecked())
-                result.add(item.getText());
-        for (TreeItem item : treeTestTags.getItems())
+                packages.add(item.getText());
+
+        result.addAll(readTagsTree(treeCompTags, packages));
+        result.addAll(readTagsTree(treeTestTags, packages));
+
+        // Finally, add the package tags, if any:
+
+        for (String pkg : packages)
+            result.add(pkg);
+
+        return result;
+    }
+
+
+    private Vector<String> readTagsTree(Tree tree, Vector<String> packages)
+    {
+        Vector<String> result = new Vector<String>();
+        for (TreeItem item : tree.getItems())
             if (item.getChecked())
-                result.add(item.getText());
+            {
+                // If it doesn't have a package prefix, we add the tag.  If
+                // it has a prefix, then we only add the tag if the whole
+                // package is not listed as unsupported.
+
+                String pkg = getPackagePrefix(item.getText());
+                if (pkg == null || !packages.contains(pkg))
+                    result.add(item.getText());
+            }
         return result;
     }
 
