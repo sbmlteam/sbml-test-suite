@@ -579,8 +579,8 @@ public class EditWrapper
 
        if (dialog.open())
        {
-           Vector<String> selected = dialog.getSelectedTags();
-           txtUnsupportedTags.setText(Util.toString(selected));
+           Vector<String> selectedTags = dialog.getSelectedTags();
+           txtUnsupportedTags.setText(Util.toString(selectedTags));
        }
     }
 
