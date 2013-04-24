@@ -94,10 +94,12 @@ public class PreferenceDialog
      */
     private void createContents()
     {
+        int height = (UIUtils.isLinux() ? 560 : 530);
+
         shell = new Shell(getParent(), getStyle());
         shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
         shell.setMinimumSize(new Point(630, 410));
-        shell.setSize(740, 520);
+        shell.setSize(750, height);
         shell.setText("Preferences");
         GridLayout gl_shell = new GridLayout(1, true);
         gl_shell.marginWidth = 10;
@@ -173,7 +175,7 @@ public class PreferenceDialog
         wrappersEditor = new EditListOfWrappers(outerComp, SWT.NONE);
         GridData gd_wrappersEditor = new GridData(SWT.FILL, SWT.TOP, true,
                                                   true, 5, 1);
-        gd_wrappersEditor.heightHint = 400;
+        gd_wrappersEditor.heightHint = 430;
         gd_wrappersEditor.widthHint = 300;
         gd_wrappersEditor.minimumWidth = 300;
         gd_wrappersEditor.horizontalIndent = 0;

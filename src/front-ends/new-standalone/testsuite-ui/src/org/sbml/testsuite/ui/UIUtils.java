@@ -32,6 +32,7 @@ import java.io.InputStream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
@@ -43,6 +44,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolTip;
@@ -198,10 +200,40 @@ public class UIUtils
      */
     public static final Font getDefaultLabelFont()
     {
-        Button tmp = new Button(new Shell(), SWT.NONE);
-        FontData[] tmpFontData = tmp.getFont().getFontData();
-        tmp.dispose();
+        Shell tmpShell = new Shell();
+        Button tmpButton = new Button(tmpShell, SWT.NONE);
+        FontData[] tmpFontData = tmpButton.getFont().getFontData();
+        tmpButton.dispose();
+        tmpShell.dispose();
         return new Font(Display.getCurrent(), tmpFontData);
+    }
+
+
+    public static final Color getDefaultLabelForegroundColor()
+    {
+        Shell tmpShell = new Shell();
+        Label tmpLabel = new Label(tmpShell, SWT.NONE);
+        Color color = tmpLabel.getForeground();
+        tmpLabel.dispose();
+        tmpShell.dispose();
+        return color;
+    }
+
+
+    public static final Color getInactiveTextColor()
+    {
+        return SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_FOREGROUND);
+    }
+
+
+    public static final int getDefaultFontHeight()
+    {
+        Shell tmpShell = new Shell();
+        Label tmpLabel = new Label(tmpShell, SWT.NONE);
+        FontData[] tmpFontData = tmpLabel.getFont().getFontData();
+        tmpLabel.dispose();
+        tmpShell.dispose();
+        return tmpFontData[0].getHeight();
     }
 
 
@@ -234,6 +266,41 @@ public class UIUtils
     }
 
 
+    public static Font getResizedFont(Font font, int sizeDifference)
+    {
+        if (font == null) return null;
+        FontData[] fontData = font.getFontData();
+        for (int i = 0; i < fontData.length; ++i)
+            fontData[i].setHeight(fontData[i].getHeight() + sizeDifference);
+        return new Font(font.getDevice(), fontData);
+    }
+
+
+    public static Font getResizedFont(String name, int style, int sizeDifference)
+    {
+        Shell tmpShell = new Shell();
+        Label tmpLabel = new Label(tmpShell, SWT.NONE);
+        FontData[] tmpFontData = tmpLabel.getFont().getFontData();
+        int defaultHeight = tmpFontData[0].getHeight();
+        Font font = SWTResourceManager.getFont(name, defaultHeight, style);
+        if (font == null) return null;
+
+        // Bogus, but I don't know what else to do about huge fonts on Ubuntu:
+        if (isLinux()) sizeDifference -= 2;
+
+        FontData[] fontData = font.getFontData();
+        for (int i = 0; i < fontData.length; ++i)
+        {
+            fontData[i].setHeight(fontData[i].getHeight() + sizeDifference);
+            fontData[i].setStyle(style);
+        }
+
+        tmpLabel.dispose();
+        tmpShell.dispose();
+        return new Font(font.getDevice(), fontData);
+    }
+
+
     /**
      * @return true if running on OS X
      */
@@ -241,6 +308,16 @@ public class UIUtils
     {
         final String osName = System.getProperty("os.name");
         return osName.startsWith("Mac OS X");
+    }
+
+
+    /**
+     * @return true if running on Linux
+     */
+    public final static boolean isLinux()
+    {
+        final String osName = System.getProperty("os.name");
+        return osName.startsWith("Linux");
     }
 
 

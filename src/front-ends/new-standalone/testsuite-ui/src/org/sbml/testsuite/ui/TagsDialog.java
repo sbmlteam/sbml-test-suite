@@ -103,8 +103,8 @@ public class TagsDialog
      */
     private void createContents()
     {
-        int totalWidth = 300;
-        int totalHeight = 500;
+        int totalWidth = 330;
+        int totalHeight = 400;
         int buttonWidth = 80;
         int margin = 5;
         int offset = 20 - UIUtils.scaledFontSize(20);
@@ -189,6 +189,10 @@ public class TagsDialog
                 }
             }
         });
+
+        // There is a sashForm for the 3 sections (packages, component tags,
+        // test tags).  Each section is a composite, and internally uses
+        // form layout.
 
         SashForm sashForm = new SashForm(shell, SWT.VERTICAL);
         FormData fd_sashForm = new FormData();
@@ -380,9 +384,14 @@ public class TagsDialog
         });
         treeTestTags.addSelectionListener(pkgUpdateListener);
 
-        // Final set-up.
+        // Now set the heights of the 3 sections in the sash by setting the
+        // height of one of the bigger sections.  The others will be scaled
+        // according to the ratio given below.
 
+        fd_treeTestTags.height = 135;
         sashForm.setWeights(new int[] {1, 2, 2});
+
+        // Final set-up.
 
         shell.pack();
         shell.setTabList(new Control[]{cmdCancel, cmdClearAll, 
