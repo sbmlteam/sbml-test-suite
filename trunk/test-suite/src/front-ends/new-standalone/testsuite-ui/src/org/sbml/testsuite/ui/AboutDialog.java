@@ -113,26 +113,27 @@ public class AboutDialog
         lblNewLabel.setBounds(8 + offset, 10, 139, 138);
         
         Label lblNewLabel_1 = new Label(shell, SWT.NONE);
-        lblNewLabel_1.setFont(UIUtils.getFont("Verdana", 20, SWT.BOLD));
+        lblNewLabel_1.setFont(UIUtils.getResizedFont("Verdana", SWT.BOLD, 6));
         lblNewLabel_1.setBounds(158, 7 + offset, 270, 25);
         lblNewLabel_1.setText("The SBML Test Runner");
         
         Label lblVersion = new Label(shell, SWT.RIGHT);
         lblVersion.setAlignment(SWT.LEFT);
-        lblVersion.setFont(UIUtils.getFont("Verdana", 11, SWT.ITALIC));
+        lblVersion.setFont(UIUtils.getResizedFont("Verdana", SWT.ITALIC, -1));
         lblVersion.setBounds(158, 38, 126, 14);
         lblVersion.setText("Version: " + Program.getVersion());
         
         Label lblTheSbmlTest = new Label(shell, SWT.WRAP);
         lblTheSbmlTest.setBounds(16, 154 - offset, 418, 67);
         lblTheSbmlTest.setText("The SBML Test Suite is a system for testing the degree and correctness of SBML support in a given SBML-compatible software program. The SBML Test Runner drives an application to perform each test in the Test Suite, and displays the results and conclusions.");
-        lblTheSbmlTest.setFont(UIUtils.getFont("Verdana", 10, SWT.NORMAL));
+        lblTheSbmlTest.setFont(UIUtils.getResizedFont("Verdana", SWT.NORMAL, -2));
         
         Label sep2 = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN | SWT.CENTER);
-        sep2.setBounds(16, 225 - 2*offset, 417, 2);
+        sep2.setBounds(16, 225 - 3*offset, 417, 2);
+        sep2.moveAbove(null);
         
         Label lblNewLabel_2 = new Label(shell, SWT.NONE);
-        lblNewLabel_2.setFont(UIUtils.getFont("Verdana", 10, SWT.BOLD));
+        lblNewLabel_2.setFont(UIUtils.getResizedFont("Verdana", SWT.BOLD, -2));
         lblNewLabel_2.setBounds(158, 67 - offset, 270, 28);
         if (UIUtils.isMacOSX())
             lblNewLabel_2.setText("Authors: Frank T. Bergmann and Michael Hucka.");
@@ -141,12 +142,12 @@ public class AboutDialog
         
         Label lblPartOfThe = new Label(shell, SWT.WRAP);
         lblPartOfThe.setText("Part of the SBML Test Suite, written by Sarah Keating, Lucian Smith, Frank Bergmann, Kimberley Begley and Michael Hucka.");
-        lblPartOfThe.setFont(UIUtils.getFont("Verdana", 10, SWT.NORMAL));
+        lblPartOfThe.setFont(UIUtils.getResizedFont("Verdana", SWT.NORMAL, -2));
         lblPartOfThe.setBounds(158, 93 + offset, 270, 49);
         
         Label lblNewLabel_3 = new Label(shell, SWT.WRAP);
-        lblNewLabel_3.setFont(UIUtils.getFont("Verdana", 10, SWT.ITALIC));
-        lblNewLabel_3.setBounds(16, 235 - offset, 418, 30);
+        lblNewLabel_3.setFont(UIUtils.getResizedFont("Verdana", SWT.ITALIC, -2));
+        lblNewLabel_3.setBounds(16, 235 - 2*offset, 418, 30);
         lblNewLabel_3.setText("For more information about this and other SBML Team software, as well as about SBML itself, please visit the following website:");
         
         StyleRange styleRange = new StyleRange();
@@ -158,7 +159,7 @@ public class AboutDialog
         lblHttpsbmlorg.setEditable(false);
         lblHttpsbmlorg.setToolTipText("Click to visit SBML.org.");
         lblHttpsbmlorg.setForeground(SWTResourceManager.getColor(65, 105, 225));
-        lblHttpsbmlorg.setFont(UIUtils.getFont("Verdana", 11, SWT.BOLD));
+        lblHttpsbmlorg.setFont(UIUtils.getResizedFont("Verdana", SWT.BOLD, -1));
         lblHttpsbmlorg.setBounds(173 - offset, 274, 103 + 3*offset, 20 + offset);
         lblHttpsbmlorg.setText("http://sbml.org");
         lblHttpsbmlorg.setStyleRange(styleRange);
@@ -186,7 +187,7 @@ public class AboutDialog
         
         Label lblNewLabel_4 = new Label(shell, SWT.NONE);
         lblNewLabel_4.setImage(UIUtils.getImageResource("SBML.png"));
-        lblNewLabel_4.setBounds(175, 300, 99, 40);
+        lblNewLabel_4.setBounds(175, 300, 99, 44);
     }
 
 

@@ -352,6 +352,10 @@ public class MainWindow
     private Thread                    uiThread = null;
     private TaskExecutor              executor = new TaskExecutor();
 
+    private Font                      chartTitleFont;
+    private Font                      chartTickFont;
+    private Font                      chartLegendFont;
+
 
     /**
      * Default constructor
@@ -364,6 +368,9 @@ public class MainWindow
         sciformat = new DecimalFormat("##0.##E0");
         foregroundColor = new Color(getDisplay(), 60, 60, 60);
         backgroundColor = SWTResourceManager.getColor(SWT.COLOR_WHITE);
+        chartTitleFont = UIUtils.getResizedFont("SansSerif", SWT.ITALIC, -1);
+        chartTickFont = UIUtils.getResizedFont("SansSerif", SWT.NORMAL, -2);
+        chartLegendFont = UIUtils.getResizedFont("SansSerif", SWT.NORMAL, -2);
         createContents();
     }
 
@@ -398,9 +405,8 @@ public class MainWindow
     {
         Chart chart1 = new Chart(composite, SWT.NONE);
         chart1.setBackground(backgroundColor);
-        Font titleFont = UIUtils.getFont("SansSerif", 12, SWT.ITALIC);
 
-        chart1.getTitle().setFont(titleFont);
+        chart1.getTitle().setFont(chartTitleFont);
         if (title == null || title.length() == 0)
         {
             chart1.getTitle().setVisible(false);
@@ -416,20 +422,16 @@ public class MainWindow
             chart1.getTitle().setForeground(foregroundColor);
         }
 
-        Font tickFont = UIUtils.getFont("SansSerif", 10, SWT.NORMAL);
-        
         chart1.getAxisSet().getXAxis(0).getTitle().setVisible(false);
         chart1.getAxisSet().getXAxis(0).getTick().setForeground(foregroundColor);
-        chart1.getAxisSet().getXAxis(0).getTick().setFont(tickFont);
+        chart1.getAxisSet().getXAxis(0).getTick().setFont(chartTickFont);
 
         chart1.getAxisSet().getYAxis(0).getTitle().setVisible(false);
         chart1.getAxisSet().getYAxis(0).getTick().setForeground(foregroundColor);
-        chart1.getAxisSet().getYAxis(0).getTick().setFont(tickFont);
+        chart1.getAxisSet().getYAxis(0).getTick().setFont(chartTickFont);
 
-        Font legendFont = UIUtils.getFont("SansSerif", 10, SWT.NORMAL);
-        
         chart1.getLegend().setPosition(SWT.BOTTOM);
-        chart1.getLegend().setFont(legendFont);
+        chart1.getLegend().setFont(chartLegendFont);
 
         /* The following use of a custom formatter is a hack to avoid getting a
            truncated number on the right-hand side of the x-axis.  SWT Chart
@@ -754,7 +756,7 @@ public class MainWindow
         createMenuBar(shell);
         createToolBar(shell);
 
-        Font statusFont = UIUtils.getFont("SansSerif", 12, SWT.ITALIC);
+        Font statusFont = UIUtils.getResizedFont("SansSerif", SWT.ITALIC, 0);
 
         // --------------------- notifications of filters ---------------------
 

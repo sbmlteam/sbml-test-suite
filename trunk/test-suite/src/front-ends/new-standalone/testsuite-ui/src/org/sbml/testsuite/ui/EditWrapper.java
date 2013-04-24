@@ -79,9 +79,9 @@ public class EditWrapper
     private final Button cmdEditTags;
 
     private final Color normalTextColor
-        = SWTResourceManager.getColor(SWT.COLOR_TITLE_FOREGROUND);
+        = UIUtils.getDefaultLabelForegroundColor();
     private final Color inactiveTextColor
-        = SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_FOREGROUND);
+        = UIUtils.getInactiveTextColor();
 
 
     /**
@@ -147,6 +147,10 @@ public class EditWrapper
         FormLayout layout = new FormLayout();
         setLayout(layout);
 
+        int margin = 5;
+        int offset = 20 - UIUtils.scaledFontSize(20);
+        int nudge = offset/2;
+
         Label lblName = new Label(this, SWT.RIGHT);
         lblName.setAlignment(SWT.RIGHT);
         FormData fd_lblName = new FormData();
@@ -165,13 +169,11 @@ public class EditWrapper
         txtName.setLayoutData(fd_txtName);
         txtName.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
-        int offset = 20 - UIUtils.scaledFontSize(20);
-
         btnWrapperViewOnly = new Button(this, SWT.CHECK);
         FormData fd_btnWrapperViewOnly = new FormData();
+        fd_btnWrapperViewOnly.top = new FormAttachment(txtName, margin);
         fd_btnWrapperViewOnly.left = new FormAttachment(0, 170 + offset);
         fd_btnWrapperViewOnly.right = new FormAttachment(100, -31);
-        fd_btnWrapperViewOnly.top = new FormAttachment(txtName, 6);
         btnWrapperViewOnly.setLayoutData(fd_btnWrapperViewOnly);
         btnWrapperViewOnly.setText("Pseudo-wrapper to view test cases only");
         btnWrapperViewOnly.addKeyListener(UIUtils.createCloseKeyListener(shell));
@@ -182,20 +184,22 @@ public class EditWrapper
             }
         });
 
+        int checkboxSpace = (UIUtils.isLinux() ? -2 : 2);
+
         btnWrapperAnyLV = new Button(this, SWT.CHECK);
         FormData fd_btnWrapperAnyLV = new FormData();
+        fd_btnWrapperAnyLV.top = new FormAttachment(btnWrapperViewOnly, checkboxSpace);
         fd_btnWrapperAnyLV.left = new FormAttachment(0, 170 + offset);
         fd_btnWrapperAnyLV.right = new FormAttachment(100, -31);
-        fd_btnWrapperAnyLV.top = new FormAttachment(btnWrapperViewOnly, 2);
         btnWrapperAnyLV.setLayoutData(fd_btnWrapperAnyLV);
         btnWrapperAnyLV.setText("Wrapper can handle any SBML Level/Version");
         btnWrapperAnyLV.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         btnWrapperThreadsOK = new Button(this, SWT.CHECK);
         FormData fd_btnWrapperThreadsOK = new FormData();
+        fd_btnWrapperThreadsOK.top = new FormAttachment(btnWrapperAnyLV, checkboxSpace);
         fd_btnWrapperThreadsOK.left = new FormAttachment(0, 170 + offset);
         fd_btnWrapperThreadsOK.right = new FormAttachment(100, -31);
-        fd_btnWrapperThreadsOK.top = new FormAttachment(btnWrapperAnyLV, 2);
         btnWrapperThreadsOK.setLayoutData(fd_btnWrapperThreadsOK);
         btnWrapperThreadsOK.setText("Wrapper can be run in parallel");
         btnWrapperThreadsOK.addKeyListener(UIUtils.createCloseKeyListener(shell));
@@ -203,8 +207,8 @@ public class EditWrapper
         lblWrapper = new Label(this, SWT.RIGHT);
         lblWrapper.setAlignment(SWT.RIGHT);
         FormData fd_lblWrapper = new FormData();
+        fd_lblWrapper.top = new FormAttachment(btnWrapperThreadsOK, margin + nudge);
         fd_lblWrapper.right = new FormAttachment(0, 170);
-        fd_lblWrapper.top = new FormAttachment(0, 102);
         lblWrapper.setFont(UIUtils.getDefaultLabelFont());
         lblWrapper.setLayoutData(fd_lblWrapper);
         lblWrapper.setText("Wrapper path:");
@@ -212,16 +216,16 @@ public class EditWrapper
 
         txtWrapper = new Text(this, SWT.BORDER);
         FormData fd_txtWrapper = new FormData();
+        fd_txtWrapper.top = new FormAttachment(btnWrapperThreadsOK, margin);
         fd_txtWrapper.left = new FormAttachment(0, 172);
         fd_txtWrapper.right = new FormAttachment(100, -55);
-        fd_txtWrapper.top = new FormAttachment(lblWrapper, 0, SWT.CENTER);
         txtWrapper.setLayoutData(fd_txtWrapper);
         txtWrapper.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         cmdBrowseWrapper = new Button(this, SWT.NONE);
         cmdBrowseWrapper.setAlignment(SWT.CENTER);
         FormData fd_cmdBrowseWrapper = new FormData();
-        fd_cmdBrowseWrapper.top = new FormAttachment(txtWrapper, -4, SWT.TOP);
+        fd_cmdBrowseWrapper.top = new FormAttachment(btnWrapperThreadsOK, nudge + 1);
         if (UIUtils.isMacOSX())
             fd_cmdBrowseWrapper.right = new FormAttachment(100, 5);
         else
@@ -242,8 +246,8 @@ public class EditWrapper
         lblWrapperOutputDir = new Label(this, SWT.RIGHT);
         lblWrapperOutputDir.setAlignment(SWT.RIGHT);
         FormData fd_lblWrapperOutputDir = new FormData();
+        fd_lblWrapperOutputDir.top = new FormAttachment(txtWrapper, margin + nudge);
         fd_lblWrapperOutputDir.right = new FormAttachment(0, 170);
-        fd_lblWrapperOutputDir.top = new FormAttachment(0, 130);
         lblWrapperOutputDir.setFont(UIUtils.getDefaultLabelFont());
         lblWrapperOutputDir.setLayoutData(fd_lblWrapperOutputDir);
         lblWrapperOutputDir.setText("Output directory:");
@@ -252,18 +256,16 @@ public class EditWrapper
 
         txtWrapperOutputDir = new Text(this, SWT.BORDER);
         FormData fd_txtWrapperOutputDir = new FormData();
+        fd_txtWrapperOutputDir.top = new FormAttachment(txtWrapper, margin);
         fd_txtWrapperOutputDir.left = new FormAttachment(0, 172);
         fd_txtWrapperOutputDir.right = new FormAttachment(100, -55);
-        fd_txtWrapperOutputDir.top = new FormAttachment(lblWrapperOutputDir,
-                                                              0, SWT.CENTER);
         txtWrapperOutputDir.setLayoutData(fd_txtWrapperOutputDir);
         txtWrapperOutputDir.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         cmdBrowseOutputDir = new Button(this, SWT.NONE);
         cmdBrowseOutputDir.setAlignment(SWT.CENTER);
         FormData fd_cmdBrowseOutputDir = new FormData();
-        fd_cmdBrowseOutputDir.top = new FormAttachment(lblWrapperOutputDir, 
-                                                       -6, SWT.TOP);
+        fd_cmdBrowseOutputDir.top = new FormAttachment(txtWrapper, nudge + 1);
         if (UIUtils.isMacOSX())
             fd_cmdBrowseOutputDir.right = new FormAttachment(100, 5);
         else
@@ -285,8 +287,8 @@ public class EditWrapper
         lblUnsupportedTags = new Label(this, SWT.RIGHT);
         lblUnsupportedTags.setAlignment(SWT.RIGHT);
         FormData fd_lblUnsupportedTags = new FormData();
+        fd_lblUnsupportedTags.top = new FormAttachment(txtWrapperOutputDir, margin + nudge);
         fd_lblUnsupportedTags.right = new FormAttachment(0, 170);
-        fd_lblUnsupportedTags.top = new FormAttachment(0, 157);
         lblUnsupportedTags.setFont(UIUtils.getDefaultLabelFont());
         lblUnsupportedTags.setLayoutData(fd_lblUnsupportedTags);
         lblUnsupportedTags.setText("Unsupported tags:");
@@ -297,18 +299,16 @@ public class EditWrapper
 
         txtUnsupportedTags = new Text(this, SWT.BORDER);
         FormData fd_txtUnsupportedTags = new FormData();
+        fd_txtUnsupportedTags.top = new FormAttachment(txtWrapperOutputDir, margin);
         fd_txtUnsupportedTags.left = new FormAttachment(0, 172);
         fd_txtUnsupportedTags.right = new FormAttachment(100, -55);        
-        fd_txtUnsupportedTags.top = new FormAttachment(lblUnsupportedTags, 0, 
-                                                       SWT.CENTER);
         txtUnsupportedTags.setLayoutData(fd_txtUnsupportedTags);
         txtUnsupportedTags.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         cmdEditTags = new Button(this, SWT.NONE);
         cmdEditTags.setAlignment(SWT.CENTER);
         FormData fd_cmdEditTags = new FormData();
-        fd_cmdEditTags.top = new FormAttachment(lblUnsupportedTags, -6, 
-                                                SWT.TOP);
+        fd_cmdEditTags.top = new FormAttachment(txtWrapperOutputDir, nudge + 1);
         if (UIUtils.isMacOSX())
             fd_cmdEditTags.right = new FormAttachment(100, 5);
         else
@@ -334,33 +334,28 @@ public class EditWrapper
                                            + "be passed to the wrapper. See "
                                            + "below for more information.");
         FormData fd_lblWrapperArguments = new FormData();
+        fd_lblWrapperArguments.top = new FormAttachment(txtUnsupportedTags, margin + nudge);
         fd_lblWrapperArguments.right = new FormAttachment(0, 170);
-        fd_lblWrapperArguments.top = new FormAttachment(0, 184);
         lblWrapperArguments.setLayoutData(fd_lblWrapperArguments);
 
         txtWrapperArgs = new Text(this, SWT.BORDER);
         FormData fd_txtWrapperArgs = new FormData();
+        fd_txtWrapperArgs.top = new FormAttachment(txtUnsupportedTags, margin);
         fd_txtWrapperArgs.left = new FormAttachment(0, 172);
         fd_txtWrapperArgs.right = new FormAttachment(100, -55);
-        fd_txtWrapperArgs.top = new FormAttachment(lblWrapperArguments, 0,
-                                                   SWT.CENTER);
         txtWrapperArgs.setLayoutData(fd_txtWrapperArgs);
         txtWrapperArgs.addKeyListener(UIUtils.createCloseKeyListener(shell));
         
         Label lblUsageInfo1 = new Label(this, SWT.WRAP);
         FormData fd_lblUsageInfo1 = new FormData();
+        fd_lblUsageInfo1.top = new FormAttachment(txtWrapperArgs, 2*margin);
         fd_lblUsageInfo1.left = new FormAttachment(0, 10);
         fd_lblUsageInfo1.right = new FormAttachment(100, -10);
-        fd_lblUsageInfo1.top = new FormAttachment(0, 217 - offset/2);
         lblUsageInfo1.setLayoutData(fd_lblUsageInfo1);
         Color gray = display.getSystemColor(SWT.COLOR_DARK_GRAY);
         lblUsageInfo1.setForeground(gray);
-        FontData[] fontData = lblUsageInfo1.getFont().getFontData();
-        for (int i = 0; i < fontData.length; ++i)
-        {
-            fontData[i].setHeight(UIUtils.scaledFontSize(11));
-        }
-        final Font newFont = new Font(display, fontData);
+        final Font newFont = UIUtils.getResizedFont(lblUsageInfo1.getFont(),
+                                                    (UIUtils.isLinux() ? -2 : -1));
         lblUsageInfo1.setFont(newFont);
         lblUsageInfo1.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent e)
@@ -373,37 +368,27 @@ public class EditWrapper
 
         Label lblUsageInfo2 = new Label(this, SWT.WRAP);
         FormData fd_lblUsageInfo2 = new FormData();
+        fd_lblUsageInfo2.top = new FormAttachment(lblUsageInfo1, margin);
         fd_lblUsageInfo2.left = new FormAttachment(0, 10);
         fd_lblUsageInfo2.right = new FormAttachment(100, -10);
-        fd_lblUsageInfo2.top = new FormAttachment(0, 240);
         lblUsageInfo2.setLayoutData(fd_lblUsageInfo2);
         lblUsageInfo2.setForeground(gray);
         lblUsageInfo2.setFont(newFont);
-        lblUsageInfo2.addDisposeListener(new DisposeListener() {
-            public void widgetDisposed(DisposeEvent e) {
-                newFont.dispose();
-            }
-        });
         lblUsageInfo2.setText(
-            "\t%d \t= path to the directory containting all test cases"
-            + "\n\t%n \t= current test case number (of the form NNNNN)"
-            + "\n\t%o \t= directory where the CSV output file should be written"
-            + "\n\t%l \t= the SBML Level to be used"
-            + "\n\t%v \t= the SBML Version to be used");
+                "\t%d\t= path to the directory containting all test cases"
+            + "\n\t%n\t= current test case number (of the form NNNNN)"
+            + "\n\t%o\t= directory where the CSV output file should be written"
+            + "\n\t%l\t= the SBML Level to be used"
+            + "\n\t%v\t= the SBML Version to be used");
 
         Label lblUsageInfo3 = new Label(this, SWT.WRAP);
         FormData fd_lblUsageInfo3 = new FormData();
+        fd_lblUsageInfo3.top = new FormAttachment(lblUsageInfo2, margin);
         fd_lblUsageInfo3.left = new FormAttachment(0, 10);
         fd_lblUsageInfo3.right = new FormAttachment(100, -10);
-        fd_lblUsageInfo3.top = new FormAttachment(0, 318);
         lblUsageInfo3.setLayoutData(fd_lblUsageInfo3);
         lblUsageInfo3.setForeground(gray);
         lblUsageInfo3.setFont(newFont);
-        lblUsageInfo3.addDisposeListener(new DisposeListener() {
-            public void widgetDisposed(DisposeEvent e) {
-                newFont.dispose();
-            }
-        });
         lblUsageInfo3.setText(
             "Each test case consists of an SBML file and a settings file. The "
             + "files are located in the directory named %d/%n. The SBML file for "

@@ -114,7 +114,7 @@ public class EditListOfWrappers
         if (UIUtils.isMacOSX())
             fd_btnadd.left = new FormAttachment(0, -5);
         else
-            fd_btnadd.left = new FormAttachment(2, -5);
+            fd_btnadd.left = new FormAttachment(2, -4);
         fd_btnadd.top = new FormAttachment(displayedWrappersList, 4);
         btnadd.setLayoutData(fd_btnadd);
         btnadd.setText("&Add...");
@@ -147,7 +147,7 @@ public class EditListOfWrappers
         btnremove.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         wrapperForm = new EditWrapper(sashForm, SWT.NONE);
-        sashForm.setWeights(new int[] {120, 300});
+        sashForm.setWeights(new int[] {120, 325});
     }
 
 
