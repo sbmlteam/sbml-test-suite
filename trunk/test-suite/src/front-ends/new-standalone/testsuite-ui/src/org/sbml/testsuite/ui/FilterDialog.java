@@ -44,26 +44,23 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
+import org.mihalis.opal.titledSeparator.TitledSeparator;
 import org.sbml.testsuite.core.Util;
-import org.eclipse.swt.widgets.Control;
 
 
 /**
@@ -217,7 +214,7 @@ public class FilterDialog
      */
     private void createContents()
     {
-        int totalWidth = 625;
+        int totalWidth = 650;
         int totalHeight = 600;
 
         shlFilterTags = new Shell(getParent(), SWT.DIALOG_TRIM | SWT.RESIZE);
@@ -231,6 +228,7 @@ public class FilterDialog
         int topLabelHeight = 30 + margin;
         int buttonWidth = 80;
         int offset = 20 - UIUtils.scaledFontSize(20);
+        int nudge = offset/2;
 
         lblDescription = new Label(shlFilterTags, SWT.LEFT);
         FormData fd_lblDescription = new FormData();
@@ -261,44 +259,31 @@ public class FilterDialog
 
         // Section for filtering by case numbers.
 
-        int numberGroupHeight = 76 + 2*margin;
+        Color gray = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY);
 
-        Group numberGroup = new Group(shlFilterTags, SWT.SHADOW_ETCHED_IN);
-        numberGroup.setText("Filter by case numbers");
-        FormData fd1 = new FormData();
-        fd1.top = new FormAttachment(shlFilterTags, topLabelHeight + 2*offset);
-        fd1.bottom = new FormAttachment(0, topLabelHeight + margin + numberGroupHeight);
-        fd1.left = new FormAttachment(0, margin);
-        fd1.right = new FormAttachment(100, -margin);
-        numberGroup.setLayoutData(fd1);
-
-        Label spacer = new Label(shlFilterTags, SWT.NONE);
-        FormData fd_spacer = new FormData();
-        fd_spacer.height = margin;
-        fd_spacer.top = new FormAttachment(numberGroup, 0, SWT.TOP);
-        spacer.setLayoutData(fd_spacer);
-        spacer.setText("");
+        TitledSeparator numbersTitledSeparator = new TitledSeparator(shlFilterTags, SWT.NONE);
+        numbersTitledSeparator.setText("Filter by case numbers");
+        numbersTitledSeparator.setForeground(gray);
+        FormData fd_sep = new FormData(SWT.DEFAULT, 2*UIUtils.getDefaultFontHeight());
+        fd_sep.top = new FormAttachment(cmdClearAll, (UIUtils.isMacOSX() ? -margin : 0));
+        fd_sep.left = new FormAttachment(0, margin);
+        fd_sep.right = new FormAttachment(100, -margin);
+        numbersTitledSeparator.setLayoutData(fd_sep);
 
         Label numberUsageInfo = new Label(shlFilterTags, SWT.WRAP);
         FormData fd_numberUsageInfo = new FormData();
-        fd_numberUsageInfo.top = new FormAttachment(spacer, 3*margin);
+        fd_numberUsageInfo.top = new FormAttachment(numbersTitledSeparator, margin, SWT.BOTTOM);
         fd_numberUsageInfo.left = new FormAttachment(0, 3*margin);
         fd_numberUsageInfo.right = new FormAttachment(100, -3*margin);
         numberUsageInfo.setLayoutData(fd_numberUsageInfo);
-        numberUsageInfo.moveAbove(numberGroup);
-        Color gray = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY);
         numberUsageInfo.setForeground(gray);
-        FontData[] fontData = numberUsageInfo.getFont().getFontData();
-        for (int i = 0; i < fontData.length; ++i)
-        {
-            fontData[i].setHeight(UIUtils.scaledFontSize(11));
-        }
-        final Font newFont = new Font(Display.getCurrent(), fontData);
-        numberUsageInfo.setFont(newFont);
+        numberUsageInfo.moveAbove(null);
+        final Font textFont = UIUtils.getResizedFont(numberUsageInfo.getFont(), -1);
+        numberUsageInfo.setFont(textFont);
         numberUsageInfo.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent e)
                 {
-                    newFont.dispose();
+                    textFont.dispose();
                 }
         });
         numberUsageInfo.setText("You can list individual case numbers, "
@@ -309,10 +294,10 @@ public class FilterDialog
 
         Label lblInclude = new Label(shlFilterTags, SWT.RIGHT);
         FormData fd_lblInclude = new FormData();
-        fd_lblInclude.top = new FormAttachment(numberUsageInfo, 2*margin);
+        fd_lblInclude.top = new FormAttachment(numberUsageInfo, 2*margin + nudge);
         fd_lblInclude.left = new FormAttachment(0, 3*margin);
         lblInclude.setLayoutData(fd_lblInclude);
-        lblInclude.moveAbove(numberGroup);
+        lblInclude.moveAbove(null);
         lblInclude.setText("Include cases:");
         
         txtInclude = new Text(shlFilterTags, SWT.BORDER);
@@ -321,7 +306,7 @@ public class FilterDialog
         fd_txtInclude.left = new FormAttachment(lblInclude, margin);
         fd_txtInclude.right = new FormAttachment(0, 300);
         txtInclude.setLayoutData(fd_txtInclude);
-        txtInclude.moveAbove(numberGroup);
+        txtInclude.moveAbove(null);
         
         txtExclude = new Text(shlFilterTags, SWT.BORDER);
         FormData fd_txtExclude = new FormData();
@@ -329,14 +314,14 @@ public class FilterDialog
         fd_txtExclude.left = new FormAttachment(100, -205);
         fd_txtExclude.right = new FormAttachment(100, -3*margin);
         txtExclude.setLayoutData(fd_txtExclude);
-        txtExclude.moveAbove(numberGroup);
+        txtExclude.moveAbove(null);
 
         Label lblExclude = new Label(shlFilterTags, SWT.RIGHT);
         FormData fd_lblExclude = new FormData();
-        fd_lblExclude.top = new FormAttachment(numberUsageInfo, 2*margin);
+        fd_lblExclude.top = new FormAttachment(numberUsageInfo, 2*margin + nudge);
         fd_lblExclude.right = new FormAttachment(txtExclude, -2*margin);
         lblExclude.setLayoutData(fd_lblExclude);
-        lblExclude.moveAbove(numberGroup);
+        lblExclude.moveAbove(null);
         lblExclude.setText("Exclude cases:");
 
         // Buttons at the bottom.  Done here so that the middle section can
@@ -395,37 +380,25 @@ public class FilterDialog
 
         // Section for filtering by tags.
 
-        Group tagsGroup = new Group(shlFilterTags, SWT.SHADOW_ETCHED_IN);
-        tagsGroup.setText("Filter by tags");
-        FormData fd_tagsGroup = new FormData();
-        fd_tagsGroup.top = new FormAttachment(numberGroup, margin);
-        fd_tagsGroup.bottom = new FormAttachment(cmdCancel, -(margin + offset));
-        fd_tagsGroup.left = new FormAttachment(0, margin);
-        fd_tagsGroup.right = new FormAttachment(100, -margin);
-        tagsGroup.setLayoutData(fd_tagsGroup);
-
-        Label spacer2 = new Label(shlFilterTags, SWT.NONE);
-        FormData fd_spacer2 = new FormData();
-        fd_spacer2.height = 2*margin;
-        fd_spacer2.top = new FormAttachment(tagsGroup, 0, SWT.TOP);
-        spacer2.setLayoutData(fd_spacer2);
-        spacer2.setText("");
+        TitledSeparator tagsTitleSeparator = new TitledSeparator(shlFilterTags, SWT.NONE);
+        tagsTitleSeparator.setText("Filter by tags");
+        tagsTitleSeparator.setForeground(gray);
+        FormData fd_tts = new FormData(SWT.DEFAULT, 2*UIUtils.getDefaultFontHeight());
+        fd_tts.top = new FormAttachment(txtExclude, margin, SWT.BOTTOM);
+        fd_tts.left = new FormAttachment(0, margin);
+        fd_tts.right = new FormAttachment(100, -margin);
+        tagsTitleSeparator.setLayoutData(fd_tts);
+        tagsTitleSeparator.moveAbove(null);
 
         Label tagsUsageInfo = new Label(shlFilterTags, SWT.WRAP);
         FormData fd_tagsUsageInfo = new FormData();
-        fd_tagsUsageInfo.top = new FormAttachment(spacer2, 2*margin);
+        fd_tagsUsageInfo.top = new FormAttachment(tagsTitleSeparator, margin, SWT.BOTTOM);
         fd_tagsUsageInfo.left = new FormAttachment(0, 3*margin);
         fd_tagsUsageInfo.right = new FormAttachment(100, -3*margin);
         tagsUsageInfo.setLayoutData(fd_tagsUsageInfo);
-        tagsUsageInfo.moveAbove(tagsGroup);
+        tagsUsageInfo.moveAbove(null);
         tagsUsageInfo.setForeground(gray);
-        tagsUsageInfo.setFont(newFont);
-        tagsUsageInfo.addDisposeListener(new DisposeListener() {
-            public void widgetDisposed(DisposeEvent e)
-                {
-                    newFont.dispose();
-                }
-        });
+        tagsUsageInfo.setFont(textFont);
         tagsUsageInfo.setText("Choose tags that test cases should "
                               + "include and/or not include. Exclusions "
                               + "override inclusions. If case numbers\nare "
@@ -436,11 +409,11 @@ public class FilterDialog
         SashForm sashForm = new SashForm(shlFilterTags, SWT.NONE);
         FormData fd_sashForm = new FormData();
         fd_sashForm.top = new FormAttachment(tagsUsageInfo, margin);
-        fd_sashForm.bottom = new FormAttachment(cmdCancel, -3*margin);
+        fd_sashForm.bottom = new FormAttachment(cmdCancel, -margin);
         fd_sashForm.left = new FormAttachment(0, margin + 1);
         fd_sashForm.right = new FormAttachment(100, -margin - 1);
         sashForm.setLayoutData(fd_sashForm);
-        if (!UIUtils.isMacOSX()) sashForm.moveAbove(tagsGroup);
+        if (!UIUtils.isMacOSX()) sashForm.moveAbove(null);
 
         SashForm sashForm_left = new SashForm(sashForm, SWT.VERTICAL);
 
