@@ -106,6 +106,35 @@ public class PreferenceDialog
         gl_shell.horizontalSpacing = 0;
         shell.setLayout(gl_shell);
 
+        // The custom close listeners are because we don't dispose the widget
+        // ourselves; we only hide it, because callers may need to retrieve
+        // data.  We let callers explicitly dispose the widget when ready.
+
+        Listener closeListener = new Listener() {
+            public void handleEvent(Event event)
+            {
+                if (needConfirmSave && settingsHaveChanged())
+                    result = getResult(confirmSave(), shell, wrappersEditor);
+                hide();
+                event.doit = false;
+            }
+        };
+
+        KeyListener closeKeyListener = new KeyListener() {
+            @Override
+            public void keyReleased(KeyEvent e) { return; }
+            @Override
+            public void keyPressed(KeyEvent e)
+            {
+                if (UIUtils.isModifierKey(e) && e.keyCode == 'w')
+                {
+                    if (needConfirmSave && settingsHaveChanged())
+                        result = getResult(confirmSave(), shell, wrappersEditor);
+                    hide();
+                }
+            }
+        };
+
         Composite outerComp = new Composite(shell, SWT.NONE);
         outerComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,
                                                1, 1));
@@ -133,7 +162,7 @@ public class PreferenceDialog
         txtCasesDir = new Text(outerComp, SWT.BORDER);
         txtCasesDir.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, 
                                                false, 3, 1));
-        txtCasesDir.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        txtCasesDir.addKeyListener(closeKeyListener);
 
         Composite compBrowse = new Composite(outerComp, SWT.NONE);
         GridData gd_compBrowse = new GridData(SWT.FILL, SWT.CENTER, false, false,
@@ -207,10 +236,10 @@ public class PreferenceDialog
                 needConfirmSave = false;
                 previousResult.saveAsDefault();
                 result = null;
-                shell.close();          // Will invoke close listener.
+                hide();
             }
         });
-        btnCancel.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        btnCancel.addKeyListener(closeKeyListener);
         btnCancel.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shell));
         btnCancel.setFocus();
 
@@ -228,23 +257,16 @@ public class PreferenceDialog
                                      previousResult.getLastWrapper()))
                     return;
                 needConfirmSave = false;
-                shell.close();           // Will invoke close listener.
+                hide();
             }
         });
 
-        btnSave.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        btnSave.addKeyListener(closeKeyListener);
         btnSave.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shell));
         shell.setDefaultButton(btnSave);
 
-        shell.addListener(SWT.Close, new Listener() {
-            public void handleEvent(Event event)
-            {
-                if (needConfirmSave && settingsHaveChanged())
-                    result = getResult(confirmSave(), shell, wrappersEditor);
-                shell.dispose();
-            }
-        });
-        shell.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        shell.addListener(SWT.Close, closeListener);
+        shell.addKeyListener(closeKeyListener);
         shell.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
         shell.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shell));
 
@@ -262,7 +284,7 @@ public class PreferenceDialog
         shell.open();
         Display display = getParent().getDisplay();
         previousResult = getTestSuiteSettings(false);
-        while (!shell.isDisposed())
+        while (!shell.isDisposed() && shell.isEnabled())
         {
             if (!display.readAndDispatch())
             {
@@ -270,6 +292,20 @@ public class PreferenceDialog
             }
         }
         return result;
+    }
+
+
+    public void dispose()
+    {
+        shell.close();
+        shell.dispose();
+    }
+
+
+    public void hide()
+    {
+        shell.setVisible(false);
+        shell.setEnabled(false);
     }
 
 
