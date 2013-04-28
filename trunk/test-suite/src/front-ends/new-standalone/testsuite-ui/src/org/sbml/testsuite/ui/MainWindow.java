@@ -116,6 +116,7 @@ public class MainWindow
 
         public void add(String item)
         {
+            if (item == null || item.length() == 0) return;
             MenuItem menuItem = new MenuItem(menu, SWT.NONE);
             menuItem.setText(item);
             menuItem.addSelectionListener(new SelectionAdapter() {
@@ -147,6 +148,7 @@ public class MainWindow
 
         public void select(String lastWrapperName)
         {
+            if (lastWrapperName == null || lastWrapperName.length() == 0) return;
             dropdown.setText(lastWrapperName);
             changeWrapper(lastWrapperName);
         }
@@ -243,6 +245,7 @@ public class MainWindow
          */
         private void addOption(String text)
         {
+            if (text == null) return;
             MenuItem menuItem = new MenuItem(menu, SWT.NONE);
             menuItem.setText(text);            
             menuItem.addSelectionListener(selectionListener);
@@ -252,6 +255,7 @@ public class MainWindow
 
         private void addOption(LevelVersion lv)
         {
+            if (lv == null) return;
             MenuItem menuItem = new MenuItem(menu, SWT.NONE);
             String itemText = lv.toString();
             menuItem.setText(itemText);
@@ -600,6 +604,8 @@ public class MainWindow
 
     private void changeWrapper(String wrapperName)
     {
+        if (wrapperName == null || wrapperName.length() == 0) return;
+
         final WrapperConfig newWrapper
             = model.getSettings().getWrapper(wrapperName);
 
@@ -1782,7 +1788,7 @@ public class MainWindow
         dialog.setTestSuiteSettings(model.getSettings());
 
         TestSuiteSettings result = dialog.open();
-        if (result != null)
+        if (result != null)             // User hit "save".
         {
             String lastWrapperName = result.getLastWrapperName();
             model.setSettings(result);
@@ -1793,13 +1799,12 @@ public class MainWindow
             result.saveAsDefault();
             updateWrapperList();
         }
-        else if (model.getLastWrapper() == null)
+        else                            // User hit "cancel".
         {
-            // No wrappers selected and none defined.
-            // We default to the "-- no wrapper --" case.
-            model.getSettings().setLastWrapper("-- no wrapper --");            
-            updateWrapperList();
+            model.setSettings(dialog.getTestSuiteSettings(true));
+            updateWrapperList();            
         }
+        dialog.dispose();
     }
 
 
@@ -2123,6 +2128,8 @@ public class MainWindow
         }
 
         updateWrapperList();
+        if (model.getWrappers() == null || model.getWrappers().isEmpty())
+            editPreferences();
         updateStatuses();
     }
 
@@ -2257,7 +2264,7 @@ public class MainWindow
             ProgressDialog dialog = new ProgressDialog(shell, file);
             dialog.center(shell.getBounds());
             dialog.getStyledText()
-                  .setText("Unpacking the archive. "
+                  .setText("Unpacking the archive of test cases.\n"
                            + "This may take some time ...\n\n");
             dialog.openWithoutWait();
             dialog.getParent().redraw();
@@ -2361,18 +2368,12 @@ public class MainWindow
     protected void updateWrapperList()
     {
         wrapperMenuListener.clear();
-
-        if (model.getWrappers().size() == 0)
+        for (WrapperConfig config : model.getWrappers())
+            wrapperMenuListener.add(config.getName());
+        TestSuiteSettings settings = model.getSettings();
+        if (settings != null)
         {
-            // no wrappers ... let the users enter some
-            editPreferences();
-            return;
-        }
-        else
-        {
-            for (WrapperConfig config : model.getWrappers())
-                wrapperMenuListener.add(config.getName());
-            String last = model.getSettings().getLastWrapperNameOrDefault();
+            String last = settings.getLastWrapperNameOrDefault();
             wrapperMenuListener.select(last);
         }
     }
