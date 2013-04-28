@@ -247,7 +247,7 @@ public class TestSuiteSettings
     public String getLastWrapperNameOrDefault()
     {
         String last = getLastWrapperName();
-        if (getWrapper(last) == null)
+        if (getWrapper(last) == null && getLastWrapper() != null)
             return getLastWrapper().getName();
         return last;
     }
