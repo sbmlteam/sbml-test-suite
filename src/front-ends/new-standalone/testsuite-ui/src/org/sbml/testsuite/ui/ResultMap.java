@@ -520,8 +520,8 @@ public class ResultMap
         {
             Color color = data.get(key);
 
-            /* For testing colors
-            if (i % 7 == 0)  color=ResultColor.brown.getColor();
+            /* For testing colors 
+            if (i % 7 == 0)  color=ResultColor.blue.getColor();
             if (i % 2 == 0)  color=ResultColor.green.getColor();
             if (i % 6 == 0)  color=ResultColor.red.getColor();
             if (i % 5 == 0)  color=ResultColor.gray.getColor();
