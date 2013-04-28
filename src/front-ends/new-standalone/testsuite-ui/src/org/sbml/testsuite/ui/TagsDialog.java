@@ -196,19 +196,20 @@ public class TagsDialog
 
         SashForm sashForm = new SashForm(shell, SWT.VERTICAL);
         FormData fd_sashForm = new FormData();
-        fd_sashForm.top = new FormAttachment(cmdClearAll, offset);
+        fd_sashForm.top = new FormAttachment(cmdClearAll, (margin + offset));
         fd_sashForm.bottom = new FormAttachment(cmdCancel, -(margin + offset));
         fd_sashForm.left = new FormAttachment(0, margin);
         fd_sashForm.right = new FormAttachment(100, -margin);
         sashForm.setLayoutData(fd_sashForm);
+        sashForm.setSashWidth(2*margin);
 
         Composite compPackages = new Composite(sashForm, SWT.NONE);
         compPackages.setLayout(new FormLayout());
 
         Label lblPackages = new Label(compPackages, SWT.NONE);
         FormData fd_lblPackages = new FormData();
-        fd_lblPackages.top = new FormAttachment(0, margin);
         fd_lblPackages.left = new FormAttachment(0, margin);
+        // Note: bottom alignment is set after btnClearPackages is defined below.
         lblPackages.setLayoutData(fd_lblPackages);
         lblPackages.setText("Unsupported Packages:");
 
@@ -230,9 +231,11 @@ public class TagsDialog
             }
         });
 
+        fd_lblPackages.bottom = new FormAttachment(btnClearPackages, -margin, SWT.BOTTOM);
+
         treePackages = new Tree(compPackages, SWT.BORDER | SWT.CHECK | SWT.MULTI);
         FormData fd_treePackages = new FormData();
-        fd_treePackages.top = new FormAttachment(lblPackages, 2*margin + offset);
+        fd_treePackages.top = new FormAttachment(btnClearPackages, offset/2);
         fd_treePackages.bottom = new FormAttachment(100, -margin);
         fd_treePackages.left = new FormAttachment(0, margin + 1);
         fd_treePackages.right = new FormAttachment(100, -(margin + 1));
@@ -268,7 +271,6 @@ public class TagsDialog
         Label lblComponentTags = new Label(compComponentTags, SWT.NONE);
         lblComponentTags.setText("Unsupported Component Tags:");
         FormData fd_lblComponentTags = new FormData();
-        fd_lblComponentTags.top = new FormAttachment(0, margin);
         fd_lblComponentTags.left = new FormAttachment(0, margin);
         lblComponentTags.setLayoutData(fd_lblComponentTags);
 
@@ -293,9 +295,11 @@ public class TagsDialog
             }
         });
 
+        fd_lblComponentTags.bottom = new FormAttachment(btnClearCompTags, -margin, SWT.BOTTOM);
+
         treeCompTags = new Tree(compComponentTags, SWT.BORDER | SWT.CHECK | SWT.MULTI);
         FormData fd_treeCompTags = new FormData();
-        fd_treeCompTags.top = new FormAttachment(lblComponentTags, 2*margin + offset);
+        fd_treeCompTags.top = new FormAttachment(btnClearCompTags, offset/2);
         fd_treeCompTags.bottom = new FormAttachment(100, -margin);
         fd_treeCompTags.left = new FormAttachment(0, margin + 1);
         fd_treeCompTags.right = new FormAttachment(100, -(margin + 1));
@@ -338,7 +342,6 @@ public class TagsDialog
 
         Label lblTestTags = new Label(compTestTags, SWT.NONE);
         FormData fd_lblTestTags = new FormData();
-        fd_lblTestTags.top = new FormAttachment(0, margin);
         fd_lblTestTags.left = new FormAttachment(0, margin);
         lblTestTags.setLayoutData(fd_lblTestTags);
         lblTestTags.setText("Unsupported Test Tags:");
@@ -363,9 +366,11 @@ public class TagsDialog
             }
         });
 
+        fd_lblTestTags.bottom = new FormAttachment(btnClearTestTags, -margin, SWT.BOTTOM);
+
         treeTestTags = new Tree(compTestTags, SWT.BORDER | SWT.CHECK | SWT.MULTI);
         FormData fd_treeTestTags = new FormData();
-        fd_treeTestTags.top = new FormAttachment(lblTestTags, 2*margin + offset);
+        fd_treeTestTags.top = new FormAttachment(btnClearTestTags, offset/2);
         fd_treeTestTags.bottom = new FormAttachment(100, -margin);
         fd_treeTestTags.left = new FormAttachment(0, margin + 1);
         fd_treeTestTags.right = new FormAttachment(100, -(margin + 1));

@@ -286,7 +286,7 @@ public class UIUtils
         if (font == null) return null;
 
         // Bogus, but I don't know what else to do about huge fonts on Ubuntu:
-        if (isLinux()) sizeDifference -= 2;
+        if (isLinux() && defaultHeight >= 11) sizeDifference -= 2;
 
         FontData[] fontData = font.getFontData();
         for (int i = 0; i < fontData.length; ++i)
