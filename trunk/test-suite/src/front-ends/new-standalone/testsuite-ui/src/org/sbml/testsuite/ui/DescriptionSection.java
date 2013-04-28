@@ -53,8 +53,10 @@ public class DescriptionSection
     {
         super(comp, "Test case description", topOffset, bottomOffset);
 
+        int nudge = (UIUtils.isLinux() ? 2 : 0);
+
         FormData fd_message = new FormData();
-        fd_message.top = new FormAttachment(comp, 27);
+        fd_message.top = new FormAttachment(comp, 27 + nudge);
         fd_message.left = new FormAttachment(0, 15);
         fd_message.bottom = new FormAttachment(100, -70);
         fd_message.right = new FormAttachment(100, -15);

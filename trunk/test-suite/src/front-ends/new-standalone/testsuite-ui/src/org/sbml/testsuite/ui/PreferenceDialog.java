@@ -98,8 +98,8 @@ public class PreferenceDialog
 
         shell = new Shell(getParent(), getStyle());
         shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
-        shell.setMinimumSize(new Point(630, 410));
-        shell.setSize(750, height);
+        shell.setMinimumSize(new Point(640, 410));
+        shell.setSize(770, height);
         shell.setText("Preferences");
         GridLayout gl_shell = new GridLayout(1, true);
         gl_shell.marginWidth = 10;

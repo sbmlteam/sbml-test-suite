@@ -50,15 +50,17 @@ public class ProgressSection
     {
         super(comp, "", topOffset, bottomOffset);
 
+        int nudge = (UIUtils.isLinux() ? 2 : 0);
+
         FormData fd_message = new FormData();
-        fd_message.top = new FormAttachment(comp, topOffset + 21);
+        fd_message.top = new FormAttachment(comp, topOffset + 21 + nudge);
         fd_message.left = new FormAttachment(0, 15);
         fd_message.right = new FormAttachment(0, 110);
         message.setLayoutData(fd_message);
 
         countLabel = new Label(comp.getShell(), SWT.RIGHT);
         FormData fd_countLabel = new FormData();
-        fd_countLabel.top = new FormAttachment(comp, topOffset + 21);
+        fd_countLabel.top = new FormAttachment(comp, topOffset + 21 + nudge);
         fd_countLabel.right = new FormAttachment(100, -15);
         fd_countLabel.left = new FormAttachment(100, -110);
         countLabel.setLayoutData(fd_countLabel);
@@ -66,7 +68,7 @@ public class ProgressSection
 
         progressBar = new CustomProgressBar(comp.getShell(), SWT.HORIZONTAL);
         FormData fd_progressBar = new FormData();
-        fd_progressBar.top = new FormAttachment(comp, topOffset + 22);
+        fd_progressBar.top = new FormAttachment(comp, topOffset + 22 + nudge);
         fd_progressBar.bottom = new FormAttachment(100, -15);
         fd_progressBar.left = new FormAttachment(0, 110);
         fd_progressBar.right = new FormAttachment(100, -110);
