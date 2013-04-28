@@ -29,6 +29,7 @@
 package org.sbml.testsuite.core;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.SortedMap;
@@ -77,7 +78,6 @@ public class WrapperConfig
     private SortedMap<String, DelayedResult> resultCache;
 
     static ExecutorService                 executor = Executors.newFixedThreadPool(20);
-
 
     /**
      * Default Constructor
@@ -347,7 +347,8 @@ public class WrapperConfig
     public void deleteResult(TestCase test)
     {
         File testFile = getResultFile(test);
-        if (testFile.exists()) testFile.delete();
+        if (testFile == null) return;
+        testFile.delete();
         resultCache.put(test.getId(), new DelayedResult(ResultType.Unknown));
     }
 
@@ -450,10 +451,47 @@ public class WrapperConfig
      *            the test
      * @return simulator result file
      */
-    public File getResultFile(TestCase test)
+    public File getResultFile(final TestCase test)
     {
-        return new File(getOutputPath() + File.separator + test.getId()
-            + ".csv");
+        final String id = test.getId();
+
+        // Speediest case: the file is named "NNNNN.csv".
+
+        File hopeful = new File(getOutputPath() + File.separator + id + ".csv");
+        if (hopeful.exists() && hopeful.isFile())
+            return hopeful;
+
+        // OK, it's not named "NNNNN.csv".  Alternative 2: look for a file
+        // name that contains the case id number and ends in .csv.  This
+        // corresponds to what's allowed by the online SBML Test Suite as of
+        // 2013.  If we ever change what's allowed to be uploaded in the
+        // online system, we need to make corresponding changes here.  The
+        // algorithm below is suboptimal, but it is not clear how else this
+        // can be done in Java.  There's no direct way to test for the
+        // existence of a file name pattern.
+
+        final File dir = new File(getOutputPath());
+        final File[] matchingFiles = dir.listFiles(new FilenameFilter() {
+            public boolean accept(final File dir, final String name)
+            {
+                return name.toLowerCase().endsWith(".csv")
+                    && (name.indexOf(id) != -1);
+            }
+        });
+
+        // There should only be one match.  If there's more than one, we're
+        // in a quandary.  We should flag that up as an error, but with the
+        // current code architecture, it's difficult.  So, right now, this
+        // simply takes the first match that's a file (and not, e.g., a dir).
+
+        if (matchingFiles != null)
+            for (final File file : matchingFiles)
+                if (file.isFile())
+                    return file;
+
+        // If we don't find it, return null to signal the caller.
+
+        return null;
     }
 
 
@@ -467,7 +505,7 @@ public class WrapperConfig
     public ResultSet getResultSet(TestCase test)
     {
         File testFile = getResultFile(test);
-        if (!testFile.exists()) return null;
+        if (testFile == null) return null;
         return ResultSet.fromFile(testFile);
     }
 
@@ -798,12 +836,13 @@ public class WrapperConfig
             // compromise: we test for a time period and give up after ~1 sec.
 
             File expectedFile = getResultFile(test);
-            if (! expectedFile.exists())
+            if (expectedFile == null)
             {
                 for (int count = 11; count > 0; count--)
                 {
                     Thread.sleep(100);
-                    if (expectedFile.exists()) break;
+                    expectedFile = getResultFile(test);
+                    if (expectedFile != null) break;
                 }
             }
         }
