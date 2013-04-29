@@ -3,7 +3,7 @@
                   A Graphical User Interface for the
                            SBML Test Suite
 
-                 Frank T. Bergmann and Michael Hucka
+                 Michael Hucka and Frank T. Bergmann
                  Computing and Mathematical Sciences
                   California Institute of Technology
                       Pasadena, California, USA
@@ -15,59 +15,98 @@
 INTRODUCTION
 ======================================================================
 
-This directory contains the source code for a standalone application
-called the SBML Test Runner.  It is written in Java and uses the SWT
-(Standard Widget Toolkit) for creating the graphical user interface.
+The SBML Test Runner is a standalone program that can be used to run
+an application through the SBML Test Suite.  The SBML Test Suite is a
+conformance testing system for SBML, used to test the degree and
+correctness of SBML support provided in an SBML-compatible software
+package.  The SBML Test Suite consists of (1) a collection of SBML
+models, each with associated simulated results where appropriate, and
+(2) the SBML Test Runner, for controlling applications to make them
+run through each test case in the suite.
+
+The SBML Test Runner is written in Java and uses the SWT (Standard
+Widget Toolkit) in its graphical user interface.  If you obtained a
+binary distribution of the SBML Test Runner, then you can start it
+simply by double-clicking the application shortcut "SBML Test Runner"
+(or invoking it from a command line, if you prefer).  If you obtained
+the source code distribution, you will need to build the application
+first, using the instructions below.
 
 
-BUILDING AND INSTALLING THE APPLICATION
+BUILDING THE SBML TEST RUNNER
 ======================================================================
 
-To build the SBML Test Runner, you will need Java version 1.6 or
-later, and Ant, the Apache Java build tool.  Note that because SWT
-uses native code graphical widgets, the SBML Test Runner JAR file is
-architecture-specific -- you have to build a version for the operating
+If you obtained the source code distribution of the SBML Test Runner,
+then to build the JAR file, you will need Java version 1.6 or later,
+as well as Ant, the Apache Java build tool. Note that because SWT uses
+native code graphical widgets, the SBML Test Runner JAR file is
+architecture-specific -- you must build a version for the operating
 system and machine word size (32-bit or 64-bit) you will run it on.
 
-You can use one of the following commands to build a self-contained,
-runnable JAR file:
+The Ant configuration understands the following commands.  All outputs
+are placed in the directory "dist".
 
-  # This will build a self-contained .jar file, defaulting to a 64-bit
-  # architecture for the operating system you're using:
+  ant jar                                                           
+    Creates a self-contained jar file.  Whether it is 32-bit or 64-bit
+    is determined automatically based on the current platform.  The
+    result can be executed using "jar -jar sbmltestrunner.jar"
+                                                                  
+  ant app                                                           
+    Creates *two* executable applications that wrap the jar file, 
+    one executable for 32-bit and another for 64-bit versions of  
+    the current platform. The result can be executed as a normal  
+    application (e.g., by doing-clicking it). The result still    
+    requires Java to be installed on the computer, however.       
+                                                                  
+  ant dist                                                          
+    Creates a distribution with both 32-bit & 64-bit versions of  
+    the application. The form of the distribution depends on the  
+    platform currently running: on Macs, it creates a .dmg disk   
+    archive, on Windows it creates a runnable .exe installer, and 
+    on Linux, it creates 3 items: a runnable binary installer, an 
+    RPM package, and a Debian .deb package.                       
 
-  ant runnable-jar
-  
-  # If you need to explicit request a 32-bit or 64-bit .jar file, use
-  # one of the following commands
+To build the executable applications, you will need some additional
+tools, depending on the operating system:
 
-  ant runnable-jar-32
-  ant runnable-jar-64
+  Mac: You will need JarBundler (http://informagen.com/JarBundler).
 
-(Additional build targets are defined in the file build.xml; for
-example, there are targets to let you cross-compile the application
-for a different operating system than the one you're running on.)
-Unless problems arise, the outcome of running one of the commands
-above should be a file named "sbmltestrunner.jar".
+  Windows: You will need Launch4j (http://launch4j.sourceforge.net)
+  to create the application and NSIS (http://nsis.sourceforge.net)
+  to create the distribution installer.
 
-To run the application, if you are using Mac OS X, execute the
-following command in a terminal shell:
-
-  java -XstartOnFirstThread -jar sbmltestrunner.jar
-
-On all other systems, run
-
-  java -jar sbmltestrunner.jar
-
-To save you the trouble of doing all of the above and provide a
-standalone application you can simple double-click to start, we also
-make precompiled, standalone applications available.  Please visit the
-SBML Test Suite download site to find them:
-
-  https://sourceforge.net/projects/sbml/files/test-suite/
+  Linux: You will need InstallBuilder but *only* to create the
+  distribution installer.  (You can create the standalone application
+  without InstallBuilder.)  
 
 
-USING THE APPLICATION
+STARTING THE SBML TEST RUNNER
 ======================================================================
+
+Depending on whether you chose to create only a jar file or a
+self-contained application, you can use one of the following
+approaches to starting the SBML Test Runner:
+
+* If you created only the jar file:
+
+  On Mac OS X, execute the following command in a terminal shell:
+
+    java -XstartOnFirstThread -jar dist/sbmltestrunner.jar
+
+  On Windows and Linux: execute the following command instead:
+
+    java -jar dist/sbmltestrunner.jar
+
+* If you created the standalone application:
+
+  On all systems, you can simple double-click the application to
+  start, or start the application from a terminal shell command line.
+
+
+USING THE SBML TEST RUNNER
+======================================================================
+
+Forthcoming...
 
 
 REPORTING BUGS AND OTHER PROBLEMS
@@ -102,9 +141,9 @@ application previously written by Frank T. Bergmann in .NET:
 
 
 
-======================================================================
-# The following is for [X]Emacs users.  Please leave in place.
 
+======================================================================
+# The following is for [X]Emacs users.
 # Local Variables:
 # fill-column: 70
 # End:
