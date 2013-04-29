@@ -1,0 +1,2 @@
+Installer.Welcome.Title=${project.fullName} ${project.version} Installer
+Installer.Welcome.Text=Welcome to the ${project.fullName} installer. This program will install the ${project.fullName} on your computer.
