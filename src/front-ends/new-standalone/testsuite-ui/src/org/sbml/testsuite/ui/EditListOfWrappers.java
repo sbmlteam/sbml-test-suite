@@ -236,7 +236,7 @@ public class EditListOfWrappers
     public void loadWrappers(Vector<WrapperConfig> wrappers, 
                              String lastWrapper)
     {
-        this.wrappers = (Vector<WrapperConfig>) wrappers.clone();
+        this.wrappers = new Vector<WrapperConfig>(wrappers);
         displayedWrappersList.removeAll();
 
         for (int i = 0; i < wrappers.size(); i++)
