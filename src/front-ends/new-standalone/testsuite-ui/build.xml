@@ -1,233 +1,336 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  @file   build.xml
+  @brief  Ant configuration file for the SBML Test Runner GUI.
+  @author Michael Hucka
+  @author Frank T. Bergmann
+  @date   Created 2012-06-06 <fbergman@caltech.edu>
+ 
+  This file is part of the SBML Testsuite. Please visit http://sbml.org for
+  more information about SBML, and the latest version of the SBML Test Suite.
+ -->
+
 <project basedir="." default="jar" name="testsuite-ui">
 
-  <property name="version.num" value="3.0.0" />
-  <property name="app.name" value="SBML Test Runner" />
-  <property name="app.main.class" value="org.sbml.testsuite.ui.Program" />
-  <property name="app.icon" value="src/org/sbml/testsuite/ui/resources/SBML Test Runner logo.icns" />
+  <!-- ========================================================================
+       Certain variables, such as the paths to tools used in this build file,
+       are stored externally.  Edit the file "build.properties" to set
+       appropriate values for your local environment.  Defaults are defined
+       in build-defaults.properties.  If "build.properties" exists, its
+       contents override the values in build-defaults.properties.
 
-  <property environment="env" />
-  <property name="core.location" value="../testsuite-core" />
-  <property name="debuglevel" value="source,lines,vars" />
-  <property name="target" value="1.6" />
-  <property name="source" value="1.6" />
+       As an alternative to editing build.properties, you can also override
+       the property values via command-line arguments to ant.  E.g.,
+                ant -Dinstallbuilder.dir=/usr/local dist
+  ========================================================================= -->
+
+  <property file="build.properties" description="Local build configuration"/>
+  <property file="build-defaults.properties" description="Default configuration."/>
+
+  <!-- =================================================================== -->
+  <!-- Primary build targets:                                              -->
+  <!--                                                                     -->
+  <!-- ant jar                                                             -->
+  <!--     Creates a self-contained jar file.                              -->
+  <!--     Determines platform characteristics automatically.              -->
+  <!--     The result can be executed using "jar -jar sbmltestrunner.jar"  -->
+  <!--                                                                     -->
+  <!-- ant app                                                             -->
+  <!--     Creates *two* executable applications that wrap the jar file,   -->
+  <!--     one executable for 32-bit and another for 64-bit versions of    -->
+  <!--     the current platform. The result can be executed as a normal    -->
+  <!--     application (e.g., by doing-clicking it). The result still      -->
+  <!--     requires Java to be installed on the computer, however.         -->
+  <!--                                                                     -->
+  <!-- ant dist                                                            -->
+  <!--     Creates a distribution with both 32-bit & 64-bit versions of    -->
+  <!--     the application. The form of the distribution depends on the    -->
+  <!--     platform currently running: on Macs, it creates a .dmg disk     -->
+  <!--     archive, on Windows it creates a runnable .exe installer, and   -->
+  <!--     on Linux, it creates 3 items: a runnable binary installer, an   -->
+  <!--     RPM package, and a Debian .deb package.                         -->
+  <!--                                                                     -->
+  <!-- Each of the above can be suffixed to create specific versions or    -->
+  <!-- for particular platforms.  The understood suffixes are:             -->
+  <!--                                                                     -->
+  <!--   -mac                                                              -->
+  <!--   -windows                                                          -->
+  <!--   -linux                                                            -->
+  <!--                                                                     -->
+  <!-- The "jar" and "app" targets also understand the following suffixes: -->
+  <!--                                                                     -->
+  <!--   -windows-32                                                       -->
+  <!--   -windows-64                                                       -->
+  <!--   -linux-32                                                         -->
+  <!--   -linux-64                                                         -->
+  <!--   -mac-lion-32                                                      -->
+  <!--   -mac-lion-64                                                      -->
+  <!--   -mac-snow-leopard-32                                              -->
+  <!--   -mac-snow-leopard-64                                              -->
+  <!--                                                                     -->
+  <!-- E.g. of invocation: "ant jar-linux-64". (The "ant dist" target does -->
+  <!-- not have 32-bit and 64-bit variants; for simplicity and user        -->
+  <!-- convenience, the distribution archives always contain both the 32   -->
+  <!-- and 64-bit variants.)                                               -->
+  <!-- =================================================================== -->
+
   <path id="core.classpath">
-    <pathelement location="${core.location}/bin" />
+    <pathelement location="${core.dir}/build" />
   </path>
   <path id="testsuite-ui.classpath">
-    <pathelement location="bin" />
+    <pathelement location="build" />
     <path refid="core.classpath" />
     <pathelement location="./libs/swt.jar" />
     <pathelement location="./libs/org.swtchart_0.7.0.v20110128.jar" />
     <pathelement location="./libs/opal-0.9.5.1.jar" />
-    <pathelement location="${core.location}/libs/simple-xml-2.6.4.jar"/>
+    <pathelement location="${core.dir}/libs/simple-xml-2.6.4.jar"/>
   </path>
-  <target name="init">
-    <tstamp>
-      <format property="timestamp" pattern="yyyy-MM-dd HH:mm zzz"/>
-    </tstamp>
-    <mkdir dir="bin" />
-    <copy includeemptydirs="false" todir="bin">
-      <fileset dir="src">
-        <exclude name="**/*.launch" />
-        <exclude name="**/*.java" />
-        <exclude name="data/*"/>
-      </fileset>
-    </copy>
-  </target>
-  <target name="clean">
-    <delete dir="bin" />
-    <delete dir="stage" />
-    <delete dir="dist" />
-    <delete file="sbmltestrunner.jar"/>
-    <delete file="../testsuite-ui.jar"/>
-  </target>
-  <target depends="clean" name="cleanall">
-    <ant antfile="build.xml" dir="${core.location}" inheritAll="false" target="clean" />
-  </target>
-  <target depends="build-subprojects,build-project" name="build" />
-  <target name="build-subprojects">
-    <ant antfile="build.xml" dir="${core.location}" inheritAll="false" target="jar" />
-  </target>
-  <target depends="init" name="build-project">
-    <echo message="${ant.project.name}: ${ant.file}" />
-    <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="no">
-      <src path="src" />
-      <classpath refid="testsuite-ui.classpath" />
-    </javac>
-  </target>
-  <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
-
-  <!-- =================================================================== -->
-  <!-- Basic jars                                                          -->
-  <!-- =================================================================== -->
-
-  <target name="jar" depends="build">
-    <manifestclasspath property="manifest.cp" jarfile="testsuite-ui.jar">
-      <classpath>
-        <pathelement location="opal-0.9.5.1.jar" />
-        <pathelement location="swt.jar" />
-        <pathelement location="org.swtchart_0.7.0.v20110128.jar" />
-        <pathelement location="testsuite-core.jar" />
-      </classpath>
-    </manifestclasspath>
-    <jar jarfile="testsuite-ui.jar" destfile="../testsuite-ui.jar">
-      <manifest>
-        <attribute name="Main-Class" value="${app.main.class}" />
-        <attribute name="Class-Path" value="${manifest.cp}" />
-        <attribute name="Implementation-Title" value="${app.name}" />
-        <attribute name="Implementation-Version" value="${version.num}" />
-        <attribute name="Built-Timestamp" value="${timestamp}" />
-        <attribute name="Built-By" value="${user.name}" />
-      </manifest>
-      <fileset dir="bin" includes="**/*.class" />
-      <fileset dir="src" includes="org/sbml/testsuite/ui/resources/*" />
-    </jar>
-  </target>
-  <target name="stage-common" depends="jar">
-    <mkdir dir="stage" />
-    <copy file="../testsuite-ui.jar" todir="stage" />
-    <copy file="../testsuite-core.jar" todir="stage" />
-    <copy file="libs/swt.jar" todir="stage" />
-    <copy file="libs/opal-0.9.5.1.jar" todir="stage" />
-    <copy file="libs/org.swtchart_0.7.0.v20110128.jar" todir="stage" />
-    <copy file="libs/simple-xml-2.6.4.jar" todir="stage" />
-  </target>
-  <target name="stage-win-32" depends="stage-common">
-    <delete file="stage/swt.jar" />
-    <copy file="libs/swt-win32.jar" tofile="stage/swt.jar" />
-  </target>
-  <target name="start-win-32" depends="stage-win-32">
-    <java fork="true" jar="stage/testsuite-ui.jar" />
-  </target>
-  <target name="stage-win-64" depends="stage-common">
-    <delete file="stage/swt.jar" />
-    <copy file="libs/swt-win64.jar" tofile="stage/swt.jar" />
-  </target>
-  <target name="start-win-64" depends="stage-win-64">
-    <java fork="true" jar="stage/testsuite-ui.jar" />
-  </target>
-  <target name="stage-linux-32" depends="stage-common">
-    <delete file="stage/swt.jar" />
-    <copy file="libs/swt-linux-x86.jar" tofile="stage/swt.jar" />
-  </target>
-  <target name="start-linux-32" depends="stage-linux-32">
-    <java fork="true" jar="stage/testsuite-ui.jar" />
-  </target>
-  <target name="stage-linux-64" depends="stage-common">
-    <delete file="stage/swt.jar" />
-    <copy file="libs/swt-linux-x64.jar" tofile="stage/swt.jar" />
-  </target>
-  <target name="start-linux-64" depends="stage-linux-64">
-    <java fork="true" jar="stage/testsuite-ui.jar" />
-  </target>
-  <target name="stage-osx-32" depends="stage-common">
-    <delete file="stage/swt.jar" />
-    <copy file="libs/swt-osx.jar" tofile="stage/swt.jar" />
-  </target>
-  <target name="start-osx-32" depends="stage-osx-32">
-    <java fork="true" jar="stage/testsuite-ui.jar" >
-      <arg value="-d32"/>
-      <arg value="-XstartOnFirstThread"/>
-    </java>
-  </target>
-  <target name="stage-osx-64" depends="stage-common">
-    <delete file="stage/swt.jar" />
-    <copy file="libs/swt-osx-64.jar" tofile="stage/swt.jar" />
-  </target>
-  <target name="start-osx-64" depends="stage-osx-64">
-    <java fork="true" jar="stage/testsuite-ui.jar">
-      <arg value="-XstartOnFirstThread"/>
-      <arg value='-Xdock:name="${app.name}"'/>
-    </java>
-  </target>
-
-  <!-- =================================================================== -->
-  <!-- Executable jars                                                     -->
-  <!--                                                                     -->
-  <!-- These bundle dependent libraries and make it possible for a user    -->
-  <!-- to execute "java -jar sbmltestrunner.jar" to start the app.         -->
-  <!-- =================================================================== -->
 
   <condition property="isWindows" value="true">
     <os family="windows" />
   </condition>
   <condition property="isLinux" value="true">
-    <os family="unix" />
+    <and>
+      <os family="unix" />
+      <not>
+        <os family="mac" />
+      </not>
+    </and>
   </condition>
   <condition property="isMac" value="true">
     <os family="mac" />
   </condition>
 
-  <!-- The following targets are meant to be invoked by users.           -->
+  <!-- The next condition tests the JVM only, not the OS. -->
+  <condition property="is64Bit" value="true">
+    <contains string="${os.arch}" substring="64"/>
+  </condition>
+  <condition property="is32Bit" value="true">
+    <not>
+      <contains string="${os.arch}" substring="64"/>
+    </not>
+  </condition>
 
-  <target name="runnable-jar"          depends="rn-jar-mac-auto, rn-jar-win-auto, rn-jar-linux-auto" />
+  <target name="init">
+    <loadfile property="app.version" srcFile="${app.version.file}">
+      <filterchain>
+        <deletecharacters chars="\r\n\f"/>
+      </filterchain>
+    </loadfile>
+    <tstamp>
+      <format property="timestamp" pattern="yyyy-MM-dd HH:mm zzz"/>
+    </tstamp>
+    <mkdir dir="${dist.dir}" />
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${build.dest}" />
+  </target>
 
-  <target name="runnable-jar-32"       depends="rn-jar-mac-auto-32, rn-jar-win-auto-32, rn-jar-linux-auto-32" />
-  <target name="runnable-jar-64"       depends="rn-jar-mac-auto-64, rn-jar-win-auto-64, rn-jar-linux-auto-64" />
+  <target name="clean">
+    <delete dir="${dist.dir}" />
+    <delete dir="${build.dir}" />
+    <delete dir="${build.dest}" />
+    <delete file="sbmltestrunner.jar"/>
+    <delete file="../testsuite-ui.jar"/>
+  </target>
+  <target name="cleanall" depends="clean">
+    <ant antfile="build.xml" dir="${core.dir}" inheritAll="false" target="clean" />
+  </target>
+  <target name="clean-jar">
+    <delete file="${dist.dir}/sbmltestrunner.jar" />
+  </target>
 
-  <target name="runnable-jar-mac"      depends="init, stage-osx-64, runnable-jar-common" />
-  <target name="runnable-jar-win"      depends="init, stage-win-64, runnable-jar-common" />
-  <target name="runnable-jar-linux"    depends="init, stage-linux-64, runnable-jar-common" />
-
-  <target name="runnable-jar-mac-32"   depends="init, stage-osx-32, runnable-jar-common" />
-  <target name="runnable-jar-win-32"   depends="init, stage-win-32, runnable-jar-common" />
-  <target name="runnable-jar-linux-32" depends="init, stage-linux-32, runnable-jar-common" />
-
-  <target name="runnable-jar-mac-64"   depends="init, stage-osx-64, runnable-jar-common" />
-  <target name="runnable-jar-win-64"   depends="init, stage-win-64, runnable-jar-common" />
-  <target name="runnable-jar-linux-64" depends="init, stage-linux-64, runnable-jar-common" />
-
-  <!-- The following targets are internal and not really meant for users -->
-
-  <target name="rn-jar-mac-auto"      if="isMac"   depends="init, stage-osx-64, runnable-jar-common" />
-  <target name="rn-jar-win-auto"      if="isWin"   depends="init, stage-win-64, runnable-jar-common" />
-  <target name="rn-jar-linux-auto"    if="isLinux" depends="init, stage-linux-64, runnable-jar-common" />
-
-  <target name="rn-jar-mac-auto-32"   if="isMac"   depends="init, stage-osx-32, runnable-jar-common" />
-  <target name="rn-jar-mac-auto-64"   if="isMac"   depends="init, stage-osx-64, runnable-jar-common" />
-  <target name="rn-jar-win-auto-32"   if="isWin"   depends="init, stage-win-32, runnable-jar-common" />
-  <target name="rn-jar-win-auto-64"   if="isWin"   depends="init, stage-win-64, runnable-jar-common" />
-  <target name="rn-jar-linux-auto-32" if="isLinux" depends="init, stage-linux-32, runnable-jar-common" />
-  <target name="rn-jar-linux-auto-64" if="isLinux" depends="init, stage-linux-64, runnable-jar-common" />
-
-  <target name="runnable-jar-common">
-    <jar destfile="sbmltestrunner.jar">
-      <manifest>
-        <attribute name="Main-Class" value="${app.main.class}"/>
-        <attribute name="Implementation-Title" value="${app.name}" />
-        <attribute name="Implementation-Version" value="${version.num}" />
-        <attribute name="Built-Timestamp" value="${timestamp}" />
-        <attribute name="Built-By" value="${user.name}" />
-      </manifest>
-      <zipgroupfileset dir="stage" />
-      <fileset dir="src" includes="org/sbml/testsuite/ui/resources" />
-    </jar>
+  <target name="build" depends="build-subprojects, build-project" />
+  <target name="build-subprojects">
+    <echo message="Building dependent subproject" />
+    <echo message="${core.dir}"/>
+    <ant antfile="build.xml" dir="${core.dir}" inheritAll="false" target="jar" />
+  </target>
+  <target name="build-project" depends="init">
+    <echo message="Now building ${ant.project.name}" />
+    <echo message="${ant.file}"/>
+    <javac debug="true" debuglevel="${debuglevel}" destdir="${build.dest}"
+           source="${java.source}" target="${java.target}" includeantruntime="no">
+      <src path="src" />
+      <classpath refid="testsuite-ui.classpath" />
+      <compilerarg value="-Xlint:unchecked"/>
+    </javac>
   </target>
 
   <!-- =================================================================== -->
-  <!-- Applications and distributions                                      -->
+  <!-- Jars                                                                -->
   <!--                                                                     -->
-  <!-- This requires JarBundler (http://informagen.com/JarBundler/)        -->
+  <!-- Basic invocation: "ant jar"                                         -->
+  <!--                                                                     -->
+  <!-- These bundle up dependent libraries and make it possible for a user -->
+  <!-- to execute "java -jar sbmltestrunner.jar" to start the app.         -->
   <!-- =================================================================== -->
 
-  <taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" />
+  <target name="jar"          depends="jar-mac-auto, jar-win-auto, jar-linux-auto" />
 
-  <target name="mac-app-lion" depends="runnable-jar-mac">
-    <delete dir="dist/${app.name}.app" failonerror="false"/>
-    <mkdir dir="dist" />
-    <jarbundler dir="dist"
+  <target name="jar-mac"      depends="jar-mac-auto-32, jar-mac-auto-64" />
+  <target name="jar-win"      depends="jar-win-auto-32, jar-win-auto-64" />
+  <target name="jar-linux"    depends="jar-linux-auto-32, jar-linux-auto-64" />
+
+  <target name="jar-mac-32"   depends="swt-osx-32, jar-common"/>
+  <target name="jar-mac-64"   depends="swt-osx-64, jar-common" />
+
+  <target name="jar-win-32"   depends="swt-win-32, jar-common" />
+  <target name="jar-win-64"   depends="swt-win-64, jar-common" />
+
+  <target name="jar-linux-32" depends="swt-linux-32, jar-common" />
+  <target name="jar-linux-64" depends="swt-linux-64, jar-common" />
+
+  <!-- The following targets are internal. -->
+
+  <target name="jar-mac-auto"      if="isMac">
+    <antcall target="jar-mac" />
+  </target>
+  <target name="jar-mac-auto-32"   if="is32Bit">
+    <antcall target="jar-mac-32" />
+  </target>
+  <target name="jar-mac-auto-64"   if="is64Bit">
+    <antcall target="jar-mac-64" />
+  </target>
+
+  <target name="jar-win-auto"      if="isWindows">
+    <antcall target="jar-win" />
+  </target>
+  <target name="jar-win-auto-32"   if="is32Bit">
+    <antcall target="jar-win-32" />
+  </target>
+  <target name="jar-win-auto-64"   if="is64Bit">
+    <antcall target="jar-win-64" />
+  </target>
+
+  <target name="jar-linux-auto"    if="isLinux">
+    <antcall target="jar-linux" />
+  </target>
+  <target name="jar-linux-auto-32" if="is32Bit">
+    <antcall target="jar-linux-32" />
+  </target>
+  <target name="jar-linux-auto-64" if="is64Bit">
+    <antcall target="jar-linux-64" />
+  </target>
+
+  <target name="swt-win-32">
+    <property name="swt.file" value="libs/swt-win32.jar"/>
+  </target>
+  <target name="swt-win-64">
+    <property name="swt.file" value="libs/swt-win64.jar"/>
+  </target>
+  <target name="swt-linux-32">
+    <property name="swt.file" value="libs/swt-linux-x86.jar"/>
+  </target>
+  <target name="swt-linux-64">
+    <property name="swt.file" value="libs/swt-linux-x64.jar"/>
+  </target>
+  <target name="swt-osx-32">
+    <property name="swt.file" value="libs/swt-osx.jar"/>
+  </target>
+  <target name="swt-osx-64">
+    <property name="swt.file" value="libs/swt-osx-64.jar"/>
+  </target>
+
+  <target name="jar-common" depends="build">
+    <jar destfile="${dist.dir}/sbmltestrunner.jar">
+      <manifest>
+        <attribute name="Main-Class" value="${app.main.class}"/>
+        <attribute name="Implementation-Title" value="${app.name}" />
+        <attribute name="Implementation-Version" value="${app.version}" />
+        <attribute name="Built-Timestamp" value="${timestamp}" />
+        <attribute name="Built-By" value="${user.name}" />
+      </manifest>
+      <zipgroupfileset file="${core.dir}/dist/testsuite-core.jar"/>
+      <zipgroupfileset file="libs/opal-0.9.5.1.jar"/>
+      <zipgroupfileset file="libs/org.swtchart_0.7.0.v20110128.jar"/>
+      <zipgroupfileset file="libs/simple-xml-2.6.4.jar"/>
+      <zipgroupfileset file="${swt.file}"/>
+      <fileset dir="${build.dest}" includes="**/*.class" />
+      <fileset dir="src" includes="org/sbml/testsuite/ui/resources/*" />
+    </jar>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Applications                                                        -->
+  <!--                                                                     -->
+  <!-- Basic invocation: "ant app"                                         -->
+  <!--                                                                     -->
+  <!-- On Macs, this requires JarBundler, http://informagen.com/JarBundler -->
+  <!-- On Windows, this requires Frank's modified Launch4j                 -->
+  <!-- =================================================================== -->
+
+  <target name="app" depends="app-mac-auto, app-win-auto, app-linux-auto" />
+
+  <target name="app-mac-auto"    if="isMac">
+    <antcall target="app-mac-lion"/>
+    <antcall target="app-mac-leopard"/>
+  </target>
+  <target name="app-mac-auto-32" if="isMac">
+    <antcall target="app-mac-lion-32"/>
+    <antcall target="app-mac-leopard-32"/>
+  </target>
+  <target name="app-mac-auto-64" if="isMac">
+    <antcall target="app-mac-lion-64"/>
+    <antcall target="app-mac-leopard-64"/>
+  </target>
+
+  <!-- Targets for Mac OS X. -->
+
+  <target name="app-mac"    depends="app-mac-lion, app-mac-leopard"/>
+
+  <target name="app-mac-lion"    depends="app-mac-lion-32, app-mac-lion-64"/>
+  <target name="app-mac-lion-32">
+    <antcall target="jar-mac-32"/>
+    <antcall target="app-mac-lion-common">
+      <param name="os" value="Lion"/>
+      <param name="bits" value="x86"/>
+    </antcall>
+    <antcall target="clean-jar"/>
+  </target>
+  <target name="app-mac-lion-64">
+    <antcall target="jar-mac-64"/>
+    <antcall target="app-mac-lion-common">
+      <param name="os" value="Lion"/>
+      <param name="bits" value="x64"/>
+    </antcall>
+    <antcall target="clean-jar"/>
+  </target>
+
+  <target name="app-mac-leopard"    depends="app-mac-leopard-32, app-mac-leopard-64"/>
+  <target name="app-mac-leopard-32">
+    <antcall target="jar-mac-32"/>
+    <antcall target="app-mac-leopard-common">
+      <param name="os" value="Snow Leopard"/>
+      <param name="bits" value="x86"/>
+    </antcall>
+    <antcall target="clean-jar"/>
+  </target>
+  <target name="app-mac-leopard-64">
+    <antcall target="jar-mac-64"/>
+    <antcall target="app-mac-leopard-common">
+      <param name="os" value="Snow Leopard"/>
+      <param name="bits" value="x64"/>
+    </antcall>
+    <antcall target="clean-jar"/>
+  </target>
+
+  <target name="app-mac-lion-common" depends="init">
+    <taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" />
+    <delete dir="${dist.dir}/${app.name} - ${os} ${bits}.app" failonerror="false"/>
+    <mkdir dir="${dist.dir}" />
+    <jarbundler dir="${dist.dir}"
                 verbose="true"
-                name="${app.name}"
+                name="${app.name} - ${os} ${bits}"
                 mainclass="${app.main.class}"
                 bundleid="org.sbml.testsuite"
-                version="${version.num}"
-                icon="${app.icon}"
-                infostring="${app.name} ${version.num} for OS X 10.7 and 10.8"
+                version="${app.version}"
+                icon="${app.icon.icns}"
+                infostring="${app.name} ${app.version} ${bits} for Mac OS X 10.7 and 10.8"
                 jvmversion="1.6+"
                 startOnMainThread="true"
                 arguments='-Xdock:name="${app.name}"'
-                jar="sbmltestrunner.jar">
+                jar="${dist.dir}/sbmltestrunner.jar">
       <resourcefilelist dir=".." files="LICENSE.txt" />
     </jarbundler>
   </target>
@@ -240,44 +343,146 @@
   <!-- normally but overrite the JavaApplicationStub with the special      -->
   <!-- version.                                                            -->
 
-  <target name="mac-app-snow-leopard" depends="runnable-jar-mac">
-    <delete dir="dist/${app.name}.app" failonerror="false"/>
-    <mkdir dir="dist" />
-    <jarbundler dir="dist"
+  <target name="app-mac-leopard-common" depends="init">
+    <taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" />
+    <delete dir="${dist.dir}/${app.name} - ${os} ${bits}.app" failonerror="false"/>
+    <mkdir dir="${dist.dir}" />
+    <jarbundler dir="${dist.dir}"
                 verbose="true"
-                name="${app.name}"
+                name="${app.name} - ${os} ${bits}"
                 mainclass="${app.main.class}"
                 bundleid="org.sbml.testsuite"
-                version="${version.num}"
-                icon="${app.icon}"
-                infostring="${app.name} ${version.num} for OS X 10.6"
+                version="${app.version}"
+                icon="${app.icon.icns}"
+                infostring="${app.name} ${app.version} ${bits} for Mac OS X 10.6"
                 jvmversion="1.6+"
                 startOnMainThread="true"
                 arguments='-Xdock:name="${app.name}"'
-                jar="sbmltestrunner.jar">
+                jar="${dist.dir}/sbmltestrunner.jar">
       <resourcefilelist dir=".." files="LICENSE.txt" />
     </jarbundler>
     <copy file="dev/app-builders/macos/snow-leopard/JavaApplicationStub"
-          tofile="dist/${app.name}.app/Contents/MacOS/JavaApplicationStub"
+          tofile="${dist.dir}/${app.name} - ${os} ${bits}.app/Contents/MacOS/JavaApplicationStub"
           overwrite="true"/>
   </target>
 
-  <!-- The following targets are meant to be invoked by users.           -->
 
-  <target name="mac-dmg-lion"         depends="mac-app-lion, mac-dmg-name-lion, mac-dmg-common" />
-  <target name="mac-dmg-snow-leopard" depends="mac-app-snow-leopard, mac-dmg-name-snow-leopard, mac-dmg-common" />
+  <!-- Targets for Windows. -->
+
+  <target name="app-win" depends="app-win-32, app-win-64"/>
+
+  <target name="app-win-auto"    if="isWindows">
+    <antcall target="app-win-32"/>
+    <antcall target="app-win-64"/>
+  </target>
+  <target name="app-win-auto-32" if="isWindows">
+    <antcall target="app-win-32"/>
+  </target>
+  <target name="app-win-auto-64" if="isWindows">
+    <antcall target="app-win-64"/>
+  </target>
+
+  <target name="app-win-32" depends="init">
+    <antcall target="jar-win-32"/>
+    <taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask"
+             classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
+    <launch4j configFile="dev/app-builders/windows/SBML_Test_Runner_launch4j_x86_config.xml" />
+    <antcall target="clean-jar"/>
+  </target>
+  <target name="app-win-64" depends="init">
+    <antcall target="jar-win-64"/>
+    <taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask"
+             classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
+    <launch4j configFile="dev/app-builders/windows/SBML_Test_Runner_launch4j_x64_config.xml" />
+    <antcall target="clean-jar"/>
+  </target>
+
+
+  <!-- Targets for Linux. -->
+
+  <target name="app-linux" depends="app-linux-32, app-linux-64"/>
+
+  <target name="app-linux-auto"    if="isLinux">
+    <antcall target="app-linux-32"/>
+    <antcall target="app-linux-64"/>
+  </target>
+  <target name="app-linux-auto-32" if="isLinux">
+    <antcall target="app-linux-32"/>
+  </target>
+  <target name="app-linux-auto-64" if="isLinux">
+    <antcall target="app-linux-64"/>
+  </target>
+
+  <target name="app-linux-32">
+    <antcall target="jar-linux-32"/>
+    <antcall target="app-linux-common">
+      <param name="os" value="linux"/>
+      <param name="bits" value="x86"/>
+    </antcall>
+    <antcall target="clean-jar"/>
+  </target>
+  <target name="app-linux-64">
+    <antcall target="jar-linux-64"/>
+    <antcall target="app-linux-common">
+      <param name="os" value="linux"/>
+      <param name="bits" value="x64"/>
+    </antcall>
+    <antcall target="clean-jar"/>
+  </target>
+
+  <target name="app-linux-common" depends="init">
+    <exec executable="cat" output="${dist.dir}/${app.name.nospace}-${os}-${bits}">
+      <arg value="dev/app-builders/linux/bootstrap.sh"/>
+      <arg value="${dist.dir}/sbmltestrunner.jar"/>
+    </exec>
+    <exec executable="chmod">
+      <arg value="+x"/>
+      <arg value="${dist.dir}/${app.name.nospace}-${os}-${bits}"/>
+    </exec>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Distributions                                                       -->
+  <!--                                                                     -->
+  <!-- Basic invocation: "ant dist"                                        -->
+  <!-- On Windows, this requires (1) NSIS and (2) NSIS Ant Task.           -->
+  <!-- On Linux, this requires InstallBuilder.                             -->
+  <!-- =================================================================== -->
+
+  <!-- The following targets are meant to be invoked by users.             -->
+
+  <target name="dist" depends="dist-mac-auto, dist-win-auto, dist-linux-auto"/>
+
+  <target name="dist-mac-auto" if="isMac">
+    <antcall target="mac-dmg-lion"/>
+    <antcall target="mac-dmg-leopard"/>
+  </target>
+  <target name="dist-win-auto" if="isWindows">
+    <antcall target="dist-win"/>
+  </target>
+  <target name="dist-linux-auto" if="isLinux">
+    <antcall target="dist-linux"/>
+  </target>
 
   <!-- The following targets are internal and not really meant for users -->
 
-  <target name="mac-dmg-name-lion">
-    <property name="dmg.basename" value="dist/${app.name}-${version.num}-lion"/>
+  <target name="mac-dmg-lion">
+    <antcall target="app-mac-lion"/>
+    <antcall target="mac-dmg-common">
+      <param name="os" value="Lion"/>
+    </antcall>
   </target>
 
-  <target name="mac-dmg-name-snow-leopard">
-    <property name="dmg.basename" value="dist/${app.name}-${version.num}-snow-leopard"/>
+  <target name="mac-dmg-leopard">
+    <antcall target="app-mac-leopard"/>
+    <antcall target="mac-dmg-common">
+      <param name="os" value="Snow Leopard"/>
+    </antcall>
   </target>
 
-  <target name="mac-dmg-common">
+  <target name="mac-dmg-common" depends="init">
+    <property name="dmg.basename" value="${dist.dir}/${app.name}-${app.version}-${os}"/>
     <property name="dmg.name"     value="${dmg.basename}.dmg"/>
     <property name="dmg.tmp.name" value="${dmg.basename}-tmp.dmg"/>
     <property name="mountdir"     value="/tmp"/>
@@ -289,7 +494,9 @@
     <exec executable="hdiutil">
       <arg value="create"/>
       <arg value="-srcfolder"/>
-      <arg value="dist/${app.name}.app"/>
+      <arg value="${dist.dir}/${app.name} - ${os} x86.app"/>
+      <arg value="-srcfolder"/>
+      <arg value="${dist.dir}/${app.name} - ${os} x64.app"/>
       <arg value="-volname"/>
       <arg value="${app.name}"/>
       <arg value="-ov"/>
@@ -308,7 +515,7 @@
     </exec>
 
     <!-- copy the volume icon -->
-    <copy file="${app.icon}"
+    <copy file="${app.icon.icns}"
           tofile="${mountdir}/${app.name}/.VolumeIcon.icns"
           overwrite="true"/>
 
@@ -318,6 +525,14 @@
       <arg value="C"/>
       <arg value="${mountdir}/${app.name}"/>
     </exec>
+
+    <!-- copy other files -->
+    <copy file="../LICENSE.txt" 
+          tofile="${mountdir}/${app.name}/LICENSE.txt" overwrite="true"/>
+    <copy file="../COPYING.txt" 
+          tofile="${mountdir}/${app.name}/COPYING.txt" overwrite="true"/>
+    <copy file="README.txt" 
+          tofile="${mountdir}/${app.name}/README.txt" overwrite="true"/>
 
     <!-- add a symbolic link to the Applications directory -->
     <symlink link="${mountdir}/${app.name}" resource="/Applications"/>
@@ -348,6 +563,87 @@
     <!-- Delete the temporary image -->
     <delete file="${dmg.tmp.name}" quiet="yes" failonerror="false"/>
 
+  </target>
+
+
+  <!-- Targets for Windows. -->
+
+  <target name="dist-win" depends="init">
+    <antcall target="app-win"/>
+    <taskdef name="nsis" classname="com.danielreese.nsisant.Task">
+      <classpath location="dev/app-builders/windows/nsisant-1.3.jar"/>
+    </taskdef>
+    <nsis script="dev/app-builders/windows/NSIS_SBML_Test_Runner.nsi"
+          verbosity="4" noconfig="yes" nocd="yes">
+      <define name="NAME" value="${app.name}"/>
+      <define name="VERSION" value="${app.version}"/>
+      <define name="WEBSITE" value="${app.website}"/>
+      <define name="DIST_DIR" value="${dist.dir}"/>
+      <scriptcmd cmd="AutoCloseWindow true"/>
+    </nsis>
+  </target>
+
+
+  <!-- Targets for Linux. -->
+
+  <target name="dist-linux" depends="init">
+    <antcall target="app-linux"/>
+    <exec executable="${installbuilder.dir}/bin/builder">
+      <arg value="build"/>
+      <arg value="dev/app-builders/linux/installbuilder-linux-config.xml"/>
+      <arg value="--setvars"/>
+      <arg value="basedir=${basedir}"/>
+      <arg value="project.outputDirectory=${dist.dir}"/>
+      <arg value="project.version=${app.version}"/>
+    </exec>
+    <exec executable="${installbuilder.dir}/bin/builder">
+      <arg value="build"/>
+      <arg value="dev/app-builders/linux/installbuilder-linux-config.xml"/>
+      <arg value="deb"/>
+      <arg value="--setvars"/>
+      <arg value="basedir=${basedir}"/>
+      <arg value="project.outputDirectory=${dist.dir}"/>
+      <arg value="project.version=${app.version}"/>
+    </exec>
+    <exec executable="${installbuilder.dir}/bin/builder">
+      <arg value="build"/>
+      <arg value="dev/app-builders/linux/installbuilder-linux-config.xml"/>
+      <arg value="rpm"/>
+      <arg value="--setvars"/>
+      <arg value="basedir=${basedir}"/>
+      <arg value="project.outputDirectory=${dist.dir}"/>
+      <arg value="project.version=${app.version}"/>
+    </exec>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Other targets                                                       -->
+  <!-- =================================================================== -->
+
+  <target name="start-win-32" depends="swt-win-32">
+    <java fork="true" jar="${build}/testsuite-ui.jar" />
+  </target>
+  <target name="start-win-64" depends="swt-win-64">
+    <java fork="true" jar="${build}/testsuite-ui.jar" />
+  </target>
+  <target name="start-linux-32" depends="swt-linux-32">
+    <java fork="true" jar="${build}/testsuite-ui.jar" />
+  </target>
+  <target name="start-linux-64" depends="swt-linux-64">
+    <java fork="true" jar="${build}/testsuite-ui.jar" />
+  </target>
+  <target name="start-osx-32" depends="swt-osx-32">
+    <java fork="true" jar="${build}/testsuite-ui.jar" >
+      <arg value="-d32"/>
+      <arg value="-XstartOnFirstThread"/>
+    </java>
+  </target>
+  <target name="start-osx-64" depends="swt-osx-64">
+    <java fork="true" jar="${build}/testsuite-ui.jar">
+      <arg value="-XstartOnFirstThread"/>
+      <arg value='-Xdock:name="${app.name}"'/>
+    </java>
   </target>
 
 </project>
