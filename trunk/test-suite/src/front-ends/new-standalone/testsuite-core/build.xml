@@ -37,6 +37,7 @@
 			source="${source}" target="${target}" includeantruntime="no" >
 			<src path="src"/>
 			<classpath refid="core.classpath" />
+                        <compilerarg value="-Xlint:unchecked"/>
 		</javac>
 	</target>
 	<target name="javadoc">
