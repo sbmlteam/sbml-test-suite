@@ -93,7 +93,7 @@ public class TestSuiteSettings
     public TestSuiteSettings(String casesDir, Vector<WrapperConfig> wrappers)
     {
         this(casesDir);
-        this.wrappers = (Vector<WrapperConfig>) wrappers.clone();
+        this.wrappers = new Vector<WrapperConfig>(wrappers);
     }
 
 
@@ -108,7 +108,7 @@ public class TestSuiteSettings
                              String lastWrapper)
     {
         this(casesDir);
-        this.wrappers = (Vector<WrapperConfig>) wrappers.clone();
+        this.wrappers = new Vector<WrapperConfig>(wrappers);
         this.lastWrapper = lastWrapper;
     }
 
@@ -124,7 +124,7 @@ public class TestSuiteSettings
                              String lastWrapper, LevelVersion lv)
     {
         this(casesDir);
-        this.wrappers = (Vector<WrapperConfig>) wrappers.clone();
+        this.wrappers = new Vector<WrapperConfig>(wrappers);
         this.lastWrapper = lastWrapper;
         this.lastLVcombo = lv;
     }
