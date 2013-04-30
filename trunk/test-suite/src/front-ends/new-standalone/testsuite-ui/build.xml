@@ -284,7 +284,8 @@
     <antcall target="jar-mac-32"/>
     <antcall target="app-mac-lion-common">
       <param name="os" value="Lion"/>
-      <param name="bits" value="x86"/>
+      <param name="os.extra" value=""/>
+      <param name="jvmarchs" value="i386"/>
     </antcall>
     <antcall target="clean-jar"/>
   </target>
@@ -292,7 +293,8 @@
     <antcall target="jar-mac-64"/>
     <antcall target="app-mac-lion-common">
       <param name="os" value="Lion"/>
-      <param name="bits" value="x64"/>
+      <param name="os.extra" value=" x64"/>
+      <param name="jvmarchs" value="x86_64"/>
     </antcall>
     <antcall target="clean-jar"/>
   </target>
@@ -302,7 +304,8 @@
     <antcall target="jar-mac-32"/>
     <antcall target="app-mac-leopard-common">
       <param name="os" value="Snow Leopard"/>
-      <param name="bits" value="x86"/>
+      <param name="os.extra" value=""/>
+      <param name="jvmarchs" value="i386"/>
     </antcall>
     <antcall target="clean-jar"/>
   </target>
@@ -310,25 +313,27 @@
     <antcall target="jar-mac-64"/>
     <antcall target="app-mac-leopard-common">
       <param name="os" value="Snow Leopard"/>
-      <param name="bits" value="x64"/>
+      <param name="os.extra" value=" x64"/>
+      <param name="jvmarchs" value="x86_64"/>
     </antcall>
     <antcall target="clean-jar"/>
   </target>
 
   <target name="app-mac-lion-common" depends="init">
     <taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" />
-    <delete dir="${dist.dir}/${app.name} - ${os} ${bits}.app" failonerror="false"/>
+    <delete dir="${dist.dir}/${app.name} - ${os}${os.extra}.app" failonerror="false"/>
     <mkdir dir="${dist.dir}" />
     <jarbundler dir="${dist.dir}"
                 verbose="true"
-                name="${app.name} - ${os} ${bits}"
+                name="${app.name} - ${os}${os.extra}"
                 shortname="${app.name}"
                 mainclass="${app.main.class}"
                 bundleid="org.sbml.testsuite"
                 version="${app.version}"
                 icon="${app.icon.icns}"
-                infostring="${app.name} ${app.version} ${bits} for Mac OS X 10.7 and 10.8"
+                infostring="${app.name} ${app.version} ${jvmarchs} for Mac OS X 10.7 and 10.8"
                 jvmversion="1.6+"
+                jvmarchs="${jvmarchs}"
                 startOnMainThread="true"
                 arguments='-Xdock:name="${app.name}"'
                 jar="${dist.dir}/sbmltestrunner.jar">
@@ -346,25 +351,26 @@
 
   <target name="app-mac-leopard-common" depends="init">
     <taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" />
-    <delete dir="${dist.dir}/${app.name} - ${os} ${bits}.app" failonerror="false"/>
+    <delete dir="${dist.dir}/${app.name} - ${os}${os.extra}.app" failonerror="false"/>
     <mkdir dir="${dist.dir}" />
     <jarbundler dir="${dist.dir}"
                 verbose="true"
-                name="${app.name} - ${os} ${bits}"
+                name="${app.name} - ${os}${os.extra}"
                 shortname="${app.name}"
                 mainclass="${app.main.class}"
                 bundleid="org.sbml.testsuite"
                 version="${app.version}"
                 icon="${app.icon.icns}"
-                infostring="${app.name} ${app.version} ${bits} for Mac OS X 10.6"
+                infostring="${app.name} ${app.version} ${jvmarchs} for Mac OS X 10.6"
                 jvmversion="1.6+"
+                jvmarchs="${jvmarchs}"
                 startOnMainThread="true"
                 arguments='-Xdock:name="${app.name}"'
                 jar="${dist.dir}/sbmltestrunner.jar">
       <resourcefilelist dir=".." files="LICENSE.txt" />
     </jarbundler>
     <copy file="dev/app-builders/macos/snow-leopard/JavaApplicationStub"
-          tofile="${dist.dir}/${app.name} - ${os} ${bits}.app/Contents/MacOS/JavaApplicationStub"
+          tofile="${dist.dir}/${app.name} - ${os}${os.extra}.app/Contents/MacOS/JavaApplicationStub"
           overwrite="true"/>
   </target>
 
