@@ -618,6 +618,10 @@ public class MainWindow
         BusyIndicator.showWhile(getDisplay(), new Runnable() {
             public void run()
             {
+                // The .update() is to get the busy cursor to show up.
+                // Otherwise, on the mac, it doesn't get shown.
+                getDisplay().update();
+
                 model.getSettings().setLastWrapper(newWrapper);
                 model.getSettings().setLastLevelVersion(currentLV);
                 newWrapper.beginUpdate(model.getSuite(), currentLV);
