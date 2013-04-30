@@ -113,7 +113,7 @@ public class ResultSet
      */
     public static ResultSet fromFile(File file)
     {
-        if (!file.exists()) return null;
+        if (file == null || ! file.exists()) return null;
         return new ResultSet(file);
     }
 
@@ -328,6 +328,7 @@ public class ResultSet
      */
     private void parseFile(File file)
     {
+        if (file == null || ! file.exists()) return;
 
         try
         {
