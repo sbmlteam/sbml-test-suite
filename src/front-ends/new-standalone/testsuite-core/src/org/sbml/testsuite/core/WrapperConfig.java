@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.sbml.testsuite.core.data.CompareResultSet;
@@ -77,6 +78,9 @@ public class WrapperConfig
     @Transient
     private SortedMap<String, DelayedResult> resultCache;
 
+    @Transient
+    private ConcurrentHashMap<String, File> resultFiles;
+
     static ExecutorService                 executor = Executors.newFixedThreadPool(20);
 
     /**
@@ -93,6 +97,7 @@ public class WrapperConfig
         this.concurrentThreadsOK = false;
         this.supportsAllVersions = false;
         this.unsupportedTags = new Vector<String>();
+        this.resultFiles = new ConcurrentHashMap<String, File>(1200, (float) 0.75, 4);
     }
 
 
@@ -349,6 +354,7 @@ public class WrapperConfig
         File testFile = getResultFile(test);
         if (testFile == null) return;
         testFile.delete();
+        resultFiles.remove(testFile);
         resultCache.put(test.getId(), new DelayedResult(ResultType.Unknown));
     }
 
@@ -455,20 +461,30 @@ public class WrapperConfig
     {
         final String id = test.getId();
 
-        // Speediest case: the file is named "NNNNN.csv".
+        // Speediest case: we already know where to look.
+
+        File cachedFile = resultFiles.get(id);
+        if (cachedFile != null)
+            return cachedFile;
+
+        // OK, we haven't tried to read this file yet.  Next speediest case:
+        // the file is named "NNNNN.csv".
 
         File hopeful = new File(getOutputPath() + File.separator + id + ".csv");
         if (hopeful.exists() && hopeful.isFile())
+        {
+            resultFiles.put(id, hopeful);
             return hopeful;
+        }
 
-        // OK, it's not named "NNNNN.csv".  Alternative 2: look for a file
-        // name that contains the case id number and ends in .csv.  This
-        // corresponds to what's allowed by the online SBML Test Suite as of
-        // 2013.  If we ever change what's allowed to be uploaded in the
-        // online system, we need to make corresponding changes here.  The
-        // algorithm below is suboptimal, but it is not clear how else this
-        // can be done in Java.  There's no direct way to test for the
-        // existence of a file name pattern.
+        // OK, it's not named "NNNNN.csv" or else it doesn't exist (yet).
+        // Now we have to look for a file name that contains the case id
+        // number and ends in .csv.  This corresponds to what's allowed by
+        // the online SBML Test Suite as of 2013.  If we ever change what's
+        // allowed to be uploaded in the online system, we need to make
+        // corresponding changes here.  The algorithm below is suboptimal,
+        // but it is not clear how else this can be done in Java.  There's no
+        // direct way to test for the existence of a file name pattern.
 
         final File dir = new File(getOutputPath());
         final File[] matchingFiles = dir.listFiles(new FilenameFilter() {
@@ -483,11 +499,17 @@ public class WrapperConfig
         // in a quandary.  We should flag that up as an error, but with the
         // current code architecture, it's difficult.  So, right now, this
         // simply takes the first match that's a file (and not, e.g., a dir).
+        // Also, we cache the result in resultFiles.
 
-        if (matchingFiles != null)
+        if (matchingFiles != null && matchingFiles.length > 0)
+        {
             for (final File file : matchingFiles)
                 if (file.isFile())
+                {
+                    resultFiles.put(id, file);
                     return file;
+                }
+        }
 
         // If we don't find it, return null to signal the caller.
 
@@ -836,13 +858,13 @@ public class WrapperConfig
             // compromise: we test for a time period and give up after ~1 sec.
 
             File expectedFile = getResultFile(test);
-            if (expectedFile == null)
+            if (expectedFile == null || ! expectedFile.exists())
             {
                 for (int count = 11; count > 0; count--)
                 {
                     Thread.sleep(100);
                     expectedFile = getResultFile(test);
-                    if (expectedFile != null) break;
+                    if (expectedFile != null && expectedFile.exists()) break;
                 }
             }
         }
@@ -1085,6 +1107,7 @@ public class WrapperConfig
         this.supportsAllVersions = other.supportsAllVersions;
         this.unsupportedTags = new Vector<String>(other.unsupportedTags);
         this.concurrentThreadsOK = other.concurrentThreadsOK;
+        this.resultFiles.putAll(other.resultFiles);
     }
 
 
