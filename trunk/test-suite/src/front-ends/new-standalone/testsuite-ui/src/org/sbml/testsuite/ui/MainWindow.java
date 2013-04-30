@@ -1171,6 +1171,22 @@ public class MainWindow
         menuItemFilter.setText("Filter Visible Test Cases\tCtrl+T");
         menuItemFilter.setAccelerator(SWT.MOD1 + 'T');
 
+        MenuItem menuItemClearFilters = new MenuItem(menu_2, SWT.NONE);
+        menuItemClearFilters.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                delayedUpdate(new Runnable() {
+                    public void run()
+                    {
+                        clearFilters();
+                    }
+               });
+            }
+        });
+        menuItemClearFilters.setText("Clear All Filters\tCtrl+Shift+T");
+        menuItemClearFilters.setAccelerator(SWT.MOD1 + SWT.SHIFT + 'T');
+
         new MenuItem(menu_2, SWT.SEPARATOR);
 
         menuItemShowOnlyProblematic = new MenuItem(menu_2, SWT.CHECK);
