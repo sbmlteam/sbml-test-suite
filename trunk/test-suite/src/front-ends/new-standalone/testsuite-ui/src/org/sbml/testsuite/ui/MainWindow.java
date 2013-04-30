@@ -2546,20 +2546,21 @@ public class MainWindow
         // separately and watch for errors, then go on and run the rest.
 
         RunOutcome runOutcome = null;
+        TreeItem testItem = null;
         if (selectionIndex < selection.length)
         {
-            TreeItem item = selection[selectionIndex];
-            TestCase testCase = model.getSuite().get(item.getText());
+            testItem = selection[selectionIndex];
+            TestCase testCase = model.getSuite().get(testItem.getText());
             progressSection.setStatus(RunStatus.Running);
             runOutcome = wrapper.run(testCase, currentLV.getLevel(),
                                      currentLV.getVersion(), absolutePath, null);
-            updateItemStatus(item, wrapper.getResultType(testCase, currentLV));
+            updateItemStatus(testItem, wrapper.getResultType(testCase, currentLV));
             progressSection.incrementDoneCount();
             selectionIndex++;
         }
 
-        if (runOutcome != null
-            && runOutcome.getCode() != RunOutcome.Code.success)
+        if (runOutcome == null
+            || runOutcome.getCode() != RunOutcome.Code.success)
         {
             Tell.error(shell, "Encountered a problem while attempting to"
                        + "\nrun the wrapper. Execution stopped. Please"
@@ -2571,6 +2572,17 @@ public class MainWindow
             descriptionSection.setMessage("Stopped.");
             return;
         }
+
+        // Outome was a success. Update the plots for this case.
+
+        final TreeItem itemToUpdate = testItem;
+        getDisplay().asyncExec(new Runnable() {
+            @Override
+            public void run()
+            {
+                updatePlotsForSelection(itemToUpdate);
+            }
+        });
 
         // If we get here, we can hopefully continue with the remaining cases.
 
@@ -2608,7 +2620,7 @@ public class MainWindow
         
             recenterTree(lastItem);
 
-            lastItem.getDisplay().asyncExec(new Runnable() {
+            getDisplay().asyncExec(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -2621,7 +2633,7 @@ public class MainWindow
         }
         else
         {
-            // Not interrupted. Show the last case in the selection.
+            // Not interrupted -- presumably done.
 
             markAsRunning(false);
             progressSection.setStatus(RunStatus.Done);
