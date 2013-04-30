@@ -29,17 +29,11 @@
 package org.sbml.testsuite.ui;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.widgets.Shell;
-import org.sbml.testsuite.core.TestCase;
 
 
 public class NotificationBanner
