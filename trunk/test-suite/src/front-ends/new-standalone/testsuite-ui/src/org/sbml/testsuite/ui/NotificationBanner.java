@@ -66,6 +66,10 @@ public class NotificationBanner
 
     public void show(boolean doShow)
     {
+        // Return if we're already showing the banner.
+        if (doShow == (bottomAttachment.offset != initialBottomOffset))
+            return;
+
         if (doShow)
         {
             FontData[] fontData = getFont().getFontData();
