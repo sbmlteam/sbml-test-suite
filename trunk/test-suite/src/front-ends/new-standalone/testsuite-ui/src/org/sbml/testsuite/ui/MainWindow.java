@@ -1645,6 +1645,7 @@ public class MainWindow
             });
         menuItemRunTest.setText("Rerun Test");
 
+        /*
         new MenuItem(treeContextMenu, SWT.SEPARATOR);
 
         MenuItem menuItemSaveSedML = new MenuItem(treeContextMenu, SWT.PUSH);
@@ -1658,6 +1659,7 @@ public class MainWindow
         menuItemSaveSedML.setText("Save SED-ML");
         // TODO: Remove when implemented
         menuItemSaveSedML.setEnabled(false);
+        */
 
         new MenuItem(treeContextMenu, SWT.SEPARATOR);
 
