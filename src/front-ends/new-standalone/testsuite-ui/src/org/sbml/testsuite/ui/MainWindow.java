@@ -1320,7 +1320,7 @@ public class MainWindow
                 deleteSelectedResults();
             }
         });
-        menuItemDeleteSelectedResults.setText("Delete Selected Results");
+        menuItemDeleteSelectedResults.setText("Delete Selected Result(s)");
 
         MenuItem menuItemhelp = new MenuItem(menuBar, SWT.CASCADE);
         menuItemhelp.setText("&Help");
@@ -1669,7 +1669,7 @@ public class MainWindow
                     deleteSelectedResults(tree.getSelection());
                 }
             });
-        menuItemDeleteSelected.setText("Delete Selected Result");
+        menuItemDeleteSelected.setText("Delete Selected Result(s)");
 
         tree.setMenu(treeContextMenu);
     }
@@ -1739,22 +1739,25 @@ public class MainWindow
 
     protected void deleteSelectedResults(TreeItem[] selection)
     {
-        if (selection != null && selection.length > 0)
-        {
-            if (! Tell.confirm(shell, "Delete the selected result"
-                               + (selection.length > 1 ? "s" : "")                               
-                               + "? This will\ndelete the file"
-                               + (selection.length > 1 ? "s" : "")
-                               + " containing the output data\n"
-                               + "from the wrapper/simulator for"
-                               + (selection.length > 1 ? " these" : " this")
-                               + " case" + (selection.length > 1 ? "s" : "")
-                               + ".\nThis action cannot be undone. Proceed?"))
-                return;
-        }
+        if (selection == null || selection.length == 0)
+            return;
+
+        if (! Tell.confirm(shell, "Delete the selected result"
+                           + (selection.length > 1 ? "s" : "")                               
+                           + "? This will\ndelete the file"
+                           + (selection.length > 1 ? "s" : "")
+                           + " containing the output data\n"
+                           + "from the wrapper/simulator for"
+                           + (selection.length > 1 ? " these" : " this")
+                           + " case" + (selection.length > 1 ? "s" : "")
+                           + ".\nThis action cannot be undone. Proceed?"))
+            return;
 
         for (TreeItem item : selection)
             deleteSelectedResult(item);
+
+        TreeItem lastItem = selection[selection.length - 1];
+        updatePlotsForSelection(lastItem);
     }
 
 
