@@ -312,9 +312,14 @@ public class MainWindow
     private MenuItem                  menuItemDeselectAll;
     private MenuItem                  menuItemJumpToCase;
     private MenuItem                  menuItemRunSelected;
+    private MenuItem                  menuItemRunByFilter;
+    private MenuItem                  menuItemRunAllTests;
+    private MenuItem                  menuItemRunAllSupported;
+    private MenuItem                  menuItemRunAllNew;
     private MenuItem                  menuItemShowOnlyProblematic;
     private MenuItem                  menuItemShowOnlyReally;
     private MenuItem                  menuItemShowOnlySupported;
+    private MenuItem                  menuItemRunTest;
     private MenuItem                  menuItemtest;
 
     private MainModel                 model;
@@ -633,14 +638,12 @@ public class MainWindow
                     progressSection.setMaxCount(tree.getItemCount());
                     progressSection.setSelectedCount(1);
                     progressSection.setDoneCount(0);
-                    progressSection.setStatus(RunStatus.NotStarted);
                     updatePlotsForSelection(tree.getItem(0));
                 }
             }
         });
 
-        if (wrapperIsViewOnly(newWrapper))
-            progressSection.setStatus(RunStatus.NotRunnable);
+        updateStatuses();
     }
 
 
@@ -1260,7 +1263,7 @@ public class MainWindow
         menuItemRunSelected.setText("Run Selected\tCtrl+R");
         menuItemRunSelected.setAccelerator(SWT.MOD1 + 'R');
 
-        MenuItem menuItemRunByFilter = new MenuItem(menu_3, SWT.NONE);
+        menuItemRunByFilter = new MenuItem(menu_3, SWT.NONE);
         menuItemRunByFilter.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1274,7 +1277,7 @@ public class MainWindow
 
         new MenuItem(menu_3, SWT.SEPARATOR);
 
-        MenuItem menuItemRunAllTests = new MenuItem(menu_3, SWT.NONE);
+        menuItemRunAllTests = new MenuItem(menu_3, SWT.NONE);
         menuItemRunAllTests.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1285,7 +1288,7 @@ public class MainWindow
         });
         menuItemRunAllTests.setText("Run All Tests");
 
-        MenuItem menuItemRunAllSupported = new MenuItem(menu_3, SWT.NONE);
+        menuItemRunAllSupported = new MenuItem(menu_3, SWT.NONE);
         menuItemRunAllSupported.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1296,7 +1299,7 @@ public class MainWindow
         });
         menuItemRunAllSupported.setText("Run All Supported Tests");
 
-        MenuItem menuItemRunAllNew = new MenuItem(menu_3, SWT.NONE);
+        menuItemRunAllNew = new MenuItem(menu_3, SWT.NONE);
         menuItemRunAllNew.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1502,6 +1505,7 @@ public class MainWindow
                         filterShowByTagOrNumber();
                     }
                 });
+
                 resetForRun();
             }
         });
@@ -1522,7 +1526,6 @@ public class MainWindow
                     getDisplay().timerExec(doubleClickTime, doubleTimer);
                 }
                 syncFiles();
-                resetForRun();
             }
         });
 
@@ -1632,7 +1635,7 @@ public class MainWindow
 
         new MenuItem(treeContextMenu, SWT.SEPARATOR);
 
-        MenuItem menuItemRunTest = new MenuItem(treeContextMenu, SWT.PUSH);
+        menuItemRunTest = new MenuItem(treeContextMenu, SWT.PUSH);
         menuItemRunTest.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent arg0)
@@ -1700,7 +1703,8 @@ public class MainWindow
         markTreeItemsForRerun();
         running = false;
         restart = true;
-        progressSection.setStatus(RunStatus.NotStarted);
+        if (wrapperIsRunnable())
+            progressSection.setStatus(RunStatus.NotStarted);
         int selectedCount = tree.getSelectionCount();
         progressSection.setSelectedCount(selectedCount);
         if (selectedCount > 0)
@@ -1830,7 +1834,8 @@ public class MainWindow
         if (fileName != null && openArchive(new File(fileName)))
         {
             invalidateSelectedResults(tree.getItems());
-            progressSection.setStatus(RunStatus.NotStarted);
+            if (wrapperIsRunnable())
+                progressSection.setStatus(RunStatus.NotStarted);
             progressSection.setDoneCount(0);
             progressSection.setMaxCount(tree.getItemCount());
             if (tree.getItemCount() > 0)
@@ -2196,10 +2201,7 @@ public class MainWindow
 
         markAsRunning(false);
         progressSection.setMaxCount(tree.getItemCount()); // Initial default.
-        if (wrapperIsViewOnly(model.getLastWrapper()))
-            progressSection.setStatus(RunStatus.NotRunnable);
-        else
-            progressSection.setStatus(RunStatus.NotStarted);
+        updateStatuses();
 
         TreeItem toSelect = treeItemForCase(lastCaseWithCachedValue());
         if (toSelect != null)
@@ -2248,11 +2250,10 @@ public class MainWindow
 
             if (model != null)
             {
-                WrapperConfig currentWrapper = model.getLastWrapper();
-                if (currentWrapper == null || wrapperIsViewOnly(currentWrapper))
-                    progressSection.setStatus(RunStatus.NotRunnable);
-                else
+                if (wrapperIsRunnable())
                     progressSection.setStatus(RunStatus.Paused);
+                else
+                    progressSection.setStatus(RunStatus.NotRunnable);
             }
         }
         buttonRun.getParent().redraw();
@@ -2385,11 +2386,7 @@ public class MainWindow
 
     protected void updateStatuses()
     {
-        WrapperConfig currentWrapper = model.getLastWrapper();
-        if (wrapperIsViewOnly(currentWrapper))
-        {
-            progressSection.setStatus(RunStatus.NotRunnable);
-        }
+        setRunnable(wrapperIsRunnable());
     }
 
 
@@ -2663,14 +2660,14 @@ public class MainWindow
 
     protected void runAllNewTests()
     {
-        if (wrapperIsNotRunnable()) return;
+        if (! wrapperIsRunnable()) return;
         runAllNewTests(tree.getItems());
     }
 
 
     protected void runAllNewTests(TreeItem[] selection)
     {
-        if (wrapperIsNotRunnable()) return;
+        if (! wrapperIsRunnable()) return;
         Vector<TreeItem> items = new Vector<TreeItem>();
         for (TreeItem item : selection)
         {
@@ -2686,14 +2683,14 @@ public class MainWindow
 
     protected void runAllNewTestsInSelection()
     {
-        if (wrapperIsNotRunnable()) return;
+        if (! wrapperIsRunnable()) return;
         runAllNewTests(tree.getSelection());
     }
 
 
     protected void runAllSupported()
     {
-        if (wrapperIsNotRunnable()) return;
+        if (! wrapperIsRunnable()) return;
         Vector<TreeItem> items = new Vector<TreeItem>();
         for (TreeItem item : tree.getItems())
         {
@@ -2708,7 +2705,7 @@ public class MainWindow
 
     protected void runAllTests()
     {
-        if (wrapperIsNotRunnable()) return;
+        if (! wrapperIsRunnable()) return;
         selectAll();
         reRunTests(tree.getItems());
     }
@@ -2716,7 +2713,7 @@ public class MainWindow
 
     protected void runByFilter()
     {
-        if (wrapperIsNotRunnable()) return;
+        if (! wrapperIsRunnable()) return;
 
         // To allow the filter dialog to be used to run a subset of cases when
         // a filter was previously applied, we store the filter values and
@@ -2763,7 +2760,7 @@ public class MainWindow
 
     protected void runSelectedTests()
     {
-        if (wrapperIsNotRunnable()) return;
+        if (! wrapperIsRunnable()) return;
 
         TreeItem[] selection = tree.getSelection();
         reRunTests(selection);
@@ -3018,17 +3015,10 @@ public class MainWindow
     }
 
 
-    private boolean wrapperIsNotRunnable()
+    private boolean wrapperIsRunnable()
     {
-        if (model.getLastWrapper() == null)
-            return true;
-        if (wrapperIsViewOnly(model.getLastWrapper()))
-        {
-            progressSection.setStatus(RunStatus.NotRunnable);
-            return true;
-        }
-        else
-            return false;        
+        return (model.getLastWrapper() != null
+                && ! wrapperIsViewOnly(model.getLastWrapper()));
     }
 
 
@@ -3118,6 +3108,35 @@ public class MainWindow
             return false;  
         }  
         return true;  
+    }
+
+
+    private void setRunnable(boolean runnable)
+    {
+        if (runnable)
+        {
+            buttonRun.setEnabled(true);
+            menuItemRunSelected.setEnabled(true);
+            menuItemRunByFilter.setEnabled(true);
+            menuItemRunAllTests.setEnabled(true);
+            menuItemRunAllSupported.setEnabled(true);
+            menuItemRunAllNew.setEnabled(true);
+            menuItemRunTest.setEnabled(true);
+            progressSection.setStatus(RunStatus.NotStarted);
+            buttonRun.getParent().redraw();
+        }
+        else
+        {
+            buttonRun.setEnabled(false);
+            menuItemRunSelected.setEnabled(false);
+            menuItemRunByFilter.setEnabled(false);
+            menuItemRunAllTests.setEnabled(false);
+            menuItemRunAllSupported.setEnabled(false);
+            menuItemRunAllNew.setEnabled(false);
+            menuItemRunTest.setEnabled(false);
+            progressSection.setStatus(RunStatus.NotRunnable);
+            buttonRun.getParent().redraw();
+        }
     }
 
 
