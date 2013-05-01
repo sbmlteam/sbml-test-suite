@@ -351,10 +351,10 @@ public class MainWindow
     private DescriptionSection        descriptionSection;
     private ProgressSection           progressSection;
 
-    private TreeSet<String>           includedTags;
-    private TreeSet<String>           excludedTags;
-    private TreeSet<Integer>          includedCases;
-    private TreeSet<Integer>          excludedCases;
+    private TreeSet<String>           includedTags = new TreeSet<String>();
+    private TreeSet<String>           excludedTags = new TreeSet<String>();
+    private TreeSet<Integer>          includedCases = new TreeSet<Integer>();
+    private TreeSet<Integer>          excludedCases = new TreeSet<Integer>();
 
     private Color                     foregroundColor;
     private Color                     backgroundColor;
