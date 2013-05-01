@@ -1286,7 +1286,6 @@ public class MainWindow
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                resetForRun();
                 delayedUpdate(new Runnable() {
                     public void run()
                     {
@@ -2803,6 +2802,8 @@ public class MainWindow
                     return true;
                 }
             });
+            running = false;
+            restart = true;
             runSelectedTests();
         }
 
