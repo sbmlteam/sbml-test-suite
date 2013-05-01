@@ -502,7 +502,7 @@
     <exec executable="hdiutil">
       <arg value="create"/>
       <arg value="-srcfolder"/>
-      <arg value="${dist.dir}/${app.name} - ${os} x86.app"/>
+      <arg value="${dist.dir}/${app.name} - ${os}.app"/>
       <arg value="-srcfolder"/>
       <arg value="${dist.dir}/${app.name} - ${os} x64.app"/>
       <arg value="-volname"/>
