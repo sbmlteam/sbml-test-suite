@@ -31,9 +31,8 @@ package org.sbml.testsuite.ui;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Scanner;
-import java.util.Vector;
+import java.util.TreeSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
@@ -69,19 +68,19 @@ import org.sbml.testsuite.core.Util;
 public class FilterDialog
     extends Dialog
 {
-    private Label             lblDescription;
-    private LabeledList       lblLstComponentTags;
-    private LabeledList       lblLstTestTags;
-    private LabeledList       lblLstIncludedTags;
-    private LabeledList       lblLstExcludedTags;
-    protected Vector<String>  includedTags;
-    protected Vector<String>  excludedTags;
-    protected Vector<Integer> includedCases;
-    protected Vector<Integer> excludedCases;
-    protected Shell           shlFilterTags;
+    private Label              lblDescription;
+    private LabeledList        lblLstComponentTags;
+    private LabeledList        lblLstTestTags;
+    private LabeledList        lblLstIncludedTags;
+    private LabeledList        lblLstExcludedTags;
+    protected TreeSet<String>  includedTags;
+    protected TreeSet<String>  excludedTags;
+    protected TreeSet<Integer> includedCases;
+    protected TreeSet<Integer> excludedCases;
+    protected Shell            shlFilterTags;
 
-    private Text              txtInclude;
-    private Text              txtExclude;
+    private Text               txtInclude;
+    private Text               txtExclude;
 
 
     /**
@@ -605,7 +604,7 @@ public class FilterDialog
     /**
      * @return current selection
      */
-    public Vector<String> getIncludedTags()
+    public TreeSet<String> getIncludedTags()
     {
         return includedTags;
     }
@@ -614,7 +613,7 @@ public class FilterDialog
     /**
      * @return current selection
      */
-    public Vector<String> getExcludedTags()
+    public TreeSet<String> getExcludedTags()
     {
         return excludedTags;
     }
@@ -623,7 +622,7 @@ public class FilterDialog
     /**
      * @return current case numbers
      */
-    public Vector<Integer> getIncludedCases()
+    public TreeSet<Integer> getIncludedCases()
     {
         return includedCases;
     }
@@ -632,15 +631,15 @@ public class FilterDialog
     /**
      * @return current selection
      */
-    public Vector<Integer> getExcludedCases()
+    public TreeSet<Integer> getExcludedCases()
     {
         return excludedCases;
     }
 
 
-    private Vector<String> readIncludedTags()
+    private TreeSet<String> readIncludedTags()
     {
-        Vector<String> result = new Vector<String>();
+        TreeSet<String> result = new TreeSet<String>();
 
         result.addAll(Arrays.asList(lblLstIncludedTags.getList().getItems()));
 
@@ -651,9 +650,9 @@ public class FilterDialog
     /**
      * @return current exclusions
      */
-    public Vector<String> readExcludedTags()
+    public TreeSet<String> readExcludedTags()
     {
-        Vector<String> result = new Vector<String>();
+        TreeSet<String> result = new TreeSet<String>();
 
         result.addAll(Arrays.asList(lblLstExcludedTags.getList().getItems()));
 
@@ -664,7 +663,7 @@ public class FilterDialog
     /**
      * @return current exclusions
      */
-    public Vector<Integer> readIncludedCases()
+    public TreeSet<Integer> readIncludedCases()
     {
         return parseCaseNumbers(txtInclude.getText());
     }
@@ -673,15 +672,15 @@ public class FilterDialog
     /**
      * @return current exclusions
      */
-    public Vector<Integer> readExcludedCases()
+    public TreeSet<Integer> readExcludedCases()
     {
         return parseCaseNumbers(txtExclude.getText());
     }
 
 
-    private Vector<Integer> parseCaseNumbers(String text)
+    private TreeSet<Integer> parseCaseNumbers(String text)
     {
-        Vector<Integer> caseNumbers = new Vector<Integer>();
+        TreeSet<Integer> caseNumbers = new TreeSet<Integer>();
 
         if (text == null || text.length() == 0) return caseNumbers;
 
@@ -728,7 +727,6 @@ public class FilterDialog
                 }
             }
         }
-        Collections.sort(caseNumbers);
         return caseNumbers;
     }
 
@@ -766,11 +764,8 @@ public class FilterDialog
 
     /**
      * Open the dialog.
-     * 
-     * @return true if there is a non-empty value for either the included 
-     * or excluded tags and/or case numbers lists.
      */
-    public boolean open()
+    public void open()
     {
         // Remember the populated lists in case the user cancels out.
 
@@ -790,13 +785,6 @@ public class FilterDialog
                 display.sleep();
             }
         }
-        
-        // If there are any non-empty tags lists, return true.
-
-        return ((includedTags     != null && !includedTags.isEmpty())
-                || (excludedTags  != null && !excludedTags.isEmpty())
-                || (includedCases != null && !includedCases.isEmpty())
-                || (excludedCases != null && !excludedCases.isEmpty()));                
     }
 
 
@@ -924,14 +912,14 @@ public class FilterDialog
     }
 
 
-    public void setIncludedCases(Vector<Integer> cases)
+    public void setIncludedCases(TreeSet<Integer> cases)
     {
         if (cases == null || cases.isEmpty()) return;
         txtInclude.setText(createCaseNumbersString(cases));
     }
 
 
-    public void setExcludedCases(Vector<Integer> cases)
+    public void setExcludedCases(TreeSet<Integer> cases)
     {
         if (cases == null || cases.isEmpty()) return;
         txtExclude.setText(createCaseNumbersString(cases));
@@ -942,7 +930,7 @@ public class FilterDialog
      * Based on this code:
      * http://stackoverflow.com/a/5744861/743730
      */
-    private String createCaseNumbersString(Vector<Integer> numbers)
+    private String createCaseNumbersString(TreeSet<Integer> numbers)
     {
         String output = new String();
         Integer start = null;
