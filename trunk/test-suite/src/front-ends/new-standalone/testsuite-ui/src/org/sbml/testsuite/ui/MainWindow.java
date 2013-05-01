@@ -41,6 +41,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.Vector;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -350,10 +351,10 @@ public class MainWindow
     private DescriptionSection        descriptionSection;
     private ProgressSection           progressSection;
 
-    private Vector<String>            includedTags;
-    private Vector<String>            excludedTags;
-    private Vector<Integer>           includedCases;
-    private Vector<Integer>           excludedCases;
+    private TreeSet<String>           includedTags;
+    private TreeSet<String>           excludedTags;
+    private TreeSet<Integer>          includedCases;
+    private TreeSet<Integer>          excludedCases;
 
     private Color                     foregroundColor;
     private Color                     backgroundColor;
@@ -1138,6 +1139,7 @@ public class MainWindow
                         {
                             deselectAll();
                             tree.select(item);
+                            tree.setSelection(item);
                             updatePlotsForSelection(item);
                             recenterTree(item);
                             progressSection.setSelectedCount(1);
@@ -1911,48 +1913,52 @@ public class MainWindow
 
 
     /**
-     * @return false if no filter has been introduced (i.e., the user
-     * cancelled), true otherwise
+     * @return true if the filter values have changed, false if they
+     * remain unchanged (i.e., the user clicked "cancel").
      */
     protected boolean filter()
     {
-        boolean filterWasInEffect = notificationBanner.isVisible();
-
         FilterDialog dialog = new FilterDialog(shell, SWT.None);
         dialog.setComponentTags(model.getSuite().getComponentTags());
         dialog.setTestTags(model.getSuite().getTestTags());
 
-        if (filterWasInEffect)
-        {
-            // A filter is currently in effect. Repopulate the dialog box.
-            dialog.setIncludedTags(includedTags);
-            dialog.setExcludedTags(excludedTags);
-            dialog.setIncludedCases(includedCases);
-            dialog.setExcludedCases(excludedCases);
-        }
+        // Repopulate the dialog with the previous values (which may be empty).
+
+        dialog.setIncludedTags(includedTags);
+        dialog.setExcludedTags(excludedTags);
+        dialog.setIncludedCases(includedCases);
+        dialog.setExcludedCases(excludedCases);
+
+        // Show the dialog and get the user's input.
 
         dialog.center(shell.getBounds());
-        boolean nonEmptyFilter = dialog.open();
-        if (nonEmptyFilter)
-        {
-            includedTags  = dialog.getIncludedTags();
-            excludedTags  = dialog.getExcludedTags();
-            includedCases = dialog.getIncludedCases();
-            excludedCases = dialog.getExcludedCases();
-        }
-        else if (filterWasInEffect)
-        {
-            // If a filter WASN'T in effect before we started, and the user
-            // didn't introduce one now, we clear the filter lists.
+        dialog.open();
 
-            includedTags  = null;
-            excludedTags  = null;
-            includedCases = null;
-            excludedCases = null;
-        }
+        // Determine if the values have changed from what we had before.
 
-        return includedTags != null || excludedTags != null
-            || includedCases != null || excludedCases != null;
+        boolean valuesChanged =
+            ! (dialog.getIncludedTags().equals(includedTags)
+               && dialog.getExcludedTags().equals(excludedTags)
+               && dialog.getIncludedCases().equals(includedCases)
+               && dialog.getExcludedCases().equals(excludedCases));
+
+        // Populate our internal lists (even if the new values are empty).
+
+        includedTags  = dialog.getIncludedTags();
+        excludedTags  = dialog.getExcludedTags();
+        includedCases = dialog.getIncludedCases();
+        excludedCases = dialog.getExcludedCases();
+        
+        return valuesChanged;
+    }
+
+
+    private boolean filterIsNonEmpty()
+    {
+        return ((includedTags     != null && !includedTags.isEmpty())
+                || (excludedTags  != null && !excludedTags.isEmpty())
+                || (includedCases != null && !includedCases.isEmpty())
+                || (excludedCases != null && !excludedCases.isEmpty()));
     }
 
 
@@ -1968,33 +1974,42 @@ public class MainWindow
 
     protected void filterShowByTagOrNumber()
     {
-        if (filter())
+        boolean filterWasInEffect = notificationBanner.isVisible();
+        boolean userChangedFilter = filter();
+
+        if (! userChangedFilter) return;
+
+        if (filterIsNonEmpty())
         {
             final int[] count = new int[1];
             count[0] = 0;
             addTreeItems(new FilterFunction() {
-                @Override
-                public boolean filter(TestCase test, ResultType result)
-                {
-                    if (test == null) return false;
-                    if (!includedCases.isEmpty() && !includedCases.contains(test.getIndex()))
-                        return false;
-                    if (excludedCases.contains(test.getIndex()))
-                        return false;
-                    if (!includedTags.isEmpty() && !test.matches(includedTags))
-                        return false;
-                    if (test.matches(excludedTags))
-                        return false;
-                    count[0]++;
-                    return true;
-                }
-            });
+                    @Override
+                    public boolean filter(TestCase test, ResultType result)
+                    {
+                        if (test == null) return false;
+                        if (!includedCases.isEmpty()
+                            && !includedCases.contains(test.getIndex()))
+                            return false;
+                        if (excludedCases.contains(test.getIndex()))
+                            return false;
+                        if (!includedTags.isEmpty()
+                            && !test.matches(includedTags))
+                            return false;
+                        if (test.matches(excludedTags))
+                            return false;
+                        count[0]++;
+                        return true;
+                    }
+                });
+
+            int numOmitted = (model.getSuite().getNumCases() - count[0]);
             notificationBanner.setText("Filtering is in effect: "
-                                       + (model.getSuite().getNumCases() - count[0])
-                                       + " cases omitted.");
+                                       + numOmitted + " cases omitted.");
             notificationBanner.show(true);
+            clearPlots();
         }
-        else
+        else if (filterWasInEffect)    // New filter is empty => clear filters.
         {
             clearFilters();
         }
@@ -2229,10 +2244,12 @@ public class MainWindow
         {
             tree.deselectAll();
             tree.select(toSelect);
+            tree.setSelection(toSelect);
             progressSection.setSelectedCount(1);
             updatePlotsForSelection(toSelect);
             recenterTree(toSelect);
         }
+        tree.setFocus();
 
         try
         {
@@ -2752,10 +2769,10 @@ public class MainWindow
         // a filter was previously applied, we store the filter values and
         // provide a blank filter to the user.
 
-        Vector<String>  previousIncludedTags  = includedTags;
-        Vector<String>  previousExcludedTags  = excludedTags;
-        Vector<Integer> previousIncludedCases = includedCases;
-        Vector<Integer> previousExcludedCases = excludedCases;
+        TreeSet<String>  previousIncludedTags  = includedTags;
+        TreeSet<String>  previousExcludedTags  = excludedTags;
+        TreeSet<Integer> previousIncludedCases = includedCases;
+        TreeSet<Integer> previousExcludedCases = excludedCases;
         
         includedTags  = null;
         excludedTags  = null;
