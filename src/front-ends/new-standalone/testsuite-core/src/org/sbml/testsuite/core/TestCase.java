@@ -33,6 +33,7 @@ package org.sbml.testsuite.core;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.TreeSet;
 import java.util.Vector;
 import org.sbml.testsuite.core.data.ResultSet;
 
@@ -600,6 +601,19 @@ public class TestCase
     public boolean matches(Vector<String> tags)
     {
         return matches(tags, true);
+    }
+
+
+    /**
+     * @param tags
+     *            a number of tags
+     * @return boolean indicating whether this test applies to at least one of
+     *         the tags
+     *         in the given vector
+     */
+    public boolean matches(TreeSet<String> tags)
+    {
+        return matches(new Vector(tags), true);
     }
 
 
