@@ -1287,7 +1287,12 @@ public class MainWindow
             public void widgetSelected(SelectionEvent arg0)
             {
                 resetForRun();
-                runByFilter();
+                delayedUpdate(new Runnable() {
+                    public void run()
+                    {
+                        runByFilter();
+                    }
+                });
             }
         });
         menuItemRunByFilter.setText("Run By Tag and/or Number\tCtrl+Shift+R");
