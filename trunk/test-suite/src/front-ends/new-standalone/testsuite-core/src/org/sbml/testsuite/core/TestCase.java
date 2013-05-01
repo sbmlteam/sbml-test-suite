@@ -613,7 +613,7 @@ public class TestCase
      */
     public boolean matches(TreeSet<String> tags)
     {
-        return matches(new Vector(tags), true);
+        return matches(new Vector<String>(tags), true);
     }
 
 
