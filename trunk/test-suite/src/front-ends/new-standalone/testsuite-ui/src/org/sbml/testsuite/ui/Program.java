@@ -44,6 +44,9 @@ public class Program
     {
         try
         {
+            if (UIUtils.isWindows())
+                RegisterWindowsID.register();
+
             MainWindow window = new MainWindow();
             window.open();
         }
