@@ -81,6 +81,8 @@
     <pathelement location="build" />
     <path refid="core.classpath" />
     <pathelement location="./libs/swt.jar" />
+    <pathelement location="./libs/jna-3.5.2.jar" />
+    <pathelement location="./libs/platform-3.5.2.jar" />
     <pathelement location="./libs/org.swtchart_0.7.0.v20110128.jar" />
     <pathelement location="./libs/opal-0.9.5.1.jar" />
     <pathelement location="${core.dir}/libs/simple-xml-2.6.4.jar"/>
@@ -241,6 +243,8 @@
         <attribute name="Built-By" value="${user.name}" />
       </manifest>
       <zipgroupfileset file="${core.dir}/dist/testsuite-core.jar"/>
+      <zipgroupfileset file="libs/jna-3.5.2.jar" />
+      <zipgroupfileset file="libs/platform-3.5.2.jar" />
       <zipgroupfileset file="libs/opal-0.9.5.1.jar"/>
       <zipgroupfileset file="libs/org.swtchart_0.7.0.v20110128.jar"/>
       <zipgroupfileset file="libs/simple-xml-2.6.4.jar"/>
