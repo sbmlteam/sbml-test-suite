@@ -2609,6 +2609,7 @@ public class MainWindow
             // Clear this result.
             selectionIndex--;
             descriptionSection.setMessage("Stopped.");
+            restart = true;
             return;
         }
 
@@ -2676,6 +2677,7 @@ public class MainWindow
 
             markAsRunning(false);
             progressSection.setStatus(RunStatus.Done);
+            restart = true;
         }
     }
 
