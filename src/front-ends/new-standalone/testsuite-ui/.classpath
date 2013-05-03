@@ -6,5 +6,7 @@
 	<classpathentry kind="lib" path="libs/swt-osx-64.jar"/>
 	<classpathentry kind="lib" path="libs/org.swtchart_0.7.0.v20110128.jar"/>
 	<classpathentry kind="lib" path="libs/opal-0.9.5.1.jar"/>
+	<classpathentry kind="lib" path="libs/jna-3.5.2.jar"/>
+	<classpathentry kind="lib" path="libs/platform-3.5.2.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
