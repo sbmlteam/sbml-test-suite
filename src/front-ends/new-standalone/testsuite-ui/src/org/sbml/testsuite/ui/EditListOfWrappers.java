@@ -30,6 +30,7 @@
 
 package org.sbml.testsuite.ui;
 
+import java.util.Comparator;
 import java.util.Vector;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -46,19 +47,18 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.sbml.testsuite.core.WrapperConfig;
 
+
 /**
  * Composite for editing the list of wrapper configurations
  */
 public class EditListOfWrappers
     extends Composite
 {
-    Vector<WrapperConfig> wrappers;
-    List                  displayedWrappersList;
-    int                   lastSelectedIndex = -1;
-    WrapperConfig         lastSelectedState = new WrapperConfig();
-    EditWrapper           wrapperForm;
+    private int                   lastWrapperIndex = -1;
+    private WrapperConfig         lastWrapperDefinition = new WrapperConfig();
+    private WrapperList           wrapperList;
+    private EditWrapper           wrapperForm;
 
-    private final String  NO_WRAPPER = "-- no wrapper --";
 
     /**
      * Create the composite.
@@ -70,8 +70,6 @@ public class EditListOfWrappers
     {
         super(parent, style);
         final Shell shell = parent.getShell();
-
-        wrappers = new Vector<WrapperConfig>();
 
         GridLayout gl_parent = new GridLayout(1, false);
         gl_parent.marginWidth = 0;
@@ -87,8 +85,8 @@ public class EditListOfWrappers
         FormLayout fl_composite = new FormLayout();
         composite.setLayout(fl_composite);
 
-        displayedWrappersList = new List(composite, SWT.BORDER);
-        displayedWrappersList.setToolTipText(
+        wrapperList = new WrapperList(composite, SWT.BORDER);
+        wrapperList.setToolTipText(
             "List of wrapper configurations for running the Test Suite "
             + "with your software application(s). You can define new "
             + "configurations using the form at right.");
@@ -97,16 +95,20 @@ public class EditListOfWrappers
         fd_list.left = new FormAttachment(0, 0);
         fd_list.right = new FormAttachment(100, 0);
         fd_list.bottom = new FormAttachment(90, 0);        
-        displayedWrappersList.setLayoutData(fd_list);
-        displayedWrappersList.addSelectionListener(new SelectionAdapter() {
+        wrapperList.setLayoutData(fd_list);
+        wrapperList.addSelectionListener(new SelectionAdapter() {
             @Override
-            public void widgetSelected(SelectionEvent arg0)
+            public void widgetSelected(SelectionEvent event)
             {
-                int index = displayedWrappersList.getSelectionIndex();
-                selectWrapper(index);
+                int index = wrapperList.getSelectionIndex();
+                commitPrevious();
+                // FIXME use event.item
+                String wrapperName = wrapperList.getItem(index);
+                wrapperForm.loadFrom(wrapperList.getWrapper(wrapperName));
+                wrapperList.select(index);
             }
         });
-        displayedWrappersList.addKeyListener(UIUtils.createCloseKeyListener(shell));
+        wrapperList.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         Button btnadd = new Button(composite, SWT.NONE);
         FormData fd_btnadd = new FormData();
@@ -115,7 +117,7 @@ public class EditListOfWrappers
             fd_btnadd.left = new FormAttachment(0, -5);
         else
             fd_btnadd.left = new FormAttachment(2, -4);
-        fd_btnadd.top = new FormAttachment(displayedWrappersList, 4);
+        fd_btnadd.top = new FormAttachment(wrapperList, 4);
         btnadd.setLayoutData(fd_btnadd);
         btnadd.setText("&Add...");
         btnadd.addSelectionListener(new SelectionAdapter() {
@@ -131,76 +133,48 @@ public class EditListOfWrappers
         FormData fd_btnremove = new FormData();
         fd_btnremove.width = 95;
         if (UIUtils.isMacOSX())
-            fd_btnremove.right = new FormAttachment(displayedWrappersList, 5, SWT.RIGHT);
+            fd_btnremove.right = new FormAttachment(wrapperList, 5, SWT.RIGHT);
         else
-            fd_btnremove.right = new FormAttachment(displayedWrappersList, 0, SWT.RIGHT);
-        fd_btnremove.top = new FormAttachment(displayedWrappersList, 4);
+            fd_btnremove.right = new FormAttachment(wrapperList, 0, SWT.RIGHT);
+        fd_btnremove.top = new FormAttachment(wrapperList, 4);
         btnremove.setLayoutData(fd_btnremove);
         btnremove.setText("&Remove...");
         btnremove.addSelectionListener(new SelectionAdapter() {
             @Override
-            public void widgetSelected(SelectionEvent arg0)
+            public void widgetSelected(SelectionEvent event)
             {
-                removeWrapper(shell);
+                int index = wrapperList.getSelectionIndex();
+                String name = wrapperList.getItem(index);
+                
+                if (name.equals(wrapperList.noWrapperName()))
+                {
+                    Tell.inform(shell, "This special pseudo-wrapper is meant "
+                                + "to be\npermanently available and cannot be "
+                                + "removed.");
+                    return;
+                }
+
+                removeWrapper(name);
             }
         });
         btnremove.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         wrapperForm = new EditWrapper(sashForm, SWT.NONE);
+
         sashForm.setWeights(new int[] {120, 325});
     }
 
 
-    /**
-     * Adds a new wrapper to the list
-     */
     public void addNewWrapper()
     {
+        commitPrevious();
         WrapperConfig config = new WrapperConfig();
         config.setName("newWrapper");
         config.setArguments("%d %n %o %l %v");
-        displayedWrappersList.add(config.getName());
-        wrappers.add(config);
-        displayedWrappersList.select(wrappers.size() - 1);
-        selectWrapper(wrappers.size() - 1);
-        wrapperForm.setFocusOnName();
-    }
-
-
-    /**
-     * Adds the "-- no wrapper --" wrapper to the list.
-     */
-    public void addNoWrapper()
-    {
-        WrapperConfig config = new WrapperConfig();
-        config.setName(NO_WRAPPER);
-        config.setArguments("");
-        config.setViewOnly(true);
-        displayedWrappersList.add(config.getName());
-        wrappers.add(config);
-        displayedWrappersList.select(wrappers.size() - 1);
-        selectWrapper(wrappers.size() - 1);
-    }
-
-
-    @Override
-    protected void checkSubclass()
-    {
-        // Disable the check that prevents subclassing of SWT components
-    }
-
-
-    /**
-     * Persist last changes
-     */
-    public void commitPrevious()
-    {
-        if (lastSelectedIndex != -1)
-        {
-            wrappers.get(lastSelectedIndex).updateFrom(wrapperForm.toConfig());
-            displayedWrappersList.setItem(lastSelectedIndex,
-                                          wrappers.get(lastSelectedIndex).getName());
-        }
+        wrapperList.add(config);
+        wrapperList.select(config.getName());
+        wrapperForm.loadFrom(config);
+        wrapperForm.setFocusOnNameField();
     }
 
 
@@ -209,19 +183,13 @@ public class EditListOfWrappers
      */
     public Vector<WrapperConfig> getWrappers()
     {
-        return wrappers;
+        return wrapperList.getWrappersAsVector();
     }
 
 
     public WrapperConfig getSelectedWrapper()
     {
-        int index = displayedWrappersList.getSelectionIndex();
-        if (wrappers == null || wrappers.isEmpty())
-            return null;
-        if (index >= 0)
-            return wrappers.get(index);
-        else
-            return wrappers.get(0);
+        return wrapperList.getSelectedWrapper();
     }
 
 
@@ -233,74 +201,58 @@ public class EditListOfWrappers
      * @param lastWrapper
      *            the last selected wrapper
      */
-    public void loadWrappers(Vector<WrapperConfig> wrappers, 
+    public void loadWrappers(Vector<WrapperConfig> newWrappers, 
                              String lastWrapper)
     {
-        this.wrappers = new Vector<WrapperConfig>(wrappers);
-        displayedWrappersList.removeAll();
-
-        for (int i = 0; i < wrappers.size(); i++)
-        {
-            displayedWrappersList.add(wrappers.get(i).getName());
-            if (lastWrapper.equals(wrappers.get(i).getName()))
-                displayedWrappersList.setSelection(i);
-        }
-
-        selectWrapper(displayedWrappersList.getSelectionIndex());
+        // Make sure to copy the list, not just point to it.
+        wrapperList.setItems(new Vector<WrapperConfig>(newWrappers));
+        wrapperList.select(lastWrapper);
+        wrapperForm.loadFrom(wrapperList.getWrapper(lastWrapper));
     }
 
 
     /**
      * Removes the selected wrapper
      */
-    public void removeWrapper(Shell shell)
+    public void removeWrapper(String name)
     {
-        int index = displayedWrappersList.getSelectionIndex();
-        if (index < 0 || index > wrappers.size()) return;
+        wrapperList.remove(name);
 
-        if (NO_WRAPPER.equals(wrappers.get(index).getName()))
-        {
-            Tell.inform(shell, "This special pseudo-wrapper is meant to be "
-                        + "\npermanently available and cannot be removed.");
-            return;
-        }
-
-        lastSelectedIndex = -1;
-        wrappers.remove(index);
-        displayedWrappersList.remove(index);
-
-        index = index - 1;
-        if (index < 0 || index > wrappers.size())
-        {
-            index = 0;
-        }
-
-        displayedWrappersList.setSelection(index);
-        selectWrapper(index);
+        // If we just removed the top item in the list, we have to reset
+        // the list pointer.
+        if (wrapperList.getSelectionIndex() == -1)
+            wrapperList.select(0);
+            
+        wrapperForm.loadFrom(wrapperList.getSelectedWrapper());
     }
 
 
-    private void selectWrapper(int index)
+    /**
+     * Persist last changes.
+     */
+    public void commitPrevious()
     {
-        if (index < 0 || index > wrappers.size() || wrappers.size() == 0)
-        {
-            addNoWrapper();
-            return;
-        }
-        wrapperForm.setVisible(true);
-        this.layout();
-        commitPrevious();
-
-        lastSelectedIndex = index;
-        lastSelectedState.updateFrom(wrappers.get(index));
-        wrapperForm.loadFrom(wrappers.get(index));
+        if (wrapperList.getItemCount() == 1) return; // It's --no wrapper--.
+        WrapperConfig config = wrapperForm.toConfig();
+        if ("-- no wrapper --".equals(config.getName())) return;
+        wrapperList.remove(wrapperForm.getInitialName());
+        wrapperList.add(config);
+        lastWrapperDefinition = config;
     }
 
 
     public boolean changesPending()
     {
         WrapperConfig currentFormValues = wrapperForm.toConfig();
-        return (lastSelectedIndex != displayedWrappersList.getSelectionIndex())
-            || ! lastSelectedState.equals(currentFormValues);
+        String currentName = currentFormValues.getName();
+        return (! lastWrapperDefinition.equals(currentFormValues)
+                || ! wrapperForm.getInitialName().equals(currentName));
+    }
+
+
+    @Override
+    protected void checkSubclass()
+    {
+        // Disable the check that prevents subclassing of SWT components
     }
 }
