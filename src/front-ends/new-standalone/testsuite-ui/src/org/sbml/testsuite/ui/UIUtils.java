@@ -28,6 +28,7 @@
 
 package org.sbml.testsuite.ui;
 
+import java.io.File;
 import java.io.InputStream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -205,7 +206,14 @@ public class UIUtils
         FontData[] tmpFontData = tmpButton.getFont().getFontData();
         tmpButton.dispose();
         tmpShell.dispose();
-        return new Font(Display.getCurrent(), tmpFontData);
+        final Font newFont = new Font(Display.getCurrent(), tmpFontData);
+        Display.getCurrent().addListener(SWT.Dispose, new Listener() {
+            public void handleEvent(Event event)
+            {
+                newFont.dispose();
+            }
+        });
+        return newFont;
     }
 
 
@@ -272,7 +280,14 @@ public class UIUtils
         FontData[] fontData = font.getFontData();
         for (int i = 0; i < fontData.length; ++i)
             fontData[i].setHeight(fontData[i].getHeight() + sizeDifference);
-        return new Font(font.getDevice(), fontData);
+        final Font newFont = new Font(font.getDevice(), fontData);
+        Display.getCurrent().addListener(SWT.Dispose, new Listener() {
+            public void handleEvent(Event event)
+            {
+                newFont.dispose();
+            }
+        });
+        return newFont;
     }
 
 
@@ -297,7 +312,14 @@ public class UIUtils
 
         tmpLabel.dispose();
         tmpShell.dispose();
-        return new Font(font.getDevice(), fontData);
+        final Font newFont = new Font(font.getDevice(), fontData);
+        Display.getCurrent().addListener(SWT.Dispose, new Listener() {
+            public void handleEvent(Event event)
+            {
+                newFont.dispose();
+            }
+        });
+        return newFont;
     }
 
 
