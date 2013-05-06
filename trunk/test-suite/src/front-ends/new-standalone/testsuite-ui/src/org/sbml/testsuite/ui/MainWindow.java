@@ -512,7 +512,7 @@ public class MainWindow
     }
 
 
-    private void showMessageNotAvailable(Composite comp, int level, int version)
+    private void showMessageNotAvailable(Composite comp, String message)
     {
         Label msg = new Label(comp, SWT.CENTER);
         GridData gd = new GridData();
@@ -521,8 +521,7 @@ public class MainWindow
         gd.grabExcessHorizontalSpace = true;
         gd.grabExcessVerticalSpace = true;
         msg.setLayoutData(gd);
-        msg.setText("Test case not available in SBML Level " + level
-                    + " Version " + version + " format.");
+        msg.setText(message);
     }
 
 
@@ -2946,17 +2945,30 @@ public class MainWindow
 
         if (!currentCase.supportsLevelVersion(level, version))
         {
-            showMessageNotAvailable(cmpDifferences, level, version);
+            showMessageNotAvailable(cmpDifferences, 
+                                    "Test case not available in SBML Level "
+                                    + level + " Version " + version + " format.");
             cmpDifferences.layout();
             return;
         }
 
+        // Check for NaN and infinity values, because we can't plot them.
+
+        ResultSet expected = model.getSuite().get(itemName).getExpectedResult();
+
+        if (expected.hasInfinityOrNaN())
+        {
+            showMessageNotAvailable(cmpDifferences,
+                                    "Data cannot be plotted because it contains "
+                                    + "NaN or infinite values.");
+            cmpDifferences.layout();
+            return;
+        }
+
+
         if ("FluxBalanceSteadyState".equals(currentCase.getTestType()))
             return;                     // FIXME
 
-        // Generate new graphs.
-
-        ResultSet expected = model.getSuite().get(itemName).getExpectedResult();
         if (expected != null)
             addChartForData(cmpGraphs, expected,
                             "Expected results for #" + itemName);
@@ -2973,10 +2985,10 @@ public class MainWindow
             ResultSet actual   = wrapper.getResultSet(currentCase);
             ResultSet diff     = ResultSet.diff(expected, actual);
 
-            if (actual != null)
+            if (actual != null && ! actual.hasInfinityOrNaN())
                 addChartForData(cmpGraphs, actual,
                                 "Simulator results for #" + itemName);
-            if (diff != null)
+            if (diff != null && ! diff.hasInfinityOrNaN())
                 addChartForData(cmpDifferences, diff, "Difference plot");
         }
 
