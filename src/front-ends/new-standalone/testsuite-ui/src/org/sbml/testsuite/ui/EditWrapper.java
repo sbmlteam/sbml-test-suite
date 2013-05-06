@@ -34,6 +34,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
@@ -83,6 +84,8 @@ public class EditWrapper
     private final Color inactiveTextColor
         = UIUtils.getInactiveTextColor();
 
+    private String initialName;
+
 
     /**
      * @return the current state as wrapper configuration
@@ -105,11 +108,16 @@ public class EditWrapper
 
 
     /**
-     * Initializes this composite from the given configuration
+     * Initializes this composite from the given configuration.  It sets
+     * the internal "initial name" field at the same time, so calling 
+     * setInitialName() is not required if this method is called.
+     *
      * @param config the configuration
      */
     public void loadFrom(WrapperConfig config)
     {
+        if (config == null) return;
+        initialName = config.getName();
         txtName.setText(config.getName());
         txtWrapperOutputDir.setText(config.getOutputPath());
         txtUnsupportedTags.setText(config.getUnsupportedTagsString());
@@ -124,9 +132,29 @@ public class EditWrapper
 
 
     /**
+     * Explicitly sets the "initial name" field for the wrapper in this form.
+     * This name is not changed once it's set by either this method or the
+     * loadFrom() method, which allows callers to track what this wrapper
+     * was called before the user may have changed the name.
+     *
+     * @param name the initial name
+     */
+    public void setInitialName(String name)
+    {
+        initialName = name;
+    }
+
+
+    public String getInitialName()
+    {
+        return initialName;
+    }
+
+
+    /**
      * Sets the focus on the wrapper name field.
      */
-    public void setFocusOnName()
+    public void setFocusOnNameField()
     {
         txtName.setFocus();
     }
