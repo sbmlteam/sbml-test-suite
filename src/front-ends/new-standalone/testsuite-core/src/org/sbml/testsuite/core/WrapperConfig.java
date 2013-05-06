@@ -1138,8 +1138,7 @@ public class WrapperConfig
     }
 
 
-    /*
-     * (non-Javadoc)
+    /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -1149,21 +1148,24 @@ public class WrapperConfig
         int result = 1;
         result = prime * result
             + ((arguments == null) ? 0 : arguments.hashCode());
+        result = prime * result + (concurrentThreadsOK ? 1231 : 1237);
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result
             + ((outputPath == null) ? 0 : outputPath.hashCode());
         result = prime * result + ((program == null) ? 0 : program.hashCode());
         result = prime * result
             + ((resultCache == null) ? 0 : resultCache.hashCode());
+        result = prime * result
+            + ((resultFiles == null) ? 0 : resultFiles.hashCode());
         result = prime * result + (supportsAllVersions ? 1231 : 1237);
         result = prime * result
             + ((unsupportedTags == null) ? 0 : unsupportedTags.hashCode());
+        result = prime * result + (viewOnly ? 1231 : 1237);
         return result;
     }
 
 
-    /*
-     * (non-Javadoc)
+    /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -1178,6 +1180,7 @@ public class WrapperConfig
             if (other.arguments != null) return false;
         }
         else if (!arguments.equals(other.arguments)) return false;
+        if (concurrentThreadsOK != other.concurrentThreadsOK) return false;
         if (name == null)
         {
             if (other.name != null) return false;
@@ -1198,14 +1201,18 @@ public class WrapperConfig
             if (other.resultCache != null) return false;
         }
         else if (!resultCache.equals(other.resultCache)) return false;
-        if (viewOnly != other.viewOnly) return false;
+        if (resultFiles == null)
+        {
+            if (other.resultFiles != null) return false;
+        }
+        else if (!resultFiles.equals(other.resultFiles)) return false;
         if (supportsAllVersions != other.supportsAllVersions) return false;
-        if (concurrentThreadsOK != other.concurrentThreadsOK) return false;
         if (unsupportedTags == null)
         {
             if (other.unsupportedTags != null) return false;
         }
         else if (!unsupportedTags.equals(other.unsupportedTags)) return false;
+        if (viewOnly != other.viewOnly) return false;
         return true;
     }
 
