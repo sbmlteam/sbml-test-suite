@@ -119,21 +119,31 @@ public class AboutDialog
         
         Label lblVersion = new Label(shell, SWT.RIGHT);
         lblVersion.setAlignment(SWT.LEFT);
-        lblVersion.setFont(UIUtils.getResizedFont("Verdana", SWT.ITALIC, -1));
-        lblVersion.setBounds(158, 38, 126, 14);
+
+        if (UIUtils.isMacOSX())
+            lblVersion.setFont(UIUtils.getResizedFont("Verdana", SWT.ITALIC, -1));
+        else
+            lblVersion.setFont(UIUtils.getResizedFont("Verdana", SWT.ITALIC, 0));
+        lblVersion.setBounds(158, 40, 150, 14);
         lblVersion.setText("Version: " + Program.getVersion());
         
         Label lblTheSbmlTest = new Label(shell, SWT.WRAP);
-        lblTheSbmlTest.setBounds(16, 154 - offset, 418, 67);
+        lblTheSbmlTest.setBounds(16, 154 - offset + 2, 418, 67);
         lblTheSbmlTest.setText("The SBML Test Suite is a system for testing the degree and correctness of SBML support in a given SBML-compatible software program. The SBML Test Runner drives an application to perform each test in the Test Suite, and displays the results and conclusions.");
-        lblTheSbmlTest.setFont(UIUtils.getResizedFont("Verdana", SWT.NORMAL, -2));
+        if (UIUtils.isMacOSX())
+            lblTheSbmlTest.setFont(UIUtils.getResizedFont("Verdana", SWT.NORMAL, -2));
+        else
+            lblTheSbmlTest.setFont(UIUtils.getResizedFont("Verdana", SWT.NORMAL, -1));
         
         Label sep2 = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN | SWT.CENTER);
         sep2.setBounds(16, 225 - 3*offset, 417, 2);
         sep2.moveAbove(null);
         
         Label lblNewLabel_2 = new Label(shell, SWT.NONE);
-        lblNewLabel_2.setFont(UIUtils.getResizedFont("Verdana", SWT.BOLD, -2));
+        if (UIUtils.isMacOSX())
+            lblNewLabel_2.setFont(UIUtils.getResizedFont("SansSerif", SWT.BOLD, -2));
+        else
+            lblNewLabel_2.setFont(UIUtils.getResizedFont("SansSerif", SWT.BOLD, -1));
         lblNewLabel_2.setBounds(158, 67 - offset, 270, 28);
         if (UIUtils.isMacOSX())
             lblNewLabel_2.setText("Authors: Frank T. Bergmann and Michael Hucka.");
@@ -142,11 +152,17 @@ public class AboutDialog
         
         Label lblPartOfThe = new Label(shell, SWT.WRAP);
         lblPartOfThe.setText("Part of the SBML Test Suite, written by Sarah Keating, Lucian Smith, Frank Bergmann, Kimberley Begley and Michael Hucka.");
-        lblPartOfThe.setFont(UIUtils.getResizedFont("Verdana", SWT.NORMAL, -2));
+        if (UIUtils.isMacOSX())
+            lblPartOfThe.setFont(UIUtils.getResizedFont("Verdana", SWT.NORMAL, -2));
+        else
+            lblPartOfThe.setFont(UIUtils.getResizedFont("Verdana", SWT.NORMAL, -1));
         lblPartOfThe.setBounds(158, 93 + offset, 270, 49);
         
         Label lblNewLabel_3 = new Label(shell, SWT.WRAP);
-        lblNewLabel_3.setFont(UIUtils.getResizedFont("Verdana", SWT.ITALIC, -2));
+        if (UIUtils.isMacOSX())
+            lblNewLabel_3.setFont(UIUtils.getResizedFont("Verdana", SWT.ITALIC, -2));
+        else
+            lblNewLabel_3.setFont(UIUtils.getResizedFont("Verdana", SWT.ITALIC, -1));
         lblNewLabel_3.setBounds(16, 235 - 2*offset, 418, 30);
         lblNewLabel_3.setText("For more information about this and other SBML Team software, as well as about SBML itself, please visit the following website:");
         
@@ -159,7 +175,10 @@ public class AboutDialog
         lblHttpsbmlorg.setEditable(false);
         lblHttpsbmlorg.setToolTipText("Click to visit SBML.org.");
         lblHttpsbmlorg.setForeground(SWTResourceManager.getColor(65, 105, 225));
-        lblHttpsbmlorg.setFont(UIUtils.getResizedFont("Verdana", SWT.BOLD, -1));
+        if (UIUtils.isMacOSX())
+            lblHttpsbmlorg.setFont(UIUtils.getResizedFont("Verdana", SWT.BOLD, -1));
+        else
+            lblHttpsbmlorg.setFont(UIUtils.getResizedFont("Verdana", SWT.BOLD, 0));
         lblHttpsbmlorg.setBounds(173 - offset, 274, 103 + 3*offset, 20 + offset);
         lblHttpsbmlorg.setText("http://sbml.org");
         lblHttpsbmlorg.setStyleRange(styleRange);
