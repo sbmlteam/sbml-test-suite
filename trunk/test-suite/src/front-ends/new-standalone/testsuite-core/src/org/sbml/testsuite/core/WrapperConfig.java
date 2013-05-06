@@ -83,6 +83,7 @@ public class WrapperConfig
 
     static ExecutorService                 executor = Executors.newFixedThreadPool(20);
 
+
     /**
      * Default Constructor
      */
@@ -98,6 +99,16 @@ public class WrapperConfig
         this.supportsAllVersions = false;
         this.unsupportedTags = new Vector<String>();
         this.resultFiles = new ConcurrentHashMap<String, File>(1200, (float) 0.75, 4);
+    }
+
+
+    /**
+     * Copy constructor
+     */
+    public WrapperConfig(WrapperConfig config)
+    {
+        this();
+        this.updateFrom(config);                                
     }
 
 
