@@ -40,6 +40,11 @@ import java.util.Vector;
  */
 public class ResultSet
 {
+    private Vector<String> headers;
+    private double[][]     data;
+    private boolean        hasInfinityOrNaN = false;
+
+
     /**
      * Adds the row of data to the rawdata
      * 
@@ -144,11 +149,19 @@ public class ResultSet
     {
         try
         {
-            if (string.trim().toUpperCase() == "INF")
+            String text = string.trim().toUpperCase();
+
+            if (text.equals("INF"))
                 return Double.POSITIVE_INFINITY;
-            if (string.trim().toUpperCase() == "-INF")
+            if (text.equals("-INF"))
                 return Double.NEGATIVE_INFINITY;
-            if (string.trim().toUpperCase() == "NAN") return Double.NaN;
+
+            // The Wikipedia page for NaN describes many possible variations.
+            // We allow them all, in case applications on different platforms
+            // produce different versions.
+            if (text.contains("NAN") || text.equals("-1.#IND"))
+                return Double.NaN;
+
             return Double.parseDouble(string);
         }
         catch (Exception ex)
@@ -156,10 +169,6 @@ public class ResultSet
             return defaultValue;
         }
     }
-
-    private Vector<String> headers;
-
-    private double[][]     data;
 
 
     /**
@@ -336,7 +345,6 @@ public class ResultSet
             String line = reader.readLine();
             if (line == null)
             {
-
                 // if this happens we have an empty file present, this is not
                 // good! The best we can do at this point is to close the reader
                 // and return.
@@ -363,12 +371,26 @@ public class ResultSet
             double[][] t = new double[1][0];
             data = rows.toArray(t);
             reader.close();
+
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
 
+        // Check if any of the values are NaN or infinity, and mark this
+        // result set appropriately.  We do this here so that callers don't
+        // have to keep testing the values themselves.
+
+        int numRows = data.length;
+        int numColumns = data[0].length;
+        for (int row = 0; row < numRows; row++)
+            for (int col = 0; col < numColumns; col++)
+                if (Double.isNaN(data[row][col]) || Double.isInfinite(data[row][col]))
+                {
+                    hasInfinityOrNaN = true;
+                    return;
+                }
     }
 
 
@@ -393,5 +415,14 @@ public class ResultSet
     public void setHeaders(Vector<String> headers)
     {
         this.headers = headers;
+    }
+
+
+    /**
+     * @return true if there lurks a NaN or infinity value in the data.
+     */
+    public boolean hasInfinityOrNaN()
+    {
+        return hasInfinityOrNaN;
     }
 }
