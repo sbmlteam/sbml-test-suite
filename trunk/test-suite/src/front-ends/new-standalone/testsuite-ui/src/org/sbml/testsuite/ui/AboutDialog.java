@@ -32,11 +32,14 @@ package org.sbml.testsuite.ui;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -207,6 +210,15 @@ public class AboutDialog
         Label lblNewLabel_4 = new Label(shell, SWT.NONE);
         lblNewLabel_4.setImage(UIUtils.getImageResource("SBML.png"));
         lblNewLabel_4.setBounds(175, 300, 99, 44);
+
+        final MouseListener closeListener = new MouseAdapter() {
+                @Override
+                public void mouseDown(MouseEvent e)
+                {
+                    shell.close();
+                }
+            };
+        addListenerRecursively(shell, closeListener);
     }
 
 
@@ -226,6 +238,21 @@ public class AboutDialog
             {
                 display.sleep();
             }
+        }
+    }
+
+    
+    /**
+     * Add a MouseListener to all children of this control.
+     * Code based on http://stackoverflow.com/a/7226876/743730
+     */
+    private void addListenerRecursively(Control control, MouseListener m)
+    {
+        control.addMouseListener(m);
+        if (control instanceof Composite)
+        {
+            for (final Control c : ((Composite) control).getChildren())
+                addListenerRecursively(c, m);
         }
     }
 }
