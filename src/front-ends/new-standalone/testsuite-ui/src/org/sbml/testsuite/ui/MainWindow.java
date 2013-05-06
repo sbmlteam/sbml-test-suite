@@ -378,9 +378,12 @@ public class MainWindow
         sciformat = new DecimalFormat("##0.##E0");
         foregroundColor = new Color(getDisplay(), 60, 60, 60);
         backgroundColor = SWTResourceManager.getColor(SWT.COLOR_WHITE);
-        chartTitleFont = UIUtils.getResizedFont("SansSerif", SWT.ITALIC, -1);
+        if (UIUtils.isWindows())
+            chartTitleFont = UIUtils.getResizedFont("SansSerif", SWT.ITALIC, 0);
+        else
+            chartTitleFont = UIUtils.getResizedFont("SansSerif", SWT.ITALIC, -1);
         chartTickFont = UIUtils.getResizedFont("SansSerif", SWT.NORMAL, -2);
-        chartLegendFont = UIUtils.getResizedFont("SansSerif", SWT.NORMAL, -2);
+        chartLegendFont = UIUtils.getResizedFont("SansSerif", SWT.NORMAL, -2);            
         createContents();
     }
 
