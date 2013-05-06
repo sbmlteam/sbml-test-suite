@@ -1818,12 +1818,12 @@ public class MainWindow
 
     protected void editPreferences()
     {
+        WrapperConfig currentWrapper = new WrapperConfig(model.getLastWrapper());
         PreferenceDialog dialog = new PreferenceDialog(shell);
         dialog.center(shell.getBounds());
         dialog.setTestSuiteSettings(model.getSettings());
-
         TestSuiteSettings result = dialog.open();
-        if (result != null)             // User hit "save".
+        if (result != null && ! currentWrapper.equals(result.getLastWrapper()))
         {
             String lastWrapperName = result.getLastWrapperName();
             model.setSettings(result);
@@ -1833,11 +1833,6 @@ public class MainWindow
                 model.getSettings().setLastWrapper("-- no wrapper --");
             result.saveAsDefault();
             updateWrapperList();
-        }
-        else                            // User hit "cancel".
-        {
-            model.setSettings(dialog.getTestSuiteSettings(true));
-            updateWrapperList();            
         }
         dialog.dispose();
     }
