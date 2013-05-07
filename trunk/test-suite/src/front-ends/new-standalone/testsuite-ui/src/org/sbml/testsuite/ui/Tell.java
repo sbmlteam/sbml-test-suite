@@ -29,8 +29,15 @@
 package org.sbml.testsuite.ui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 import org.mihalis.opal.opalDialog.Dialog;
@@ -150,7 +157,7 @@ public class Tell
 
     static public String simpleQuery(final Shell shell, final String title)
     {
-        Dialog dialog = new Dialog(shell);        
+        Dialog dialog = new Dialog(shell);
         MessageArea msgArea   = dialog.getMessageArea();
 
         dialog.setTitle(title);
@@ -159,24 +166,31 @@ public class Tell
         msgArea.setIcon(questionIcon);
         msgArea.addTextBox("");
 
-        // This doesn't seem to do anything -- why?
-
-        // final Shell dialogShell = dialog.getShell();
-        // dialogShell.addListener(SWT.KeyDown, 
-        //                         UIUtils.createCancelKeyListener(dialogShell));
-        // dialogShell.addListener(SWT.Close, new Listener() {
-        //     public void handleEvent(Event event)
-        //     {
-        //         dialogShell.dispose();
-        //     }
-        // });
-        // dialogShell.addKeyListener(UIUtils.createCloseKeyListener(dialogShell));
+        if (UIUtils.isMacOSX())         // Add command-. key binding.
+        {
+            final Shell dialogShell = dialog.getShell();
+            final Display display = shell.getDisplay();
+            final Listener closeKeyListener = new Listener() {
+                @Override
+                public void handleEvent (final Event event)
+                {
+                    if (UIUtils.isModifier(event) && event.keyCode == '.')
+                        dialogShell.close();
+                }
+            };
+            display.addFilter(SWT.KeyDown, closeKeyListener);
+            dialogShell.addDisposeListener(new DisposeListener() {
+                @Override
+                public void widgetDisposed(DisposeEvent notUsed)
+                {
+                    display.removeFilter(SWT.KeyDown, closeKeyListener);
+                }
+            });
+        }
 
         if (dialog.show() == 0)
             return dialog.getMessageArea().getTextBoxValue();
         else
             return null;
-
     }
-
 }
