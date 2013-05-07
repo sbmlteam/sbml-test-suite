@@ -180,8 +180,9 @@ public class UIUtils
         FontData[] tmpFontData = tmpButton.getFont().getFontData();
         tmpButton.dispose();
         tmpShell.dispose();
-        final Font newFont = new Font(Display.getCurrent(), tmpFontData);
-        Display.getCurrent().addListener(SWT.Dispose, new Listener() {
+        final Display display = Display.findDisplay(Thread.currentThread());
+        final Font newFont = new Font(display, tmpFontData);
+        display.addListener(SWT.Dispose, new Listener() {
             public void handleEvent(Event event)
             {
                 newFont.dispose();
@@ -208,10 +209,11 @@ public class UIUtils
     }
 
 
-    public static final Color createColor(Display display, int r, int g, int b)
+    public static final Color createColor(int r, int g, int b)
     {
+        final Display display = Display.findDisplay(Thread.currentThread());
         final Color color = new Color(display, r, g, b);
-        Display.getCurrent().addListener(SWT.Dispose, new Listener() {
+        display.addListener(SWT.Dispose, new Listener() {
             public void handleEvent(Event event)
             {
                 color.dispose();
@@ -244,9 +246,9 @@ public class UIUtils
         if (isMacOSX())
             return pt;
         
-        final Device display = Display.getCurrent();
-        final Point dpi      = display.getDPI();
-        final Double scaled  = pt * 72.0/dpi.y * (0.0027777778 * dpi.y + 0.8);
+        final Display display = Display.findDisplay(Thread.currentThread());
+        final Point dpi       = display.getDPI();
+        final Double scaled   = pt * 72.0/dpi.y * (0.0027777778 * dpi.y + 0.8);
         return scaled.intValue();
     }
 
@@ -267,8 +269,9 @@ public class UIUtils
         FontData[] fontData = font.getFontData();
         for (int i = 0; i < fontData.length; ++i)
             fontData[i].setHeight(fontData[i].getHeight() + sizeDifference);
-        final Font newFont = new Font(font.getDevice(), fontData);
-        Display.getCurrent().addListener(SWT.Dispose, new Listener() {
+        final Display display = Display.findDisplay(Thread.currentThread());
+        final Font newFont = new Font(display, fontData);
+        display.addListener(SWT.Dispose, new Listener() {
             public void handleEvent(Event event)
             {
                 newFont.dispose();
