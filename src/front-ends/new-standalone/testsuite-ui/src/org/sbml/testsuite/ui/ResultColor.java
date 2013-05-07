@@ -35,6 +35,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.sbml.testsuite.core.*;
 
@@ -55,6 +57,7 @@ public enum ResultColor
     private final int b;
     private final ResultType resultType;
     private final Image image;
+    private final Color color;
     
     private final static int DEFAULT_IMAGE_SIZE = 12; 
 
@@ -65,6 +68,7 @@ public enum ResultColor
         this.g = green;
         this.b = blue;
         this.resultType = type;
+        this.color = UIUtils.createColor(Display.getCurrent(), r, g, b);
         this.image = createImage(DEFAULT_IMAGE_SIZE);
     }
 
@@ -75,6 +79,7 @@ public enum ResultColor
     public RGB        getRGB()        { return new RGB(r, g, b); }
     public ResultType getResultType() { return resultType; } 
     public Image      getImage()      { return image; }
+    public Color      getColor()      { return color; }
 
     public Image getImage(int imageSize)
     {
@@ -105,11 +110,6 @@ public enum ResultColor
         return null;
     }
 
-    public Color getColor()
-    {
-        return new Color(Display.getCurrent(), r, g, b);
-    }
-
     private Image createImage(int imageSize)
     {
         final Color white = SWTResourceManager.getColor(SWT.COLOR_WHITE);
@@ -135,6 +135,15 @@ public enum ResultColor
 
         ImageData data = image.getImageData();
         data.transparentPixel = data.palette.getPixel(white.getRGB());
-        return new Image(Display.getDefault(), data);
+
+        final Image finalImage = new Image(Display.getDefault(), data);
+        image.dispose();
+        Display.getCurrent().addListener(SWT.Dispose, new Listener() {
+            public void handleEvent(Event event)
+            {
+                finalImage.dispose();
+            }
+        });
+        return finalImage;
     }
 }
