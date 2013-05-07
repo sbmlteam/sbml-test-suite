@@ -208,6 +208,19 @@ public class UIUtils
     }
 
 
+    public static final Color createColor(Display display, int r, int g, int b)
+    {
+        final Color color = new Color(display, r, g, b);
+        Display.getCurrent().addListener(SWT.Dispose, new Listener() {
+            public void handleEvent(Event event)
+            {
+                color.dispose();
+            }
+        });
+        return color;
+    }
+
+
     public static final int getDefaultFontHeight()
     {
         Shell tmpShell = new Shell();
