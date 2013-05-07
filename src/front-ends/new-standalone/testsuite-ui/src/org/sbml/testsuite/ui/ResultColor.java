@@ -68,7 +68,7 @@ public enum ResultColor
         this.g = green;
         this.b = blue;
         this.resultType = type;
-        this.color = UIUtils.createColor(Display.getCurrent(), r, g, b);
+        this.color = UIUtils.createColor(r, g, b);
         this.image = createImage(DEFAULT_IMAGE_SIZE);
     }
 
@@ -114,7 +114,8 @@ public enum ResultColor
     {
         final Color white = SWTResourceManager.getColor(SWT.COLOR_WHITE);
 
-        Image image = new Image(Display.getDefault(), imageSize, imageSize);
+        final Display display = Display.findDisplay(Thread.currentThread());
+        Image image = new Image(display, imageSize, imageSize);
         GC gc = new GC(image);
         gc.setAntialias(SWT.ON);      // It's the default on Macs, but not Win.
         gc.setBackground(getColor());
@@ -136,9 +137,9 @@ public enum ResultColor
         ImageData data = image.getImageData();
         data.transparentPixel = data.palette.getPixel(white.getRGB());
 
-        final Image finalImage = new Image(Display.getDefault(), data);
+        final Image finalImage = new Image(display, data);
         image.dispose();
-        Display.getCurrent().addListener(SWT.Dispose, new Listener() {
+        display.addListener(SWT.Dispose, new Listener() {
             public void handleEvent(Event event)
             {
                 finalImage.dispose();
