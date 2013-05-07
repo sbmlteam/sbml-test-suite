@@ -179,12 +179,14 @@ public class EditWrapper
         int offset = 20 - UIUtils.scaledFontSize(20);
         int nudge = offset/2;
 
+        Font labelFont = UIUtils.getDefaultLabelFont();
+
         Label lblName = new Label(this, SWT.RIGHT);
         lblName.setAlignment(SWT.RIGHT);
         FormData fd_lblName = new FormData();
         fd_lblName.right = new FormAttachment(0, 170);
         fd_lblName.top = new FormAttachment(0, 10);
-        lblName.setFont(UIUtils.getDefaultLabelFont());
+        lblName.setFont(labelFont);
         lblName.setLayoutData(fd_lblName);
         lblName.setText("Name:");
         lblName.setToolTipText("A name for this wrapper configuration.");
@@ -237,7 +239,7 @@ public class EditWrapper
         FormData fd_lblWrapper = new FormData();
         fd_lblWrapper.top = new FormAttachment(btnWrapperThreadsOK, margin + nudge);
         fd_lblWrapper.right = new FormAttachment(0, 170);
-        lblWrapper.setFont(UIUtils.getDefaultLabelFont());
+        lblWrapper.setFont(labelFont);
         lblWrapper.setLayoutData(fd_lblWrapper);
         lblWrapper.setText("Wrapper path:");
         lblWrapper.setToolTipText("Path to the wrapper script or program.");
@@ -276,7 +278,7 @@ public class EditWrapper
         FormData fd_lblWrapperOutputDir = new FormData();
         fd_lblWrapperOutputDir.top = new FormAttachment(txtWrapper, margin + nudge);
         fd_lblWrapperOutputDir.right = new FormAttachment(0, 170);
-        lblWrapperOutputDir.setFont(UIUtils.getDefaultLabelFont());
+        lblWrapperOutputDir.setFont(labelFont);
         lblWrapperOutputDir.setLayoutData(fd_lblWrapperOutputDir);
         lblWrapperOutputDir.setText("Output directory:");
         lblWrapperOutputDir.setToolTipText("Directory on your system where "
@@ -317,7 +319,7 @@ public class EditWrapper
         FormData fd_lblUnsupportedTags = new FormData();
         fd_lblUnsupportedTags.top = new FormAttachment(txtWrapperOutputDir, margin + nudge);
         fd_lblUnsupportedTags.right = new FormAttachment(0, 170);
-        lblUnsupportedTags.setFont(UIUtils.getDefaultLabelFont());
+        lblUnsupportedTags.setFont(labelFont);
         lblUnsupportedTags.setLayoutData(fd_lblUnsupportedTags);
         lblUnsupportedTags.setText("Unsupported tags:");
         lblUnsupportedTags.setToolTipText(
@@ -355,7 +357,7 @@ public class EditWrapper
         cmdEditTags.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         lblWrapperArguments = new Label(this, SWT.RIGHT);
-        lblWrapperArguments.setFont(UIUtils.getDefaultLabelFont());
+        lblWrapperArguments.setFont(labelFont);
         lblWrapperArguments.setAlignment(SWT.RIGHT);
         lblWrapperArguments.setText("Arguments to wrapper:");
         lblWrapperArguments.setToolTipText("Command line arguments that should "
