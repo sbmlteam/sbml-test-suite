@@ -384,7 +384,7 @@ public class EditWrapper
         lblUsageInfo1.setLayoutData(fd_lblUsageInfo1);
         Color gray = display.getSystemColor(SWT.COLOR_DARK_GRAY);
         lblUsageInfo1.setForeground(gray);
-        final Font newFont = UIUtils.getResizedFont(lblUsageInfo1.getFont(), -1);
+        final Font newFont = UIUtils.createResizedFont(lblUsageInfo1.getFont(), -1);
         lblUsageInfo1.setFont(newFont);
         lblUsageInfo1.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent e)

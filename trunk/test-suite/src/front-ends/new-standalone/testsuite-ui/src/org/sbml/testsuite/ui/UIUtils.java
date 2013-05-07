@@ -248,7 +248,7 @@ public class UIUtils
     }
 
 
-    public static Font getResizedFont(Font font, int sizeDifference)
+    public static Font createResizedFont(Font font, int sizeDifference)
     {
         if (font == null) return null;
         FontData[] fontData = font.getFontData();
@@ -265,7 +265,8 @@ public class UIUtils
     }
 
 
-    public static Font getResizedFont(String name, int style, int sizeDifference)
+    public static Font createResizedFont(String name, int style, 
+                                         int sizeDifference)
     {
         Shell tmpShell = new Shell();
         Label tmpLabel = new Label(tmpShell, SWT.NONE);
