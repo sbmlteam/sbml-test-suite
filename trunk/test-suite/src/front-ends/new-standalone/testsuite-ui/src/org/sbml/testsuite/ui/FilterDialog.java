@@ -258,7 +258,7 @@ public class FilterDialog
 
         // Section for filtering by case numbers.
 
-        Color gray = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY);
+        Color gray = shlFilterTags.getDisplay().getSystemColor(SWT.COLOR_DARK_GRAY);
 
         TitledSeparator numbersTitledSeparator = new TitledSeparator(shlFilterTags, SWT.NONE);
         numbersTitledSeparator.setText("Filter by case numbers");
@@ -340,7 +340,6 @@ public class FilterDialog
                 okPressed();
             }
         });
-        cmdOk.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shlFilterTags));
 
         Button cmdCancel = new Button(shlFilterTags, SWT.NONE);
         cmdCancel.setText("Cancel");
@@ -357,7 +356,6 @@ public class FilterDialog
             }
         });
         cmdCancel.setFocus();
-        cmdCancel.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shlFilterTags));
 
         shlFilterTags.setDefaultButton(cmdOk);
         shlFilterTags.addListener(SWT.Traverse, new Listener() {
@@ -565,6 +563,32 @@ public class FilterDialog
         sashForm.setWeights(new int[] {5, 5});
         sashForm_left.setWeights(new int[] {1, 1});
         sashForm_right.setWeights(new int[] {1, 1});
+
+        // Add keyboard bindings for cancelling out of this: command-. on
+        // Macs and control-w elsewhere.  (This actually will make command-w
+        // do the same thing on Macs, but that's okay.)
+
+        final Listener closeKeyListener = new Listener() {
+            @Override
+            public void handleEvent (final Event event)
+            {
+                if (UIUtils.isModifier(event)
+                    && ((UIUtils.isMacOSX() && event.keyCode == '.')
+                        || event.keyCode == 'w'))
+                    cancelPressed();
+            }
+        };
+        final Display display = shlFilterTags.getDisplay();
+        display.addFilter(SWT.KeyDown, closeKeyListener);
+        shlFilterTags.addDisposeListener(new DisposeListener() {
+            @Override
+            public void widgetDisposed(DisposeEvent notUsed)
+            {
+                display.removeFilter(SWT.KeyDown, closeKeyListener);
+            }
+        });
+
+        UIUtils.createShellCloseListener(shlFilterTags);
 
         shlFilterTags.pack();
         shlFilterTags.setTabList(new Control[]{cmdCancel, cmdClearAll,
