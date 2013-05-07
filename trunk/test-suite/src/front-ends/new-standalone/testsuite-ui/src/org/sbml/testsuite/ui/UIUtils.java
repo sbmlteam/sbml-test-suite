@@ -79,62 +79,6 @@ public class UIUtils
     }
 
 
-    /**
-     * Returns true if the key press involved a modifier key.
-     * 
-     * This handles platform-specific combination, such as using control
-     * on Windows vs Command on Mac OS X.
-     *
-     * @return true if the key had a modifier set, false otherwise.
-     */
-    public static boolean isModifierKey(KeyEvent e)
-    {
-        // SWT.MOD1 is supposed to be set to SWT.CONTROL on Windows and to
-        // SWT.COMMAND on the Macintosh.
-        return (e.stateMask & SWT.MOD1) == SWT.MOD1;
-    }
-
-
-    /**
-     * Returns true if the key press involved a shift key.
-     *
-     * @return true if the key had shift set, false otherwise.
-     */
-    public static boolean isShiftKey(KeyEvent e)
-    {
-        return (e.stateMask & SWT.SHIFT) == SWT.SHIFT;
-    }
-
-
-    /**
-     * Returns true if the key press involved a modifier key.
-     * 
-     * This handles platform-specific combination, such as using control on
-     * Windows vs Command on Mac OS X.  This is different from
-     * isModifierKey(...) because SWT's KeyEvent does not inherit from Event
-     * and KeyEvent cannot be cast to Event.
-     *
-     * @return true if the key had a modifier set, false otherwise.
-     */
-    public static boolean isModifier(Event e)
-    {
-        // SWT.MOD1 is supposed to be set to SWT.CONTROL on Windows and to
-        // SWT.COMMAND on the Macintosh.
-        return (e.stateMask & SWT.MOD1) == SWT.MOD1;
-    }
-
-
-    /**
-     * Returns true if the key press involved a shift key.
-     *
-     * @return true if the key had a modifier set, false otherwise.
-     */
-    public static boolean isShift(Event e)
-    {
-        return (e.stateMask & SWT.SHIFT) == SWT.SHIFT;
-    }
-
-
     public static KeyListener createCloseKeyListener(final Shell shell)
     {
         return new KeyListener() {
@@ -399,12 +343,68 @@ public class UIUtils
     }
 
 
+    /**
+     * Returns true if the key press involved a modifier key.
+     * 
+     * This handles platform-specific combination, such as using control
+     * on Windows vs Command on Mac OS X.
+     *
+     * @return true if the key had a modifier set, false otherwise.
+     */
+    public static boolean isModifierKey(KeyEvent e)
+    {
+        // SWT.MOD1 is supposed to be set to SWT.CONTROL on Windows and to
+        // SWT.COMMAND on the Macintosh.
+        return (e.stateMask & SWT.MOD1) == SWT.MOD1;
+    }
+
+
+    /**
+     * Returns true if the key press involved a shift key.
+     *
+     * @return true if the key had shift set, false otherwise.
+     */
+    public static boolean isShiftKey(KeyEvent e)
+    {
+        return (e.stateMask & SWT.SHIFT) == SWT.SHIFT;
+    }
+
+
+    /**
+     * Returns true if the key press involved a modifier key.
+     * 
+     * This handles platform-specific combination, such as using control on
+     * Windows vs Command on Mac OS X.  This is different from
+     * isModifierKey(...) because SWT's KeyEvent does not inherit from Event
+     * and KeyEvent cannot be cast to Event.
+     *
+     * @return true if the key had a modifier set, false otherwise.
+     */
+    public static boolean isModifier(Event e)
+    {
+        // SWT.MOD1 is supposed to be set to SWT.CONTROL on Windows and to
+        // SWT.COMMAND on the Macintosh.
+        return (e.stateMask & SWT.MOD1) == SWT.MOD1;
+    }
+
+
+    /**
+     * Returns true if the key press involved a shift key.
+     *
+     * @return true if the key had a modifier set, false otherwise.
+     */
+    public static boolean isShift(Event e)
+    {
+        return (e.stateMask & SWT.SHIFT) == SWT.SHIFT;
+    }
+
+
     /* The following is based on 
      * http://stackoverflow.com/questions/1351245/setting-swt-tooltip-delays
      * 
      * Unfortunately, it doesn't seem to work, and I don't know why.
      * The delay to the time the tooltip is shown doesn't seem to change.
-     */
+
     
     final static int DEFAULT_HIDE_DELAY = 200;
     final static int DEFAULT_SHOW_DELAY = 100;
@@ -439,5 +439,5 @@ public class UIUtils
             }
         });
     }
-
+    */
 }
