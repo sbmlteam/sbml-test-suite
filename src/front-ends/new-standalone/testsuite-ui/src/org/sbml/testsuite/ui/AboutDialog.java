@@ -218,7 +218,7 @@ public class AboutDialog
                     shell.close();
                 }
             };
-        addListenerRecursively(shell, closeListener);
+        UIUtils.addMouseListenerRecursively(shell, closeListener);
     }
 
 
@@ -238,21 +238,6 @@ public class AboutDialog
             {
                 display.sleep();
             }
-        }
-    }
-
-    
-    /**
-     * Add a MouseListener to all children of this control.
-     * Code based on http://stackoverflow.com/a/7226876/743730
-     */
-    private void addListenerRecursively(Control control, MouseListener m)
-    {
-        control.addMouseListener(m);
-        if (control instanceof Composite)
-        {
-            for (final Control c : ((Composite) control).getChildren())
-                addListenerRecursively(c, m);
         }
     }
 }
