@@ -208,6 +208,7 @@ public class EditListOfWrappers
         wrapperList.setItems(new Vector<WrapperConfig>(newWrappers));
         wrapperList.select(lastWrapper);
         wrapperForm.loadFrom(wrapperList.getWrapper(lastWrapper));
+        lastWrapperDefinition = wrapperList.getWrapper(lastWrapper);
     }
 
 

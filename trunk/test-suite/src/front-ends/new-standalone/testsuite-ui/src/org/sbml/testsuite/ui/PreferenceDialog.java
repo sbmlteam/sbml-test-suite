@@ -243,6 +243,7 @@ public class PreferenceDialog
                 if (needConfirmSave && settingsHaveChanged())
                     result = getResult(confirmSave(), shell, wrappersEditor);
                 hide();
+                needConfirmSave = false;
                 event.doit = false;
             }
         };
@@ -261,9 +262,7 @@ public class PreferenceDialog
                     && ((UIUtils.isMacOSX() && event.keyCode == '.')
                         || event.keyCode == 'w'))
                 {
-                    if (needConfirmSave && settingsHaveChanged())
-                        result = getResult(confirmSave(), shell, wrappersEditor);
-                    hide();
+                    shell.close();
                 }
             }
         };
