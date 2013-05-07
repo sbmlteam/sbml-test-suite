@@ -166,27 +166,30 @@ public class Tell
         msgArea.setIcon(questionIcon);
         msgArea.addTextBox("");
 
-        if (UIUtils.isMacOSX())         // Add command-. key binding.
-        {
-            final Shell dialogShell = dialog.getShell();
-            final Display display = shell.getDisplay();
-            final Listener closeKeyListener = new Listener() {
-                @Override
-                public void handleEvent (final Event event)
-                {
-                    if (UIUtils.isModifier(event) && event.keyCode == '.')
-                        dialogShell.close();
-                }
-            };
-            display.addFilter(SWT.KeyDown, closeKeyListener);
-            dialogShell.addDisposeListener(new DisposeListener() {
-                @Override
-                public void widgetDisposed(DisposeEvent notUsed)
-                {
-                    display.removeFilter(SWT.KeyDown, closeKeyListener);
-                }
-            });
-        }
+        // Add keyboard bindings for cancelling out of this: command-. on
+        // Macs and control-w elsewhere.  (This actually will make command-w
+        // do the same thing on Macs, but that's okay.)
+
+        final Shell dialogShell = dialog.getShell();
+        final Display display = shell.getDisplay();
+        final Listener closeKeyListener = new Listener() {
+            @Override
+            public void handleEvent (final Event event)
+            {
+                if (UIUtils.isModifier(event)
+                    && ((UIUtils.isMacOSX() && event.keyCode == '.')
+                        || event.keyCode == 'w'))
+                    dialogShell.close();
+            }
+        };
+        display.addFilter(SWT.KeyDown, closeKeyListener);
+        dialogShell.addDisposeListener(new DisposeListener() {
+            @Override
+            public void widgetDisposed(DisposeEvent notUsed)
+            {
+                display.removeFilter(SWT.KeyDown, closeKeyListener);
+            }
+        });
 
         if (dialog.show() == 0)
             return dialog.getMessageArea().getTextBoxValue();
