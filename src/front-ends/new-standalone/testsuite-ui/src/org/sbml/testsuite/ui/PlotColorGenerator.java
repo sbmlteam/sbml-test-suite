@@ -55,7 +55,7 @@ import org.eclipse.swt.widgets.Display;
  */
 public class PlotColorGenerator
 {
-    private final static int[][] colors = { 
+    private final static int[][] colorValues = { 
         {  6,  19,  54}, 
         { 75, 105, 170},
         {153, 179, 234}, 
@@ -115,13 +115,16 @@ public class PlotColorGenerator
         {  2,  82,  20},
         {109,  73,   3},
     };
+    private static Color[] colors = new Color[colorValues.length];
     private static int index = -1;
 
 
     public static Color nextColor()
     {
         incrementIndex();
-        return new Color(Display.getCurrent(), nextR(), nextG(), nextB());
+        if (colors[index] == null)
+            colors[index] = UIUtils.createColor(nextR(), nextG(), nextB());
+        return colors[index];
     }
 
 
@@ -140,25 +143,25 @@ public class PlotColorGenerator
 
     private final static void incrementIndex()
     {
-        index = ++index % colors.length;
+        index = ++index % colorValues.length;
     }
 
 
     private final static int nextR()
     {
-        return colors[index][0];
+        return colorValues[index][0];
     }
 
 
     private final static int nextG()
     {
-        return colors[index][1];
+        return colorValues[index][1];
     }
 
 
     private final static int nextB()
     {
-        return colors[index][2];
+        return colorValues[index][2];
     }
 
 }
