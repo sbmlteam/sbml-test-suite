@@ -107,22 +107,6 @@ public class UIUtils
     }
 
 
-    public static Listener createCancelKeyListener(final Shell shell)
-    {
-        return new Listener() {
-            @Override
-            public void handleEvent (final Event e)
-            {
-                if (isMacOSX())
-                {
-                    if (isModifier(e) && e.keyCode == '.')
-                        shell.close();
-                }
-            }
-        };
-    }
-
-
     public static Listener createShellCloseListener(final Shell shell)
     {
         return new Listener() {
