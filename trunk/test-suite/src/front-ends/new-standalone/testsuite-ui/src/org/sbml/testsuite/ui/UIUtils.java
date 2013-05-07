@@ -33,6 +33,7 @@ import java.io.InputStream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
@@ -42,6 +43,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -188,6 +190,50 @@ public class UIUtils
         };
     }
 
+
+    /**
+     * Add a MouseListener to all children of the given control.
+     * Code based on http://stackoverflow.com/a/7226876/743730
+     */
+    public static void addMouseListenerRecursively(Control control,
+                                                   MouseListener listener)
+    {
+        control.addMouseListener(listener);
+        if (control instanceof Composite)
+        {
+            for (final Control c : ((Composite) control).getChildren())
+                addMouseListenerRecursively(c, listener);
+        }
+    }
+
+
+    public static void addKeyListenerRecursively(Control control,
+                                                 Listener listener)
+    {
+        control.addListener(SWT.KeyDown, listener);
+        if (control instanceof Composite)
+        {
+            for (final Control c : ((Composite) control).getChildren())
+                addKeyListenerRecursively(c, listener);
+        }
+    }
+
+
+    public static void addCancelKeyListenerRecursively(final Shell shell)
+    {
+        Listener listener = new Listener() {
+            @Override
+            public void handleEvent (final Event e)
+            {
+                if (isMacOSX())
+                {
+                    if (isModifier(e) && e.keyCode == '.')
+                        shell.close();
+                }
+            }
+        };
+        addKeyListenerRecursively(shell, listener);
+    }
 
 
     /**
