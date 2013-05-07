@@ -1200,12 +1200,10 @@ public class WrapperConfig
         {
             if (other.resultCache != null) return false;
         }
-        else if (!resultCache.equals(other.resultCache)) return false;
         if (resultFiles == null)
         {
             if (other.resultFiles != null) return false;
         }
-        else if (!resultFiles.equals(other.resultFiles)) return false;
         if (supportsAllVersions != other.supportsAllVersions) return false;
         if (unsupportedTags == null)
         {
