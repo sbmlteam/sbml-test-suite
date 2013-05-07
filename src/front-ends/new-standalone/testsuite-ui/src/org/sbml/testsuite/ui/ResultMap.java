@@ -214,8 +214,8 @@ public class ResultMap
         fd_canvas.bottom = new FormAttachment(lblHelpMsg, -5);
         lblHelpMsg.setBounds(0, 0, 585, 34);
 
-        final Font defaultFont = UIUtils.getResizedFont("SansSerif", SWT.NORMAL, -2);
-        final Font italicFont = UIUtils.getResizedFont("SansSerif", SWT.ITALIC, -1);
+        final Font defaultFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -2);
+        final Font italicFont = UIUtils.createResizedFont("SansSerif", SWT.ITALIC, -1);
 
         lblHelpMsg.setFont(italicFont);
         lblHelpMsg.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));

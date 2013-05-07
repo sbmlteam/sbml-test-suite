@@ -379,11 +379,11 @@ public class MainWindow
         foregroundColor = new Color(getDisplay(), 60, 60, 60);
         backgroundColor = SWTResourceManager.getColor(SWT.COLOR_WHITE);
         if (UIUtils.isWindows())
-            chartTitleFont = UIUtils.getResizedFont("SansSerif", SWT.ITALIC, 0);
+            chartTitleFont = UIUtils.createResizedFont("SansSerif", SWT.ITALIC, 0);
         else
-            chartTitleFont = UIUtils.getResizedFont("SansSerif", SWT.ITALIC, -1);
-        chartTickFont = UIUtils.getResizedFont("SansSerif", SWT.NORMAL, -2);
-        chartLegendFont = UIUtils.getResizedFont("SansSerif", SWT.NORMAL, -2);            
+            chartTitleFont = UIUtils.createResizedFont("SansSerif", SWT.ITALIC, -1);
+        chartTickFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -2);
+        chartLegendFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -2);            
         createContents();
     }
 
@@ -772,7 +772,7 @@ public class MainWindow
         createMenuBar(shell);
         createToolBar(shell);
 
-        Font statusFont = UIUtils.getResizedFont("SansSerif", SWT.ITALIC, 0);
+        Font statusFont = UIUtils.createResizedFont("SansSerif", SWT.ITALIC, 0);
 
         // --------------------- notifications of filters ---------------------
 

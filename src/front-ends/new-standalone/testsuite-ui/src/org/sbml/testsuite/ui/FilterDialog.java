@@ -277,7 +277,7 @@ public class FilterDialog
         numberUsageInfo.setLayoutData(fd_numberUsageInfo);
         numberUsageInfo.setForeground(gray);
         numberUsageInfo.moveAbove(null);
-        final Font textFont = UIUtils.getResizedFont(numberUsageInfo.getFont(), -1);
+        final Font textFont = UIUtils.createResizedFont(numberUsageInfo.getFont(), -1);
         numberUsageInfo.setFont(textFont);
         numberUsageInfo.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent e)
