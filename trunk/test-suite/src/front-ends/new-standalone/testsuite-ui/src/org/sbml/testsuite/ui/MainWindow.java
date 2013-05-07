@@ -376,7 +376,7 @@ public class MainWindow
         display = new Display();
         uiThread = Thread.currentThread();
         sciformat = new DecimalFormat("##0.##E0");
-        foregroundColor = UIUtils.createColor(getDisplay(), 60, 60, 60);
+        foregroundColor = UIUtils.createColor(60, 60, 60);
         backgroundColor = SWTResourceManager.getColor(SWT.COLOR_WHITE);
         if (UIUtils.isWindows())
             chartTitleFont = UIUtils.createResizedFont("SansSerif", SWT.ITALIC, 0);
