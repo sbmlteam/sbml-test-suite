@@ -31,6 +31,8 @@ package org.sbml.testsuite.ui;
 
 import java.io.File;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -106,35 +108,6 @@ public class PreferenceDialog
         gl_shell.horizontalSpacing = 0;
         shell.setLayout(gl_shell);
 
-        // The custom close listeners are because we don't dispose the widget
-        // ourselves; we only hide it, because callers may need to retrieve
-        // data.  We let callers explicitly dispose the widget when ready.
-
-        Listener closeListener = new Listener() {
-            public void handleEvent(Event event)
-            {
-                if (needConfirmSave && settingsHaveChanged())
-                    result = getResult(confirmSave(), shell, wrappersEditor);
-                hide();
-                event.doit = false;
-            }
-        };
-
-        KeyListener closeKeyListener = new KeyListener() {
-            @Override
-            public void keyReleased(KeyEvent e) { return; }
-            @Override
-            public void keyPressed(KeyEvent e)
-            {
-                if (UIUtils.isModifierKey(e) && e.keyCode == 'w')
-                {
-                    if (needConfirmSave && settingsHaveChanged())
-                        result = getResult(confirmSave(), shell, wrappersEditor);
-                    hide();
-                }
-            }
-        };
-
         Composite outerComp = new Composite(shell, SWT.NONE);
         outerComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,
                                                1, 1));
@@ -162,7 +135,6 @@ public class PreferenceDialog
         txtCasesDir = new Text(outerComp, SWT.BORDER);
         txtCasesDir.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, 
                                                false, 3, 1));
-        txtCasesDir.addKeyListener(closeKeyListener);
 
         Composite compBrowse = new Composite(outerComp, SWT.NONE);
         GridData gd_compBrowse = new GridData(SWT.FILL, SWT.CENTER, false, false,
@@ -239,8 +211,6 @@ public class PreferenceDialog
                 hide();
             }
         });
-        btnCancel.addKeyListener(closeKeyListener);
-        btnCancel.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shell));
         btnCancel.setFocus();
 
         Button btnSave = new Button(compButtons, SWT.NONE);
@@ -261,14 +231,53 @@ public class PreferenceDialog
             }
         });
 
-        btnSave.addKeyListener(closeKeyListener);
-        btnSave.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shell));
         shell.setDefaultButton(btnSave);
 
+        // The custom close listeners are because we don't dispose the widget
+        // ourselves; we only hide it, because callers may need to retrieve
+        // data.  We let callers explicitly dispose the widget when ready.
+
+        Listener closeListener = new Listener() {
+            public void handleEvent(Event event)
+            {
+                if (needConfirmSave && settingsHaveChanged())
+                    result = getResult(confirmSave(), shell, wrappersEditor);
+                hide();
+                event.doit = false;
+            }
+        };
+
         shell.addListener(SWT.Close, closeListener);
-        shell.addKeyListener(closeKeyListener);
+
+        // Add keyboard bindings for cancelling out of this: command-. on
+        // Macs and control-w elsewhere.  (This actually will make command-w
+        // do the same thing on Macs, but that's okay.)
+
+        final Listener closeKeyListener = new Listener() {
+            @Override
+            public void handleEvent (final Event event)
+            {
+                if (UIUtils.isModifier(event)
+                    && ((UIUtils.isMacOSX() && event.keyCode == '.')
+                        || event.keyCode == 'w'))
+                {
+                    if (needConfirmSave && settingsHaveChanged())
+                        result = getResult(confirmSave(), shell, wrappersEditor);
+                    hide();
+                }
+            }
+        };
+        final Display display = shell.getDisplay();
+        display.addFilter(SWT.KeyDown, closeKeyListener);
+        shell.addDisposeListener(new DisposeListener() {
+            @Override
+            public void widgetDisposed(DisposeEvent notUsed)
+            {
+                display.removeFilter(SWT.KeyDown, closeKeyListener);
+            }
+        });
+
         shell.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
-        shell.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shell));
 
         shell.layout();
     }

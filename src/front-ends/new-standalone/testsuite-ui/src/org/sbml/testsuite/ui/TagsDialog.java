@@ -33,6 +33,8 @@ import java.util.Collection;
 import java.util.Vector;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
@@ -153,7 +155,6 @@ public class TagsDialog
                 okPressed();
             }
         });
-        cmdOk.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shell));
 
         Button cmdCancel = new Button(shell, SWT.NONE);
         cmdCancel.setText("Cancel");
@@ -170,7 +171,6 @@ public class TagsDialog
             }
         });
         cmdCancel.setFocus();
-        cmdCancel.addListener(SWT.KeyDown, UIUtils.createCancelKeyListener(shell));
 
         shell.setDefaultButton(cmdOk);
         shell.addListener(SWT.Traverse, new Listener() {
@@ -395,6 +395,32 @@ public class TagsDialog
 
         fd_treeTestTags.height = 135;
         sashForm.setWeights(new int[] {1, 2, 2});
+
+        // Add keyboard bindings for cancelling out of this: command-. on
+        // Macs and control-w elsewhere.  (This actually will make command-w
+        // do the same thing on Macs, but that's okay.)
+
+        final Listener closeKeyListener = new Listener() {
+            @Override
+            public void handleEvent (final Event event)
+            {
+                if (UIUtils.isModifier(event)
+                    && ((UIUtils.isMacOSX() && event.keyCode == '.')
+                        || event.keyCode == 'w'))
+                    cancelPressed();
+            }
+        };
+        final Display display = shell.getDisplay();
+        display.addFilter(SWT.KeyDown, closeKeyListener);
+        shell.addDisposeListener(new DisposeListener() {
+            @Override
+            public void widgetDisposed(DisposeEvent notUsed)
+            {
+                display.removeFilter(SWT.KeyDown, closeKeyListener);
+            }
+        });
+
+        UIUtils.createShellCloseListener(shell);
 
         // Final set-up.
 
