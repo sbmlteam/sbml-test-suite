@@ -2285,7 +2285,10 @@ public class MainWindow
         {
             buttonRun.setImage(UIUtils.getImageResource("play_shadowed.png"));
             buttonRun.setHotImage(UIUtils.getImageResource("play_shadowed_highlighted.png"));
-            buttonRun.setToolTipText("Run selected tests, or continue from pause");
+            if (restart)
+                buttonRun.setToolTipText("Run selected tests, or continue from pause");
+            else
+                buttonRun.setToolTipText("Continue from pause, or run selected tests");
 
             if (model != null)
             {
@@ -2516,7 +2519,7 @@ public class MainWindow
     }
 
 
-    protected void reRunTests(TreeItem[] selection)
+    protected void reRunTests(final TreeItem[] selection)
     {
         final WrapperConfig wrapper = model.getLastWrapper();
         if (wrapper == null || !wrapper.canRun())
@@ -2610,17 +2613,6 @@ public class MainWindow
             return;
         }
 
-        // Outome was a success. Update the plots for this case.
-
-        final TreeItem itemToUpdate = testItem;
-        getDisplay().asyncExec(new Runnable() {
-            @Override
-            public void run()
-            {
-                updatePlotsForSelection(itemToUpdate);
-            }
-        });
-
         // If we get here, we can hopefully continue with the remaining cases.
 
         MarkerFile.write(wrapper.getOutputPath(), wrapper.getProgram());
@@ -2641,40 +2633,44 @@ public class MainWindow
         executor.waitForProcesses(getDisplay());
 
         // At this point, if multithreading is being used, all cases have been
-        // queued up but probably have not yet finished execution.  So the
-        // question we face is, what do we show the user?
+        // queued up but probably have not yet finished execution.  This means
+        // we're going to lag the true state.  Do the best we can.
 
-        if (! running)                  // interrupted
+        if (! running)                  // Interrupted.
         {
+            // Center the tree on the last case, and leave everything blank.
+
+            deselectAll();
+            descriptionSection.setMessage("");
+
             int lastIndex = lastCaseDoneInSelection(selection);
-            if (lastIndex < 0)
-                lastIndex = selection.length - 1;
+            if (lastIndex >= 0)
+                recenterTree(selection[lastIndex]);
+            else
+                recenterTree(selection[selection.length - 1]);
+        }
+        else                           // Not interrupted -- presumably done.
+        {
+            // The short delay is to give things a chance to catch up.
 
-            final TreeItem lastItem = selection[lastIndex];
-        
-            tree.setSelection(lastItem);
-            tree.showSelection();
-        
-            recenterTree(lastItem);
-
-            getDisplay().asyncExec(new Runnable() {
-                @Override
+            delayedUpdate(new Runnable() {
                 public void run()
                 {
+                    int lastIndex = lastCaseDoneInSelection(selection);
+                    if (lastIndex < 0)
+                        lastIndex = selection.length - 1;
+
+                    TreeItem lastItem = selection[lastIndex];
+
+                    tree.setSelection(lastItem);
+                    tree.showSelection();
                     updatePlotsForSelection(lastItem);
                 }
             });
 
-            TestCase lastCase = model.getSuite().get(lastItem.getText());
-            descriptionSection.setMessage(lastCase.getId());
-        }
-        else
-        {
-            // Not interrupted -- presumably done.
-
+            restart = true;
             markAsRunning(false);
             progressSection.setStatus(RunStatus.Done);
-            restart = true;
         }
     }
 
