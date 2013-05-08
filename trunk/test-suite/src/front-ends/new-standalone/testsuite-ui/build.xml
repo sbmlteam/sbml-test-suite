@@ -600,27 +600,25 @@
 
   <target name="dist-linux" depends="init">
     <antcall target="app-linux"/>
+    <antcall target="dist-linux-common">
+      <param name="dist.linux.action" value="linux"/>
+    </antcall>
+    <antcall target="dist-linux-common">
+      <param name="dist.linux.action" value="linux-x64"/>
+    </antcall>
+    <antcall target="dist-linux-common">
+      <param name="dist.linux.action" value="rpm"/>
+    </antcall>
+    <antcall target="dist-linux-common">
+      <param name="dist.linux.action" value="deb"/>
+    </antcall>
+  </target>
+
+  <target name="dist-linux-common">
     <exec executable="${installbuilder.dir}/bin/builder">
       <arg value="build"/>
       <arg value="dev/app-builders/linux/installbuilder-linux-config.xml"/>
-      <arg value="--setvars"/>
-      <arg value="basedir=${basedir}"/>
-      <arg value="project.outputDirectory=${dist.dir}"/>
-      <arg value="project.version=${app.version}"/>
-    </exec>
-    <exec executable="${installbuilder.dir}/bin/builder">
-      <arg value="build"/>
-      <arg value="dev/app-builders/linux/installbuilder-linux-config.xml"/>
-      <arg value="deb"/>
-      <arg value="--setvars"/>
-      <arg value="basedir=${basedir}"/>
-      <arg value="project.outputDirectory=${dist.dir}"/>
-      <arg value="project.version=${app.version}"/>
-    </exec>
-    <exec executable="${installbuilder.dir}/bin/builder">
-      <arg value="build"/>
-      <arg value="dev/app-builders/linux/installbuilder-linux-config.xml"/>
-      <arg value="rpm"/>
+      <arg value="${dist.linux.action}"/>
       <arg value="--setvars"/>
       <arg value="basedir=${basedir}"/>
       <arg value="project.outputDirectory=${dist.dir}"/>
