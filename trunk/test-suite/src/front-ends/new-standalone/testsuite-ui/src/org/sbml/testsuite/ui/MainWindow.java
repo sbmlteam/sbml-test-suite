@@ -1664,6 +1664,13 @@ public class MainWindow
                 @Override
                 public void widgetSelected(SelectionEvent arg0)
                 {
+                    if (running)
+                    {
+                        // We're already running.  Shut it down first.
+                        markAsRunning(false);
+                        executor.waitForProcesses(getDisplay());
+                        restart = true;
+                    }
                     reRunTests(tree.getSelection());
                 }
             });
