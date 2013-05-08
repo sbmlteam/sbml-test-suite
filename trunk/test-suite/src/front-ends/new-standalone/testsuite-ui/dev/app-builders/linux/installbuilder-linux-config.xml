@@ -5,7 +5,6 @@
     <vendor>The SBML Team - http://sbml.org</vendor>
     <summary>Standalone program to run the SBML Test Suite.</summary>
     <description>The SBML Test Runner is a standalone program that can be used to run an application through the SBML Test Suite.  The SBML Test Suite is a conformance testing system for SBML, used to test the degree and correctness of SBML support provided in an SBML-compatible software package.  The SBML Test Suite consists of (1) a collection of SBML models, each with associated simulated results where appropriate, and (2) the SBML Test Runner, for controlling applications to make them run through each test case in the suite.</description>
-    <installerFilename>${project.shortName}-${project.version}-linux-installer.${platform_exec_suffix}</installerFilename>
     <!-- 
          The version number below is only a default value. It is not actually
          used. The real value gets reset via command line arguments when
