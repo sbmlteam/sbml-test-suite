@@ -161,7 +161,7 @@ public class ResultMap
             + "main window, and right-click for more options.";
 
         shell = new Shell(dialogStyle);
-        shell.setImage(UIUtils.getImageResource("sbml_256.png"));
+        shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
         shell.setSize(595, 520);
         shell.setMinimumSize(595, 520);
         shell.setLayout(new FormLayout());
@@ -214,8 +214,8 @@ public class ResultMap
         fd_canvas.bottom = new FormAttachment(lblHelpMsg, -5);
         lblHelpMsg.setBounds(0, 0, 585, 34);
 
-        final Font defaultFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -2);
-        final Font italicFont = UIUtils.createResizedFont("SansSerif", SWT.ITALIC, -1);
+        final Font defaultFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -1);
+        final Font italicFont = UIUtils.createResizedFont("SansSerif", SWT.ITALIC, 0);
 
         lblHelpMsg.setFont(italicFont);
         lblHelpMsg.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));
@@ -634,7 +634,8 @@ public class ResultMap
 
     public void close()
     {
-        shell.close();
+        if (shell != null && !shell.isDisposed())
+            shell.close();
     }
 
 }
