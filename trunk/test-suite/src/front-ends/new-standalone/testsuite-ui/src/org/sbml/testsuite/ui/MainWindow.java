@@ -670,15 +670,9 @@ public class MainWindow
                 model.getSettings().setLastLevelVersion(currentLV);
                 newWrapper.beginUpdate(model.getSuite(), currentLV);
                 clearFilters();
-                tree.deselectAll();
+                deselectAll();
                 if (tree.getItemCount() > 0)
-                {
-                    tree.select(tree.getItem(0));
                     progressSection.setMaxCount(tree.getItemCount());
-                    progressSection.setSelectedCount(1);
-                    progressSection.setDoneCount(0);
-                    updatePlotsForSelection(tree.getItem(0));
-                }
             }
         });
 
@@ -1795,8 +1789,9 @@ public class MainWindow
     private void deselectAll()
     {
         tree.deselectAll();
-        progressSection.setSelectedCount(0);
         clearPlots();
+        descriptionSection.setMessageCentered("(No case selected.)");
+        progressSection.setSelectedCount(0);
     }
 
 
@@ -2283,16 +2278,6 @@ public class MainWindow
         progressSection.setMaxCount(tree.getItemCount()); // Initial default.
         updateStatuses();
 
-        TreeItem toSelect = treeItemForCase(lastCaseWithCachedValue());
-        if (toSelect != null)
-        {
-            tree.deselectAll();
-            tree.select(toSelect);
-            tree.setSelection(toSelect);
-            progressSection.setSelectedCount(1);
-            updatePlotsForSelection(toSelect);
-            recenterTree(toSelect);
-        }
         tree.setFocus();
 
         try
