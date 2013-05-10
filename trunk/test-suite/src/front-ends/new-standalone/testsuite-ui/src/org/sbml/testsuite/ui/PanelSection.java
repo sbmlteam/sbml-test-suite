@@ -90,8 +90,17 @@ public class PanelSection
 
     public void setMessage(String text)
     {
+        message.setLineAlignment(0, 1, SWT.LEFT);
         message.setText(text);
     }
+
+
+    public void setMessageCentered(String text)
+    {
+        message.setText(text);
+        message.setLineAlignment(0, 1, SWT.CENTER);
+    }
+
 
     @Override
     protected void checkSubclass()
