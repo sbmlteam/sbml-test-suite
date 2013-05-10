@@ -87,10 +87,12 @@ import org.sbml.testsuite.core.WrapperConfig;
 import org.sbml.testsuite.core.data.ResultSet;
 import org.sbml.testsuite.ui.model.MainModel;
 import org.swtchart.Chart;
+import org.swtchart.IBarSeries;
 import org.swtchart.ILineSeries;
 import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.ISeries.SeriesType;
 import org.swtchart.ISeriesSet;
+import org.swtchart.LineStyle;
 import org.swtchart.Range;
 
 
@@ -413,16 +415,24 @@ public class MainWindow
     }
 
 
-    private void addChartForData(Composite composite, ResultSet result,
-                                 String title)
+    private void addChartForData(Composite composite, boolean isTimeSeries,
+                                 ResultSet result, String title)
     {
-        Chart chart1 = new Chart(composite, SWT.NONE);
-        chart1.setBackground(backgroundColor);
+        Chart chart = new Chart(composite, SWT.NONE);
+        chart.setBackground(backgroundColor);
 
-        chart1.getTitle().setFont(chartTitleFont);
+        GridData gd_chart = new GridData();
+        gd_chart.horizontalAlignment = GridData.FILL;
+        gd_chart.verticalAlignment = GridData.FILL;
+        gd_chart.grabExcessHorizontalSpace = true;
+        gd_chart.grabExcessVerticalSpace = true;
+        gd_chart.horizontalIndent = 5;
+
+        chart.setLayoutData(gd_chart);
+
         if (title == null || title.length() == 0)
         {
-            chart1.getTitle().setVisible(false);
+            chart.getTitle().setVisible(false);
         }
         else
         {
@@ -431,21 +441,36 @@ public class MainWindow
             // because the font is italic and (evidently) something in SWT or
             // SWT Charts isn't computing the label width properly.
 
-            chart1.getTitle().setText(" " + title + " ");
-            chart1.getTitle().setForeground(foregroundColor);
+            chart.getTitle().setText(" " + title + " ");
+            chart.getTitle().setFont(chartTitleFont);
+            chart.getTitle().setForeground(foregroundColor);
         }
 
-        chart1.getAxisSet().getXAxis(0).getTitle().setVisible(false);
-        chart1.getAxisSet().getXAxis(0).getTick().setForeground(foregroundColor);
-        chart1.getAxisSet().getXAxis(0).getTick().setFont(chartTickFont);
+        chart.getAxisSet().getXAxis(0).getTitle().setVisible(false);
+        chart.getAxisSet().getXAxis(0).getTick().setForeground(foregroundColor);
+        chart.getAxisSet().getXAxis(0).getTick().setFont(chartTickFont);
 
-        chart1.getAxisSet().getYAxis(0).getTitle().setVisible(false);
-        chart1.getAxisSet().getYAxis(0).getTick().setForeground(foregroundColor);
-        chart1.getAxisSet().getYAxis(0).getTick().setFont(chartTickFont);
+        chart.getAxisSet().getYAxis(0).getTitle().setVisible(false);
+        chart.getAxisSet().getYAxis(0).getTick().setForeground(foregroundColor);
+        chart.getAxisSet().getYAxis(0).getTick().setFont(chartTickFont);
 
-        chart1.getLegend().setPosition(SWT.BOTTOM);
-        chart1.getLegend().setFont(chartLegendFont);
+        if (isTimeSeries)
+        {
+            chart.getLegend().setPosition(SWT.BOTTOM);
+            chart.getLegend().setFont(chartLegendFont);
+            addTimeSeriesChartForData(composite, result, title, chart);
+        }
+        else
+        {
+            chart.getLegend().setVisible(false);
+            addNonTimeSeriesChartForData(composite, result, title, chart);
+        }
+    }
 
+
+    private void addTimeSeriesChartForData(Composite composite, ResultSet result,
+                                           String title, Chart chart)
+    {
         /* The following use of a custom formatter is a hack to avoid getting a
            truncated number on the right-hand side of the x-axis.  SWT Chart
            doesn't provide a way to control the width of axis labels, nor the
@@ -458,19 +483,9 @@ public class MainWindow
            truncation of the last x-axis label irrelevant. */
 
         RightPaddedDecimalFormat fmt = new RightPaddedDecimalFormat("###.##");
+        chart.getAxisSet().getXAxis(0).getTick().setFormat(fmt);
 
-        chart1.getAxisSet().getXAxis(0).getTick().setFormat(fmt);
-
-        GridData gd_chart1 = new GridData();
-        gd_chart1.horizontalAlignment = GridData.FILL;
-        gd_chart1.verticalAlignment = GridData.FILL;
-        gd_chart1.grabExcessHorizontalSpace = true;
-        gd_chart1.grabExcessVerticalSpace = true;
-        gd_chart1.horizontalIndent = 5;
-
-        chart1.setLayoutData(gd_chart1);
-
-        ISeriesSet seriesSet = chart1.getSeriesSet();
+        ISeriesSet seriesSet = chart.getSeriesSet();
         double[] time = result.getTimeColumn();
 
         double min = Double.MAX_VALUE;
@@ -499,16 +514,37 @@ public class MainWindow
         max *= 1.1;
 
         if (max < 1E-5)
-            chart1.getAxisSet().getYAxis(0).getTick().setFormat(sciformat);
+            chart.getAxisSet().getYAxis(0).getTick().setFormat(sciformat);
 
-        chart1.getAxisSet().getXAxis(0)
+        chart.getAxisSet().getXAxis(0)
               .setRange(new Range(getMin(time), getMax(time)));
 
         if (max - min < 1E-30 || Double.isNaN(max) || Double.isNaN(min))
-            chart1.getAxisSet().getYAxis(0).adjustRange();
+            chart.getAxisSet().getYAxis(0).adjustRange();
         else
-            chart1.getAxisSet().getYAxis(0).setRange(new Range(min, max));
+            chart.getAxisSet().getYAxis(0).setRange(new Range(min, max));
+    }
 
+
+    private void addNonTimeSeriesChartForData(Composite composite,
+                                              ResultSet result,
+                                              String title, Chart chart)
+    {
+        String[] xAxisLabels = result.getHeaders().toArray(new String[0]);
+        chart.getAxisSet().getXAxis(0).enableCategory(true);
+        chart.getAxisSet().getXAxis(0).setCategorySeries(xAxisLabels);
+
+        double[][] allData = result.getData();
+        double[] data = allData[0];
+
+        IBarSeries series
+            = (IBarSeries) chart.getSeriesSet().createSeries(SeriesType.BAR,
+                                                             title);
+        series.setYSeries(data);
+        PlotColorGenerator.reset();
+        series.setBarColor(PlotColorGenerator.nextColor());
+
+        chart.getAxisSet().adjustRange();
     }
 
 
@@ -2968,31 +3004,39 @@ public class MainWindow
             return;
         }
 
+        // FIXME: currently this only distinguishes between time-series and
+        // non time-series but assumes that non-time series is actually FBC.
 
-        if ("FluxBalanceSteadyState".equals(currentCase.getTestType()))
-            return;                     // FIXME
+        boolean isTimeSeries
+            = ! "FluxBalanceSteadyState".equals(currentCase.getTestType());
 
         if (expected != null)
-            addChartForData(cmpGraphs, expected,
+            addChartForData(cmpGraphs, isTimeSeries, expected,
                             "Expected results for #" + itemName);
-
         if ((Boolean) treeItem.getData(ITEM_RERUN))
             treeItem.setImage(ResultColor.getImageForResultType(ResultType.Unknown));
         else
         {
             WrapperConfig wrapper = model.getLastWrapper();
-            ResultType resultType = wrapper.getResultType(currentCase, level, version);
+            ResultType resultType = wrapper.getResultType(currentCase,
+                                                          level, version);
             treeItem.setImage(ResultColor.getImageForResultType(resultType));
             treeItem.setData(ITEM_RESULT, resultType);
 
-            ResultSet actual   = wrapper.getResultSet(currentCase);
-            ResultSet diff     = ResultSet.diff(expected, actual);
-
+            ResultSet actual = wrapper.getResultSet(currentCase);
             if (actual != null && ! actual.hasInfinityOrNaN())
-                addChartForData(cmpGraphs, actual,
+                addChartForData(cmpGraphs, isTimeSeries, actual,
                                 "Simulator results for #" + itemName);
+
+            ResultSet diff;
+            if (isTimeSeries)
+                diff = ResultSet.diff(expected, actual);
+            else
+                diff = ResultSet.diffRow(expected, actual, 0);
+
             if (diff != null && ! diff.hasInfinityOrNaN())
-                addChartForData(cmpDifferences, diff, "Difference plot");
+                addChartForData(cmpDifferences, isTimeSeries,
+                                diff, "Difference plot");
         }
 
         cmpGraphs.layout();
