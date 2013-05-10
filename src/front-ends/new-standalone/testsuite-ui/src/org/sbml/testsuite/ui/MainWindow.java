@@ -761,7 +761,8 @@ public class MainWindow
      */
     protected void createContents()
     {
-        shell = new Shell(SWT.CLOSE | SWT.INHERIT_DEFAULT | SWT.TITLE | SWT.BORDER | SWT.MIN | SWT.MAX | SWT.RESIZE);
+        shell = new Shell(SWT.CLOSE | SWT.INHERIT_DEFAULT | SWT.TITLE
+                          | SWT.BORDER | SWT.MIN | SWT.MAX | SWT.RESIZE);
         shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
         shell.setMinimumSize(new Point(850, 650));
         shell.setSize(850, 650);
@@ -2912,7 +2913,7 @@ public class MainWindow
 
     protected void closeMap()
     {
-        dlgMap.close();
+        if (dlgMap != null) dlgMap.close();
     }
 
 
