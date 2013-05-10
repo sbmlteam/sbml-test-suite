@@ -110,6 +110,37 @@ public class ResultSet
 
 
     /**
+     * Computes a result set with absolute differences between the values
+     * of a single row.
+     * 
+     * @param a
+     *            result 1
+     * @param b
+     *            result 2
+     * @return resultset of absolute differences
+     */
+    public static ResultSet diffRow(ResultSet a, ResultSet b, int row)
+    {
+        if (a == null || b == null) return null;
+        if (row < 0 || row > a.getNumRows() || row > b.getNumRows()) return null;
+
+        double[][] aData = a.getData();
+        double[][] bData = b.getData();
+        int numCols      = Math.min(a.getNumColumns(), b.getNumColumns());
+        double[][] temp  = new double[1][numCols];
+
+        for (int j = 0; j < numCols; j++)
+            temp[row][j] = Math.abs(aData[row][j] - bData[row][j]);
+
+        Vector<String> heads = b.getHeaders();
+        if (a.getHeaders().size() <= b.getHeaders().size())
+            heads = a.getHeaders();
+
+        return new ResultSet(heads, temp);
+    }
+
+
+    /**
      * Creates a new result set for the given file
      * 
      * @param filename
