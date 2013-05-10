@@ -863,12 +863,13 @@ public class MainWindow
                 delayedUpdate(new Runnable() {
                     public void run()
                     {
-                        if (tree.getSelectionCount() == 1)
+                        int count = tree.getSelectionCount();
+                        if (count == 1)
                             updatePlotsForSelection((TreeItem) event.item);
                         else
                             clearPlots();
                         if (tree != null && !tree.isDisposed())
-                            progressSection.setSelectedCount(tree.getSelectionCount());
+                            progressSection.setSelectedCount(count);
                     }});
             }
         };
