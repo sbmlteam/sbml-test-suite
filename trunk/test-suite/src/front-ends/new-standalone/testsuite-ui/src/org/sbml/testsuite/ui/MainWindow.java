@@ -576,32 +576,24 @@ public class MainWindow
         final boolean viewOnly = wrapperIsViewOnly(wrapper);
 
         BusyIndicator.showWhile(getDisplay(), new Runnable() {
-                public void run()
+            public void run()
+            {
+                // The .update() is to get the busy cursor to show up.
+                // Otherwise, on the mac, it doesn't get shown.
+                getDisplay().update();
+
+                for (final TestCase test : model.getSuite().getSortedCases())
                 {
-                    // The .update() is to get the busy cursor to show up.
-                    // Otherwise, on the mac, it doesn't get shown.
-                    getDisplay().update();
-
-                    for (final TestCase test : model.getSuite().getSortedCases())
-                    {
-                        ResultType result = wrapper.getResultType(test, currentLV);
-                        Image img = ResultColor.getImageForResultType(result);
-                        if (func == null || func.filter(test, result))
-                        {                        
-                            TreeItem treeItem = new TreeItem(tree, SWT.NONE);
-                            treeItem.setData(ITEM_RESULT, result);
-                            treeItem.setImage(img);
-                            treeItem.setText(test.getId());
-
-                            if ((result == ResultType.Unknown || result == null)
-                                && !viewOnly)
-                                treeItem.setData(ITEM_RERUN, true);
-                            else
-                                treeItem.setData(ITEM_RERUN, false);
-                        }
+                    ResultType result = wrapper.getResultType(test, currentLV);
+                    if (func == null || func.filter(test, result))
+                    {                        
+                        TreeItem item = createCaseItem(test.getId(), result);
+                        if (result == ResultType.Unknown && !viewOnly)
+                            markForRerun(item);
                     }
                 }
-            });
+            }
+        });
 
         progressSection.setMaxCount(tree.getItemCount());
     }
@@ -612,36 +604,67 @@ public class MainWindow
         tree.deselectAll();
         final WrapperConfig wrapper = model.getLastWrapper();
         BusyIndicator.showWhile(getDisplay(), new Runnable() {
-                public void run()
+            public void run()
+            {
+                // The .update() is to get the busy cursor to show up.
+                // Otherwise, on the mac, it doesn't get shown.
+                getDisplay().update();
+
+                for (final TreeItem item : tree.getItems())
                 {
-                    // The .update() is to get the busy cursor to show up.
-                    // Otherwise, on the mac, it doesn't get shown.
-                    getDisplay().update();
-
-                    for (final TreeItem item : tree.getItems())
-                    {
-                        TestCase test = model.getSuite().get(item.getText());
-                        ResultType result = ResultType.Unknown;
-                        if (!wrapperIsViewOnly(wrapper))
-                            result = wrapper.getCachedResult(test.getId());
-                        if (func == null || func.filter(test, result))
-                            tree.select(item);
-                    }
+                    TestCase test = model.getSuite().get(item.getText());
+                    ResultType result = ResultType.Unknown;
+                    if (!wrapperIsViewOnly(wrapper))
+                        result = wrapper.getCachedResult(test.getId());
+                    if (func == null || func.filter(test, result))
+                        tree.select(item);
                 }
-            });
+            }
+        });
     }
 
 
-    private void markTreeItemsForRerun()
+    private TreeItem createCaseItem(String id, ResultType result)
     {
-        markTreeItemsForRerun(tree.getItems());
+        TreeItem item = new TreeItem(tree, SWT.NONE);
+        item.setText(id);
+        updateCaseItem(item, result);
+        return item;
     }
 
 
-    private void markTreeItemsForRerun(TreeItem[] selection)
+    private final void updateCaseItem(final TreeItem item, final ResultType result)
+    {
+        item.setData(ITEM_RERUN, false);
+        updateCaseResult(item, result);
+    }
+
+
+    private final void updateCaseResult(final TreeItem item, final ResultType result)
+    {
+        item.setData(ITEM_RESULT, result);
+        item.setImage(ResultColor.getImageForResultType(result));
+        item.getParent().update();
+        if (dlgMap != null) dlgMap.updateCase(item.getText(), result);
+    }
+
+
+    private void markForRerun(TreeItem item)
+    {
+        item.setData(ITEM_RERUN, true);
+    }
+
+
+    private void markForRerun(TreeItem[] selection)
     {
         for (TreeItem item : selection)
-            item.setData(ITEM_RERUN, true);
+            markForRerun(item);
+    }
+
+
+    private void markForRerun()
+    {
+        markForRerun(tree.getItems());
     }
 
 
@@ -1760,7 +1783,7 @@ public class MainWindow
 
     private void resetForRun()
     {
-        markTreeItemsForRerun();
+        markForRerun();
         running = false;
         restart = true;
         if (wrapperIsRunnable())
@@ -1826,9 +1849,7 @@ public class MainWindow
     {
         model.getLastWrapper().deleteResult(model.getSuite()
                                                  .get(item.getText()));
-        item.setImage(ResultColor.gray.getImage());
-        item.setData(ITEM_RESULT, ResultType.Unknown);
-        item.setData(ITEM_RERUN, true);
+        invalidateSelectedResult(item);
     }
 
 
@@ -1847,9 +1868,8 @@ public class MainWindow
 
     private void invalidateSelectedResult(TreeItem item)
     {
-        item.setImage(ResultColor.gray.getImage());
-        item.setData(ITEM_RESULT, ResultType.Unknown);
-        item.setData(ITEM_RERUN, true);
+        updateCaseResult(item, ResultType.Unknown);
+        markForRerun(item);
     }
 
 
@@ -2531,7 +2551,7 @@ public class MainWindow
                 {
                     if (currentItem.isDisposed()) return;
 
-                    updateItemStatus(currentItem, resultType);
+                    updateCaseItem(currentItem, resultType);
                     progressSection.incrementDoneCount();
 
                     // If this is the item currently being displayed, update
@@ -2563,7 +2583,7 @@ public class MainWindow
         int selectionIndex = 0;
         if (restart)                    // Fresh run.
         {
-            markTreeItemsForRerun(selection);
+            markForRerun(selection);
             restart = false;
             if (selection.length > 0)
             {
@@ -2618,7 +2638,7 @@ public class MainWindow
             progressSection.setStatus(RunStatus.Running);
             runOutcome = wrapper.run(testCase, currentLV.getLevel(),
                                      currentLV.getVersion(), absolutePath, null);
-            updateItemStatus(testItem, wrapper.getResultType(testCase, currentLV));
+            updateCaseItem(testItem, wrapper.getResultType(testCase, currentLV));
             progressSection.incrementDoneCount();
             selectionIndex++;
         }
@@ -2948,8 +2968,7 @@ public class MainWindow
 
     private void updatePlotsForSelection(TreeItem treeItem)
     {
-        if (treeItem == null) return;
-        if (treeItem.isDisposed()) return;
+        if (treeItem == null || treeItem.isDisposed()) return;
 
         clearPlots();
 
@@ -2958,17 +2977,17 @@ public class MainWindow
 
         // Show description of the case in any case.
 
-        String      itemName = treeItem.getText();
-        TestCase currentCase = model.getSuite().get(itemName);
+        String itemName = treeItem.getText();
+        TestCase test   = model.getSuite().get(itemName);
 
-        descriptionSection.setMessage(currentCase);
+        descriptionSection.setMessage(test);
 
         // Check if we have something to show.
 
         int level   = currentLV.getLevel();
         int version = currentLV.getVersion();
 
-        if (!currentCase.supportsLevelVersion(level, version))
+        if (!test.supportsLevelVersion(level, version))
         {
             showMessageNotAvailable(cmpDifferences, 
                                     "Test case not available in SBML Level "
@@ -2994,22 +3013,20 @@ public class MainWindow
         // non time-series but assumes that non-time series is actually FBC.
 
         boolean isTimeSeries
-            = ! "FluxBalanceSteadyState".equals(currentCase.getTestType());
+            = ! "FluxBalanceSteadyState".equals(test.getTestType());
 
         if (expected != null)
             addChartForData(cmpGraphs, isTimeSeries, expected,
                             "Expected results for #" + itemName);
         if ((Boolean) treeItem.getData(ITEM_RERUN))
-            treeItem.setImage(ResultColor.getImageForResultType(ResultType.Unknown));
+            updateCaseItem(treeItem, ResultType.Unknown);
         else
         {
             WrapperConfig wrapper = model.getLastWrapper();
-            ResultType resultType = wrapper.getResultType(currentCase,
-                                                          level, version);
-            treeItem.setImage(ResultColor.getImageForResultType(resultType));
-            treeItem.setData(ITEM_RESULT, resultType);
+            ResultType result = wrapper.getResultType(test, level, version);
+            updateCaseItem(treeItem, result);
 
-            ResultSet actual = wrapper.getResultSet(currentCase);
+            ResultSet actual = wrapper.getResultSet(test);
             if (actual != null && ! actual.hasInfinityOrNaN())
                 addChartForData(cmpGraphs, isTimeSeries, actual,
                                 "Simulator results for #" + itemName);
@@ -3034,25 +3051,6 @@ public class MainWindow
     {
         if (selection == null || selection.length == 0) return;
         updatePlotsForSelection(selection[0]);
-    }
-
-
-    public void updateItemStatus(final TreeItem currentItem,
-                                 final ResultType resultType)
-    {
-        if (currentItem == null) return;
-        if (currentItem.isDisposed()) return;
-
-        currentItem.setImage(ResultColor.getImageForResultType(resultType));
-        currentItem.setData(ITEM_RESULT, resultType);
-        currentItem.setData(ITEM_RERUN, false);
-        currentItem.getParent().update();
-
-        if (dlgMap != null)
-        {
-            dlgMap.updateElement(currentItem.getText(), 
-                                 ResultColor.getColorForResultType(resultType));
-        }
     }
 
 
@@ -3193,8 +3191,7 @@ public class MainWindow
     private int getHighestCaseNumber()
     {
         if (tree == null) return 0;
-        TreeItem[] items = tree.getItems();
-        return items.length;
+        return tree.getItemCount();
     }
 
 
