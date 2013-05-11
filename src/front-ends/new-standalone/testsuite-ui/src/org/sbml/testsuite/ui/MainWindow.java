@@ -603,6 +603,8 @@ public class MainWindow
     private void selectTreeItems(final FilterFunction func)
     {
         tree.deselectAll();
+        progressSection.setSelectedCount(0);
+
         final WrapperConfig wrapper = model.getLastWrapper();
         BusyIndicator.showWhile(getDisplay(), new Runnable() {
             public void run()
@@ -659,6 +661,14 @@ public class MainWindow
     {
         for (TreeItem item : selection)
             markForRerun(item);
+    }
+
+
+    private void markForRerun(TreeItem[] selection, int nextIndex)
+    {
+        if (selection == null) return;
+        for (; nextIndex < selection.length; nextIndex++)
+            markForRerun(selection[nextIndex]);
     }
 
 
@@ -773,8 +783,6 @@ public class MainWindow
         if (newTopIndex < 0) 
             newTopIndex = 0;
         tree.setTopItem(tree.getItem(newTopIndex));
-        progressSection.setSelectedCount(1);
-//        tree.select(item);
     }
 
 
@@ -1579,8 +1587,6 @@ public class MainWindow
                         filterShowByTagOrNumber();
                     }
                 });
-
-                resetForRun();
             }
         });
 
@@ -1783,10 +1789,15 @@ public class MainWindow
 
     private void resetForRun()
     {
-        markForRerun();
         running = false;
         restart = true;
-        if (wrapperIsRunnable())
+        updateProgressSection();
+    }
+
+
+    private void updateProgressSection()
+    {
+        if (wrapperIsRunnable() && restart)
             progressSection.setStatus(RunStatus.NotStarted);
         int selectedCount = tree.getSelectionCount();
         progressSection.setSelectedCount(selectedCount);
@@ -1801,8 +1812,8 @@ public class MainWindow
     private void selectAll()
     {
         tree.selectAll();
-        progressSection.setSelectedCount(tree.getSelectionCount());
         clearPlots();
+        updateProgressSection();
     }
 
 
@@ -1811,7 +1822,7 @@ public class MainWindow
         tree.deselectAll();
         clearPlots();
         descriptionSection.setMessageCentered("(No case selected.)");
-        progressSection.setSelectedCount(0);
+        updateProgressSection();
     }
 
 
@@ -2025,15 +2036,18 @@ public class MainWindow
         menuItemShowOnlySupported.setSelection(false);
         notificationBanner.show(false);
         addTreeItems();
+        clearPlots();
+        resetMap();
+        updateProgressSection();
     }
 
 
-    protected void filterShowByTagOrNumber()
+    protected boolean filterShowByTagOrNumber()
     {
         boolean filterWasInEffect = notificationBanner.isVisible();
         boolean userChangedFilter = filter();
 
-        if (! userChangedFilter) return;
+        if (! userChangedFilter) return false;
 
         if (filterIsNonEmpty())
         {
@@ -2061,14 +2075,18 @@ public class MainWindow
 
             int numOmitted = (model.getSuite().getNumCases() - count[0]);
             notificationBanner.setText("Filtering is in effect: "
-                                       + numOmitted + " cases omitted.");
+                                       + numOmitted + " cases omitted, "
+                                       + count[0] + " cases left.");
             notificationBanner.show(true);
             clearPlots();
+            resetMap();
+            resetForRun();
         }
         else if (filterWasInEffect)    // New filter is empty => clear filters.
         {
             clearFilters();
         }
+        return true;
     }
 
 
@@ -2097,6 +2115,8 @@ public class MainWindow
         notificationBanner.setText("Filtering is in effect: "
                                    + "showing cases with problematic results");
         notificationBanner.show(true);
+        clearPlots();
+        resetMap();
     }
 
 
@@ -2125,6 +2145,8 @@ public class MainWindow
         notificationBanner.setText("Filtering is in effect: "
                                    + "showing cases with really problematic results");
         notificationBanner.show(true);
+        clearPlots();
+        resetMap();
     }
 
 
@@ -2153,6 +2175,8 @@ public class MainWindow
         notificationBanner.setText("Filtering is in effect: "
                                    + "showing only supported cases");
         notificationBanner.show(true);
+        clearPlots();
+        resetMap();
     }
 
 
@@ -2592,7 +2616,6 @@ public class MainWindow
                 progressSection.setMaxCount(selection.length);
             }
             progressSection.setDoneCount(0);
-            progressSection.setStatus(RunStatus.NotStarted);
         }
         else                            // Continuing an interrupted run.
         {
@@ -2600,20 +2623,22 @@ public class MainWindow
             // The next one after that in selection[] is the next case to do.
             // If we don't find it, we start from 0 in selection[].
             int index = lastCaseDoneInSelection(selection);
-            if (index >= 0)
-                selectionIndex = ++index;
+            if (index >= 0 && index < (selection.length - 1))
+                selectionIndex = index + 1;
             if (lastCaseDone() == null && selection.length > 0)
             {
                 progressSection.setDoneCount(0);
                 progressSection.setMaxCount(selection.length);
+                markForRerun(selection);
             }
             else
             {
                 progressSection.setDoneCount(selectionIndex);
                 progressSection.setMaxCount(tree.getItemCount());
+                markForRerun(selection, selectionIndex);
             }
-            progressSection.setStatus(RunStatus.NotStarted);
         }
+        progressSection.setStatus(RunStatus.NotStarted);
 
         // Explicitly clear results for whatever we're about to recalculate
         int rememberSelectionIndex = selectionIndex;
@@ -2752,8 +2777,6 @@ public class MainWindow
             TreeItem item = treeItemForCase(lastCaseWithCachedValue());
             if (item != null)
                 recenterTree(item);
-            else
-                progressSection.setStatus(RunStatus.NotStarted);
         }
     }
 
@@ -2884,11 +2907,17 @@ public class MainWindow
     private void setSelectedCases(Vector<String> selection)
     {
         tree.deselectAll();
+        int count = 0;
         for (String text : selection)
         {
             TreeItem item = getItem(text);
-            if (item != null) tree.select(item);
+            if (item != null)
+            {
+                tree.select(item);
+                count++;
+            }
         }
+        progressSection.setSelectedCount(count);
     }
 
 
@@ -2930,10 +2959,18 @@ public class MainWindow
                 tree.deselectAll();
                 tree.select(item);
                 recenterTree(item);
+                progressSection.setSelectedCount(1);
                 updatePlotsForSelection(item);
             }
         });
         dlgMap.open();
+    }
+
+
+    protected void resetMap()
+    {
+        if (dlgMap == null) return;
+        dlgMap.setData(treeToSortedMap(tree));
     }
 
 
@@ -3019,9 +3056,7 @@ public class MainWindow
         if (expected != null)
             addChartForData(cmpGraphs, isTimeSeries, expected,
                             "Expected results for #" + itemName);
-        if ((Boolean) treeItem.getData(ITEM_RERUN))
-            updateCaseItem(treeItem, ResultType.Unknown);
-        else
+        if (!(Boolean) treeItem.getData(ITEM_RERUN))
         {
             WrapperConfig wrapper = model.getLastWrapper();
             ResultType result = wrapper.getResultType(test, level, version);
