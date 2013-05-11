@@ -595,6 +595,7 @@ public class MainWindow
             }
         });
 
+        tree.update();
         progressSection.setMaxCount(tree.getItemCount());
     }
 
@@ -644,7 +645,6 @@ public class MainWindow
     {
         item.setData(ITEM_RESULT, result);
         item.setImage(ResultColor.getImageForResultType(result));
-        item.getParent().update();
         if (dlgMap != null) dlgMap.updateCase(item.getText(), result);
     }
 
