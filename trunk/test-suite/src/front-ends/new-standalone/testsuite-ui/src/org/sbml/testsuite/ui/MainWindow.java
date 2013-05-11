@@ -1124,8 +1124,8 @@ public class MainWindow
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                running = false;
                 restart = true;
+                markAsRunning(false);
                 fileOpen();
             }
         });
@@ -1787,11 +1787,14 @@ public class MainWindow
         }
     }
 
+
     private void resetForRun()
     {
-        running = false;
+        if (running)
+            markAsRunning(false);
         restart = true;
         updateProgressSection();
+        progressSection.setDoneCount(0);
     }
 
 
@@ -1805,7 +1808,6 @@ public class MainWindow
             progressSection.setMaxCount(selectedCount);
         else
             progressSection.setMaxCount(tree.getItemCount());
-        progressSection.setDoneCount(0);
     }
 
 
@@ -2719,11 +2721,18 @@ public class MainWindow
             deselectAll();
             descriptionSection.setMessage("");
 
-            int lastIndex = lastCaseDoneInSelection(selection);
-            if (lastIndex >= 0)
+            // If the user did something that changes the tree in the middle
+            // of a run, such as creating a filter, then upon exit from the
+            // dialog, we may at this point be holding on to TreeItems that
+            // have been disposed.  Tread carefully.
+
+            if (!selection[0].isDisposed())
+            {
+                int lastIndex = lastCaseDoneInSelection(selection);
+                if (lastIndex < 0)
+                    lastIndex = selection.length - 1;
                 recenterTree(selection[lastIndex]);
-            else
-                recenterTree(selection[selection.length - 1]);
+            }
         }
         else                           // Not interrupted -- presumably done.
         {
@@ -2871,8 +2880,8 @@ public class MainWindow
                     return true;
                 }
             });
-            running = false;
             restart = true;
+            markAsRunning(false);
             runSelectedTests();
         }
 
