@@ -2299,10 +2299,11 @@ public class MainWindow
 
         try
         {
-            while (! shell.isDisposed())
+            while (shell != null && !shell.isDisposed())
             {
-                if (! getDisplay().readAndDispatch())
-                    getDisplay().sleep();
+                Display display = getDisplay();
+                if (display != null && !display.readAndDispatch())
+                    display.sleep();
             }
         }
         finally
