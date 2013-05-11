@@ -304,7 +304,6 @@ public class MainWindow
 
     private Composite                 cmpDifferences;
     private Composite                 cmpGraphs;
-    //    private String                    current;
     private GridLayout                gl_gridDifferences;
     private GridLayout                gl_gridGraphs;
 
@@ -340,7 +339,7 @@ public class MainWindow
     private LVSelectionMenuListener   lvSelectionMenuListener;
 
     private Tree                      tree;
-    private ResultMap                 dlgMap = null;
+    private ResultMap                 dlgMap;
     private FormData                  fd_sashForm;
 
     private LevelVersion              currentLV = new LevelVersion(0, 0);
@@ -361,7 +360,7 @@ public class MainWindow
     private Color                     foregroundColor;
     private Color                     backgroundColor;
     private final Display             display;
-    private Thread                    uiThread = null;
+    private Thread                    uiThread;
     private TaskExecutor              executor = new TaskExecutor();
 
     private Font                      chartTitleFont;
@@ -1435,11 +1434,7 @@ public class MainWindow
                     ignoreDoubleClicks = true;
                     getDisplay().timerExec(doubleClickTime, doubleTimer);
                 }
-
-                if (dlgMap == null)
-                    showMap();
-                else
-                    closeMap();
+                showMap();
             }
         });
 
@@ -2881,6 +2876,12 @@ public class MainWindow
 
     protected void showMap()
     {
+        if (dlgMap != null)
+        {
+            dlgMap.raise();             // It already exists, so just raise it.
+            return;
+        }
+
         dlgMap = new ResultMap(shell, model.getSuite(), model.getLastWrapper());
         dlgMap.center(shell.getBounds());
         dlgMap.setData(treeToSortedMap(tree));
@@ -2907,13 +2908,6 @@ public class MainWindow
             }
         });
         dlgMap.open();
-        dlgMap = null;
-    }
-
-
-    protected void closeMap()
-    {
-        if (dlgMap != null) dlgMap.close();
     }
 
 
