@@ -516,14 +516,6 @@ public class ResultMap
     {
         if (shell == null) return;
         shell.open();
-        Display display = getParent().getDisplay();
-        while (!shell.isDisposed())
-        {
-            if (!display.readAndDispatch())
-            {
-                display.sleep();
-            }
-        }
     }
 
 
