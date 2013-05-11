@@ -2626,10 +2626,15 @@ public class MainWindow
         if (runOutcome == null
             || runOutcome.getCode() != RunOutcome.Code.success)
         {
-            Tell.error(shell, "Encountered a problem while attempting to"
-                       + "\nrun the wrapper. Execution stopped. Please"
-                       + "\ncheck the wrapper and its configuration.",
-                       runOutcome.getMessage());
+            if (runOutcome == null)
+                Tell.error(shell, "Encountered a problem while attempting to"
+                           + "\nrun the wrapper. Execution stopped.",
+                           "Please check the wrapper and its configuration.");
+            else
+                Tell.error(shell, "Encountered a problem while attempting to"
+                           + "\nrun the wrapper. Execution stopped. Please"
+                           + "\ncheck the wrapper and its configuration.",
+                           runOutcome.getMessage());
             markAsRunning(false);
             // Clear this result.
             selectionIndex--;
