@@ -1349,7 +1349,7 @@ public class MainWindow
                 runOrPause();
             }
         });
-        menuItemRunSelected.setText("Run Selected\tCtrl+R");
+        menuItemRunSelected.setText("Run\tCtrl+R");
         menuItemRunSelected.setAccelerator(SWT.MOD1 + 'R');
 
         menuItemRunByFilter = new MenuItem(menu_3, SWT.NONE);
