@@ -35,6 +35,8 @@ import java.util.Arrays;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseMoveListener;
@@ -56,7 +58,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
@@ -136,7 +140,7 @@ public class ResultMap
      */
     public void center(Rectangle shellBounds)
     {
-        if (shell == null) return;
+        if (shell == null || shell.isDisposed()) return;
 
         Point dialogSize = getSize();
         setLocation(shellBounds.x + (shellBounds.width - dialogSize.x) / 2,
@@ -165,9 +169,34 @@ public class ResultMap
         shell.setSize(595, 520);
         shell.setMinimumSize(595, 520);
         shell.setLayout(new FormLayout());
-        shell.addKeyListener(UIUtils.createCloseKeyListener(shell));
-        shell.addListener(SWT.Close, UIUtils.createShellCloseListener(shell));
-        shell.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
+
+        Listener hideListener = new Listener() {
+            public void handleEvent(Event event) 
+            { 
+                close(); 
+                event.doit = false;
+            }
+        };
+
+        shell.addListener(SWT.Traverse, hideListener);
+        shell.addListener(SWT.Close, hideListener);
+        shell.addKeyListener(new KeyListener() {
+            @Override
+            public void keyReleased(KeyEvent e) { return; }
+            @Override
+            public void keyPressed(KeyEvent e) 
+            {
+                if (UIUtils.isModifierKey(e) && e.keyCode == 'w')
+                    close();
+            }
+        });
+        shell.addListener(SWT.Dispose, new Listener() {
+                @Override
+                public void handleEvent(Event event)
+                {
+                    event.doit = false; // Don't dispose this.
+                }
+            });
 
         canvas = new Canvas(shell, SWT.DOUBLE_BUFFERED);
         canvas.addMouseListener(new MouseAdapter() {
@@ -176,11 +205,8 @@ public class ResultMap
             {
                 if (arg0.button == 1 && singleClickAction != null)
                 {
-                    singleClickAction.actionPerformed(new ActionEvent(
-                                                                      ResultMap.this,
-                                                                      0,
-                                                                      lastName));
-                    shell.close();
+                    ActionEvent a = new ActionEvent(ResultMap.this, 0, lastName);
+                    singleClickAction.actionPerformed(a);
                 }
             }
         });
@@ -261,7 +287,7 @@ public class ResultMap
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                shell.close();
+                close();
             }
         });
         shell.setDefaultButton(cmdClose);
@@ -448,6 +474,7 @@ public class ResultMap
      */
     public Point getSize()
     {
+        if (shell == null || shell.isDisposed()) return null;
         return shell.getSize();
     }
 
@@ -463,7 +490,7 @@ public class ResultMap
      */
     public TestCase getTestFromPoint(int xpos, int ypos)
     {
-        if (suite == null) return null;
+        if (suite == null ) return null;
         return suite.get(getIdFromPoint(xpos, ypos));
     }
 
@@ -486,8 +513,9 @@ public class ResultMap
      * 
      * @return the result
      */
-    public Object open()
+    public void open()
     {
+        if (shell == null) return;
         shell.open();
         Display display = getParent().getDisplay();
         while (!shell.isDisposed())
@@ -497,7 +525,20 @@ public class ResultMap
                 display.sleep();
             }
         }
-        return result;
+    }
+
+
+    public void close()
+    {
+        if (shell != null && !shell.isDisposed())
+            shell.setVisible(false);
+    }
+
+
+    public void raise()
+    {
+        if (shell != null && !shell.isDisposed())
+            shell.open();
     }
 
 
@@ -631,11 +672,4 @@ public class ResultMap
         canvas.redraw();
         // canvas.update();
     }
-
-    public void close()
-    {
-        if (shell != null && !shell.isDisposed())
-            shell.close();
-    }
-
 }
