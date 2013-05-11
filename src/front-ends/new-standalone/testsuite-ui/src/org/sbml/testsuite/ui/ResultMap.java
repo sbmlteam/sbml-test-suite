@@ -167,7 +167,7 @@ public class ResultMap
         shell = new Shell(dialogStyle);
         shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
         shell.setSize(595, 520);
-        shell.setMinimumSize(595, 520);
+        shell.setMinimumSize(300, 520);
         shell.setLayout(new FormLayout());
 
         Listener hideListener = new Listener() {
@@ -663,13 +663,16 @@ public class ResultMap
      * @param result
      *            a ResultType
      */
-    public void updateElement(String id, Color color)
+    public void updateCase(String id, Color color)
     {
         if (canvas.isDisposed()) return;
-
         data.put(id, color);
-
         canvas.redraw();
-        // canvas.update();
+    }
+
+
+    public void updateCase(String id, ResultType result)
+    {
+        updateCase(id, ResultColor.getColorForResultType(result));
     }
 }
