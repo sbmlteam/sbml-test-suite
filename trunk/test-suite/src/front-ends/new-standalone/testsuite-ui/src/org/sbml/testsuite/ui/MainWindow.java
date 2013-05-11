@@ -708,6 +708,13 @@ public class MainWindow
             }
         });
 
+        delayedUpdate(new Runnable() {
+            public void run()
+            {
+                updateProgressSection(0);
+            }
+        });
+
         updateStatuses();
     }
 
@@ -1793,8 +1800,7 @@ public class MainWindow
         if (running)
             markAsRunning(false);
         restart = true;
-        updateProgressSection();
-        progressSection.setDoneCount(0);
+        updateProgressSection(0);
     }
 
 
@@ -1808,6 +1814,14 @@ public class MainWindow
             progressSection.setMaxCount(selectedCount);
         else
             progressSection.setMaxCount(tree.getItemCount());
+    }
+
+
+    private void updateProgressSection(int newDoneCount)
+    {
+        updateProgressSection();
+        progressSection.setDoneCount(newDoneCount);
+        progressSection.forceRefresh();
     }
 
 
@@ -1893,7 +1907,7 @@ public class MainWindow
         dialog.center(shell.getBounds());
         dialog.setTestSuiteSettings(model.getSettings());
         TestSuiteSettings result = dialog.open();
-        if (result != null && ! currentWrapper.equals(result.getLastWrapper()))
+        if (result != null && !currentWrapper.equals(result.getLastWrapper()))
         {
             String lastWrapperName = result.getLastWrapperName();
             model.setSettings(result);
@@ -1902,7 +1916,20 @@ public class MainWindow
             else
                 model.getSettings().setLastWrapper("-- no wrapper --");
             result.saveAsDefault();
+            if (running)
+            {
+                markAsRunning(false);
+                executor.waitForProcesses(getDisplay());
+                restart = true;
+            }
             updateWrapperList();
+            updateStatuses();
+            delayedUpdate(new Runnable() {
+                public void run()
+                {
+                    updateProgressSection(0);
+                }
+            });
         }
         dialog.dispose();
     }
@@ -2286,7 +2313,6 @@ public class MainWindow
             public void handleEvent(Event arg0)
             {
                 editPreferences();
-                updateStatuses();
             }
 
         });
