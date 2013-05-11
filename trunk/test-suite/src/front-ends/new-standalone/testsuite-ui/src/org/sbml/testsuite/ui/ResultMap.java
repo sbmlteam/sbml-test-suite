@@ -167,7 +167,6 @@ public class ResultMap
         shell = new Shell(dialogStyle);
         shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
         shell.setSize(595, 520);
-        shell.setMinimumSize(300, 520);
         shell.setLayout(new FormLayout());
 
         Listener hideListener = new Listener() {
@@ -401,7 +400,7 @@ public class ResultMap
         cmdClose.addKeyListener(UIUtils.createCloseKeyListener(shell));
         cmdClose.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
 
-        shell.pack();
+        //        shell.pack();
         shell.layout();
     }
 
