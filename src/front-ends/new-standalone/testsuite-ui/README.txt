@@ -291,6 +291,31 @@ application previously written by Frank T. Bergmann in .NET:
            http://sourceforge.net/projects/compare-results/
 
 
+THIRD-PARTY SOFTWARE LICENSES
+======================================================================
+
+This software uses libraries and other materials from third-party
+sources.  All are licensed for free use and redistribution under
+open-source terms.  Here is a summary of the items used and their
+licenses:
+
+* Icons8 icons for iOS -- http://icons8.com
+  Creative Commons Attribution-NoDerivs 3.0 Unported
+
+. Simple Widget Toolkit (SWT) -- http://www.eclipse.org/swt/
+  Eclipse Public License v1.0
+
+. Simple XML Framework -- http://simple.sourceforge.net
+  Apache License 2.0
+
+. Opal Widgets -- http://code.google.com/a/eclipselabs.org/p/opal/
+  Eclipse Public License v1.0   
+  
+. SWTChart -- http://www.swtchart.org
+  Eclipse Public License v1.0      
+
+
+
 
 
 ======================================================================
