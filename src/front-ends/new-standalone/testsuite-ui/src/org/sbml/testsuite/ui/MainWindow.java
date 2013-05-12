@@ -2107,12 +2107,15 @@ public class MainWindow
                                        + numOmitted + " cases omitted, "
                                        + count[0] + " cases left.");
             notificationBanner.show(true);
+
+            resetForRun();
             clearPlots();
             resetMap();
-            resetForRun();
+            updateProgressSection();
         }
         else if (filterWasInEffect)    // New filter is empty => clear filters.
         {
+            resetForRun();
             clearFilters();
         }
         return true;
@@ -2767,15 +2770,18 @@ public class MainWindow
             delayedUpdate(new Runnable() {
                 public void run()
                 {
-                    int lastIndex = lastCaseDoneInSelection(selection);
-                    if (lastIndex < 0)
-                        lastIndex = selection.length - 1;
+                    if (!selection[0].isDisposed())
+                    {
+                        int lastIndex = lastCaseDoneInSelection(selection);
+                        if (lastIndex < 0)
+                            lastIndex = selection.length - 1;
 
-                    TreeItem lastItem = selection[lastIndex];
+                        TreeItem lastItem = selection[lastIndex];
 
-                    tree.setSelection(lastItem);
-                    tree.showSelection();
-                    updatePlotsForSelection(lastItem);
+                        tree.setSelection(lastItem);
+                        tree.showSelection();
+                        updatePlotsForSelection(lastItem);
+                    }
                 }
             });
 
