@@ -1203,18 +1203,7 @@ public class MainWindow
                 delayedUpdate(new Runnable() {
                     public void run()
                     {
-                        TreeItem item = getCaseFromUser();
-                        if (item == null)
-                            return;
-                        else
-                        {
-                            deselectAll();
-                            tree.select(item);
-                            tree.setSelection(item);
-                            updatePlotsForSelection(item);
-                            recenterTree(item);
-                            progressSection.setSelectedCount(1);
-                        }
+                        jumpToCase();
                     }
                 });
             }
@@ -1458,8 +1447,7 @@ public class MainWindow
         }
 
         ToolItem buttonShowMap = new ToolItem(toolBar, SWT.NONE);
-        buttonShowMap.setImage(UIUtils.getImageResource("show_thumbnails_shadowed.png"));
-        buttonShowMap.setHotImage(UIUtils.getImageResource("show_thumbnails_shadowed_highlighted.png"));
+        buttonShowMap.setImage(UIUtils.getImageResource("grid.png"));
         buttonShowMap.setToolTipText("Show the map of results");
         buttonShowMap.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1473,6 +1461,24 @@ public class MainWindow
                     getDisplay().timerExec(doubleClickTime, doubleTimer);
                 }
                 showMap();
+            }
+        });
+
+        ToolItem buttonJump = new ToolItem(toolBar, SWT.NONE);
+        buttonJump.setImage(UIUtils.getImageResource("jump.png"));
+        buttonJump.setToolTipText("Jump to a particular case number");
+        buttonJump.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                if (ignoreDoubleClicks)
+                    return;
+                else
+                {
+                    ignoreDoubleClicks = true;
+                    getDisplay().timerExec(doubleClickTime, doubleTimer);
+                }
+                jumpToCase();
             }
         });
 
@@ -1515,8 +1521,7 @@ public class MainWindow
         }
 
         ToolItem buttonSelectAll = new ToolItem(toolBar, SWT.NONE);
-        buttonSelectAll.setImage(UIUtils.getImageResource("multiple_checked.png"));
-        buttonSelectAll.setHotImage(UIUtils.getImageResource("multiple_checked_highlighted.png"));
+        buttonSelectAll.setImage(UIUtils.getImageResource("select.png"));
         buttonSelectAll.setToolTipText("Select all test cases");
         buttonSelectAll.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1534,8 +1539,7 @@ public class MainWindow
         });
 
         ToolItem buttonDeselectAll = new ToolItem(toolBar, SWT.NONE);
-        buttonDeselectAll.setImage(UIUtils.getImageResource("multiple_unchecked.png"));
-        buttonDeselectAll.setHotImage(UIUtils.getImageResource("multiple_unchecked_highlighted.png"));
+        buttonDeselectAll.setImage(UIUtils.getImageResource("deselect.png"));
         buttonDeselectAll.setToolTipText("Deselect all test cases");
         buttonDeselectAll.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1569,11 +1573,10 @@ public class MainWindow
 
         });
 
-        ToolItem buttonFilter = new ToolItem(toolBar, SWT.NONE);
-        buttonFilter.setImage(UIUtils.getImageResource("filter_shadowed.png"));
-        buttonFilter.setHotImage(UIUtils.getImageResource("filter_shadowed_highlighted.png"));
-        buttonFilter.setToolTipText("Filter the visible test cases by tags and/or numbers");
-        buttonFilter.addSelectionListener(new SelectionAdapter() {
+        ToolItem buttonFilterOn = new ToolItem(toolBar, SWT.NONE);
+        buttonFilterOn.setImage(UIUtils.getImageResource("filter_on.png"));
+        buttonFilterOn.setToolTipText("Filter the visible test cases by tags and/or numbers");
+        buttonFilterOn.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
@@ -1597,11 +1600,10 @@ public class MainWindow
             }
         });
 
-        ToolItem buttonSyncFiles = new ToolItem(toolBar, SWT.NONE);
-        buttonSyncFiles.setImage(UIUtils.getImageResource("refresh_shadowed.png"));
-        buttonSyncFiles.setHotImage(UIUtils.getImageResource("refresh_shadowed_highlighted.png"));
-        buttonSyncFiles.setToolTipText("Refresh all test results from output files");
-        buttonSyncFiles.addSelectionListener(new SelectionAdapter() {
+        ToolItem buttonFilterOff = new ToolItem(toolBar, SWT.NONE);
+        buttonFilterOff.setImage(UIUtils.getImageResource("filter_off.png"));
+        buttonFilterOff.setToolTipText("Clear all filters");
+        buttonFilterOff.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
@@ -1612,7 +1614,7 @@ public class MainWindow
                     ignoreDoubleClicks = true;
                     getDisplay().timerExec(doubleClickTime, doubleTimer);
                 }
-                syncFiles();
+                clearFilters();
             }
         });
 
@@ -1648,9 +1650,26 @@ public class MainWindow
         sep4.setText(" ");
         sep4.setEnabled(false);
         
+        ToolItem buttonSyncFiles = new ToolItem(toolBar, SWT.NONE);
+        buttonSyncFiles.setImage(UIUtils.getImageResource("reload.png"));
+        buttonSyncFiles.setToolTipText("Refresh all test results from output files");
+        buttonSyncFiles.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                if (ignoreDoubleClicks)
+                    return;
+                else
+                {
+                    ignoreDoubleClicks = true;
+                    getDisplay().timerExec(doubleClickTime, doubleTimer);
+                }
+                syncFiles();
+            }
+        });
+
         ToolItem buttonPreferences = new ToolItem(toolBar, SWT.NONE);
-        buttonPreferences.setImage(UIUtils.getImageResource("settings_shadowed.png"));
-        buttonPreferences.setHotImage(UIUtils.getImageResource("settings_shadowed_highlighted.png"));
+        buttonPreferences.setImage(UIUtils.getImageResource("preferences.png"));
         buttonPreferences.setToolTipText("Preferences");
         buttonPreferences.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1899,6 +1918,22 @@ public class MainWindow
         markForRerun(item);
     }
 
+
+    private void jumpToCase()
+    {
+        TreeItem item = getCaseFromUser();
+        if (item == null)
+            return;
+        else
+        {
+            deselectAll();
+            tree.select(item);
+            tree.setSelection(item);
+            updatePlotsForSelection(item);
+            recenterTree(item);
+            progressSection.setSelectedCount(1);
+        }
+    }
 
     protected void editPreferences()
     {
@@ -2377,15 +2412,13 @@ public class MainWindow
         running = newRunState;
         if (running)
         {
-            buttonRun.setImage(UIUtils.getImageResource("pause_shadowed.png"));
-            buttonRun.setHotImage(UIUtils.getImageResource("pause_shadowed_highlighted.png"));
+            buttonRun.setImage(UIUtils.getImageResource("pause.png"));
             buttonRun.setToolTipText("Pause");
             progressSection.setStatus(RunStatus.Running);
         }
         else
         {
-            buttonRun.setImage(UIUtils.getImageResource("play_shadowed.png"));
-            buttonRun.setHotImage(UIUtils.getImageResource("play_shadowed_highlighted.png"));
+            buttonRun.setImage(UIUtils.getImageResource("run.png"));
             if (restart)
                 buttonRun.setToolTipText("Run selected tests, or continue from pause");
             else
