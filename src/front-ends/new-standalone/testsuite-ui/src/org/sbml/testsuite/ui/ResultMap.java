@@ -89,7 +89,6 @@ public class ResultMap
     TestSuite                        suite;
     WrapperConfig                    wrapper;
     private String                   lastName;
-    private Shell                    parentShell;
 
     private ActionListener           singleClickAction;
     private ActionListener           reRunAction;
@@ -106,7 +105,6 @@ public class ResultMap
      */
     public ResultMap(Shell parent, int style)
     {
-        this.parentShell = parent;
         createContents();
         shell.setText("Map of test results");
     }
@@ -124,7 +122,6 @@ public class ResultMap
     public ResultMap(Shell parent, TestSuite suite, WrapperConfig wrapper)
     {
         this(parent, dialogStyle);
-        this.parentShell = parent;
         this.wrapper = wrapper;
         this.suite = suite;
         shell.setText("Map of test results for wrapper \""
@@ -146,12 +143,6 @@ public class ResultMap
         setLocation(shellBounds.x + (shellBounds.width - dialogSize.x) / 2,
                     shellBounds.y + (shellBounds.height - dialogSize.y) / 2);
 
-    }
-
-
-    private Shell getParent()
-    {
-        return this.parentShell;
     }
 
 
