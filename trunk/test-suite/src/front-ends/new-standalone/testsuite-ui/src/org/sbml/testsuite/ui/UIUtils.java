@@ -30,6 +30,7 @@ package org.sbml.testsuite.ui;
 
 import java.io.File;
 import java.io.InputStream;
+import java.net.URL;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -72,10 +73,32 @@ public class UIUtils
     /**
      * Return a resource we have embedded in our application.
      */
-    public static InputStream getFileResource(String fileName)
+    public static InputStream getFileResourceStream(String fileName)
     {
         return UIUtils.class.getResourceAsStream(
             "/org/sbml/testsuite/ui/resources/" + fileName);
+    }
+
+
+    /**
+     * Return a resource we have embedded in our application.
+     */
+    public static File getFileResource(String file)
+    {
+        URL url = UIUtils.class.getResource(
+            "/org/sbml/testsuite/ui/resources/" + file);
+        if (url != null)
+        {
+            try
+            {
+                return new File(url.toURI());
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+        return null;
     }
 
 
@@ -87,7 +110,8 @@ public class UIUtils
             @Override
             public void keyPressed(KeyEvent e) 
             {
-                if (isModifierKey(e) && e.keyCode == 'w')
+                if (isModifierKey(e) && e.keyCode == 'w'
+                    && shell != null && !shell.isDisposed())
                     shell.close();      // Will invoke shell close() listener.
             }
         };
@@ -100,7 +124,8 @@ public class UIUtils
             @Override
             public void handleEvent (final Event event)
             {
-                if (event.detail == SWT.TRAVERSE_ESCAPE)
+                if (event.detail == SWT.TRAVERSE_ESCAPE
+                    && shell != null && !shell.isDisposed())
                     shell.close();
             }
         };
@@ -113,7 +138,8 @@ public class UIUtils
             @Override
             public void handleEvent(Event event)
             {
-                shell.dispose();
+                if (shell != null && !shell.isDisposed())
+                    shell.dispose();
             }
         };
     }
@@ -155,7 +181,8 @@ public class UIUtils
             {
                 if (isMacOSX())
                 {
-                    if (isModifier(e) && e.keyCode == '.')
+                    if (isModifier(e) && e.keyCode == '.'
+                        && shell != null && !shell.isDisposed())
                         shell.close();
                 }
             }
@@ -185,7 +212,8 @@ public class UIUtils
         display.addListener(SWT.Dispose, new Listener() {
             public void handleEvent(Event event)
             {
-                newFont.dispose();
+                if (newFont != null && !newFont.isDisposed())
+                    newFont.dispose();
             }
         });
         return newFont;
@@ -216,7 +244,8 @@ public class UIUtils
         display.addListener(SWT.Dispose, new Listener() {
             public void handleEvent(Event event)
             {
-                color.dispose();
+                if (color != null && !color.isDisposed())
+                    color.dispose();
             }
         });
         return color;
@@ -274,7 +303,8 @@ public class UIUtils
         display.addListener(SWT.Dispose, new Listener() {
             public void handleEvent(Event event)
             {
-                newFont.dispose();
+                if (newFont != null && !newFont.isDisposed())
+                    newFont.dispose();
             }
         });
         return newFont;
@@ -307,7 +337,8 @@ public class UIUtils
         Display.getCurrent().addListener(SWT.Dispose, new Listener() {
             public void handleEvent(Event event)
             {
-                newFont.dispose();
+                if (newFont != null && !newFont.isDisposed())
+                    newFont.dispose();
             }
         });
         return newFont;
