@@ -1,0 +1,10 @@
+About the SBML Test Runner
+--------------------------
+
+The _SBML Test Suite_ is a conformance testing system for SBML, used to test the degree and correctness of SBML support provided in an SBML-compatible software package.  The SBML Test Suite consists of (1) a collection of SBML models, each with associated simulated results where appropriate, and (2) the SBML Test Runner, for controlling applications to make them run through each test case in the suite.
+
+![The SBML Test Runner doing what it does best.](example-run.png "The SBML Test Runner, in the middle of a test run.")
+
+The _SBML Test Runner_ is designed to control an SBML-compatible application and make it execute each test in the Test Suite sequentially, then compare the numerical results produced by the application to the expected results, and finally, report whether the application passed or failed each test.  The Test Runner is designed to work with applications that provide a command-line interface or that can be controlled programmatically, rather than via a graphical user interface.  It requires you to write a small interface program or shell script, here referred to as a _wrapper_, to act as an intermediary between the Test Runner and the application.  Wrappers are defined using the [Preferences panel](preferences.html).
+
+Once you have at least one wrapper defined, you can run an application through the SBML Test Suite using the Test Runner.  This process is described in the section titled [Basic Usage](basic-operation.html).

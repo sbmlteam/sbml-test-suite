@@ -1,0 +1,38 @@
+Basic Usage of the SBML Test Runner
+-----------------------------------
+
+The first time you run the SBML Test Runner application, it will unpack its internal archive of SBML test cases into a folder within (depending on your operating system) your home folder or your user data folder.  This process will take a variable amount of time, depending on the speed of your computer.  During this time, you will see a diagnostic panel such as the one shown in the figure below.
+
+![The first time you start the Test Runner.](first-time.png "When you first start the SBML Test Runner, it will begin to unpack the SBML test cases it contains internally.  This may take some time, during which it will display a panel describing what it is doing.")
+
+After this initial unpacking of test cases, the system will not have to do that process again, unless you update the test cases using the Open option in the File menu or change the path to where the SBML Test Runner looks for the cases.  The latter is determined by the [Preferences panel](preferences.html).
+
+The basic operation of the SBML Test Runner consists of running tests
+(or more precisely, running an SBML-aware application via a wrapper),
+and viewing the results.  The main panel of the SBML Test Runner is
+oriented towards this purpose.  The main window consists of a toolbar
+and 5 regions below it:
+
+  * a list of test case numbers vertically along the left-hand side
+
+  * an upper panel showing two graphs, one depicting the expected
+    results and the other the actual results for a selected test case
+
+  * a lower panel showing a graph of the differences between the
+    values of the expected and actual results
+  
+  * a description area below the graphs, describing the purpose and
+    features of the currently-selected test case
+
+  * a status area at the very bottom, with a progress bar and other
+    information about the current state of the SBML Test Runner
+
+After you start the runner, initially there will not be any test cases selected or graphs shown.  If you click on the triangle-shaped "Run" icon in the middle of the toolbar (or select the "Run" option in the menubar pull-down menu named "Test"), the SBML Test Runner will proceed to invoke the wrapper for every test case in the suite, starting at case 00001.  The screenshot below illustrates a run in progress.
+
+![Example of a run in progress.](example-run.png "Example of a test run in progress.")
+
+The status area in the bottom of the main window provides a real-time sense for the progress; you can also open a map view of the results (via the grid-shaped icon in the far left of the tool bar) and the map will be updated as the run continues.  You can pause execution at any time by clicking on the double-bar-shaped "Pause" button that becomes visible while a run is in progress.
+
+At any time, even while a run is in progress, you can select a test case from the list in the left-hand side of the main window.  The upper and lower panels of the main window will then display the graphs of the results, and the description area will provide some details about the selected test case.
+
+While a case is select, or while multiple cases are selected, clicking on the "Run" button or selecting the "Run" option from the menubar will run _only the selected test cases_, and not all test cases.  To run all the tests again from the beginning, you must first clear the selections from the list in the left-hand side.  There is a toolbar button for quickly deselecting everything; you can also select the "Deselect All" option from the "Edit" pull-down menu in the menubar.
