@@ -1420,6 +1420,22 @@ public class MainWindow
         });
         menuItemAbout.setText("About");
 
+        MenuItem menuItemHelp = new MenuItem(menu_4, SWT.NONE);
+        menuItemHelp.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                delayedUpdate(new Runnable() {
+                    public void run()
+                    {
+                        showHelp();
+                    }
+                });
+            }
+        });
+        menuItemHelp.setText("Help");
+        menuItemHelp.setAccelerator(SWT.MOD1 + '?');
+
         if (UIUtils.isMacOSX()) macify(getDisplay());
     }
 
@@ -2297,7 +2313,7 @@ public class MainWindow
             File destFile = new File(destDir, ".testsuite.zip");
             try
             {
-                Util.copyInputStream(UIUtils.getFileResource("sbml-test-cases.zip"),
+                Util.copyInputStream(UIUtils.getFileResourceStream("sbml-test-cases.zip"),
                                      new BufferedOutputStream(new FileOutputStream(destFile)));
                 openArchive(destFile);
                 destFile.delete();
@@ -3000,6 +3016,16 @@ public class MainWindow
         AboutDialog dialog = new AboutDialog(shell, SWT.None);
         dialog.center(shell.getBounds());
         dialog.open();
+    }
+
+
+    protected void showHelp()
+    {
+        File helpDir = UIUtils.getFileResource("help");
+        if (helpDir == null) return;
+        HelpViewer helpViewer = new HelpViewer(shell, helpDir);
+        helpViewer.center(shell.getBounds());
+        helpViewer.open();
     }
 
 
