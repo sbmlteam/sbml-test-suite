@@ -1,0 +1,13 @@
+The Preferences Panel
+---------------------
+
+![Image of the Preferences panel.](preferences-screenshot.png "The Preferences panel.")
+
+The first line, titled _Test Cases Directory_, will be automatically pre-configured with a path to a user data folder where the archive of test cases is unpacked.  You should not need to change this value except in special circumstances.
+
+The middle portion of the panel is concerned with the definition of wrappers.  The list in the left-hand side permits you to define more than one wrapper; this can be useful, for example, if you are testing an application using different options, or testing different applications.   The Add and Remove buttons enable you to manage the list of known wrappers.  The list will be shown in a drop-down menu in the toolbar of the main SBML Test Runner window once you exit the Preferences dialog.
+
+The set of fields to the right of the list of wrappers are the ones that let you define the characteristics of an individual wrapper.  The meanings of the fields are described in the section titled [Defining Wrappers](defining-wrappers.html).
+
+The SBML Test Runner starts up with one pseudo-wrapper definition named &quot;_-- no wrapper --_&quot;.  This is a view-only wrapper that allows you to browse the test cases provided in the SBML Test Suite, and nothing more.  The &quot;_-- no wrapper --_&quot; pseudo-wrapper is always present and cannot be deleted or altered.
+
