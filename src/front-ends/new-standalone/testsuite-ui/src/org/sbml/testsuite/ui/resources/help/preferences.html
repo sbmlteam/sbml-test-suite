@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>The Preferences Panel</title>
+</head>
+<style>
+body, table, div, p, dl {
+    color: #332;
+    font-family: Lucida Sans, Tahoma, Helvetica, Arial, Sans, sans-serif;
+    font-size: 11px;
+    font-weight: normal;
+    line-height: 140%;
+}
+
+h1 {
+    font-size: 150%;
+}
+
+h2, h2 a {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-top: 1em;
+    padding-top: 0.5em;
+    color: #443;
+}
+
+code, .code {
+    font-family: "Courier New", Courier, monospace, fixed;
+    font-weight: bold;
+    color: black;
+    font-size: 110%;
+    line-height: 110%;
+}
+
+table {
+    margin-left: 2em;
+}
+
+td {
+    vertical-align: middle;
+    line-height: 140%;
+}
+
+.right-space {
+    padding-right: 0.5em;
+}
+
+figure {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+figcaption {
+    text-align: center;
+    font-style: italic;
+}
+
+img {
+    border: 1px solid gray;
+}
+
+</style>
+
+<body>
+<h2 id="thepreferencespanel">The Preferences Panel</h2>
+
+<figure>
+<img src="preferences-screenshot.png" alt="Image of the Preferences panel." title="The Preferences panel." />
+<figcaption>Image of the Preferences panel.</figcaption></figure>
+
+
+
+<p>The first line, titled <em>Test Cases Directory</em>, will be automatically pre-configured with a path to a user data folder where the archive of test cases is unpacked. You should not need to change this value except in special circumstances.</p>
+
+<p>The middle portion of the panel is concerned with the definition of wrappers. The list in the left-hand side permits you to define more than one wrapper; this can be useful, for example, if you are testing an application using different options, or testing different applications. The Add and Remove buttons enable you to manage the list of known wrappers. The list will be shown in a drop-down menu in the toolbar of the main SBML Test Runner window once you exit the Preferences dialog.</p>
+
+<p>The set of fields to the right of the list of wrappers are the ones that let you define the characteristics of an individual wrapper. The meanings of the fields are described in the section titled <a href="defining-wrappers.html">Defining Wrappers</a>.</p>
+
+<p>The SBML Test Runner starts up with one pseudo-wrapper definition named &quot;<em>&#8211; no wrapper &#8211;</em>&quot;. This is a view-only wrapper that allows you to browse the test cases provided in the SBML Test Suite, and nothing more. The &quot;<em>&#8211; no wrapper &#8211;</em>&quot; pseudo-wrapper is always present and cannot be deleted or altered.</p>
+</body> </html>
