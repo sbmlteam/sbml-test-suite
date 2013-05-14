@@ -74,7 +74,7 @@ public class HelpViewer
     private void createContents()
     {
 	shell.setLayout(new GridLayout());
-        shell.setSize(700, 600);
+        shell.setSize(750, 600);
         shell.setMinimumSize(400, 200);
 
 	Composite compTools = new Composite(shell, SWT.NONE);
@@ -121,7 +121,6 @@ public class HelpViewer
 
 	final List list = new List(sashForm, SWT.SINGLE);
         GridData gd_list = new GridData(GridData.FILL_BOTH);
-        gd_list.widthHint = 250;
         list.setLayoutData(gd_list);
 
         list.addKeyListener(UIUtils.createCloseKeyListener(shell));
@@ -196,7 +195,7 @@ public class HelpViewer
         browser.addTitleListener(tocTitleListener);
         browser.addProgressListener(tocProgressListener);
 
-        sashForm.setWeights(new int[] {1, 3});
+        sashForm.setWeights(new int[] {1, 15});
         shell.layout();
 
         // Add keyboard bindings for cancelling out of this: command-. on
