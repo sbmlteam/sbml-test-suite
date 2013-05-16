@@ -588,15 +588,24 @@ public class MainWindow
                 // Otherwise, on the mac, it doesn't get shown.
                 getDisplay().update();
 
-                for (final TestCase test : model.getSuite().getSortedCases())
+                if (wrapper != null)
                 {
-                    ResultType result = wrapper.getResultType(test, currentLV);
-                    if (func == null || func.filter(test, result))
-                    {                        
-                        TreeItem item = createCaseItem(test.getId(), result);
-                        if (result == ResultType.Unknown && !viewOnly)
-                            markForRerun(item);
+                    for (final TestCase test : model.getSuite().getSortedCases())
+                    {
+                        ResultType result = wrapper.getResultType(test, currentLV);
+                        if (func == null || func.filter(test, result))
+                        {                        
+                            TreeItem item = createCaseItem(test.getId(), result);
+                            if (result == ResultType.Unknown && !viewOnly)
+                                markForRerun(item);
+                        }
                     }
+                }
+                else                    // No wrapper set.
+                {
+                    for (final TestCase test : model.getSuite().getSortedCases())
+                        if (func == null || func.filter(test, ResultType.Unknown))
+                            createCaseItem(test.getId(), ResultType.Unknown);
                 }
             }
         });
@@ -1957,6 +1966,7 @@ public class MainWindow
         }
     }
 
+
     protected void editPreferences()
     {
         WrapperConfig currentWrapper = new WrapperConfig(model.getLastWrapper());
@@ -1988,6 +1998,8 @@ public class MainWindow
                 }
             });
         }
+        if (result == null && model.getLastWrapper() == null)
+            model.getSettings().setLastWrapper("-- no wrapper --");
         dialog.dispose();
     }
 
@@ -2343,7 +2355,21 @@ public class MainWindow
 
         updateWrapperList();
         if (model.getWrappers() == null || model.getWrappers().isEmpty())
+        {
             editPreferences();
+
+            // Weird edge case: user hit 'cancel' in the prefrences dialog on
+            // the first time running the test runner.
+
+            if (model.getLastWrapper() == null)
+            {
+                WrapperConfig noWrapper = new WrapperConfig("-- no wrapper --");
+                Vector<WrapperConfig> tmp = new Vector<WrapperConfig>();
+                tmp.add(noWrapper);
+                model.setWrappers(tmp);
+                addTreeItems();
+            }
+        }
         updateStatuses();
     }
 
