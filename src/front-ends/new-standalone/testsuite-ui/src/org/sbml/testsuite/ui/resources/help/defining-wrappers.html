@@ -1,12 +1,13 @@
 <html>
 <head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 <title>Defining Wrappers</title>
 </head>
 <style>
 body, table, div, p, dl {
     color: #332;
-    font-family: Lucida Sans, Tahoma, Helvetica, Arial, Sans, sans-serif;
-    font-size: 11px;
+    font-family: Helvetica, Arial, Sans, sans-serif;
+    font-size: 12px;
     font-weight: normal;
     line-height: 140%;
 }
@@ -49,11 +50,17 @@ figure {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    display: block;
 }
 
 figcaption {
     text-align: center;
     font-style: italic;
+    clear: both;
+    display: block;
+    margin-top: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 img {
@@ -63,6 +70,7 @@ img {
 </style>
 
 <body>
+
 <h2 id="definingwrappers">Defining wrappers</h2>
 
 <p>The execution of tests involves the use of &#8220;wrapper&#8221; programs that act
