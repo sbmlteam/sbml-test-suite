@@ -234,6 +234,10 @@
   </target>
 
   <target name="jar-common" depends="build">
+    <copy todir="${build.dest}" overwrite="true">
+      <fileset dir="src" includes="org/sbml/testsuite/ui/resources/**" />
+    </copy>
+    <touch file="${build.dest}/org/sbml/testsuite/ui/resources/help/VERSION-${app.version}"/>
     <jar destfile="${dist.dir}/sbmltestrunner.jar">
       <manifest>
         <attribute name="Main-Class" value="${app.main.class}"/>
@@ -249,8 +253,7 @@
       <zipgroupfileset file="libs/org.swtchart_0.7.0.v20110128.jar"/>
       <zipgroupfileset file="libs/simple-xml-2.6.4.jar"/>
       <zipgroupfileset file="${swt.file}"/>
-      <fileset dir="${build.dest}" includes="**/*.class" />
-      <fileset dir="src" includes="org/sbml/testsuite/ui/resources/*" />
+      <fileset dir="${build.dest}" includes="**" />
     </jar>
   </target>
 
@@ -632,25 +635,25 @@
   <!-- =================================================================== -->
 
   <target name="start-win-32" depends="swt-win-32">
-    <java fork="true" jar="${build}/testsuite-ui.jar" />
+    <java fork="true" jar="${dist.dir}/sbmltestrunner.jar" />
   </target>
   <target name="start-win-64" depends="swt-win-64">
-    <java fork="true" jar="${build}/testsuite-ui.jar" />
+    <java fork="true" jar="${dist.dir}/sbmltestrunner.jar" />
   </target>
   <target name="start-linux-32" depends="swt-linux-32">
-    <java fork="true" jar="${build}/testsuite-ui.jar" />
+    <java fork="true" jar="${dist.dir}/sbmltestrunner.jar" />
   </target>
   <target name="start-linux-64" depends="swt-linux-64">
-    <java fork="true" jar="${build}/testsuite-ui.jar" />
+    <java fork="true" jar="${dist.dir}/sbmltestrunner.jar" />
   </target>
   <target name="start-osx-32" depends="swt-osx-32">
-    <java fork="true" jar="${build}/testsuite-ui.jar" >
+    <java fork="true" jar="${dist.dir}/sbmltestrunner.jar" >
       <arg value="-d32"/>
       <arg value="-XstartOnFirstThread"/>
     </java>
   </target>
   <target name="start-osx-64" depends="swt-osx-64">
-    <java fork="true" jar="${build}/testsuite-ui.jar">
+    <java fork="true" jar="${dist.dir}/sbmltestrunner.jar">
       <arg value="-XstartOnFirstThread"/>
       <arg value='-Xdock:name="${app.name}"'/>
     </java>
