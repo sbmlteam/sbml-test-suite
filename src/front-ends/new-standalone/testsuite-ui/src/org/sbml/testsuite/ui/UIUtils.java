@@ -31,6 +31,8 @@ package org.sbml.testsuite.ui;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.util.jar.JarFile;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -81,12 +83,12 @@ public class UIUtils
 
 
     /**
-     * Return a resource we have embedded in our application.
+     * Return a file resource on the file system relative to our
+     * JAR file.
      */
     public static File getFileResource(String file)
     {
-        URL url = UIUtils.class.getResource(
-            "/org/sbml/testsuite/ui/resources/" + file);
+        URL url = UIUtils.class.getResource(file);
         if (url != null)
         {
             try
@@ -99,6 +101,24 @@ public class UIUtils
             }
         }
         return null;
+    }
+
+
+    /**
+     * Return a file object pointing to our jar file.
+     */
+    public static JarFile getJarFile()
+    {
+        try
+        {
+            URL url = Program.class.getProtectionDomain().getCodeSource().getLocation();
+            String decodedPath = URLDecoder.decode(url.getPath(), "UTF-8");
+            return new JarFile(decodedPath);
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
     }
 
 
