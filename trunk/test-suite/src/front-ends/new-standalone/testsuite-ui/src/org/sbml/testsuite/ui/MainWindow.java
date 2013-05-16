@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Map;
@@ -43,6 +44,11 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Vector;
+import java.util.jar.JarFile;
+import java.util.jar.JarEntry;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.Enumeration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.custom.SashForm;
@@ -3019,10 +3025,93 @@ public class MainWindow
     }
 
 
+    private void unpackHelp(File helpDir)
+    {
+        // Create the help directory if it doesn't exist yet.
+        if (!helpDir.exists() && !helpDir.mkdir())
+            return;
+
+        // Find ourselves.
+        JarFile jar = UIUtils.getJarFile();
+        if (jar == null) return;
+
+        // Pull out the help files and write them to the directory.
+        try
+        {
+            Enumeration<JarEntry> entries = jar.entries();
+            while (entries.hasMoreElements())
+            {
+                ZipEntry entry = (ZipEntry) entries.nextElement();
+                String name = entry.getName();
+                int index = name.indexOf("help/");
+                if (index > 0)
+                {
+                    String tail = name.substring(index + 5);
+                    if (tail.length() == 0)
+                        continue;
+                    File file = new File(helpDir, tail);
+                    if (entry.isDirectory())
+                    {
+                        if (!file.exists())
+                        {
+                            file.mkdirs();
+                            continue;
+                        }
+                    }
+                    else if (file.exists())
+                        file.delete();
+                    if (!file.createNewFile())
+                        return;         // FIXME log this.
+                    if (!file.setWritable(true))
+                        return;
+
+                    InputStream is = jar.getInputStream(entry);
+                    FileOutputStream fos = new FileOutputStream(file);
+                    Util.copyInputStream(is, new BufferedOutputStream(fos));
+                    is.close();
+                    fos.flush();
+                    fos.close();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            // FIXME log or do something.
+        }
+    }
+
+
     protected void showHelp()
     {
-        File helpDir = UIUtils.getFileResource("help");
-        if (helpDir == null) return;
+        // We first unpack the help files into the user's data directory.
+        // Subsequent runs should not need to unpack them again, but we need
+        // to check the version to make sure what we find isn't left over
+        // from an older installation of the test suite.  The help directory
+        // will contain a stamp file with a name of the form VERSION-N.  We
+        // test for the existence of a file VERSION-N, where N is our
+        // *current* version, as a way to check what we have.
+
+        final File helpDir = new File(Util.getInternalTestSuiteDir(), "help");
+        File helpVersion = new File(helpDir, "VERSION-" + Program.getVersion());
+
+        if (!helpDir.exists() || !helpDir.isDirectory() || !helpVersion.exists())
+            BusyIndicator.showWhile(getDisplay(), new Runnable() {
+                public void run()
+                {
+                    unpackHelp(helpDir);
+                }
+            });
+
+        if (!helpDir.exists() || !helpDir.isDirectory())
+        {
+            Tell.error(shell, "Enountered error open help files",
+                       "The SBML Test Runner was unable to unpack its\n"
+                       + "internal help files. Please report this error\n"
+                       + "to the developers and mention the operating\n"
+                       + "system and other features of your platform.");
+            return;
+        }
+
         HelpViewer helpViewer = new HelpViewer(shell, helpDir);
         helpViewer.center(shell.getBounds());
         helpViewer.open();
