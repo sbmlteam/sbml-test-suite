@@ -917,6 +917,12 @@ public class MainWindow
                     public void run()
                     {
                         int count = tree.getSelectionCount();
+
+                        // The Tree widget doesn't return the right number of
+                        // selected items when this is called while things
+                        // are running.  Hack: assume it's 1 in that case.
+                        if (running) count = 1;
+
                         if (count == 1)
                             updatePlotsForSelection((TreeItem) event.item);
                         else
