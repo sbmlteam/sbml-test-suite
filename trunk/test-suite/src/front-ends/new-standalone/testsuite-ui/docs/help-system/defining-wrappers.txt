@@ -80,11 +80,16 @@ The definition of a wrapper also includes 3 options:
    parallel, but it must be informed whether multiple instances of a
    wrapper or application can be invoked simultaneously.  Use this
    flag to indicate that multiple copies of the wrapper can be started
-   simultaneously.  Do not enable this option if the wrapper (or
+   simultaneously.  Do _not_ enable this option if the wrapper (or
    application) writes to the same file (e.g., a single log file),
    locks a single resource, or does something else that would result
    in non-deterministic behavior if multiple copies of the wrapper or
-   application are started simultaneously.
+   application are started simultaneously.  If you use a shell script,
+   also make sure that the script does not return before the
+   application you're testing returns a result.  (In other words, do
+   not have the shell script start the application as a background
+   process; make sure the script terminates only when the application
+   itself terminates.)
 
 You can define multiple wrappers, but only one will be executed during
 any given test run.  (You will be able to choose it from a pull-down
