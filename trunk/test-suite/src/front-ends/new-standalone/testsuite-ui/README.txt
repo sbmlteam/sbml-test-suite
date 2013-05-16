@@ -216,7 +216,7 @@ menubar pull-down menu named "Test"), the SBML Test Runner will
 proceed to invoke the wrapper for every test case in the suite,
 starting at case 00001.  The status area in the bottom of the main
 window provides a real-time sense for the progress; you can also open
-a map view of the results (via the 9-squares-shaped icon in the far
+a map view of the results (via the grid-shaped icon in the far
 left of the tool bar) and the map will be updated as the run
 continues.  You can pause execution at any time by clicking on the
 double-bar-shaped "Pause" button that becomes visible while a run is
