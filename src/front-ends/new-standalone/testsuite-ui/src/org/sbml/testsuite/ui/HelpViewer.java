@@ -59,13 +59,12 @@ public class HelpViewer
     private String[] titles;
     private int index;
     private Shell shell;
-    private static String windowTitle = "SBML Test Runner Help Viewer";
+    private static String WINDOW_TITLE = "SBML Test Runner Help Viewer";
 
 
     public HelpViewer(Shell parent, File helpDir)
     {
-        shell = new Shell(parent.getDisplay());
-	shell.setText(windowTitle);
+        shell = new Shell(parent.getDisplay(), SWT.DIALOG_TRIM | SWT.RESIZE);
         createContents();
         readHelpText(helpDir);
     }
@@ -73,125 +72,127 @@ public class HelpViewer
 
     private void createContents()
     {
-	shell.setLayout(new GridLayout());
+        shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
+        shell.setText(WINDOW_TITLE);
+        shell.setLayout(new GridLayout());
         shell.setSize(750, 600);
         shell.setMinimumSize(400, 200);
 
-	Composite compTools = new Composite(shell, SWT.NONE);
-	GridData data = new GridData(GridData.FILL_HORIZONTAL);
-	compTools.setLayoutData(data);
-	compTools.setLayout(new GridLayout(1, false));
+        Composite compTools = new Composite(shell, SWT.NONE);
+        GridData data = new GridData(GridData.FILL_HORIZONTAL);
+        compTools.setLayoutData(data);
+        compTools.setLayout(new GridLayout(1, false));
 
-	ToolBar navBar = new ToolBar(compTools, SWT.FLAT);
-	GridData gd_navBar = new GridData(GridData.FILL_HORIZONTAL
+        ToolBar navBar = new ToolBar(compTools, SWT.FLAT);
+        GridData gd_navBar = new GridData(GridData.FILL_HORIZONTAL
                                           | GridData.HORIZONTAL_ALIGN_END);
-	gd_navBar.horizontalAlignment = SWT.LEFT;
-	navBar.setLayoutData(gd_navBar);
+        gd_navBar.horizontalAlignment = SWT.LEFT;
+        navBar.setLayoutData(gd_navBar);
 
-	final ToolItem back = new ToolItem(navBar, SWT.PUSH);
-	back.setEnabled(false);
+        final ToolItem back = new ToolItem(navBar, SWT.PUSH);
+        back.setEnabled(false);
         back.setImage(UIUtils.getImageResource("backward-arrow.png"));
-	back.addListener(SWT.Selection, new Listener() {
-		public void handleEvent(Event event)
-                {
-                    browser.back();
-		}
-            });
+        back.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event event)
+            {
+                browser.back();
+            }
+        });
 
-	final ToolItem forward = new ToolItem(navBar, SWT.PUSH);
-	forward.setEnabled(false);
+        final ToolItem forward = new ToolItem(navBar, SWT.PUSH);
+        forward.setEnabled(false);
         forward.setImage(UIUtils.getImageResource("forward-arrow.png"));
-	forward.addListener(SWT.Selection, new Listener() {
-		public void handleEvent(Event event)
-                {
-                    browser.forward();
-		}
-            });
-	
-	Composite comp = new Composite(shell, SWT.NONE);
-	data = new GridData(GridData.FILL_BOTH);
-	comp.setLayoutData(data);
-	FillLayout fl_comp = new FillLayout();
-	fl_comp.spacing = 5;
-	comp.setLayout(fl_comp);
+        forward.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event event)
+            {
+                browser.forward();
+            }
+        });
+        
+        Composite comp = new Composite(shell, SWT.NONE);
+        data = new GridData(GridData.FILL_BOTH);
+        comp.setLayoutData(data);
+        FillLayout fl_comp = new FillLayout();
+        fl_comp.spacing = 5;
+        comp.setLayout(fl_comp);
 
-	final SashForm sashForm = new SashForm(comp, SWT.BORDER | SWT.HORIZONTAL);
-	sashForm.setSashWidth(5);
-	sashForm.setLayout(new FillLayout());
+        final SashForm sashForm = new SashForm(comp, SWT.BORDER | SWT.HORIZONTAL);
+        sashForm.setSashWidth(5);
+        sashForm.setLayout(new FillLayout());
 
-	final List list = new List(sashForm, SWT.SINGLE);
+        final List list = new List(sashForm, SWT.SINGLE);
         GridData gd_list = new GridData(GridData.FILL_BOTH);
         list.setLayoutData(gd_list);
 
         list.addKeyListener(UIUtils.createCloseKeyListener(shell));
-	list.addListener(SWT.Selection, new Listener() {
-		public void handleEvent(Event e)
-                {
-                    int index = list.getSelectionIndex();
-                    browser.setUrl(urls[index]);
-		}
-            });
+        list.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e)
+            {
+                int index = list.getSelectionIndex();
+                browser.setUrl(urls[index]);
+            }
+        });
 
-	try
+        try
         {
             browser = new Browser(sashForm, SWT.NONE);
-	}
+        }
         catch (SWTError e)
         {
             Tell.error(shell, "Unable to open help browser",
                        e.getMessage());
             return;
-	}
+        }
 
         browser.addKeyListener(UIUtils.createCloseKeyListener(shell));
-	final LocationListener locationListener = new LocationListener() {
-		public void changed(LocationEvent event)
-                {
-                    Browser browser = (Browser)event.widget;
-                    back.setEnabled(browser.isBackEnabled());
-                    forward.setEnabled(browser.isForwardEnabled());
-		}
-		public void changing(LocationEvent event)
-                {
-		}
-            };
-	/* Build a table of contents. Open each HTML file
-	 * found in the given folder to retrieve their title.
-	 */
-	final TitleListener tocTitleListener = new TitleListener() {
-		public void changed(TitleEvent event)
-                {
-                    titles[index] = event.title;
-		}
-            };
-	final ProgressListener tocProgressListener = new ProgressListener() {
-		public void changed(ProgressEvent event)
-                {
-		}
-		public void completed(ProgressEvent event)
+        final LocationListener locationListener = new LocationListener() {
+            public void changed(LocationEvent event)
+            {
+                Browser browser = (Browser)event.widget;
+                back.setEnabled(browser.isBackEnabled());
+                forward.setEnabled(browser.isForwardEnabled());
+            }
+            public void changing(LocationEvent event)
+            {
+            }
+        };
+
+        // Build a table of contents. Open each HTML file found in the given
+        // folder to retrieve their title.
+
+        final TitleListener tocTitleListener = new TitleListener() {
+            public void changed(TitleEvent event)
+            {
+                titles[index] = event.title;
+            }
+        };
+        final ProgressListener tocProgressListener = new ProgressListener() {
+            public void changed(ProgressEvent event)
+            {
+            }
+            public void completed(ProgressEvent event)
+            {
+                index++;
+                if (index >= titles.length) // TOC has been completed.
                 {
                     Browser thisBrowser = (Browser) event.widget;
-                    index++;
-                    boolean tocCompleted = index >= titles.length;
-                    if (tocCompleted)
-                    {
-                        thisBrowser.dispose();
-                        thisBrowser = new Browser(sashForm, SWT.NONE);
-                        browser = thisBrowser;
-                        sashForm.layout(true);
-                        browser.addLocationListener(locationListener);
-                        list.removeAll();
-                        for (int i = 0; i < titles.length; i++)
-                            list.add(titles[i]);
-                        list.select(0);
-                        browser.setUrl(urls[0]);
-                        shell.setText(windowTitle);
-                        return;
-                    }
-                    shell.setText("Building index " + index + "/" + urls.length);
-                    browser.setUrl(urls[index]);
-		}
-            };
+                    thisBrowser.dispose();
+                    thisBrowser = new Browser(sashForm, SWT.NONE);
+                    browser = thisBrowser;
+                    sashForm.layout(true);
+                    browser.addLocationListener(locationListener);
+                    list.removeAll();
+                    for (int i = 0; i < titles.length; i++)
+                        list.add(titles[i]);
+                    list.select(0);
+                    browser.setUrl(urls[0]);
+                    browser.setFont(UIUtils.createResizedFont("SansSerif", SWT.BOLD, -1));
+                    shell.setText(WINDOW_TITLE);
+                    return;
+                }
+                browser.setUrl(urls[index]);
+            }
+        };
         browser.addTitleListener(tocTitleListener);
         browser.addProgressListener(tocProgressListener);
 
@@ -249,7 +250,6 @@ public class HelpViewer
             {
             }
         }
-        shell.setText("Building index");
         if (urls.length > 0)
             browser.setUrl(urls[0]);
     }
@@ -258,7 +258,7 @@ public class HelpViewer
     public void open()
     {
         if (shell == null) return;
-	shell.open();
+        shell.open();
     }
 
 
