@@ -1,12 +1,13 @@
 <html>
 <head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 <title>Basic Usage</title>
 </head>
 <style>
 body, table, div, p, dl {
     color: #332;
-    font-family: Lucida Sans, Tahoma, Helvetica, Arial, Sans, sans-serif;
-    font-size: 11px;
+    font-family: Helvetica, Arial, Sans, sans-serif;
+    font-size: 12px;
     font-weight: normal;
     line-height: 140%;
 }
@@ -49,11 +50,17 @@ figure {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    display: block;
 }
 
 figcaption {
     text-align: center;
     font-style: italic;
+    clear: both;
+    display: block;
+    margin-top: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 img {
@@ -63,6 +70,7 @@ img {
 </style>
 
 <body>
+
 <h2 id="basicusageofthesbmltestrunner">Basic Usage of the SBML Test Runner</h2>
 
 <p>The first time you run the SBML Test Runner application, it will unpack its internal archive of SBML test cases into a folder within (depending on your operating system) your home folder or your user data folder. This process will take a variable amount of time, depending on the speed of your computer. During this time, you will see a diagnostic panel such as the one shown in the figure below.</p>
@@ -101,7 +109,7 @@ information about the current state of the SBML Test Runner</p></li>
 
 
 
-<p>The status area in the bottom of the main window provides a real-time sense for the progress; you can also open a map view of the results (via the 9-squares-shaped icon in the far left of the tool bar) and the map will be updated as the run continues. You can pause execution at any time by clicking on the double-bar-shaped &#8220;Pause&#8221; button that becomes visible while a run is in progress.</p>
+<p>The status area in the bottom of the main window provides a real-time sense for the progress; you can also open a map view of the results (via the grid-shaped icon in the far left of the tool bar) and the map will be updated as the run continues. You can pause execution at any time by clicking on the double-bar-shaped &#8220;Pause&#8221; button that becomes visible while a run is in progress.</p>
 
 <p>At any time, even while a run is in progress, you can select a test case from the list in the left-hand side of the main window. The upper and lower panels of the main window will then display the graphs of the results, and the description area will provide some details about the selected test case.</p>
 
