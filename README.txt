@@ -1,7 +1,7 @@
                          The SBML Test Suite
 
 	    Sarah Keating, Michael Hucka, Frank Bergmann,
-	   LucianSmith, Kimberly Begley, and Andrew Finney
+	   Lucian Smith, Kimberly Begley, and Andrew Finney
 
 		       with contributions from
 	 Bruce Shapiro and many others in the SBML community.
