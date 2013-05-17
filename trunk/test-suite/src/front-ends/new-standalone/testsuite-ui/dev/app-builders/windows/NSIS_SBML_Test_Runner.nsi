@@ -58,8 +58,8 @@ Section "MainSection" SEC01
   File "${DIST_DIR}\SBML Test Runner - Windows x64.exe"
   File "${DIST_DIR}\..\..\COPYING.txt"
   File "${DIST_DIR}\..\..\LICENSE.txt"
-  File "${DIST_DIR}\..\..\README.txt"
-  File "${DIST_DIR}\..\..\NEWS.txt"
+  File "${DIST_DIR}\..\README.txt"
+  File "${DIST_DIR}\..\NEWS.txt"
 
   CreateDirectory "$SMPROGRAMS\${SM_FOLDER}"
 
