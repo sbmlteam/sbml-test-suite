@@ -59,6 +59,7 @@ Section "MainSection" SEC01
   File "${DIST_DIR}\..\..\COPYING.txt"
   File "${DIST_DIR}\..\..\LICENSE.txt"
   File "${DIST_DIR}\..\..\README.txt"
+  File "${DIST_DIR}\..\..\NEWS.txt"
 
   CreateDirectory "$SMPROGRAMS\${SM_FOLDER}"
 
@@ -122,6 +123,7 @@ Section Uninstall
   Delete "$INSTDIR\COPYING.txt"
   Delete "$INSTDIR\LICENSE.txt"
   Delete "$INSTDIR\README.txt"
+  Delete "$INSTDIR\NEWS.txt"
 
   Delete "$SMPROGRAMS\${SM_FOLDER}\${PRODUCT_NAME}.lnk"
   Delete "$SMPROGRAMS\${SM_FOLDER}\Uninstall.lnk"
