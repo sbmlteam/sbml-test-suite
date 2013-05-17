@@ -182,9 +182,9 @@ public class ResultSet
         {
             String text = string.trim().toUpperCase();
 
-            if (text.equals("INF"))
+            if (text.equals("INF") || text.equals("1.#INF"))
                 return Double.POSITIVE_INFINITY;
-            if (text.equals("-INF"))
+            if (text.equals("-INF") || text.equals("-1.#INF"))
                 return Double.NEGATIVE_INFINITY;
 
             // The Wikipedia page for NaN describes many possible variations.
