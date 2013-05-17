@@ -3,7 +3,9 @@
 
 === Version 3.0.0beta1 release (2013-05-17)
 
-* Release beta1 of the new, standalone, SBML Test Runner.
+* Release beta1 of the new, standalone, SBML Test Runner.  (Note: the
+  test cases archive does not include the Test Runner; it is made
+  available as a separate download.)
 
 * Changes to SBML test cases:
 
