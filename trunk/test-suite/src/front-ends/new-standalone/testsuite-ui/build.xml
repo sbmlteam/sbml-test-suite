@@ -549,7 +549,7 @@
     <copy file="README.txt" 
           tofile="${mountdir}/${app.name}/README.txt" overwrite="true"/>
     <copy file="NEWS.txt" 
-          tofile="${mountdir}/${app.name}/README.txt" overwrite="true"/>
+          tofile="${mountdir}/${app.name}/NEWS.txt" overwrite="true"/>
 
     <!-- add a symbolic link to the Applications directory -->
     <symlink link="${mountdir}/${app.name}" resource="/Applications"/>
