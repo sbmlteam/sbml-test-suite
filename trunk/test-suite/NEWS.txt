@@ -1,6 +1,41 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
+=== Version 3.0.0beta1 release (2013-05-17)
+
+* Release beta1 of the new, standalone, SBML Test Runner.
+
+* Changes to SBML test cases:
+
+  - Removed invalid model 00173-sbml-l1v2.xml (it used functions not
+    allowed in l1 infix).
+
+  - Added compartment to 951 and 954 l1 models, for validity.
+
+  - Reordered components of 1027, 1028, and 1029 l2v1 models, for
+    validity.
+
+  - Fixed validity of model 1141 (incorrect 'const' flag).
+
+  - Model 1141's settings file claimed it wanted a compartment's
+    'concentration'.  This was removed.
+
+  - Various tags added and removed where appropriate, because they
+    were incorrect.  A few InitialValue tags; a few BoundaryCondition
+    tags, a few missing MultiCompartment tags for comp models; a few
+    incorrect comp:SubmodelOutput tags; a few tags for deleted
+    components of comp models, on the theory that correct
+    interpetation of the model doesn't depend on anything that was
+    deleted.
+
+  - Model descriptions written for a few models where "{Write general
+    description of why you have created the model here.}" was still
+    there. Fixed.
+
+  - Added pre-l3v1 versions of n-ary MathML tests to the .m files (the
+    actual SBML had been there before).
+
+    
 === Version 2.3.2 release (2013-02-03)
 
 * Changes:
