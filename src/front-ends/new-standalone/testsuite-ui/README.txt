@@ -8,6 +8,9 @@
                   California Institute of Technology
                       Pasadena, California, USA
 
+  More information about the SBML Test Suite is available online at
+               http://sbml.org/Software/SBML_Test_Suite
+
           This code is licensed under the LGPL version 2.1.
           Please see the file "../LICENSE.txt" for details.
 
@@ -47,27 +50,27 @@ unlike typical platform-independent Java applications.
 The Ant configuration understands the following commands.  All outputs
 are placed in the directory "dist".
 
-  ant jar                                                           
+  ant jar
     Creates a self-contained jar file.  Whether it is 32-bit or 64-bit
     is determined automatically based on the current platform.  The
     result can be executed using "jar -jar sbmltestrunner.jar"
-                                                                  
-  ant app                                                           
-    Creates *two* executable applications that wrap the jar file, 
-    one executable for 32-bit and another for 64-bit versions of  
-    the current platform. The result can be executed as a normal  
-    application (e.g., by doing-clicking it). The result still    
-    requires Java to be installed on the computer, however.       
-                                                                  
-  ant dist                                                          
-    Creates a distribution with both 32-bit & 64-bit versions of  
-    the application. The form of the distribution depends on the  
-    platform currently running: on Macs, it creates a .dmg disk   
-    archive, on Windows it creates a runnable .exe installer, and 
-    on Linux, it creates 3 items: a runnable binary installer, an 
-    RPM package, and a Debian .deb package.                       
 
-To build the executable applications and distributions ("ant jar" and
+  ant app
+    Creates *two* executable applications that wrap the jar file,
+    one executable for 32-bit and another for 64-bit versions of
+    the current platform. The result can be executed as a normal
+    application (e.g., by doing-clicking it). The result still
+    requires Java to be installed on the computer, however.
+
+  ant dist
+    Creates a distribution with both 32-bit & 64-bit versions of
+    the application. The form of the distribution depends on the
+    platform currently running: on Macs, it creates a .dmg disk
+    archive, on Windows it creates a runnable .exe installer, and
+    on Linux, it creates 3 items: a runnable binary installer, an
+    RPM package, and a Debian .deb package.
+
+To build the executable applications and distributions ("ant app" and
 "ant dist", but *not* the plain "ant jar"), you will need some
 additional tools, depending on the operating system:
 
@@ -93,11 +96,11 @@ approaches to starting the SBML Test Runner:
 
   On Mac OS X, execute the following command in a terminal shell:
 
-    java -XstartOnFirstThread -jar dist/sbmltestrunner.jar
+      java -XstartOnFirstThread -jar dist/sbmltestrunner.jar
 
   On Windows and Linux: execute the following command instead:
 
-    java -jar dist/sbmltestrunner.jar
+      java -jar dist/sbmltestrunner.jar
 
 * If you created the standalone application:
 
@@ -129,21 +132,21 @@ configurations defined.  The Runner will open a Preferences panel to
 let you define one or more wrapper configurations.  Each configuration
 has:
 
-  1. a name
+  1. A name.
 
-  2. the path to the wrapper program on your computer
+  2. The path to the wrapper program on your computer.
 
-  3. the path to a directory where the Runner will find the
-     application's output from running each test case
+  3. The path to a directory where the Runner will find the
+     application's output from running each test case.
 
-  4. a list of component or test tags that the application is known
-     to be unable to understand
+  4. A list of component or test tags that the application is known
+     to be unable to understand.
 
-  5. command-line arguments that should be passed to the wrapper
+  5. Command-line arguments that should be passed to the wrapper.
 
 In the command-line arguments given to the wrapper, the following
-substitution codes can be used.  Their values will be substituted at
-run-time whenever the wrapper is invoked:
+substitution codes can be used.  Their values will be substituted each
+time the wrapper is invoked:
 
   %d  the path to the directory containing all the test cases
   %n  the current test case number (in the form of 5 digits)
@@ -179,11 +182,22 @@ The definition of a wrapper also includes 3 options:
    application) writes to the same file (e.g., a single log file),
    locks a single resource, or does something else that would result
    in non-deterministic behavior if multiple copies of the wrapper or
-   application are started simultaneously.
+   application are started simultaneously.  If you use a shell script,
+   also make sure that the script does not return before the
+   application you're testing returns a result.  (In other words, do
+   not have the shell script start the application as a background
+   process; make sure the script terminates only when the application
+   itself terminates.)
 
 You can define multiple wrappers, but only one will be executed during
 any given test run.  (You will be able to choose it from a pull-down
 menu in the main window of the SBML Test Runner.)
+
+The SBML Test Runner starts up with one pseudo-wrapper definition
+named "-- no wrapper --".  This is a view-only wrapper that allows you
+to browse the test cases provided in the SBML Test Suite, and nothing
+more.  The "-- no wrapper --" pseudo-wrapper is always present and
+cannot be deleted or altered.
 
 
 2. Running tests
@@ -195,19 +209,19 @@ and viewing the results.  The main panel of the SBML Test Runner is
 oriented towards this purpose.  The main window consists of a toolbar
 and 5 regions below it:
 
-  * a list of test case numbers vertically along the left-hand side
+  * A list of test case numbers vertically along the left-hand side.
 
-  * an upper panel showing two graphs, one depicting the expected
-    results and the other the actual results for a selected test case
+  * An upper panel showing two graphs, one depicting the expected
+    results and the other the actual results for a selected test case.
 
-  * a lower panel showing a graph of the differences between the
-    values of the expected and actual results
+  * A lower panel showing a graph of the differences between the
+    values of the expected and actual results.
   
-  * a description area below the graphs, describing the purpose and
-    features of the currently-selected test case
+  * A description area below the graphs, describing the purpose and
+    features of the currently-selected test case.
 
-  * a status area at the very bottom, with a progress bar and other
-    information about the current state of the SBML Test Runner
+  * A status area at the very bottom, with a progress bar and other
+    information about the current state of the SBML Test Runner.
 
 After you start the runner, initially there will not be any test cases
 selected or graphs shown.  If you click on the triangle-shaped "Run"
@@ -302,16 +316,16 @@ licenses:
 * Icons8 icons for iOS -- http://icons8.com
   Creative Commons Attribution-NoDerivs 3.0 Unported
 
-. Simple Widget Toolkit (SWT) -- http://www.eclipse.org/swt/
+* Simple Widget Toolkit (SWT) -- http://www.eclipse.org/swt/
   Eclipse Public License v1.0
 
-. Simple XML Framework -- http://simple.sourceforge.net
+* Simple XML Framework -- http://simple.sourceforge.net
   Apache License 2.0
 
-. Opal Widgets -- http://code.google.com/a/eclipselabs.org/p/opal/
+* Opal Widgets -- http://code.google.com/a/eclipselabs.org/p/opal/
   Eclipse Public License v1.0   
   
-. SWTChart -- http://www.swtchart.org
+* SWTChart -- http://www.swtchart.org
   Eclipse Public License v1.0      
 
 
