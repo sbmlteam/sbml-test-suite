@@ -734,14 +734,32 @@ public class MainWindow
     }
 
 
-    private void syncFiles()
+    private void syncSelectedFiles()
+    {
+        syncFiles(tree.getSelection());
+    }
+
+
+    private void syncFiles(TreeItem[] selection)
     {
         WrapperConfig wrapper = model.getLastWrapper();
         if (wrapper == null)
             return;
-        wrapper.beginUpdate(model.getSuite(), currentLV);
-        addTreeItems();
-        clearFilters();
+        if (selection == null)          // Sync all.
+        {
+            wrapper.beginUpdate(model.getSuite(), currentLV);
+            addTreeItems();
+            clearFilters();
+        }
+        else                            // Sync selected.
+        {
+            for (TreeItem item : selection)
+            {
+                TestCase testCase = model.getSuite().get(item.getText());
+                ResultType result = wrapper.getResultType(testCase, currentLV);
+                updateCaseResult(item, result);
+            }
+        }
     }
 
 
@@ -1139,10 +1157,10 @@ public class MainWindow
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                syncFiles();
+                syncFiles(null);
             }
         });
-        menuItemRefreshResults.setText("Refresh Test Results\tCtrl+G");
+        menuItemRefreshResults.setText("Refresh All Test Results\tCtrl+G");
         menuItemRefreshResults.setAccelerator(SWT.MOD1 + 'G');
 
         new MenuItem(menuFileMenuItems, SWT.SEPARATOR);
@@ -1414,6 +1432,16 @@ public class MainWindow
         menuItemRunAllNew.setText("Run All New Tests");
 
         new MenuItem(menu_3, SWT.SEPARATOR);
+
+        MenuItem menuItemRefreshSelectedResults = new MenuItem(menu_3, SWT.NONE);
+        menuItemRefreshSelectedResults.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                syncSelectedFiles();
+            }
+        });
+        menuItemRefreshSelectedResults.setText("Refresh Selected Result(s)");
 
         MenuItem menuItemDeleteSelectedResults = new MenuItem(menu_3, SWT.NONE);
         menuItemDeleteSelectedResults.addSelectionListener(new SelectionAdapter() {
@@ -1701,7 +1729,7 @@ public class MainWindow
                     ignoreDoubleClicks = true;
                     getDisplay().timerExec(doubleClickTime, doubleTimer);
                 }
-                syncFiles();
+                syncFiles(null);
             }
         });
 
@@ -1778,6 +1806,16 @@ public class MainWindow
 
         new MenuItem(treeContextMenu, SWT.SEPARATOR);
 
+        MenuItem menuItemRefreshTest = new MenuItem(treeContextMenu, SWT.PUSH);
+        menuItemRefreshTest.addSelectionListener(new SelectionAdapter() {
+                @Override
+                public void widgetSelected(SelectionEvent arg0)
+                {
+                    syncFiles(tree.getSelection());
+                }
+            });
+        menuItemRefreshTest.setText("Refresh Result(s) from File");
+
         menuItemRunTest = new MenuItem(treeContextMenu, SWT.PUSH);
         menuItemRunTest.addSelectionListener(new SelectionAdapter() {
                 @Override
@@ -1793,7 +1831,7 @@ public class MainWindow
                     reRunTests(tree.getSelection());
                 }
             });
-        menuItemRunTest.setText("Rerun Test");
+        menuItemRunTest.setText("Rerun Test(s)");
 
         /*
         new MenuItem(treeContextMenu, SWT.SEPARATOR);
@@ -1821,7 +1859,7 @@ public class MainWindow
                     deleteSelectedResults(tree.getSelection());
                 }
             });
-        menuItemDeleteSelected.setText("Delete Selected Result(s)");
+        menuItemDeleteSelected.setText("Delete Result(s)");
 
         tree.setMenu(treeContextMenu);
     }
