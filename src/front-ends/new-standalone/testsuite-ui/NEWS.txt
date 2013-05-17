@@ -1,0 +1,15 @@
+SBML Test Suite Test Runner NEWS  -- History of user-visible changes
+
+====================================================================
+Version 3.0.0beta1 (2013-05-17)
+====================================================================
+
+* This is the initial public release of the completely rewritten,
+  third generation of the SBML Test Runner.
+
+* This is a beta test release, and while it is believed to function
+  correctly, it is likely that problems will be discovered in
+  different user environments.  PLEASE REPORT ANY PROBLEMS to
+  sbml-team@caltech.edu.
+
+* Released 17 May 2013.
