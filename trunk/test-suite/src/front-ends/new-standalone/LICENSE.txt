@@ -1,3 +1,4 @@
+
        Licensing and Distribution Terms for the SBML Test Suite
 
 Copyright (C) 2010-2013 jointly by the following organizations:
@@ -61,6 +62,6 @@ license files are gathered in the subdirectory 3rd-party-licenses/.
    [checked 2013-04-12]
    Eclipse Public License v1.0      
 
-5. Glyphicons Free -- http://glyphicons.com
-   [checked 2013-04-12]   
-   Creative Commons 3.0
+5. Icons8 icons for iOS -- http://icons8.com
+   [checked 2013-05-12]
+   Creative Commons Attribution-NoDerivs 3.0 Unported
