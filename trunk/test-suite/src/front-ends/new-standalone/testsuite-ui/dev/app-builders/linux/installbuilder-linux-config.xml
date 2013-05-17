@@ -104,8 +104,8 @@
                         <distributionFile origin="${basedir}/../LICENSE.txt"/>
                         <distributionFile origin="${basedir}/../COPYING.txt"/>
                         <distributionFile origin="${basedir}/../COPYING.html"/>
-                        <distributionFile origin="${basedir}/../README.txt"/>
-                        <distributionFile origin="${basedir}/../NEWS.txt"/>
+                        <distributionFile origin="${basedir}/README.txt"/>
+                        <distributionFile origin="${basedir}/NEWS.txt"/>
                     </distributionFileList>
                     <shortcutList>
                         <shortcut>
