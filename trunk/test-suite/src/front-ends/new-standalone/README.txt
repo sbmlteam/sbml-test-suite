@@ -28,14 +28,6 @@
 INTRODUCTION
 ======================================================================
 
-This directory contains standalone applications and libraries for
-running applications through the SBML Test Suite.  There are different
-subdirectories for different components and runners.  The most popular
-is the graphical user interface (GUI) in "testsuite-ui".
-
-To build the GUI version of the SBML Test Runner, please visit the
-file README.txt in the "testsuite-ui" subdirectory.
-
 The SBML Test Suite is a conformance testing system for SBML. It
 allows developers and users to test the degree and correctness of SBML
 support provided in an SBML-compatible software package.  The SBML
@@ -43,6 +35,14 @@ Test Suite consists of (1) a collection of SBML models, each with
 associated simulated results where appropriate; (2) a testing
 framework for running software tools through the suite; and (3) basic
 documentation on the test cases and the use of the suite.
+
+This directory contains standalone applications and libraries for
+running applications through the SBML Test Suite.  There are different
+subdirectories for different components and runners.  The most popular
+is the graphical user interface (GUI) in "testsuite-ui".
+
+To build the GUI version of the SBML Test Runner, please visit the
+file README.txt in the "testsuite-ui" subdirectory.
 
 
 REPORTING BUGS AND OTHER PROBLEMS
@@ -75,6 +75,14 @@ application previously written by Frank T. Bergmann in .NET:
 
            http://sourceforge.net/projects/compare-results/
 
+
+THIRD-PARTY SOFTWARE LICENSES
+======================================================================
+
+This software uses libraries and other materials from third-party
+sources.  All are licensed for free use and redistribution under
+open-source terms.  Please see the file LICENSE.txt for more
+information.
 
 
 
