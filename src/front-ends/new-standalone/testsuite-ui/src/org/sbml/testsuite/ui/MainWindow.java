@@ -2237,6 +2237,8 @@ public class MainWindow
 
     protected void filterShowOnlyProblematic()
     {
+        final int[] count = new int[1];
+        count[0] = 0;
         addTreeItems(new FilterFunction() {
                 @Override
                 public boolean filter(TestCase test, ResultType result)
@@ -2253,12 +2255,13 @@ public class MainWindow
                     case Unknown:        // No result returned by tool.
                     case Error:          // Encountered error while trying to run wrapper.
                     default:
+                        count[0]++;
                         return true;
                     }
                 }
             });
-        notificationBanner.setText("Filtering is in effect: "
-                                   + "showing cases with problematic results");
+        notificationBanner.setText("Filtering is in effect: showing " + count[0]
+                                   + " cases with problematic results");
         notificationBanner.show(true);
         clearPlots();
         resetMap();
@@ -2267,6 +2270,8 @@ public class MainWindow
 
     protected void filterShowOnlyReallyProblematic()
     {
+        final int[] count = new int[1];
+        count[0] = 0;
         addTreeItems(new FilterFunction() {
                 @Override
                 public boolean filter(TestCase test, ResultType result)
@@ -2283,12 +2288,13 @@ public class MainWindow
                     case Unknown:        // No result returned by tool.
                     case Error:          // Encountered error while trying to run wrapper.
                     default:
+                        count[0]++;
                         return true;
                     }
                 }
             });
-        notificationBanner.setText("Filtering is in effect: "
-                                   + "showing cases with really problematic results");
+        notificationBanner.setText("Filtering is in effect: showing " + count[0]
+                                   + " cases with really problematic results");
         notificationBanner.show(true);
         clearPlots();
         resetMap();
@@ -2297,6 +2303,8 @@ public class MainWindow
 
     protected void filterShowOnlySupported()
     {
+        final int[] count = new int[1];
+        count[0] = 0;
         addTreeItems(new FilterFunction() {
                 @Override
                 public boolean filter(TestCase test, ResultType result)
@@ -2313,12 +2321,13 @@ public class MainWindow
                     case Unknown:        // No result returned by tool.
                     case Error:          // Encountered error while trying to run wrapper.
                     default:
+                        count[0]++;
                         return true;
                     }
                 }
             });
-        notificationBanner.setText("Filtering is in effect: "
-                                   + "showing only supported cases");
+        notificationBanner.setText("Filtering is in effect: showing only"
+                                   + " supported cases (" + count[0] + " in total)");
         notificationBanner.show(true);
         clearPlots();
         resetMap();
