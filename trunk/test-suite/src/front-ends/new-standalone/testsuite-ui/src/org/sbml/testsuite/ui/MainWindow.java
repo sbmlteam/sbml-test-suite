@@ -700,10 +700,9 @@ public class MainWindow
         final WrapperConfig newWrapper
             = model.getSettings().getWrapper(wrapperName);
 
-        if (! newWrapper.canRun())
+        if (newWrapper == null || ! newWrapper.canRun())
         {
             informUserBadWrapper(newWrapper);
-            return;
         }
 
         BusyIndicator.showWhile(getDisplay(), new Runnable() {
@@ -715,7 +714,8 @@ public class MainWindow
 
                 model.getSettings().setLastWrapper(newWrapper);
                 model.getSettings().setLastLevelVersion(currentLV);
-                newWrapper.beginUpdate(model.getSuite(), currentLV);
+                if (newWrapper != null)
+                    newWrapper.beginUpdate(model.getSuite(), currentLV);
                 clearFilters();
                 deselectAll();
                 if (tree.getItemCount() > 0)
@@ -2025,7 +2025,7 @@ public class MainWindow
             if (lastWrapperName != null && lastWrapperName.length() > 0)
                 model.getSettings().setLastWrapper(lastWrapperName);
             else
-                model.getSettings().setLastWrapper("-- no wrapper --");
+                model.getSettings().setLastWrapper(WrapperList.noWrapperName());
             result.saveAsDefault();
             if (running)
             {
@@ -2043,7 +2043,11 @@ public class MainWindow
             });
         }
         if (result == null && model.getLastWrapper() == null)
-            model.getSettings().setLastWrapper("-- no wrapper --");
+        {
+            model.getSettings().setLastWrapper(WrapperList.noWrapperName());
+            wrapperMenuListener.add(WrapperList.noWrapperName());
+            changeWrapper(WrapperList.noWrapperName());
+        }
         dialog.dispose();
     }
 
@@ -3433,8 +3437,11 @@ public class MainWindow
 
     private void informUserBadWrapper(WrapperConfig wrapper)
     {
-        if (wrapper == null) 
+        if (wrapper == null)
+        {
             Tell.inform(shell, "Empty wrapper selection");
+            return;
+        }
 
         if (! wrapper.canRun())
         {

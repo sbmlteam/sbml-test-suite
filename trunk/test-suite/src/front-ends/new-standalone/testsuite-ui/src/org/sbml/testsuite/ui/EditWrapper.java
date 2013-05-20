@@ -71,6 +71,7 @@ public class EditWrapper
 
     // Fields that we may need to enable/disable.
 
+    private final Label  lblName;
     private final Label  lblWrapper;
     private final Button cmdBrowseWrapper;
     private final Label  lblWrapperOutputDir;
@@ -181,7 +182,7 @@ public class EditWrapper
 
         Font labelFont = UIUtils.getDefaultLabelFont();
 
-        Label lblName = new Label(this, SWT.RIGHT);
+        lblName = new Label(this, SWT.RIGHT);
         lblName.setAlignment(SWT.RIGHT);
         FormData fd_lblName = new FormData();
         fd_lblName.right = new FormAttachment(0, 170);
@@ -479,6 +480,16 @@ public class EditWrapper
     {
         if (wrapperIsNoWrapper())
         {
+            lblName.setEnabled(false);
+            lblName.setForeground(inactiveTextColor);
+            txtName.setEnabled(false);
+            txtName.setForeground(inactiveTextColor);
+            btnWrapperAnyLV.setEnabled(false);
+            btnWrapperThreadsOK.setEnabled(false);
+            lblWrapper.setEnabled(false);
+            lblWrapper.setForeground(inactiveTextColor);
+            cmdBrowseWrapper.setEnabled(false);
+            lblWrapperOutputDir.setEnabled(false);
             btnWrapperViewOnly.setEnabled(false);
             lblUnsupportedTags.setEnabled(false);
             lblUnsupportedTags.setForeground(inactiveTextColor);
@@ -488,10 +499,21 @@ public class EditWrapper
             lblWrapperOutputDir.setForeground(inactiveTextColor);
             txtWrapperOutputDir.setEnabled(false);
             cmdBrowseOutputDir.setEnabled(false);
+            lblWrapperArguments.setEnabled(false);
+            lblWrapperArguments.setForeground(inactiveTextColor);
         }
         else
         {
+            lblName.setEnabled(true);
+            lblName.setForeground(inactiveTextColor);
+            txtName.setEnabled(true);
+            txtName.setForeground(normalTextColor);
+            btnWrapperAnyLV.setEnabled(true);
+            btnWrapperThreadsOK.setEnabled(true);
             btnWrapperViewOnly.setEnabled(true);
+            lblWrapper.setEnabled(true);
+            lblWrapper.setForeground(normalTextColor);
+            cmdBrowseWrapper.setEnabled(true);
             lblUnsupportedTags.setEnabled(true);
             lblUnsupportedTags.setForeground(normalTextColor);
             txtUnsupportedTags.setEnabled(true);
@@ -500,6 +522,8 @@ public class EditWrapper
             lblWrapperOutputDir.setForeground(normalTextColor);
             txtWrapperOutputDir.setEnabled(true);
             cmdBrowseOutputDir.setEnabled(true);
+            lblWrapperArguments.setEnabled(true);
+            lblWrapperArguments.setForeground(normalTextColor);
         }
     }
 
