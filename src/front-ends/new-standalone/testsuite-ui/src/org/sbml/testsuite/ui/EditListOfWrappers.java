@@ -146,7 +146,7 @@ public class EditListOfWrappers
                 int index = wrapperList.getSelectionIndex();
                 String name = wrapperList.getItem(index);
                 
-                if (name.equals(wrapperList.noWrapperName()))
+                if (name.equals(WrapperList.noWrapperName()))
                 {
                     Tell.inform(shell, "This special pseudo-wrapper is meant "
                                 + "to be\npermanently available and cannot be "
@@ -206,8 +206,17 @@ public class EditListOfWrappers
     {
         // Make sure to copy the list, not just point to it.
         wrapperList.setItems(new Vector<WrapperConfig>(newWrappers));
-        wrapperList.select(lastWrapper);
-        wrapperForm.loadFrom(wrapperList.getWrapper(lastWrapper));
+        if (lastWrapper == null || lastWrapper.isEmpty())
+        {
+            String noWrapperName = WrapperList.noWrapperName();
+            wrapperForm.loadFrom(new WrapperConfig(noWrapperName));
+            wrapperList.select(noWrapperName);
+        }
+        else
+        {
+            wrapperForm.loadFrom(wrapperList.getWrapper(lastWrapper));
+            wrapperList.select(lastWrapper);
+        }
         lastWrapperDefinition = wrapperList.getWrapper(lastWrapper);
     }
 
@@ -235,7 +244,7 @@ public class EditListOfWrappers
     {
         if (wrapperList.getItemCount() == 1) return; // It's --no wrapper--.
         WrapperConfig config = wrapperForm.toConfig();
-        if ("-- no wrapper --".equals(config.getName())) return;
+        if (WrapperList.noWrapperName().equals(config.getName())) return;
         wrapperList.remove(wrapperForm.getInitialName());
         wrapperList.add(config);
         lastWrapperDefinition = config;
