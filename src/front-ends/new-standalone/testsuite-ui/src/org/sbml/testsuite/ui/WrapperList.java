@@ -48,7 +48,7 @@ import org.sbml.testsuite.core.WrapperConfig;
 public class WrapperList
     extends List
 {
-    private final String NO_WRAPPER = "-- no wrapper --";
+    private final static String NO_WRAPPER = "-- no wrapper --";
     private HashMap<String, WrapperConfig> wrappers;
 
 
@@ -164,7 +164,7 @@ public class WrapperList
      */
     public void select(String name)
     {
-        if (name == null) return;
+        if (name == null || name.isEmpty()) return;
         int index = indexOf(name);
         select(index);
         setSelection(index);
@@ -227,7 +227,7 @@ public class WrapperList
     }
 
 
-    public String noWrapperName()
+    public static String noWrapperName()
     {
         return NO_WRAPPER;
     }
