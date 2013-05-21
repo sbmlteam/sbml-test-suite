@@ -488,6 +488,7 @@ public class EditWrapper
             btnWrapperThreadsOK.setEnabled(false);
             lblWrapper.setEnabled(false);
             lblWrapper.setForeground(inactiveTextColor);
+            txtWrapper.setEnabled(false);
             cmdBrowseWrapper.setEnabled(false);
             lblWrapperOutputDir.setEnabled(false);
             btnWrapperViewOnly.setEnabled(false);
@@ -501,6 +502,7 @@ public class EditWrapper
             cmdBrowseOutputDir.setEnabled(false);
             lblWrapperArguments.setEnabled(false);
             lblWrapperArguments.setForeground(inactiveTextColor);
+            txtWrapperArgs.setEnabled(false);
         }
         else
         {
@@ -513,6 +515,7 @@ public class EditWrapper
             btnWrapperViewOnly.setEnabled(true);
             lblWrapper.setEnabled(true);
             lblWrapper.setForeground(normalTextColor);
+            txtWrapper.setEnabled(true);
             cmdBrowseWrapper.setEnabled(true);
             lblUnsupportedTags.setEnabled(true);
             lblUnsupportedTags.setForeground(normalTextColor);
@@ -524,6 +527,7 @@ public class EditWrapper
             cmdBrowseOutputDir.setEnabled(true);
             lblWrapperArguments.setEnabled(true);
             lblWrapperArguments.setForeground(normalTextColor);
+            txtWrapperArgs.setEnabled(true);
         }
     }
 
