@@ -1178,18 +1178,21 @@ public class MainWindow
         menuItemOpen.setText("Open Cases Archive\tCtrl+O");
         menuItemOpen.setAccelerator(SWT.MOD1 + 'O');
 
-        if (!UIUtils.isMacOSX())
-        {
-            MenuItem menuItemPrefs = new MenuItem(menuFileMenuItems, SWT.NONE);
-            menuItemPrefs.addSelectionListener(new SelectionAdapter() {
-                    @Override
-                    public void widgetSelected(SelectionEvent arg0)
-                    {
-                        editPreferences();
-                    }
-                });
-            menuItemPrefs.setText("Properties\tCtrl+,");
+        MenuItem menuItemPrefs = new MenuItem(menuFileMenuItems, SWT.NONE);
+        menuItemPrefs.addSelectionListener(new SelectionAdapter() {
+                @Override
+                public void widgetSelected(SelectionEvent arg0)
+                {
+                    editPreferences();
+                }
+            });
+        if (UIUtils.isMacOSX())
+            menuItemPrefs.setText("Edit Wrappers");
+        else
+            menuItemPrefs.setText("Options/Wrappers\tCtrl+,");
 
+        if (UIUtils.isMacOSX())
+        {
             new MenuItem(menuFileMenuItems, SWT.SEPARATOR);
 
             MenuItem menuItemQuit = new MenuItem(menuFileMenuItems, SWT.NONE);
@@ -1459,31 +1462,64 @@ public class MainWindow
         Menu menu_4 = new Menu(menuItemhelp);
         menuItemhelp.setMenu(menu_4);
 
-        MenuItem menuItemAbout = new MenuItem(menu_4, SWT.NONE);
-        menuItemAbout.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent arg0)
-            {
-                showAbout();
-            }
-        });
-        menuItemAbout.setText("About");
+        // The help menus on Windows seem to put "About" after "Help".
 
-        MenuItem menuItemHelp = new MenuItem(menu_4, SWT.NONE);
-        menuItemHelp.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent arg0)
-            {
-                delayedUpdate(new Runnable() {
-                    public void run()
+        if (UIUtils.isMacOSX())
+        {
+            MenuItem menuItemAbout = new MenuItem(menu_4, SWT.NONE);
+            menuItemAbout.addSelectionListener(new SelectionAdapter() {
+                    @Override
+                    public void widgetSelected(SelectionEvent arg0)
                     {
-                        showHelp();
+                        showAbout();
                     }
                 });
-            }
-        });
-        menuItemHelp.setText("Help");
-        menuItemHelp.setAccelerator(SWT.MOD1 + '?');
+            menuItemAbout.setText("About SBML Test Runner");
+
+            MenuItem menuItemHelp = new MenuItem(menu_4, SWT.NONE);
+            menuItemHelp.addSelectionListener(new SelectionAdapter() {
+                    @Override
+                    public void widgetSelected(SelectionEvent arg0)
+                    {
+                        delayedUpdate(new Runnable() {
+                                public void run()
+                                {
+                                    showHelp();
+                                }
+                            });
+                    }
+                });
+            menuItemHelp.setText("Help");
+            menuItemHelp.setAccelerator(SWT.MOD1 + '?');
+        }
+        else
+        {
+            MenuItem menuItemHelp = new MenuItem(menu_4, SWT.NONE);
+            menuItemHelp.addSelectionListener(new SelectionAdapter() {
+                    @Override
+                    public void widgetSelected(SelectionEvent arg0)
+                    {
+                        delayedUpdate(new Runnable() {
+                                public void run()
+                                {
+                                    showHelp();
+                                }
+                            });
+                    }
+                });
+            menuItemHelp.setText("Help");
+            menuItemHelp.setAccelerator(SWT.MOD1 + '?');
+
+            MenuItem menuItemAbout = new MenuItem(menu_4, SWT.NONE);
+            menuItemAbout.addSelectionListener(new SelectionAdapter() {
+                    @Override
+                    public void widgetSelected(SelectionEvent arg0)
+                    {
+                        showAbout();
+                    }
+                });
+            menuItemAbout.setText("About SBML Test Runner");
+        }
 
         if (UIUtils.isMacOSX()) macify(getDisplay());
     }
