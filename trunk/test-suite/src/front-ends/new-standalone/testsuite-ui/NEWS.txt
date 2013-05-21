@@ -1,6 +1,20 @@
 SBML Test Suite Test Runner NEWS  -- History of user-visible changes
 
 ====================================================================
+Version 3.0.0beta2 (2013-05-21)
+====================================================================
+
+Changes to the SBML Test Runner:
+
+* Upon a first-time start-up, the preferences/wrapper definition panel
+  left the wrapper fields editable even if the user did not click on
+  "Add".  This made was a confusing situation.  It now properly
+  disables the fields.
+
+* Released 21 May 2013.
+
+
+====================================================================
 Version 3.0.0beta1 (2013-05-17)
 ====================================================================
 
