@@ -586,7 +586,6 @@
   <!-- Targets for Windows. -->
 
   <target name="dist-win" depends="init">
-    <antcall target="build-detectjvm"/>
     <antcall target="app-win"/>
     <taskdef name="nsis" classname="com.danielreese.nsisant.Task">
       <classpath location="dev/app-builders/windows/nsisant-1.3.jar"/>
@@ -599,22 +598,6 @@
       <define name="DIST_DIR" value="${dist.dir}"/>
       <scriptcmd cmd="AutoCloseWindow true"/>
     </nsis>
-  </target>
-
-  <target name="build-detectjvm" depends="init">
-    <javac debug="true" debuglevel="${debuglevel}" destdir="dev/app-builders/windows"
-           source="${java.source}" target="${java.target}" includeantruntime="no">
-      <src path="dev/app-builders/windows" />
-      <compilerarg value="-Xlint:unchecked"/>
-    </javac>
-    <jar destfile="${dist.dir}/DetectJVM.jar">
-      <manifest>
-        <attribute name="Main-Class" value="DetectJVM"/>
-        <attribute name="Built-Timestamp" value="${timestamp}" />
-        <attribute name="Built-By" value="${user.name}" />
-      </manifest>
-      <fileset dir="dev/app-builders/windows" includes="*.class" />
-    </jar>
   </target>
 
 
