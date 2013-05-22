@@ -49,6 +49,7 @@ import java.util.jar.JarEntry;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.Enumeration;
+import java.util.prefs.Preferences;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.custom.SashForm;
@@ -373,12 +374,15 @@ public class MainWindow
     private Font                      chartTickFont;
     private Font                      chartLegendFont;
 
+    private Preferences               userPreferences;
+
 
     /**
      * Default constructor
      */
     public MainWindow()
     {
+        userPreferences = Preferences.userNodeForPackage(MainWindow.class);
         Display.setAppName("SBML Test Runner");
         display = new Display();
         uiThread = Thread.currentThread();
@@ -2157,7 +2161,17 @@ public class MainWindow
         model.getSettings().saveAsDefault();
 
         if (shell != null && ! shell.isDisposed())
+        {
+            Point location = shell.getLocation();
+            userPreferences.putInt("MainWindow.x", location.x);
+            userPreferences.putInt("MainWindow.y", location.y);
+
+            Point size = shell.getSize();
+            userPreferences.putInt("MainWindow.size-x", size.x);
+            userPreferences.putInt("MainWindow.size-y", size.y);
+
             shell.dispose();
+        }
     }
 
 
@@ -2503,21 +2517,32 @@ public class MainWindow
      */
     public void open()
     {
-        Monitor primary = getDisplay().getPrimaryMonitor();
-        Rectangle bounds = primary.getBounds();
-        Rectangle rect = shell.getBounds();
-
-        int x = bounds.x + (bounds.width - rect.width) / 2;
-        int y = bounds.y + (bounds.height - rect.height) / 2;
-
-        shell.setLocation(x, y);
-              
         toolBar.pack();
         toolBar.layout();
         toolBar.redraw();
 
         shell.pack();
         shell.layout();
+
+        int x = userPreferences.getInt("MainWindow.size-x", SWT.DEFAULT);
+        int y = userPreferences.getInt("MainWindow.size-y", SWT.DEFAULT);
+        if (x != SWT.DEFAULT || y != SWT.DEFAULT)
+            shell.setSize(x, y);
+
+        x = userPreferences.getInt("MainWindow.x", SWT.DEFAULT);
+        y = userPreferences.getInt("MainWindow.y", SWT.DEFAULT);
+        if (x != SWT.DEFAULT || y != SWT.DEFAULT)
+            shell.setLocation(new Point(x, y));
+        else                            // Fall-back.
+        {
+            Monitor primary = getDisplay().getPrimaryMonitor();
+            Rectangle bounds = primary.getBounds();
+            Rectangle rect = shell.getBounds();
+            x = bounds.x + (bounds.width - rect.width) / 2;
+            y = bounds.y + (bounds.height - rect.height) / 2;
+            shell.setLocation(x, y);
+        }
+
         shell.open();
 
         loadModel();
