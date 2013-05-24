@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.jar.JarFile;
+import java.util.prefs.Preferences;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -45,6 +46,7 @@ import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -52,6 +54,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -448,6 +451,49 @@ public class UIUtils
     public static boolean isShift(Event e)
     {
         return (e.stateMask & SWT.SHIFT) == SWT.SHIFT;
+    }
+
+
+    public static void saveWindow(Shell shell, Preferences prefs, Object obj)
+    {
+        if (prefs == null) return;
+
+        String name = obj.getClass().getName();
+
+        Point size = shell.getSize();
+        prefs.putInt(name + ".width", size.x);
+        prefs.putInt(name + ".height", size.y);
+
+        Point location = shell.getLocation();
+        prefs.putInt(name + ".x", location.x);
+        prefs.putInt(name + ".y", location.y);
+    }
+
+
+    public static void restoreWindow(Shell shell, Preferences prefs, Object obj)
+    {
+        if (prefs == null) return;
+
+        String name = obj.getClass().getName();
+
+        int x = prefs.getInt(name + ".width", SWT.DEFAULT);
+        int y = prefs.getInt(name + ".height", SWT.DEFAULT);
+        if (x != SWT.DEFAULT || y != SWT.DEFAULT)
+            shell.setSize(x, y);
+
+        x = prefs.getInt(name + ".x", SWT.DEFAULT);
+        y = prefs.getInt(name + ".y", SWT.DEFAULT);
+        if (x != SWT.DEFAULT || y != SWT.DEFAULT)
+            shell.setLocation(new Point(x, y));
+        else                            // Fall-back.
+        {
+            Monitor primary = shell.getDisplay().getPrimaryMonitor();
+            Rectangle bounds = primary.getBounds();
+            Rectangle rect = shell.getBounds();
+            x = bounds.x + (bounds.width - rect.width) / 2;
+            y = bounds.y + (bounds.height - rect.height) / 2;
+            shell.setLocation(x, y);
+        }
     }
 
 
