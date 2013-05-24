@@ -1195,7 +1195,7 @@ public class MainWindow
         else
             menuItemPrefs.setText("Options/Wrappers\tCtrl+,");
 
-        if (UIUtils.isMacOSX())
+        if (! UIUtils.isMacOSX())
         {
             new MenuItem(menuFileMenuItems, SWT.SEPARATOR);
 
