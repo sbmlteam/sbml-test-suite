@@ -35,11 +35,20 @@ package org.sbml.testsuite.core;
  */
 public enum ResultType
 {
-    Match,          // Tool's results match expected results for case.
-    NoMatch,        // Tool's results don't match expected results for case.
-    CannotSolve,    // Tool does not support one or more tags of the case.
-    Unsupported,    // Tool does not support one or more tags of the case.
-    Unknown,        // No result returned by tool.
-    Unavailable,    // Case is not available as requested (e.g. no such L/V).
-    Error           // Encountered error while trying to run wrapper.
+    Match       ("Output matches expected results"),
+    NoMatch     ("Output does not match expected results"),
+    CannotSolve ("Output ignored because tool does not support relevant tag(s)"),
+    Unsupported ("No output obtained because tool does not support relevant tag(s)"),
+    Unknown     ("No output obtained"),
+    Unavailable ("Test case is not available for this SBML Level+Version combination"),
+    Error       ("Error occurred during wrapper invocation");
+
+    private final String description;
+
+    ResultType(String description)
+    {
+        this.description = description;
+    }
+
+    public String getDescription() { return description; }
 }
