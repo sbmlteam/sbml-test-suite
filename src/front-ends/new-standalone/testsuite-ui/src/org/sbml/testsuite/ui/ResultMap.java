@@ -181,7 +181,7 @@ public class ResultMap
                 @Override
                 public void handleEvent(Event event)
                 {
-                    event.doit = false; // Don't dispose this.
+                    close();
                 }
             });
 
