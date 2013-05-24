@@ -346,7 +346,7 @@ public class MainWindow
     private LVSelectionMenuListener   lvSelectionMenuListener;
 
     private Tree                      tree;
-    private ResultMap                 dlgMap;
+    private ResultMap                 resultMap;
     private FormData                  fd_sashForm;
 
     private LevelVersion              currentLV = new LevelVersion(0, 0);
@@ -666,7 +666,8 @@ public class MainWindow
     {
         item.setData(ITEM_RESULT, result);
         item.setImage(ResultColor.getImageForResultType(result));
-        if (dlgMap != null) dlgMap.updateCase(item.getText(), result);
+        if (resultMap != null)
+            resultMap.updateCase(item.getText(), result);
     }
 
 
@@ -3237,16 +3238,16 @@ public class MainWindow
 
     protected void showMap()
     {
-        if (dlgMap != null)
+        if (resultMap != null)
         {
-            dlgMap.raise();             // It already exists, so just raise it.
+            resultMap.raise();             // It already exists, so just raise it.
             return;
         }
 
-        dlgMap = new ResultMap(shell, model.getSuite(), model.getLastWrapper(),
-                               userPreferences);
-        dlgMap.setData(treeToSortedMap(tree));
-        dlgMap.setReRunAction(new ActionListener() {
+        resultMap = new ResultMap(shell, model.getSuite(),
+                                  model.getLastWrapper(), userPreferences);
+        resultMap.setData(treeToSortedMap(tree));
+        resultMap.setReRunAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -3256,7 +3257,7 @@ public class MainWindow
             }
         });
 
-        dlgMap.setSingleClickAction(new ActionListener() {
+        resultMap.setSingleClickAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -3269,14 +3270,14 @@ public class MainWindow
                 updatePlotsForSelection(item);
             }
         });
-        dlgMap.open();
+        resultMap.open();
     }
 
 
     protected void resetMap()
     {
-        if (dlgMap == null) return;
-        dlgMap.setData(treeToSortedMap(tree));
+        if (resultMap == null) return;
+        resultMap.setData(treeToSortedMap(tree));
     }
 
 
