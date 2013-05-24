@@ -36,6 +36,8 @@ import java.util.SortedMap;
 import java.util.prefs.Preferences;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseAdapter;
@@ -56,6 +58,7 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -72,23 +75,22 @@ import org.sbml.testsuite.core.WrapperConfig;
  */
 public class ResultMap
 {
-    protected Object                 result;
-    protected Shell                  shell;
+    private Shell                    shell;
     private Canvas                   canvas;
     private SortedMap<String, Color> data;
-    private String[]                 keySets;
-    int                              length = 11;
-    int                              gap    = 2;
+    private String[]                 caseNames;
     private int                      itemsPerLine;
-    TestSuite                        suite;
-    WrapperConfig                    wrapper;
+    private TestSuite                suite;
+    private WrapperConfig            wrapper;
     private String                   lastName;
     private Preferences              userPreferences;
 
     private ActionListener           singleClickAction;
     private ActionListener           reRunAction;
 
-    final static int                 dialogStyle 
+    private final static int         squareWidth = 11;
+    private final static int         squareGap = 2;
+    private final static int         dialogStyle 
         = SWT.DIALOG_TRIM | SWT.TOOL | SWT.RESIZE | SWT.MODELESS;
 
 
@@ -149,7 +151,7 @@ public class ResultMap
     private void createContents()
     {
         final String defaultHelpMsg = "Hover the pointer over a square for "
-            + "more information, left-click to jump to that result in the\n"
+            + "more information, left-click to jump to that result in the "
             + "main window, and right-click for more options.";
 
         shell = new Shell(dialogStyle);
@@ -221,50 +223,93 @@ public class ResultMap
         fd_canvas.top = new FormAttachment(0, 10);
         fd_canvas.left = new FormAttachment(0, 10);
         fd_canvas.right = new FormAttachment(100, -10);
+
         canvas.setLayoutData(fd_canvas);
 
-        final CLabel message = new CLabel(shell, SWT.SHADOW_IN);
-        fd_canvas.bottom = new FormAttachment(message, -5);
-        message.setBounds(0, 0, 585, 34);
+        int offset = 20 - UIUtils.scaledFontSize(20);
 
-        final Font defaultFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -1);
+        Group messageGroup = new Group(shell, SWT.SHADOW_ETCHED_IN);
+        FormData fd_group = new FormData();
+        fd_group.left = new FormAttachment(0, 10);
+        fd_group.right = new FormAttachment(100, -10);
+        fd_group.bottom = new FormAttachment(100, -45 + offset);
+        fd_group.top = new FormAttachment(100, -93);
+        messageGroup.setLayoutData(fd_group);
+
+        fd_canvas.bottom = new FormAttachment(messageGroup, -5);
+
+        final StyledText message = new StyledText(shell, SWT.WRAP);
+        FormData fd_message = new FormData();
+        fd_message.left = new FormAttachment(0, 20);
+        fd_message.right = new FormAttachment(100, -20);
+        fd_message.bottom = new FormAttachment(100, -50);
+        fd_message.top = new FormAttachment(100, -85 + offset);
+        message.setLayoutData(fd_message);
+        if (!UIUtils.isMacOSX()) message.moveAbove(messageGroup);
+        
+        final Font defaultFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, 0);
         final Font italicFont = UIUtils.createResizedFont("SansSerif", SWT.ITALIC, 0);
 
         message.setFont(italicFont);
         message.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));
-
-        FormData fd_message = new FormData();
-        fd_message.right = new FormAttachment(100, -12);
-        fd_message.bottom = new FormAttachment(100, -45);
-        fd_message.top = new FormAttachment(100, -85);
-        fd_message.left = new FormAttachment(0, 12);
-        // Note: .bottom is set after cmdClose is defined below.
-        message.setLayoutData(fd_message);
+        message.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
         message.setText(defaultHelpMsg);
+
+        final Color black = shell.getDisplay().getSystemColor(SWT.COLOR_BLACK);
+
+        final String nameLabel = "Case: ";
+        final String resultPrefix = "Result: \u2588 ";
+
+        final StyleRange nameLabelStyle = new StyleRange();
+        nameLabelStyle.start = 0;
+        nameLabelStyle.length = 4;
+        nameLabelStyle.fontStyle = SWT.BOLD;
+        nameLabelStyle.foreground = black;
+
+        final StyleRange nameStyle = new StyleRange();
+        nameStyle.start = 6;
+        nameStyle.length = 5;
+        nameStyle.foreground = black;
+
+        final StyleRange resultPrefixStyle = new StyleRange();
+        resultPrefixStyle.start = 12;
+        resultPrefixStyle.length = 6;
+        resultPrefixStyle.fontStyle = SWT.BOLD;
+        resultPrefixStyle.foreground = black;
+
+        final StyleRange colorSquareStyle = new StyleRange();
+        colorSquareStyle.start = 20;
+        colorSquareStyle.length = 1;
 
         canvas.addMouseMoveListener(new MouseMoveListener() {
             public void mouseMove(MouseEvent arg0)
             {
                 String name = getIdFromPoint(arg0);
-                if (name.length() > 0)
+                if (name != null)
                 {
                     if (suite != null)
-                    {
                         canvas.setToolTipText(suite.get(name).getToolTip());
-                    }
                     else
-                    {
                         canvas.setToolTipText(name);
-                    }
-                    message.setText("Case #" + name);
+
+                    Color color = data.get(name);
+                    ResultType result = ResultColor.getResultTypeForColor(color);
+                    String text = nameLabel + name + "\n"
+                         + resultPrefix + result.getDescription();
+
+                    colorSquareStyle.foreground = color;
+
+                    message.setText(text);
                     message.setFont(defaultFont);
-                    message.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
+                    message.setStyleRange(nameLabelStyle);
+                    message.setStyleRange(nameStyle);
+                    message.setStyleRange(resultPrefixStyle);
+                    message.setStyleRange(colorSquareStyle);
                 }
                 else
                 {
                     message.setText(defaultHelpMsg);
                     message.setFont(italicFont);
-                    message.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));
                 }
             }
         });
@@ -413,14 +458,12 @@ public class ResultMap
      */
     public String getIdFromPoint(int xpos, int ypos)
     {
-        String name = "";
-        int x = xpos / (length + gap);
-        int y = ypos / (length + gap);
+        String name = null;
+        int x = xpos / (squareWidth + squareGap);
+        int y = ypos / (squareWidth + squareGap);
         int index = y * itemsPerLine + x;
-        if (index < keySets.length && index >= 0) name = keySets[index];
-        // System.out.println("X: " + x + " Y: " + y + " index: " + index +
-        // " element: " + name );
-        if (name.length() > 0) lastName = name;
+        if (index < caseNames.length && index >= 0) name = caseNames[index];
+        if (name != null) lastName = name;
         return name;
     }
 
@@ -477,8 +520,11 @@ public class ResultMap
      */
     public TestCase getTestFromPoint(int xpos, int ypos)
     {
-        if (suite == null ) return null;
-        return suite.get(getIdFromPoint(xpos, ypos));
+        String caseName = getIdFromPoint(xpos, ypos);
+        if (suite != null && caseName != null)
+            return suite.get(caseName);
+        else
+            return null;
     }
 
 
@@ -497,8 +543,6 @@ public class ResultMap
 
     /**
      * Open the dialog.
-     * 
-     * @return the result
      */
     public void open()
     {
@@ -528,19 +572,19 @@ public class ResultMap
         if (gc == null) return;
 
         gc.setAntialias(SWT.ON);
-        if (keySets == null || keySets.length == 0)
+        if (caseNames == null || caseNames.length == 0)
         {
             gc.drawString("No Data ...", 10, 10);
             return;
         }
-        itemsPerLine = canvas.getBounds().width / (length + gap);
+        itemsPerLine = canvas.getBounds().width / (squareWidth + squareGap);
 
-        int x = gap;
-        int y = gap;
+        int x = squareGap;
+        int y = squareGap;
         int i = 0;
-        for (String key : keySets)
+        for (String caseName : caseNames)
         {
-            Color color = data.get(key);
+            Color color = data.get(caseName);
 
             /* For testing colors 
             if (i % 7 == 0)  color=ResultColor.blue.getColor();
@@ -553,14 +597,14 @@ public class ResultMap
             */
             
             gc.setBackground(color);
-            gc.fillRoundRectangle(x, y, length, length, 5, 5);
+            gc.fillRoundRectangle(x, y, squareWidth, squareWidth, 5, 5);
 
-            x += length + gap;
+            x += squareWidth + squareGap;
 
             if ((i + 1) % itemsPerLine == 0)
             {
-                x = gap;
-                y += length + gap;
+                x = squareGap;
+                y += squareWidth + squareGap;
             }
             i++;
         }
@@ -590,10 +634,10 @@ public class ResultMap
     {
         data = results;
         if (data != null && data.keySet().size() > 0)
-            keySets = data.keySet().toArray(new String[0]);
+            caseNames = data.keySet().toArray(new String[0]);
         else
-            keySets = new String[0];
-        Arrays.sort(keySets);
+            caseNames = new String[0];
+        Arrays.sort(caseNames);
         canvas.update();
     }
 
