@@ -223,24 +223,24 @@ public class ResultMap
         fd_canvas.right = new FormAttachment(100, -10);
         canvas.setLayoutData(fd_canvas);
 
-        final CLabel lblHelpMsg = new CLabel(shell, SWT.SHADOW_IN);
-        fd_canvas.bottom = new FormAttachment(lblHelpMsg, -5);
-        lblHelpMsg.setBounds(0, 0, 585, 34);
+        final CLabel message = new CLabel(shell, SWT.SHADOW_IN);
+        fd_canvas.bottom = new FormAttachment(message, -5);
+        message.setBounds(0, 0, 585, 34);
 
         final Font defaultFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -1);
         final Font italicFont = UIUtils.createResizedFont("SansSerif", SWT.ITALIC, 0);
 
-        lblHelpMsg.setFont(italicFont);
-        lblHelpMsg.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));
+        message.setFont(italicFont);
+        message.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));
 
-        FormData fd_lblHelpMsg = new FormData();
-        fd_lblHelpMsg.right = new FormAttachment(100, -12);
-        fd_lblHelpMsg.bottom = new FormAttachment(100, -45);
-        fd_lblHelpMsg.top = new FormAttachment(100, -85);
-        fd_lblHelpMsg.left = new FormAttachment(0, 12);
+        FormData fd_message = new FormData();
+        fd_message.right = new FormAttachment(100, -12);
+        fd_message.bottom = new FormAttachment(100, -45);
+        fd_message.top = new FormAttachment(100, -85);
+        fd_message.left = new FormAttachment(0, 12);
         // Note: .bottom is set after cmdClose is defined below.
-        lblHelpMsg.setLayoutData(fd_lblHelpMsg);
-        lblHelpMsg.setText(defaultHelpMsg);
+        message.setLayoutData(fd_message);
+        message.setText(defaultHelpMsg);
 
         canvas.addMouseMoveListener(new MouseMoveListener() {
             public void mouseMove(MouseEvent arg0)
@@ -256,15 +256,15 @@ public class ResultMap
                     {
                         canvas.setToolTipText(name);
                     }
-                    lblHelpMsg.setText("Case #" + name);
-                    lblHelpMsg.setFont(defaultFont);
-                    lblHelpMsg.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
+                    message.setText("Case #" + name);
+                    message.setFont(defaultFont);
+                    message.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
                 }
                 else
                 {
-                    lblHelpMsg.setText(defaultHelpMsg);
-                    lblHelpMsg.setFont(italicFont);
-                    lblHelpMsg.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));
+                    message.setText(defaultHelpMsg);
+                    message.setFont(italicFont);
+                    message.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));
                 }
             }
         });
