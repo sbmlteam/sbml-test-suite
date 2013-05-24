@@ -47,8 +47,8 @@ public enum ResultColor
     red    ( "red",    240,  30,  20, ResultType.NoMatch),
     yellow ( "yellow", 252, 175,  55, ResultType.CannotSolve),
     blue   ( "blue",   100, 130, 200, ResultType.Unsupported),
-    white  ( "white",  255, 255, 255, ResultType.Unavailable),
     gray   ( "gray",   195, 195, 195, ResultType.Unknown),
+    white  ( "white",  255, 255, 255, ResultType.Unavailable),
     black  ( "black",  30,   30,  30, ResultType.Error);
     
     private final String name;
@@ -107,6 +107,14 @@ public enum ResultColor
         for (ResultColor c : ResultColor.values())
             if (c.resultType == type)
                 return c.getColor();
+        return null;
+    }
+
+    public static ResultType getResultTypeForColor(Color color)
+    {
+        for (ResultColor c : ResultColor.values())
+            if (c.color == color)
+                return c.getResultType();
         return null;
     }
 
