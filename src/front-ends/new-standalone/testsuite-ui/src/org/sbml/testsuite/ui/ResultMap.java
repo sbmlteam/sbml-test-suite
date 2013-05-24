@@ -33,6 +33,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.SortedMap;
+import java.util.prefs.Preferences;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.KeyEvent;
@@ -82,6 +83,7 @@ public class ResultMap
     TestSuite                        suite;
     WrapperConfig                    wrapper;
     private String                   lastName;
+    private Preferences              userPreferences;
 
     private ActionListener           singleClickAction;
     private ActionListener           reRunAction;
@@ -91,20 +93,21 @@ public class ResultMap
 
 
     /**
-     * Create the dialog.
+     * Basic constructor.
      * 
      * @param parent
      * @param style
      */
-    public ResultMap(Shell parent, int style)
+    public ResultMap(Shell parent, int style, Preferences prefs)
     {
+        this.userPreferences = prefs;
         createContents();
         shell.setText("Map of test results");
     }
 
 
     /**
-     * Craetes a new dialog with test suite and selected wrapper
+     * Constructor that uses the test suite and selected wrapper
      * 
      * @param parent
      * @param suite
@@ -112,9 +115,10 @@ public class ResultMap
      * @param wrapper
      *            selected wrapper configuration
      */
-    public ResultMap(Shell parent, TestSuite suite, WrapperConfig wrapper)
+    public ResultMap(Shell parent, TestSuite suite, WrapperConfig wrapper,
+                     Preferences prefs)
     {
-        this(parent, dialogStyle);
+        this(parent, dialogStyle, prefs);
         this.wrapper = wrapper;
         this.suite = suite;
         shell.setText("Map of test results for wrapper \""
@@ -499,6 +503,7 @@ public class ResultMap
     public void open()
     {
         if (shell == null) return;
+        UIUtils.restoreWindow(shell, userPreferences, this);
         shell.open();
     }
 
@@ -507,6 +512,7 @@ public class ResultMap
     {
         if (shell != null && !shell.isDisposed())
             shell.setVisible(false);
+        UIUtils.saveWindow(shell, userPreferences, this);
     }
 
 
@@ -591,7 +597,7 @@ public class ResultMap
         canvas.update();
     }
 
-
+    
     /**
      * Sets the location of the dialog
      * 

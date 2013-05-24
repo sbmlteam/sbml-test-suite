@@ -2155,21 +2155,13 @@ public class MainWindow
     private void quit()
     {
         running = false;
-        if (executor == null) return;
-        executor.shutdownNow();
-
-        model.getSettings().saveAsDefault();
-
+        if (executor != null)
+            executor.shutdownNow();
+        if (model != null && model.getSettings() != null)
+            model.getSettings().saveAsDefault();
         if (shell != null && ! shell.isDisposed())
         {
-            Point location = shell.getLocation();
-            userPreferences.putInt("MainWindow.x", location.x);
-            userPreferences.putInt("MainWindow.y", location.y);
-
-            Point size = shell.getSize();
-            userPreferences.putInt("MainWindow.size-x", size.x);
-            userPreferences.putInt("MainWindow.size-y", size.y);
-
+            UIUtils.saveWindow(shell, userPreferences, this);
             shell.dispose();
         }
     }
@@ -2523,26 +2515,7 @@ public class MainWindow
 
         shell.pack();
         shell.layout();
-
-        int x = userPreferences.getInt("MainWindow.size-x", SWT.DEFAULT);
-        int y = userPreferences.getInt("MainWindow.size-y", SWT.DEFAULT);
-        if (x != SWT.DEFAULT || y != SWT.DEFAULT)
-            shell.setSize(x, y);
-
-        x = userPreferences.getInt("MainWindow.x", SWT.DEFAULT);
-        y = userPreferences.getInt("MainWindow.y", SWT.DEFAULT);
-        if (x != SWT.DEFAULT || y != SWT.DEFAULT)
-            shell.setLocation(new Point(x, y));
-        else                            // Fall-back.
-        {
-            Monitor primary = getDisplay().getPrimaryMonitor();
-            Rectangle bounds = primary.getBounds();
-            Rectangle rect = shell.getBounds();
-            x = bounds.x + (bounds.width - rect.width) / 2;
-            y = bounds.y + (bounds.height - rect.height) / 2;
-            shell.setLocation(x, y);
-        }
-
+        UIUtils.restoreWindow(shell, userPreferences, this);
         shell.open();
 
         loadModel();
@@ -3270,8 +3243,8 @@ public class MainWindow
             return;
         }
 
-        dlgMap = new ResultMap(shell, model.getSuite(), model.getLastWrapper());
-        dlgMap.center(shell.getBounds());
+        dlgMap = new ResultMap(shell, model.getSuite(), model.getLastWrapper(),
+                               userPreferences);
         dlgMap.setData(treeToSortedMap(tree));
         dlgMap.setReRunAction(new ActionListener() {
             @Override
