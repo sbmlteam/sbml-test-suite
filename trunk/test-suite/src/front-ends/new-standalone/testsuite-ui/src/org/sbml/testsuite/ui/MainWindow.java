@@ -328,6 +328,8 @@ public class MainWindow
     private MenuItem                  menuItemShowOnlyProblematic;
     private MenuItem                  menuItemShowOnlyReally;
     private MenuItem                  menuItemShowOnlySupported;
+    private MenuItem                  menuItemRefreshSelectedResults;
+    private MenuItem                  menuItemDeleteSelectedResults;
     private MenuItem                  menuItemRunTest;
     private MenuItem                  menuItemtest;
 
@@ -736,6 +738,24 @@ public class MainWindow
         });
 
         updateStatuses();
+        if (wrapperIsNoWrapper(newWrapper))
+        {
+            menuItemShowOnlyProblematic.setEnabled(false);
+            menuItemShowOnlyReally.setEnabled(false);
+            menuItemShowOnlySupported.setEnabled(false);
+            menuItemRefreshResults.setEnabled(false);
+            menuItemRefreshSelectedResults.setEnabled(false);
+            menuItemDeleteSelectedResults.setEnabled(false);
+        }
+        else
+        {
+            menuItemShowOnlyProblematic.setEnabled(true);
+            menuItemShowOnlyReally.setEnabled(true);
+            menuItemShowOnlySupported.setEnabled(true);
+            menuItemRefreshResults.setEnabled(true);
+            menuItemRefreshSelectedResults.setEnabled(true);
+            menuItemDeleteSelectedResults.setEnabled(true);
+        }
     }
 
 
@@ -1303,6 +1323,7 @@ public class MainWindow
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
+                WrapperConfig wrapper = model.getLastWrapper();
                 if (menuItemShowOnlyProblematic.getSelection())
                 {
                     menuItemShowOnlyReally.setSelection(false);
@@ -1363,6 +1384,8 @@ public class MainWindow
         Menu menu_3 = new Menu(menuItemtest);
         menuItemtest.setMenu(menu_3);
 
+        /* TODO: Remove when implemented
+
         MenuItem menuItemEditTestCase = new MenuItem(menu_3, SWT.NONE);
         menuItemEditTestCase.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1372,10 +1395,11 @@ public class MainWindow
             }
         });
         menuItemEditTestCase.setText("Edit Test case");
-        // TODO: Remove when implemented
         menuItemEditTestCase.setEnabled(false);
 
         new MenuItem(menu_3, SWT.SEPARATOR);
+
+        */
 
         menuItemRunSelected = new MenuItem(menu_3, SWT.NONE);
         menuItemRunSelected.addSelectionListener(new SelectionAdapter() {
@@ -1441,7 +1465,7 @@ public class MainWindow
 
         new MenuItem(menu_3, SWT.SEPARATOR);
 
-        MenuItem menuItemRefreshSelectedResults = new MenuItem(menu_3, SWT.NONE);
+        menuItemRefreshSelectedResults = new MenuItem(menu_3, SWT.NONE);
         menuItemRefreshSelectedResults.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1451,7 +1475,7 @@ public class MainWindow
         });
         menuItemRefreshSelectedResults.setText("Refresh Selected Result(s)");
 
-        MenuItem menuItemDeleteSelectedResults = new MenuItem(menu_3, SWT.NONE);
+        menuItemDeleteSelectedResults = new MenuItem(menu_3, SWT.NONE);
         menuItemDeleteSelectedResults.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -3031,7 +3055,8 @@ public class MainWindow
         Vector<TreeItem> items = new Vector<TreeItem>();
         for (TreeItem item : tree.getItems())
         {
-            if (item.getData(ITEM_RESULT) != ResultType.CannotSolve)
+            if (item.getData(ITEM_RESULT) != ResultType.CannotSolve
+                && item.getData(ITEM_RESULT) != ResultType.Unsupported)
                 items.add(item);
         }
         TreeItem[] itemsArray = items.toArray(new TreeItem[0]);
