@@ -633,7 +633,7 @@ public class WrapperConfig
         // The wrapper produced a result.  
 
         if (test.matches(getUnsupportedTags()))
-            return ResultType.CannotSolve; // We ignore them anyway.
+            return ResultType.CannotSolve;     // We ignore it anyway.
 
         ResultSet expectedResult = test.getExpectedResult();
         CompareResultSet set = new CompareResultSet(expectedResult,
@@ -855,7 +855,9 @@ public class WrapperConfig
                 while (isRunning(process))
                 {
                     if (callback != null && callback.cancellationRequested())
-                        return new RunOutcome(RunOutcome.Code.interrupted, cmd);
+                        return outcomeWithInfo(RunOutcome.Code.interrupted,
+                                               "Interrupted",
+                                               cmd, outputEater, errorEater);
                     Thread.sleep(milli);
                 }
             }
@@ -883,35 +885,35 @@ public class WrapperConfig
         {
             addErrorToCache(test);
             return outcomeWithInfo(RunOutcome.Code.ioError, 
-                                   "IO exception running command",
+                                   "IO exception occurred when running the wrapper",
                                    cmd, outputEater, errorEater);
         }
         catch (SecurityException ex)
         {
             addErrorToCache(test);
             return outcomeWithInfo(RunOutcome.Code.securityError,
-                                   "Security exception running command",
+                                   "Security exception occurred when attempting to run the wrapper",
                                    cmd, outputEater, errorEater);
         }
         catch (IllegalArgumentException ex)
         {
             addErrorToCache(test);
             return outcomeWithInfo(RunOutcome.Code.argumentError,
-                                   "Badly formed command line",
+                                   "Badly formed wrapper command line",
                                    cmd, outputEater, errorEater);
         }
         catch (InterruptedException ex)
         {
             addErrorToCache(test);
             return outcomeWithInfo(RunOutcome.Code.interrupted,
-                                   "Process interrupted",
+                                   "The wrapper process was interrupted",
                                    cmd, outputEater, errorEater);
         }
         catch (Exception e)
         {
             addErrorToCache(test);
             return outcomeWithInfo(RunOutcome.Code.unknownError,
-                                   "Unexpected error running",
+                                   "An unexpected error upon running the wrapper",
                                    cmd, outputEater, errorEater);
         }
         finally
@@ -921,7 +923,9 @@ public class WrapperConfig
         }
 
         addResultToCache(test, level, version);
-        return new RunOutcome(RunOutcome.Code.success, cmd);
+        return outcomeWithInfo(RunOutcome.Code.success, 
+                               "Wrapper completed normally",
+                               cmd, outputEater, errorEater);
     }
 
 
@@ -938,9 +942,13 @@ public class WrapperConfig
             errorText = errorEater.getOutput();
 
         return new RunOutcome(code,
-                              msg + ": " + cmd + "\n"
-                              + "Standard output: " + outputText + "\n"
-                              + "Standard error: " + errorText);
+                              msg + ".\n"
+                              + "Command line executed:\n"
+                              + cmd + "\n"
+                              + "Output produced on standard output stream:\n"
+                              + outputText + "\n"
+                              + "Output produced on standard error stream:\n"
+                              + errorText);
     }
 
 
