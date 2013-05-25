@@ -308,6 +308,7 @@ public class MainWindow
 
     private final String              ITEM_RESULT = "RESULT";
     private final String              ITEM_RERUN  = "RERUN";
+    private final String              ITEM_OUTPUT = "OUTPUT";
 
     private Composite                 cmpDifferences;
     private Composite                 cmpGraphs;
@@ -332,6 +333,7 @@ public class MainWindow
     private MenuItem                  menuItemDeleteSelectedResults;
     private MenuItem                  menuItemRunTest;
     private MenuItem                  menuItemtest;
+    private MenuItem                  menuItemViewOutput;
 
     private MainModel                 model;
 
@@ -652,21 +654,27 @@ public class MainWindow
     {
         TreeItem item = new TreeItem(tree, SWT.NONE);
         item.setText(id);
-        updateCaseItem(item, result);
+        updateCaseItem(item, result, null);
         return item;
     }
 
 
-    private final void updateCaseItem(final TreeItem item, final ResultType result)
+    private final void updateCaseItem(final TreeItem item,
+                                      final ResultType result,
+                                      final String output)
     {
         item.setData(ITEM_RERUN, false);
-        updateCaseResult(item, result);
+        updateCaseResult(item, result, output);
     }
 
 
-    private final void updateCaseResult(final TreeItem item, final ResultType result)
+    private final void updateCaseResult(final TreeItem item,
+                                        final ResultType result,
+                                        final String output)
     {
         item.setData(ITEM_RESULT, result);
+        if (output != null)
+            item.setData(ITEM_OUTPUT, output);
         item.setImage(ResultColor.getImageForResultType(result));
         if (resultMap != null)
             resultMap.updateCase(item.getText(), result);
@@ -756,6 +764,11 @@ public class MainWindow
             menuItemRefreshSelectedResults.setEnabled(true);
             menuItemDeleteSelectedResults.setEnabled(true);
         }
+
+        if (wrapperIsViewOnly(newWrapper))
+            menuItemViewOutput.setEnabled(false);
+        else
+            menuItemViewOutput.setEnabled(true);
     }
 
 
@@ -782,7 +795,7 @@ public class MainWindow
             {
                 TestCase testCase = model.getSuite().get(item.getText());
                 ResultType result = wrapper.getResultType(testCase, currentLV);
-                updateCaseResult(item, result);
+                updateCaseResult(item, result, null);
             }
         }
     }
@@ -1821,6 +1834,19 @@ public class MainWindow
     private void createContextualMenuForTree(final Tree tree)
     {
         Menu treeContextMenu = new Menu(tree.getShell());
+
+        menuItemViewOutput = new MenuItem(treeContextMenu, SWT.PUSH);
+        menuItemViewOutput.addSelectionListener(new SelectionAdapter() {
+                @Override
+                public void widgetSelected(SelectionEvent arg0)
+                {
+                    viewProcessOutput(tree.getSelection());
+                }
+            });
+        menuItemViewOutput.setText("View wrapper output");
+
+        new MenuItem(treeContextMenu, SWT.SEPARATOR);
+
         MenuItem menuItemOpenOriginalSBML = new MenuItem(treeContextMenu, SWT.PUSH);
         menuItemOpenOriginalSBML.addSelectionListener(new SelectionAdapter() {
                 @Override
@@ -1830,6 +1856,7 @@ public class MainWindow
                 }
             });
         menuItemOpenOriginalSBML.setText("Open Original SBML File");
+
         MenuItem menuItemOpenSimulatorResults = new MenuItem(treeContextMenu, SWT.PUSH);
         menuItemOpenSimulatorResults.addSelectionListener(new SelectionAdapter() {
                 @Override
@@ -1840,6 +1867,7 @@ public class MainWindow
 
             });
         menuItemOpenSimulatorResults.setText("Open Simulator Result File");
+
         MenuItem menuItemOpenExpectedResults = new MenuItem(treeContextMenu, SWT.PUSH);
         menuItemOpenExpectedResults.addSelectionListener(new SelectionAdapter() {
                 @Override
@@ -1849,6 +1877,7 @@ public class MainWindow
                 }
             });
         menuItemOpenExpectedResults.setText("Open Expected Result File");
+
         MenuItem menuItemOpenDescription = new MenuItem(treeContextMenu, SWT.PUSH);
         menuItemOpenDescription.addSelectionListener(new SelectionAdapter() {
                 @Override
@@ -1858,6 +1887,7 @@ public class MainWindow
                 }
             });
         menuItemOpenDescription.setText("Open Test Description");
+
         MenuItem menuItemOpenTestDir = new MenuItem(treeContextMenu, SWT.PUSH);
         menuItemOpenTestDir.addSelectionListener(new SelectionAdapter() {
                 @Override
@@ -2054,7 +2084,7 @@ public class MainWindow
 
     private void invalidateSelectedResult(TreeItem item)
     {
-        updateCaseResult(item, ResultType.Unknown);
+        updateCaseResult(item, ResultType.Unknown, null);
         markForRerun(item);
     }
 
@@ -2659,8 +2689,29 @@ public class MainWindow
     }
 
 
+    private boolean confirmManySelected(TreeItem[] selection)
+    {
+        return Tell.confirm(shell, selection.length + " items selected, which "
+                            + "will result in " + selection.length
+                            + " windows being opened. Proceed anyway?");
+    }
+
+
+    private void viewProcessOutput(TreeItem[] selection)
+    {
+        if (selection.length > 5 && !confirmManySelected(selection))
+            return;
+        
+        for (TreeItem item : selection)
+            showProcessOutput(item);
+    }
+
+
     protected void openExpectedResult(TreeItem[] selection)
     {
+        if (selection.length > 5 && !confirmManySelected(selection))
+            return;
+
         for (TreeItem item : selection)
         {
             TestCase test = model.getSuite().get(item.getText());
@@ -2671,6 +2722,9 @@ public class MainWindow
 
     protected void openOriginalSBML(TreeItem[] selection)
     {
+        if (selection.length > 5 && !confirmManySelected(selection))
+            return;
+
         for (TreeItem item : selection)
         {
             TestCase test = model.getSuite().get(item.getText());
@@ -2681,6 +2735,9 @@ public class MainWindow
 
     protected void openSimulatorResult(TreeItem[] selection)
     {
+        if (selection.length > 5 && !confirmManySelected(selection))
+            return;
+
         for (TreeItem item : selection)
         {
             TestCase test = model.getSuite().get(item.getText());
@@ -2692,6 +2749,9 @@ public class MainWindow
 
     protected void openTestDescription(TreeItem[] selection)
     {
+        if (selection.length > 5 && !confirmManySelected(selection))
+            return;
+
         for (TreeItem item : selection)
         {
             TestCase test = model.getSuite().get(item.getText());
@@ -2702,6 +2762,9 @@ public class MainWindow
 
     protected void openTestDirectory(TreeItem[] selection)
     {
+        if (selection.length > 5 && !confirmManySelected(selection))
+            return;
+
         for (TreeItem item : selection)
         {
             TestCase test = model.getSuite().get(item.getText());
@@ -2762,7 +2825,7 @@ public class MainWindow
         private String path;
         private WrapperConfig wrapper;
         private Display display;
-        private RunOutcome runOutcome;
+        private RunOutcome outcome;
         private LevelVersion levelVersion;
 
         QueuedTestRunner(TestCase theCase, LevelVersion lv, TreeItem item,
@@ -2773,7 +2836,7 @@ public class MainWindow
             this.path = path;
             this.wrapper = wrapper;
             this.display = display;
-            this.runOutcome = null;
+            this.outcome = null;
             this.levelVersion = lv;
         }
 
@@ -2788,7 +2851,7 @@ public class MainWindow
 
             // This next call does synchronous execution of the wrapper.
 
-            runOutcome = wrapper.run(testCase, levelVersion, path, 250,
+            outcome = wrapper.run(testCase, levelVersion, path, 250,
                 new CancelCallback() {
                     public boolean cancellationRequested()
                     {
@@ -2804,7 +2867,7 @@ public class MainWindow
                 {
                     if (currentItem.isDisposed()) return;
 
-                    updateCaseItem(currentItem, resultType);
+                    updateCaseItem(currentItem, resultType, outcome.getMessage());
                     progressSection.incrementDoneCount();
 
                     // If this is the item currently being displayed, update
@@ -2883,24 +2946,25 @@ public class MainWindow
         // failures and try to report them all.  Solution: run the first one
         // separately and watch for errors, then go on and run the rest.
 
-        RunOutcome runOutcome = null;
+        RunOutcome outcome = null;
         TreeItem testItem = null;
         if (selectionIndex < selection.length)
         {
             testItem = selection[selectionIndex];
             TestCase testCase = model.getSuite().get(testItem.getText());
             progressSection.setStatus(RunStatus.Running);
-            runOutcome = wrapper.run(testCase, currentLV.getLevel(),
-                                     currentLV.getVersion(), absolutePath, null);
-            updateCaseItem(testItem, wrapper.getResultType(testCase, currentLV));
+            outcome = wrapper.run(testCase, currentLV.getLevel(),
+                                  currentLV.getVersion(), absolutePath, null);
+            updateCaseItem(testItem,
+                           wrapper.getResultType(testCase, currentLV),
+                           outcome.getMessage());
             progressSection.incrementDoneCount();
             selectionIndex++;
         }
 
-        if (runOutcome == null
-            || runOutcome.getCode() != RunOutcome.Code.success)
+        if (outcome == null || outcome.getCode() != RunOutcome.Code.success)
         {
-            if (runOutcome == null)
+            if (outcome == null)
                 Tell.error(shell, "Encountered a problem while attempting to"
                            + "\nrun the wrapper. Execution stopped.",
                            "Please check the wrapper and its configuration.");
@@ -2908,7 +2972,7 @@ public class MainWindow
                 Tell.error(shell, "Encountered a problem while attempting to"
                            + "\nrun the wrapper. Execution stopped. Please"
                            + "\ncheck the wrapper and its configuration.",
-                           runOutcome.getMessage());
+                           outcome.getMessage());
             markAsRunning(false);
             // Clear this result.
             selectionIndex--;
@@ -3392,7 +3456,7 @@ public class MainWindow
         {
             WrapperConfig wrapper = model.getLastWrapper();
             ResultType result = wrapper.getResultType(test, level, version);
-            updateCaseItem(treeItem, result);
+            updateCaseItem(treeItem, result, null);
 
             ResultSet actual = wrapper.getResultSet(test);
             if (actual != null && ! actual.hasInfinityOrNaN())
@@ -3634,5 +3698,15 @@ public class MainWindow
                     display.timerExec(100, runnable);
                 }
             });
+    }
+
+
+    private void showProcessOutput(TreeItem item)
+    {
+        OutputViewer viewer = new OutputViewer(shell,
+                                           "Output for case " + item.getText(),
+                                           (String) item.getData(ITEM_OUTPUT));
+        viewer.center(shell.getBounds());
+        viewer.open();
     }
 }
