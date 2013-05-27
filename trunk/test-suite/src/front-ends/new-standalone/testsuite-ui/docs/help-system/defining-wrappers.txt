@@ -29,8 +29,8 @@ Each wrapper configuration has the following fields:
 3. the path to a directory where the Runner will find the application's
    output from running each test case
 
-4. a list of component or test tags that the application is known to be
-   unable to understand
+4. a list of packages and/or component or test tags that the application
+   is known to be unable to understand
 
 5. command-line arguments that should be passed to the wrapper
 
