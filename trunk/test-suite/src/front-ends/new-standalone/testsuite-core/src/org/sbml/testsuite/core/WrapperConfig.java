@@ -839,7 +839,7 @@ public class WrapperConfig
         // something will block the wrapper from writing to it if we ran it.
 
         File expectedFile = getResultFile(test);
-        if (expectedFile != null
+        if (expectedFile != null && expectedFile.exists()
             && !expectedFile.renameTo(expectedFile)) // Fails if file is locked.
         {
             addErrorToCache(test);
