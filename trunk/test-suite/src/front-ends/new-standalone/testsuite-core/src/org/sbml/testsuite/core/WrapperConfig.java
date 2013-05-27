@@ -877,6 +877,16 @@ public class WrapperConfig
                 }
             }
 
+            // Did the process exit abnormally?
+
+            if (process.exitValue() != 0)
+            {
+                addErrorToCache(test);
+                return outcomeWithInfo(RunOutcome.Code.unknownError,
+                                       "The wrapper exited with an error",
+                                       cmd, outputEater, errorEater);
+            }
+
             // It is possible that after the process exits, its output file
             // may not instantly show up in the file system.  Unfortunately,
             // sometimes a wrapper never writes the file at all.  We don't
@@ -921,7 +931,7 @@ public class WrapperConfig
         {
             addErrorToCache(test);
             return outcomeWithInfo(RunOutcome.Code.interrupted,
-                                   "The wrapper process was interrupted",
+                                   "The wrapper process was interrupted unexpectedly",
                                    cmd, outputEater, errorEater);
         }
         catch (Exception e)
