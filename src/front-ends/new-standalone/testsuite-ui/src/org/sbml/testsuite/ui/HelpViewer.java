@@ -78,6 +78,8 @@ public class HelpViewer
         shell.setSize(750, 600);
         shell.setMinimumSize(400, 200);
 
+        shell.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
+
         Composite compTools = new Composite(shell, SWT.NONE);
         GridData data = new GridData(GridData.FILL_HORIZONTAL);
         compTools.setLayoutData(data);
