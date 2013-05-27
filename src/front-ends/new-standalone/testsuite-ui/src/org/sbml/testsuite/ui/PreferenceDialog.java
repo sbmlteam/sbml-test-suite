@@ -128,9 +128,11 @@ public class PreferenceDialog
         if (!UIUtils.isMacOSX()) lbl += " ";
         lblTestCasesDir.setText(lbl);
 
-        lblTestCasesDir.setToolTipText("The folder/directory where the SBML "
-                                       + "Test Suite case files are located "
-                                       + "on your computer.");
+        String toolTip =
+            "The folder/directory where the SBML Test Suite case files are "
+            + "located on your computer.";
+
+        lblTestCasesDir.setToolTipText(toolTip);
 
         txtCasesDir = new Text(outerComp, SWT.BORDER);
         txtCasesDir.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, 
@@ -166,6 +168,7 @@ public class PreferenceDialog
                 browseForCasesDir();
             }
         });
+        btnBrowseCasesDir.setToolTipText(toolTip);
         
         Label sep1 = new Label(outerComp, SWT.SEPARATOR | SWT.HORIZONTAL);
         GridData gd_sep1 = new GridData(SWT.FILL, SWT.CENTER, false, false, 5, 1);
