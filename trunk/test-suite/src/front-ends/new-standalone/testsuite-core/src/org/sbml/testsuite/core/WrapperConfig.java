@@ -958,7 +958,7 @@ public class WrapperConfig
 
         msg += ".";
         if (outputEater != null || errorEater != null)
-            msg += "Command line executed:\n"
+            msg += "\nCommand line executed:\n"
                 + cmd + "\n"
                 + "Output produced on standard output stream:\n"
                 + outputText + "\n"
