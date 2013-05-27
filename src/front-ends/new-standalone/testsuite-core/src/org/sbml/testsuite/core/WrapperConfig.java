@@ -834,11 +834,13 @@ public class WrapperConfig
             return new RunOutcome(RunOutcome.Code.success, cmd);
         }
 
-        // Test if the file is locked. Since we haven't run the wrapper yet,
-        // then if the file *is* locked now, something is blocking it.
+        // Test if the file exists and is locked. Since we haven't run the
+        // wrapper yet, then the file being locked at this point means
+        // something will block the wrapper from writing to it if we ran it.
 
         File expectedFile = getResultFile(test);
-        if (!expectedFile.renameTo(expectedFile)) // Fails if file is locked.
+        if (expectedFile != null
+            && !expectedFile.renameTo(expectedFile)) // Fails if file is locked.
         {
             addErrorToCache(test);
             return outcomeWithInfo(RunOutcome.Code.ioError, 
