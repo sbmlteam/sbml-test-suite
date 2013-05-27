@@ -716,9 +716,7 @@ public class MainWindow
             = model.getSettings().getWrapper(wrapperName);
 
         if (newWrapper == null || ! newWrapper.canRun())
-        {
             informUserBadWrapper(newWrapper);
-        }
 
         BusyIndicator.showWhile(getDisplay(), new Runnable() {
             public void run()
@@ -769,6 +767,9 @@ public class MainWindow
             menuItemViewOutput.setEnabled(false);
         else
             menuItemViewOutput.setEnabled(true);
+
+        if (resultMap != null)
+            resultMap.updateWrapper(newWrapper);
     }
 
 
@@ -1843,7 +1844,7 @@ public class MainWindow
                     viewProcessOutput(tree.getSelection());
                 }
             });
-        menuItemViewOutput.setText("View wrapper output");
+        menuItemViewOutput.setText("View Wrapper Process Output");
 
         new MenuItem(treeContextMenu, SWT.SEPARATOR);
 
@@ -1901,16 +1902,6 @@ public class MainWindow
 
         new MenuItem(treeContextMenu, SWT.SEPARATOR);
 
-        MenuItem menuItemRefreshTest = new MenuItem(treeContextMenu, SWT.PUSH);
-        menuItemRefreshTest.addSelectionListener(new SelectionAdapter() {
-                @Override
-                public void widgetSelected(SelectionEvent arg0)
-                {
-                    syncFiles(tree.getSelection());
-                }
-            });
-        menuItemRefreshTest.setText("Refresh Result(s) from File");
-
         menuItemRunTest = new MenuItem(treeContextMenu, SWT.PUSH);
         menuItemRunTest.addSelectionListener(new SelectionAdapter() {
                 @Override
@@ -1927,6 +1918,16 @@ public class MainWindow
                 }
             });
         menuItemRunTest.setText("Rerun Test(s)");
+
+        MenuItem menuItemRefreshTest = new MenuItem(treeContextMenu, SWT.PUSH);
+        menuItemRefreshTest.addSelectionListener(new SelectionAdapter() {
+                @Override
+                public void widgetSelected(SelectionEvent arg0)
+                {
+                    syncFiles(tree.getSelection());
+                }
+            });
+        menuItemRefreshTest.setText("Refresh Result(s) from File");
 
         /*
         new MenuItem(treeContextMenu, SWT.SEPARATOR);
@@ -2702,6 +2703,8 @@ public class MainWindow
         if (selection.length > 5 && !confirmManySelected(selection))
             return;
         
+
+
         for (TreeItem item : selection)
             showProcessOutput(item);
     }
@@ -3329,6 +3332,7 @@ public class MainWindow
     {
         if (resultMap != null)
         {
+            resultMap.updateWrapper(model.getLastWrapper());
             resultMap.raise();             // It already exists, so just raise it.
             return;
         }
@@ -3346,6 +3350,26 @@ public class MainWindow
             }
         });
 
+        resultMap.setRefreshFileAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                TreeItem item = getItem(e.getActionCommand());
+                if (item == null) return;
+                syncFiles(new TreeItem[] {item});
+            }
+        });
+
+        resultMap.setViewOutputAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                TreeItem item = getItem(e.getActionCommand());
+                if (item == null) return;
+                viewProcessOutput(new TreeItem[] {item});
+            }
+        });
+
         resultMap.setSingleClickAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -3359,6 +3383,7 @@ public class MainWindow
                 updatePlotsForSelection(item);
             }
         });
+
         resultMap.open();
     }
 
