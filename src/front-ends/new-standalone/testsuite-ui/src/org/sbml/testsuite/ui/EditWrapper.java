@@ -235,6 +235,8 @@ public class EditWrapper
         btnWrapperThreadsOK.setText("Wrapper can be run in parallel");
         btnWrapperThreadsOK.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
+        String wrapperToolTip = "Path to the wrapper script or program.";
+
         lblWrapper = new Label(this, SWT.RIGHT);
         lblWrapper.setAlignment(SWT.RIGHT);
         FormData fd_lblWrapper = new FormData();
@@ -243,7 +245,7 @@ public class EditWrapper
         lblWrapper.setFont(labelFont);
         lblWrapper.setLayoutData(fd_lblWrapper);
         lblWrapper.setText("Wrapper path:");
-        lblWrapper.setToolTipText("Path to the wrapper script or program.");
+        lblWrapper.setToolTipText(wrapperToolTip);
 
         txtWrapper = new Text(this, SWT.BORDER);
         FormData fd_txtWrapper = new FormData();
@@ -272,8 +274,11 @@ public class EditWrapper
                 browseForWrapper();
             }
         });
+        cmdBrowseWrapper.setToolTipText(wrapperToolTip);
         cmdBrowseWrapper.addKeyListener(UIUtils.createCloseKeyListener(shell));
         
+        String outputDirToolTip = "Directory on your system where files can be written.";
+
         lblWrapperOutputDir = new Label(this, SWT.RIGHT);
         lblWrapperOutputDir.setAlignment(SWT.RIGHT);
         FormData fd_lblWrapperOutputDir = new FormData();
@@ -282,8 +287,7 @@ public class EditWrapper
         lblWrapperOutputDir.setFont(labelFont);
         lblWrapperOutputDir.setLayoutData(fd_lblWrapperOutputDir);
         lblWrapperOutputDir.setText("Output directory:");
-        lblWrapperOutputDir.setToolTipText("Directory on your system where "
-                                           + "files can be written.");
+        lblWrapperOutputDir.setToolTipText(outputDirToolTip);
 
         txtWrapperOutputDir = new Text(this, SWT.BORDER);
         FormData fd_txtWrapperOutputDir = new FormData();
@@ -313,8 +317,14 @@ public class EditWrapper
                 browseForOutputDir();
             }
         });
+        cmdBrowseOutputDir.setToolTipText(outputDirToolTip);
         cmdBrowseOutputDir.addKeyListener(UIUtils.createCloseKeyListener(shell));
         
+        String unsupportedToolTip =
+            "List of SBML Test Suite packages and/or tags for tests that "
+            + "should be excluded. Use this if the application is known not "
+            + "to support certain SBML features or types of tests.";
+
         lblUnsupportedTags = new Label(this, SWT.RIGHT);
         lblUnsupportedTags.setAlignment(SWT.RIGHT);
         FormData fd_lblUnsupportedTags = new FormData();
@@ -323,10 +333,7 @@ public class EditWrapper
         lblUnsupportedTags.setFont(labelFont);
         lblUnsupportedTags.setLayoutData(fd_lblUnsupportedTags);
         lblUnsupportedTags.setText("Unsupported tags:");
-        lblUnsupportedTags.setToolTipText(
-            "List of SBML Test Suite tags for tests that should be excluded. "
-            + "Use this if the application is known not to support certain "
-            + "SBML features or types of tests.");
+        lblUnsupportedTags.setToolTipText(unsupportedToolTip);
 
         txtUnsupportedTags = new Text(this, SWT.BORDER);
         FormData fd_txtUnsupportedTags = new FormData();
@@ -355,6 +362,7 @@ public class EditWrapper
                 editUnsupportedTags();
             }
         });
+        cmdEditTags.setToolTipText(unsupportedToolTip);
         cmdEditTags.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
         lblWrapperArguments = new Label(this, SWT.RIGHT);
