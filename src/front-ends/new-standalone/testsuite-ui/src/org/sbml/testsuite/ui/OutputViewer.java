@@ -151,6 +151,7 @@ public class OutputViewer
                 shell.close();
             }
         });
+        cmdClose.setFocus();
         shell.setDefaultButton(cmdClose);
 
         shell.layout();
