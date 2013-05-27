@@ -87,6 +87,14 @@ public class ResultMap
 
     private ActionListener           singleClickAction;
     private ActionListener           reRunAction;
+    private ActionListener           refreshFileAction;
+    private ActionListener           viewOutputAction;
+
+    private MenuItem                 menuItemRerunTest;
+    private MenuItem                 menuItemRefreshResults;
+    private MenuItem                 menuItemOpenResultsFile;
+    private MenuItem                 menuItemDeleteResults;
+    private MenuItem                 menuItemViewOutput;
 
     private final static int         squareWidth = 11;
     private final static int         squareGap = 2;
@@ -328,6 +336,22 @@ public class ResultMap
         Menu menu = new Menu(canvas);
         canvas.setMenu(menu);
 
+        menuItemViewOutput = new MenuItem(menu, SWT.NONE);
+        menuItemViewOutput.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                if (reRunAction != null)
+                {
+                    viewOutputAction.actionPerformed(new ActionEvent(ResultMap.this,
+                                                                     1, lastName));
+                }
+            }
+        });
+        menuItemViewOutput.setText("View Wrapper Process Output");
+
+        new MenuItem(menu, SWT.SEPARATOR);
+
         MenuItem menuItem = new MenuItem(menu, SWT.NONE);
         menuItem.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -339,17 +363,16 @@ public class ResultMap
         });
         menuItem.setText("Open original SBML file");
 
-        MenuItem menuItem_1 = new MenuItem(menu, SWT.NONE);
-        menuItem_1.addSelectionListener(new SelectionAdapter() {
+        menuItemOpenResultsFile = new MenuItem(menu, SWT.NONE);
+        menuItemOpenResultsFile.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-
                 TestCase test = suite.get(lastName);
                 if (test != null) Util.openFile(wrapper.getResultFile(test));
             }
         });
-        menuItem_1.setText("Open simulator results file");
+        menuItemOpenResultsFile.setText("Open simulator results file");
 
         MenuItem menuItem_2 = new MenuItem(menu, SWT.NONE);
         menuItem_2.addSelectionListener(new SelectionAdapter() {
@@ -386,8 +409,8 @@ public class ResultMap
 
         new MenuItem(menu, SWT.SEPARATOR);
 
-        MenuItem menuItem_6 = new MenuItem(menu, SWT.NONE);
-        menuItem_6.addSelectionListener(new SelectionAdapter() {
+        menuItemRerunTest = new MenuItem(menu, SWT.NONE);
+        menuItemRerunTest.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
@@ -398,8 +421,23 @@ public class ResultMap
                 }
             }
         });
-        menuItem_6.setText("Rerun test");
+        menuItemRerunTest.setText("Rerun test");
 
+        menuItemRefreshResults = new MenuItem(menu, SWT.NONE);
+        menuItemRefreshResults.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                if (reRunAction != null)
+                {
+                    refreshFileAction.actionPerformed(new ActionEvent(ResultMap.this,
+                                                                      1, lastName));
+                }
+            }
+        });
+        menuItemRefreshResults.setText("Refresh Result(s) from File");
+
+        /*
         new MenuItem(menu, SWT.SEPARATOR);
 
         MenuItem menuItem_8 = new MenuItem(menu, SWT.NONE);
@@ -411,18 +449,19 @@ public class ResultMap
         });
         menuItem_8.setText("Save SED-ML");
         menuItem_8.setEnabled(false);
+        */
 
         new MenuItem(menu, SWT.SEPARATOR);
 
-        MenuItem menuItem_10 = new MenuItem(menu, SWT.NONE);
-        menuItem_10.addSelectionListener(new SelectionAdapter() {
+        menuItemDeleteResults = new MenuItem(menu, SWT.NONE);
+        menuItemDeleteResults.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
 
             }
         });
-        menuItem_10.setText("Delete selected result");
+        menuItemDeleteResults.setText("Delete selected result");
 
         FormData fd_cmdClose = new FormData();
         fd_cmdClose.width = 75;
@@ -500,6 +539,24 @@ public class ResultMap
 
 
     /**
+     * @return action listener for a single click
+     */
+    public ActionListener getRefreshFileAction()
+    {
+        return refreshFileAction;
+    }
+
+
+    /**
+     * @return action listener for a single click
+     */
+    public ActionListener getViewOutputAction()
+    {
+        return viewOutputAction;
+    }
+
+
+    /**
      * @return the size of the dialog
      */
     public Point getSize()
@@ -548,6 +605,7 @@ public class ResultMap
     {
         if (shell == null) return;
         UIUtils.restoreWindow(shell, userPreferences, this);
+        updateContextualMenu();
         shell.open();
     }
 
@@ -677,6 +735,55 @@ public class ResultMap
     public void setSingleClickAction(ActionListener singleClickAction)
     {
         this.singleClickAction = singleClickAction;
+    }
+
+
+    public void setRefreshFileAction(ActionListener action)
+    {
+        this.refreshFileAction = action;
+    }
+
+
+    public void setViewOutputAction(ActionListener action)
+    {
+        this.viewOutputAction = action;
+    }
+
+
+    public void updateWrapper(WrapperConfig wrapper)
+    {
+        if (wrapper == null) return;
+        this.wrapper = wrapper;
+        shell.setText("Map of test results for wrapper \""
+                      + wrapper.getName() + "\"");
+        updateContextualMenu();
+    }
+
+
+    private void updateContextualMenu()
+    {
+        if (wrapper == null) return;
+        if (wrapper.isViewOnly())
+        {
+            menuItemRerunTest.setEnabled(false);
+            menuItemViewOutput.setEnabled(false);
+        }
+        else if ("-- no wrapper --".equals(wrapper.getName()))
+        {
+            menuItemRerunTest.setEnabled(false);
+            menuItemRefreshResults.setEnabled(false);
+            menuItemOpenResultsFile.setEnabled(false);
+            menuItemDeleteResults.setEnabled(false);
+            menuItemViewOutput.setEnabled(false);
+        }
+        else
+        {
+            menuItemRerunTest.setEnabled(true);
+            menuItemRefreshResults.setEnabled(true);
+            menuItemOpenResultsFile.setEnabled(true);
+            menuItemDeleteResults.setEnabled(true);
+            menuItemViewOutput.setEnabled(true);
+        }
     }
 
 
