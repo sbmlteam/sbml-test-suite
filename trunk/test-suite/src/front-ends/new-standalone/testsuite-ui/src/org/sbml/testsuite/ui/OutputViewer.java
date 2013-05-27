@@ -83,10 +83,19 @@ public class OutputViewer
         comp.setLayoutData(fd_comp);
         FillLayout layout = new FillLayout();
         comp.setLayout(layout);
+        comp.addListener(SWT.KeyDown, new Listener() {
+                @Override
+                public void handleEvent(Event event) {
+                    // Need to ignore keyboard events here.  If you don't
+                    // block window-close sequences like command-w, the
+                    // widget will end up being disposed more than once,
+                    // resulting in an exception.
+                    event.doit = false;
+                }
+            });
 
         StyledText contents = new StyledText(comp, SWT.BORDER | SWT.WRAP);
         contents.setEditable(false);
-        contents.setEnabled(false);
         contents.setFont(UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -1));
 
         if (text == null)
