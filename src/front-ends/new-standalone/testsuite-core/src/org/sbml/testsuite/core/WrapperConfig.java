@@ -834,6 +834,19 @@ public class WrapperConfig
             return new RunOutcome(RunOutcome.Code.success, cmd);
         }
 
+        // Test if the file is locked. Since we haven't run the wrapper yet,
+        // then if the file *is* locked now, something is blocking it.
+
+        File expectedFile = getResultFile(test);
+        if (!expectedFile.renameTo(expectedFile)) // Fails if file is locked.
+        {
+            addErrorToCache(test);
+            return outcomeWithInfo(RunOutcome.Code.ioError, 
+                                   "Destination file " + expectedFile.getPath()
+                                   + " appears to be locked by another process",
+                                   cmd, null, null);
+        }
+
         // ProcessBuilder builder = new ProcessBuilder(getProgram(),
         // getExpandedArguments(test, testSuiteDir));
         Process process         = null;
@@ -870,7 +883,7 @@ public class WrapperConfig
             // show up.  We can't block waiting for it, so the following is a
             // compromise: we test for a time period and give up after ~1 sec.
 
-            File expectedFile = getResultFile(test);
+            expectedFile = getResultFile(test);
             if (expectedFile == null || ! expectedFile.exists())
             {
                 for (int count = 11; count > 0; count--)
@@ -941,14 +954,16 @@ public class WrapperConfig
         if (errorEater != null)
             errorText = errorEater.getOutput();
 
-        return new RunOutcome(code,
-                              msg + ".\n"
-                              + "Command line executed:\n"
-                              + cmd + "\n"
-                              + "Output produced on standard output stream:\n"
-                              + outputText + "\n"
-                              + "Output produced on standard error stream:\n"
-                              + errorText);
+        msg += ".";
+        if (outputEater != null || errorEater != null)
+            msg += "Command line executed:\n"
+                + cmd + "\n"
+                + "Output produced on standard output stream:\n"
+                + outputText + "\n"
+                + "Output produced on standard error stream:\n"
+                + errorText;
+
+        return new RunOutcome(code, msg);
     }
 
 
