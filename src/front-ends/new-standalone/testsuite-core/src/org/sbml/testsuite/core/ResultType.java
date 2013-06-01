@@ -41,7 +41,7 @@ public enum ResultType
     Unsupported ("No output obtained because tool does not support relevant tag(s)"),
     Unknown     ("No output obtained"),
     Unavailable ("Test case is not available for this SBML Level+Version combination"),
-    Error       ("Error occurred during wrapper invocation");
+    Error       ("Error occurred upon wrapper invocation or reading the results file");
 
     private final String description;
 
