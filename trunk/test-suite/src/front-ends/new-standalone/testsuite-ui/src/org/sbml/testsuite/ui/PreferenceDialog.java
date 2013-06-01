@@ -37,6 +37,8 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
@@ -63,18 +65,21 @@ import org.eclipse.swt.widgets.Control;
 public class PreferenceDialog
     extends Dialog
 {
-    protected Shell             shell;
-    private TestSuiteSettings   result;
-    private TestSuiteSettings   previousResult;
-    private Text                txtCasesDir;
-    private String              origCasesDir;
-    private EditListOfWrappers  wrappersEditor;
-
+    protected Shell            shell;
+    private TestSuiteSettings  result;
+    private TestSuiteSettings  previousResult;
+    private EditListOfWrappers wrappersEditor;
+    private Text               txtCasesDir;
+    private String             origCasesDir;
+    private Button             btnDeleteFiles;
+    private Button             btnOverrideNumThreads;
+    private Text               txtNumThreads;
+    private int                previousNumThreads;
     /** Tracks whether user has already indicated whether to save changes.
         The default is true because we check for changes and ask for
         confirmation *unless* the user clicked on Save or Cancel explicitly.
     */
-    private boolean             needConfirmSave = true;
+    private boolean            needConfirmSave = true;
 
 
     /**
@@ -87,6 +92,8 @@ public class PreferenceDialog
     {
         super(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
         setText("SBML Test Suite Preferences");
+        previousNumThreads = UIUtils.getIntPref("numThreads",
+                                                TaskExecutor.defaultNumThreads(), this);
         createContents();
     }
 
@@ -96,11 +103,11 @@ public class PreferenceDialog
      */
     private void createContents()
     {
-        int height = (UIUtils.isLinux() ? 560 : 530);
+        int height = (UIUtils.isLinux() ? 600 : 570);
 
         shell = new Shell(getParent(), getStyle());
         shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
-        shell.setMinimumSize(new Point(640, 410));
+        shell.setMinimumSize(new Point(640, 450));
         shell.setSize(770, height);
         shell.setText("Preferences");
         GridLayout gl_shell = new GridLayout(1, true);
@@ -188,9 +195,83 @@ public class PreferenceDialog
 
         Label sep2 = new Label(outerComp, SWT.SEPARATOR | SWT.HORIZONTAL);
         GridData gd_sep2 = new GridData(SWT.FILL, SWT.CENTER, false, false, 5, 1);
-        gd_sep2.verticalIndent = 0;
+        gd_sep2.verticalIndent = 5;
         gd_sep2.horizontalIndent = 0;
         sep2.setLayoutData(gd_sep2);
+
+        btnDeleteFiles = new Button(outerComp, SWT.CHECK);
+        GridData gd_btnDeleteFiles = new GridData(SWT.LEFT, SWT.CENTER, false,
+                                                  false, 5, 1);
+        gd_btnDeleteFiles.verticalIndent = 5;
+        btnDeleteFiles.setLayoutData(gd_btnDeleteFiles);
+        btnDeleteFiles.setText("Delete existing output files before "
+                               + "each invocation of a wrapper "
+                               + "(normally preferrable)");
+        btnDeleteFiles.setToolTipText(
+            "When turned on, this makes the SBML Test Runner delete each "
+            + "output result file prior to invoking the wrapper for a "
+            + "given test case.");
+        btnDeleteFiles.setSelection(UIUtils.getBooleanPref("deleteFiles", true, this));
+        btnDeleteFiles.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent event)
+            {
+                UIUtils.saveBooleanPref("deleteFiles",
+                                        btnDeleteFiles.getSelection(), this);
+            }
+        });
+
+        Composite compThreads = new Composite(outerComp, SWT.NONE);
+        GridData gd = new GridData(SWT.LEFT, SWT.CENTER, true, false, 5, 1);
+        compThreads.setLayoutData(gd);
+        GridLayout gl_compThreads = new GridLayout(2, false);
+        gl_compThreads.marginWidth = 0;
+        gl_compThreads.marginTop = 0;
+        gl_compThreads.marginRight = 0;
+        gl_compThreads.marginHeight = 0;
+        gl_compThreads.horizontalSpacing = 0;
+        compThreads.setLayout(gl_compThreads);
+
+        btnOverrideNumThreads = new Button(compThreads, SWT.CHECK);
+        btnOverrideNumThreads.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER,
+                                                         true, true, 1, 1));
+        btnOverrideNumThreads.setText("Explicitly set number of threads used "
+                                      + "when running wrappers in parallel:");
+        btnOverrideNumThreads.setToolTipText(
+            "When a wrapper is defined with the option to run in parallel set "
+            + "to true, the SBML Test Runner chooses the number of parallel "
+            + "threads equal to one less than the number of CPU cores on the "
+            + "current computer. Use this option to override the default.");
+        btnOverrideNumThreads.setSelection(UIUtils.getBooleanPref("overrideNumThreads",
+                                                                  false, this));
+
+        txtNumThreads = new Text(compThreads, SWT.BORDER);
+        GridData gd_tnt = new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1);
+        gd_tnt.widthHint = 25;
+        txtNumThreads.setLayoutData(gd_tnt);
+        if (btnOverrideNumThreads.getSelection())
+            txtNumThreads.setText(Integer.toString(previousNumThreads));
+        else
+            txtNumThreads.setText(Integer.toString(TaskExecutor.defaultNumThreads()));
+        txtNumThreads.setEnabled(btnOverrideNumThreads.getSelection());
+    
+        btnOverrideNumThreads.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent event)
+            {
+                if (btnOverrideNumThreads.getSelection())
+                    txtNumThreads.setEnabled(true);
+                else
+                    txtNumThreads.setEnabled(false);
+            }
+        });
+
+
+        Label sep3 = new Label(outerComp, SWT.SEPARATOR | SWT.HORIZONTAL);
+        GridData gd_sep3 = new GridData(SWT.FILL, SWT.CENTER, false, false, 5, 1);
+        gd_sep3.verticalIndent = 5;
+        gd_sep3.horizontalIndent = 0;
+        sep3.setLayoutData(gd_sep3);
 
         Composite compSaveCancelButtons = new Composite(outerComp, SWT.NONE);
         compSaveCancelButtons.setLayout(new GridLayout(1, false));
@@ -220,7 +301,10 @@ public class PreferenceDialog
         btnSave.setBounds(85, 3, 75, 25);
         btnSave.setText("Save");
         outerComp.setTabList(new Control[]{compButtons, wrappersEditor, 
-                                           txtCasesDir, compBrowse});
+                                           txtCasesDir, compBrowse,
+                                           btnDeleteFiles, compThreads});
+        compThreads.setTabList(new Control[]{btnOverrideNumThreads,
+                                             txtNumThreads});
         btnSave.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -228,6 +312,8 @@ public class PreferenceDialog
                 result = getResult(true, shell, wrappersEditor);
                 if (!wrapperVerified(result.getLastWrapper(),
                                      previousResult.getLastWrapper()))
+                    return;
+                if (!validateSettings())
                     return;
                 needConfirmSave = false;
                 hide();
@@ -575,6 +661,64 @@ public class PreferenceDialog
     }
 
 
+    private boolean validateSettings()
+    {
+        if (!btnOverrideNumThreads.getSelection())
+        {
+            unsetNumThreads();
+            return true;            
+        }
+
+        // User checked the override-number-of-threads box.
+
+        int numThreads = -1;
+        try
+        {
+            numThreads = Math.abs(Integer.valueOf(txtNumThreads.getText()));
+        }
+        catch (NumberFormatException e)
+        {
+            Tell.error(shell, "The value '" + txtNumThreads.getText()
+                       + "' for the number of threads does\nnot appear "
+                       + "to be an integer. It will be ignored.",
+                       "Only integers greater than 0 are valid\n"
+                       + "values for that field.");
+            unsetNumThreads();
+            return true;
+        }
+
+        if (numThreads == 0)
+        {
+            Tell.error(shell, "A value of '0' for the number of threads\n"
+                       + "is not usable in this context. It will be ignored.",
+                       "Only integers greater than 0 are valid\n"
+                       + "values for that field.");
+            unsetNumThreads();
+            return true;
+        }
+
+        if (numThreads > 10
+            && !Tell.confirm(shell, numThreads
+                             + " is a lot of processes to run in\nparallel. "
+                             + "Proceed anyway?"))
+            return false;
+
+
+        UIUtils.saveBooleanPref("overrideNumThreads", true, this);
+        UIUtils.saveIntPref("numThreads", numThreads, this);
+        return true;
+    }
+
+
+    private void unsetNumThreads()
+    {
+        btnOverrideNumThreads.setSelection(false);
+        UIUtils.saveBooleanPref("overrideNumThreads", false, this);
+        txtNumThreads.setText(Integer.toString(previousNumThreads));
+        UIUtils.saveIntPref("numThreads", previousNumThreads, this);
+    }
+
+
     public boolean settingsHaveChanged()
     {
         if (origCasesDir == null)
@@ -582,5 +726,37 @@ public class PreferenceDialog
 
         return wrappersEditor.changesPending()
             || ! (origCasesDir.equals(txtCasesDir.getText()));
+    }
+
+
+    public void setDeleteOutputFiles(boolean yesNo)
+    {
+        btnDeleteFiles.setSelection(yesNo);
+        UIUtils.saveBooleanPref("deleteFiles", yesNo, this);
+    }
+
+
+    public boolean getDeleteOutputFiles()
+    {
+        return btnDeleteFiles.getSelection();
+    }
+
+
+    public boolean getOverrideNumThreads()
+    {
+        return btnOverrideNumThreads.getSelection();
+    }
+
+
+    public int getNumberOfThreads()
+    {
+        try
+        {
+            return Integer.valueOf(txtNumThreads.getText());
+        }
+        catch (NumberFormatException e)
+        {
+            return previousNumThreads;
+        }
     }
 }
