@@ -712,7 +712,7 @@ public class WrapperConfig
      */
     public RunOutcome run(final TestCase test, final String testSuiteDir)
     {
-        return run(test, 0, 0, testSuiteDir, null);
+        return run(test, 0, 0, testSuiteDir, null, true);
     }
 
 
@@ -732,9 +732,10 @@ public class WrapperConfig
      */
     public RunOutcome run(final TestCase test, int level, int version,
                           final String testSuiteDir, 
-                          final CancelCallback callback)
+                          final CancelCallback callback,
+                          final boolean deleteFirst)
     {
-        return run(test, level, version, testSuiteDir, 250, callback);
+        return run(test, level, version, testSuiteDir, 250, callback, deleteFirst);
     }
 
 
@@ -755,11 +756,12 @@ public class WrapperConfig
      *            a cancellation callback allowing to interrupt the execution
      */
     public RunOutcome run(final TestCase test, final String testSuiteDir,
-                          final int milli, final CancelCallback callback)
+                          final int milli, final CancelCallback callback,
+                          final boolean deleteFirst)
     {
         int level   = test.getHighestSupportedLevel();
         int version = test.getHighestSupportedVersion();
-        return run(test, level, version, testSuiteDir, milli, callback);
+        return run(test, level, version, testSuiteDir, milli, callback, deleteFirst);
     }
 
 
@@ -781,7 +783,7 @@ public class WrapperConfig
      */
     public RunOutcome run(final TestCase test, final LevelVersion lv,
                           final String testSuiteDir, final int milli, 
-                          final CancelCallback callback)
+                          final CancelCallback callback, boolean deleteFirst)
     {
         int level;
         int version;
@@ -795,7 +797,7 @@ public class WrapperConfig
             level   = lv.getLevel();
             version = lv.getVersion();
         }
-        return run(test, level, version, testSuiteDir, milli, callback);
+        return run(test, level, version, testSuiteDir, milli, callback, deleteFirst);
     }
 
 
@@ -817,7 +819,8 @@ public class WrapperConfig
      */
     public RunOutcome run(final TestCase test, int level, int version,
                           final String testSuiteDir, final int milli,
-                          final CancelCallback callback)
+                          final CancelCallback callback,
+                          final boolean deleteFirst)
     {
         if (viewOnly)
             return new RunOutcome(RunOutcome.Code.success, "View only");
@@ -838,29 +841,25 @@ public class WrapperConfig
             return new RunOutcome(RunOutcome.Code.success, cmd);
         }
 
-        // Test if the file exists and is locked. Since we haven't run the
-        // wrapper yet, then the file being locked at this point means
-        // something will block the wrapper from writing to it if we ran it.
-
         File expectedFile = getResultFile(test);
-        if (expectedFile != null && expectedFile.exists()
-            && !expectedFile.renameTo(expectedFile)) // Fails if file is locked.
+        if (deleteFirst && expectedFile != null && expectedFile.exists()
+            && !expectedFile.delete())
         {
             addErrorToCache(test);
             return outcomeWithInfo(RunOutcome.Code.ioError, 
-                                   "Destination file " + expectedFile.getPath()
-                                   + " appears to be locked by another process",
+                                   "Unable to delete output file '"
+                                   + expectedFile.getPath() + "' prior to "
+                                   + "invocation of wrapper. Aborted "
+                                   + "execution of wrapper for case "
+                                   + test.getId() + ".",
                                    cmd, null, null);
         }
 
-        // ProcessBuilder builder = new ProcessBuilder(getProgram(),
-        // getExpandedArguments(test, testSuiteDir));
         Process process         = null;
         StreamEater errorEater  = null;
         StreamEater outputEater = null;
         try
         {
-            // Process p = builder.start();
             process = rt.exec(cmd);
             errorEater = new StreamEater(process.getErrorStream());
             outputEater = new StreamEater(process.getInputStream());
@@ -970,14 +969,12 @@ public class WrapperConfig
         if (errorEater != null)
             errorText = errorEater.getOutput();
 
-        msg += ".";
-        if (outputEater != null || errorEater != null)
-            msg += "\n\nCommand line executed:\n"
-                + cmd + "\n\n"
-                + "Output produced on standard output stream:\n"
-                + outputText + "\n\n"
-                + "Output produced on standard error stream:\n"
-                + errorText;
+        msg += ".\n\nCommand line executed:\n"
+            + cmd + "\n\n"
+            + "Output produced on standard output stream:\n"
+            + outputText + "\n\n"
+            + "Output produced on standard error stream:\n"
+            + errorText;
 
         return new RunOutcome(code, msg);
     }
