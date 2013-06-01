@@ -40,21 +40,20 @@ class TaskExecutor
 {
     private ExecutorService ex;
 
+
     public TaskExecutor()
     {
-        init(false);
+        init(false, defaultNumThreads());
     }
 
 
-    public void init(boolean concurrencyOK)
+    public void init(boolean concurrencyOK, int numThreads)
     {
         if (ex != null && ! ex.isTerminated())
             ex.shutdownNow();
 
         if (concurrencyOK)
         {
-            int numProcs   = Runtime.getRuntime().availableProcessors();
-            int numThreads = Math.max(1, numProcs - 1);
             ex = Executors.newFixedThreadPool(numThreads);
         }
         else
@@ -79,6 +78,13 @@ class TaskExecutor
         {
             display.readAndDispatch();
         }
+    }
+
+
+    public static int defaultNumThreads()
+    {
+        int numProcs = Runtime.getRuntime().availableProcessors();
+        return Math.max(1, numProcs - 1);
     }
 
 
