@@ -49,7 +49,6 @@ import java.util.jar.JarEntry;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.Enumeration;
-import java.util.prefs.Preferences;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.custom.SashForm;
@@ -354,10 +353,12 @@ public class MainWindow
     private FormData                  fd_sashForm;
 
     private LevelVersion              currentLV = new LevelVersion(0, 0);
-    private boolean                   running = false;
+    private boolean                   running;
     private boolean                   restart = true;
-    private boolean                   closing = false;
-    private boolean                   ignoreDoubleClicks = false;
+    private boolean                   closing;
+    private boolean                   deleteFirst = true;
+    private TaskExecutor              executor = new TaskExecutor();
+    private int                       numThreads = TaskExecutor.defaultNumThreads();
 
     private NotificationBanner        notificationBanner;
     private DescriptionSection        descriptionSection;
@@ -368,17 +369,15 @@ public class MainWindow
     private TreeSet<Integer>          includedCases = new TreeSet<Integer>();
     private TreeSet<Integer>          excludedCases = new TreeSet<Integer>();
 
+    private boolean                   ignoreDoubleClicks;
     private Color                     foregroundColor;
     private Color                     backgroundColor;
     private final Display             display;
     private Thread                    uiThread;
-    private TaskExecutor              executor = new TaskExecutor();
 
     private Font                      chartTitleFont;
     private Font                      chartTickFont;
     private Font                      chartLegendFont;
-
-    private Preferences               userPreferences;
 
 
     /**
@@ -386,7 +385,6 @@ public class MainWindow
      */
     public MainWindow()
     {
-        userPreferences = Preferences.userNodeForPackage(MainWindow.class);
         Display.setAppName("SBML Test Runner");
         display = new Display();
         uiThread = Thread.currentThread();
@@ -2144,6 +2142,9 @@ public class MainWindow
             wrapperMenuListener.add(WrapperList.noWrapperName());
             changeWrapper(WrapperList.noWrapperName());
         }
+        deleteFirst = dialog.getDeleteOutputFiles();
+        if (dialog.getOverrideNumThreads())
+            numThreads = dialog.getNumberOfThreads();
         dialog.dispose();
     }
 
@@ -2217,7 +2218,7 @@ public class MainWindow
             model.getSettings().saveAsDefault();
         if (shell != null && ! shell.isDisposed())
         {
-            UIUtils.saveWindow(shell, userPreferences, this);
+            UIUtils.saveWindow(shell, this);
             shell.dispose();
         }
     }
@@ -2571,7 +2572,7 @@ public class MainWindow
 
         shell.pack();
         shell.layout();
-        UIUtils.restoreWindow(shell, userPreferences, this);
+        UIUtils.restoreWindow(shell, this);
         shell.open();
 
         loadModel();
@@ -2830,9 +2831,11 @@ public class MainWindow
         private Display display;
         private RunOutcome outcome;
         private LevelVersion levelVersion;
+        private boolean deleteFirst;
 
         QueuedTestRunner(TestCase theCase, LevelVersion lv, TreeItem item,
-                         String path, WrapperConfig wrapper, Display display)
+                         String path, WrapperConfig wrapper, Display display,
+                         boolean deleteFirst)
         {
             this.testCase = theCase;
             this.currentItem = item;
@@ -2841,6 +2844,7 @@ public class MainWindow
             this.display = display;
             this.outcome = null;
             this.levelVersion = lv;
+            this.deleteFirst = deleteFirst;
         }
 
 
@@ -2854,13 +2858,14 @@ public class MainWindow
 
             // This next call does synchronous execution of the wrapper.
 
-            outcome = wrapper.run(testCase, levelVersion, path, 250,
-                new CancelCallback() {
+            final CancelCallback callback = new CancelCallback() {
                     public boolean cancellationRequested()
                     {
                         return !running;
                     }
-                });
+                };
+            outcome = wrapper.run(testCase, levelVersion, path, 250,
+                                  callback, deleteFirst);
 
             final ResultType resultType = wrapper.getResultType(testCase,
                                                                 levelVersion);
@@ -2957,7 +2962,8 @@ public class MainWindow
             TestCase testCase = model.getSuite().get(testItem.getText());
             progressSection.setStatus(RunStatus.Running);
             outcome = wrapper.run(testCase, currentLV.getLevel(),
-                                  currentLV.getVersion(), absolutePath, null);
+                                  currentLV.getVersion(), absolutePath,
+                                  null, deleteFirst);
             updateCaseItem(testItem,
                            wrapper.getResultType(testCase, currentLV),
                            outcome.getMessage());
@@ -2988,7 +2994,7 @@ public class MainWindow
 
         MarkerFile.write(wrapper.getOutputPath(), wrapper.getProgram());
 
-        executor.init(wrapper.isConcurrencyAllowed());
+        executor.init(wrapper.isConcurrencyAllowed(), numThreads);
         progressSection.setStatus(RunStatus.Running);
         while (selectionIndex < selection.length)
         {
@@ -2998,7 +3004,7 @@ public class MainWindow
             TestCase testCase = model.getSuite().get(item.getText());
             executor.execute(new QueuedTestRunner(testCase, currentLV, item,
                                                   absolutePath, wrapper,
-                                                  display));
+                                                  display, deleteFirst));
             selectionIndex++;
         }
         executor.waitForProcesses(getDisplay());
@@ -3337,8 +3343,7 @@ public class MainWindow
             return;
         }
 
-        resultMap = new ResultMap(shell, model.getSuite(),
-                                  model.getLastWrapper(), userPreferences);
+        resultMap = new ResultMap(shell, model.getSuite(), model.getLastWrapper());
         resultMap.setData(treeToSortedMap(tree));
         resultMap.setReRunAction(new ActionListener() {
             @Override
