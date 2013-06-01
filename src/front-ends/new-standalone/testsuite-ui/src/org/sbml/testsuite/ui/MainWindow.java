@@ -3484,19 +3484,21 @@ public class MainWindow
             updateCaseItem(treeItem, result, null);
 
             ResultSet actual = wrapper.getResultSet(test);
-            if (actual != null && ! actual.hasInfinityOrNaN())
+            if (actual != null && actual.parseable()
+                && !actual.hasInfinityOrNaN())
+            {
                 addChartForData(cmpGraphs, isTimeSeries, actual,
                                 "Simulator results for #" + itemName);
+                ResultSet diff;
+                if (isTimeSeries)
+                    diff = ResultSet.diff(expected, actual);
+                else
+                    diff = ResultSet.diffRow(expected, actual, 0);
 
-            ResultSet diff;
-            if (isTimeSeries)
-                diff = ResultSet.diff(expected, actual);
-            else
-                diff = ResultSet.diffRow(expected, actual, 0);
-
-            if (diff != null && ! diff.hasInfinityOrNaN())
-                addChartForData(cmpDifferences, isTimeSeries,
-                                diff, "Difference plot");
+                if (diff != null && ! diff.hasInfinityOrNaN())
+                    addChartForData(cmpDifferences, isTimeSeries,
+                                    diff, "Difference plot");
+            }
         }
 
         cmpGraphs.layout();
