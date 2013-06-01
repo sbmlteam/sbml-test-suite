@@ -454,10 +454,9 @@ public class UIUtils
     }
 
 
-    public static void saveWindow(Shell shell, Preferences prefs, Object obj)
+    public static void saveWindow(Shell shell, Object obj)
     {
-        if (prefs == null) return;
-
+        Preferences prefs = Preferences.userNodeForPackage(obj.getClass());
         String name = obj.getClass().getName();
 
         Point size = shell.getSize();
@@ -470,10 +469,9 @@ public class UIUtils
     }
 
 
-    public static void restoreWindow(Shell shell, Preferences prefs, Object obj)
+    public static void restoreWindow(Shell shell, Object obj)
     {
-        if (prefs == null) return;
-
+        Preferences prefs = Preferences.userNodeForPackage(obj.getClass());
         String name = obj.getClass().getName();
 
         int x = prefs.getInt(name + ".width", SWT.DEFAULT);
@@ -494,6 +492,42 @@ public class UIUtils
             y = bounds.y + (bounds.height - rect.height) / 2;
             shell.setLocation(x, y);
         }
+    }
+
+
+    public static void saveBooleanPref(String prefName, boolean value, Object obj)
+    {
+        Preferences prefs = Preferences.userNodeForPackage(obj.getClass());
+        prefs.putBoolean(prefName, value);
+    }
+
+
+    public static boolean getBooleanPref(String prefName, boolean defaultValue,
+                                         Object obj)
+    {
+        Preferences prefs = Preferences.userNodeForPackage(obj.getClass());
+        return prefs.getBoolean(prefName, defaultValue);
+    }
+
+
+    public static void saveIntPref(String prefName, int value, Object obj)
+    {
+        Preferences prefs = Preferences.userNodeForPackage(obj.getClass());
+        prefs.putInt(prefName, value);
+    }
+
+
+    public static int getIntPref(String prefName, int defaultValue, Object obj)
+    {
+        Preferences prefs = Preferences.userNodeForPackage(obj.getClass());
+        return prefs.getInt(prefName, defaultValue);
+    }
+
+
+    public static void removePref(String prefName, Object obj)
+    {
+        Preferences prefs = Preferences.userNodeForPackage(obj.getClass());
+        prefs.remove(prefName);
     }
 
 
