@@ -43,6 +43,45 @@ public class ResultSet
     private Vector<String> headers;
     private double[][]     data;
     private boolean        hasInfinityOrNaN = false;
+    private boolean        parseable = true;
+
+
+
+    /**
+     * Default constructor.
+     */
+    public ResultSet()
+    {
+        headers = new Vector<String>();
+    }
+
+
+    /**
+     * Constructs a new result set from the given CSV file
+     * 
+     * @param file
+     *            the csv file
+     */
+    public ResultSet(File file)
+    {
+        this();
+        parseFile(file);
+    }
+
+
+    /**
+     * Constructs a new result set with given headers and data
+     * 
+     * @param headers
+     *            the headers
+     * @param data
+     *            the data
+     */
+    public ResultSet(Vector<String> headers, double[][] data)
+    {
+        this.headers = headers;
+        this.data = data;
+    }
 
 
     /**
@@ -149,7 +188,8 @@ public class ResultSet
      */
     public static ResultSet fromFile(File file)
     {
-        if (file == null || ! file.exists()) return null;
+        if (file == null || !file.exists()) // No such file.
+            return null;
         return new ResultSet(file);
     }
 
@@ -199,43 +239,6 @@ public class ResultSet
         {
             return defaultValue;
         }
-    }
-
-
-    /**
-     * Default constructor
-     */
-    public ResultSet()
-    {
-        headers = new Vector<String>();
-    }
-
-
-    /**
-     * Constructs a new result set from the given CSV file
-     * 
-     * @param file
-     *            the csv file
-     */
-    public ResultSet(File file)
-    {
-        this();
-        parseFile(file);
-    }
-
-
-    /**
-     * Constructs a new result set with given headers and data
-     * 
-     * @param headers
-     *            the headers
-     * @param data
-     *            the data
-     */
-    public ResultSet(Vector<String> headers, double[][] data)
-    {
-        this.headers = headers;
-        this.data = data;
     }
 
 
@@ -361,14 +364,24 @@ public class ResultSet
 
 
     /**
-     * parses the given CSV file
+     * Parses the given CSV file.
+     * Possible results:
+     * - data remains null, parseable is true => file doesn't exist
+     * - data non-null, parseable is false    => file couldn't be parsed
+     * - data non-null, parseable is true     => all ok.
      * 
      * @param file
      *            the file
      */
     private void parseFile(File file)
     {
-        if (file == null || ! file.exists()) return;
+        if (file == null || !file.exists()) // No such file.
+            return;
+        else if (!file.canRead() || !file.isFile()) // Something's wrong.
+        {
+            parseable = false;
+            return;
+        }
 
         try
         {
@@ -376,10 +389,9 @@ public class ResultSet
             String line = reader.readLine();
             if (line == null)
             {
-                // if this happens we have an empty file present, this is not
-                // good! The best we can do at this point is to close the reader
-                // and return.
-                // that will flag the file as invalid later on.
+                // If this happens, we have an empty.  Not good!  Flag it,
+                // close the reader and return. 
+                parseable = false;
                 reader.close();
                 return;
             }
@@ -406,7 +418,9 @@ public class ResultSet
         }
         catch (Exception e)
         {
+            parseable = false;
             e.printStackTrace();
+            return;
         }
 
         // Check if any of the values are NaN or infinity, and mark this
@@ -455,5 +469,11 @@ public class ResultSet
     public boolean hasInfinityOrNaN()
     {
         return hasInfinityOrNaN;
+    }
+
+   
+    public boolean parseable()
+    {
+        return parseable;
     }
 }

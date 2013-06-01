@@ -622,15 +622,19 @@ public class WrapperConfig
             return ResultType.Unavailable;
         
         ResultSet deliveredResult = getResultSet(test);
-        if (deliveredResult == null)    // Wrapper didn't produce a result.
+        if (deliveredResult == null)    // Didn't produce a result.
         {
             if (test.matches(getUnsupportedTags()))
                 return ResultType.Unsupported; // We know why it didn't.
             else
                 return ResultType.Unknown;     // We don't know why.
         }
+        if (!deliveredResult.parseable()) // Something's wrong with the file.
+        {
+            return ResultType.Error;
+        }
 
-        // The wrapper produced a result.  
+        // If we get here, the wrapper produced a result.
 
         if (test.matches(getUnsupportedTags()))
             return ResultType.CannotSolve;     // We ignore it anyway.
