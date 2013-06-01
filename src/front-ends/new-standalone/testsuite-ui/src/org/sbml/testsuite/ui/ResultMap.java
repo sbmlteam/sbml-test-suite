@@ -33,7 +33,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.SortedMap;
-import java.util.prefs.Preferences;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.StyleRange;
@@ -83,7 +82,6 @@ public class ResultMap
     private TestSuite                suite;
     private WrapperConfig            wrapper;
     private String                   lastName;
-    private Preferences              userPreferences;
 
     private ActionListener           singleClickAction;
     private ActionListener           reRunAction;
@@ -108,9 +106,8 @@ public class ResultMap
      * @param parent
      * @param style
      */
-    public ResultMap(Shell parent, int style, Preferences prefs)
+    public ResultMap(Shell parent, int style)
     {
-        this.userPreferences = prefs;
         createContents();
         shell.setText("Map of test results");
     }
@@ -125,10 +122,9 @@ public class ResultMap
      * @param wrapper
      *            selected wrapper configuration
      */
-    public ResultMap(Shell parent, TestSuite suite, WrapperConfig wrapper,
-                     Preferences prefs)
+    public ResultMap(Shell parent, TestSuite suite, WrapperConfig wrapper)
     {
-        this(parent, dialogStyle, prefs);
+        this(parent, dialogStyle);
         this.wrapper = wrapper;
         this.suite = suite;
         shell.setText("Map of test results for wrapper \""
@@ -604,7 +600,7 @@ public class ResultMap
     public void open()
     {
         if (shell == null) return;
-        UIUtils.restoreWindow(shell, userPreferences, this);
+        UIUtils.restoreWindow(shell, this);
         updateContextualMenu();
         shell.open();
     }
@@ -614,7 +610,7 @@ public class ResultMap
     {
         if (shell != null && !shell.isDisposed())
             shell.setVisible(false);
-        UIUtils.saveWindow(shell, userPreferences, this);
+        UIUtils.saveWindow(shell, this);
     }
 
 
