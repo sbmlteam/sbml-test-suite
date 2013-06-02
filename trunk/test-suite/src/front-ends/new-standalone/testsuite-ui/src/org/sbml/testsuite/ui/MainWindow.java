@@ -214,17 +214,26 @@ public class MainWindow
                         if (selected != null)
                         {
                             currentLV = (LevelVersion) selected.getData();
-                            if (currentLV != null && ! currentLV.isHighest())
+                            if (currentLV == null) return;
+
+                            // If the L/V is changed, stop any ongoing run.
+                            if (running)
                             {
+                                resetForRun();
+                                executor.waitForProcesses(getDisplay());
+                                updateStatuses();
+                                updateProgressSection(0);
+                            }
+
+                            if (!currentLV.isHighest())
                                 dropdown.setText(currentLV.toString());
-                            }
                             else
-                            {
                                 dropdown.setText(HIGHEST_LV_TEXT);
-                                currentLV = new LevelVersion(0, 0);
-                            }
+
                             if (model != null)
                                 model.getSettings().setLastLevelVersion(currentLV);
+                            addTreeItems();
+                            clearPlots();
                         }
                     }
                 };
@@ -257,6 +266,7 @@ public class MainWindow
             if (text == null) return;
             MenuItem menuItem = new MenuItem(menu, SWT.NONE);
             menuItem.setText(text);            
+            menuItem.setData(new LevelVersion());
             menuItem.addSelectionListener(selectionListener);
             items.add(menuItem);
         }
