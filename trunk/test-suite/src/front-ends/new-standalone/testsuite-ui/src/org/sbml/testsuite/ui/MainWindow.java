@@ -229,7 +229,6 @@ public class MainWindow
                                 dropdown.setText(currentLV.toString());
                             else
                                 dropdown.setText(HIGHEST_LV_TEXT);
-
                             if (model != null)
                                 model.getSettings().setLastLevelVersion(currentLV);
                             addTreeItems();
@@ -580,6 +579,7 @@ public class MainWindow
         gd.grabExcessVerticalSpace = true;
         msg.setLayoutData(gd);
         msg.setText(message);
+        msg.setBackground(backgroundColor);
     }
 
 
