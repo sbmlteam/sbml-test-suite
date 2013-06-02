@@ -141,28 +141,13 @@ public class TagsDialog
         // Buttons at the bottom.  Done here so that the middle section can
         // refer to the buttons to anchor the bottom of their layout.
 
-        Button cmdOk = new Button(shell, SWT.NONE);
-        FormData fd_cmdOk = new FormData();
-        fd_cmdOk.width = buttonWidth;
-        fd_cmdOk.bottom = new FormAttachment(100, -(margin + offset));
-        fd_cmdOk.right = new FormAttachment(100, -(margin + offset));
-        cmdOk.setLayoutData(fd_cmdOk);
-        cmdOk.setText("OK");
-        cmdOk.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent arg0)
-            {
-                okPressed();
-            }
-        });
-
         Button cmdCancel = new Button(shell, SWT.NONE);
-        cmdCancel.setText("Cancel");
         FormData fd_cmdCancel = new FormData();
         fd_cmdCancel.width = buttonWidth;
         fd_cmdCancel.bottom = new FormAttachment(100, -(margin + offset));
-        fd_cmdCancel.right = new FormAttachment(cmdOk, -margin);
+        fd_cmdCancel.right = new FormAttachment(100, -(margin + offset));
         cmdCancel.setLayoutData(fd_cmdCancel);
+        cmdCancel.setText("Cancel");
         cmdCancel.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -171,6 +156,21 @@ public class TagsDialog
             }
         });
         cmdCancel.setFocus();
+
+        Button cmdOk = new Button(shell, SWT.NONE);
+        cmdOk.setText("OK");
+        FormData fd_cmdOk = new FormData();
+        fd_cmdOk.width = buttonWidth;
+        fd_cmdOk.bottom = new FormAttachment(100, -(margin + offset));
+        fd_cmdOk.right = new FormAttachment(cmdCancel, -margin);
+        cmdOk.setLayoutData(fd_cmdOk);
+        cmdOk.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                okPressed();
+            }
+        });
 
         shell.setDefaultButton(cmdOk);
         shell.addListener(SWT.Traverse, new Listener() {

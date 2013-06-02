@@ -285,29 +285,9 @@ public class PreferenceDialog
         compButtons.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false,
                                                false, 2, 1));
 
-        Button btnCancel = new Button(compButtons, SWT.NONE);
-        btnCancel.setBounds(3, 3, 75, 25);
-        btnCancel.setText("Cancel");
-        btnCancel.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent arg0)
-            {
-                needConfirmSave = false;
-                previousResult.saveAsDefault();
-                result = null;
-                hide();
-            }
-        });
-        btnCancel.setFocus();
-
         Button btnSave = new Button(compButtons, SWT.NONE);
-        btnSave.setBounds(85, 3, 75, 25);
+        btnSave.setBounds(3, 3, 75, 25);
         btnSave.setText("Save");
-        outerComp.setTabList(new Control[]{compButtons, wrappersEditor, 
-                                           txtCasesDir, compBrowse,
-                                           btnDeleteFiles, compThreads});
-        compThreads.setTabList(new Control[]{btnOverrideNumThreads,
-                                             txtNumThreads});
         btnSave.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -322,8 +302,28 @@ public class PreferenceDialog
                 hide();
             }
         });
+        btnSave.setFocus();
+
+        Button btnCancel = new Button(compButtons, SWT.NONE);
+        btnCancel.setBounds(85, 3, 75, 25);
+        btnCancel.setText("Cancel");
+        btnCancel.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                needConfirmSave = false;
+                previousResult.saveAsDefault();
+                result = null;
+                hide();
+            }
+        });
 
         shell.setDefaultButton(btnSave);
+        outerComp.setTabList(new Control[]{compButtons, wrappersEditor, 
+                                           txtCasesDir, compBrowse,
+                                           btnDeleteFiles, compThreads});
+        compThreads.setTabList(new Control[]{btnOverrideNumThreads,
+                                             txtNumThreads});
 
         // The custom close listeners are because we don't dispose the widget
         // ourselves; we only hide it, because callers may need to retrieve
