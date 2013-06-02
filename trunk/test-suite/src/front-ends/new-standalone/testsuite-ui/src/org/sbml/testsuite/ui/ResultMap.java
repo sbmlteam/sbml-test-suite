@@ -232,7 +232,7 @@ public class ResultMap
 
         int offset = 20 - UIUtils.scaledFontSize(20);
 
-        Group messageGroup = new Group(shell, SWT.SHADOW_ETCHED_IN);
+        final Group messageGroup = new Group(shell, SWT.SHADOW_ETCHED_IN);
         FormData fd_group = new FormData();
         fd_group.left = new FormAttachment(0, 10);
         fd_group.right = new FormAttachment(100, -10);
@@ -315,6 +315,7 @@ public class ResultMap
                     message.setText(defaultHelpMsg);
                     message.setFont(italicFont);
                 }
+                if (!UIUtils.isMacOSX()) message.moveAbove(messageGroup);
             }
         });
         
