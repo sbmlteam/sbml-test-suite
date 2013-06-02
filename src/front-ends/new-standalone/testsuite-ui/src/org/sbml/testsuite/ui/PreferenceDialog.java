@@ -237,11 +237,13 @@ public class PreferenceDialog
                                                          true, true, 1, 1));
         btnOverrideNumThreads.setText("Explicitly set number of threads used "
                                       + "when running wrappers in parallel:");
-        btnOverrideNumThreads.setToolTipText(
+        String overrideNumThreadsTip = 
             "When a wrapper is defined with the option to run in parallel set "
             + "to true, the SBML Test Runner chooses the number of parallel "
             + "threads equal to one less than the number of CPU cores on the "
-            + "current computer. Use this option to override the default.");
+            + "current computer. Use this option to override that default.";
+
+        btnOverrideNumThreads.setToolTipText(overrideNumThreadsTip);
         btnOverrideNumThreads.setSelection(UIUtils.getBooleanPref("overrideNumThreads",
                                                                   false, this));
 
@@ -254,6 +256,7 @@ public class PreferenceDialog
         else
             txtNumThreads.setText(Integer.toString(TaskExecutor.defaultNumThreads()));
         txtNumThreads.setEnabled(btnOverrideNumThreads.getSelection());
+        txtNumThreads.setToolTipText(overrideNumThreadsTip);
     
         btnOverrideNumThreads.addSelectionListener(new SelectionAdapter() {
             @Override
