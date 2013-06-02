@@ -330,6 +330,7 @@ public class MainWindow
     private MenuItem                  menuItemShowOnlySupported;
     private MenuItem                  menuItemRefreshSelectedResults;
     private MenuItem                  menuItemDeleteSelectedResults;
+    private MenuItem                  menuItemViewProcessOutput;
     private MenuItem                  menuItemRunTest;
     private MenuItem                  menuItemtest;
     private MenuItem                  menuItemViewOutput;
@@ -762,9 +763,15 @@ public class MainWindow
         }
 
         if (wrapperIsViewOnly(newWrapper))
+        {
+            menuItemViewProcessOutput.setEnabled(false);
             menuItemViewOutput.setEnabled(false);
+        }
         else
+        {
+            menuItemViewProcessOutput.setEnabled(true);
             menuItemViewOutput.setEnabled(true);
+        }
 
         if (resultMap != null)
             resultMap.updateWrapper(newWrapper);
@@ -785,8 +792,7 @@ public class MainWindow
         if (selection == null)          // Sync all.
         {
             wrapper.beginUpdate(model.getSuite(), currentLV);
-            addTreeItems();
-            clearFilters();
+            clearFilters();             // Also causes tree to be updated.
         }
         else                            // Sync selected.
         {
@@ -968,9 +974,11 @@ public class MainWindow
             @Override
             public void handleEvent(final Event event)
             {
+                /*
                 delayedUpdate(new Runnable() {
                     public void run()
                     {
+                */
                         int count = tree.getSelectionCount();
 
                         // The Tree widget doesn't return the right number of
@@ -984,7 +992,9 @@ public class MainWindow
                             clearPlots();
                         if (tree != null && !tree.isDisposed())
                             progressSection.setSelectedCount(count);
+              /*
                     }});
+              */
             }
         };
         tree.addListener(SWT.Selection, treeSelectionListener);
@@ -1496,6 +1506,23 @@ public class MainWindow
             }
         });
         menuItemDeleteSelectedResults.setText("Delete Selected Result(s)");
+
+        new MenuItem(menu_3, SWT.SEPARATOR);
+        menuItemViewProcessOutput = new MenuItem(menu_3, SWT.NONE);
+        menuItemViewProcessOutput.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0)
+            {
+                delayedUpdate(new Runnable() {
+                    public void run()
+                    {
+                        viewProcessOutput(tree.getSelection());
+                    }
+                });
+            }
+        });
+        menuItemViewProcessOutput.setText("View Process Output\tCtrl+I");
+        menuItemViewProcessOutput.setAccelerator(SWT.MOD1 + 'I');
 
         MenuItem menuItemhelp = new MenuItem(menuBar, SWT.CASCADE);
         menuItemhelp.setText("&Help");
@@ -2870,10 +2897,6 @@ public class MainWindow
             final ResultType resultType = wrapper.getResultType(testCase,
                                                                 levelVersion);
 
-            // final ResultType resultType
-            //     = (outcome.getCode() != RunOutcome.Code.success)
-            //     ? ResultType.Error : wrapper.getResultType(testCase, levelVersion);
-
             display.asyncExec(new Runnable() {
                 @Override
                 public void run()
@@ -2950,56 +2973,11 @@ public class MainWindow
             invalidateSelectedResult(selection[selectionIndex++]);
         selectionIndex = rememberSelectionIndex;
 
-        // if (selectionIndex < selection.length)
-        //   recenterTree(selection[selectionIndex]);
+        // Alrighty, then. Let's roll.
 
-        // Problem: we can't tell if running the wrapper will produce an
-        // error until we try.  If it fails, we want to inform the user.
-        // But, we don't want to queue up 1000+ processes and then face 1000+
-        // failures and try to report them all.  Solution: run the first one
-        // separately and watch for errors, then go on and run the rest.
-
-        RunOutcome outcome = null;
-        TreeItem testItem = null;
-        if (selectionIndex < selection.length)
-        {
-            testItem = selection[selectionIndex];
-            TestCase testCase = model.getSuite().get(testItem.getText());
-            progressSection.setStatus(RunStatus.Running);
-            outcome = wrapper.run(testCase, currentLV, absolutePath, 250,
-                                  null, deleteFirst);
-            updateCaseItem(testItem,
-                           wrapper.getResultType(testCase, currentLV),
-                           outcome.getMessage());
-            progressSection.incrementDoneCount();
-            selectionIndex++;
-        }
-
-        if (outcome == null || outcome.getCode() != RunOutcome.Code.success)
-        {
-            if (outcome == null)
-                Tell.error(shell, "Encountered a problem while attempting to"
-                           + "\nrun the wrapper. Execution stopped.",
-                           "Please check the wrapper and its configuration.");
-            else
-                Tell.error(shell, "Encountered a problem while attempting to"
-                           + "\nrun the wrapper. Execution stopped. Please"
-                           + "\ncheck the wrapper and its configuration.",
-                           outcome.getMessage());
-            markAsRunning(false);
-            // Clear this result.
-            selectionIndex--;
-            descriptionSection.setMessage("Stopped.");
-            restart = true;
-            return;
-        }
-
-        // If we get here, we can hopefully continue with the remaining cases.
-
-        MarkerFile.write(wrapper.getOutputPath(), wrapper.getProgram());
-
-        executor.init(wrapper.isConcurrencyAllowed(), numThreads);
         progressSection.setStatus(RunStatus.Running);
+        MarkerFile.write(wrapper.getOutputPath(), wrapper.getProgram());
+        executor.init(wrapper.isConcurrencyAllowed(), numThreads);
         while (selectionIndex < selection.length)
         {
             if (! running) break;
@@ -3488,6 +3466,21 @@ public class MainWindow
         {
             WrapperConfig wrapper = model.getLastWrapper();
             ResultType result = wrapper.getResultType(test, currentLV);
+
+            if (result == ResultType.Error)
+            {
+                showMessageNotAvailable(cmpDifferences,
+                                        "Results cannot be plotted because an "
+                                        + "error occurred when the wrapper "
+                                        + "was invoked or the results file "
+                                        + "was read.\nPerhaps the process "
+                                        + "output contains information about "
+                                        + "what happened.");
+                cmpGraphs.layout();
+                cmpDifferences.layout();
+                return;
+            }
+
             updateCaseItem(treeItem, result, null);
 
             ResultSet actual = wrapper.getResultSet(test);
