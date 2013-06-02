@@ -103,7 +103,7 @@ public class PreferenceDialog
      */
     private void createContents()
     {
-        int height = (UIUtils.isLinux() ? 600 : 570);
+        int height = (UIUtils.isLinux() ? 640 : 570);
 
         shell = new Shell(getParent(), getStyle());
         shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
