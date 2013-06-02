@@ -2869,6 +2869,11 @@ public class MainWindow
 
             final ResultType resultType = wrapper.getResultType(testCase,
                                                                 levelVersion);
+
+            // final ResultType resultType
+            //     = (outcome.getCode() != RunOutcome.Code.success)
+            //     ? ResultType.Error : wrapper.getResultType(testCase, levelVersion);
+
             display.asyncExec(new Runnable() {
                 @Override
                 public void run()
@@ -2961,8 +2966,7 @@ public class MainWindow
             testItem = selection[selectionIndex];
             TestCase testCase = model.getSuite().get(testItem.getText());
             progressSection.setStatus(RunStatus.Running);
-            outcome = wrapper.run(testCase, currentLV.getLevel(),
-                                  currentLV.getVersion(), absolutePath,
+            outcome = wrapper.run(testCase, currentLV, absolutePath, 250,
                                   null, deleteFirst);
             updateCaseItem(testItem,
                            wrapper.getResultType(testCase, currentLV),
@@ -3448,14 +3452,12 @@ public class MainWindow
 
         // Check if we have something to show.
 
-        int level   = currentLV.getLevel();
-        int version = currentLV.getVersion();
-
-        if (!test.supportsLevelVersion(level, version))
+        if (!test.supportsLevelVersion(currentLV))
         {
             showMessageNotAvailable(cmpDifferences, 
                                     "Test case not available in SBML Level "
-                                    + level + " Version " + version + " format.");
+                                    + currentLV.getLevel() + " Version "
+                                    + currentLV.getVersion() + " format.");
             cmpDifferences.layout();
             return;
         }
@@ -3485,7 +3487,7 @@ public class MainWindow
         if (!(Boolean) treeItem.getData(ITEM_RERUN))
         {
             WrapperConfig wrapper = model.getLastWrapper();
-            ResultType result = wrapper.getResultType(test, level, version);
+            ResultType result = wrapper.getResultType(test, currentLV);
             updateCaseItem(treeItem, result, null);
 
             ResultSet actual = wrapper.getResultSet(test);
