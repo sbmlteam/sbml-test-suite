@@ -52,6 +52,11 @@ public class DelayedResult
     ResultType                  result;
 
     /**
+     * Level and Version for which this result was computed.
+     */
+    LevelVersion                levelVersion;
+
+    /**
      * asynchronous worker computing the result
      */
     FutureTask<ResultType>      worker;
@@ -64,9 +69,8 @@ public class DelayedResult
 
     /**
      * Initialize already with a result, this means that this result will be
-     * completed
-     * instantaneously. It is meant to be used whenever the result is known
-     * beforehand.
+     * completed instantaneously. It is meant to be used whenever the result
+     * is known beforehand.
      * 
      * @param result
      *            the result
@@ -74,6 +78,26 @@ public class DelayedResult
     public DelayedResult(ResultType result)
     {
         this.result = result;
+        this.levelVersion = new LevelVersion();
+        wrapperConfig = null;
+        isDone = true;
+    }
+
+
+    /**
+     * Initialize already with a result, this means that this result will be
+     * completed instantaneously. It is meant to be used whenever the result
+     * is known beforehand.
+     * 
+     * @param result
+     *            the result
+     * @param lv
+     *            the level and version to which the result applies
+     */
+    public DelayedResult(ResultType result, LevelVersion lv)
+    {
+        this.result = result;
+        this.levelVersion = lv;
         wrapperConfig = null;
         isDone = true;
     }
@@ -95,6 +119,7 @@ public class DelayedResult
                          final LevelVersion lv)
     {
         this.wrapperConfig = wrapperConfig;
+        this.levelVersion = lv;
         result = ResultType.Unknown;
         isDone = false;
 
@@ -143,6 +168,12 @@ public class DelayedResult
         worker = null;
         return result;
 
+    }
+
+
+    public LevelVersion getLevelVersion()
+    {
+        return this.levelVersion;
     }
 
 
