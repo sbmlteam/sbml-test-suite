@@ -271,7 +271,17 @@ public class TestCase
 
 
     /**
-     * @return the highest supported version for this test
+     * @return the highest supported level and version
+     */
+    public LevelVersion getHighestSupportedLevelVersion()
+    {
+        return new LevelVersion(getHighestSupportedLevel(),
+                                getHighestSupportedVersion());
+    }
+
+
+    /**
+     * @return the highest supported version for this test, as a string.
      */
     public String getHighestSupportedVersionString()
     {
@@ -822,6 +832,23 @@ public class TestCase
      */
     public boolean supportsLevelVersion(int level, int version)
     {
+        if (level == 0) return true;    // 0 indicates "highest".
+        return supportedVersions.contains(String.format("%d.%d",
+                                                        level, version));
+    }
+
+
+    /**
+     * @param lv
+     *            the SBML Level and Version
+     */
+    public boolean supportsLevelVersion(LevelVersion lv)
+    {
+        if (lv == null) return true;
+
+        int level   = lv.getLevel();
+        int version = lv.getVersion();
+
         if (level == 0) return true;    // 0 indicates "highest".
         return supportedVersions.contains(String.format("%d.%d",
                                                         level, version));
