@@ -847,7 +847,9 @@ public class WrapperConfig
                           final boolean deleteFirst)
     {
         if (viewOnly)
-            return new RunOutcome(RunOutcome.Code.success, "View only");
+            return outcomeWithInfo(RunOutcome.Code.success, 
+                                   "This is a view-only wrapper.",
+                                   "", null, null);
 
         if (lv == null)
             lv = test.getHighestSupportedLevelVersion();
@@ -857,7 +859,11 @@ public class WrapperConfig
         if (!test.supportsLevelVersion(lv))
         {
             addUnavailableToCache(test, lv);
-            return new RunOutcome(RunOutcome.Code.success, cmd);
+            return outcomeWithInfo(RunOutcome.Code.success, 
+                                   "Case not available in a version for "
+                                   + "SBML Level " + lv.getLevel()
+                                   + " Version " + lv.getVersion() + ".",
+                                   cmd, null, null);
         }
 
         File expectedFile = getResultFile(test);
