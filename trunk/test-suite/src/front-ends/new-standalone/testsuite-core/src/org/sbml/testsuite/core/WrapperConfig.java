@@ -76,7 +76,8 @@ public class WrapperConfig
     private boolean                        concurrentThreadsOK;
 
     @Transient
-    private SortedMap<String, DelayedResult> resultCache;
+    private SortedMap<String, DelayedResult> resultCache
+        = Collections.synchronizedSortedMap(new TreeMap<String, DelayedResult>());
 
     @Transient
     private ConcurrentHashMap<String, File> resultFiles;
@@ -325,8 +326,6 @@ public class WrapperConfig
      */
     public void beginUpdate(TestSuite suite, LevelVersion lv)
     {
-        resultCache = Collections.synchronizedSortedMap(new TreeMap<String,
-                                                        DelayedResult>());
         for (final TestCase test : suite.getCases())
         {
             resultCache.put(test.getId(), new DelayedResult(this, test, lv));
@@ -397,8 +396,27 @@ public class WrapperConfig
      */
     public ResultType getCachedResult(String id)
     {
-        SortedMap<String, DelayedResult> cache = resultCache;
-        return cache.get(id).getResult();
+        DelayedResult cachedResult = resultCache.get(id);
+        if (cachedResult != null)
+            return cachedResult.getResult();
+        return null;
+    }
+
+
+    /**
+     * Returns the cached result for the test with given id
+     * and level/version, if it exists.
+     * 
+     * @param id
+     *            the test id
+     * @return the result type
+     */
+    public ResultType getCachedResult(String id, LevelVersion lv)
+    {
+        DelayedResult cachedResult = resultCache.get(id);
+        if (cachedResult != null && cachedResult.getLevelVersion().equals(lv))
+            return cachedResult.getResult();
+        return null;
     }
 
 
@@ -421,6 +439,34 @@ public class WrapperConfig
         arguments = arguments.replace("%l", Integer.toString(level));
         arguments = arguments.replace("%v", Integer.toString(version));
         return arguments;
+    }
+
+
+    /**
+     * Expands variables within the argument string.
+     * 
+     * @param test
+     *            the test case
+     * @param testSuiteDir
+     *            the test suite directory
+     * @return expanded argument string
+     */
+    private String getExpandedArguments(TestCase test, LevelVersion lv,
+                                        String testSuiteDir)
+    {
+        int level;
+        int version;
+        if (lv != null && lv.getLevel() != 0)
+        {
+            level = lv.getLevel();
+            version = lv.getVersion();
+        }
+        else
+        {
+            level = test.getHighestSupportedLevel();
+            version = test.getHighestSupportedVersion();
+        }
+        return getExpandedArguments(test, level, version, testSuiteDir);
     }
 
 
@@ -544,7 +590,8 @@ public class WrapperConfig
 
 
     /**
-     * Gets the result type for the given test (computes it immidiately)
+     * Gets the result type for the given test.  Uses the cached result
+     * if it exists, or computes it if a cached result doesn't exist.
      * 
      * @param test
      *            the test to get the result type for
@@ -552,9 +599,10 @@ public class WrapperConfig
      */
     public ResultType getResultType(TestCase test)
     {
-        ResultType result = getResultTypeInternal(test, 0, 0);
-        if (resultCache != null)
+        ResultType result = getCachedResult(test.getId());
+        if (result == null)
         {
+            result = getResultTypeInternal(test, new LevelVersion());
             resultCache.put(test.getId(), new DelayedResult(result));
         }
         return result;
@@ -562,7 +610,8 @@ public class WrapperConfig
 
 
     /**
-     * Gets the result type for the given test (computes it immidiately)
+     * Gets the result type for the given test.  Uses the cached result
+     * if it exists, or computes it if a cached result doesn't exist.
      * 
      * @param test
      *            the test to get the result type for
@@ -573,21 +622,20 @@ public class WrapperConfig
      */
     public ResultType getResultType(TestCase test, LevelVersion lv)
     {
-        ResultType result;
-        if (lv != null)
-            result = getResultTypeInternal(test, lv.getLevel(), lv.getVersion());
-        else
-            result = getResultTypeInternal(test, 0, 0);
-
-        if (resultCache != null)
-            resultCache.put(test.getId(), new DelayedResult(result));
-
+        ResultType result = getCachedResult(test.getId(), lv);
+        if (result == null)
+        {
+            if (lv == null) lv = new LevelVersion(); // Defaults to highest.
+            result = getResultTypeInternal(test, lv);
+            resultCache.put(test.getId(), new DelayedResult(result, lv));
+        }
         return result;
     }
 
 
     /**
-     * Gets the result type for the given test (computes it immidiately)
+     * Gets the result type for the given test.  Uses the cached result
+     * if it exists, or computes it if a cached result doesn't exist.
      * 
      * @param test
      *            the test to get the result type for
@@ -600,12 +648,7 @@ public class WrapperConfig
      */
     public ResultType getResultType(TestCase test, int level, int version)
     {
-        ResultType result = getResultTypeInternal(test, level, version);
-
-        if (resultCache != null)
-            resultCache.put(test.getId(), new DelayedResult(result));
-
-        return result;
+        return getResultType(test, new LevelVersion(level, version));
     }
 
 
@@ -618,7 +661,22 @@ public class WrapperConfig
      */
     public ResultType getResultTypeInternal(TestCase test, int level, int version)
     {
-        if (level != 0 && ! test.supportsLevelVersion(level, version))
+        return getResultTypeInternal(test, new LevelVersion(level, version));
+    }
+
+
+    /**
+     * Computes the result type for the given test
+     * 
+     * @param test
+     *            the test
+     * @return the result type
+     */
+    public ResultType getResultTypeInternal(TestCase test, LevelVersion lv)
+    {
+        if (lv == null) lv = test.getHighestSupportedLevelVersion();
+
+        if (lv.getLevel() != 0 && !test.supportsLevelVersion(lv))
             return ResultType.Unavailable;
         
         ResultSet deliveredResult = getResultSet(test);
@@ -735,7 +793,8 @@ public class WrapperConfig
                           final CancelCallback callback,
                           final boolean deleteFirst)
     {
-        return run(test, level, version, testSuiteDir, 250, callback, deleteFirst);
+        return run(test, new LevelVersion(level, version),
+                   testSuiteDir, 250, callback, deleteFirst);
     }
 
 
@@ -761,7 +820,8 @@ public class WrapperConfig
     {
         int level   = test.getHighestSupportedLevel();
         int version = test.getHighestSupportedVersion();
-        return run(test, level, version, testSuiteDir, milli, callback, deleteFirst);
+        return run(test, new LevelVersion(level, version),
+                   testSuiteDir, milli, callback, deleteFirst);
     }
 
 
@@ -781,43 +841,7 @@ public class WrapperConfig
      * @param callback
      *            a cancellation callback allowing to interrupt the execution
      */
-    public RunOutcome run(final TestCase test, final LevelVersion lv,
-                          final String testSuiteDir, final int milli, 
-                          final CancelCallback callback, boolean deleteFirst)
-    {
-        int level;
-        int version;
-        if (lv == null || lv.isHighest())
-        {
-            level   = test.getHighestSupportedLevel();
-            version = test.getHighestSupportedVersion();
-        }
-        else
-        {
-            level   = lv.getLevel();
-            version = lv.getVersion();
-        }
-        return run(test, level, version, testSuiteDir, milli, callback, deleteFirst);
-    }
-
-
-    /**
-     * Executed the given test
-     * 
-     * @param test
-     *            the test to execute
-     * @param level
-     *            the SBML Level of the test case to use (0 = highest)
-     * @param version
-     *            the Version within the SBML Level to use (0 = highest)
-     * @param testSuiteDir
-     *            the test cases directory
-     * @param milli
-     *            milliseconds to wait between calling the callback
-     * @param callback
-     *            a cancellation callback allowing to interrupt the execution
-     */
-    public RunOutcome run(final TestCase test, int level, int version,
+    public RunOutcome run(final TestCase test, LevelVersion lv,
                           final String testSuiteDir, final int milli,
                           final CancelCallback callback,
                           final boolean deleteFirst)
@@ -825,19 +849,14 @@ public class WrapperConfig
         if (viewOnly)
             return new RunOutcome(RunOutcome.Code.success, "View only");
 
-        if (level == 0)
-        {
-            level   = test.getHighestSupportedLevel();
-            version = test.getHighestSupportedVersion();
-        }
+        if (lv == null)
+            lv = test.getHighestSupportedLevelVersion();
 
-        Runtime rt = Runtime.getRuntime();
-        String cmd = getProgram() + " "
-            + getExpandedArguments(test, level, version, testSuiteDir);
+        String cmd = getProgram() + " " + getExpandedArguments(test, lv, testSuiteDir);
 
-        if (! test.supportsLevelVersion(level, version))
+        if (!test.supportsLevelVersion(lv))
         {
-            addUnavailableToCache(test);
+            addUnavailableToCache(test, lv);
             return new RunOutcome(RunOutcome.Code.success, cmd);
         }
 
@@ -845,7 +864,7 @@ public class WrapperConfig
         if (deleteFirst && expectedFile != null && expectedFile.exists()
             && !expectedFile.delete())
         {
-            addErrorToCache(test);
+            addErrorToCache(test, lv);
             return outcomeWithInfo(RunOutcome.Code.ioError, 
                                    "Unable to delete output file '"
                                    + expectedFile.getPath() + "' prior to "
@@ -855,6 +874,7 @@ public class WrapperConfig
                                    cmd, null, null);
         }
 
+        Runtime rt              = Runtime.getRuntime();
         Process process         = null;
         StreamEater errorEater  = null;
         StreamEater outputEater = null;
@@ -884,7 +904,7 @@ public class WrapperConfig
 
             if (process.exitValue() != 0)
             {
-                addErrorToCache(test);
+                addErrorToCache(test, lv);
                 return outcomeWithInfo(RunOutcome.Code.unknownError,
                                        "The wrapper exited with an error",
                                        cmd, outputEater, errorEater);
@@ -911,35 +931,35 @@ public class WrapperConfig
         }
         catch (IOException ex)
         {
-            addErrorToCache(test);
+            addErrorToCache(test, lv);
             return outcomeWithInfo(RunOutcome.Code.ioError, 
                                    "IO exception occurred when running the wrapper",
                                    cmd, outputEater, errorEater);
         }
         catch (SecurityException ex)
         {
-            addErrorToCache(test);
+            addErrorToCache(test, lv);
             return outcomeWithInfo(RunOutcome.Code.securityError,
                                    "Security exception occurred when attempting to run the wrapper",
                                    cmd, outputEater, errorEater);
         }
         catch (IllegalArgumentException ex)
         {
-            addErrorToCache(test);
+            addErrorToCache(test, lv);
             return outcomeWithInfo(RunOutcome.Code.argumentError,
                                    "Badly formed wrapper command line",
                                    cmd, outputEater, errorEater);
         }
         catch (InterruptedException ex)
         {
-            addErrorToCache(test);
+            addErrorToCache(test, lv);
             return outcomeWithInfo(RunOutcome.Code.interrupted,
                                    "The wrapper process was interrupted unexpectedly",
                                    cmd, outputEater, errorEater);
         }
         catch (Exception e)
         {
-            addErrorToCache(test);
+            addErrorToCache(test, lv);
             return outcomeWithInfo(RunOutcome.Code.unknownError,
                                    "An unexpected error upon running the wrapper",
                                    cmd, outputEater, errorEater);
@@ -950,7 +970,7 @@ public class WrapperConfig
                 process.destroy();
         }
 
-        addResultToCache(test, level, version);
+        addResultToCache(test, lv);
         return outcomeWithInfo(RunOutcome.Code.success, 
                                "Wrapper completed normally",
                                cmd, outputEater, errorEater);
@@ -980,23 +1000,22 @@ public class WrapperConfig
     }
 
 
-    public void addResultToCache(final TestCase test, final int level,
-                                 final int version)
+    public void addResultToCache(final TestCase test, LevelVersion lv)
     {
         resultCache.put(test.getId(),
-                        new DelayedResult(getResultTypeInternal(test, level, version)));
+                        new DelayedResult(getResultTypeInternal(test, lv), lv));
     }
 
 
-    public void addErrorToCache(final TestCase test)
+    public void addErrorToCache(final TestCase test, LevelVersion lv)
     {
-        resultCache.put(test.getId(), new DelayedResult(ResultType.Error));
+        resultCache.put(test.getId(), new DelayedResult(ResultType.Error, lv));
     }
 
 
-    public void addUnavailableToCache(final TestCase test)
+    public void addUnavailableToCache(final TestCase test, LevelVersion lv)
     {
-        resultCache.put(test.getId(), new DelayedResult(ResultType.Unavailable));
+        resultCache.put(test.getId(), new DelayedResult(ResultType.Unavailable, lv));
     }
 
 
