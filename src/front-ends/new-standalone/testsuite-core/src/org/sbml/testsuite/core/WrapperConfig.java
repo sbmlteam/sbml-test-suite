@@ -680,14 +680,14 @@ public class WrapperConfig
             return ResultType.Unavailable;
         
         ResultSet deliveredResult = getResultSet(test);
-        if (deliveredResult == null)    // Didn't produce a result.
+        if (deliveredResult == null)           // Didn't produce a result.
         {
             if (test.matches(getUnsupportedTags()))
                 return ResultType.Unsupported; // We know why it didn't.
             else
                 return ResultType.Unknown;     // We don't know why.
         }
-        if (!deliveredResult.parseable()) // Something's wrong with the file.
+        if (!deliveredResult.parseable())      // Something's wrong.
         {
             return ResultType.Error;
         }
@@ -910,7 +910,16 @@ public class WrapperConfig
 
             if (process.exitValue() != 0)
             {
-                addErrorToCache(test, lv);
+                // If this is a case that's unsupported by the tool, we
+                // don't call this a true error.
+                if (test.matches(getUnsupportedTags()))
+                    addUnsupportedToCache(test, lv);
+                else
+                    addErrorToCache(test, lv);
+
+                // We still return the error info, because that's separate
+                // from the interpretation of the result and we should still
+                // communicate this to the user.
                 return outcomeWithInfo(RunOutcome.Code.unknownError,
                                        "The wrapper exited with an error",
                                        cmd, outputEater, errorEater);
@@ -1016,6 +1025,12 @@ public class WrapperConfig
     public void addErrorToCache(final TestCase test, LevelVersion lv)
     {
         resultCache.put(test.getId(), new DelayedResult(ResultType.Error, lv));
+    }
+
+
+    public void addUnsupportedToCache(final TestCase test, LevelVersion lv)
+    {
+        resultCache.put(test.getId(), new DelayedResult(ResultType.Unsupported, lv));
     }
 
 
