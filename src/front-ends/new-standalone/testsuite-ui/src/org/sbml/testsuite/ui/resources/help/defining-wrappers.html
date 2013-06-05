@@ -65,6 +65,9 @@ figcaption {
 
 img {
     border: 1px solid gray;
+    -box-shadow: 5px 5px 5px #d0d0d0;
+    -moz-box-shadow: 5px 5px 5px #d0d0d0;
+    -webkit-box-shadow: 5px 5px 5px #d0d0d0;
 }
 
 </style>
@@ -140,29 +143,28 @@ named <code>%o/%n.csv</code> so that the SBML Test Runner can find it.</p>
 <p>The definition of a wrapper also includes 3 options:</p>
 
 <ul>
-<li><p><em>Pseudo-wrapper to view test cases only</em>: When set, this option
+<li><p><strong>Pseudo-wrapper to view test cases only</strong>: When set, this option
  defines a wrapper as non-executable and disables some of the fields
  in the preferences panel. Use this option to define a wrapper for
- viewing existing results (e.g., results created in some other
- fashion than through the SBML Test Runner). The wrapper definition
- allows you to define the directory where the results will be found,
- as well as unsupported tags, but not program path or arguments.</p></li>
-<li><p><em>Wrapper can handle any SBML Level/Version</em>: Some applications may
+ viewing existing results (e.g., results created in some other fashion
+ than through the SBML Test Runner). The wrapper definition allows
+ you to define the directory where the results will be found, as well
+ as unsupported tags, but not program path or arguments.</p></li>
+<li><p><strong>Wrapper can handle any SBML Level/Version</strong>: Some applications may
  not be able to accept any SBML Level and Version.</p></li>
-<li><p><em>Wrapper can be run in parallel</em>: The Runner can execute tasks in
+<li><p><strong>Wrapper can be run in parallel</strong>: The Runner can execute tasks in
  parallel, but it must be informed whether multiple instances of a
- wrapper or application can be invoked simultaneously. Use this
- flag to indicate that multiple copies of the wrapper can be started
+ wrapper or application can be invoked simultaneously. Use this flag
+ to indicate that multiple copies of the wrapper can be started
  simultaneously. Do <em>not</em> enable this option if the wrapper (or
- application) writes to the same file (e.g., a single log file),
- locks a single resource, or does something else that would result
- in non-deterministic behavior if multiple copies of the wrapper or
+ application) writes to the same file (e.g., a single log file), locks
+ a single resource, or does something else that would result in
+ non-deterministic behavior if multiple copies of the wrapper or
  application are started simultaneously. If you use a shell script,
- also make sure that the script does not return before the
- application you&#8217;re testing returns a result. (In other words, do
- not have the shell script start the application as a background
- process; make sure the script terminates only when the application
- itself terminates.)</p></li>
+ also make sure that the script does not return before the application
+ you&#8217;re testing returns a result. (In other words, do not have the
+ shell script start the application as a background process; make sure
+ the script terminates only when the application itself terminates.)</p></li>
 </ul>
 
 <p>You can define multiple wrappers, but only one will be executed during
