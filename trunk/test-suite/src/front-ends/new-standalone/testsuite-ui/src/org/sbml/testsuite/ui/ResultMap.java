@@ -258,6 +258,7 @@ public class ResultMap
         message.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));
         message.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
         message.setText(defaultHelpMsg);
+        if (!UIUtils.isMacOSX()) message.moveAbove(messageGroup);
 
         final Color black = shell.getDisplay().getSystemColor(SWT.COLOR_BLACK);
 
