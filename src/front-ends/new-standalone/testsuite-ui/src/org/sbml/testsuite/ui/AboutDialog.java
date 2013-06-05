@@ -101,7 +101,7 @@ public class AboutDialog
 
         shell = new Shell(getParent(), SWT.DIALOG_TRIM);
         shell.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
-        shell.setSize(450, 380);
+        shell.setSize(450, 450);
         shell.setText("About the SBML Test Runner");
         shell.setLayout(null);
         shell.addListener(SWT.Close, new Listener() {
@@ -189,7 +189,7 @@ public class AboutDialog
         lblHttpsbmlorg.addMouseListener(new MouseListener() {
                 public void mouseDown(MouseEvent arg0)
                 {
-                    org.eclipse.swt.program.Program.launch("http://sbml.org");
+                    org.eclipse.swt.program.Program.launch("http://sbml.org/SBML_Projects/SBML_Test_Suite");
                 }
                 public void mouseUp(MouseEvent arg0) { return; }
                 public void mouseDoubleClick(MouseEvent arg0) { return; }
@@ -210,6 +210,82 @@ public class AboutDialog
         Label lblNewLabel_4 = new Label(shell, SWT.NONE);
         lblNewLabel_4.setImage(UIUtils.getImageResource("SBML.png"));
         lblNewLabel_4.setBounds(175, 300, 99, 44);
+
+        Label sep3 = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN | SWT.CENTER);
+        sep3.setBounds(16, 358 - 3*offset, 417, 2);
+        sep3.moveAbove(null);
+        
+        Label lblAck = new Label(shell, SWT.LEFT);
+        lblAck.setText("Acknowledgements:");
+        lblAck.setBounds(16, 366, 140, 20 + offset);
+        if (UIUtils.isMacOSX())
+            lblAck.setFont(UIUtils.createResizedFont("Verdana", SWT.NORMAL, -2));
+        else
+            lblAck.setFont(UIUtils.createResizedFont("Verdana", SWT.NORMAL, -1));
+
+        final StyledText lblAckIcons = new StyledText(shell, SWT.LEFT);
+        lblAckIcons.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
+        lblAckIcons.setEditable(false);
+        lblAckIcons.setToolTipText("Click to visit http://icons8.com.");
+        lblAckIcons.setForeground(SWTResourceManager.getColor(65, 105, 225));
+        if (UIUtils.isMacOSX())
+            lblAckIcons.setFont(UIUtils.createResizedFont("Verdana", SWT.NORMAL, -2));
+        else
+            lblAckIcons.setFont(UIUtils.createResizedFont("Verdana", SWT.NORMAL, -1));
+        lblAckIcons.setBounds(17, 385, 200, 14 + offset);
+        lblAckIcons.setText("\u2022 Icons by Icons8.");
+        lblAckIcons.addMouseListener(new MouseListener() {
+                public void mouseDown(MouseEvent arg0)
+                {
+                    org.eclipse.swt.program.Program.launch("http://icons8.com");
+                }
+                public void mouseUp(MouseEvent arg0) { return; }
+                public void mouseDoubleClick(MouseEvent arg0) { return; }
+            });
+        lblAckIcons.addListener(SWT.MouseEnter, new Listener() {
+                public void handleEvent(Event e)
+                {
+                    lblAckIcons.setCursor(handCursor);
+                }
+            });
+        lblAckIcons.addListener(SWT.MouseExit, new Listener() {
+                public void handleEvent(Event e)
+                {
+                    lblAckIcons.setCursor(null);
+                }
+            });
+
+        final StyledText lblAckOpal = new StyledText(shell, SWT.LEFT);
+        lblAckOpal.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
+        lblAckOpal.setEditable(false);
+        lblAckOpal.setToolTipText("Click to visit http://code.google.com/a/eclipselabs.org/p/opal/.");
+        lblAckOpal.setForeground(SWTResourceManager.getColor(65, 105, 225));
+        if (UIUtils.isMacOSX())
+            lblAckOpal.setFont(UIUtils.createResizedFont("Verdana", SWT.NORMAL, -2));
+        else
+            lblAckOpal.setFont(UIUtils.createResizedFont("Verdana", SWT.NORMAL, -1));
+        lblAckOpal.setBounds(17, 400, 200, 14 + offset);
+        lblAckOpal.setText("\u2022 SWT widgets by Opal Widgets.");
+        lblAckOpal.addMouseListener(new MouseListener() {
+                public void mouseDown(MouseEvent arg0)
+                {
+                    org.eclipse.swt.program.Program.launch("http://code.google.com/a/eclipselabs.org/p/opal/");
+                }
+                public void mouseUp(MouseEvent arg0) { return; }
+                public void mouseDoubleClick(MouseEvent arg0) { return; }
+            });
+        lblAckOpal.addListener(SWT.MouseEnter, new Listener() {
+                public void handleEvent(Event e)
+                {
+                    lblAckOpal.setCursor(handCursor);
+                }
+            });
+        lblAckOpal.addListener(SWT.MouseExit, new Listener() {
+                public void handleEvent(Event e)
+                {
+                    lblAckOpal.setCursor(null);
+                }
+            });
 
         final MouseListener closeListener = new MouseAdapter() {
                 @Override
