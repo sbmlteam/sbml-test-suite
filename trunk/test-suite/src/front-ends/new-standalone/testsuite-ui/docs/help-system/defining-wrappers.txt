@@ -65,31 +65,30 @@ named `%o/%n.csv` so that the SBML Test Runner can find it.
 
 The definition of a wrapper also includes 3 options:
 
- * _Pseudo-wrapper to view test cases only_: When set, this option
+ * **Pseudo-wrapper to view test cases only**: When set, this option
    defines a wrapper as non-executable and disables some of the fields
    in the preferences panel.  Use this option to define a wrapper for
-   viewing existing results (e.g., results created in some other
-   fashion than through the SBML Test Runner).  The wrapper definition
-   allows you to define the directory where the results will be found,
-   as well as unsupported tags, but not program path or arguments.
+   viewing existing results (e.g., results created in some other fashion
+   than through the SBML Test Runner).  The wrapper definition allows
+   you to define the directory where the results will be found, as well
+   as unsupported tags, but not program path or arguments.
 
- * _Wrapper can handle any SBML Level/Version_: Some applications may
+ * **Wrapper can handle any SBML Level/Version**: Some applications may
    not be able to accept any SBML Level and Version.
 
- * _Wrapper can be run in parallel_: The Runner can execute tasks in
+ * **Wrapper can be run in parallel**: The Runner can execute tasks in
    parallel, but it must be informed whether multiple instances of a
-   wrapper or application can be invoked simultaneously.  Use this
-   flag to indicate that multiple copies of the wrapper can be started
+   wrapper or application can be invoked simultaneously.  Use this flag
+   to indicate that multiple copies of the wrapper can be started
    simultaneously.  Do _not_ enable this option if the wrapper (or
-   application) writes to the same file (e.g., a single log file),
-   locks a single resource, or does something else that would result
-   in non-deterministic behavior if multiple copies of the wrapper or
+   application) writes to the same file (e.g., a single log file), locks
+   a single resource, or does something else that would result in
+   non-deterministic behavior if multiple copies of the wrapper or
    application are started simultaneously.  If you use a shell script,
-   also make sure that the script does not return before the
-   application you're testing returns a result.  (In other words, do
-   not have the shell script start the application as a background
-   process; make sure the script terminates only when the application
-   itself terminates.)
+   also make sure that the script does not return before the application
+   you're testing returns a result.  (In other words, do not have the
+   shell script start the application as a background process; make sure
+   the script terminates only when the application itself terminates.)
 
 You can define multiple wrappers, but only one will be executed during
 any given test run.  (You will be able to choose it from a pull-down
