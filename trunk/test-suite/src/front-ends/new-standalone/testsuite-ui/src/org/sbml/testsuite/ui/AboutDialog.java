@@ -212,12 +212,12 @@ public class AboutDialog
         lblNewLabel_4.setBounds(175, 300, 99, 44);
 
         Label sep3 = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN | SWT.CENTER);
-        sep3.setBounds(16, 358 - 3*offset, 417, 2);
+        sep3.setBounds(16, 358 - offset, 417, 2);
         sep3.moveAbove(null);
         
         Label lblAck = new Label(shell, SWT.LEFT);
         lblAck.setText("Acknowledgements:");
-        lblAck.setBounds(16, 366, 140, 20 + offset);
+        lblAck.setBounds(16, 366, 140, 14 + offset);
         if (UIUtils.isMacOSX())
             lblAck.setFont(UIUtils.createResizedFont("Verdana", SWT.NORMAL, -2));
         else
