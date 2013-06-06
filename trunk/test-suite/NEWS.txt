@@ -1,6 +1,91 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
+=== Version 3.0.0 release (2013-06-06)
+
+Changes to the test cases:
+
+* The previous 3.0.0 beta release had a testing artifact accidentally
+  left in the results file for case 000950.  Fixed.
+
+Changes to the SBML Test Runner:
+
+This is the release of version 3.0.0.  The following are additional
+changes not logged in the notes for beta versions up to this point.
+
+New features:
+
+* The position and size of the main window and the results map are now
+  remembered across invocations of the Test Runner.
+
+* The results map now displays an explanation of the result codes, in
+  the information box at the bottom, when the mouse is moved over a
+  result in the map.
+
+* The runner now provides a way to view output that might have been
+  produced by the wrapper on the standard output and standard error
+  streams.  There are menu options in the menu bar and the pop-up
+  menus.
+
+* There is a now a help system.  Contents are sparse at the moment,
+  but at least there's something...
+
+Changes: 
+
+* The test runner will now delete output results files before invoking
+  the wrapper on each test case.  If the deletion fails, it reports an
+  error (as a "black" color in the results map).  This is to help
+  prevent situations in which an output file is locked by another
+  process (e.g., open in an Excel window on Windows) and the wrapper
+  does not return an error value when it tries to write to the file;
+  in that situation, the Test Runner would have no way of knowing that
+  a problem occurred.  (If the wrapper could be counted on to return
+  an error, then there wouldn't be a potential problem, but not all
+  wrappers behave as expected.)  This way, by attempting to delete the
+  file first, the Test Runner can tell the user something is wrong.
+
+* The system previously didn't report the case of when a results file
+  existed but was unreadable or had a parse error.  The system now
+  catches this and communicates the errors up to the GUI.
+
+* The order of OK/Save and Cancel buttons in the dialogs has been made
+  consistent across the different dialogs.
+
+* There are now new menu items to sync/refresh selected results from
+  their files, instead of (previously) having only the option to sync
+  all results.
+
+* The system no longer selects any cases when you first start up.
+  Instead, things are left blank, and a message is printed in the
+  description area about "no case selected" to give the user a clue
+  about why they're seeing blanks.
+
+* Implemented graphing of FBC results.  The current implementation is
+  kind of simplistic and uses bar graphs, but hopefully will be good
+  enough for now.
+
+* Commented out the SED-ML menu options because they're currently
+  unimplemented and may not be for a while yet.
+
+* Fixed: changing the SBML Level & Version using the pull-down menu in
+  the main window didn't refresh the case list or stop a running
+  simulation.
+
+Released 6 June 2013.
+
+
+=== Version 3.0.0beta2 release (2013-05-21)
+
+Changes to the SBML Test Runner:
+
+* Upon a first-time start-up, the preferences/wrapper definition panel
+  left the wrapper fields editable even if the user did not click on
+  "Add".  This made was a confusing situation.  It now properly
+  disables the fields.
+
+* Released 21 May 2013.
+
+
 === Version 3.0.0beta1 release (2013-05-17)
 
 * Release beta1 of the new, standalone, SBML Test Runner.  (Note: the
