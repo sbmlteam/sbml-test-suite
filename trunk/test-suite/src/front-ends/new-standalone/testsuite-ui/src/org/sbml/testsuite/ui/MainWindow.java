@@ -3476,6 +3476,8 @@ public class MainWindow
         {
             WrapperConfig wrapper = model.getLastWrapper();
             ResultType result = wrapper.getResultType(test, currentLV);
+            String perhaps = "\nPerhaps the process output contains "
+                + "information about what happened.";
 
             if (result == ResultType.Error)
             {
@@ -3483,31 +3485,45 @@ public class MainWindow
                                         "Results cannot be plotted because an "
                                         + "error occurred when the wrapper "
                                         + "was invoked or the results file "
-                                        + "was read.\nPerhaps the process "
-                                        + "output contains information about "
-                                        + "what happened.");
-                cmpGraphs.layout();
-                cmpDifferences.layout();
-                return;
+                                        + "was read." + perhaps);
             }
-
-            updateCaseItem(treeItem, result, null);
-
-            ResultSet actual = wrapper.getResultSet(test);
-            if (actual != null && actual.parseable()
-                && !actual.hasInfinityOrNaN())
+            else
             {
-                addChartForData(cmpGraphs, isTimeSeries, actual,
-                                "Simulator results for #" + itemName);
-                ResultSet diff;
-                if (isTimeSeries)
-                    diff = ResultSet.diff(expected, actual);
-                else
-                    diff = ResultSet.diffRow(expected, actual, 0);
+                updateCaseItem(treeItem, result, null);
+                ResultSet actual = wrapper.getResultSet(test);
+                if (actual != null)
+                {
+                    if (!actual.parseable())
+                    {
+                        showMessageNotAvailable(cmpDifferences,
+                                                "Results cannot be plotted "
+                                                + "because the output file "
+                                                + "produced by the wrapper "
+                                                + "could not be parsed."
+                                                + perhaps);
+                    }
+                    else if (actual.hasInfinityOrNaN())
+                    {
+                        showMessageNotAvailable(cmpDifferences,
+                                                "Results cannot be plotted "
+                                                + "because they contain NaN "
+                                                + "or infinity values.");
+                    }
+                    else       // All okay, so plot the results & difference.
+                    {
+                        addChartForData(cmpGraphs, isTimeSeries, actual,
+                                        "Simulator results for #" + itemName);
+                        ResultSet diff;
+                        if (isTimeSeries)
+                            diff = ResultSet.diff(expected, actual);
+                        else
+                            diff = ResultSet.diffRow(expected, actual, 0);
 
-                if (diff != null && ! diff.hasInfinityOrNaN())
-                    addChartForData(cmpDifferences, isTimeSeries,
-                                    diff, "Difference plot");
+                        if (diff != null && ! diff.hasInfinityOrNaN())
+                            addChartForData(cmpDifferences, isTimeSeries,
+                                            diff, "Difference plot");
+                    }
+                }
             }
         }
 
