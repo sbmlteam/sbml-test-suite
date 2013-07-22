@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model id="delay_csymbol" name="delay_csymbol" timeUnits="time">
+  <model id="case00937" name="case00937" timeUnits="time">
     <notes>
       <body xmlns="http://www.w3.org/1999/xhtml">
         <p> Originally created by libAntimony 1.4 (using libSBML 5.0.0-a1) </p>
