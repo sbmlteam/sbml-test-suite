@@ -465,7 +465,7 @@ string getInitialSpeciesLevels(Model* model, bool isconst)
     Rule* rule = model->getRule(id);
     InitialAssignment* ia = model->getInitialAssignment(id);
     ret << endl << "| ";
-    if (rule != NULL || ia != NULL) {
+    if ((rule != NULL && rule->getTypeCode() != SBML_RATE_RULE) || ia != NULL) {
       if (species->getHasOnlySubstanceUnits()) {
         ret << "Initial amount of species ";
       }
@@ -473,11 +473,11 @@ string getInitialSpeciesLevels(Model* model, bool isconst)
         ret << "Initial concentration of species ";
       }
       ret << id << " | $"; 
-      if (rule != NULL) {
-        ret << SBML_formulaToString(rule->getMath()) << "$ |";
+      if (ia != NULL) {
+        ret << SBML_formulaToString(ia->getMath()) << "$ |";
       }
       else {
-        ret << SBML_formulaToString(ia->getMath()) << "$ |";
+        ret << SBML_formulaToString(rule->getMath()) << "$ |";
       }
     }
     else if (species->isSetInitialAmount()) {
@@ -509,12 +509,12 @@ string getInitialParameterLevels(Model* model, bool isconst)
     ret << endl << "| Initial value of parameter " << id << " | $"; 
     Rule* rule = model->getRule(id);
     InitialAssignment* ia = model->getInitialAssignment(id);
-    if (rule != NULL || ia != NULL) {
-      if (rule != NULL) {
-        ret << SBML_formulaToString(rule->getMath()) << "$ |";
+    if ((rule != NULL && rule->getTypeCode() != SBML_RATE_RULE) || ia != NULL) {
+      if (ia != NULL) {
+        ret << SBML_formulaToString(ia->getMath()) << "$ |";
       }
       else {
-        ret << SBML_formulaToString(ia->getMath()) << "$ |";
+        ret << SBML_formulaToString(rule->getMath()) << "$ |";
       }
     }
     else if (param->isSetValue()) {
@@ -543,12 +543,12 @@ string getInitialCompartmentLevels(Model* model, bool isconst)
     ret << endl << "| Initial volume of compartment '" << id << "' | $"; 
     Rule* rule = model->getRule(id);
     InitialAssignment* ia = model->getInitialAssignment(id);
-    if (rule != NULL || ia != NULL) {
-      if (rule != NULL) {
-        ret << SBML_formulaToString(rule->getMath()) << "$ |";
+    if ((rule != NULL && rule->getTypeCode() != SBML_RATE_RULE) || ia != NULL) {
+      if (ia != NULL) {
+        ret << SBML_formulaToString(ia->getMath()) << "$ |";
       }
       else {
-        ret << SBML_formulaToString(ia->getMath()) << "$ |";
+        ret << SBML_formulaToString(rule->getMath()) << "$ |";
       }
     }
     else if (compartment->isSetVolume()) {
@@ -716,7 +716,7 @@ string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const ma
   set<string> tests;
   set<string> packages;
   SBMLDocument* doc = model->getSBMLDocument();
-  string testType = "timeCourse";
+  string testType = "TimeCourse";
 
 #ifdef USE_COMP
   CompSBMLDocumentPlugin* compdoc = static_cast<CompSBMLDocumentPlugin*>(doc->getPlugin("comp"));
