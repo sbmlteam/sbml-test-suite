@@ -19,13 +19,13 @@ The 'flattened' version of this hierarchical model contains:
 There is one reaction:
 
 [{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
-| -> s1 | $1 / timeconv * (t3 * (time / timeconv) / (s1 * delay(t5, timeconv * 2.000000e-001)))$ |]
+| sub1__J0: -> s1 | $1 / timeconv * (t3 * (time / timeconv) / (s1 * delay(t5, timeconv * 2.000000e-001)))$ |]
 
 
 There is one event:
 
 [{width:35em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Delay*  | *Event Assignments* |
-|  | $gt(time / timeconv, 3)$ | $timeconv * (1 / (time / timeconv))$ | $t5 = time / timeconv$ |]
+| event_0 | $gt(time / timeconv, 3)$ | $timeconv * (1 / (time / timeconv))$ | $t5 = time / timeconv$ |]
 
 
 There are 3 rules:
@@ -40,7 +40,7 @@ The initial conditions are as follows:
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial amount of species s1 | $0.001$ | variable |
 | Initial value of parameter timeconv | $60$ | constant |
-| Initial value of parameter t1 | $(time / timeconv / t1 + 3) / timeconv$ | variable |
+| Initial value of parameter t1 | $1$ | variable |
 | Initial value of parameter t2 | $time / timeconv + 3$ | variable |
 | Initial value of parameter t3 | $delay(t1, timeconv * 3)$ | variable |
 | Initial value of parameter t4 | $1$ | variable |

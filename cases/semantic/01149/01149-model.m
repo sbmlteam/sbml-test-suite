@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A hierarchical model with a deleted rate rule.
 componentTags:   Parameter, comp:Deletion, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
-testTags:        comp:NotRequired
+testTags:        
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic

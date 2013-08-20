@@ -24,7 +24,7 @@ The initial conditions are as follows:
 
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter conv | $0.1$ | constant |
-| Initial volume of compartment 'C8' | $(4 * (C8 / conv) + 3) * conv$ | constant |]
+| Initial volume of compartment 'C8' | $8$ | variable |]
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.

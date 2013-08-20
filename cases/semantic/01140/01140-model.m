@@ -24,7 +24,7 @@ There is one rule:
 The initial conditions are as follows:
 
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
-| Initial amount of species s8 | $(4 * (s8 / conv) + 3) * conv$ | variable |
+| Initial amount of species s8 | $8$ | variable |
 | Initial value of parameter conv | $0.1$ | constant |
 | Initial volume of compartment 'C' | $1$ | constant |
 | Initial volume of compartment 'sub1__C' | $1$ | constant |]

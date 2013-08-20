@@ -19,7 +19,7 @@ The 'flattened' version of this hierarchical model contains:
 There is one reaction:
 
 [{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
-| A__S1 -> | $extentconv / timeconv * A__k1 * A__S1$ |]
+| A___J0: A__S1 -> | $extentconv / timeconv * A__k1 * A__S1$ |]
 
 
 There are 2 events:
@@ -47,8 +47,8 @@ The initial conditions are as follows:
 | Initial value of parameter cf | $100$ | constant |
 | Initial value of parameter A__k1 | $1.06$ | constant |
 | Initial value of parameter Q | $X / cf - 3$ | variable |
-| Initial value of parameter X | $0.2 * cf / timeconv$ | variable |
-| Initial value of parameter U1 | $X / 100$ | variable |
+| Initial value of parameter X | $15$ | variable |
+| Initial value of parameter U1 | $1.1$ | variable |
 | Initial value of parameter U2 | $23$ | variable |
 | Initial value of parameter A__y | $8.8$ | variable |
 | Initial volume of compartment 'A__default_compartment' | $1$ | constant |]

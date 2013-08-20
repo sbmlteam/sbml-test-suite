@@ -24,6 +24,6 @@ The initial conditions are as follows:
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter timeconv | $60$ | constant |
 | Initial value of parameter paramconv | $0.01$ | constant |
-| Initial value of parameter t1 | $(time / timeconv / (t1 / paramconv) + 3) * paramconv / timeconv$ | variable |]
+| Initial value of parameter t1 | $1$ | variable |]
 
 *)

@@ -2,7 +2,7 @@
 
 category:        Test
 synopsis:        Hierarchical model with chained replacedBys.
-componentTags:   Parameter, comp:ModelDefinition, comp:ReplacedBy, comp:Submodel
+componentTags:   Parameter, comp:ModelDefinition, comp:ReplacedBy, comp:SBaseRef, comp:Submodel
 testTags:        
 testType:        TimeCourse
 levels:          3.1
