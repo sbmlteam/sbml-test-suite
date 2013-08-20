@@ -625,13 +625,6 @@ void checkSpecies(Model* model, set<string>& components, set<string>& tests,  co
 #ifdef USE_COMP
 void checkComp(CompSBMLDocumentPlugin* compdoc, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results)
 {
-  //if (compdoc->getRequired()) {
-  //  components.insert("comp:Required");
-  //}
-  //else {
-  //  components.insert("comp:NotRequired");
-  //}
-
   SBMLDocument* doc = compdoc->getSBMLDocument();
   List* allElements = doc->getAllElements();
   for (unsigned int e=0; e<allElements->getSize(); e++) {

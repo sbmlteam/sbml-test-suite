@@ -420,9 +420,6 @@ void checkTags(const string& filename, set<string> known_components, set<string>
   CompSBMLDocumentPlugin* compdoc = static_cast<CompSBMLDocumentPlugin*>(document->getPlugin("comp"));
   SBMLDocument flat(3,1);
   if (compdoc != NULL) {
-    if (compdoc->getRequired() == false) {
-      tests.insert("comp:NotRequired");
-    }
     flat = *document;
     checkComp(compdoc, components, tests, results);
     ConversionProperties* props = new ConversionProperties();
