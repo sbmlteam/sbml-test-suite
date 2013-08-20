@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A hierarchical model with a replaced rate rule.
 componentTags:   Parameter, RateRule, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
-testTags:        NonConstantParameter, comp:NotRequired
+testTags:        NonConstantParameter
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic
@@ -22,7 +22,7 @@ There is one rule:
 The initial conditions are as follows:
 
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
-| Initial value of parameter p8 | $3$ | variable |]
+| Initial value of parameter p8 | $8$ | variable |]
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.

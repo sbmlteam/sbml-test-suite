@@ -23,7 +23,7 @@ The initial conditions are as follows:
 
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter timeconv | $60$ | constant |
-| Initial value of parameter t1 | $(time / timeconv / t1 + 3) / timeconv$ | variable |]
+| Initial value of parameter t1 | $1$ | variable |]
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.

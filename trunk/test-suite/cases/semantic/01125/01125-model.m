@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Simple non-required comp model
 componentTags:   Parameter, comp:ModelDefinition, comp:Port, comp:ReplacedElement, comp:Submodel
-testTags:        comp:NotRequired
+testTags:        
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic

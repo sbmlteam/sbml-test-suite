@@ -13,7 +13,7 @@
   <comp:listOfModelDefinitions>
     <comp:modelDefinition id="Mod1">
       <listOfParameters>
-        <parameter id="subparam2" value="6" constant="true"/>
+        <parameter id="subparam2" metaid="meta_sp2" value="6" constant="true"/>
       </listOfParameters>
     </comp:modelDefinition>
   </comp:listOfModelDefinitions>

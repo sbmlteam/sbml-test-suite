@@ -1,12 +1,13 @@
 (*
 
-category:      Test
-synopsis:      A combination test of almost everything but events.
-componentTags: AssignmentRule, CSymbolAvogadro, CSymbolTime, Compartment, FunctionDefinition, InitialAssignment, Parameter, RateRule, Reaction, Species
-testTags:      Amount, AssignedConstantStoichiometry, AssignedVariableStoichiometry, BoundaryCondition, ConstantSpecies, ConversionFactors, HasOnlySubstanceUnits, InitialValueReassigned, LocalParameters, MultiCompartment, NonConstantCompartment, NonConstantParameter, NonUnityCompartment, NonUnityStoichiometry, SpeciesReferenceInMath
-testType:      TimeCourse
-levels:        3.1
-generatedBy:   Numeric
+category:        Test
+synopsis:        A combination test of almost everything but events.
+componentTags:   AssignmentRule, CSymbolAvogadro, CSymbolTime, Compartment, FunctionDefinition, InitialAssignment, Parameter, RateRule, Reaction, Species
+testTags:        Amount, AssignedConstantStoichiometry, AssignedVariableStoichiometry, BoundaryCondition, ConstantSpecies, ConversionFactors, HasOnlySubstanceUnits, InitialValueReassigned, LocalParameters, MultiCompartment, NonConstantCompartment, NonConstantParameter, NonUnityCompartment, NonUnityStoichiometry, SpeciesReferenceInMath
+testType:        TimeCourse
+levels:          3.1
+generatedBy:     Numeric
+packagesPresent: 
 
  A stripped-down version of model 1000, without events.  Designed to test a lot of thing in concert.
 
@@ -21,7 +22,7 @@ It also contains 1 function definition(s):
 There is one reaction:
 
 [{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
-| S3 + S1ref S1 -> S2ref S2 | $kinetics(k1, k2, k3, k4, k5, S1, S1ref, S3, S4, S2)$ |]
+| _J0: S3 + S1ref S1 -> S2ref S2 | $kinetics(k1, k2, k3, k4, k5, S1, S1ref, S3, S4, S2)$ |]
 Note:  the following stoichiometries are set separately:  S1ref, S2ref
 
 
@@ -46,9 +47,9 @@ The initial conditions are as follows:
 | Initial value of parameter conversion1 | $10$ | constant |
 | Initial value of parameter conversion2 | $100$ | constant |
 | Initial value of parameter k3 | $2.5$ | variable |
-| Initial value of parameter k4 | $time$ | variable |
+| Initial value of parameter k4 | $1$ | variable |
 | Initial value of parameter k5 | $2.8$ | variable |
-| Initial volume of compartment 'comp' | $1$ | variable |
+| Initial volume of compartment 'comp' | $5$ | variable |
 | Initial volume of compartment 'comp2' | $k4$ | variable |]
 
 *)

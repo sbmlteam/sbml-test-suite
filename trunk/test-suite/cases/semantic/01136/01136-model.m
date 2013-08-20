@@ -2,7 +2,7 @@
 
 category:        Test
 synopsis:        Chained replaced/replacedBy elements.
-componentTags:   Parameter, comp:ModelDefinition, comp:ReplacedBy, comp:ReplacedElement, comp:Submodel
+componentTags:   Parameter, comp:ModelDefinition, comp:ReplacedBy, comp:SBaseRef, comp:ReplacedElement, comp:Submodel
 testTags:        
 testType:        TimeCourse
 levels:          3.1

@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A hierarchical model with a rate rule deleted via a port.
 componentTags:   Parameter, comp:Deletion, comp:ModelDefinition, comp:Port, comp:ReplacedElement, comp:Submodel
-testTags:        comp:NotRequired
+testTags:        
 testType:        TimeCourse
 levels:          3.1
 generatedBy:     Analytic

@@ -7,18 +7,18 @@
       <parameter id="timeconv" value="60" constant="true"/>
       <parameter id="Q" constant="false">
         <comp:listOfReplacedElements>
-          <comp:replacedElement comp:idRef="q" comp:submodelRef="A"/>
+          <comp:replacedElement comp:portRef="q" comp:submodelRef="A"/>
         </comp:listOfReplacedElements>
       </parameter>
       <parameter id="R" value="20" constant="true">
         <comp:listOfReplacedElements>
-          <comp:replacedElement comp:idRef="r" comp:submodelRef="A"/>
+          <comp:replacedElement comp:portRef="r" comp:submodelRef="A"/>
         </comp:listOfReplacedElements>
       </parameter>
       <parameter id="cf" value="100" constant="true"/>
       <parameter id="X" value="15" constant="false">
         <comp:listOfReplacedElements>
-          <comp:replacedElement comp:idRef="x" comp:submodelRef="A" comp:conversionFactor="cf"/>
+          <comp:replacedElement comp:portRef="x" comp:submodelRef="A" comp:conversionFactor="cf"/>
         </comp:listOfReplacedElements>
       </parameter>
       <parameter id="U1" value="1.1" constant="false">
