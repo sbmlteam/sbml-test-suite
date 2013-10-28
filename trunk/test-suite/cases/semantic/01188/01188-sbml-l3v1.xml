@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Created with PySCeS CBM (0.6.3 [r1171]) on Fri, 21 Dec 2012 11:05:21 by bgoli -->
+<?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version1" xmlns:html="http://www.w3.org/1999/xhtml" level="3" version="1" fbc:required="false">
   <model metaid="meta_MODEL_01188" id="MODEL_01188">
     <notes>
@@ -625,9 +624,9 @@
     </fbc:listOfFluxBounds>
     <fbc:listOfObjectives fbc:activeObjective="OBJF">
       <fbc:objective fbc:id="OBJF" fbc:type="maximize">
-        <fbc:listOfFluxes>
+        <fbc:listOfFluxObjectives>
           <fbc:fluxObjective fbc:reaction="R26" fbc:coefficient="1"/>
-        </fbc:listOfFluxes>
+        </fbc:listOfFluxObjectives>
       </fbc:objective>
     </fbc:listOfObjectives>
   </model>
