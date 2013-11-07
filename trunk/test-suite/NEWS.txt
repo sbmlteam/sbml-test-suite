@@ -9,20 +9,20 @@ Changes to the test cases:
   ('fbc') have been updated to reflect the syntax of the final SBML
   fbc specification.
 
-- Removed the Test Suite tag 'comp:NotRequired' on 'comp' models
+* Removed the Test Suite tag 'comp:NotRequired' on 'comp' models
   because the 'required' attribute for 'comp' is now considered to be
   always required to be "true".
 
-- Added some missing comp:SBaseRef tags to 'comp' models that required
+* Added some missing comp:SBaseRef tags to 'comp' models that required
   them.
 
-- Corrected a bug in the description of some 'comp' models that
+* Corrected a bug in the description of some 'comp' models that
   claimed their initial value was set by a rate rule.
 
-- Corrected a small error in the description of a numerical value in
+* Corrected a small error in the description of a numerical value in
   model 1000.
 
-- Updated the names and id's of a number of models so that they
+* Updated the names and id's of a number of models so that they
   matched the pattern "case#####" used by other models.
 
 
