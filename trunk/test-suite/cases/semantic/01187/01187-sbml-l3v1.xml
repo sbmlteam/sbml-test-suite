@@ -2,10 +2,10 @@
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version1" xmlns:html="http://www.w3.org/1999/xhtml" level="3" version="1" fbc:required="false">
   <model metaid="meta_MODEL_01187" id="MODEL_01187">
     <notes>
-      <body xmlns:html="http://www.w3.org/1999/xhtml">
-        <html:p>
-          <html:span style="font-family: Courier New,Courier,monospace;">Minimize single objective function, hard bounds.</html:span>
-        </html:p>
+      <body xmlns="http://www.w3.org/1999/xhtml">
+        <p>
+          <span style="font-family: Courier New,Courier,monospace;">Minimize single objective function, hard bounds.</span>
+        </p>
       </body>
     </notes>
     <annotation>
@@ -99,8 +99,8 @@
     <listOfReactions>
       <reaction metaid="meta_R16" id="R16" name="R16" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C3</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C3</p>
           </body>
         </notes>
         <annotation>
@@ -117,8 +117,8 @@
       </reaction>
       <reaction metaid="meta_R14" id="R14" name="R14" reversible="true" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C3</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C3</p>
           </body>
         </notes>
         <annotation>
@@ -135,8 +135,8 @@
       </reaction>
       <reaction metaid="meta_R15" id="R15" name="R15" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C3</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C3</p>
           </body>
         </notes>
         <annotation>
@@ -153,8 +153,8 @@
       </reaction>
       <reaction metaid="meta_R12" id="R12" name="R12" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: L</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: L</p>
           </body>
         </notes>
         <annotation>
@@ -171,8 +171,8 @@
       </reaction>
       <reaction metaid="meta_R07" id="R07" name="R07" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C2</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C2</p>
           </body>
         </notes>
         <annotation>
@@ -189,8 +189,8 @@
       </reaction>
       <reaction metaid="meta_R13" id="R13" name="R13" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C3</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C3</p>
           </body>
         </notes>
         <annotation>
@@ -207,8 +207,8 @@
       </reaction>
       <reaction metaid="meta_R01" id="R01" name="R01" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: L</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: L</p>
           </body>
         </notes>
         <annotation>
@@ -225,8 +225,8 @@
       </reaction>
       <reaction metaid="meta_R17" id="R17" name="R17" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C3</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C3</p>
           </body>
         </notes>
         <annotation>
@@ -243,8 +243,8 @@
       </reaction>
       <reaction metaid="meta_R03" id="R03" name="R03" reversible="true" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C1</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C1</p>
           </body>
         </notes>
         <annotation>
@@ -261,8 +261,8 @@
       </reaction>
       <reaction metaid="meta_R02" id="R02" name="R02" reversible="true" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C1</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C1</p>
           </body>
         </notes>
         <annotation>
@@ -279,8 +279,8 @@
       </reaction>
       <reaction metaid="meta_R05" id="R05" name="R05" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: L</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: L</p>
           </body>
         </notes>
         <annotation>
@@ -297,8 +297,8 @@
       </reaction>
       <reaction metaid="meta_R04" id="R04" name="R04" reversible="true" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C1</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C1</p>
           </body>
         </notes>
         <annotation>
@@ -315,8 +315,8 @@
       </reaction>
       <reaction metaid="meta_R10" id="R10" name="R10" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C2</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C2</p>
           </body>
         </notes>
         <annotation>
@@ -333,8 +333,8 @@
       </reaction>
       <reaction metaid="meta_R06" id="R06" name="R06" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C2</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C2</p>
           </body>
         </notes>
         <annotation>
@@ -351,8 +351,8 @@
       </reaction>
       <reaction metaid="meta_R09" id="R09" name="R09" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C2</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C2</p>
           </body>
         </notes>
         <annotation>
@@ -369,8 +369,8 @@
       </reaction>
       <reaction metaid="meta_R08" id="R08" name="R08" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C2</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C2</p>
           </body>
         </notes>
         <annotation>
@@ -387,8 +387,8 @@
       </reaction>
       <reaction metaid="meta_R11" id="R11" name="R11" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C2</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C2</p>
           </body>
         </notes>
         <annotation>
@@ -405,8 +405,8 @@
       </reaction>
       <reaction metaid="meta_R18" id="R18" name="R18" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C3</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C3</p>
           </body>
         </notes>
         <annotation>
@@ -423,8 +423,8 @@
       </reaction>
       <reaction metaid="meta_R19" id="R19" name="R19" reversible="true" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C3</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C3</p>
           </body>
         </notes>
         <annotation>
@@ -441,8 +441,8 @@
       </reaction>
       <reaction metaid="meta_R26" id="R26" name="R26" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: L</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: L</p>
           </body>
         </notes>
         <annotation>
@@ -459,8 +459,8 @@
       </reaction>
       <reaction metaid="meta_R25" id="R25" name="R25" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: L</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: L</p>
           </body>
         </notes>
         <annotation>
@@ -479,8 +479,8 @@
       </reaction>
       <reaction metaid="meta_R24" id="R24" name="R24" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C4</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C4</p>
           </body>
         </notes>
         <annotation>
@@ -497,8 +497,8 @@
       </reaction>
       <reaction metaid="meta_R23" id="R23" name="R23" reversible="true" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C4</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C4</p>
           </body>
         </notes>
         <annotation>
@@ -515,8 +515,8 @@
       </reaction>
       <reaction metaid="meta_R22" id="R22" name="R22" reversible="false" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: L</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: L</p>
           </body>
         </notes>
         <annotation>
@@ -533,8 +533,8 @@
       </reaction>
       <reaction metaid="meta_R21" id="R21" name="R21" reversible="true" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C3</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C3</p>
           </body>
         </notes>
         <annotation>
@@ -551,8 +551,8 @@
       </reaction>
       <reaction metaid="meta_R20" id="R20" name="R20" reversible="true" fast="false">
         <notes>
-          <body xmlns:html="http://www.w3.org/1999/xhtml">
-            <html:p>subsystem: C3</html:p>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <p>subsystem: C3</p>
           </body>
         </notes>
         <annotation>
