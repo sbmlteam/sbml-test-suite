@@ -32,13 +32,18 @@ package org.sbml.testsuite.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -87,6 +92,7 @@ import org.sbml.testsuite.core.LevelVersion;
 import org.sbml.testsuite.core.ResultType;
 import org.sbml.testsuite.core.RunOutcome;
 import org.sbml.testsuite.core.TestCase;
+import org.sbml.testsuite.core.TestSuite;
 import org.sbml.testsuite.core.TestSuiteSettings;
 import org.sbml.testsuite.core.Util;
 import org.sbml.testsuite.core.WrapperConfig;
@@ -317,6 +323,8 @@ public class MainWindow
     private final String              ITEM_RESULT = "RESULT";
     private final String              ITEM_RERUN  = "RERUN";
     private final String              ITEM_OUTPUT = "OUTPUT";
+
+    private final String              CASE_ARCHIVE = "sbml-test-cases.zip";
 
     private Composite                 cmpDifferences;
     private Composite                 cmpGraphs;
@@ -2199,9 +2207,9 @@ public class MainWindow
         dlg.setFilterNames(new String[] {"SBML Test Suite cases archives",
             "All files"});
         dlg.setFilterExtensions(new String[] {"*.zip", "*.*"});
-        dlg.setText("Browse for test suite archive");
+        dlg.setText("Browse for Test Suite zip archive");
         String fileName = dlg.open();
-        if (fileName != null && openArchive(new File(fileName)))
+        if (fileName != null && unpackArchive(new File(fileName)))
         {
             invalidateSelectedResults(tree.getItems());
             if (wrapperIsRunnable())
@@ -2511,34 +2519,31 @@ public class MainWindow
 
     /**
      * Initializes the model for the application.
-     * 
-     * If no suite exists it extracts the bundled test suite archive.
+     *
+     * If no suite exists, it extracts the bundled test suite archive.
+     *
+     * @return true if succeeded, false otherwise.
      */
-    public void loadModel()
+    public boolean loadModel()
     {
         model = new MainModel();
-        if (model.getSuite() == null || model.getSuite().getNumCases() == 0)
+        TestSuite suite = model.getSuite();
+
+        Date internalCasesReleaseDate = getInternalCasesReleaseDate();
+        if (internalCasesReleaseDate == null)
+            return false;
+
+        if (suite == null || suite.getNumCases() == 0
+            || suite.getCasesReleaseDate() == null
+            || suite.getCasesReleaseDate().before(internalCasesReleaseDate))
         {
-            // extract archive
-            File destDir = new File(Util.getUserDir());
-            File destFile = new File(destDir, ".testsuite.zip");
-            try
-            {
-                Util.copyInputStream(UIUtils.getFileResourceStream("sbml-test-cases.zip"),
-                                     new BufferedOutputStream(new FileOutputStream(destFile)));
-                openArchive(destFile);
-                destFile.delete();
-            }
-            catch (FileNotFoundException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (IOException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            // Either (a) we don't have a suite yet, or (b) it doesn't have a
+            // date file (implying the cases are older than the ones shipped
+            // with the SBML Test Suite version 3.1.0), or (c) it has a
+            // release file but the cases are older than what's bundled with
+            // this copy of the test runner.  Unpack our internal copy.
+
+            extractInternalCasesArchive();
         }
         else
         {
@@ -2564,6 +2569,7 @@ public class MainWindow
             }
         }
         updateStatuses();
+        return true;
     }
 
 
@@ -2595,7 +2601,7 @@ public class MainWindow
             }
 
         });
-    }   
+    }
 
 
     /**
@@ -2612,7 +2618,8 @@ public class MainWindow
         UIUtils.restoreWindow(shell, this);
         shell.open();
 
-        loadModel();
+        if (!loadModel())
+            System.exit(1);
 
         markAsRunning(false);
         progressSection.setMaxCount(tree.getItemCount()); // Initial default.
@@ -2669,7 +2676,100 @@ public class MainWindow
     }
 
 
-    private boolean openArchive(File file)
+    private Date getInternalCasesReleaseDate()
+    {
+        try
+        {
+            InputStream in = UIUtils.getFileResourceStream(CASE_ARCHIVE);
+            if (in == null)
+            {
+                Tell.error(shell, "The internal archive of the SBML test cases\n"
+                           + "appears to be corrupted or missing. It is best\n"
+                           + "not to proceed further. Please report this to \n"
+                           + "the developers.", "Unable to find archive.");
+                return null;
+            }
+
+            ZipInputStream zis = new ZipInputStream(in);
+            ZipEntry entry = null;
+            do
+            {
+                entry = zis.getNextEntry();
+                if (entry == null)
+                    break;
+            }
+            while (entry != null && ! ".cases-archive-date".equals(entry.getName()));
+            if (entry != null)
+            {
+                return Util.readArchiveDateFileStream(zis);
+            }
+        }
+        catch (Exception e)
+        {
+            Tell.error(shell, "The internal archive of the SBML test cases\n"
+                       + "appears to be corrupted. It is best not to \n"
+                       + "proceed further. Please report this to the \n"
+                       + "developers.", UIUtils.stackTraceToString(e));
+        }
+        return null;
+    }
+
+
+    private void extractInternalCasesArchive()
+    {
+        File destDir = new File(Util.getUserDir());
+        File destFile = new File(destDir, ".testsuite.zip");
+        String errorMessage = "";
+        String extraDetails = "";
+
+        try
+        {
+            InputStream is = UIUtils.getFileResourceStream(CASE_ARCHIVE);
+            FileOutputStream fos = new FileOutputStream(destFile);
+            if (is == null)
+            {
+                errorMessage = "The internal archive of the SBML test cases\n"
+                    + "appears to be missing -- something is seriously\n"
+                    + "wrong with this copy of the Test Runner. Please\n"
+                    + "report this to the developers.";
+            }
+            else if (fos == null)
+            {
+                errorMessage = "Unable to write the test case files to\n"
+                    + destFile
+                    + "Proceeding anyway, but the Test Runner will have\n"
+                    + "severely limited functionality.";
+            }
+            else
+            {
+                BufferedOutputStream bos = new BufferedOutputStream(fos);
+                Util.copyInputStream(is, bos);
+                unpackArchive(destFile);
+                destFile.delete();
+                return;
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            errorMessage = "The internal archive of the SBML test cases\n"
+                + "appears to be missing -- something is seriously\n"
+                + "wrong with this copy of the Test Runner.\n"
+                + "Please report this to the developers.\n";
+            extraDetails = UIUtils.stackTraceToString(e);
+        }
+        catch (IOException e)
+        {
+            errorMessage =  "Encountered unexpected error while reading\n"
+                + "the internal copy of the SBML test case archive.\n"
+                + "Please report this to the developers.\n";
+            extraDetails = UIUtils.stackTraceToString(e);
+        }
+
+        Tell.error(shell, errorMessage, extraDetails);
+    }
+
+
+    private boolean unpackArchive(File file)
     {
         boolean success = false;
         shell.setEnabled(false);
@@ -2696,7 +2796,14 @@ public class MainWindow
             getDisplay().readAndDispatch();
             File casesDir = new File(Util.getInternalTestSuiteDir(),
                                      "/cases/semantic/");
-            if (!casesDir.isDirectory() && casesDir.exists())
+            if (casesDir.isDirectory())
+            {
+                dialog.getStyledText().append("Updating the list of tests ...\n\n");
+                model.setTestSuiteDir(casesDir);
+                getDisplay().readAndDispatch();
+                success = true;
+            }
+            else if (!casesDir.isDirectory() && casesDir.exists())
             {
                 dialog.getStyledText()
                       .append("Error: the archive was not in the expected format!"
@@ -2706,13 +2813,6 @@ public class MainWindow
                            + "\nthe expected format.",
                            "Perhaps it has been moved or corrupted.");
                 success = false;
-            }
-            else
-            {
-                dialog.getStyledText().append("Updating the list of tests ...\n\n");
-                model.setTestSuiteDir(casesDir);
-                getDisplay().readAndDispatch();
-                success = true;
             }
             dialog.close();
         }
