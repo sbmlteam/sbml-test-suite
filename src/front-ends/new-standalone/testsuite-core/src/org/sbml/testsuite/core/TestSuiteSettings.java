@@ -31,6 +31,7 @@
 package org.sbml.testsuite.core;
 
 import java.io.File;
+import java.util.Date;
 import java.util.Vector;
 import org.simpleframework.xml.Default;
 import org.simpleframework.xml.Element;
@@ -38,9 +39,10 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.Transient;
 import org.simpleframework.xml.core.Persister;
 
+
 /**
- * TestSuiteSettings contains all information about the test suite that should be persisted between runs.
- * 
+ * TestSuiteSettings contains all information about the test suite that
+ * should be persisted between runs.
  */
 @Default
 public class TestSuiteSettings
@@ -56,7 +58,7 @@ public class TestSuiteSettings
 
     @Transient
     private TestSuite suite;
-    
+
     @Transient
     private static TestSuiteSettings defaultSettings;
 
@@ -157,7 +159,7 @@ public class TestSuiteSettings
         return new File(userDir + File.separator + ".testsuite.xml");
     }
 
-    
+
     /**
      * Load the default settings
      * @return default settings
@@ -165,7 +167,7 @@ public class TestSuiteSettings
     public static TestSuiteSettings loadDefault()
     {
         if (defaultSettings != null) return defaultSettings;
-    
+
         File defaultFile = getDefaultFile();
         if (!defaultFile.exists() || !defaultFile.isFile()
             || !defaultFile.canRead() || defaultFile.length() == 0)
@@ -201,6 +203,18 @@ public class TestSuiteSettings
     public File getCasesFile()
     {
         return new File(casesDir);
+    }
+
+
+    /**
+     * @return the release date of the cases we have.
+     */
+    public Date getCasesReleaseDate()
+    {
+        if (suite != null)
+            return suite.getCasesReleaseDate();
+        else
+            return null;
     }
 
 
@@ -353,7 +367,7 @@ public class TestSuiteSettings
     public void setLastWrapper(WrapperConfig lastWrapper)
     {
         if (lastWrapper == null) return;
-        
+
         setLastWrapper(lastWrapper.getName());
     }
 
