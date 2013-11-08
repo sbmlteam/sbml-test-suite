@@ -30,6 +30,8 @@ package org.sbml.testsuite.ui;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.jar.JarFile;
@@ -528,6 +530,14 @@ public class UIUtils
     {
         Preferences prefs = Preferences.userNodeForPackage(obj.getClass());
         prefs.remove(prefName);
+    }
+
+
+    public static String stackTraceToString(Exception e)
+    {
+        StringWriter sw = new StringWriter();
+        e.printStackTrace(new PrintWriter(sw));
+        return sw.toString();
     }
 
 
