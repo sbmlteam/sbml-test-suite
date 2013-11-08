@@ -35,6 +35,7 @@ import java.io.FilenameFilter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Vector;
 
 /**
@@ -43,6 +44,7 @@ import java.util.Vector;
 public class TestSuite
 {
     private File             casesDirectory;
+    private Date             casesReleaseDate;
     private Vector<TestCase> cases               = new Vector<TestCase>();
     private Vector<String>   cachedTestTags      = new Vector<String>();
     private Vector<String>   cachedComponentTags = new Vector<String>();
@@ -112,6 +114,15 @@ public class TestSuite
 
 
     /**
+     * @return the release date of the cases.  null = unknown.
+     */
+    public Date getCasesReleaseDate()
+    {
+        return casesReleaseDate;
+    }
+
+
+    /**
      * @return a sorted vector of all unique component tags included in the
      * test cases of this suite
      */
@@ -126,7 +137,7 @@ public class TestSuite
         {
             for (String tag : item.getComponentTags())
             {
-                String trimmed = tag.trim();  
+                String trimmed = tag.trim();
                 if (trimmed.length() > 0 && !result.contains(trimmed))
                     result.add(trimmed);
             }
@@ -203,7 +214,7 @@ public class TestSuite
         {
             for (String tag : item.getTestTags())
             {
-                String trimmed = tag.trim();                
+                String trimmed = tag.trim();
                 if (trimmed.length() > 0 && !result.contains(trimmed))
                     result.add(trimmed);
             }
@@ -244,6 +255,9 @@ public class TestSuite
             if (Util.isNullOrEmpty(id)) continue;
             cases.add(newTestCase);
         }
+
+        casesReleaseDate = Util.readArchiveDateFile(casesDirectory,
+                                                    ".cases-archive-date");
     }
 
 
