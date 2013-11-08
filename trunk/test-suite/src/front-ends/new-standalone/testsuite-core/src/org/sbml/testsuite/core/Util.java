@@ -41,8 +41,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Vector;
 import java.util.zip.ZipEntry;
@@ -122,7 +127,6 @@ public class Util
         String temp[] = levelVersion.split("\\.|l|L|v|V| ");
         try
         {
-
             if (temp.length == 2)
             {
                 result[0] = Integer.parseInt(temp[0]);
@@ -207,10 +211,11 @@ public class Util
         return string == null || string.length() == 0;
     }
 
-/**
- * Opens the given file with the associated application
- * @param file the file to open
- */
+
+    /**
+     * Opens the given file with the associated application
+     * @param file the file to open
+     */
     public static void openFile(File file)
     {
         if (file == null || !file.exists()) return;
@@ -467,4 +472,82 @@ public class Util
         {}
     }
 
+
+    /**
+     * Return a date read from our special archive date file.
+     * @return a date, read as YYYY-MM-DD.
+     */
+    public static Date readArchiveDateFile(File dateFile)
+    {
+        if (! dateFile.exists() || ! dateFile.canRead())
+            return null;
+
+        try
+        {
+            BufferedReader br = new BufferedReader(new FileReader(dateFile));
+            try
+            {
+                return readArchiveDateFile(br);
+            }
+            finally
+            {
+                br.close();
+            }
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+
+
+    /**
+     * Return a date read from our special archive date file.
+     * @return a date, read as YYYY-MM-DD.
+     */
+    public static Date readArchiveDateFile(File dir, String filename)
+    {
+        return readArchiveDateFile(new File(dir, filename));
+    }
+
+
+    /**
+     * Return a date read from our special archive date file.
+     * @return a date, read as YYYY-MM-DD.
+     */
+    public static Date readArchiveDateFileStream(InputStream is)
+    {
+        try
+        {
+            Reader reader = new InputStreamReader(is);
+            try
+            {
+                return readArchiveDateFile(reader);
+            }
+            finally
+            {
+                reader.close();
+            }
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+
+
+    public static Date readArchiveDateFile(Reader reader)
+    {
+        try
+        {
+            char[] buffer = new char[10];
+            reader.read(buffer, 0, 10);
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            return formatter.parse(new String(buffer));
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
 }
