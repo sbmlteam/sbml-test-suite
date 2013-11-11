@@ -2726,6 +2726,7 @@ public class MainWindow
         {
             InputStream is = UIUtils.getFileResourceStream(CASE_ARCHIVE);
             FileOutputStream fos = new FileOutputStream(destFile);
+
             if (is == null)
             {
                 errorMessage = "The internal archive of the SBML test cases\n"
@@ -2733,21 +2734,16 @@ public class MainWindow
                     + "wrong with this copy of the Test Runner. Please\n"
                     + "report this to the developers.";
             }
-            else if (fos == null)
-            {
-                errorMessage = "Unable to write the test case files to\n"
-                    + destFile
-                    + "Proceeding anyway, but the Test Runner will have\n"
-                    + "severely limited functionality.";
-            }
             else
             {
                 BufferedOutputStream bos = new BufferedOutputStream(fos);
                 Util.copyInputStream(is, bos);
                 unpackArchive(destFile);
                 destFile.delete();
-                return;
             }
+
+            fos.close();
+            return;
         }
         catch (FileNotFoundException e)
         {
@@ -2840,8 +2836,6 @@ public class MainWindow
     {
         if (selection.length > 5 && !confirmManySelected(selection))
             return;
-        
-
 
         for (TreeItem item : selection)
             showProcessOutput(item);
