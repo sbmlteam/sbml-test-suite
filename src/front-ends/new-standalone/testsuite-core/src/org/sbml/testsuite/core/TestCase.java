@@ -475,6 +475,7 @@ public class TestCase
         builder.append(synopsis + "\n");
         builder.append("\n");
         builder.append("Component Tags: " + Util.toString(componentTags) + "\n");
+        builder.append("\n");
         builder.append("Test Tags\t: " + Util.toString(testTags) + "\n");
         builder.append("\n");
 
