@@ -58,6 +58,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.wb.swt.SWTResourceManager;
 
@@ -541,13 +542,10 @@ public class UIUtils
     }
 
 
-    /* The following is based on 
+    /* The following is based on:
      * http://stackoverflow.com/questions/1351245/setting-swt-tooltip-delays
-     * 
-     * Unfortunately, it doesn't seem to work, and I don't know why.
-     * The delay to the time the tooltip is shown doesn't seem to change.
+     */
 
-    
     final static int DEFAULT_HIDE_DELAY = 200;
     final static int DEFAULT_SHOW_DELAY = 100;
 
@@ -562,11 +560,11 @@ public class UIUtils
         control.addListener(SWT.MouseHover, new Listener() {
             public void handleEvent(Event event) {
                 display.timerExec(DEFAULT_SHOW_DELAY, new Runnable() {
-                    public void run() 
+                    public void run()
                     {
                         tip.setVisible(true);
                     }
-                });             
+                });
             }
         });
 
@@ -581,5 +579,4 @@ public class UIUtils
             }
         });
     }
-    */
 }
