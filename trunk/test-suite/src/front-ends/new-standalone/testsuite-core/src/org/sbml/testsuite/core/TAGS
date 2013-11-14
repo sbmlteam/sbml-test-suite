@@ -1,0 +1,419 @@
+
+CancelCallback.java,40
+public interface CancelCallback40,1612
+
+DelayedResult.java,572
+public class DelayedResult42,1674
+    private boolean             isDone;DelayedResult.isDone47,1782
+    ResultType                  result;DelayedResult.result52,1872
+    FutureTask<ResultType>      worker;DelayedResult.worker57,1982
+    private final WrapperConfig wrapperConfig;DelayedResult.wrapperConfig62,2073
+    public DelayedResult(DelayedResult.DelayedResult74,2397
+    public DelayedResult(DelayedResult.DelayedResult94,3016
+    public ResultType getResult(DelayedResult.getResult124,3981
+    public boolean isDone(DelayedResult.isDone153,4602
+
+FilterFunction.java,40
+public interface FilterFunction36,1479
+
+LevelVersion.java,673
+public class LevelVersion41,1659
+    private int    level;LevelVersion.level43,1687
+    private int    version;LevelVersion.version44,1713
+    private String text;LevelVersion.text45,1741
+    public LevelVersion(LevelVersion.LevelVersion47,1767
+    public LevelVersion(LevelVersion.LevelVersion53,1856
+    public int     getLevel(LevelVersion.getLevel60,2051
+    public int     getVersion(LevelVersion.getVersion61,2101
+    public String  toString(LevelVersion.toString62,2153
+    public boolean isHighest(LevelVersion.isHighest63,2202
+    public void    setHighest(LevelVersion.setHighest64,2257
+    public boolean equals(LevelVersion.equals72,2410
+
+Main.java,132
+public class Main39,1548
+    public static void main(Main.main49,1772
+    public static void runWrapper(Main.runWrapper72,2247
+
+ResultType.java,844
+public enum ResultType36,1441
+    Match ResultType.Match38,1466
+    NoMatch ResultType.NoMatch39,1519
+    CannotSolve ResultType.CannotSolve40,1579
+    Unsupported ResultType.Unsupported41,1661
+    Unknown ResultType.Unknown42,1747
+    Unavailable ResultType.Unavailable43,1787
+    Error ResultType.Error44,1875
+    private ResultType.private46,1938
+    private final ResultType.final46,1938
+    private final String ResultType.String46,1938
+    private final String description;ResultType.description46,1938
+    ResultType(ResultType.ResultType48,1977
+    ResultType(String ResultType.String48,1977
+    ResultType(String description)ResultType.description48,1977
+    public ResultType.public53,2065
+    public String ResultType.String53,2065
+    public String getDescription(ResultType.getDescription53,2065
+
+RunOutcome.java,680
+public class RunOutcome32,1393
+    public enum CodeRunOutcome.Code34,1419
+        success,RunOutcome.Code.success36,1446
+        ioError,RunOutcome.Code.ioError37,1463
+        securityError,RunOutcome.Code.securityError38,1480
+        argumentError,RunOutcome.Code.argumentError39,1503
+        interrupted,RunOutcome.Code.interrupted40,1526
+        unknownError;RunOutcome.Code.unknownError41,1547
+    private Code code;RunOutcome.code44,1576
+    private String message;RunOutcome.message45,1599
+    public RunOutcome(RunOutcome.RunOutcome47,1628
+    public String getMessage(RunOutcome.getMessage53,1744
+    public Code getCode(RunOutcome.getCode58,1812
+
+StreamEater.java,306
+public class StreamEater45,1805
+    private InputStream stream;StreamEater.stream48,1851
+    private String record;StreamEater.record49,1883
+    public StreamEater(StreamEater.StreamEater51,1911
+    public void run(StreamEater.run57,2041
+    public String getOutput(StreamEater.getOutput73,2425
+
+TestCase.java,5114
+public class TestCase43,1608
+    public static TestCase forDirectory(TestCase.forDirectory53,1809
+    private File             caseDirectory;TestCase.caseDirectory60,1976
+    private Vector<String>   componentTags;TestCase.componentTags62,2021
+    private String           generatedBy;TestCase.generatedBy64,2066
+    private String           id;TestCase.id66,2109
+    private int              idNumber;TestCase.idNumber68,2143
+    private long             lastModified;TestCase.lastModified70,2183
+    private TestCaseSettings settings;TestCase.settings72,2227
+    private Vector<String>   supportedVersions;TestCase.supportedVersions74,2267
+    private String           synopsis;TestCase.synopsis76,2316
+    private Vector<String>   testTags;TestCase.testTags78,2356
+    private String           testType;TestCase.testType80,2396
+    private Vector<String>   packagesPresent;TestCase.packagesPresent82,2436
+    public TestCase(TestCase.TestCase88,2527
+    public TestCase(TestCase.TestCase102,2849
+    public File getCaseDirectory(TestCase.getCaseDirectory113,3009
+    public Vector<String> getComponentTags(TestCase.getComponentTags122,3137
+    public String getComponentTagsString(TestCase.getComponentTagsString131,3305
+    public Vector<String> getPackagesPresent(TestCase.getPackagesPresent140,3458
+    public String getPackagesPresentString(TestCase.getPackagesPresentString149,3632
+    public String getDescriptionDocument(TestCase.getDescriptionDocument158,3824
+    public File getDescriptionFile(TestCase.getDescriptionFile192,5058
+    public File getDescriptionHTML(TestCase.getDescriptionHTML201,5251
+    public File getDescriptionPlot(TestCase.getDescriptionPlot211,5442
+    public ResultSet getExpectedResult(TestCase.getExpectedResult220,5636
+    public File getExpectedResultFile(TestCase.getExpectedResultFile229,5828
+    public String getGeneratedBy(TestCase.getGeneratedBy238,6006
+    public String getTestType(TestCase.getTestType247,6127
+    public int getHighestSupportedLevel(TestCase.getHighestSupportedLevel256,6257
+    public int getHighestSupportedVersion(TestCase.getHighestSupportedVersion266,6480
+    public String getHighestSupportedVersionString(TestCase.getHighestSupportedVersionString276,6719
+    public String getId(TestCase.getId285,6899
+    public int getIndex(TestCase.getIndex294,7017
+    public long getLastModified(TestCase.getLastModified303,7130
+    public String getSBML(TestCase.getSBML312,7288
+    public String getSBML(TestCase.getSBML326,7587
+    public String getSBML(TestCase.getSBML339,7897
+    public File getSBMLFile(TestCase.getSBMLFile348,8106
+    public File getSBMLFile(TestCase.getSBMLFile363,8493
+    public File getSBMLFile(TestCase.getSBMLFile379,9066
+    public File getSettingFile(TestCase.getSettingFile390,9311
+    public TestCaseSettings getSettings(TestCase.getSettings399,9480
+    public String getStatusText(TestCase.getStatusText408,9653
+    public Vector<String> getSupportedVersions(TestCase.getSupportedVersions421,9985
+    public String getSynopsis(TestCase.getSynopsis430,10126
+    public Vector<String> getTestTags(TestCase.getTestTags439,10241
+    public String getTestTagsString(TestCase.getTestTagsString448,10394
+    public String getToolTip(TestCase.getToolTip458,10615
+    public boolean hasChanged(TestCase.hasChanged480,11257
+    public boolean hasDescription(TestCase.hasDescription490,11479
+    public void initializeFromDesc(TestCase.initializeFromDesc502,11778
+    public void initializeFromDirectory(TestCase.initializeFromDirectory552,13739
+    public boolean isIncludedIn(TestCase.isIncludedIn577,14337
+    public boolean isValid(TestCase.isValid587,14616
+    public boolean matches(TestCase.matches601,15009
+    public boolean matches(TestCase.matches614,15315
+    public boolean matches(TestCase.matches634,15978
+    private final boolean prefixMatch(TestCase.prefixMatch649,16424
+    public void openDescriptionInBrowser(TestCase.openDescriptionInBrowser668,16961
+    public void openExpectedResult(TestCase.openExpectedResult688,17468
+    public void openSBML(TestCase.openSBML697,17638
+    public void openSBML(TestCase.openSBML713,17966
+    public void openSBML(TestCase.openSBML728,18295
+    public void openTestDirectory(TestCase.openTestDirectory739,18485
+    public void setCaseDirectory(TestCase.setCaseDirectory749,18660
+    public void setComponentTags(TestCase.setComponentTags759,18858
+    public void setGeneratedBy(TestCase.setGeneratedBy769,19062
+    public void setId(TestCase.setId779,19232
+    public void setLastModified(TestCase.setLastModified791,19464
+    public void setSettings(TestCase.setSettings801,19648
+    public void setSupportedVersions(TestCase.setSupportedVersions811,19846
+    public boolean supportsLevelVersion(TestCase.supportsLevelVersion823,20126
+    public void setSynopsis(TestCase.setSynopsis835,20486
+    public void setTestTags(TestCase.setTestTags845,20656
+    public boolean updateIfNewer(TestCase.updateIfNewer856,20924
+
+TestCaseSettings.java,2369
+public class TestCaseSettings39,1493
+    public static TestCaseSettings fromFile(TestCaseSettings.fromFile46,1673
+    public static TestCaseSettings fromFile(TestCaseSettings.fromFile56,1944
+    private double         absoluteError;TestCaseSettings.absoluteError61,2075
+    private Vector<String> amount;TestCaseSettings.amount63,2118
+    private Vector<String> concentration;TestCaseSettings.concentration64,2153
+    private double         endTime;TestCaseSettings.endTime65,2195
+    private String         filename;TestCaseSettings.filename67,2232
+    private double         relativeError;TestCaseSettings.relativeError69,2270
+    private double         startTime;TestCaseSettings.startTime71,2313
+    private int            steps;TestCaseSettings.steps74,2353
+    private Vector<String> variables;TestCaseSettings.variables77,2389
+    public TestCaseSettings(TestCaseSettings.TestCaseSettings83,2472
+    public TestCaseSettings(TestCaseSettings.TestCaseSettings95,2764
+    public double getAbsoluteError(TestCaseSettings.getAbsoluteError105,2916
+    public Vector<String> getAmount(TestCaseSettings.getAmount114,3039
+    public Vector<String> getConcentration(TestCaseSettings.getConcentration123,3163
+    public double getEndTime(TestCaseSettings.getEndTime132,3295
+    public String getFilename(TestCaseSettings.getFilename141,3408
+    public double getRelativeError(TestCaseSettings.getRelativeError150,3528
+    public double getStartTime(TestCaseSettings.getStartTime159,3654
+    public int getSteps(TestCaseSettings.getSteps168,3768
+    public Vector<String> getVariables(TestCaseSettings.getVariables177,3875
+    public void initializeFromFile(TestCaseSettings.initializeFromFile187,4069
+    public void setAbsoluteError(TestCaseSettings.setAbsoluteError218,5313
+    public void setAmount(TestCaseSettings.setAmount228,5499
+    public void setConcentration(TestCaseSettings.setConcentration238,5679
+    public void setEndTime(TestCaseSettings.setEndTime248,5875
+    public void setFilename(TestCaseSettings.setFilename258,6041
+    public void setRelativeError(TestCaseSettings.setRelativeError268,6221
+    public void setStartTime(TestCaseSettings.setStartTime278,6413
+    public void setSteps(TestCaseSettings.setSteps288,6581
+    public void setVariables(TestCaseSettings.setVariables298,6738
+
+TestLogFormatter.java,322
+public class TestLogFormatter42,1570
+    public String format(TestLogFormatter.format52,1761
+    public static String getLogPrefix(TestLogFormatter.getLogPrefix81,2604
+    public static void setLogPrefix(TestLogFormatter.setLogPrefix93,2806
+    private static String LOG_PREFIX TestLogFormatter.LOG_PREFIX99,2957
+
+TestLogger.java,667
+public class TestLogger41,1601
+    public static void init(TestLogger.init48,1842
+    public static final void logInfo(TestLogger.logInfo88,3049
+    public static final void logDebug(TestLogger.logDebug100,3269
+    public static final void logWarning(TestLogger.logWarning112,3486
+    public static final void logError(TestLogger.logError124,3707
+    public static final void logThrowing(TestLogger.logThrowing138,3983
+    protected static String deduceCallingClass(TestLogger.deduceCallingClass151,4275
+    protected static Logger log;TestLogger.log161,4677
+    protected static String STS_LOGGER_SUBSYSTEM TestLogger.STS_LOGGER_SUBSYSTEM164,4771
+
+TestSuite.java,1403
+public class TestSuite43,1591
+    private File             casesDirectory;TestSuite.casesDirectory45,1616
+    private Vector<TestCase> cases TestSuite.cases46,1661
+    private Vector<String>   cachedTestTags TestSuite.cachedTestTags47,1736
+    private Vector<String>   cachedComponentTags TestSuite.cachedComponentTags48,1809
+    public TestSuite(TestSuite.TestSuite55,2010
+    public static TestSuite forDirectory(TestSuite.forDirectory66,2231
+    public TestCase get(TestSuite.get77,2461
+    public TestCase get(TestSuite.get88,2680
+    public Vector<TestCase> getCases(TestSuite.getCases99,2891
+    public File getCasesDirectory(TestSuite.getCasesDirectory108,3016
+    public Vector<String> getComponentTags(TestSuite.getComponentTags118,3221
+    public int getNumCases(TestSuite.getNumCases147,3959
+    public Vector<TestCase> getRange(TestSuite.getRange161,4328
+    public Vector<TestCase> getSortedCases(TestSuite.getSortedCases178,4745
+    public Vector<String> getTestTags(TestSuite.getTestTags195,5255
+    public void initializeFromDirectory(TestSuite.initializeFromDirectory225,6021
+    public void set(TestSuite.set255,6871
+    public void set(TestSuite.set267,7123
+    public void setCases(TestSuite.setCases283,7380
+    public void setCasesDirectory(TestSuite.setCasesDirectory292,7542
+    public boolean updateCases(TestSuite.updateCases302,7783
+
+TestSuiteSettings.java,2514
+public class TestSuiteSettings46,1876
+    private Vector<WrapperConfig> wrappers;TestSuiteSettings.wrappers48,1911
+    private String                casesDir;TestSuiteSettings.casesDir49,1956
+    private TestSuite suite;TestSuiteSettings.suite58,2183
+    private static TestSuiteSettings defaultSettings;TestSuiteSettings.defaultSettings61,2235
+    public TestSuiteSettings(TestSuiteSettings.TestSuiteSettings67,2340
+    public TestSuiteSettings(TestSuiteSettings.TestSuiteSettings81,2736
+    public TestSuiteSettings(TestSuiteSettings.TestSuiteSettings93,3061
+    public TestSuiteSettings(TestSuiteSettings.TestSuiteSettings107,3484
+    public TestSuiteSettings(TestSuiteSettings.TestSuiteSettings123,3998
+    public static TestSuiteSettings fromFile(TestSuiteSettings.fromFile139,4532
+    public static File getDefaultFile(TestSuiteSettings.getDefaultFile154,5029
+    public static TestSuiteSettings loadDefault(TestSuiteSettings.loadDefault165,5293
+    public String getCasesDir(TestSuiteSettings.getCasesDir192,6009
+    public File getCasesFile(TestSuiteSettings.getCasesFile201,6158
+    public String getLastOutputDir(TestSuiteSettings.getLastOutputDir210,6314
+    public WrapperConfig getLastWrapper(TestSuiteSettings.getLastWrapper221,6647
+    public String getLastWrapperName(TestSuiteSettings.getLastWrapperName235,7023
+    public String getLastWrapperNameOrDefault(TestSuiteSettings.getLastWrapperNameOrDefault247,7366
+    public LevelVersion getLastLevelVersion(TestSuiteSettings.getLastLevelVersion259,7694
+    public TestSuite getSuite(TestSuiteSettings.getSuite268,7832
+    public WrapperConfig getWrapper(TestSuiteSettings.getWrapper279,8077
+    public Vector<WrapperConfig> getWrappers(TestSuiteSettings.getWrappers293,8423
+    public void saveAsDefault(TestSuiteSettings.saveAsDefault302,8583
+    public void setCasesDir(TestSuiteSettings.setCasesDir320,8945
+    public void setCasesFile(TestSuiteSettings.setCasesFile330,9160
+    public void setLastWrapper(TestSuiteSettings.setLastWrapper342,9485
+    public void setLastWrapper(TestSuiteSettings.setLastWrapper353,9762
+    public void setLastLevelVersion(TestSuiteSettings.setLastLevelVersion364,10028
+    public void setLastLevelVersion(TestSuiteSettings.setLastLevelVersion373,10216
+    public void setSuite(TestSuiteSettings.setSuite383,10427
+    public void setWrappers(TestSuiteSettings.setWrappers395,10729
+    public void writeToFile(TestSuiteSettings.writeToFile406,11028
+
+Util.java,1225
+public class Util54,1963
+            copyInputStream(Util.copyInputStream64,2189
+    public static void delete(Util.delete82,2719
+    public static File getInternalTestSuiteDir(Util.getInternalTestSuiteDir99,3154
+    public static int[] getLevelAndVersion(Util.getLevelAndVersion119,3762
+    public static String getSnippet(Util.getSnippet164,5002
+    public static String getUserDir(Util.getUserDir192,5807
+    public static boolean isNullOrEmpty(Util.isNullOrEmpty205,6176
+    public static void openFile(Util.openFile214,6395
+    public static double parseDouble(Util.parseDouble233,6817
+    public static int parseInt(Util.parseInt251,7217
+    public static String readAllText(Util.readAllText271,7607
+    public static void sleep(Util.sleep296,8252
+    public static Collection<String> split(Util.split315,8587
+    public static Collection<String> split(Util.split327,8925
+    public static Collection<String> split(Util.split340,9398
+    public static String toString(Util.toString377,10515
+    public static void unzipArchive(Util.unzipArchive394,10983
+    public static void unzipArchive(Util.unzipArchive405,11242
+    public static void writeAllText(Util.writeAllText456,12912
+
+WrapperConfig.java,4677
+public class WrapperConfig57,2291
+    private String                         name;WrapperConfig.name59,2320
+    private Vector<String>                 unsupportedTags;WrapperConfig.unsupportedTags67,2624
+    private SortedMap<WrapperConfig.SortedMap79,2977
+    private SortedMap<String, DelayedResult> resultCache;WrapperConfig.resultCache79,2977
+    private ConcurrentHashMap<WrapperConfig.ConcurrentHashMap82,3051
+    private ConcurrentHashMap<String, File> resultFiles;WrapperConfig.resultFiles82,3051
+    static ExecutorService                 executor WrapperConfig.executor84,3109
+    public WrapperConfig(WrapperConfig.WrapperConfig90,3242
+    public WrapperConfig(WrapperConfig.WrapperConfig108,3705
+    public WrapperConfig(WrapperConfig.WrapperConfig121,3980
+    public WrapperConfig(WrapperConfig.WrapperConfig140,4437
+    public WrapperConfig(WrapperConfig.WrapperConfig174,5647
+    public WrapperConfig(WrapperConfig.WrapperConfig212,7212
+    public WrapperConfig(WrapperConfig.WrapperConfig249,8717
+    public WrapperConfig(WrapperConfig.WrapperConfig287,10251
+    public static WrapperConfig fromFile(WrapperConfig.fromFile309,11015
+    public void beginUpdate(WrapperConfig.beginUpdate326,11493
+    public boolean canRun(WrapperConfig.canRun342,12066
+    public void deleteResult(WrapperConfig.deleteResult363,12634
+    public String getArguments(WrapperConfig.getArguments376,12971
+    public SortedMap<WrapperConfig.SortedMap385,13109
+    public SortedMap<String, DelayedResult> getCache(WrapperConfig.getCache385,13109
+    public ResultType getCachedResult(WrapperConfig.getCachedResult398,13368
+    private String getExpandedArguments(WrapperConfig.getExpandedArguments414,13772
+    public String getName(WrapperConfig.getName430,14379
+    public boolean getViewOnly(WrapperConfig.getViewOnly439,14509
+    public String getOutputPath(WrapperConfig.getOutputPath449,14697
+    public String getProgram(WrapperConfig.getProgram458,14826
+    public File getResultFile(WrapperConfig.getResultFile471,15075
+    public ResultSet getResultSet(WrapperConfig.getResultSet538,17551
+    public ResultType getResultType(WrapperConfig.getResultType553,17948
+    public ResultType getResultType(WrapperConfig.getResultType574,18514
+    public ResultType getResultType(WrapperConfig.getResultType601,19320
+    public ResultType getResultTypeInternal(WrapperConfig.getResultTypeInternal619,19762
+    public Vector<String> getUnsupportedTags(WrapperConfig.getUnsupportedTags652,21031
+    public String getUnsupportedTagsString(WrapperConfig.getUnsupportedTagsString662,21250
+    public boolean isSupportsAllVersions(WrapperConfig.isSupportsAllVersions672,21481
+    public boolean isViewOnly(WrapperConfig.isViewOnly683,21725
+    public boolean isConcurrencyAllowed(WrapperConfig.isConcurrencyAllowed693,21911
+    public RunOutcome run(WrapperConfig.run709,22296
+    public RunOutcome run(WrapperConfig.run729,22905
+    public RunOutcome run(WrapperConfig.run753,23729
+    public RunOutcome run(WrapperConfig.run778,24633
+    public RunOutcome run(WrapperConfig.run814,25798
+    public RunOutcome outcomeWithInfo(WrapperConfig.outcomeWithInfo957,31634
+    public void addResultToCache(WrapperConfig.addResultToCache982,32489
+    public void addErrorToCache(WrapperConfig.addErrorToCache990,32753
+    public void addUnavailableToCache(WrapperConfig.addUnavailableToCache996,32896
+    public void setArguments(WrapperConfig.setArguments1008,33173
+    public void setName(WrapperConfig.setName1020,33390
+    public void setViewOnly(WrapperConfig.setViewOnly1032,33615
+    public void setOutputPath(WrapperConfig.setOutputPath1045,33935
+    public void setProgram(WrapperConfig.setProgram1057,34158
+    public void setSupportsAllVersions(WrapperConfig.setSupportsAllVersions1071,34518
+    public void setConcurrencyAllowed(WrapperConfig.setConcurrencyAllowed1081,34771
+    public void setUnsupportedTags(WrapperConfig.setUnsupportedTags1095,35179
+    public void setUnsupportedTags(WrapperConfig.setUnsupportedTags1107,35508
+    public String toString(WrapperConfig.toString1117,35722
+    public SortedMap<WrapperConfig.SortedMap1130,36043
+    public SortedMap<String, DelayedResult> updateCache(WrapperConfig.updateCache1130,36043
+    public void updateFrom(WrapperConfig.updateFrom1144,36388
+    public void writeToFile(WrapperConfig.writeToFile1168,37126
+    public int hashCode(WrapperConfig.hashCode1180,37374
+    public boolean equals(WrapperConfig.equals1207,38446
+    private final static boolean isRunning(WrapperConfig.isRunning1261,40202
+
+commandline/TestSuiteArguments.java,1076
+public class TestSuiteArguments39,1579
+    private boolean shouldRun;TestSuiteArguments.shouldRun41,1613
+    private String  wrapperName;TestSuiteArguments.wrapperName42,1644
+    private String  testOrTestRange;TestSuiteArguments.testOrTestRange43,1677
+    public TestSuiteArguments(TestSuiteArguments.TestSuiteArguments52,1828
+    public void parseArgs(TestSuiteArguments.parseArgs60,1914
+    public boolean isValid(TestSuiteArguments.isValid84,2600
+    public void printArguments(TestSuiteArguments.printArguments97,2957
+    public void printArguments(TestSuiteArguments.printArguments111,3243
+    public boolean isShouldRun(TestSuiteArguments.isShouldRun134,3858
+    public void setShouldRun(TestSuiteArguments.setShouldRun146,4075
+    public String getWrapperName(TestSuiteArguments.getWrapperName157,4264
+    public void setWrapperName(TestSuiteArguments.setWrapperName169,4485
+    public String getTestOrTestRange(TestSuiteArguments.getTestOrTestRange181,4787
+    public void setTestOrTestRange(TestSuiteArguments.setTestOrTestRange194,5109
+
+data/CompareResultSet.java,851
+public class CompareResultSet36,1421
+    private ResultSet result1;CompareResultSet.result138,1453
+    private ResultSet result2;CompareResultSet.result239,1484
+    private boolean   requireAllColumns;CompareResultSet.requireAllColumns40,1515
+    public CompareResultSet(CompareResultSet.CompareResultSet51,1731
+    public boolean compareUsingTestSuite(CompareResultSet.compareUsingTestSuite68,2180
+    public ResultSet getResult1(CompareResultSet.getResult1123,3996
+    public ResultSet getResult2(CompareResultSet.getResult2132,4111
+    public boolean isRequireAllColumns(CompareResultSet.isRequireAllColumns141,4236
+    public void setRequireAllColumns(CompareResultSet.setRequireAllColumns151,4420
+    public void setResult1(CompareResultSet.setResult1161,4625
+    public void setResult2(CompareResultSet.setResult2171,4792
+
+data/ResultSet.java,1551
+public class ResultSet41,1501
+    private Vector<String> headers;ResultSet.headers43,1526
+    private double[][]     data;ResultSet.data44,1562
+    private boolean        hasInfinityOrNaN ResultSet.hasInfinityOrNaN45,1595
+    private static void addRow(ResultSet.addRow58,1880
+    public static ResultSet diff(ResultSet.diff90,2773
+    public static ResultSet diffRow(ResultSet.diffRow122,3760
+    public static ResultSet fromFile(ResultSet.fromFile150,4641
+    public static ResultSet fromFile(ResultSet.fromFile164,4974
+    private static double saveConvert(ResultSet.saveConvert179,5324
+    public ResultSet(ResultSet.ResultSet208,6194
+    public ResultSet(ResultSet.ResultSet220,6404
+    public ResultSet(ResultSet.ResultSet235,6676
+    public double[] getColumn(ResultSet.getColumn249,6982
+    public double[] getColumn(ResultSet.getColumn272,7517
+    public double[][] getData(ResultSet.getData281,7660
+    public Vector<String> getHeaders(ResultSet.getHeaders290,7770
+    public int getIndex(ResultSet.getIndex303,8023
+    public int getNumColumns(ResultSet.getNumColumns324,8556
+    public int getNumRows(ResultSet.getNumRows334,8734
+    public double[] getTimeColumn(ResultSet.getTimeColumn344,8887
+    public boolean hasColumn(ResultSet.hasColumn357,9199
+    private void parseFile(ResultSet.parseFile369,9399
+    public void setData(ResultSet.setData434,11427
+    public void setHeaders(ResultSet.setHeaders446,11607
+    public boolean hasInfinityOrNaN(ResultSet.hasInfinityOrNaN455,11792
