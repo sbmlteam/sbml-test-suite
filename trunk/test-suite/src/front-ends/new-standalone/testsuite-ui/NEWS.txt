@@ -1,6 +1,50 @@
 SBML Test Suite Test Runner NEWS  -- History of user-visible changes
 
 ====================================================================
+Version 3.1.0 (2013-NN-NN)
+====================================================================
+
+Summary of changes to the test cases:
+
+* Test cases 1186-1196 for the SBML Flux Balance Constraints package
+  ('fbc') have been updated to reflect the syntax of the final SBML
+  fbc specification, for example with respect to <listOfFluxes> vs.
+  <listOfFluxObjectives>.
+
+* Test cases 1186-1196 for 'fbc' have been udpated to standardize the
+  way <notes> element bodies' XML namespaces are declared.
+
+* Removed the Test Suite tag 'comp:NotRequired' on Hierarchical Model
+  Composition ('comp') models because the 'required' attribute for
+  'comp' is now considered to be always required to be "true".
+
+* Corrected a bug in the description of some 'comp' models that
+  claimed their initial value was set by a rate rule.
+
+* Corrected a small error in the description of a numerical value in
+  model 1000.
+
+* Updated some 'comp' models to conform to the validation rules
+  defined in Release 3 of the 'comp' specification.  This was mostly
+  in regards to elements pointing at other elements.
+
+* Added some missing comp:SBaseRef tags to 'comp' models that required
+  them.
+
+* Updated the names and id's of a number of models so that they
+  matched the pattern "case#####" used by other models.
+
+Summary of changes to the SBML Test Runner:
+
+
+New features:
+
+* The cases directories (cases/semantic and cases/syntactic) now
+  contain a copy of the date-of-release marker file, named
+  .cases-release-date.
+
+
+====================================================================
 Version 3.0.0 (2013-06-06)
 ====================================================================
 
