@@ -154,6 +154,8 @@ contents	= cases/semantic \
 
 cases-dist: html plots sedml tags-map
 	@echo $(today) > $(ts-file)
+	@echo $(today) > cases/semantic/$(ts-file)
+	@echo $(today) > cases/syntactic/$(ts-file)
 	make $(map-file)
 	zip -r $(cases-dist-name) $(contents) -x@.zipexcludes
 	@echo "---------------------------------------------------------------"
