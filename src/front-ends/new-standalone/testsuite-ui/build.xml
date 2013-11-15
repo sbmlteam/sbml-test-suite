@@ -125,6 +125,9 @@
     <mkdir dir="${dist.dir}" />
     <mkdir dir="${build.dir}" />
     <mkdir dir="${build.dest}" />
+    <copy file="${app.tags.descriptions.file}"
+          todir="org/sbml/testsuite/ui/resources"
+          overwrite="true"/>
   </target>
 
   <target name="clean">
