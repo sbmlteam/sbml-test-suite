@@ -34,24 +34,18 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 
 
 public class Tags
 {
-    private static final String TAGS_FILE = "tags.txt";
+    private static final String TAGS_FILE = "all-tags.txt";
     private static TreeMap<String, String> tags;
 
 
-    static public Set<String> getAllTags()
-    {
-        if (tags == null) readTagsDescriptions();
-        if (tags.isEmpty())
-            return null;
-        else
-            return tags.keySet();
-    }
-
-
+    /**
+     * Returns a text description for a given tag name.
+     */
     static public String getTagDescription(String tag)
     {
         if (tags == null) readTagsDescriptions();
@@ -67,11 +61,16 @@ public class Tags
     /**
      * Reads the file of tags and their descriptions.
      * <p>
-     * Each line of the file is assumed to have the following format:
-     * <pre>
-     *   tag: description
-     * </pre>
-     * where "tag" is the name of tag (e.g., "MultiCompartment").
+     * The format of this file is meant to be easily parsed by software and humans.
+     * Every line consists of 3 things, in this order:
+     *
+     *   1. tag name
+     *   2. a single tab character
+     *   3. description text
+     *
+     * Lines beginning with the pound-sign character '#' are ignored.
+     * Blank lines are ignored.
+     *
      */
     static private void readTagsDescriptions()
     {
@@ -86,29 +85,23 @@ public class Tags
         if (tagsStream == null)
             return;
 
-        Scanner fileReader = new Scanner(tagsStream).useDelimiter("\\s*:\\s*");
-        if (! fileReader.hasNext())
-            return;
+        Scanner fileReader = new Scanner(tagsStream);
+        Pattern ignorePattern = Pattern.compile("^#.*|^\\s*$");
 
-        do
+        while (fileReader.hasNext())
         {
-            try
+            String line = fileReader.nextLine();
+
+            if (ignorePattern.matcher(line).matches())
+                continue;
+            else
             {
-                String tag = fileReader.next();
-                String description = fileReader.next();
-                tags.put(tag, description);
-            }
-            catch (NoSuchElementException e)
-            {
-                // File is misformatted or corrupted.
-                return;
-            }
-            catch (IllegalStateException e)
-            {
-                // Something really serious happened.
-                return;
+                String[] parts = line.split("\\t");
+                if (parts.length != 2)
+                    continue;           // Something's wrong -- just move on.
+
+                tags.put(parts[0], parts[1]);
             }
         }
-        while (fileReader.hasNext());
     }
 }
