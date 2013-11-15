@@ -13,30 +13,40 @@
 # Blank lines are ignored.
 # ----------------------------------------------------------------------------
 
-AlgebraicRule	An algebraic rule is present in the model
-AssignmentRule	An assignment rule is present in the model
-Compartment	A compartment is present in the model
+###################
+# Component Tags: #
+###################
+AlgebraicRule	An algebraic rule is present in the model.
+AssignmentRule	An assignment rule is present in the model.
+Compartment	A compartment is present in the model.
 CSymbolAvogadro	A MathML csymbol element is present in the model with the definition http://www.sbml.org/sbml/symbols/avogadro
 CSymbolDelay	A MathML csymbol element is present in the model with the definition http://www.sbml.org/sbml/symbols/delay
 CSymbolTime	A MathML csymbol element is present in the model with the definition http://www.sbml.org/sbml/symbols/time
-EventNoDelay	An event is present in the model without a child 'delay' element
-EventPriority	A priority element is present in the model (as a child of an event element)
-EventWithDelay	An event is present in the model with a child 'delay' element
-FunctionDefinition	A function definition is present in the model
-InitialAssignment	An initial assignment is present in the model
-Parameter	A parameter is present in the model
-RateRule	A rate rule is present in the model
-Reaction	A reaction is present in the model
-Species	A species is present in the model
-StoichiometryMath	A stoichiometryMath element is present in the model (as a child of a speciesReference element)
-comp:Deletion	A deletion is present in the model, in the 'comp' namespace
-comp:ExternalModelDefinition	An external model definition is present in the model, in the 'comp' namespace
-comp:ModelDefintion	A model definition is present in the model, in the 'comp' namespace
-comp:Port	A port is present in the model, in the 'comp' namespace
-comp:ReplacedBy	A replacedBy element is present in the model, in the 'comp' namespace
-comp:ReplacedElement	A replacedElement element is present in the model, in the 'comp' namespace
-comp:SBaseRef	An sBaseRef is present in the model, in the 'comp' namespace
-comp:Submodel	A submodel is present in the model, in the 'comp' namespace
+EventNoDelay	An event is present in the model without a child 'delay' element.
+EventPriority	A priority element is present in the model (as a child of an event element).
+EventWithDelay	An event is present in the model with a child 'delay' element.
+FunctionDefinition	A function definition is present in the model.
+InitialAssignment	An initial assignment is present in the model.
+Parameter	A parameter is present in the model.
+RateRule	A rate rule is present in the model.
+Reaction	A reaction is present in the model.
+Species	A species is present in the model.
+StoichiometryMath	A stoichiometryMath element is present in the model (as a child of a speciesReference element).
+comp:Deletion	A deletion is present in the model, in the 'comp' namespace.
+comp:ExternalModelDefinition	An external model definition is present in the model, in the 'comp' namespace.
+comp:ModelDefintion	A model definition is present in the model, in the 'comp' namespace.
+comp:Port	A port is present in the model, in the 'comp' namespace.
+comp:ReplacedBy	A replacedBy element is present in the model, in the 'comp' namespace.
+comp:ReplacedElement	A replacedElement element is present in the model, in the 'comp' namespace.
+comp:SBaseRef	An sBaseRef is present in the model, in the 'comp' namespace.
+comp:Submodel	A submodel is present in the model, in the 'comp' namespace.
+fbc:FluxBound	A fluxBound is present in the model, in the 'fbc' namespace.
+fbc:FluxObjective	A fluxObjective is present in the model, in the 'fbc' namespace.
+fbc:Objective	An objective is present in the model, in the 'fbc' namespace.
+
+##############
+# Test Tags: #
+##############
 0D-Compartment	A compartment with a value of 0 for its 'spatialDimensions' attribute is present in the model
 Amount	The value of at least one species is requested to be output in units of amount, not concentration
 AssignedConstantStoichiometry	The model contains a stoichiometry value that is assigned by a 'stoichiometryMath' construct (in SBML Level 2) or by an initial assignment, assignment rule, or algebraic rule (in SBML Level 3), but thereafter the value remains constant for the duration of the simulation
@@ -59,11 +69,30 @@ NonConstantCompartment	The model contains at least one compartment whose size ch
 NonConstantParameter	The model contains at least one parameter whose value changes over the course of the simulation
 NonUnityCompartment	The model contains at least one compartment whose size is not 1.0 for at least part of the duration of the simulation
 NonUnityStoichiometry	The model contains at least one species reference with a stoichiometry value that is not 1.0 for at least part of the duration of the simulation
-RandomEventExecution	The model contains two or more events that execute at the same moment in time, and which have, at that moment, identical priorities, so that correct simulation of the model depends on randomly choosing which event to execute first
+RandomEventExecution	The model contains two or more events that execute at the same moment in time, and which have, at that moment, identical priorities, so that correct simulation of the model depends on randomly choosing which event to execute first.
 ReversibleReaction	The model contains at least one reaction whose kinetic law produces a negative value for at least part of the duration of the simulation
 SpeciesReferenceInMath	The model contains at least one species reference with an identifier that is used in a mathematical formula elsewhere in the model
 comp:ConversionFactor	The model contains at least one replacedElement with a conversionFactor attribute, which affects the interpretation of the math in the model
 comp:ExtentConversionFactor	The model contains at least one submodel with an extentConversionFactor attribute, which affects the interpretation of the reactions in the submodel
 comp:TimeConversionFactor	The model contains at least one submodel with a timeConversionFactor attribute, which affects the interpretation of the math and the reactions in the submodel
-comp:NotRequired	The interpretation of the requested test suite output is numerically identical, whether or not any 'comp' constructs are understood
 comp:SubmodelOutput	The value of at least one non-replaced element of a submodel is requested in the output, denoted by the use of double-underscores in the requested element's ID
+fbc:BoundEqual	The model contains at least one fbc:fluxBound with an 'operation' attribute of 'equal'.
+fbc:BoundGreaterEqual	The model contains at least one fbc:fluxBound with an 'operation' attribute of 'greaterEqual'.
+fbc:BoundLessEqual	The model contains at least one fbc:fluxBound with an 'operation' attribute of 'lessEqual'.
+fbc:MaximizeObjective	The model contains at least one fbc:objective with a 'type' attribute of 'maximize'.
+fbc:MinimizeObjective	The model contains at least one fbc:objective with a 'type' attribute of 'minimize'.
+
+# Removed tags:
+# Delay                 Removed this as a tag as this is covered by EventWithDelay and CSymbolDelay 
+# Discontinuity         Removed this as a tag as it ties in with events anyway
+# MathML                Removed this as a tag as it isn't really a test case on its own
+# ZeroRate              Removed this as a tag as it isn't really a test case on its own
+# InitialAmount         Changed to Amount
+# InitialConcentration  Changed to Concentration
+# MassUnits             Never used; did not prove to be testable.
+# Units                 Never used; did not prove to be testable.
+# Constraint	        Removed, as it not prove to be testable.
+# 1D-Compartment        Removed, as it not prove to be testable.
+# 2D-Compartment        Removed, as it not prove to be testable.
+# comp:NotRequired	This tag was removed when the interpretation of the 'required' flag was changed to apply to the package as a whole, not individual models.
+
