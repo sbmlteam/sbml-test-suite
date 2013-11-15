@@ -47,35 +47,35 @@ fbc:Objective	An objective is present in the model, in the 'fbc' namespace.
 ##############
 # Test Tags: #
 ##############
-0D-Compartment	A compartment with a value of 0 for its 'spatialDimensions' attribute is present in the model
-Amount	The value of at least one species is requested to be output in units of amount, not concentration
-AssignedConstantStoichiometry	The model contains a stoichiometry value that is assigned by a 'stoichiometryMath' construct (in SBML Level 2) or by an initial assignment, assignment rule, or algebraic rule (in SBML Level 3), but thereafter the value remains constant for the duration of the simulation
-AssignedVariableStoichiometry	The model contains a stoichiometry value that is assigned by a 'stoichiometryMath' construct (in SBML Level 2) or by an initial assignment, assignment rule, algebraic rule or event (in Level 3); however, the value is changed over the course of the simulation
-BoundaryCondition	A species with a value of 'true' for its 'boundaryCondition' attribute is present in the model
-Concentration	The value of at least one species is requested to be output in units of concentration, not amount
-ConstantSpecies	A species with a value of 'true' for its 'constant' attribute is present in the model
-ConversionFactors	The model itself, or a species it contains, has a value set for the 'conversionFactor' attribute
-EventIsNotPersistent	The simulation behavior of the model is influenced by an event that has a value of 'false' for its 'persistent' attribute (SBML Level 3)
-EventIsPersistent	The simulation behavior of the model is influenced by an event that has a value of 'true' for its 'persistent' attribute (SBML Level 3) or is assumed to be persistent by default (SBML Level 2)
-EventT0Firing	The model contains at least one event whose 'trigger' component is 'true' at time 0, and whether it fires at time 0 (possible in SBML Level 3; impossible in SBML Level 2) makes a difference to the output of the simulation
-EventUsesAssignmentTimeValues	The model contains at least one event whose 'useValuesFromTriggerTime' attribute is set to 'false', and this makes a difference in the output of the simulation
-EventUsesTriggerTimeValues	The model contains at least one event whose 'useValuesFromTriggerTime' attribute is set to 'true' (SBML Level 2 Version 4 and later), or which is assumed to use values from the event's trigger time by default (SBML Level 2 prior to Version 4) and this makes a difference in the output of the simulation
-FastReaction	A reaction with a value of 'true' for its 'fast' attribute is present in the model
-HasOnlySubstanceUnits	A species with a value of 'true' for its 'hasOnlySubstanceUnits' attribute is present in the model
-InitialValueReassigned	The initial numerical value of a species, compartment, parameter, or (in SBML Level 3) species reference is determined by an initial assignment, assignment rule, or algebraic rule
-LocalParameters	The model contains a kinetic law with a 'listOfParameters' (SBML Levels 1-2) or 'listOfLocalParameters' (SBML Level 3)
-MultiCompartment	At least two compartments are present in the model
-NonConstantCompartment	The model contains at least one compartment whose size changes over the course of the simulation
-NonConstantParameter	The model contains at least one parameter whose value changes over the course of the simulation
-NonUnityCompartment	The model contains at least one compartment whose size is not 1.0 for at least part of the duration of the simulation
-NonUnityStoichiometry	The model contains at least one species reference with a stoichiometry value that is not 1.0 for at least part of the duration of the simulation
+0D-Compartment	A compartment with a value of 0 for its 'spatialDimensions' attribute is present in the model.
+Amount	The value of at least one species is requested to be output in units of amount, not concentration.
+AssignedConstantStoichiometry	The model contains a stoichiometry value that is assigned by a 'stoichiometryMath' construct (in SBML Level 2) or by an initial assignment, assignment rule, or algebraic rule (in SBML Level 3), but thereafter the value remains constant for the duration of the simulation.
+AssignedVariableStoichiometry	The model contains a stoichiometry value that is assigned by a 'stoichiometryMath' construct (in SBML Level 2) or by an initial assignment, assignment rule, algebraic rule or event (in Level 3); however, the value is changed over the course of the simulation.
+BoundaryCondition	A species with a value of 'true' for its 'boundaryCondition' attribute is present in the model.
+Concentration	The value of at least one species is requested to be output in units of concentration, not amount.
+ConstantSpecies	A species with a value of 'true' for its 'constant' attribute is present in the model.
+ConversionFactors	The model itself, or a species it contains, has a value set for the 'conversionFactor' attribute.
+EventIsNotPersistent	The simulation behavior of the model is influenced by an event that has a value of 'false' for its 'persistent' attribute (SBML Level 3).
+EventIsPersistent	The simulation behavior of the model is influenced by an event that has a value of 'true' for its 'persistent' attribute (SBML Level 3) or is assumed to be persistent by default (SBML Level 2).
+EventT0Firing	The model contains at least one event whose 'trigger' component is 'true' at time 0, and whether it fires at time 0 (possible in SBML Level 3; impossible in SBML Level 2) makes a difference to the output of the simulation.
+EventUsesAssignmentTimeValues	The model contains at least one event whose 'useValuesFromTriggerTime' attribute is set to 'false', and this makes a difference in the output of the simulation.
+EventUsesTriggerTimeValues	The model contains at least one event whose 'useValuesFromTriggerTime' attribute is set to 'true' (SBML Level 2 Version 4 and later), or which is assumed to use values from the event's trigger time by default (SBML Level 2 prior to Version 4) and this makes a difference in the output of the simulation.
+FastReaction	A reaction with a value of 'true' for its 'fast' attribute is present in the model.
+HasOnlySubstanceUnits	A species with a value of 'true' for its 'hasOnlySubstanceUnits' attribute is present in the model.
+InitialValueReassigned	The initial numerical value of a species, compartment, parameter, or (in SBML Level 3) species reference is determined by an initial assignment, assignment rule, or algebraic rule.
+LocalParameters	The model contains a kinetic law with a 'listOfParameters' (SBML Levels 1-2) or 'listOfLocalParameters' (SBML Level 3).
+MultiCompartment	At least two compartments are present in the model.
+NonConstantCompartment	The model contains at least one compartment whose size changes over the course of the simulation.
+NonConstantParameter	The model contains at least one parameter whose value changes over the course of the simulation.
+NonUnityCompartment	The model contains at least one compartment whose size is not 1.0 for at least part of the duration of the simulation.
+NonUnityStoichiometry	The model contains at least one species reference with a stoichiometry value that is not 1.0 for at least part of the duration of the simulation.
 RandomEventExecution	The model contains two or more events that execute at the same moment in time, and which have, at that moment, identical priorities, so that correct simulation of the model depends on randomly choosing which event to execute first.
-ReversibleReaction	The model contains at least one reaction whose kinetic law produces a negative value for at least part of the duration of the simulation
-SpeciesReferenceInMath	The model contains at least one species reference with an identifier that is used in a mathematical formula elsewhere in the model
-comp:ConversionFactor	The model contains at least one replacedElement with a conversionFactor attribute, which affects the interpretation of the math in the model
-comp:ExtentConversionFactor	The model contains at least one submodel with an extentConversionFactor attribute, which affects the interpretation of the reactions in the submodel
-comp:TimeConversionFactor	The model contains at least one submodel with a timeConversionFactor attribute, which affects the interpretation of the math and the reactions in the submodel
-comp:SubmodelOutput	The value of at least one non-replaced element of a submodel is requested in the output, denoted by the use of double-underscores in the requested element's ID
+ReversibleReaction	The model contains at least one reaction whose kinetic law produces a negative value for at least part of the duration of the simulation.
+SpeciesReferenceInMath	The model contains at least one species reference with an identifier that is used in a mathematical formula elsewhere in the model.
+comp:ConversionFactor	The model contains at least one replacedElement with a conversionFactor attribute, which affects the interpretation of the math in the model.
+comp:ExtentConversionFactor	The model contains at least one submodel with an extentConversionFactor attribute, which affects the interpretation of the reactions in the submodel.
+comp:TimeConversionFactor	The model contains at least one submodel with a timeConversionFactor attribute, which affects the interpretation of the math and the reactions in the submodel.
+comp:SubmodelOutput	The value of at least one non-replaced element of a submodel is requested in the output, denoted by the use of double-underscores in the requested element's ID.
 fbc:BoundEqual	The model contains at least one fbc:fluxBound with an 'operation' attribute of 'equal'.
 fbc:BoundGreaterEqual	The model contains at least one fbc:fluxBound with an 'operation' attribute of 'greaterEqual'.
 fbc:BoundLessEqual	The model contains at least one fbc:fluxBound with an 'operation' attribute of 'lessEqual'.
@@ -83,12 +83,12 @@ fbc:MaximizeObjective	The model contains at least one fbc:objective with a 'type
 fbc:MinimizeObjective	The model contains at least one fbc:objective with a 'type' attribute of 'minimize'.
 
 # Removed tags:
-# Delay                 Removed this as a tag as this is covered by EventWithDelay and CSymbolDelay 
-# Discontinuity         Removed this as a tag as it ties in with events anyway
-# MathML                Removed this as a tag as it isn't really a test case on its own
-# ZeroRate              Removed this as a tag as it isn't really a test case on its own
-# InitialAmount         Changed to Amount
-# InitialConcentration  Changed to Concentration
+# Delay                 Removed this as a tag as this is covered by EventWithDelay and CSymbolDelay.
+# Discontinuity         Removed this as a tag as it ties in with events anyway.
+# MathML                Removed this as a tag as it isn't really a test case on its own.
+# ZeroRate              Removed this as a tag as it isn't really a test case on its own.
+# InitialAmount         Changed to Amount.
+# InitialConcentration  Changed to Concentration.
 # MassUnits             Never used; did not prove to be testable.
 # Units                 Never used; did not prove to be testable.
 # Constraint	        Removed, as it not prove to be testable.
