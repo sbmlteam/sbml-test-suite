@@ -1,5 +1,5 @@
 //
-// @file   TagDescription.java
+// @file   Tags.java
 // @brief  Class encapsulating descriptions of test & component tags
 // @author Michael Hucka
 // @date   2013-11-12 <mhucka@caltech.edu>
@@ -64,9 +64,11 @@ public class Tags
      * The format of this file is meant to be easily parsed by software and humans.
      * Every line consists of 3 things, in this order:
      *
-     *   1. tag name
+     *   1. the tag name
      *   2. a single tab character
-     *   3. description text
+     *   3. a summary of the levels & versions for which the tag is valid
+     *   4. a single tab character
+     *   5. text summarizing the meaning of the tag
      *
      * Lines beginning with the pound-sign character '#' are ignored.
      * Blank lines are ignored.
@@ -97,10 +99,10 @@ public class Tags
             else
             {
                 String[] parts = line.split("\\t");
-                if (parts.length != 2)
+                if (parts.length != 3)
                     continue;           // Something's wrong -- just move on.
 
-                tags.put(parts[0], parts[1]);
+                tags.put(parts[0], parts[2]);
             }
         }
     }
