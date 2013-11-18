@@ -422,6 +422,12 @@ public class TagsDialog
 
         UIUtils.createShellCloseListener(shell);
 
+        // Create tool-tip handler for the list of tags.
+
+        final CustomToolTipHandler tooltip = new CustomToolTipHandler(shell);
+        tooltip.activateHoverHelp(treeCompTags);
+        tooltip.activateHoverHelp(treeTestTags);
+
         // Final set-up.
 
         shell.pack();
@@ -472,6 +478,8 @@ public class TagsDialog
         {
             TreeItem treeItem = new TreeItem(treeCompTags, SWT.NONE);
             treeItem.setText(tag);
+            treeItem.setData("TIP_TEXT_LABEL", "The meaning of this tag: ");
+            treeItem.setData("TIP_TEXT", Tags.getTagDescription(tag));
             addPackage(tag);
         }
     }
@@ -491,6 +499,8 @@ public class TagsDialog
         {
             TreeItem treeItem = new TreeItem(treeTestTags, SWT.NONE);
             treeItem.setText(tag);
+            treeItem.setData("TIP_TEXT_LABEL", "The meaning of this tag: ");
+            treeItem.setData("TIP_TEXT", Tags.getTagDescription(tag));
             addPackage(tag);
         }
     }
