@@ -540,43 +540,4 @@ public class UIUtils
         e.printStackTrace(new PrintWriter(sw));
         return sw.toString();
     }
-
-
-    /* The following is based on:
-     * http://stackoverflow.com/questions/1351245/setting-swt-tooltip-delays
-     */
-
-    final static int DEFAULT_HIDE_DELAY = 200;
-    final static int DEFAULT_SHOW_DELAY = 100;
-
-    public static void addCustomToolTip(Control control, String head, String body)
-    {
-        final ToolTip tip = new ToolTip(control.getShell(), SWT.BALLOON);
-        final Display display = tip.getDisplay();
-        tip.setText(head);
-        tip.setMessage(body);
-        tip.setAutoHide(false);
-
-        control.addListener(SWT.MouseHover, new Listener() {
-            public void handleEvent(Event event) {
-                display.timerExec(DEFAULT_SHOW_DELAY, new Runnable() {
-                    public void run()
-                    {
-                        tip.setVisible(true);
-                    }
-                });
-            }
-        });
-
-        control.addListener(SWT.MouseExit, new Listener() {
-            public void handleEvent(Event event) {
-                display.timerExec(DEFAULT_HIDE_DELAY, new Runnable() {
-                    public void run() 
-                    {
-                        tip.setVisible(false);
-                    }
-                });
-            }
-        });
-    }
 }
