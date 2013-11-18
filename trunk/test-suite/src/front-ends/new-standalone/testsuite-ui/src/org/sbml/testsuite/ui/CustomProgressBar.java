@@ -96,7 +96,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
  *
  * The following is the documentation for the original CoolProgressBar upon
  * which this code is based:
- * 
+ *
  * <dl>
  * <dt><b>Styles:</b></dt>
  *    <dd>SWT.HORIZONTAL</dd>
@@ -106,16 +106,16 @@ import org.eclipse.wb.swt.SWTResourceManager;
  * <p> The <code>CoolProgressBar</code> is a progress bar class created to
  * provide a dynamic way to have a really (cool) looking progress
  * bar. <br><br>
- * 
+ *
  * The <code>CoolProgressBar</code> makes use of a 4
  * <code>org.eclipse.swt.graphics.Image</code> classes.<br> 2 of the images
  * are used for the left/top and right/bottom border. <br> 1 image (tiled)
  * will be used for filled region.<br> 1 image (tiled) will be used for empty
  * region.<br><br>
- * 
+ *
  * <br><br> Sample on how to use the <code>CoolProgressBar</code> is provided
  * in the samples package.  <br><br>
- * 
+ *
  * @author Code Crofter <br>
  * On behalf Polymorph Systems
  *
@@ -164,23 +164,23 @@ public class CustomProgressBar extends Composite
      * The constructor for the <code>CustomProgressBar</code> to create
      * progress either in vertical (fill from bottom to top) or
      * horizontal (from left to right) alignment. <br>
-     * 
+     *
      * An additional option is given here to specify the focus images for
      * the thumb.
-     * 
+     *
      * @param parent
      * @param style   <code>SWT.VERTICAL</code> or <code>SWT.HORIZONTAL</code>
-     * @param leftmost 
+     * @param leftmost
      * @param left
      * @param right
      * @param rightBorder
-     */	
+     */
     public CustomProgressBar(Composite parent, int style,
                              Image leftBorderImage, Image filledImage,
                              Image emptyImage, Image rightBorderImage)
     {
         super(parent, SWT.DOUBLE_BUFFERED);
-		
+
         horizontal = (SWT.VERTICAL != (style & SWT.VERTICAL));
         setLayout(createLayout());
 
@@ -188,9 +188,9 @@ public class CustomProgressBar extends Composite
         recommendedHeight = leftBorderImage.getBounds().height;
         leftBorder = createBorder(this, leftBorderImage);
         fillRegion = createFillRegion(this, horizontal ? filledImage : emptyImage);
-        createEmptyRegion(this, horizontal ? emptyImage : filledImage);			
+        createEmptyRegion(this, horizontal ? emptyImage : filledImage);
         rightBorder = createBorder(this, rightBorderImage);
-		
+
         addControlListener(new ControlAdapter() {
                 @Override
                 public void controlResized(ControlEvent e)
@@ -207,7 +207,8 @@ public class CustomProgressBar extends Composite
                 }
             });
     }
-	
+
+
     public CustomProgressBar(Composite parent, int style)
     {
         this(parent, style,
@@ -216,6 +217,7 @@ public class CustomProgressBar extends Composite
              UIUtils.getImageResource("empty_region.png"),
              UIUtils.getImageResource("border.png"));
     }
+
 
     private GridLayout createLayout()
     {
@@ -226,28 +228,31 @@ public class CustomProgressBar extends Composite
         gl.marginWidth = 0;
         return gl;
     }
-	
+
+
     private Canvas createBorder(Composite parent, Image image)
     {
         final Canvas canvas = new Canvas(parent, SWT.NONE);
-        canvas.setBackgroundImage(image);		
+        canvas.setBackgroundImage(image);
         final GridData gd = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
-        gd.minimumHeight = recommendedHeight;				
+        gd.minimumHeight = recommendedHeight;
         gd.heightHint = recommendedHeight;
         gd.minimumWidth = recommendedWidth;
-        gd.widthHint = recommendedWidth;		
+        gd.widthHint = recommendedWidth;
         canvas.setLayoutData(gd);
         return canvas;
     }
-	
+
+
     private Canvas createFillRegion(Composite parent, Image image)
     {
         final Canvas canvas = new Canvas(parent, SWT.NONE);
-        canvas.setBackgroundImage(image);				
+        canvas.setBackgroundImage(image);
         canvas.setLayoutData(createFilledLayoutData(image.getBounds()));
         return canvas;
     }
-	
+
+
     private GridData createFilledLayoutData(Rectangle bounds)
     {
         int h_setting = horizontal ? SWT.BEGINNING : SWT.FILL;
@@ -255,7 +260,7 @@ public class CustomProgressBar extends Composite
         final GridData gd = new GridData(h_setting, v_setting, false, false);
         if (horizontal)
         {
-            gd.minimumHeight = recommendedHeight;				
+            gd.minimumHeight = recommendedHeight;
             gd.heightHint = recommendedHeight;
             gd.widthHint = progressedPosition.get();
             gd.minimumWidth = progressedPosition.get();
@@ -269,18 +274,19 @@ public class CustomProgressBar extends Composite
         }
         return gd;
     }
-	
+
+
     private Canvas createEmptyRegion(Composite parent, Image image)
     {
         final Canvas canvas = new Canvas(parent, SWT.NONE);
-        canvas.setBackgroundImage(image);		
+        canvas.setBackgroundImage(image);
         int h_setting = horizontal ? SWT.FILL : SWT.FILL;
         int v_setting = horizontal ? SWT.BEGINNING : SWT.FILL;
 
         final GridData gd = new GridData(h_setting, v_setting, horizontal, !horizontal);
         if (horizontal)
         {
-            gd.minimumHeight = recommendedHeight;				
+            gd.minimumHeight = recommendedHeight;
             gd.heightHint = recommendedHeight;
         }
         else
@@ -291,7 +297,8 @@ public class CustomProgressBar extends Composite
         canvas.setLayoutData(gd);
         return canvas;
     }
-	
+
+
     /**
      * Method to update the progress
      * 
@@ -309,9 +316,10 @@ public class CustomProgressBar extends Composite
                                      * (horizontal ? percentage : 1 - percentage)));
         Rectangle rect = new Rectangle(0,0,recommendedWidth,recommendedHeight);
         fillRegion.setLayoutData(createFilledLayoutData(rect));
-        layout();	
+        layout();
     }
-	
+
+
     /**
      * Update the progress when using step mode.
      */
@@ -320,6 +328,7 @@ public class CustomProgressBar extends Composite
         progressedSteps.getAndIncrement();
         updateProgress((double)progressedSteps.get()/(double)maxSteps.get());
     }
+
 
     /**
      * Set current steps to a specific value.
@@ -343,16 +352,19 @@ public class CustomProgressBar extends Composite
         }
     }
 
+
     public void setMaxSteps(int num)
     {
         maxSteps.set(num);
     }
+
 
     public void resetSteps()
     {
         progressedSteps.set(0);
         updateProgress(0);
     }
+
 
     /** calculate the potential fill extent of the progress bar*/
     private int calculatePotentialFillExtent()
@@ -371,21 +383,23 @@ public class CustomProgressBar extends Composite
         checkWidget();
         return Double.longBitsToDouble(progressedPercentage.get()); 
     }
-	
+
+
     @Override
     public final void setLayout(Layout layout)
     {
         super.setLayout(layout);
-    }	
-	
+    }
+
+
     @Override
     public Point computeSize(int wHint, int hHint)
     {
-        checkWidget();		    
+        checkWidget();
         int width = recommendedWidth;
         int height = recommendedHeight;
         if (wHint != SWT.DEFAULT) width = wHint;
-        if (hHint != SWT.DEFAULT) height = hHint; 
-        return new Point(width, height);  
-    }	
+        if (hHint != SWT.DEFAULT) height = hHint;
+        return new Point(width, height);
+    }
 }
