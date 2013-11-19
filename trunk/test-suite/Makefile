@@ -99,17 +99,17 @@ clean-plots:
 # 'make sedml'
 #
 
-ifeq "`uname`" "Darwin"
+ifeq "$(shell uname)" "Darwin"
   define make_sedml_files
     @echo "Creating SED-ML for $(1)"
-    env DYLD_LIBRARY_PATH="src/utilities/sedml:$(DYLD_LIBRARY_PATH)" \
-	mono ./src/utilities/sedml/GenerateSedML.exe -c `dirname $(1)` -a
+    env DYLD_LIBRARY_PATH="$(abspath src/utilities/sedml):$(DYLD_LIBRARY_PATH)" \
+	mono ./src/utilities/sedml/GenerateSedML.exe -c $(dir $(1)) -a
   endef
 else
   define make_sedml_files
     @echo "Creating SED-ML for $(1)"
-    env LD_LIBRARY_PATH="src/utilities/sedml:$(DYLD_LIBRARY_PATH)" \
-	mono ./src/utilities/sedml/GenerateSedML.exe -c `dirname $(1)` -a
+    env LD_LIBRARY_PATH="$(abspath src/utilities/sedml):$(DYLD_LIBRARY_PATH)" \
+	mono ./src/utilities/sedml/GenerateSedML.exe -c $(dir $(1)) -a
   endef
 endif
 
