@@ -50,7 +50,6 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-
 /*
  * Parts of this code are based on 
  * http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/HowtoimplementhoverhelpfeedbackusingtheMouseTrackListener.htm
