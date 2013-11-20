@@ -29,7 +29,6 @@
 
 package org.sbml.testsuite.ui;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Scanner;
 import java.util.TreeSet;
@@ -53,8 +52,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -97,42 +96,36 @@ public class FilterDialog
     }
 
 
-    private void addTagsToList(List list, String[] tags)
+    private void addTags(LabeledList list, String[] tags)
     {
         if (list == null || tags == null) return;
-
-        for (int i = 0; i < tags.length; i++)
+        list.add(tags);
+        for (Item item : list.getItems())
         {
-            if (list.indexOf(tags[i]) == -1)
-                list.add(tags[i]);
+            item.setData("TIP_TEXT_LABEL", "The meaning of this tag: ");
+            item.setData("TIP_TEXT", Tags.getTagDescription(item.getText()));
         }
     }
 
 
-    private void removeTagsFromList(List list, String[] tags)
+    private void removeTags(LabeledList list, String[] tags)
     {
         if (list == null || tags == null) return;
-
-        for (int i = 0; i < tags.length; i++)
-        {
-            int index = list.indexOf(tags[i]);
-            if (index >= 0)
-                list.remove(index);
-        }
+        list.remove(tags);
     }
 
 
     private void includeTags(String[] selected)
     {
-        addTagsToList(lblLstIncludedTags.getList(), selected);
-        removeTagsFromList(lblLstExcludedTags.getList(), selected);
+        addTags(lblLstIncludedTags, selected);
+        removeTags(lblLstExcludedTags, selected);
     }
 
 
     private void excludeTags(String[] selected)
     {
-        addTagsToList(lblLstExcludedTags.getList(), selected);
-        removeTagsFromList(lblLstIncludedTags.getList(), selected);
+        addTags(lblLstExcludedTags, selected);
+        removeTags(lblLstIncludedTags, selected);
     }
 
 
@@ -141,7 +134,7 @@ public class FilterDialog
         if (selected == null || selected.length == 0) return;
         for (int i = 0; i < selected.length; i++)
         {
-            lblLstIncludedTags.getList().remove(selected[i]);
+            lblLstIncludedTags.remove(selected[i]);
         }
     }
 
@@ -151,32 +144,32 @@ public class FilterDialog
         if (selected == null || selected.length == 0) return;
         for (int i = 0; i < selected.length; i++)
         {
-            lblLstExcludedTags.getList().remove(selected[i]);
+            lblLstExcludedTags.remove(selected[i]);
         }
     }
 
 
     protected void clearIncludedTags()
     {
-        lblLstIncludedTags.getList().removeAll();
+        lblLstIncludedTags.removeAll();
     }
 
 
     protected void clearExcludedTags()
     {
-        lblLstExcludedTags.getList().removeAll();
+        lblLstExcludedTags.removeAll();
     }
 
 
     protected String[] getSelectedIncludedTags()
     {
-        return lblLstIncludedTags.getList().getSelection();
+        return lblLstIncludedTags.getSelection();
     }
 
 
     protected String[] getSelectedExcludedTags()
     {
-        return lblLstExcludedTags.getList().getSelection();
+        return lblLstExcludedTags.getSelection();
     }
 
 
@@ -222,7 +215,7 @@ public class FilterDialog
         shlFilterTags.setSize(totalWidth, totalHeight);
         shlFilterTags.setText("Filter Tags");
         shlFilterTags.setLayout(new FormLayout());
-        
+
         int margin = 5;
         int topLabelHeight = 30 + margin;
         int buttonWidth = 80;
@@ -298,7 +291,7 @@ public class FilterDialog
         lblInclude.setLayoutData(fd_lblInclude);
         lblInclude.moveAbove(null);
         lblInclude.setText("Include cases:");
-        
+
         txtInclude = new Text(shlFilterTags, SWT.BORDER);
         FormData fd_txtInclude = new FormData();
         fd_txtInclude.top = new FormAttachment(numberUsageInfo, 2*margin);
@@ -306,7 +299,7 @@ public class FilterDialog
         fd_txtInclude.right = new FormAttachment(0, 300);
         txtInclude.setLayoutData(fd_txtInclude);
         txtInclude.moveAbove(null);
-        
+
         txtExclude = new Text(shlFilterTags, SWT.BORDER);
         FormData fd_txtExclude = new FormData();
         fd_txtExclude.top = new FormAttachment(numberUsageInfo, 2*margin);
@@ -438,9 +431,7 @@ public class FilterDialog
                                    excludeTags(getSelectedComponentTags());
                                }
                            });
-        ((FormData) lblLstComponentTags.getList().getLayoutData()).right
-            = new FormAttachment(100, -10);
-        lblLstComponentTags.getList().addMouseListener(new MouseAdapter() {
+        lblLstComponentTags.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseDoubleClick(MouseEvent arg0)
             {
@@ -472,7 +463,7 @@ public class FilterDialog
                               excludeTags(getSelectedTestTags());
                           }
                       });
-        lblLstTestTags.getList().addMouseListener(new MouseAdapter() {
+        lblLstTestTags.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseDoubleClick(MouseEvent arg0)
             {
@@ -513,7 +504,7 @@ public class FilterDialog
                                       removeIncludedTags(getSelectedIncludedTags());
                                   }
                               });
-        lblLstIncludedTags.getList().addMouseListener(new MouseAdapter() {
+        lblLstIncludedTags.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseDoubleClick(MouseEvent arg0)
             {
@@ -552,7 +543,7 @@ public class FilterDialog
                                       removeExcludedTags(getSelectedExcludedTags());
                                   }
                               });
-        lblLstExcludedTags.getList().addMouseListener(new MouseAdapter() {
+        lblLstExcludedTags.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseDoubleClick(MouseEvent arg0)
             {
@@ -588,6 +579,13 @@ public class FilterDialog
             }
         });
 
+        final CustomToolTipHandler tooltip
+            = new CustomToolTipHandler(shlFilterTags);
+        tooltip.activateHoverHelp(lblLstComponentTags.getControl());
+        tooltip.activateHoverHelp(lblLstTestTags.getControl());
+        tooltip.activateHoverHelp(lblLstIncludedTags.getControl());
+        tooltip.activateHoverHelp(lblLstExcludedTags.getControl());
+
         UIUtils.createShellCloseListener(shlFilterTags);
 
         shlFilterTags.pack();
@@ -612,7 +610,7 @@ public class FilterDialog
      */
     public String[] getSelectedComponentTags()
     {
-        return lblLstComponentTags.getList().getSelection();
+        return lblLstComponentTags.getSelection();
     }
 
 
@@ -621,7 +619,7 @@ public class FilterDialog
      */
     public String[] getSelectedTestTags()
     {
-        return lblLstTestTags.getList().getSelection();
+        return lblLstTestTags.getSelection();
     }
 
 
@@ -664,9 +662,7 @@ public class FilterDialog
     private TreeSet<String> readIncludedTags()
     {
         TreeSet<String> result = new TreeSet<String>();
-
-        result.addAll(Arrays.asList(lblLstIncludedTags.getList().getItems()));
-
+        result.addAll(lblLstIncludedTags.getStrings());
         return result;
     }
 
@@ -677,9 +673,7 @@ public class FilterDialog
     public TreeSet<String> readExcludedTags()
     {
         TreeSet<String> result = new TreeSet<String>();
-
-        result.addAll(Arrays.asList(lblLstExcludedTags.getList().getItems()));
-
+        result.addAll(lblLstExcludedTags.getStrings());
         return result;
     }
 
@@ -828,24 +822,34 @@ public class FilterDialog
     }
 
 
+    private void setList(LabeledList list, Collection<String> items)
+    {
+        if (items == null) return;
+        list.removeAll();
+        list.add(items);
+        for (Item item : list.getItems())
+        {
+            item.setData("TIP_TEXT_LABEL", "The meaning of this tag: ");
+            item.setData("TIP_TEXT", Tags.getTagDescription(item.getText()));
+        }
+    }
+
+
     /**
      * Set component tags
-     * 
+     *
      * @param items
      *            the component tags
      */
     public void setComponentTags(Collection<String> items)
     {
-        if (items == null) return;
-        lblLstComponentTags.getList().removeAll();
-        for (String tag : items)
-            lblLstComponentTags.getList().add(tag);
+        setList(lblLstComponentTags, items);
     }
 
 
     /**
      * Set the component tags
-     * 
+     *
      * @param string
      *            of comma separated items
      */
@@ -863,10 +867,7 @@ public class FilterDialog
      */
     public void setIncludedTags(Collection<String> items)
     {
-        if (items == null) return;
-        lblLstIncludedTags.getList().removeAll();
-        for (String tag : items)
-            lblLstIncludedTags.getList().add(tag);
+        setList(lblLstIncludedTags, items);
     }
 
 
@@ -890,10 +891,7 @@ public class FilterDialog
      */
     public void setExcludedTags(Collection<String> items)
     {
-        if (items == null) return;
-        lblLstExcludedTags.getList().removeAll();
-        for (String tag : items)
-            lblLstExcludedTags.getList().add(tag);
+        setList(lblLstExcludedTags, items);
     }
 
 
@@ -917,10 +915,7 @@ public class FilterDialog
      */
     public void setTestTags(Collection<String> items)
     {
-        if (items == null) return;
-        lblLstTestTags.getList().removeAll();
-        for (String tag : items)
-            lblLstTestTags.getList().add(tag);
+        setList(lblLstTestTags, items);
     }
 
 
