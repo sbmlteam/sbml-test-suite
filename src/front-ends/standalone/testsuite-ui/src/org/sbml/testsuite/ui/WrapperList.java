@@ -28,12 +28,11 @@
 
 package org.sbml.testsuite.ui;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Vector;
-import java.util.Arrays;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 import org.sbml.testsuite.core.WrapperConfig;
