@@ -30,9 +30,7 @@ package org.sbml.testsuite.ui;
 
 import java.io.InputStream;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 

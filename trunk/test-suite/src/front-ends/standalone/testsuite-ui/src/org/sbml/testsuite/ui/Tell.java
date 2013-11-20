@@ -31,19 +31,15 @@ package org.sbml.testsuite.ui;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
-
 import org.mihalis.opal.opalDialog.Dialog;
-import org.mihalis.opal.opalDialog.MessageArea;
-import org.mihalis.opal.opalDialog.FooterArea;
 import org.mihalis.opal.opalDialog.Dialog.OpalDialogType;
+import org.mihalis.opal.opalDialog.FooterArea;
+import org.mihalis.opal.opalDialog.MessageArea;
 import org.mihalis.opal.utils.ResourceManager;
 
 

@@ -30,8 +30,8 @@ package org.sbml.testsuite.ui;
 
 import java.text.AttributedCharacterIterator;
 import java.text.DecimalFormat;
-import java.text.Format;
 import java.text.FieldPosition;
+import java.text.Format;
 import java.text.ParsePosition;
 
 

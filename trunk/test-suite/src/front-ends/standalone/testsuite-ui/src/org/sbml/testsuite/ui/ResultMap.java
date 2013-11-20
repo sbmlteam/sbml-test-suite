@@ -34,7 +34,6 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.SortedMap;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyEvent;
