@@ -2305,7 +2305,7 @@ public class MainWindow
         excludedTags  = dialog.getExcludedTags();
         includedCases = dialog.getIncludedCases();
         excludedCases = dialog.getExcludedCases();
-        
+
         return valuesChanged;
     }
 

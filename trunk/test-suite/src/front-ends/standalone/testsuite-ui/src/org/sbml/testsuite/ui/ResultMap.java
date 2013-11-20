@@ -319,7 +319,7 @@ public class ResultMap
                 if (!UIUtils.isMacOSX()) message.moveAbove(messageGroup);
             }
         });
-        
+
         Button cmdClose = new Button(shell, SWT.NONE);
         cmdClose.addSelectionListener(new SelectionAdapter() {
             @Override

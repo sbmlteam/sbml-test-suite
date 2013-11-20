@@ -409,7 +409,6 @@ public class Util
      */
     public static void unzipArchive(File file, CancelCallback callback)
     {
-
         if (!file.exists()) return;
         try
         {
@@ -417,6 +416,7 @@ public class Util
         }
         catch (IOException e)
         {}
+
         File destinationDir = getInternalTestSuiteDir();
         int ncount = 0;
         try
