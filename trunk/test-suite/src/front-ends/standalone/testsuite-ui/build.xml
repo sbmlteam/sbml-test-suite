@@ -125,6 +125,7 @@
     <mkdir dir="${dist.dir}" />
     <mkdir dir="${build.dir}" />
     <mkdir dir="${build.dest}" />
+    <echo message="Tags file: ${app.tags.descriptions.file}" />
     <copy file="${app.tags.descriptions.file}"
           todir="org/sbml/testsuite/ui/resources"
           overwrite="true"/>
