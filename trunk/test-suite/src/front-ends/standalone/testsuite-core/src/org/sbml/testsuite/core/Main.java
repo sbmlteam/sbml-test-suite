@@ -30,6 +30,7 @@
 
 package org.sbml.testsuite.core;
 
+import java.util.Vector;
 import org.sbml.testsuite.core.RunOutcome.Code;
 import org.sbml.testsuite.core.commandline.TestSuiteArguments;
 
@@ -58,6 +59,20 @@ public class Main
         if (args.isShouldRun())
         {
             runWrapper(args);
+        }
+        else if (args.isShouldListReleases())
+        {
+            Vector<String> archives = Util.getListOfArchivesNewerThan(args.getPublishDate());
+            System.out.println("The following release archives are available from sf: ");
+            for (String url : archives)
+                System.out.println("\t" + url);
+            System.out.println();
+        }
+        else if (args.isShouldDownload())
+        {
+            System.out.println("Download release archive from: ");
+            System.out.println("\t" + args.getUrl());
+            Util.downloadReleaseArchiveAndInitialize(args.getUrl());
         }
 
     }

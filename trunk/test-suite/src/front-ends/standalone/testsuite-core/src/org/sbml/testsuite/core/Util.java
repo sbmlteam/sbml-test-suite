@@ -42,7 +42,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.Reader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -52,18 +56,263 @@ import java.util.Enumeration;
 import java.util.Vector;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 /**
  * Util, a collection of static functions used all over the place
  */
 public class Util
 {
+    /**
+     * This query uses the SF File API, to query the last 100 file releases in
+     * the
+     * test-suite branch.
+     */
+    private static String RSS_QUERY = "http://sourceforge.net/api/file/index/project-id/71971/mtime/desc/limit/100/path/test-suite/rss";
+
+
+    /**
+     * Utility function, downloading the list of all testsuite archives that can
+     * be found in the last 100 releases
+     * 
+     * @return list of archive urls
+     */
+
+    public static Vector<String> getListOfArchives()
+    {
+        return getListOfArchivesNewerThan(null);
+    }
+
+
+    /**
+     * Utility function, downloading the list of all testsuite archives that can
+     * be found in the last 100 releases and are newer than the given date
+     * 
+     * @param date
+     *            the cutoff day, only archives newer than this date will be
+     *            included
+     * @return list of archive urls
+     */
+    public static Vector<String> getListOfArchivesNewerThan(Date date)
+    {
+        Vector<String> result = new Vector<String>();
+        try
+        {
+
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(new URL(RSS_QUERY).openStream());
+
+            NodeList items = doc.getElementsByTagName("item");
+
+            for (int i = 0; i < items.getLength(); ++i)
+            {
+                Element current = (Element) items.item(i);
+                if (current == null) continue;
+                String title = getTextFromTag(current, "title");
+                if (!title.contains("sbml-test-cases-")) continue;
+                if (date != null)
+                {
+                    DateFormat df = new SimpleDateFormat(
+                                                         "EEE, dd MMM yyyy kk:mm:ss zzz");
+                    String pubDateString = getTextFromTag(current, "pubDate");
+                    Date published = df.parse(pubDateString);
+                    // skip all releases before the date
+                    if (published.compareTo(date) <= 0) continue;
+                }
+                result.add(getTextFromTag(current, "link"));
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+
+    /**
+     * Return the inner text from the given tag
+     * 
+     * 
+     * @param current
+     *            the current element
+     * @param tag
+     *            the tag name
+     * @return the text inside the tag, or ""
+     */
+    private static String getTextFromTag(Element current, String tag)
+    {
+        String result = "";
+        {
+            NodeList nodes = current.getElementsByTagName(tag);
+            if (nodes.getLength() > 0)
+                result = ((Element) nodes.item(0)).getTextContent();
+        }
+        return result;
+    }
+
+
+    /**
+     * Download the url, and return the content as byte array
+     * 
+     * @param url
+     *            the url to download
+     * @return the content as byte array, or null
+     */
+    public static byte[] readFileFromUrl(String url)
+    {
+        try
+        {
+            return readFileFromUrl(new URL(url));
+        }
+        catch (MalformedURLException e)
+        {
+            return null;
+        }
+    }
+
+
+    /**
+     * Download the url, and return the content as byte array
+     * 
+     * @param url
+     *            the url to download
+     * @return the content as byte array, or null
+     */
+    public static byte[] readFileFromUrl(URL url)
+    {
+        ByteOutputStream bos = new ByteOutputStream();
+        OutputStream out = new BufferedOutputStream(bos);
+        downloadUrlToStream(url, out);
+        return bos.getBytes();
+    }
+
+
+    /**
+     * Download the url to the local file
+     * 
+     * @param url
+     *            the url to download
+     * @param localFile
+     *            the local file to save the url under
+     */
+    public static void downloadFile(URL url, File localFile)
+        throws FileNotFoundException
+    {
+        FileOutputStream fos = new FileOutputStream(localFile);
+        OutputStream out = new BufferedOutputStream(fos);
+        downloadUrlToStream(url, out);
+
+    }
+
+
+    /**
+     * Download the url to the local file
+     * 
+     * @param url
+     *            the url to download
+     * @param localFile
+     *            the local file to save the url under
+     */
+    public static void downloadFile(String url, File localFile)
+        throws FileNotFoundException, MalformedURLException
+    {
+        downloadFile(new URL(url), localFile);
+    }
+
+
+    /**
+     * Download the test suite archive under the given URL, and initialize the
+     * test suite from that archive
+     * 
+     * @param url
+     *            the url to the test suite archive
+     */
+    public static void downloadReleaseArchiveAndInitialize(String url)
+    {
+        try
+        {
+            File temp = File.createTempFile("download", "zip");
+            downloadFile(url, temp);
+            unzipArchive(temp);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Download the url and save the content to the given output stream
+     * 
+     * @param url
+     *            the url to download
+     * @param out
+     *            the stream to write to
+     */
+    private static void downloadUrlToStream(URL url, OutputStream out)
+    {
+        InputStream in = null;
+        try
+        {
+            URLConnection conn = null;
+            conn = url.openConnection();
+            in = conn.getInputStream();
+            byte[] buffer = new byte[1024];
+
+            int numRead;
+
+            while ((numRead = in.read(buffer)) != -1)
+            {
+                out.write(buffer, 0, numRead);
+            }
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                if (in != null)
+                {
+                    in.close();
+                }
+            }
+            catch (IOException ioe)
+            {}
+            try
+            {
+                if (out != null)
+                {
+                    out.close();
+                }
+            }
+            catch (IOException ioe)
+            {}
+
+        }
+
+    }
+
 
     /**
      * Utility function copying streams
-     * @param in input stream
-     * @param bufferedOutputStream output stream
-     * @throws IOException io exceptions
+     * 
+     * @param in
+     *            input stream
+     * @param bufferedOutputStream
+     *            output stream
+     * @throws IOException
+     *             io exceptions
      */
     public static final void
             copyInputStream(InputStream in,
@@ -81,8 +330,11 @@ public class Util
 
     /**
      * recursively deletes the given file
-     * @param file the file  or directory to delete
-     * @throws IOException io exception
+     * 
+     * @param file
+     *            the file or directory to delete
+     * @throws IOException
+     *             io exception
      */
     public static void delete(File file)
         throws IOException
@@ -111,14 +363,15 @@ public class Util
 
 
     /**
-     * Parses the given level / version string in the formats: 
+     * Parses the given level / version string in the formats:
      * 
-     *  - level[.]version
-     *  - [l|L]level[v|V]version
-     *  
-     *  and returns a two element integer array representing level and version
-     *  
-     * @param levelVersion the level and version string
+     * - level[.]version
+     * - [l|L]level[v|V]version
+     * 
+     * and returns a two element integer array representing level and version
+     * 
+     * @param levelVersion
+     *            the level and version string
      * @return int array with the level and version
      */
     public static int[] getLevelAndVersion(String levelVersion)
@@ -191,7 +444,8 @@ public class Util
 
 
     /**
-     * @return the user directory (user.home) on OSX / Linux and %APPDATA% on windows.
+     * @return the user directory (user.home) on OSX / Linux and %APPDATA% on
+     *         windows.
      */
     public static String getUserDir()
     {
@@ -203,7 +457,9 @@ public class Util
 
     /**
      * Returns true, if the string is null or empty
-     * @param string the string
+     * 
+     * @param string
+     *            the string
      * @return boolean indicating whether the string is null or empty
      */
     public static boolean isNullOrEmpty(String string)
@@ -214,7 +470,9 @@ public class Util
 
     /**
      * Opens the given file with the associated application
-     * @param file the file to open
+     * 
+     * @param file
+     *            the file to open
      */
     public static void openFile(File file)
     {
@@ -231,8 +489,11 @@ public class Util
 
 
     /**
-     * Parses the given string and returns its double value (or 0.0 in case of error)
-     * @param value the string to parse
+     * Parses the given string and returns its double value (or 0.0 in case of
+     * error)
+     * 
+     * @param value
+     *            the string to parse
      * @return the strings value as double
      */
     public static double parseDouble(String value)
@@ -250,7 +511,9 @@ public class Util
 
     /**
      * Parses the given string and returns its int value (or 0 in case of error)
-     * @param value the string to parse
+     * 
+     * @param value
+     *            the string to parse
      * @return the strings value as int
      */
     public static int parseInt(String value)
@@ -296,7 +559,9 @@ public class Util
 
     /**
      * Sleep for the number of milliseconds
-     * @param millies the number of milliseconds to sleep
+     * 
+     * @param millies
+     *            the number of milliseconds to sleep
      */
     public static void sleep(int millies)
     {
@@ -325,8 +590,11 @@ public class Util
 
     /**
      * Splits the given snippet by all given characters
-     * @param snippet the snippet to split
-     * @param characters all characters to split
+     * 
+     * @param snippet
+     *            the snippet to split
+     * @param characters
+     *            all characters to split
      * @return the pieces of the snippet
      */
     public static Collection<String> split(String snippet, char[] characters)
@@ -336,10 +604,15 @@ public class Util
 
 
     /**
-     * Splits the given snippet by all given characters, removing all empty elements
-     * @param snippet the snippet to split
-     * @param characters the characters to split by
-     * @param removeEmptyEntries boolean indicating whether empty elements ought to be removed
+     * Splits the given snippet by all given characters, removing all empty
+     * elements
+     * 
+     * @param snippet
+     *            the snippet to split
+     * @param characters
+     *            the characters to split by
+     * @param removeEmptyEntries
+     *            boolean indicating whether empty elements ought to be removed
      * @return the pieces of the snippet
      */
     public static Collection<String> split(String snippet, char[] characters,
@@ -394,7 +667,9 @@ public class Util
 
     /**
      * Unzips the given file
-     * @param file the file to unzip
+     * 
+     * @param file
+     *            the file to unzip
      */
     public static void unzipArchive(File file)
     {
@@ -404,8 +679,11 @@ public class Util
 
     /**
      * Unzips the given file, adhering to cancallation callback
-     * @param file the file to unzip
-     * @param callback a cancellation callback
+     * 
+     * @param file
+     *            the file to unzip
+     * @param callback
+     *            a cancellation callback
      */
     public static void unzipArchive(File file, CancelCallback callback)
     {
@@ -425,7 +703,7 @@ public class Util
             Enumeration<? extends ZipEntry> entries = zipFile.entries();
             while (entries.hasMoreElements())
             {
-                ZipEntry entry = (ZipEntry) entries.nextElement();
+                ZipEntry entry = entries.nextElement();
                 File currentFile = new File(destinationDir, entry.getName());
                 if (entry.isDirectory())
                 {
@@ -455,8 +733,11 @@ public class Util
 
     /**
      * Writes the given string into the given file
-     * @param file the file to write to
-     * @param content the content to write
+     * 
+     * @param file
+     *            the file to write to
+     * @param content
+     *            the content to write
      */
     public static void writeAllText(File file, String content)
     {
@@ -475,12 +756,12 @@ public class Util
 
     /**
      * Return a date read from our special archive date file.
+     * 
      * @return a date, read as YYYY-MM-DD.
      */
     public static Date readArchiveDateFile(File dateFile)
     {
-        if (! dateFile.exists() || ! dateFile.canRead())
-            return null;
+        if (!dateFile.exists() || !dateFile.canRead()) return null;
 
         try
         {
@@ -503,6 +784,7 @@ public class Util
 
     /**
      * Return a date read from our special archive date file.
+     * 
      * @return a date, read as YYYY-MM-DD.
      */
     public static Date readArchiveDateFile(File dir, String filename)
@@ -513,6 +795,7 @@ public class Util
 
     /**
      * Return a date read from our special archive date file.
+     * 
      * @return a date, read as YYYY-MM-DD.
      */
     public static Date readArchiveDateFileStream(InputStream is)
