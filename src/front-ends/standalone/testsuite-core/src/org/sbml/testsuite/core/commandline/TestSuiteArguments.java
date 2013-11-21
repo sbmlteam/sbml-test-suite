@@ -31,6 +31,9 @@
 package org.sbml.testsuite.core.commandline;
 
 import java.io.PrintStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.sbml.testsuite.core.TestSuiteSettings;
 
 /**
@@ -39,6 +42,10 @@ import org.sbml.testsuite.core.TestSuiteSettings;
 public class TestSuiteArguments
 {
     private boolean shouldRun;
+    private boolean shouldListReleases;
+    private boolean shouldDownload;
+    private String  url;
+    private Date    publishDate;
     private String  wrapperName;
     private String  testOrTestRange;
 
@@ -73,6 +80,29 @@ public class TestSuiteArguments
                 testOrTestRange = second;
                 i += 2;
             }
+            else if (current.equals("-l") || current.equals("--list-releases"))
+            {
+                shouldListReleases = true;
+                if (first != null)
+                {
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    try
+                    {
+                        publishDate = df.parse(first);
+                    }
+                    catch (Exception e)
+                    {
+                        publishDate = null;
+                    }
+                }
+
+            }
+            else if ((current.equals("-d") || current.equals("--download-release"))
+                && first != null)
+            {
+                shouldDownload = true;
+                url = first;
+            }
 
         }
     }
@@ -83,8 +113,8 @@ public class TestSuiteArguments
      */
     public boolean isValid()
     {
-        return (shouldRun && (wrapperName != null && TestSuiteSettings.loadDefault()
-                                                                      .getWrapper(wrapperName) != null));
+        return ((shouldDownload && url != null) || shouldListReleases || (shouldRun && (wrapperName != null && TestSuiteSettings.loadDefault()
+                                                                                                                                .getWrapper(wrapperName) != null)));
     }
 
 
@@ -121,6 +151,8 @@ public class TestSuiteArguments
         stream.println("Usage: ");
         stream.println();
         stream.println(" -r | --run <wrapperName> <test-range>");
+        stream.println(" -l | --list-releases");
+        stream.println(" -d | --download-release url");
         stream.println();
 
     }
@@ -194,5 +226,81 @@ public class TestSuiteArguments
     public void setTestOrTestRange(String testOrTestRange)
     {
         this.testOrTestRange = testOrTestRange;
+    }
+
+
+    /**
+     * @return the shouldListReleases
+     */
+    public boolean isShouldListReleases()
+    {
+        return shouldListReleases;
+    }
+
+
+    /**
+     * @param shouldListReleases
+     *            the shouldListReleases to set
+     */
+    public void setShouldListReleases(boolean shouldListReleases)
+    {
+        this.shouldListReleases = shouldListReleases;
+    }
+
+
+    /**
+     * @return the shouldDownload
+     */
+    public boolean isShouldDownload()
+    {
+        return shouldDownload;
+    }
+
+
+    /**
+     * @param shouldDownload
+     *            the shouldDownload to set
+     */
+    public void setShouldDownload(boolean shouldDownload)
+    {
+        this.shouldDownload = shouldDownload;
+    }
+
+
+    /**
+     * @return the url
+     */
+    public String getUrl()
+    {
+        return url;
+    }
+
+
+    /**
+     * @param url
+     *            the url to set
+     */
+    public void setUrl(String url)
+    {
+        this.url = url;
+    }
+
+
+    /**
+     * @return the publishDate
+     */
+    public Date getPublishDate()
+    {
+        return publishDate;
+    }
+
+
+    /**
+     * @param publishDate
+     *            the publishDate to set
+     */
+    public void setPublishDate(Date publishDate)
+    {
+        this.publishDate = publishDate;
     }
 }
