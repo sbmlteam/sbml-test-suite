@@ -52,6 +52,7 @@ public class CompareResultSet
     {
         this.result1 = result1;
         this.result2 = result2;
+        this.requireAllColumns = true;
     }
 
 
