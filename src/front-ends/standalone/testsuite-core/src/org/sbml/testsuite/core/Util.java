@@ -189,7 +189,7 @@ public class Util
     {
         ByteOutputStream bos = new ByteOutputStream();
         OutputStream out = new BufferedOutputStream(bos);
-        downloadUrlToStream(url, out);
+        downloadUrlToStream(url, out, null);
         return bos.getBytes();
     }
 
@@ -201,13 +201,33 @@ public class Util
      *            the url to download
      * @param localFile
      *            the local file to save the url under
+     * @return true, if operation succeeded, false if failed or cancelled
      */
-    public static void downloadFile(URL url, File localFile)
+    public static boolean downloadFile(URL url, File localFile)
+        throws FileNotFoundException
+    {
+        return downloadFile(url, localFile, null);
+    }
+
+
+    /**
+     * Download the url to the local file
+     * 
+     * @param url
+     *            the url to download
+     * @param localFile
+     *            the local file to save the url under
+     * @param callback
+     *            the cancellation callback (leave null, if not needed)
+     * @return true, if operation succeeded, false if failed or cancelled
+     */
+    public static boolean downloadFile(URL url, File localFile,
+                                       CancelCallback callback)
         throws FileNotFoundException
     {
         FileOutputStream fos = new FileOutputStream(localFile);
         OutputStream out = new BufferedOutputStream(fos);
-        downloadUrlToStream(url, out);
+        return downloadUrlToStream(url, out, callback);
 
     }
 
@@ -219,11 +239,31 @@ public class Util
      *            the url to download
      * @param localFile
      *            the local file to save the url under
+     * @return true, if operation succeeded, false if failed or cancelled
      */
-    public static void downloadFile(String url, File localFile)
+    public static boolean downloadFile(String url, File localFile)
         throws FileNotFoundException, MalformedURLException
     {
-        downloadFile(new URL(url), localFile);
+        return downloadFile(url, localFile, null);
+    }
+
+
+    /**
+     * Download the url to the local file
+     * 
+     * @param url
+     *            the url to download
+     * @param localFile
+     *            the local file to save the url under
+     * @param callback
+     *            the cancellation callback (leave null, if not needed)
+     * @return true, if operation succeeded, false if failed or cancelled
+     */
+    public static boolean downloadFile(String url, File localFile,
+                                       CancelCallback callback)
+        throws FileNotFoundException, MalformedURLException
+    {
+        return downloadFile(new URL(url), localFile, callback);
     }
 
 
@@ -233,19 +273,39 @@ public class Util
      * 
      * @param url
      *            the url to the test suite archive
+     * @return true, if operation succeeded, false if failed or cancelled
      */
-    public static void downloadReleaseArchiveAndInitialize(String url)
+    public static boolean downloadReleaseArchiveAndInitialize(String url)
+    {
+        return downloadReleaseArchiveAndInitialize(url, null);
+    }
+
+
+    /**
+     * Download the test suite archive under the given URL, and initialize the
+     * test suite from that archive
+     * 
+     * @param url
+     *            the url to the test suite archive
+     * @param callback
+     *            the cancellation callback (leave null, if not needed)
+     * @return true, if operation succeeded, false if failed or cancelled
+     */
+    public static boolean
+            downloadReleaseArchiveAndInitialize(String url,
+                                                CancelCallback callback)
     {
         try
         {
             File temp = File.createTempFile("download", "zip");
-            downloadFile(url, temp);
-            unzipArchive(temp);
+            if (downloadFile(url, temp, callback)
+                && unzipArchive(temp, callback)) return true;
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
         }
+        return false;
     }
 
 
@@ -256,9 +316,14 @@ public class Util
      *            the url to download
      * @param out
      *            the stream to write to
+     * @param callback
+     *            the cancellation callback (leave null, if not needed)
+     * @return true, if operation succeeded, false if failed or cancelled
      */
-    private static void downloadUrlToStream(URL url, OutputStream out)
+    private static boolean downloadUrlToStream(URL url, OutputStream out,
+                                               CancelCallback callback)
     {
+        boolean result = true;
         InputStream in = null;
         try
         {
@@ -268,10 +333,19 @@ public class Util
             byte[] buffer = new byte[1024];
 
             int numRead;
+            long written = 0;
 
             while ((numRead = in.read(buffer)) != -1)
             {
                 out.write(buffer, 0, numRead);
+                written = written + numRead;
+                if (callback != null && written % (256 * 1024) == 0
+                    && callback.cancellationRequested())
+                {
+                    result = false;
+                    break;
+
+                }
             }
         }
         catch (Exception exception)
@@ -300,7 +374,7 @@ public class Util
             {}
 
         }
-
+        return result;
     }
 
 
@@ -670,24 +744,26 @@ public class Util
      * 
      * @param file
      *            the file to unzip
+     * @return true, if operation succeeded, false if failed or cancelled
      */
-    public static void unzipArchive(File file)
+    public static boolean unzipArchive(File file)
     {
-        unzipArchive(file, null);
+        return unzipArchive(file, null);
     }
 
 
     /**
-     * Unzips the given file, adhering to cancallation callback
+     * Unzips the given file, adhering to cancellation callback
      * 
      * @param file
      *            the file to unzip
      * @param callback
      *            a cancellation callback
+     * @return true, if operation succeeded, false if failed or cancelled
      */
-    public static void unzipArchive(File file, CancelCallback callback)
+    public static boolean unzipArchive(File file, CancelCallback callback)
     {
-        if (!file.exists()) return;
+        if (!file.exists()) return false;
         try
         {
             delete(getInternalTestSuiteDir());
@@ -718,16 +794,16 @@ public class Util
                                                                               currentFile)));
                 ncount++;
                 if (ncount % 100 == 0 && callback != null)
-                    if (callback.cancellationRequested()) return;
+                    if (callback.cancellationRequested()) return false;
             }
             zipFile.close();
         }
         catch (IOException ioe)
         {
             ioe.printStackTrace();
-            return;
+            return false;
         }
-
+        return true;
     }
 
 
