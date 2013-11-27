@@ -1,0 +1,768 @@
+//
+// @file   CasesArchiveManager.java
+// @brief
+// @author Michael Hucka
+// @date   2013-11-21 <mhucka@caltech.edu>
+//
+// ----------------------------------------------------------------------------
+// This file is part of the SBML Testsuite. Please visit http://sbml.org for
+// more information about SBML, and the latest version of the SBML Test Suite.
+//
+// Copyright (C) 2009-2012 jointly by the following organizations:
+// 1. California Institute of Technology, Pasadena, CA, USA
+// 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+//
+// Copyright (C) 2006-2008 by the California Institute of Technology,
+// Pasadena, CA, USA
+//
+// Copyright (C) 2002-2005 jointly by the following organizations:
+// 1. California Institute of Technology, Pasadena, CA, USA
+// 2. Japan Science and Technology Agency, Japan
+//
+// This library is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation. A copy of the license agreement is provided
+// in the file named "LICENSE.txt" included with this software distribution
+// and also available online as http://sbml.org/software/libsbml/license.html
+// ----------------------------------------------------------------------------
+
+package org.sbml.testsuite.ui;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.Vector;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Dialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.sbml.testsuite.core.CancelCallback;
+import org.sbml.testsuite.core.UpdateCallback;
+import org.sbml.testsuite.core.Util;
+import org.w3c.dom.NodeList;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.net.MalformedURLException;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.wb.swt.SWTResourceManager;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.HttpURLConnection;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+
+
+/**
+ * Filter dialog for test / component tags
+ */
+public class CasesArchiveManager
+{
+    private final String CASE_ARCHIVE = "sbml-test-cases.zip";
+
+    private final Display display;
+    private Shell parentShell;
+    private String updatedArchiveURL;
+    private Date internalCasesDate;
+    private NodeList rssContents;
+    private TaskExecutor executor = new TaskExecutor(1);
+    private StatusDialog currentDialog;
+
+
+    class StatusDialog
+        extends Dialog
+    {
+        private Shell             shell;
+        private CustomProgressBar progressBar;
+        private Label             message;
+        private Label             icon;
+        private Runnable          cancelAction;
+
+
+        public StatusDialog(String msg, boolean infinite, boolean showCancel)
+        {
+            super(parentShell, SWT.None);
+            createDialog(msg, infinite, showCancel);
+        }
+
+
+        /**
+         * Create contents of the dialog.
+         */
+        private void createDialog(String msg, boolean infinite, boolean showCancel)
+        {
+            int margin = 12;
+            int totalWidth = 400;
+            int totalHeight = 140 + (!UIUtils.isMacOSX() ? margin/2 : 0);
+            int buttonWidth = 80;
+
+            shell = new Shell(getParent(), SWT.CLOSE | SWT.TITLE);
+            shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
+            shell.setMinimumSize(new Point(totalWidth, totalHeight));
+            shell.setSize(totalWidth, totalHeight);
+            shell.setText("Updating SBML Test Runner");
+            FormLayout fl_shell = new FormLayout();
+            fl_shell.marginHeight = 1;
+            fl_shell.marginWidth = 1;
+            shell.setLayout(fl_shell);
+
+            icon = new Label(shell, SWT.NONE);
+            icon.setImage(UIUtils.getImageResource("icon_64x64.png"));
+            FormData fd_icon = new FormData();
+            fd_icon.width = buttonWidth;
+            fd_icon.top = new FormAttachment(0, margin);
+            fd_icon.left = new FormAttachment(0, margin);
+            icon.setLayoutData(fd_icon);
+
+            message = new Label(shell, SWT.NONE);
+            FormData fd_message = new FormData();
+            fd_message.width = buttonWidth;
+            fd_message.top = new FormAttachment(0, margin);
+            fd_message.left = new FormAttachment(icon, margin);
+            fd_message.right = new FormAttachment(100, -margin);
+            message.setFont(UIUtils.createResizedFont("Verdana", SWT.BOLD, 0));
+            message.setLayoutData(fd_message);
+            message.setText(msg);
+
+            int fudge = (UIUtils.isMacOSX() ? 3 : 0);
+
+            final Composite compBar = new Composite(shell, SWT.NONE);
+            FormData fd_compBar = new FormData();
+            fd_compBar.top = new FormAttachment(message, margin);
+            fd_compBar.left = new FormAttachment(icon, margin);
+            fd_compBar.right = new FormAttachment(100, -margin - fudge);
+            compBar.setLayoutData(fd_compBar);
+            FillLayout fl = new FillLayout();
+            fl.marginHeight = 1;
+            fl.marginWidth = 1;
+            compBar.setLayout(fl);
+
+            int flags = 0;
+            if (infinite)
+                flags = SWT.INDETERMINATE;
+            else
+                flags = SWT.HORIZONTAL;
+            progressBar = new CustomProgressBar(compBar, flags);
+            progressBar.resetSteps();
+
+            Button cmdCancel = new Button(shell, SWT.NONE);
+            cmdCancel.setText("Cancel");
+            FormData fd_cmdCancel = new FormData();
+            fd_cmdCancel.width = buttonWidth;
+            fd_cmdCancel.top = new FormAttachment(compBar, margin);
+            fd_cmdCancel.right = new FormAttachment(100, -margin);
+            cmdCancel.setLayoutData(fd_cmdCancel);
+            cmdCancel.addSelectionListener(new SelectionAdapter() {
+                @Override
+                public void widgetSelected(SelectionEvent arg0)
+                {
+                    if (cancelAction != null)
+                        display.asyncExec(cancelAction);
+                    cancelAction = null;
+                }
+            });
+            cmdCancel.setFocus();
+            cmdCancel.setVisible(showCancel);
+            shell.setDefaultButton(cmdCancel);
+
+            // Closing the dialog is like invoking cancel, so we hook up a
+            // listener to do the action.
+
+            shell.addListener(SWT.Close, new Listener() {
+                public void handleEvent(Event event)
+                {
+                    if (cancelAction != null)
+                        display.asyncExec(cancelAction);
+                    cancelAction = null;
+                }
+            });
+
+            shell.addDisposeListener(new DisposeListener() {
+                @Override
+                public void widgetDisposed(DisposeEvent notUsed)
+                {
+                    shell.close();
+                    shutdown();
+                }
+            });
+
+            shell.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
+            shell.addKeyListener(UIUtils.createCloseKeyListener(shell));
+
+            shell.layout();
+            shell.pack();
+            shell.setVisible(false);
+        }
+
+
+        /**
+         * Centers the dialog within the given rectangle.
+         *
+         * @param bounds the rectangle.
+         */
+        private void center(Rectangle parentBounds)
+        {
+            if (shell == null || shell.isDisposed()) return;
+            Point size = shell.getSize();
+            shell.setLocation(parentBounds.x + (parentBounds.width - size.x) / 2,
+                              parentBounds.y + (parentBounds.height - size.y) / 2);
+        }
+
+
+        /**
+         * @param a fraction between 0 and 1.0
+         */
+        public void setProgress(final double value)
+        {
+            if (shell == null || shell.isDisposed()) return;
+            display.asyncExec(new Runnable() {
+                @Override
+                public void run()
+                {
+                    if (progressBar.isDisposed()) return;
+                    progressBar.updateProgress(value);
+                }
+            });
+        }
+
+
+        public void setCancelAction(Runnable action)
+        {
+            cancelAction = action;
+        }
+
+
+        public void setMessage(final String msg)
+        {
+            if (shell == null || shell.isDisposed()) return;
+            display.asyncExec(new Runnable() {
+                @Override
+                public void run()
+                {
+                    if (message.isDisposed()) return;
+                    message.setText(msg);
+                    if (shell.isDisposed()) return;
+                    shell.layout();
+                }
+            });
+        }
+
+
+        public void showAndWait()
+        {
+            if (shell == null || shell.isDisposed() || parentShell.isDisposed())
+                return;
+            center(parentShell.getBounds());
+            shell.open();
+            while (shell != null && !shell.isDisposed())
+            {
+                if (!display.readAndDispatch())
+                {
+                    display.sleep();
+                }
+            }
+        }
+
+
+        public void close()
+        {
+            if (shell == null || shell.isDisposed()) return;
+            // Note: syncExec, not asyncExec, so this method doesn't return
+            // until the close is done.
+            display.syncExec(new Runnable() {
+                @Override
+                public void run()
+                {
+                    if (shell != null && !shell.isDisposed())
+                        shell.close();
+                }
+            });
+        }
+    }
+
+
+    public CasesArchiveManager(Shell parent)
+    {
+        parentShell = parent;
+        display = parentShell.getDisplay();
+    }
+
+
+    public File getInternalCasesDir()
+    {
+        return new File(Util.getInternalTestSuiteDir(), "/cases/semantic/");
+    }
+
+
+    public Date getInternalCasesDate()
+    {
+        try
+        {
+            InputStream in = UIUtils.getFileResourceStream(CASE_ARCHIVE);
+            if (in == null)
+            {
+                Tell.error(parentShell, "The internal archive of the SBML test\n"
+                           + "cases appears to be corrupt or missing. It is\n"
+                           + "best not to proceed further. Please report this\n"
+                           + "to the developers.", "Unable to find archive.");
+                return null;
+            }
+
+            ZipInputStream zis = new ZipInputStream(in);
+            ZipEntry entry = null;
+            do
+            {
+                entry = zis.getNextEntry();
+                if (entry == null)
+                    break;
+            }
+            while (entry != null && ! ".cases-archive-date".equals(entry.getName()));
+            if (entry != null)
+            {
+                return Util.readArchiveDateFileStream(zis);
+            }
+        }
+        catch (Exception e)
+        {
+            Tell.error(parentShell, "The internal archive of the SBML test\n"
+                       + "cases appears to be corrupt. It is best not to\n"
+                       + "proceed further. Please report this to the\n"
+                       + "developers.", UIUtils.stackTraceToString(e));
+        }
+        return null;
+    }
+
+
+    public void extractInternalCasesArchive()
+    {
+        File destDir = new File(Util.getUserDir());
+        File destFile = new File(destDir, ".testsuite.zip");
+        String errorMessage = "";
+        String extraDetails = "";
+
+        try
+        {
+            InputStream is = UIUtils.getFileResourceStream(CASE_ARCHIVE);
+            FileOutputStream fos = new FileOutputStream(destFile);
+
+            if (is == null)
+            {
+                errorMessage = "The internal archive of the SBML test cases\n"
+                    + "appears to be missing -- something is seriously\n"
+                    + "wrong with this copy of the Test Runner. Please\n"
+                    + "report this to the developers.";
+            }
+            else
+            {
+                BufferedOutputStream bos = new BufferedOutputStream(fos);
+                Util.copyInputStream(is, bos);
+                unpackArchive(destFile);
+                destFile.delete();
+            }
+
+            fos.close();
+            return;
+        }
+        catch (FileNotFoundException e)
+        {
+            errorMessage = "The internal archive of the SBML test cases\n"
+                + "appears to be missing -- something is seriously\n"
+                + "wrong with this copy of the Test Runner.\n"
+                + "Please report this to the developers.\n";
+            extraDetails = UIUtils.stackTraceToString(e);
+        }
+        catch (IOException e)
+        {
+            errorMessage =  "Encountered unexpected error while reading\n"
+                + "the internal copy of the SBML test case archive.\n"
+                + "Please report this to the developers.\n";
+            extraDetails = UIUtils.stackTraceToString(e);
+        }
+
+        Tell.error(parentShell, errorMessage, extraDetails);
+    }
+
+
+    class UnpackHandler
+        implements Runnable
+    {
+        private File file;
+        private AtomicBoolean cancelled;
+        private AtomicBoolean success;
+
+        UnpackHandler(File file, AtomicBoolean success, AtomicBoolean cancelled)
+        {
+            this.file = file;
+            this.success = success;
+            this.cancelled = cancelled;
+        }
+
+        @Override
+        public void run()
+        {
+            CancelCallback cancelCallback = new CancelCallback() {
+                public boolean cancellationRequested()
+                {
+                    return cancelled.get();
+                }
+            };
+
+            if (!Util.unzipArchive(file, cancelCallback) && !cancelled.get())
+            {
+                success.set(false);
+                currentDialog.close();
+                display.syncExec(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        Tell.error(parentShell,
+                                   "Unable to extract cases from archive.",
+                                   "Encountered an error attempting to unzip\n"
+                                   + "the archive of test cases. It may be\n"
+                                   + "corrupted, or a file system error may\n"
+                                   + "have occurred.");
+                    }
+                });
+                return;
+            }
+
+            File casesDir = getInternalCasesDir();
+            if (casesDir.isDirectory())
+            {
+                success.set(true);
+                currentDialog.close();
+            }
+            else if (!casesDir.isDirectory() && casesDir.exists())
+            {
+                success.set(false);
+                currentDialog.close();
+                if (parentShell == null || parentShell.isDisposed()) return;
+                display.syncExec(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        Tell.error(parentShell,
+                                   "The SBML test case archive is not in\n"
+                                   + "the expected format. Aborting.",
+                                   "Perhaps it has been moved or corrupted.");
+                    }
+                });
+            }
+        }
+    }
+
+
+    public boolean unpackArchive(File file)
+    {
+        currentDialog = new StatusDialog("Unpacking test case archive...",
+                                         true, true);
+
+        final AtomicBoolean cancelled = new AtomicBoolean(false);
+        final AtomicBoolean success = new AtomicBoolean(true);
+        currentDialog.setCancelAction(new Runnable() {
+            @Override
+            public void run()
+            {
+                cancelled.set(true);
+                if (currentDialog == null) return;
+                currentDialog.setCancelAction(null);
+                currentDialog.close();
+            }
+        });
+
+        executor.init(false, 1);
+        executor.execute(new UnpackHandler(file, success, cancelled));
+        currentDialog.showAndWait();
+        System.out.println("foo");
+        executor.waitForProcesses(display);
+        currentDialog = null;
+        if (cancelled.get())
+            return false;
+        else
+        {
+            Tell.inform(parentShell, "Finished installing test cases.");
+            return success.get();
+        }
+    }
+
+
+    class ServerCheckHandler
+        implements Runnable
+    {
+        @Override
+        public void run()
+        {
+            // We use cached results *except* if we're running interactively;
+            // in that case, we force a refresh, based on the premise that the
+            // user wants an update check to be performed anew.
+
+            if (rssContents == null || currentDialog != null)
+            {
+                HttpURLConnection connection = Util.getRSSFeedConnection();
+                if (connection != null)
+                    rssContents = Util.getRSSFeedContents(connection);
+
+                if (connection == null || rssContents == null)
+                {
+                    if (currentDialog != null)
+                    {
+                        currentDialog.close();
+                        if (parentShell == null || parentShell.isDisposed())
+                            return;
+                        display.syncExec(new Runnable() {
+                            @Override
+                            public void run()
+                            {
+                                Tell.error(parentShell,
+                                   "Unable to reach update server.",
+                                   "Either the attempt to connect to SourceForge\n"
+                                   + "failed, or else the data read from the server\n"
+                                   + "is corrupted in some way.  This can happen\n"
+                                   + "if the network is unreachable or the site\n"
+                                   + "changed such that our update command no\n"
+                                   + "longer works as programmed.");
+                            }
+                        });
+                    }
+                    return;
+                }
+            }
+
+            Vector<String> archives
+                = Util.getCaseArchiveURLs(rssContents, internalCasesDate);
+            if (archives != null && archives.size() > 0)
+                updatedArchiveURL = archives.firstElement();
+
+            // FIXME this is for testing only
+            // updatedArchiveURL = "http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/sbml-test-cases-2013-06-06.zip/download";
+            updatedArchiveURL = "http://localhost:8888/~mhucka/sbml-test-cases.zip";
+
+            if (currentDialog != null) currentDialog.close();
+        }
+    }
+
+
+    /**
+     * This blocks until the check is completed. Callers should invoke this
+     * in a thread of some kind.
+     */
+    public boolean checkForUpdates(boolean quietly)
+    {
+        updatedArchiveURL = null;
+        if (internalCasesDate == null)
+            internalCasesDate = getInternalCasesDate();
+        if (internalCasesDate == null)
+            return false;
+
+        executor.init(false, 1);
+        if (quietly)
+        {
+            currentDialog = null;
+            executor.execute(new ServerCheckHandler());
+            executor.waitForProcesses(display);
+        }
+        else
+        {
+            currentDialog = new StatusDialog("Checking for updates...", true, true);
+
+            final AtomicBoolean cancelled = new AtomicBoolean(false);
+            currentDialog.setCancelAction(new Runnable() {
+                @Override
+                public void run()
+                {
+                    cancelled.set(true);
+                    if (currentDialog == null) return;
+                    currentDialog.setCancelAction(null);
+                    currentDialog.close();
+                }
+            });
+
+            executor.execute(new ServerCheckHandler());
+            currentDialog.showAndWait();
+            executor.waitForProcesses(display);
+            currentDialog = null;
+
+            if (cancelled.get())
+                return false;
+        }
+
+        return (updatedArchiveURL != null);
+    }
+
+
+    class DownloadHandler
+        implements Runnable
+    {
+        private URL sourceURL;
+        private OutputStream outputStream;
+        private int size;
+        private AtomicBoolean cancelled;
+
+        DownloadHandler(URL sourceURL, OutputStream outputStream, int size,
+                        AtomicBoolean cancelled)
+        {
+            this.outputStream = outputStream;
+            this.sourceURL = sourceURL;
+            this.size = size;
+            this.cancelled = cancelled;
+        }
+
+        @Override
+        public void run()
+        {
+            final CancelCallback cancelCallback = new CancelCallback() {
+                public boolean cancellationRequested()
+                {
+                    return cancelled.get();
+                }
+            };
+
+            final int bufferSize = Util.getStreamReadBufferSize();
+            final AtomicInteger progress = new AtomicInteger(0);
+            boolean success = true;
+            if (size > 0)
+            {
+                final UpdateCallback updateCallback = new UpdateCallback() {
+                    public void update()
+                    {
+                        if (currentDialog == null) return;
+                        final int current = progress.addAndGet(bufferSize);
+                        currentDialog.setProgress(((double) current/(double) size));
+                    }
+                };
+                success = Util.downloadUrlToStream(sourceURL, outputStream,
+                                                   cancelCallback,
+                                                   updateCallback);
+            }
+            else
+            {
+                success = Util.downloadUrlToStream(sourceURL, outputStream,
+                                                   cancelCallback, null);
+            }
+            if (currentDialog != null) currentDialog.close();
+            if (!success && !cancelled.get())
+            {
+                cancelled.set(true);
+                display.asyncExec(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        Tell.error(parentShell,
+                           "Encountered problem during download operation.",
+                           "A network error may have occurred (e.g., timeout)\n"
+                           + "or some other local or server problem may have\n"
+                           + "arisen. If the problem persists, please contact\n"
+                           + "the developers.");
+                    }
+                });
+            }
+        }
+    }
+
+
+    public void updateFromNetwork()
+    {
+        if (updatedArchiveURL == null || rssContents == null) return;
+
+        File destDir = new File(Util.getUserDir());
+        File destFile = new File(destDir, ".testsuite.zip");
+        FileOutputStream fos = null;
+        URL url = null;
+
+        try
+        {
+            url = new URL(updatedArchiveURL);
+            fos = new FileOutputStream(destFile);
+        }
+        catch (MalformedURLException e)
+        {
+            Tell.error(parentShell,
+                       "Unable to read the test case archive from\n"
+                       + "its network location.",
+                       "Internal error: malformed URL. Please inform\n"
+                       + "the developers.");
+            return;
+        }
+        catch (FileNotFoundException e)
+        {
+            Tell.error(parentShell,
+                       "Unable to read the test case archive from\n"
+                       + "its network location.",
+                       "The network may be unreachable, or the server\n"
+                       + "may have changed, or some other unexpected\n"
+                       + "error may have occurred. If the problem\n"
+                       + "persists, please contact the developers.");
+            return;
+        }
+
+        int size = Util.getCasesArchiveSize(rssContents, updatedArchiveURL);
+        boolean infiniteBar = (size == -1);
+
+        currentDialog = new StatusDialog("Downloading updated tests...",
+                                         infiniteBar, true);
+        final AtomicBoolean cancelled = new AtomicBoolean(false);
+        currentDialog.setCancelAction(new Runnable() {
+                @Override
+                public void run()
+                {
+                    cancelled.set(true);
+                    if (currentDialog == null) return;
+                    currentDialog.setCancelAction(null);
+                    currentDialog.close();
+                }
+            });
+
+        OutputStream outStream = new BufferedOutputStream(fos);
+
+        executor.init(false, 1);
+        executor.execute(new DownloadHandler(url, outStream, size, cancelled));
+        currentDialog.showAndWait();
+        executor.waitForProcesses(display);
+        currentDialog = null;
+
+        if (cancelled.get())
+            return;
+
+        // If we get this far, we've succeeded in downloading the archive.
+        // Now unpack it.
+
+        if (unpackArchive(destFile))
+            internalCasesDate = getInternalCasesDate();
+    }
+
+
+    /**
+     * Main program should call this before exiting, to shut down any threads
+     * that might still be running.
+     */
+    public void shutdown()
+    {
+        if (currentDialog != null)
+            currentDialog.close();
+        executor.shutdownNow();
+    }
+
+}
