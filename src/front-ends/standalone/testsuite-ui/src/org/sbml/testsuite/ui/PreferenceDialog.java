@@ -68,6 +68,7 @@ public class PreferenceDialog
     private String             origCasesDir;
     private Button             btnDeleteFiles;
     private Button             btnOverrideNumThreads;
+    private Button             btnAutoCheckUpdates;
     private Text               txtNumThreads;
     private int                previousNumThreads;
     /** Tracks whether user has already indicated whether to save changes.
@@ -98,11 +99,11 @@ public class PreferenceDialog
      */
     private void createContents()
     {
-        int height = (UIUtils.isLinux() ? 640 : 570);
+        int height = (UIUtils.isLinux() ? 670 : 600);
 
         shell = new Shell(getParent(), getStyle());
         shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
-        shell.setMinimumSize(new Point(640, 450));
+        shell.setMinimumSize(new Point(670, 450));
         shell.setSize(770, height);
         shell.setText("Preferences");
         GridLayout gl_shell = new GridLayout(1, true);
@@ -221,7 +222,7 @@ public class PreferenceDialog
         compThreads.setLayoutData(gd);
         GridLayout gl_compThreads = new GridLayout(2, false);
         gl_compThreads.marginWidth = 0;
-        gl_compThreads.marginTop = 0;
+        gl_compThreads.marginTop = 1;
         gl_compThreads.marginRight = 0;
         gl_compThreads.marginHeight = 0;
         gl_compThreads.horizontalSpacing = 0;
@@ -264,6 +265,28 @@ public class PreferenceDialog
             }
         });
 
+        btnAutoCheckUpdates = new Button(outerComp, SWT.CHECK);
+        GridData gd_btnAutoCheckUpdates = new GridData(SWT.LEFT, SWT.CENTER,
+                                                          false, false, 5, 1);
+        gd_btnAutoCheckUpdates.verticalIndent = 0;
+        btnAutoCheckUpdates.setLayoutData(gd_btnAutoCheckUpdates);
+        btnAutoCheckUpdates.setText("Automatically check for new versions of "
+                                       + "test cases when application starts");
+        btnAutoCheckUpdates.setToolTipText(
+            "Check the SourceForge.net repository for updated archives of "
+            + "SBML Test Cases each time the SBML Test Runner is started, and "
+            + "automatically download and install new test cases if they "
+            + "are found.");
+        btnAutoCheckUpdates.setSelection(UIUtils.getBooleanPref("autoCheckUpdates",
+                                                                true, this));
+        btnAutoCheckUpdates.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent event)
+            {
+                UIUtils.saveBooleanPref("autoCheckUpdates",
+                                        btnAutoCheckUpdates.getSelection(), this);
+            }
+        });
 
         Label sep3 = new Label(outerComp, SWT.SEPARATOR | SWT.HORIZONTAL);
         GridData gd_sep3 = new GridData(SWT.FILL, SWT.CENTER, false, false, 5, 1);
