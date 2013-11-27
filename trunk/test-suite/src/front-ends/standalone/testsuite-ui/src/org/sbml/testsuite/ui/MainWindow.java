@@ -196,7 +196,7 @@ public class MainWindow
             menu.getParent().update();
         }
     }
-    
+
 
     class LVSelectionMenuListener
         extends SelectionAdapter
@@ -242,7 +242,7 @@ public class MainWindow
             this.dropdown = dropdown;
             items = new Vector<MenuItem>();
             menu = new Menu(dropdown.getParent().getShell());
-            
+
             addOption(HIGHEST_LV_TEXT);
             addOption(new LevelVersion(3, 1));
             addOption(new LevelVersion(2, 4));
@@ -263,7 +263,7 @@ public class MainWindow
         {
             if (text == null) return;
             MenuItem menuItem = new MenuItem(menu, SWT.NONE);
-            menuItem.setText(text);            
+            menuItem.setText(text);
             menuItem.setData(new LevelVersion());
             menuItem.addSelectionListener(selectionListener);
             items.add(menuItem);
@@ -317,8 +317,6 @@ public class MainWindow
     private final String              ITEM_RERUN  = "RERUN";
     private final String              ITEM_OUTPUT = "OUTPUT";
 
-    private final String              CASE_ARCHIVE = "sbml-test-cases.zip";
-
     private Composite                 cmpDifferences;
     private Composite                 cmpGraphs;
     private GridLayout                gl_gridDifferences;
@@ -346,6 +344,7 @@ public class MainWindow
     private MenuItem                  menuItemViewOutput;
 
     private MainModel                 model;
+    private CasesArchiveManager       archiveManager;
 
     private final DecimalFormat       sciformat;
 
@@ -407,8 +406,9 @@ public class MainWindow
         else
             chartTitleFont = UIUtils.createResizedFont("SansSerif", SWT.ITALIC, -1);
         chartTickFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -2);
-        chartLegendFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -2);            
+        chartLegendFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -2);
         createContents();
+        archiveManager = new CasesArchiveManager(shell);
     }
 
 
@@ -1181,7 +1181,7 @@ public class MainWindow
     }
 
 
-    private void createMenuBar(Shell shell)
+    private void createMenuBar(final Shell shell)
     {
         Menu menuBar = new Menu(shell, SWT.BAR);
         shell.setMenuBar(menuBar);
@@ -1555,6 +1555,21 @@ public class MainWindow
                 });
             menuItemAbout.setText("About SBML Test Runner");
 
+            MenuItem menuItemUpdate = new MenuItem(menu_4, SWT.NONE);
+            menuItemUpdate.addSelectionListener(new SelectionAdapter() {
+                    @Override
+                    public void widgetSelected(SelectionEvent arg0)
+                    {
+                        delayedUpdate(new Runnable() {
+                            public void run()
+                            {
+                                checkAndUpdateTestCases(false);
+                            }
+                        });
+                    }
+                });
+            menuItemUpdate.setText("Check for updates...");
+
             MenuItem menuItemHelp = new MenuItem(menu_4, SWT.NONE);
             menuItemHelp.addSelectionListener(new SelectionAdapter() {
                     @Override
@@ -1594,10 +1609,30 @@ public class MainWindow
                     @Override
                     public void widgetSelected(SelectionEvent arg0)
                     {
-                        showAbout();
+                        delayedUpdate(new Runnable() {
+                                public void run()
+                                {
+                                    showAbout();
+                                }
+                            });
                     }
                 });
             menuItemAbout.setText("About SBML Test Runner");
+
+            MenuItem menuItemUpdate = new MenuItem(menu_4, SWT.NONE);
+            menuItemUpdate.addSelectionListener(new SelectionAdapter() {
+                    @Override
+                    public void widgetSelected(SelectionEvent arg0)
+                    {
+                        delayedUpdate(new Runnable() {
+                            public void run()
+                            {
+                                checkAndUpdateTestCases(false);
+                            }
+                        });
+                    }
+                });
+            menuItemUpdate.setText("Check for updates...");
         }
 
         if (UIUtils.isMacOSX()) macify(getDisplay());
@@ -1996,7 +2031,7 @@ public class MainWindow
         tree.setMenu(treeContextMenu);
     }
 
-
+    
     private TreeItem getCaseFromUser()
     {
         String num = Tell.simpleQuery(shell, "Case number:");
@@ -2202,8 +2237,9 @@ public class MainWindow
         dlg.setFilterExtensions(new String[] {"*.zip", "*.*"});
         dlg.setText("Browse for Test Suite zip archive");
         String fileName = dlg.open();
-        if (fileName != null && unpackArchive(new File(fileName)))
+        if (fileName != null && archiveManager.unpackArchive(new File(fileName)))
         {
+            model.setTestSuiteDir(archiveManager.getInternalCasesDir());
             invalidateSelectedResults(tree.getItems());
             if (wrapperIsRunnable())
                 progressSection.setStatus(RunStatus.NotStarted);
@@ -2228,7 +2264,7 @@ public class MainWindow
         }
         else
         {
-            if (! running || Tell.confirm(shell, 
+            if (! running || Tell.confirm(shell,
                                           "Processes are still running.\n"
                                           + "Stop them and exit anyway?"))
             {
@@ -2250,8 +2286,8 @@ public class MainWindow
     private void quit()
     {
         running = false;
-        if (executor != null)
-            executor.shutdownNow();
+        archiveManager.shutdown();
+        executor.shutdownNow();
         if (model != null && model.getSettings() != null)
             model.getSettings().saveAsDefault();
         if (shell != null && ! shell.isDisposed())
@@ -2522,21 +2558,18 @@ public class MainWindow
         model = new MainModel();
         TestSuite suite = model.getSuite();
 
-        Date internalCasesReleaseDate = getInternalCasesReleaseDate();
-        if (internalCasesReleaseDate == null)
-            return false;
-
+        Date internalCasesDate = archiveManager.getInternalCasesDate();
         if (suite == null || suite.getNumCases() == 0
             || suite.getCasesReleaseDate() == null
-            || suite.getCasesReleaseDate().before(internalCasesReleaseDate))
+            || suite.getCasesReleaseDate().before(internalCasesDate))
         {
             // Either (a) we don't have a suite yet, or (b) it doesn't have a
             // date file (implying the cases are older than the ones shipped
             // with the SBML Test Suite version 3.1.0), or (c) it has a
-            // release file but the cases are older than what's bundled with
-            // this copy of the test runner.  Unpack our internal copy.
+            // release date file but the cases are older than what's bundled 
+            // with this copy of the test runner.  Unpack our internal copy.
 
-            extractInternalCasesArchive();
+            archiveManager.extractInternalCasesArchive();
         }
         else
         {
@@ -2562,7 +2595,37 @@ public class MainWindow
             }
         }
         updateStatuses();
+
+        if (UIUtils.getBooleanPref("autoCheckUpdates", true, this))
+        {
+            getDisplay().asyncExec(new Runnable() {
+                public void run()
+                {
+                    checkAndUpdateTestCases(true);
+                }
+            });
+        }
+
         return true;
+    }
+
+
+    private void checkAndUpdateTestCases(boolean quietly)
+    {
+        // checkForUpdates() will not return until either it gets an answer
+        // or a network timeout occurs.
+
+        if (archiveManager.checkForUpdates(quietly))
+        {
+            if (Tell.confirm(shell, "Updated test cases found. Download \n"
+                             + "them and replace the current set of tests?"))
+            {
+                resetForRun();
+                archiveManager.updateFromNetwork();
+            }
+        }
+        else if (!quietly && !closing)
+            Tell.inform(shell, "No test case updates found.");
     }
 
 
@@ -2624,7 +2687,6 @@ public class MainWindow
         {
             while (shell != null && !shell.isDisposed())
             {
-                Display display = getDisplay();
                 if (display != null && !display.readAndDispatch())
                     display.sleep();
             }
@@ -2666,154 +2728,6 @@ public class MainWindow
             }
         }
         buttonRun.getParent().redraw();
-    }
-
-
-    private Date getInternalCasesReleaseDate()
-    {
-        try
-        {
-            InputStream in = UIUtils.getFileResourceStream(CASE_ARCHIVE);
-            if (in == null)
-            {
-                Tell.error(shell, "The internal archive of the SBML test cases\n"
-                           + "appears to be corrupted or missing. It is best\n"
-                           + "not to proceed further. Please report this to \n"
-                           + "the developers.", "Unable to find archive.");
-                return null;
-            }
-
-            ZipInputStream zis = new ZipInputStream(in);
-            ZipEntry entry = null;
-            do
-            {
-                entry = zis.getNextEntry();
-                if (entry == null)
-                    break;
-            }
-            while (entry != null && ! ".cases-archive-date".equals(entry.getName()));
-            if (entry != null)
-            {
-                return Util.readArchiveDateFileStream(zis);
-            }
-        }
-        catch (Exception e)
-        {
-            Tell.error(shell, "The internal archive of the SBML test cases\n"
-                       + "appears to be corrupted. It is best not to \n"
-                       + "proceed further. Please report this to the \n"
-                       + "developers.", UIUtils.stackTraceToString(e));
-        }
-        return null;
-    }
-
-
-    private void extractInternalCasesArchive()
-    {
-        File destDir = new File(Util.getUserDir());
-        File destFile = new File(destDir, ".testsuite.zip");
-        String errorMessage = "";
-        String extraDetails = "";
-
-        try
-        {
-            InputStream is = UIUtils.getFileResourceStream(CASE_ARCHIVE);
-            FileOutputStream fos = new FileOutputStream(destFile);
-
-            if (is == null)
-            {
-                errorMessage = "The internal archive of the SBML test cases\n"
-                    + "appears to be missing -- something is seriously\n"
-                    + "wrong with this copy of the Test Runner. Please\n"
-                    + "report this to the developers.";
-            }
-            else
-            {
-                BufferedOutputStream bos = new BufferedOutputStream(fos);
-                Util.copyInputStream(is, bos);
-                unpackArchive(destFile);
-                destFile.delete();
-            }
-
-            fos.close();
-            return;
-        }
-        catch (FileNotFoundException e)
-        {
-            errorMessage = "The internal archive of the SBML test cases\n"
-                + "appears to be missing -- something is seriously\n"
-                + "wrong with this copy of the Test Runner.\n"
-                + "Please report this to the developers.\n";
-            extraDetails = UIUtils.stackTraceToString(e);
-        }
-        catch (IOException e)
-        {
-            errorMessage =  "Encountered unexpected error while reading\n"
-                + "the internal copy of the SBML test case archive.\n"
-                + "Please report this to the developers.\n";
-            extraDetails = UIUtils.stackTraceToString(e);
-        }
-
-        Tell.error(shell, errorMessage, extraDetails);
-    }
-
-
-    private boolean unpackArchive(File file)
-    {
-        boolean success = false;
-        shell.setEnabled(false);
-        try
-        {
-            ProgressDialog dialog = new ProgressDialog(shell, file);
-            dialog.center(shell.getBounds());
-            dialog.getStyledText()
-                  .setText("Unpacking the archive of test cases.\n"
-                           + "This may take some time ...\n\n");
-            dialog.openWithoutWait();
-            dialog.getParent().redraw();
-            dialog.getParent().update();
-            getDisplay().readAndDispatch();
-            Util.unzipArchive(file, new CancelCallback() {
-                @Override
-                public boolean cancellationRequested()
-                {
-                    getDisplay().readAndDispatch();
-                    return false;
-                }
-            });
-            dialog.getStyledText().append("Extracting the test case files ...\n\n");
-            getDisplay().readAndDispatch();
-            File casesDir = new File(Util.getInternalTestSuiteDir(),
-                                     "/cases/semantic/");
-            if (casesDir.isDirectory())
-            {
-                dialog.getStyledText().append("Updating the list of tests ...\n\n");
-                model.setTestSuiteDir(casesDir);
-                getDisplay().readAndDispatch();
-                success = true;
-            }
-            else if (!casesDir.isDirectory() && casesDir.exists())
-            {
-                dialog.getStyledText()
-                      .append("Error: the archive was not in the expected format!"
-                              + "\n\nAborting.");
-                getDisplay().readAndDispatch();
-                Tell.error(shell, "The SBML test case archive is not in "
-                           + "\nthe expected format.",
-                           "Perhaps it has been moved or corrupted.");
-                success = false;
-            }
-            dialog.close();
-        }
-        catch (Exception e)
-        {
-            success = false;
-        }
-        finally
-        {
-            shell.setEnabled(true);
-        }
-        return success;
     }
 
 
