@@ -32,6 +32,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Layout;
 
 
@@ -122,41 +123,56 @@ import org.eclipse.swt.widgets.Layout;
  */
 public class CustomProgressBar extends Composite
 {
-    /**Right border region, or bottom border region (SWT.VERTICAL). Image
-     * used in this region is not tiled and the area that this region
-     * occupies is not part of the fill or empty region.*/
+    /** Right border region, or bottom border region (SWT.VERTICAL). Image
+     *  used in this region is not tiled and the area that this region
+     *  occupies is not part of the fill or empty region. */
     private final Canvas rightBorder;
 
-    /**Right region, or bottom region (SWT.VERTICAL). Image used in this
-       region is tiled*/
+    /** Right region, or bottom region (SWT.VERTICAL). Image used in this
+     *  region is tiled. */
     private final Canvas fillRegion;
 
-    /**Left border region, or top border region (SWT.VERTICAL). Image
-     * used in this region is not tiled and the area that this region
-     * occupies is not part of the fill or empty region.*/
+    /** Left border region, or top border region (SWT.VERTICAL). Image
+     *  used in this region is not tiled and the area that this region
+     *  occupies is not part of the fill or empty region. */
     private final Canvas leftBorder;
 
-    /**Flag indicating that the style is horizontal. If not horizontal
-       the vertical is assumed and visa versa*/
+    /** Empty region. */
+    private final Canvas emptyRegion;
+
+    /** Flag indicating that the style is horizontal. If not horizontal
+     *  the vertical is assumed and visa versa. */
     private final boolean horizontal;
 
-    /** the recommended width of the progress bar*/
+    /**Flag indicating that the style is indeterminate. */
+    private final boolean indeterminate;
+
+    /** The recommended width of the progress bar. */
     private final int recommendedWidth;
 
-    /** the recommended height of the progress bar*/
+    /** The recommended height of the progress bar. */
     private final int recommendedHeight;
 
-    /** The current progressed pixel position*/
+    /** Refresh rate for the indeterminate scrolling progress bar, in ms. */
+    private final int SCROLL_REFRESH_TIME = 50;
+
+    /** The current progressed pixel position. */
     private AtomicInteger progressedPosition = new AtomicInteger(0);
 
-    /** The current progress percentage 0 -> 1*/
+    /** The current progress percentage 0 -> 1. */
     private AtomicLong progressedPercentage = new AtomicLong(0);
 
     /** The current progress in terms of steps. */
     private AtomicInteger progressedSteps = new AtomicInteger(0);
 
-    /** The number of steps, when using stepping. Default is 100.*/
+    /** The number of steps, when using stepping. Default is 100. */
     private AtomicInteger maxSteps = new AtomicInteger(100);
+
+    /** Number of images for the scrolling effect. */
+    private final static int NUM_BGIMAGES = 28;
+
+    /** Internal images used for scrolling effect. */
+    private final static Image[] bgImage = new Image[NUM_BGIMAGES];
 
 
     /**
@@ -176,35 +192,58 @@ public class CustomProgressBar extends Composite
      */
     public CustomProgressBar(Composite parent, int style,
                              Image leftBorderImage, Image filledImage,
-                             Image emptyImage, Image rightBorderImage)
+                             Image emptyImage, Image indeterminateImage,
+                             Image rightBorderImage)
     {
         super(parent, SWT.DOUBLE_BUFFERED);
 
         horizontal = (SWT.VERTICAL != (style & SWT.VERTICAL));
-        setLayout(createLayout());
+        indeterminate = (SWT.INDETERMINATE == (style & SWT.INDETERMINATE));
 
+        setLayout(createLayout());
         recommendedWidth = leftBorderImage.getBounds().width;
         recommendedHeight = leftBorderImage.getBounds().height;
-        leftBorder = createBorder(this, leftBorderImage);
-        fillRegion = createFillRegion(this, horizontal ? filledImage : emptyImage);
-        createEmptyRegion(this, horizontal ? emptyImage : filledImage);
-        rightBorder = createBorder(this, rightBorderImage);
+
+        if (indeterminate)
+        {
+            leftBorder = createBorder(this, leftBorderImage);
+            fillRegion = createFillRegion(this, filledImage);
+            emptyRegion = createEmptyRegion(this, indeterminateImage);
+            rightBorder = createBorder(this, rightBorderImage);
+        }
+        else
+        {
+            leftBorder = createBorder(this, leftBorderImage);
+            fillRegion = createFillRegion(this, horizontal ? filledImage : emptyImage);
+            emptyRegion = createEmptyRegion(this, horizontal ? emptyImage : filledImage);
+            rightBorder = createBorder(this, rightBorderImage);
+        }
 
         addControlListener(new ControlAdapter() {
-                @Override
-                public void controlResized(ControlEvent e)
-                {
-                    long progress = progressedPercentage.get();
-                    double percent = Double.longBitsToDouble(progress);
-                    double val = (horizontal ? percent : 1 - percent);
-                    progressedPosition.set((int) (calculatePotentialFillExtent() * val));
-                    fillRegion.setLayoutData(
-                         createFilledLayoutData(new Rectangle(0, 0,
-                                                              recommendedWidth, 
-                                                              recommendedHeight)));
-                    layout();
-                }
-            });
+            @Override
+            public void controlResized(ControlEvent e)
+            {
+                long progress = progressedPercentage.get();
+                double percent = Double.longBitsToDouble(progress);
+                double val = (horizontal ? percent : 1 - percent);
+                progressedPosition.set((int) (calculatePotentialFillExtent() * val));
+                fillRegion.setLayoutData(
+                     createFilledLayoutData(new Rectangle(0, 0,
+                                                          recommendedWidth, 
+                                                          recommendedHeight)));
+                layout();
+            }
+        });
+
+        if (indeterminate)
+        {
+            for (int i = 0; i < NUM_BGIMAGES; i++)
+            {
+                String f = String.format("filled_indeterminate_%02d.png", i);
+                bgImage[i] = UIUtils.getImageResource(f);
+            }
+            activateScrolling(parent.getDisplay());
+        }
     }
 
 
@@ -212,8 +251,9 @@ public class CustomProgressBar extends Composite
     {
         this(parent, style,
              UIUtils.getImageResource("border.png"),
-             UIUtils.getImageResource("filled_region_horizontal.png"),
+             UIUtils.getImageResource("filled_horizontal.png"),
              UIUtils.getImageResource("empty_region.png"),
+             UIUtils.getImageResource("filled_indeterminate_00.png"),
              UIUtils.getImageResource("border.png"));
     }
 
@@ -224,7 +264,7 @@ public class CustomProgressBar extends Composite
         gl.horizontalSpacing = 0;
         gl.verticalSpacing = 0;
         gl.marginHeight = 0;
-        gl.marginWidth = 0;
+        gl.marginWidth = 1;
         return gl;
     }
 
@@ -259,15 +299,15 @@ public class CustomProgressBar extends Composite
         final GridData gd = new GridData(h_setting, v_setting, false, false);
         if (horizontal)
         {
-            gd.minimumHeight = recommendedHeight;
-            gd.heightHint = recommendedHeight;
+            gd.minimumHeight = bounds.height;
+            gd.heightHint = bounds.height;
             gd.widthHint = progressedPosition.get();
             gd.minimumWidth = progressedPosition.get();
         }
         else
         {
-            gd.minimumWidth = recommendedWidth;
-            gd.widthHint = recommendedWidth;
+            gd.minimumWidth = bounds.width;
+            gd.widthHint = bounds.width;
             gd.heightHint = progressedPosition.get();
             gd.minimumHeight = progressedPosition.get();
         }
@@ -282,16 +322,17 @@ public class CustomProgressBar extends Composite
         int h_setting = horizontal ? SWT.FILL : SWT.FILL;
         int v_setting = horizontal ? SWT.BEGINNING : SWT.FILL;
 
+        Rectangle bounds = image.getBounds();
         final GridData gd = new GridData(h_setting, v_setting, horizontal, !horizontal);
         if (horizontal)
         {
-            gd.minimumHeight = recommendedHeight;
-            gd.heightHint = recommendedHeight;
+            gd.minimumHeight = bounds.height;
+            gd.heightHint = bounds.height;
         }
         else
         {
-            gd.minimumWidth = recommendedWidth;
-            gd.widthHint = recommendedWidth;
+            gd.minimumWidth = bounds.width;
+            gd.widthHint = bounds.width;
         }
         canvas.setLayoutData(gd);
         return canvas;
@@ -299,7 +340,28 @@ public class CustomProgressBar extends Composite
 
 
     /**
-     * Method to update the progress
+     * Activate indefinite scrolling behavior.
+     *
+     * The approach to creating a timer below is based on code from
+     * http://stackoverflow.com/a/16111306/743730
+     */
+    private void activateScrolling(final Display display)
+    {
+        display.timerExec(SCROLL_REFRESH_TIME, new Runnable() {
+                private int index = -1;
+                public void run()
+                {
+                    if (emptyRegion == null || emptyRegion.isDisposed()) return;
+                    index = ++index % NUM_BGIMAGES;
+                    emptyRegion.setBackgroundImage(bgImage[index]);
+                    display.timerExec(SCROLL_REFRESH_TIME, this);
+                }
+            });
+    }
+
+
+    /**
+     * Method to update the progress.
      * 
      * @param percentage between 0 and 100%
      */
@@ -375,6 +437,7 @@ public class CustomProgressBar extends Composite
             return getClientArea().height - leftBorder.getBounds().height
                 - rightBorder.getBounds().height;
     }
+
 
     /** The current progress range 0 -> 1*/
     public double getCurrentProgress()
