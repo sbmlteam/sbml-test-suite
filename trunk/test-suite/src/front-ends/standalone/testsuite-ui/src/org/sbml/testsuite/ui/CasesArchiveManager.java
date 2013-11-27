@@ -200,15 +200,6 @@ public class CasesArchiveManager
                 }
             });
 
-            shell.addDisposeListener(new DisposeListener() {
-                @Override
-                public void widgetDisposed(DisposeEvent notUsed)
-                {
-                    shell.close();
-                    shutdown();
-                }
-            });
-
             shell.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
             shell.addKeyListener(UIUtils.createCloseKeyListener(shell));
 
@@ -225,7 +216,7 @@ public class CasesArchiveManager
          */
         private void center(Rectangle parentBounds)
         {
-            if (shell == null || shell.isDisposed()) return;
+            if (shell.isDisposed()) return;
             Point size = shell.getSize();
             shell.setLocation(parentBounds.x + (parentBounds.width - size.x) / 2,
                               parentBounds.y + (parentBounds.height - size.y) / 2);
@@ -237,7 +228,7 @@ public class CasesArchiveManager
          */
         public void setProgress(final double value)
         {
-            if (shell == null || shell.isDisposed()) return;
+            if (shell.isDisposed()) return;
             display.asyncExec(new Runnable() {
                 @Override
                 public void run()
@@ -257,7 +248,7 @@ public class CasesArchiveManager
 
         public void setMessage(final String msg)
         {
-            if (shell == null || shell.isDisposed()) return;
+            if (shell.isDisposed()) return;
             display.asyncExec(new Runnable() {
                 @Override
                 public void run()
@@ -273,7 +264,7 @@ public class CasesArchiveManager
 
         public void showAndWait()
         {
-            if (shell == null || shell.isDisposed() || parentShell.isDisposed())
+            if (shell.isDisposed() || parentShell.isDisposed())
                 return;
             center(parentShell.getBounds());
             shell.open();
@@ -289,7 +280,14 @@ public class CasesArchiveManager
 
         public void close()
         {
-            if (shell == null || shell.isDisposed()) return;
+            if (shell.isDisposed()) return;
+
+            // If this close came as part of a cancel action, the cancel
+            // action would have been performed first.  However, if this
+            // close() is called as part of the shell close listeners, then
+            // we don't want to invoke the cancel action.
+            cancelAction = null;
+
             // Note: syncExec, not asyncExec, so this method doesn't return
             // until the close is done.
             display.syncExec(new Runnable() {
@@ -496,7 +494,6 @@ public class CasesArchiveManager
         executor.init(false, 1);
         executor.execute(new UnpackHandler(file, success, cancelled));
         currentDialog.showAndWait();
-        System.out.println("foo");
         executor.waitForProcesses(display);
         currentDialog = null;
         if (cancelled.get())
@@ -555,10 +552,6 @@ public class CasesArchiveManager
                 = Util.getCaseArchiveURLs(rssContents, internalCasesDate);
             if (archives != null && archives.size() > 0)
                 updatedArchiveURL = archives.firstElement();
-
-            // FIXME this is for testing only
-            // updatedArchiveURL = "http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/sbml-test-cases-2013-06-06.zip/download";
-            updatedArchiveURL = "http://localhost:8888/~mhucka/sbml-test-cases.zip";
 
             if (currentDialog != null) currentDialog.close();
         }
