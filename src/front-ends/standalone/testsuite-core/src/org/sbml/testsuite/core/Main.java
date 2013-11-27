@@ -62,11 +62,16 @@ public class Main
         }
         else if (args.isShouldListReleases())
         {
-            Vector<String> archives = Util.getListOfArchivesNewerThan(args.getPublishDate());
-            System.out.println("The following release archives are available from sf: ");
-            for (String url : archives)
-                System.out.println("\t" + url);
-            System.out.println();
+            Vector<String> archives = Util.getCaseArchiveURLs(args.getPublishDate());
+            if (archives == null)
+                System.out.println("Unable to retrieve list of archives from sf.net");
+            else
+            {
+                System.out.println("The following release archives are available from sf.net: ");
+                for (String url : archives)
+                    System.out.println("\t" + url);
+                System.out.println();
+            }
         }
         else if (args.isShouldDownload())
         {
