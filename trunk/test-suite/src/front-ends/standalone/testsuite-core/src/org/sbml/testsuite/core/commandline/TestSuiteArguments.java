@@ -113,8 +113,11 @@ public class TestSuiteArguments
      */
     public boolean isValid()
     {
-        return ((shouldDownload && url != null) || shouldListReleases || (shouldRun && (wrapperName != null && TestSuiteSettings.loadDefault()
-                                                                                                                                .getWrapper(wrapperName) != null)));
+        return ((shouldDownload && url != null)
+                || shouldListReleases
+                || (shouldRun
+                    && (wrapperName != null
+                        && TestSuiteSettings.loadDefault().getWrapper(wrapperName) != null)));
     }
 
 
