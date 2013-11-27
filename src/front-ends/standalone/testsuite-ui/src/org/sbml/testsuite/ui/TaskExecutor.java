@@ -47,6 +47,12 @@ class TaskExecutor
     }
 
 
+    public TaskExecutor(int numThreads)
+    {
+        init(false, numThreads);
+    }
+
+
     public void init(boolean concurrencyOK, int numThreads)
     {
         if (ex != null && ! ex.isTerminated())
@@ -65,17 +71,18 @@ class TaskExecutor
 
     public void execute(Runnable command)
     {
-        ex.execute(command);
+        if (ex != null)
+            ex.execute(command);
     }
 
 
     public void waitForProcesses(Display display)
     {
-        if (ex == null)
-            return;
-        ex.shutdown();        // Finish the threads we started.
+        if (ex == null) return;
+        ex.shutdown();                  // Finish the threads we started.
         while (!ex.isTerminated())
         {
+            if (display == null || display.isDisposed()) return;
             display.readAndDispatch();
         }
     }
@@ -90,6 +97,7 @@ class TaskExecutor
 
     public void shutdownNow()
     {
-        ex.shutdownNow();
+        if (ex != null)
+            ex.shutdownNow();
     }
 }
