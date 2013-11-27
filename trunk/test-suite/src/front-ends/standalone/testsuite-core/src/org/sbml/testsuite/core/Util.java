@@ -46,7 +46,8 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
+import java.net.HttpURLConnection;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -60,66 +61,192 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.NamedNodeMap;
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
+import org.xml.sax.SAXParseException;
+import java.net.SocketTimeoutException;
 
 /**
- * Util, a collection of static functions used all over the place
+ * Util, a collection of static functions used all over the place.
  */
 public class Util
 {
     /**
-     * This query uses the SF File API, to query the last 100 file releases in
-     * the
-     * test-suite branch.
+     * SourceForge URL for the last 100 file releases in the SBML Test Suite
+     * branch.
      */
-    private static String RSS_QUERY = "http://sourceforge.net/api/file/index/project-id/71971/mtime/desc/limit/100/path/test-suite/rss";
+    private final static String RSS_QUERY
+    = "http://sourceforge.net/api/file/index/project-id/71971/mtime/desc/limit/100/path/test-suite/rss";
 
 
     /**
-     * Utility function, downloading the list of all testsuite archives that can
-     * be found in the last 100 releases
-     * 
-     * @return list of archive urls
+     * Timeout duration for how long we're willing to wait on establishing
+     * the connection to SourceForge.  Time is in milliseconds;
      */
+    private final static int NET_CONNECTION_TIMEOUT = 5000;
 
-    public static Vector<String> getListOfArchives()
+
+    /**
+     * Timeout duration for how long we're willing to wait on reading from
+     * the connection to SourceForge.  Time is in milliseconds;
+     */
+    private final static int NET_READ_TIMEOUT = 10000;
+
+
+    /**
+     * Size of the buffer used for reading from streams and network
+     * connections.
+     */
+    private final static int BUFFER_SIZE = 1024;
+
+
+    /**
+     * Returns the size of the buffer we use for reading from streams and
+     * network connections.
+     */
+    public static int getStreamReadBufferSize()
     {
-        return getListOfArchivesNewerThan(null);
+        return BUFFER_SIZE;
     }
 
 
     /**
-     * Utility function, downloading the list of all testsuite archives that can
-     * be found in the last 100 releases and are newer than the given date
+     * Returns a network connection for our RSS query.
+     *
+     * Callers can use this to test the ability to connect to sf.net
+     * before invoking getRSSFeedConnection(...).
+     */
+    public static HttpURLConnection getRSSFeedConnection()
+    {
+        try
+        {
+            URL url = new URL(RSS_QUERY);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            // Test if the connection really was made. Otherwise, callers may
+            // get an UnknownHostException if the network is out, but they
+            // won't get that exception until the time they actually try to
+            // read from the connection. Let's get the exception now if we can.
+
+            int code = connection.getResponseCode();
+            if (code < 200 || code > 400)
+                return null;
+
+            // Set timeout parameters.
+            connection.setConnectTimeout(NET_CONNECTION_TIMEOUT);
+            connection.setReadTimeout(NET_READ_TIMEOUT);
+
+            return connection;
+        }
+        catch (IOException ex)
+        {
+            // Probably have no network connection.
+            return null;
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /**
+     * Returns a NodeList of the contents at our RSS URL.
+     */
+    public static NodeList getRSSFeedContents()
+    {
+        return getRSSFeedContents(getRSSFeedConnection());
+    }
+
+
+    /**
+     * Returns a NodeList of the contents at our RSS URL.
+     *
+     * Callers can cache this value and use it in subsequent calls to other
+     * methods like getCaseArchiveURLs(...), to reduce network accesses.
+     * Users on slow network links may appreciate that.
+     */
+    public static NodeList getRSSFeedContents(HttpURLConnection connection)
+    {
+        if (connection == null) return null;
+        try
+        {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            InputStream inputStream = connection.getInputStream();
+            if (inputStream == null) return null;
+            Document doc = db.parse(inputStream);
+            return doc.getElementsByTagName("item");
+        }
+        catch (SAXParseException ex)
+        {
+            // This can happen when the network is screwed up and we get a
+            // connection, but what we actually read isn't what we expect.
+            return null;
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /**
+     * Returns test case archives that can be found among the last 100
+     * releases of the Test Suite. 
+     *
+     * @return list of archive urls
+     */
+
+    public static Vector<String> getCaseArchiveURLs()
+    {
+        return getCaseArchiveURLs(getRSSFeedContents(), null);
+    }
+
+
+    /**
+     * Returns test case archives that can be found among the last 100
+     * releases of the Test Suite.
+     *
+     * @return list of archive urls
+     */
+
+    public static Vector<String> getCaseArchiveURLs(Date date)
+    {
+        return getCaseArchiveURLs(getRSSFeedContents(), date);
+    }
+
+
+    /**
+     * Returns test case archives that can be found among the last 100
+     * releases of the Test Suite and are newer than the given @p date.
      * 
      * @param date
      *            the cutoff day, only archives newer than this date will be
      *            included
-     * @return list of archive urls
+     *
+     * @return a vector of URLs, or null if an error occurred while trying
+     * to contact the sf.net servers.
      */
-    public static Vector<String> getListOfArchivesNewerThan(Date date)
+    public static Vector<String> getCaseArchiveURLs(NodeList contents, Date date)
     {
+        if (contents == null ) return null;
         Vector<String> result = new Vector<String>();
         try
         {
-
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new URL(RSS_QUERY).openStream());
-
-            NodeList items = doc.getElementsByTagName("item");
-
-            for (int i = 0; i < items.getLength(); ++i)
+            DateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy kk:mm:ss zzz");
+            for (int i = 0; i < contents.getLength(); ++i)
             {
-                Element current = (Element) items.item(i);
+                Element current = (Element) contents.item(i);
                 if (current == null) continue;
                 String title = getTextFromTag(current, "title");
                 if (!title.contains("sbml-test-cases-")) continue;
                 if (date != null)
                 {
-                    DateFormat df = new SimpleDateFormat(
-                                                         "EEE, dd MMM yyyy kk:mm:ss zzz");
                     String pubDateString = getTextFromTag(current, "pubDate");
                     Date published = df.parse(pubDateString);
                     // skip all releases before the date
@@ -131,15 +258,66 @@ public class Util
         catch (Exception ex)
         {
             ex.printStackTrace();
+            return null;
         }
-        return result;
+        return null;
+    }
+
+
+    /**
+     * Given a particular link URL, returns the size (if any) reported in the
+     * RSS item from sf.net.
+     *
+     * @return the size if found, or null if no size found.
+     */
+    public static int getCasesArchiveSize(String linkURL)
+    {
+        return getCasesArchiveSize(getRSSFeedContents(), linkURL);
+    }
+
+
+    /**
+     * Given a particular link URL, returns the size (if any) reported in the
+     * RSS item from sf.net.
+     *
+     * @return the size if found, or null if no size found.
+     */
+    public static int getCasesArchiveSize(NodeList contents, String linkURL)
+    {
+        if (linkURL == null || contents == null)
+            return -1;
+        try
+        {
+            for (int i = 0; i < contents.getLength(); ++i)
+            {
+                Element current = (Element) contents.item(i);
+                if (current == null) continue;
+                if (linkURL.equals(getTextFromTag(current, "link")))
+                {
+                    NodeList mc = current.getElementsByTagName("media:content");
+                    if (mc == null) return -1;
+                    NamedNodeMap attributes = mc.item(0).getAttributes();
+                    if (attributes == null) return -1;
+                    Node filesizeAttrib = attributes.getNamedItem("filesize");
+                    if (filesizeAttrib == null) return -1;
+                    String value = filesizeAttrib.getNodeValue();
+                    if (value == null || value.length() == 0) return -1;
+                    return Integer.parseInt(value);
+                }
+            }
+            return -1;
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            return -1;
+        }
     }
 
 
     /**
      * Return the inner text from the given tag
-     * 
-     * 
+     *
      * @param current
      *            the current element
      * @param tag
@@ -148,12 +326,11 @@ public class Util
      */
     private static String getTextFromTag(Element current, String tag)
     {
+        if (current == null) return "";
         String result = "";
-        {
-            NodeList nodes = current.getElementsByTagName(tag);
-            if (nodes.getLength() > 0)
-                result = ((Element) nodes.item(0)).getTextContent();
-        }
+        NodeList nodes = current.getElementsByTagName(tag);
+        if (nodes.getLength() > 0)
+            result = ((Element) nodes.item(0)).getTextContent();
         return result;
     }
 
@@ -189,7 +366,7 @@ public class Util
     {
         ByteOutputStream bos = new ByteOutputStream();
         OutputStream out = new BufferedOutputStream(bos);
-        downloadUrlToStream(url, out, null);
+        downloadUrlToStream(url, out, null, null);
         return bos.getBytes();
     }
 
@@ -201,34 +378,14 @@ public class Util
      *            the url to download
      * @param localFile
      *            the local file to save the url under
-     * @return true, if operation succeeded, false if failed or cancelled
+     * @return true if operation succeeded, false if it failed or was cancelled
      */
     public static boolean downloadFile(URL url, File localFile)
         throws FileNotFoundException
     {
-        return downloadFile(url, localFile, null);
-    }
-
-
-    /**
-     * Download the url to the local file
-     * 
-     * @param url
-     *            the url to download
-     * @param localFile
-     *            the local file to save the url under
-     * @param callback
-     *            the cancellation callback (leave null, if not needed)
-     * @return true, if operation succeeded, false if failed or cancelled
-     */
-    public static boolean downloadFile(URL url, File localFile,
-                                       CancelCallback callback)
-        throws FileNotFoundException
-    {
         FileOutputStream fos = new FileOutputStream(localFile);
         OutputStream out = new BufferedOutputStream(fos);
-        return downloadUrlToStream(url, out, callback);
-
+        return downloadUrlToStream(url, out, null, null);
     }
 
 
@@ -239,31 +396,12 @@ public class Util
      *            the url to download
      * @param localFile
      *            the local file to save the url under
-     * @return true, if operation succeeded, false if failed or cancelled
+     * @return true if operation succeeded, false if it failed or was cancelled
      */
     public static boolean downloadFile(String url, File localFile)
         throws FileNotFoundException, MalformedURLException
     {
-        return downloadFile(url, localFile, null);
-    }
-
-
-    /**
-     * Download the url to the local file
-     * 
-     * @param url
-     *            the url to download
-     * @param localFile
-     *            the local file to save the url under
-     * @param callback
-     *            the cancellation callback (leave null, if not needed)
-     * @return true, if operation succeeded, false if failed or cancelled
-     */
-    public static boolean downloadFile(String url, File localFile,
-                                       CancelCallback callback)
-        throws FileNotFoundException, MalformedURLException
-    {
-        return downloadFile(new URL(url), localFile, callback);
+        return downloadFile(new URL(url), localFile);
     }
 
 
@@ -273,84 +411,89 @@ public class Util
      * 
      * @param url
      *            the url to the test suite archive
-     * @return true, if operation succeeded, false if failed or cancelled
      */
-    public static boolean downloadReleaseArchiveAndInitialize(String url)
-    {
-        return downloadReleaseArchiveAndInitialize(url, null);
-    }
-
-
-    /**
-     * Download the test suite archive under the given URL, and initialize the
-     * test suite from that archive
-     * 
-     * @param url
-     *            the url to the test suite archive
-     * @param callback
-     *            the cancellation callback (leave null, if not needed)
-     * @return true, if operation succeeded, false if failed or cancelled
-     */
-    public static boolean
-            downloadReleaseArchiveAndInitialize(String url,
-                                                CancelCallback callback)
+    public static void downloadReleaseArchiveAndInitialize(String url)
     {
         try
         {
             File temp = File.createTempFile("download", "zip");
-            if (downloadFile(url, temp, callback)
-                && unzipArchive(temp, callback)) return true;
+            downloadFile(url, temp);
+            unzipArchive(temp);
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
         }
-        return false;
     }
 
 
     /**
-     * Download the url and save the content to the given output stream
+     * Download the url and save the content to the given output stream.
      * 
      * @param url
      *            the url to download
      * @param out
      *            the stream to write to
-     * @param callback
-     *            the cancellation callback (leave null, if not needed)
-     * @return true, if operation succeeded, false if failed or cancelled
+     * @param cancelCallback
+     *            a callback object to test for cancelling the download
+     * @param updateCallback
+     *            a callback object to invoke each time a multiple of the
+     *            buffer size is read.  Callers can use getStreamReadBufferSize()
+     *            to find out the buffer size.
+     *
+     * @return true if operation succeeded, false if it failed or was cancelled
      */
-    private static boolean downloadUrlToStream(URL url, OutputStream out,
-                                               CancelCallback callback)
+    public static boolean downloadUrlToStream(URL url, OutputStream out,
+                                              CancelCallback cancelCallback,
+                                              UpdateCallback updateCallback)
     {
         boolean result = true;
         InputStream in = null;
         try
         {
-            URLConnection conn = null;
-            conn = url.openConnection();
+            HttpURLConnection conn = null;
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(NET_CONNECTION_TIMEOUT);
+            conn.setReadTimeout(NET_READ_TIMEOUT);
             in = conn.getInputStream();
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[BUFFER_SIZE];
 
-            int numRead;
-            long written = 0;
+            int bytesRead;
+            long bytesWritten = 0;
+            long multiples = 0;
 
-            while ((numRead = in.read(buffer)) != -1)
+            while ((bytesRead = in.read(buffer, 0, BUFFER_SIZE)) != -1)
             {
-                out.write(buffer, 0, numRead);
-                written = written + numRead;
-                if (callback != null && written % (256 * 1024) == 0
-                    && callback.cancellationRequested())
-                {
-                    result = false;
-                    break;
+                out.write(buffer, 0, bytesRead);
+                bytesWritten += bytesRead;
 
+                // We may not get the number of bytes we ask for in a read.
+                // Thus, we need to track when we reach BUFFER_SIZE amounts.
+
+                long current = bytesWritten/BUFFER_SIZE;
+                if (current > multiples)
+                {
+                    multiples = current;
+                    if (updateCallback != null)
+                        updateCallback.update();
+                    if (cancelCallback != null && multiples % 8 == 0
+                        && cancelCallback.cancellationRequested())
+                    {
+                        result = false;
+                        break;
+                    }
                 }
             }
         }
-        catch (Exception exception)
+        catch (SocketTimeoutException ex)
         {
-            exception.printStackTrace();
+            // Network timeout.
+            result = false;
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            result = false;
         }
         finally
         {
@@ -393,7 +536,7 @@ public class Util
                             BufferedOutputStream bufferedOutputStream)
                 throws IOException
     {
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[BUFFER_SIZE];
         int len;
         while ((len = in.read(buffer)) >= 0)
             bufferedOutputStream.write(buffer, 0, len);
@@ -744,7 +887,6 @@ public class Util
      * 
      * @param file
      *            the file to unzip
-     * @return true, if operation succeeded, false if failed or cancelled
      */
     public static boolean unzipArchive(File file)
     {
@@ -753,13 +895,12 @@ public class Util
 
 
     /**
-     * Unzips the given file, adhering to cancellation callback
+     * Unzips the given file, adhering to cancallation callback
      * 
      * @param file
      *            the file to unzip
      * @param callback
      *            a cancellation callback
-     * @return true, if operation succeeded, false if failed or cancelled
      */
     public static boolean unzipArchive(File file, CancelCallback callback)
     {
