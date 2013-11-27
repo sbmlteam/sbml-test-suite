@@ -1,10 +1,8 @@
 //
-// @file CancelCallback.java
-// @brief Interface to use in long running operations. It can be used to
-// update the UI or to request cancellation
+// @file   CancelCallback.java
+// @brief  Callback interface for interrupting long-running ops.
 // @author Frank T. Bergmann
-// @date Created 2012-06-06 <fbergman@caltech.edu>
-//
+// @date   Created 2012-06-06 <fbergman@caltech.edu>
 //
 // ----------------------------------------------------------------------------
 // This file is part of the SBML Testsuite. Please visit http://sbml.org for
@@ -27,22 +25,20 @@
 // in the file named "LICENSE.txt" included with this software distribution
 // and also available online as http://sbml.org/software/libsbml/license.html
 // ----------------------------------------------------------------------------
-//
 
 package org.sbml.testsuite.core;
 
+
 /**
- * 
- * Interface to use in long running operations. It can be used to
- * update the UI or to request cancellation.
- * 
+ * Interface to use in long-running operations. It can be used to
+ * update request cancellation.
  */
 public interface CancelCallback
 {
     /**
      * Callback function requesting the cancellation of the current running
      * operation.
-     * 
+     *
      * @return when true is returned, the current operation ought to be
      *         cancelled.
      */
