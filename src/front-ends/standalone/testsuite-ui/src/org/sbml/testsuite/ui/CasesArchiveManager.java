@@ -1,6 +1,6 @@
 //
 // @file   CasesArchiveManager.java
-// @brief
+// @brief  Class implementing unpacking, downloading and updating of test cases
 // @author Michael Hucka
 // @date   2013-11-21 <mhucka@caltech.edu>
 //
@@ -34,46 +34,37 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.sbml.testsuite.core.CancelCallback;
 import org.sbml.testsuite.core.UpdateCallback;
 import org.sbml.testsuite.core.Util;
 import org.w3c.dom.NodeList;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.net.MalformedURLException;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.wb.swt.SWTResourceManager;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.HttpURLConnection;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 
 
 /**
@@ -92,6 +83,13 @@ public class CasesArchiveManager
     private StatusDialog currentDialog;
 
 
+    /**
+     * Internal specialized class for creating dialogs that are hooked into
+     * the processes later below.  This can show either a regular progress
+     * bar or an indeterminate progress bar.  When it is created, the dialog
+     * is not shown -- it is set to invisible.  To show it, callers should
+     * call showAndWait().
+     */
     class StatusDialog
         extends Dialog
     {
@@ -102,6 +100,11 @@ public class CasesArchiveManager
         private Runnable          cancelAction;
 
 
+        /**
+         * @param msg The initial message to show in the dialog
+         * @param infinite If true, show an indefinite progress bar
+         * @param showCancel A callback for the cancel action
+         */
         public StatusDialog(String msg, boolean infinite, boolean showCancel)
         {
             super(parentShell, SWT.None);
@@ -110,7 +113,7 @@ public class CasesArchiveManager
 
 
         /**
-         * Create contents of the dialog.
+         * Creates the contents of the dialog.
          */
         private void createDialog(String msg, boolean infinite, boolean showCancel)
         {
@@ -160,12 +163,10 @@ public class CasesArchiveManager
             fl.marginWidth = 1;
             compBar.setLayout(fl);
 
-            int flags = 0;
             if (infinite)
-                flags = SWT.INDETERMINATE;
+                progressBar = new CustomProgressBar(compBar, SWT.INDETERMINATE);
             else
-                flags = SWT.HORIZONTAL;
-            progressBar = new CustomProgressBar(compBar, flags);
+                progressBar = new CustomProgressBar(compBar, SWT.HORIZONTAL);
             progressBar.resetSteps();
 
             Button cmdCancel = new Button(shell, SWT.NONE);
@@ -246,6 +247,11 @@ public class CasesArchiveManager
         }
 
 
+        /**
+         * Resets the message in the dialog. This uses Display.asyncExec(...)
+         * so that the caller doesn't have to worry aobut wrapping this
+         * appropriately.
+         */
         public void setMessage(final String msg)
         {
             if (shell.isDisposed()) return;
@@ -262,6 +268,12 @@ public class CasesArchiveManager
         }
 
 
+        /**
+         * Shows the dialog and enter a read-dispatch loop until the dialog
+         * is disposed.  This is meant to be invoked after the caller starts
+         * a thread to do whatever work is needed.  The thread should call
+         * the close() method on the dialog when the work is finished.
+         */
         public void showAndWait()
         {
             if (shell.isDisposed() || parentShell.isDisposed())
@@ -278,6 +290,12 @@ public class CasesArchiveManager
         }
 
 
+        /**
+         * Closes the dialog.  The operation uses Display.syncExec(...) so that
+         * callers don't need to worry about wrapping the call in the usual
+         * scaffolding.  The use of syncExec(...) is deliberate so that this
+         * method doesn't return until the close is actually done.
+         */
         public void close()
         {
             if (shell.isDisposed()) return;
@@ -285,7 +303,8 @@ public class CasesArchiveManager
             // If this close came as part of a cancel action, the cancel
             // action would have been performed first.  However, if this
             // close() is called as part of the shell close listeners, then
-            // we don't want to invoke the cancel action.
+            // we don't want to invoke the cancel action.  Otherwise, doing
+            // so can cause the wrong dialog to be closed.
             cancelAction = null;
 
             // Note: syncExec, not asyncExec, so this method doesn't return
@@ -302,6 +321,9 @@ public class CasesArchiveManager
     }
 
 
+    /**
+     * Constructor for the class.
+     */
     public CasesArchiveManager(Shell parent)
     {
         parentShell = parent;
@@ -309,12 +331,23 @@ public class CasesArchiveManager
     }
 
 
+    /**
+     * Returns the directory that contains the semantic test cases on the
+     * user's computer.
+     */
     public File getInternalCasesDir()
     {
         return new File(Util.getInternalTestSuiteDir(), "/cases/semantic/");
     }
 
 
+    /**
+     * Reads the date stamp file in the test case directory and returns either
+     * a Date object corresponding to that date, or null if it could not find
+     * the date file or something went wrong while trying to read it.  
+     *
+     * This method will bring up dialogs and tell the user if problems arise.
+     */
     public Date getInternalCasesDate()
     {
         try
@@ -354,6 +387,12 @@ public class CasesArchiveManager
     }
 
 
+    /**
+     * Extract the archive of test cases that is bundled in the resources
+     * directory of our application jar file.
+     *
+     * This method will bring up dialogs and tell the user if problems arise.
+     */
     public void extractInternalCasesArchive()
     {
         File destDir = new File(Util.getUserDir());
@@ -404,6 +443,10 @@ public class CasesArchiveManager
     }
 
 
+    /**
+     * Runnable to be run as a subthread to unpack an archive file.  This is
+     * invoked by unpackArchive(...).
+     */
     class UnpackHandler
         implements Runnable
     {
@@ -421,6 +464,8 @@ public class CasesArchiveManager
         @Override
         public void run()
         {
+            // Note: this is the callback for the call to Util.unzipArchive(),
+            // not the callback for the status dialog.
             CancelCallback cancelCallback = new CancelCallback() {
                 public boolean cancellationRequested()
                 {
@@ -430,6 +475,8 @@ public class CasesArchiveManager
 
             if (!Util.unzipArchive(file, cancelCallback) && !cancelled.get())
             {
+                // We failed to unzip the archive but we didn't get cancelled
+                // by the user, which means something went wrong.
                 success.set(false);
                 currentDialog.close();
                 display.syncExec(new Runnable() {
@@ -447,6 +494,8 @@ public class CasesArchiveManager
                 return;
             }
 
+            // If we get here, we think we unzip'ed the archive.  Do a few
+            // more sanity checks.
             File casesDir = getInternalCasesDir();
             if (casesDir.isDirectory())
             {
@@ -473,6 +522,10 @@ public class CasesArchiveManager
     }
 
 
+    /**
+     * Unpack the archive pointed to by @p file, which is assumed to be a
+     * zip archive of SBML Test Suite test cases.
+     */
     public boolean unpackArchive(File file)
     {
         currentDialog = new StatusDialog("Unpacking test case archive...",
@@ -506,6 +559,10 @@ public class CasesArchiveManager
     }
 
 
+    /**
+     * Runnable used to check sf.net for the latest test case archive.  This
+     * is called by checkForUpdates(...).
+     */
     class ServerCheckHandler
         implements Runnable
     {
@@ -524,6 +581,8 @@ public class CasesArchiveManager
 
                 if (connection == null || rssContents == null)
                 {
+                    // If we were running interactively, then tell the user
+                    // we failed.
                     if (currentDialog != null)
                     {
                         currentDialog.close();
@@ -550,6 +609,7 @@ public class CasesArchiveManager
 
             Vector<String> archives
                 = Util.getCaseArchiveURLs(rssContents, internalCasesDate);
+            // We're only interested in the latest archive.
             if (archives != null && archives.size() > 0)
                 updatedArchiveURL = archives.firstElement();
 
@@ -606,6 +666,12 @@ public class CasesArchiveManager
     }
 
 
+    /**
+     * Runnable used to download an archive over the network.  Called by
+     * updateFromNetwork(...).  This also assumes that updateFromNetwork()
+     * sets up the initial dialog, including setting the type (either normal
+     * or indeterminate).
+     */
     class DownloadHandler
         implements Runnable
     {
@@ -638,6 +704,7 @@ public class CasesArchiveManager
             boolean success = true;
             if (size > 0)
             {
+                // Callback to update the progress bar.
                 final UpdateCallback updateCallback = new UpdateCallback() {
                     public void update()
                     {
@@ -652,12 +719,17 @@ public class CasesArchiveManager
             }
             else
             {
+                // We didn't get the size of the archive, so there's no need
+                // for an update callback.
                 success = Util.downloadUrlToStream(sourceURL, outputStream,
                                                    cancelCallback, null);
             }
             if (currentDialog != null) currentDialog.close();
             if (!success && !cancelled.get())
             {
+                // We failed for some reason.  While not strictly equivalent
+                // to having been cancelled, we set the cancelled flag anyway
+                // so that the caller knows not to proceed further.
                 cancelled.set(true);
                 display.asyncExec(new Runnable() {
                     @Override
@@ -676,6 +748,12 @@ public class CasesArchiveManager
     }
 
 
+    /**
+     * Method that handles downloading and unpacking an archive over the net.
+     * This assumes that the archive URL (= updatedArchiveURL) and a cache
+     * of the RSS feed (= rssContents) have already been set by the time this
+     * method is called.
+     */
     public void updateFromNetwork()
     {
         if (updatedArchiveURL == null || rssContents == null) return;
