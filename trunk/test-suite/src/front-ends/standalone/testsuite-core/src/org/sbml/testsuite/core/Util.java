@@ -167,7 +167,64 @@ public class Util
      *
      * Callers can cache this value and use it in subsequent calls to other
      * methods like getCaseArchiveURLs(...), to reduce network accesses.
-     * Users on slow network links may appreciate that.
+     * (Users on slow network links may appreciate that.)
+     *
+     * For programming reference purposes, here is a sample of the RSS feed
+     * contents returned by sf.net (in Nov. 2013):
+     * 
+     * <?xml version="1.0" encoding="utf-8"?>
+     * <rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:files="http://sourceforge.net/api/files.rdf#" xmlns:media="http://video.search.yahoo.com/mrss/" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:sf="http://sourceforge.net/api/sfelements.rdf#" version="2.0">
+     *   <channel xmlns:files="http://sourceforge.net/api/files.rdf#" xmlns:media="http://video.search.yahoo.com/mrss/" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:sf="http://sourceforge.net/api/sfelements.rdf#">
+     *     <title><![CDATA[Systems Biology Markup Language (SBML) downloads]]></title>
+     *     <link>http://sourceforge.net/api/file/index/project-id/71971/mtime/desc/limit/100/path/test-suite/rss</link>
+     *     <description><![CDATA[Files from Systems Biology Markup Language (SBML). The Systems Biology Markup Language (SBML) is an XML-based description language for representing computational models in systems biology. Visit the project web site to learn more.]]></description>
+     *     <pubDate>Sat, 23 Nov 2013 22:06:35 +0000</pubDate>
+     *     <managingEditor>noreply@sourceforge.net (SourceForge.net)</managingEditor>
+     *     <generator>Zend_Feed</generator>
+     *     <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+     *     <item>
+     *       <title><![CDATA[/test-suite/3.0.0/cases-archive]]></title>
+     *       <link>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/</link>
+     *       <guid>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/</guid>
+     *       <description><![CDATA[/test-suite/3.0.0/cases-archive]]></description>
+     *       <pubDate>Fri, 17 May 2013 19:38:31 +0000</pubDate>
+     *       <files:sf-file-id xmlns:files="http://sourceforge.net/api/files.rdf#">8337375</files:sf-file-id>
+     *       <media:content xmlns:media="http://video.search.yahoo.com/mrss/" type="" url="http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/download" filesize=""><media:title>test-suite</media:title><media:hash algo="md5"></media:hash></media:content>
+     *     </item>
+     *     <item>
+     *       <title><![CDATA[/test-suite/3.0.0/cases-archive/sbml-test-cases-2013-06-06.zip]]></title>
+     *       <link>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/sbml-test-cases-2013-06-06.zip/download</link>
+     *       <guid>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/sbml-test-cases-2013-06-06.zip/download</guid>
+     *       <description><![CDATA[/test-suite/3.0.0/cases-archive/sbml-test-cases-2013-06-06.zip]]></description>
+     *       <pubDate>Thu, 06 Jun 2013 19:45:48 +0000</pubDate>
+     *       <files:sf-file-id xmlns:files="http://sourceforge.net/api/files.rdf#">8485257</files:sf-file-id>
+     *       <files:extra-info xmlns:files="http://sourceforge.net/api/files.rdf#">empty (Zip archive data)</files:extra-info>
+     *       <media:content xmlns:media="http://video.search.yahoo.com/mrss/" type="application/zip; charset=binary" url="http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/sbml-test-cases-2013-06-06.zip/download" filesize="42819933"><media:title>test-suite</media:title><media:hash algo="md5">93d19b51b33a6f0578db789fd25a146c</media:hash></media:content>
+     *     </item>
+     *     <item>
+     *       <title><![CDATA[/test-suite/3.0.0/test-runner/linux]]></title>
+     *       <link>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-runner/linux/</link>
+     *       <guid>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-runner/linux/</guid>
+     *       <description><![CDATA[/test-suite/3.0.0/test-runner/linux]]></description>
+     *       <pubDate>Fri, 17 May 2013 19:38:49 +0000</pubDate>
+     *       <files:sf-file-id xmlns:files="http://sourceforge.net/api/files.rdf#">8337381</files:sf-file-id>
+     *       <media:content xmlns:media="http://video.search.yahoo.com/mrss/" type="" url="http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-runner/linux/download" filesize=""><media:title>test-suite</media:title><media:hash algo="md5"></media:hash></media:content>
+     *     </item>
+     *     <item>
+     *       <title><![CDATA[/test-suite/3.0.0/test-runner/linux/SBMLTestRunner-3.0.0-linux-x64-installer.run]]></title>
+     *       <link>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-runner/linux/SBMLTestRunner-3.0.0-linux-x64-installer.run/download</link>
+     *       <guid>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-runner/linux/SBMLTestRunner-3.0.0-linux-x64-installer.run/download</guid>
+     *       <description><![CDATA[/test-suite/3.0.0/test-runner/linux/SBMLTestRunner-3.0.0-linux-x64-installer.run]]></description>
+     *       <pubDate>Thu, 06 Jun 2013 19:42:57 +0000</pubDate>
+     *       <files:sf-file-id xmlns:files="http://sourceforge.net/api/files.rdf#">8485251</files:sf-file-id>
+     *       <files:extra-info xmlns:files="http://sourceforge.net/api/files.rdf#">ELF 64-bit LSB executable, x86-64 (GNU/Linux)</files:extra-info>
+     *       <media:content xmlns:media="http://video.search.yahoo.com/mrss/" type="application/x-executable; charset=binary" url="http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-runner/linux/SBMLTestRunner-3.0.0-linux-x64-installer.run/download" filesize="49740935"><media:title>test-suite</media:title><media:hash algo="md5">095f40dcd18829d01326f0bceadd4e1a</media:hash></media:content>
+     *     </item>
+     *    ...
+     *     <doap:Project xmlns:doap="http://usefulinc.com/ns/doap#" name="Systems Biology Markup Language (SBML)" description="The Systems Biology Markup Language (SBML) is an XML-based description language for representing computational models in systems biology. Visit the project web site to learn more."><sf:id xmlns:sf="http://sourceforge.net/api/sfelements.rdf#">71971</sf:id></doap:Project>
+     *   </channel>
+     * </rss>
+     *
      */
     public static NodeList getRSSFeedContents(HttpURLConnection connection)
     {
@@ -260,7 +317,7 @@ public class Util
             ex.printStackTrace();
             return null;
         }
-        return null;
+        return result;
     }
 
 
