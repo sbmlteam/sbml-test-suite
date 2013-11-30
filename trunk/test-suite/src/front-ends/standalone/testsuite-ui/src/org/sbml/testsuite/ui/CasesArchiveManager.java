@@ -525,6 +525,8 @@ public class CasesArchiveManager
     /**
      * Unpack the archive pointed to by @p file, which is assumed to be a
      * zip archive of SBML Test Suite test cases.
+     *
+     * @returns true if successfully unpacked the archive, false otherwise
      */
     public boolean unpackArchive(File file)
     {
@@ -821,7 +823,17 @@ public class CasesArchiveManager
         // Now unpack it.
 
         if (unpackArchive(destFile))
+        {
             internalCasesDate = getInternalCasesDate();
+            try
+            {
+                destFile.delete();
+            }
+            catch (Exception ex)
+            {
+                // Nothing else to do if we fail here.
+            }
+        }
     }
 
 
