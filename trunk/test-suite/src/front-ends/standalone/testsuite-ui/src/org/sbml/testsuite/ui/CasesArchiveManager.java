@@ -72,7 +72,9 @@ import org.w3c.dom.NodeList;
  */
 public class CasesArchiveManager
 {
-    private final String CASE_ARCHIVE = "sbml-test-cases.zip";
+    private final String INTERNAL_ARCHIVE = "sbml-test-cases.zip";
+    private final String TEMP_ZIP_FILE_NAME = "testcasearchive.zip";
+    private final String CASES_DATE_FILE = ".cases-archive-date";
 
     private final Display display;
     private Shell parentShell;
@@ -352,7 +354,7 @@ public class CasesArchiveManager
     {
         try
         {
-            InputStream in = UIUtils.getFileResourceStream(CASE_ARCHIVE);
+            InputStream in = UIUtils.getFileResourceStream(INTERNAL_ARCHIVE);
             if (in == null)
             {
                 Tell.error(parentShell, "The internal archive of the SBML test\n"
@@ -370,7 +372,7 @@ public class CasesArchiveManager
                 if (entry == null)
                     break;
             }
-            while (entry != null && ! ".cases-archive-date".equals(entry.getName()));
+            while (entry != null && ! CASES_DATE_FILE.equals(entry.getName()));
             if (entry != null)
             {
                 return Util.readArchiveDateFileStream(zis);
@@ -396,13 +398,13 @@ public class CasesArchiveManager
     public void extractInternalCasesArchive()
     {
         File destDir = new File(Util.getUserDir());
-        File destFile = new File(destDir, ".testsuite.zip");
+        File destFile = new File(destDir, TEMP_ZIP_FILE_NAME);
         String errorMessage = "";
         String extraDetails = "";
 
         try
         {
-            InputStream is = UIUtils.getFileResourceStream(CASE_ARCHIVE);
+            InputStream is = UIUtils.getFileResourceStream(INTERNAL_ARCHIVE);
             FileOutputStream fos = new FileOutputStream(destFile);
 
             if (is == null)
@@ -761,7 +763,7 @@ public class CasesArchiveManager
         if (updatedArchiveURL == null || rssContents == null) return;
 
         File destDir = new File(Util.getUserDir());
-        File destFile = new File(destDir, ".testsuite.zip");
+        File destFile = new File(destDir, TEMP_ZIP_FILE_NAME);
         FileOutputStream fos = null;
         URL url = null;
 
@@ -824,15 +826,17 @@ public class CasesArchiveManager
 
         if (unpackArchive(destFile))
         {
-            internalCasesDate = getInternalCasesDate();
             try
             {
+                // Delete the file we downloaded if we unpacked it.
                 destFile.delete();
             }
             catch (Exception ex)
             {
                 // Nothing else to do if we fail here.
             }
+            // Update the case date based on the new copy.
+            internalCasesDate = getInternalCasesDate();
         }
     }
 
