@@ -5,7 +5,7 @@ The first time you run the SBML Test Runner application, it will unpack its inte
 
 ![The first time you start the Test Runner.](first-time.png "When you first start the SBML Test Runner, it will begin to unpack the SBML test cases it contains internally.  This may take some time, during which it will display a panel describing what it is doing.")
 
-After this initial unpacking of test cases, the system will not have to do that process again, unless you update the test cases using the Open option in the File menu or change the path to where the SBML Test Runner looks for the cases.  The latter is determined by the [Preferences panel](preferences.html).
+After this initial unpacking of test cases, the system will not have to do that process again, unless the test cases are updated or replaced (which can happen either automatically via the network update facility, or manually using the Open option in the File menu).  The Test Runner can be configured to check (or not check) for updates automatically by enabling the appropriate option in the [Preferences panel](preferences.html).
 
 The basic operation of the SBML Test Runner consists of running tests
 (or more precisely, running an SBML-aware application via a wrapper),
