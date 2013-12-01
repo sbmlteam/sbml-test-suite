@@ -33,14 +33,35 @@ Summary of changes to the test cases:
 * Updated the names and id's of a number of models so that they
   matched the pattern "case#####" used by other models.
 
-Summary of changes to the SBML Test Runner:
-
-
-New features:
-
 * The cases directories (cases/semantic and cases/syntactic) now
   contain a copy of the date-of-release marker file, named
   .cases-release-date.
+
+* SED-ML files are now available for the FBC test cases.
+
+
+Summary of changes and new features in the SBML Test Runner:
+
+* The Runner now checks the test case download site at SourceForge for
+  updates; if it finds a new case archive, it offers to download it
+  and install it.  Along with this functionality, there is a new item
+  in the preferences dialog to determine whether an update check is
+  performed when the application first starts up.  (The default is
+  yes.)
+
+* The dialog during case unpacking has been changed completely, and
+  now offers a "cancel" button.
+
+* The dialogs showing tags (which appear in two places, one for the
+  wrapper configuration, and another in the filter dialog) now show
+  summaries of the tags in the pop-up tooltips.  Users can hover their
+  mouse over a tag name to see a summary of the tag's meaning.
+
+* The Runner now checks for missing columns in the data and reports it
+  as an error.
+
+* The user manual has been updated to account for some of the changes
+  described above.
 
 
 === Version 3.0.0 release (2013-06-06)
