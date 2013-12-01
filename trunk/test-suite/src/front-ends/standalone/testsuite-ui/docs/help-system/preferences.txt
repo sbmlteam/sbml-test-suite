@@ -55,3 +55,12 @@ additional general options.
    (Warning: do not set the value to a very high number, or you may find your
    computer becomes so burdened that the SBML Test Runner, or indeed the
    entire computer, becomes sluggish or even stops responding.)
+
+ * **Automatically check for new versions of test cases**: When
+   enabled, this option causes the Test Runner to contact the network
+   update location and check for new versions of test cases.  It will
+   do this once automatically when it is first started up.
+
+Whether the last option is enabled or not, you can always check for
+updates manually by using the "Check for Updates..." item in the Help
+menu.
