@@ -82,13 +82,13 @@ img {
 <img src="first-time.png" alt="The first time you start the Test Runner." title="When you first start the SBML Test Runner, it will begin to unpack the SBML test cases it contains internally.  This may take some time, during which it will display a panel describing what it is doing." />
 <figcaption>The first time you start the Test Runner.</figcaption></figure>
 
-<p>After this initial unpacking of test cases, the system will not have to do that process again, unless the test cases are updated or replaced (which can happen either automatically via the network update facility, or manually using the Open option in the File menu). The Test Runner can be configured to check (or not check) for updates automatically by enabling the appropriate option in the <a href="preferences.html">Preferences panel</a>.</p>
+<p>After this initial unpacking of test cases, the Test Runner will not have to do that process again, unless the test cases are updated or replaced (which can happen either automatically via the network update facility, or manually using the Open option in the File menu). The Test Runner can be configured to check (or not check) for updates automatically by enabling the appropriate option in the <a href="preferences.html">Preferences panel</a>.</p>
 
-<p>The basic operation of the SBML Test Runner consists of running tests
-(or more precisely, running an SBML-aware application via a wrapper),
-and viewing the results. The main panel of the SBML Test Runner is
-oriented towards this purpose. The main window consists of a toolbar
-and 5 regions below it:</p>
+<figure>
+<img src="idle-test-runner.png" alt="The SBML Test Runner, ready and waiting." title="The main window of the SBML Test Runner." />
+<figcaption>The SBML Test Runner, ready and waiting.</figcaption></figure>
+
+<p>The basic operation of the SBML Test Runner consists of running tests of an SBML-aware application (or more precisely, running a wrapper program that invokes an SBML-aware applicaton). The main panel of the SBML Test Runner is oriented towards this purpose. The main window consists of a toolbar and 5 regions below it:</p>
 
 <ul>
 <li><p>a list of test case numbers vertically along the left-hand side</p></li>
@@ -102,7 +102,13 @@ features of the currently-selected test case</p></li>
 information about the current state of the SBML Test Runner</p></li>
 </ul>
 
-<p>After you start the runner, initially there will not be any test cases selected or graphs shown. If you click on the triangle-shaped &#8220;Run&#8221; icon in the middle of the toolbar (or select the &#8220;Run&#8221; option in the menubar pull-down menu named &#8220;Test&#8221;), the SBML Test Runner will proceed to invoke the wrapper for every test case in the suite, starting at case 00001. The screenshot below illustrates a run in progress.</p>
+<p>After you start the runner, initially there will not be any test cases selected or graphs shown. If you click on a test case in the left-hand list of cases, the Test Runner will display a plot of the expected results for that case, as well as a summary of the test&#8217;s characteristics in the description area near the bottom of the window. The Test Runner will not show anything else if you have not yet configured a wrapper, or are using the predefined pseudo-wrapper named <em>&#8220;&#8211;&nbsp;no&nbsp;wrapper&nbsp;&#8211;&#8221;</em>, or you have configured a wrapper but have not yet run the selected case through the application.</p>
+
+<figure>
+<img src="viewing-expected-results.png" alt="Viewing expected results by select a test case that has not yet been run." title="Selecting a test case from the list in the left-hand column will display a plot of the expected results for that case." />
+<figcaption>Viewing expected results by select a test case that has not yet been run.</figcaption></figure>
+
+<p>After configuring a wrapper for the application you are testing, if you now click on the triangle-shaped &#8220;Run&#8221; icon in the middle of the toolbar (or select the &#8220;Run&#8221; option in the menubar pull-down menu named &#8220;Test&#8221;), the SBML Test Runner will proceed to invoke the wrapper for every test case in the suite, starting at case 00001. The screenshot below illustrates a run in progress.</p>
 
 <figure>
 <img src="example-run.png" alt="Example of a run in progress." title="Example of a test run in progress." />
@@ -110,7 +116,7 @@ information about the current state of the SBML Test Runner</p></li>
 
 <p>The status area in the bottom of the main window provides a real-time sense for the progress; you can also open a map view of the results (via the grid-shaped icon in the far left of the tool bar) and the map will be updated as the run continues. You can pause execution at any time by clicking on the double-bar-shaped &#8220;Pause&#8221; button that becomes visible while a run is in progress.</p>
 
-<p>At any time, even while a run is in progress, you can select a test case from the list in the left-hand side of the main window. The upper and lower panels of the main window will then display the graphs of the results, and the description area will provide some details about the selected test case.</p>
+<p>At any time, even while a run is in progress, you can select a test case from the list in the left-hand side of the main window. The upper and lower panels of the main window will then display the graphs of the results produced by the application being tested (in addition to the expected results), and as mentioned above, the description area will also provide some details about the selected test case.</p>
 
 <p>While a case is select, or while multiple cases are selected, clicking on the &#8220;Run&#8221; button or selecting the &#8220;Run&#8221; option from the menubar will run <em>only the selected test cases</em>, and not all test cases. To run all the tests again from the beginning, you must first clear the selections from the list in the left-hand side. There is a toolbar button for quickly deselecting everything; you can also select the &#8220;Deselect All&#8221; option from the &#8220;Edit&#8221; pull-down menu in the menubar.</p>
 </body> </html>
