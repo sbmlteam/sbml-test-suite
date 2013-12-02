@@ -24,6 +24,7 @@
     <create name="basic-operation"   title="Basic Usage"/>
     <create name="defining-wrappers" title="Defining Wrappers"/>
     <create name="filters"           title="Filters"/>
+    <create name="menus"             title="The Menu Bar Menus"/>
     <create name="preferences"       title="The Preferences Panel"/>
   </target>
 
