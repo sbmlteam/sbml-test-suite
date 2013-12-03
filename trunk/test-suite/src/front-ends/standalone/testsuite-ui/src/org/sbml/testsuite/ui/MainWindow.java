@@ -612,7 +612,7 @@ public class MainWindow
                     {
                         ResultType result = wrapper.getResultType(test, currentLV);
                         if (func == null || func.filter(test, result))
-                        {                        
+                        {
                             TreeItem item = createCaseItem(test.getId(), result);
                             if (result == ResultType.Unknown && !viewOnly)
                                 markForRerun(item);
@@ -985,27 +985,21 @@ public class MainWindow
             @Override
             public void handleEvent(final Event event)
             {
-                /*
-                delayedUpdate(new Runnable() {
-                    public void run()
-                    {
-                */
-                        int count = tree.getSelectionCount();
+                if (!directoriesOK()) return;
 
-                        // The Tree widget doesn't return the right number of
-                        // selected items when this is called while things
-                        // are running.  Hack: assume it's 1 in that case.
-                        if (running) count = 1;
+                int count = tree.getSelectionCount();
 
-                        if (count == 1)
-                            updatePlotsForSelection((TreeItem) event.item);
-                        else
-                            clearPlots();
-                        if (tree != null && !tree.isDisposed())
-                            progressSection.setSelectedCount(count);
-              /*
-                    }});
-              */
+                // The Tree widget doesn't return the right number of
+                // selected items when this is called while things
+                // are running.  Hack: assume it's 1 in that case.
+                if (running) count = 1;
+
+                if (count == 1)
+                    updatePlotsForSelection((TreeItem) event.item);
+                else
+                    clearPlots();
+                if (tree != null && !tree.isDisposed())
+                    progressSection.setSelectedCount(count);
             }
         };
         tree.addListener(SWT.Selection, treeSelectionListener);
@@ -1016,7 +1010,7 @@ public class MainWindow
         // OS, the system's coloring of select items may make the case result
         // color impossible to distinguish (depending on the system's/user's
         // choice of selection color).
-        
+
         if (UIUtils.isMacOSX())
         {
             final Color listSelectionColor
@@ -2614,7 +2608,10 @@ public class MainWindow
             });
         }
 
-        return true;
+        if (directoriesOK())
+            return true;
+        else
+            return false;
     }
 
 
@@ -2937,6 +2934,8 @@ public class MainWindow
 
     protected void reRunTests(final TreeItem[] selection)
     {
+        if (!directoriesOK()) return;
+
         final WrapperConfig wrapper = model.getLastWrapper();
         if (wrapper == null || !wrapper.canRun())
             informUserBadWrapper(wrapper);
@@ -2948,9 +2947,6 @@ public class MainWindow
         }
 
         markAsRunning(true);
-        String absolutePath = model.getSuite().getCasesDirectory()
-                                   .getAbsolutePath();
-
         int selectionIndex = 0;
         if (restart)                    // Fresh run.
         {
@@ -2994,6 +2990,7 @@ public class MainWindow
 
         // Alrighty, then. Let's roll.
 
+        String casesDir = model.getSuite().getCasesDirectory().getAbsolutePath();
         progressSection.setStatus(RunStatus.Running);
         MarkerFile.write(wrapper.getOutputPath(), wrapper.getProgram());
         executor.init(wrapper.isConcurrencyAllowed(), numThreads);
@@ -3004,8 +3001,8 @@ public class MainWindow
             TreeItem item = selection[selectionIndex];
             TestCase testCase = model.getSuite().get(item.getText());
             executor.execute(new QueuedTestRunner(testCase, currentLV, item,
-                                                  absolutePath, wrapper,
-                                                  display, deleteFirst));
+                                                  casesDir, wrapper, display,
+                                                  deleteFirst));
             selectionIndex++;
         }
         executor.waitForProcesses(getDisplay());
@@ -3159,7 +3156,7 @@ public class MainWindow
         TreeSet<String>  previousExcludedTags  = excludedTags;
         TreeSet<Integer> previousIncludedCases = includedCases;
         TreeSet<Integer> previousExcludedCases = excludedCases;
-        
+
         includedTags  = null;
         excludedTags  = null;
         includedCases = null;
@@ -3434,6 +3431,7 @@ public class MainWindow
     private void updatePlotsForSelection(TreeItem treeItem)
     {
         if (treeItem == null || treeItem.isDisposed()) return;
+        if (!directoriesOK()) return;
 
         clearPlots();
 
@@ -3770,5 +3768,41 @@ public class MainWindow
                                            (String) item.getData(ITEM_OUTPUT));
         viewer.center(shell.getBounds());
         viewer.open();
+    }
+
+
+    /**
+     * Check that directories we rely on are still in existence, can be
+     * written to, etc.  This check is called before doing things that
+     * attempt to read or write to the configured directories, in case
+     * something happened since the last time we tried.
+     */
+    private boolean directoriesOK()
+    {
+        File casesDir = model.getSuite().getCasesDirectory();
+        if (!casesDir.exists() || !casesDir.isDirectory())
+        {
+            Tell.error(shell, "The test case directory does not exist.",
+                       "The directory containing the test cases does not\n"
+                       + "exist, has disappeared or has been moved. The SBML\n"
+                       + "Test Runner is unable to proceed. Please check\n"
+                       + "your Test Runner configuration and the file system.");
+            return false;
+        }
+
+        WrapperConfig wrapper = model.getLastWrapper();
+        if (wrapper == null)
+            return false;
+        File outputDir = new File(wrapper.getOutputPath());
+        if (!outputDir.exists() || !outputDir.isDirectory())
+        {
+            Tell.error(shell, "The output directory does not exist.",
+                       "The directory where the wrapper is supposed to write\n"
+                       + "its output does not exist, has disappeared or has\n"
+                       + "been moved. Please check your Test Runner\n"
+                       + "configuration and the file system.");
+            return false;
+        }
+        return true;
     }
 }
