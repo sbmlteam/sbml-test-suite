@@ -41,6 +41,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
@@ -363,6 +364,25 @@ public class UIUtils
             }
         });
         return newFont;
+    }
+
+
+    /**
+     * Create a cursor object, and hook up a dispose event to delete it
+     * when the application exits.
+     */
+    public static final Cursor createCursor(int type)
+    {
+        final Display display = Display.findDisplay(Thread.currentThread());
+        final Cursor cursor = new Cursor(display, type);
+        display.addListener(SWT.Dispose, new Listener() {
+            public void handleEvent(Event event)
+            {
+                if (cursor != null && !cursor.isDisposed())
+                    cursor.dispose();
+            }
+        });
+        return cursor;
     }
 
 
