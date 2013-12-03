@@ -2522,10 +2522,7 @@ public class MainWindow
             });
         }
 
-        if (directoriesOK())
-            return true;
-        else
-            return false;
+        return true;
     }
 
 
