@@ -64,7 +64,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.NamedNodeMap;
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
+import java.io.ByteArrayOutputStream;
 import org.xml.sax.SAXParseException;
 import java.net.SocketTimeoutException;
 
@@ -421,10 +421,10 @@ public class Util
      */
     public static byte[] readFileFromUrl(URL url)
     {
-        ByteOutputStream bos = new ByteOutputStream();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
         OutputStream out = new BufferedOutputStream(bos);
         downloadUrlToStream(url, out, null, null);
-        return bos.getBytes();
+        return bos.toByteArray();
     }
 
 
