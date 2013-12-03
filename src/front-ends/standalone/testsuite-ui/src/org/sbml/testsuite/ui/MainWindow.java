@@ -1247,7 +1247,7 @@ public class MainWindow
         if (UIUtils.isMacOSX())
             menuItemPrefs.setText("Edit Wrappers");
         else
-            menuItemPrefs.setText("Options/Wrappers\tCtrl+,");
+            menuItemPrefs.setText("Options/Wrappers\tCtrl+K");
 
         if (! UIUtils.isMacOSX())
         {
