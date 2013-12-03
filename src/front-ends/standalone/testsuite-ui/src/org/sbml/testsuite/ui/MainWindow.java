@@ -2486,6 +2486,15 @@ public class MainWindow
             // with this copy of the test runner.  Unpack our internal copy.
 
             archiveManager.extractInternalCasesArchive();
+            if (suite == null)
+            {
+                model = new MainModel(archiveManager.getInternalCasesDir());
+                suite = model.getSuite();
+            }
+            else
+            {
+                suite.initializeFromDirectory(archiveManager.getInternalCasesDir());
+            }
         }
         else
         {
@@ -3704,6 +3713,9 @@ public class MainWindow
         WrapperConfig wrapper = model.getLastWrapper();
         if (wrapper == null)
             return false;
+        else if (wrapperIsNoWrapper(wrapper))
+            return true;
+
         File outputDir = new File(wrapper.getOutputPath());
         if (!outputDir.exists() || !outputDir.isDirectory())
         {
