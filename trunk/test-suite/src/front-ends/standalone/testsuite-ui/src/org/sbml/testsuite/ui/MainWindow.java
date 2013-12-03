@@ -1261,8 +1261,16 @@ public class MainWindow
                         arg0.doit = quitWithConfirmation();
                     }
                 });
-            menuItemQuit.setText("Quit\tCtrl+Q");
-            menuItemQuit.setAccelerator(SWT.MOD1 + 'Q');
+            if (UIUtils.isWindows())
+            {
+                menuItemQuit.setText("E&xit");
+                menuItemQuit.setAccelerator(SWT.MOD1 + 'X');
+            }
+            else
+            {
+                menuItemQuit.setText("Quit\tCtrl+Q");
+                menuItemQuit.setAccelerator(SWT.MOD1 + 'Q');
+            }
         }
 
         MenuItem menuItemEdit = new MenuItem(menuBar, SWT.CASCADE);
