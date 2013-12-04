@@ -50,8 +50,11 @@ Summary of changes and new features in the SBML Test Runner:
   performed when the application first starts up.  (The default is
   yes.)
 
-* The dialog during case unpacking has been changed completely, and
-  now offers a "cancel" button.
+* The dialog presented while test cases are being unpacked has been
+  changed completely, and now offers a "cancel" button.
+
+* There is a new menu item in the Help menu, for reinstalling the
+  test cases shipped with the Test Runner.
 
 * The dialogs showing tags (which appear in two places, one for the
   wrapper configuration, and another in the filter dialog) now show
@@ -63,6 +66,8 @@ Summary of changes and new features in the SBML Test Runner:
 
 * The user manual has been updated to account for some of the changes
   described above.
+
+* Various bugs have been fixed.
 
 
 ====================================================================
