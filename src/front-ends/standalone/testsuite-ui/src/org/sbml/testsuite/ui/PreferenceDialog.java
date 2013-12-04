@@ -172,13 +172,13 @@ public class PreferenceDialog
             }
         });
         btnBrowseCasesDir.setToolTipText(toolTip);
-        
+
         Label sep1 = new Label(outerComp, SWT.SEPARATOR | SWT.HORIZONTAL);
         GridData gd_sep1 = new GridData(SWT.FILL, SWT.CENTER, false, false, 5, 1);
         gd_sep1.verticalIndent = 5;
         gd_sep1.horizontalIndent = 0;
         sep1.setLayoutData(gd_sep1);
-        
+
         wrappersEditor = new EditListOfWrappers(outerComp, SWT.NONE);
         GridData gd_wrappersEditor = new GridData(SWT.FILL, SWT.TOP, true,
                                                   true, 5, 1);
@@ -253,7 +253,7 @@ public class PreferenceDialog
             txtNumThreads.setText(Integer.toString(TaskExecutor.defaultNumThreads()));
         txtNumThreads.setEnabled(btnOverrideNumThreads.getSelection());
         txtNumThreads.setToolTipText(overrideNumThreadsTip);
-    
+
         btnOverrideNumThreads.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event)
@@ -402,6 +402,7 @@ public class PreferenceDialog
         shell.open();
         Display display = getParent().getDisplay();
         previousResult = getTestSuiteSettings(false);
+        needConfirmSave = true;
         while (!shell.isDisposed() && shell.isEnabled())
         {
             if (!display.readAndDispatch())
@@ -529,13 +530,19 @@ public class PreferenceDialog
     }
 
 
+    public String getCasesDir()
+    {
+        return txtCasesDir.getText();
+    }
+
+
     public boolean confirmSave()
     {
         return Tell.saveCancel(shell, "The configuration has been modified.\n"
                                + "Save your changes?");
     }
-    
-    
+
+
     private boolean wrapperVerified(WrapperConfig newWrapper,
                                     WrapperConfig oldWrapper)
     {
@@ -547,7 +554,7 @@ public class PreferenceDialog
 
         if (newWrapper.isViewOnly())
             return true;
-        
+
         String program = newWrapper.getProgram();
 
         if (program == null || program.isEmpty())
