@@ -2455,31 +2455,68 @@ public class MainWindow
     {
         model = new MainModel();
         TestSuite suite = model.getSuite();
+        Date casesDate = suite.getCasesReleaseDate();
+        final Date internalCasesDate = archiveManager.getInternalCasesDate();
+        final File internalCasesDir = archiveManager.getInternalCasesDir();
+        boolean unpackInternal = false;
 
-        Date internalCasesDate = archiveManager.getInternalCasesDate();
-        if (suite == null || suite.getNumCases() == 0
-            || suite.getCasesReleaseDate() == null
-            || suite.getCasesReleaseDate().before(internalCasesDate))
+        if (suite == null)
         {
-            // Either (a) we don't have a suite yet, or (b) it doesn't have a
-            // date file (implying the cases are older than the ones shipped
-            // with the SBML Test Suite version 3.1.0), or (c) it has a
-            // release date file but the cases are older than what's bundled 
-            // with this copy of the test runner.  Unpack our internal copy.
+            // We don't have a suite yet. Unpack our internal copy.
 
             archiveManager.extractInternalCasesArchive();
-            if (suite == null)
-            {
-                model = new MainModel(archiveManager.getInternalCasesDir());
-                suite = model.getSuite();
-            }
-            else
-            {
-                suite.initializeFromDirectory(archiveManager.getInternalCasesDir());
-            }
+            model = new MainModel(archiveManager.getInternalCasesDir());
+            suite = model.getSuite();
+        }
+        else if (suite.getNumCases() == 0)
+        {
+            // We have a suite, but something is wrong with it.
+
+            if (Tell.error(shell,
+                           "Could not read test cases -- unpack bundled suite?",
+                           "Something is wrong with the test suite directory\n"
+                           + "currently configured in the preferences; the\n"
+                           + "Test Runner was unable to read the test cases.\n"
+                           + "Unless this is a deliberately-induced situation\n"
+                           + "as part of a special purpose, you are advised to\n"
+                           + "let the test runner reinstall its bundled test\n"
+                           + "case archive at this time."))
+                unpackInternal = true;
+        }
+        else if (suite.getCasesReleaseDate() == null
+                 || suite.getCasesReleaseDate().before(internalCasesDate))
+        {
+            // We have a suite, but it doesn't have a date file, implying
+            // it's older than the one shipped with the STS version 3.1.0.
+
+            if (Tell.confirm(shell,
+                             "The test cases found in the current test suite\n"
+                             + "directory are older than the test cases bundled\n"
+                             + "with this copy of the Test Runner. The Test\n"
+                             + "Runner can replace them with its bundled copy.\n"
+                             + "Proceed?"))
+                unpackInternal = true;
+        }
+
+        if (unpackInternal)
+        {
+            BusyIndicator.showWhile(getDisplay(), new Runnable() {
+                public void run()
+                {
+                    // The .update() is to get the busy cursor to show up.
+                    // Otherwise, on the mac, it doesn't get shown.
+                    getDisplay().update();
+
+                    archiveManager.extractInternalCasesArchive();
+                    model.getSuite().initializeFromDirectory(internalCasesDir);
+                    model.getSettings().setCasesDir(internalCasesDir);
+                }
+            });
         }
         else
         {
+            // We have a suite, and we don't have any reason to replace it.
+
             currentLV = model.getSettings().getLastLevelVersion();
             lvSelectionMenuListener.select(currentLV);
         }
@@ -2529,7 +2566,19 @@ public class MainWindow
             {
                 markAsRunning(false);
                 archiveManager.updateFromNetwork();
-                resetAll();
+                final File casesDir = archiveManager.getInternalCasesDir();
+                BusyIndicator.showWhile(getDisplay(), new Runnable() {
+                    public void run()
+                    {
+                        // The .update() is to get the busy cursor to show up.
+                        // Otherwise, on the mac, it doesn't get shown.
+                        getDisplay().update();
+
+                        model.getSuite().initializeFromDirectory(casesDir);
+                        model.getSettings().setCasesDir(casesDir);
+                        resetAll();
+                    }
+                });
             }
         }
         else if (!quietly && !closing)
