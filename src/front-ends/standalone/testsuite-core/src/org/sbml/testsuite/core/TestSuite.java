@@ -238,16 +238,16 @@ public class TestSuite
         if (directory == null || !directory.exists()) return;
         casesDirectory = directory;
 
+        cases.clear();
+        cachedTestTags.clear();
+        cachedComponentTags.clear();
+
         String[] files = directory.list(new FilenameFilter() {
             public boolean accept(File arg0, String arg1)
             {
                 return arg1.length() == 5;
             }
         });
-
-        cachedTestTags.clear();
-        cachedComponentTags.clear();
-
         for (String file : files)
         {
             TestCase newTestCase = new TestCase(new File(casesDirectory, file));
