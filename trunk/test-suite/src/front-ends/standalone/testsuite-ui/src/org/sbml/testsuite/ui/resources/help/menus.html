@@ -153,10 +153,10 @@ img {
 <li><p><strong>Run By Tag and/or Number</strong>: This menu item invokes a dialog that allows you to selectively run only those test cases that contain specific tags or have specific test numbers.</p></li>
 <li><p><strong>Run All Tests</strong>: This is a synonym for selecting all the test cases and then invoking the <strong>Run</strong> menu option.</p></li>
 <li><p><strong>Run All Supported Tests</strong>: This menu item causes the Test Runner to run (or rerun) those test cases which the application wrapper is <em>not</em> configured in some way to exclude; i.e., those tests which are not among the ones excluded due to unsupported tags or SBML Level/Version combination.</p></li>
-<li><p><strong>Run All New Tests</strong>: This menu item causes the Test Runner to run (or rerun) just those test cases for which the application wrapper has not produced a result. This can be useful during development of a wrapper or application, if you make a change that allows the application to produce a result where it didn&#8217;t before and you wish to see the consequences.</p></li>
-<li><p><strong>Refresh Selected Result(s)</strong>: This menu item causes the Test Runner to re-read the results files for the selected test cases. This is useful if you have done something to modify or update the results from outside of the Test Runner.</p></li>
+<li><p><strong>Run All New Tests</strong>: This menu item causes the Test Runner to run (or rerun) just those test cases for which the application wrapper has not produced a result. (These are cases for which the results are labeled with a gray color.) This can be useful during development of a wrapper or application to see the consequences of a change, for example if you make a change to the wrapper configuration that allows the application to produce a result where it didn&#8217;t before.</p></li>
+<li><p><strong>Refresh Selected Result(s)</strong>: This menu item causes the Test Runner to reread the results files for the selected test cases. This is useful if you have done something to modify or update the results from outside of the Test Runner.</p></li>
 <li><p><strong>Delete Selected Result(s)</strong>: Selecting this menu item causes the Test Runner to delete the results files for the corresponding test cases. This is a destructive operation.</p></li>
-<li><p><strong>View Process Output</strong>: This menu item allows you to see the output (if any) produced by the wrapper for a given test case. This can be very helpful when debuggging of test wrappers.</p></li>
+<li><p><strong>View Process Output</strong>: This menu item allows you to see the output (if any) produced by the wrapper for a given test case. This can be very helpful when debugging test wrappers.</p></li>
 </ul>
 
 <p>Finally, the last menu in the menu bar is the <strong>Help</strong> menu:</p>
@@ -167,7 +167,8 @@ img {
 
 <ul>
 <li><p><strong>Help</strong>: Selecting this menu item invokes the built-in help system to display the information you are currently reading.</p></li>
-<li><p><strong>About SBML Test Runner</strong>: This menu item displays a dialog describing the version and other information about the running copy of the SBML Test Runner.</p></li>
 <li><p><strong>Check for Updates&#8230;</strong>: Selecting this menu item causes the Test Runner to check for updated test cases. It does this by contacting the repository used to distribute the SBML Test Suite test case archives (currently, SourceForge.net) comparing the date of the available archive to the date of the tests being used by this copy of the Test Runner, and if the cases on the repository are newer, downloading and unpacking the test case archive to replace the cases that the Test Runner uses.</p></li>
+<li><p><strong>Restore test cases</strong>: Reinstall the internally-bundled archive of SBML Test Suite test cases. This is useful if something has happened to damage the currently-installed test cases, or a previous update or unpacking operation was interrupted and left only a partial collection of test cases. (Note that invoking this operation will store the resulting test cases in the default location, regardless of the test case directory configured in the <em>Preferences</em> dialog; this is done to avoid overwriting any special test case directory the user may have set.)</p></li>
+<li><p>(On Windows and Linux only) <strong>About SBML Test Runner</strong>: This menu item displays a dialog describing the version and other information about the running copy of the SBML Test Runner.</p></li>
 </ul>
 </body> </html>

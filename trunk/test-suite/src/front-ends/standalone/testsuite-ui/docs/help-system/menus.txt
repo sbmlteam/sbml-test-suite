@@ -84,6 +84,8 @@ Finally, the last menu in the menu bar is the **Help** menu:
 
  * **Help**: Selecting this menu item invokes the built-in help system to display the information you are currently reading.
 
- * **About SBML Test Runner**: This menu item displays a dialog describing the version and other information about the running copy of the SBML Test Runner.
-
  * **Check for Updates...**: Selecting this menu item causes the Test Runner to check for updated test cases.  It does this by contacting the repository used to distribute the SBML Test Suite test case archives (currently, SourceForge.net) comparing the date of the available archive to the date of the tests being used by this copy of the Test Runner, and if the cases on the repository are newer, downloading and unpacking the test case archive to replace the cases that the Test Runner uses.
+
+ * **Restore test cases**: Reinstall the internally-bundled archive of SBML Test Suite test cases.  This is useful if something has happened to damage the currently-installed test cases, or a previous update or unpacking operation was interrupted and left only a partial collection of test cases.  (Note that invoking this operation will store the test cases in the default location for test cases, regardless of the test case directory configured in the _Preferences_ dialog; this is done to avoid overwriting any special test case directory the user may have set.)
+
+ * (On Windows and Linux only) **About SBML Test Runner**: This menu item displays a dialog describing the version and other information about the running copy of the SBML Test Runner.
