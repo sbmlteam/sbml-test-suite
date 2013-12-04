@@ -4,7 +4,6 @@
 // @author Frank T. Bergmann
 // @date Created 2012-06-06 <fbergman@caltech.edu>
 //
-//
 // ----------------------------------------------------------------------------
 // This file is part of the SBML Testsuite. Please visit http://sbml.org for
 // more information about SBML, and the latest version of the SBML Test Suite.
@@ -26,7 +25,6 @@
 // in the file named "LICENSE.txt" included with this software distribution
 // and also available online as http://sbml.org/software/libsbml/license.html
 // ----------------------------------------------------------------------------
-//
 
 package org.sbml.testsuite.core;
 
@@ -38,15 +36,29 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Vector;
 
+
 /**
  * The Testsuite class holds all test cases
  */
 public class TestSuite
 {
-    private File             casesDirectory;
+    /** The name of the file that stores the release date of the test cases. */
+    public static final String CASES_DATE_FILE_NAME = ".cases-archive-date";
+
+    /** The release date of the test cases currently being used. */
     private Date             casesReleaseDate;
+
+    /** The currently-configured directory of the test cases, which may
+     *  not necessarily be the same as the internal cases directory. */
+    private File             casesDirectory;
+
+    /** All test cases, as a vector. */
     private Vector<TestCase> cases               = new Vector<TestCase>();
+
+    /** All known test tags that appear in the test cases. */
     private Vector<String>   cachedTestTags      = new Vector<String>();
+
+    /** All known component tags that appear in the test cases. */
     private Vector<String>   cachedComponentTags = new Vector<String>();
 
 
@@ -257,7 +269,7 @@ public class TestSuite
         }
 
         casesReleaseDate = Util.readArchiveDateFile(casesDirectory,
-                                                    ".cases-archive-date");
+                                                    CASES_DATE_FILE_NAME);
     }
 
 
@@ -333,5 +345,4 @@ public class TestSuite
 
         return updated;
     }
-
 }
