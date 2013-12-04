@@ -338,6 +338,16 @@ public class TestSuiteSettings
 
 
     /**
+     * Sets the cases directory
+     * @param casesDir the new cases directory
+     */
+    public void setCasesDir(File casesDir)
+    {
+        this.casesDir = casesDir.getPath();
+    }
+
+
+    /**
      * Set the cases directory and save default settings
      * @param file the cases directory
      */
