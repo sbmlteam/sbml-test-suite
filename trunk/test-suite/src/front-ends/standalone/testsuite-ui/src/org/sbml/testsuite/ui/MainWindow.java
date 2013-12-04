@@ -1945,9 +1945,17 @@ public class MainWindow
     private void resetForRun()
     {
         if (running)
+        {
             markAsRunning(false);
+            executor.waitForProcesses(getDisplay());
+        }
         restart = true;
-        updateProgressSection(0);
+        delayedUpdate(new Runnable() {
+            public void run()
+            {
+                updateProgressSection(0);
+            }
+        });
     }
 
 
@@ -2075,9 +2083,19 @@ public class MainWindow
         PreferenceDialog dialog = new PreferenceDialog(shell);
         dialog.center(shell.getBounds());
         dialog.setTestSuiteSettings(model.getSettings());
+        File origTestSuiteDir = model.getTestSuiteDir();
+
         TestSuiteSettings result = dialog.open();
-        if (result != null && !currentWrapper.equals(result.getLastWrapper()))
+
+        File newTestSuiteDir = new File(dialog.getCasesDir());
+        if (result != null &&
+            (!origTestSuiteDir.equals(newTestSuiteDir)
+             || !currentWrapper.equals(result.getLastWrapper())))
         {
+            // We got a result (=> user didn't cancel out) and either the
+            // new test suite directory or the wrapper is different.
+
+            model.setTestSuiteDir(newTestSuiteDir);
             String lastWrapperName = result.getLastWrapperName();
             model.setSettings(result);
             if (lastWrapperName != null && lastWrapperName.length() > 0)
@@ -2085,20 +2103,9 @@ public class MainWindow
             else
                 model.getSettings().setLastWrapper(WrapperList.noWrapperName());
             result.saveAsDefault();
-            if (running)
-            {
-                markAsRunning(false);
-                executor.waitForProcesses(getDisplay());
-                restart = true;
-            }
+
+            resetAll();
             updateWrapperList();
-            updateStatuses();
-            delayedUpdate(new Runnable() {
-                public void run()
-                {
-                    updateProgressSection(0);
-                }
-            });
         }
         if (result == null && model.getLastWrapper() == null)
         {
