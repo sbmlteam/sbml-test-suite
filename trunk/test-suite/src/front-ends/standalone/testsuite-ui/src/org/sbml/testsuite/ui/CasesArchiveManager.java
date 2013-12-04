@@ -495,6 +495,24 @@ public class CasesArchiveManager
                 });
                 return;
             }
+            else if (cancelled.get())
+            {
+                display.syncExec(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        Tell.error(parentShell,
+                           "Interrupted -- test cases are incomplete!",
+                           "As a result of the unpacking operation having\n"
+                           + "been interrupted, the test cases are not fully\n"
+                           + "installed or configured. The Test Runner is not\n"
+                           + "in a fully operational state. You are advised to\n"
+                           + "either use the 'Restore test cases' menu item or\n"
+                           + "else exit the program and recover manually.");
+                    }
+                });
+                return;
+            }
 
             // If we get here, we think we unzip'ed the archive.  Do a few
             // more sanity checks.
