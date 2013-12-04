@@ -1027,7 +1027,7 @@ public class MainWindow
                         // Set the selection alpha to almost transparent. Set
                         // the foreground color to black to make it stand out.
 
-                        GC gc = event.gc;				
+                        GC gc = event.gc;
                         gc.setAntialias(SWT.ON);
                         gc.setAlpha(10);
                         gc.setBackground(listSelectionColor);
@@ -1457,69 +1457,54 @@ public class MainWindow
         Menu menu_4 = new Menu(menuItemhelp);
         menuItemhelp.setMenu(menu_4);
 
-        // The help menus on Windows seem to put "About" after "Help".
+        MenuItem menuItemHelp = new MenuItem(menu_4, SWT.NONE);
+        menuItemHelp.addSelectionListener(new SelectionAdapter() {
+                @Override
+                public void widgetSelected(SelectionEvent arg0)
+                {
+                    delayedUpdate(new Runnable() {
+                            public void run()
+                            {
+                                showHelp();
+                            }
+                        });
+                }
+            });
+        menuItemHelp.setText("Help");
+        menuItemHelp.setAccelerator(SWT.MOD1 + '?');
 
-        if (UIUtils.isMacOSX())
-        {
-            MenuItem menuItemAbout = new MenuItem(menu_4, SWT.NONE);
-            menuItemAbout.addSelectionListener(new SelectionAdapter() {
-                    @Override
-                    public void widgetSelected(SelectionEvent arg0)
-                    {
-                        showAbout();
-                    }
-                });
-            menuItemAbout.setText("About SBML Test Runner");
-
-            MenuItem menuItemUpdate = new MenuItem(menu_4, SWT.NONE);
-            menuItemUpdate.addSelectionListener(new SelectionAdapter() {
-                    @Override
-                    public void widgetSelected(SelectionEvent arg0)
-                    {
-                        delayedUpdate(new Runnable() {
+        MenuItem menuItemUpdate = new MenuItem(menu_4, SWT.NONE);
+        menuItemUpdate.addSelectionListener(new SelectionAdapter() {
+                @Override
+                public void widgetSelected(SelectionEvent arg0)
+                {
+                    delayedUpdate(new Runnable() {
                             public void run()
                             {
                                 checkAndUpdateTestCases(false);
                             }
                         });
-                    }
-                });
-            menuItemUpdate.setText("Check for updates...");
+                }
+            });
+        menuItemUpdate.setText("Check for updates...");
 
-            MenuItem menuItemHelp = new MenuItem(menu_4, SWT.NONE);
-            menuItemHelp.addSelectionListener(new SelectionAdapter() {
-                    @Override
-                    public void widgetSelected(SelectionEvent arg0)
-                    {
-                        delayedUpdate(new Runnable() {
-                                public void run()
-                                {
-                                    showHelp();
-                                }
-                            });
-                    }
-                });
-            menuItemHelp.setText("Help");
-            menuItemHelp.setAccelerator(SWT.MOD1 + '?');
-        }
-        else
+        MenuItem menuItemRestore = new MenuItem(menu_4, SWT.NONE);
+        menuItemRestore.addSelectionListener(new SelectionAdapter() {
+                @Override
+                public void widgetSelected(SelectionEvent arg0)
+                {
+                    delayedUpdate(new Runnable() {
+                            public void run()
+                            {
+                                reinstallInternalTestCases();
+                            }
+                        });
+                }
+            });
+        menuItemRestore.setText("Restore test cases");
+
+        if (!UIUtils.isMacOSX())
         {
-            MenuItem menuItemHelp = new MenuItem(menu_4, SWT.NONE);
-            menuItemHelp.addSelectionListener(new SelectionAdapter() {
-                    @Override
-                    public void widgetSelected(SelectionEvent arg0)
-                    {
-                        delayedUpdate(new Runnable() {
-                                public void run()
-                                {
-                                    showHelp();
-                                }
-                            });
-                    }
-                });
-            menuItemHelp.setText("Help");
-            menuItemHelp.setAccelerator(SWT.MOD1 + '?');
-
             MenuItem menuItemAbout = new MenuItem(menu_4, SWT.NONE);
             menuItemAbout.addSelectionListener(new SelectionAdapter() {
                     @Override
@@ -1534,21 +1519,6 @@ public class MainWindow
                     }
                 });
             menuItemAbout.setText("About SBML Test Runner");
-
-            MenuItem menuItemUpdate = new MenuItem(menu_4, SWT.NONE);
-            menuItemUpdate.addSelectionListener(new SelectionAdapter() {
-                    @Override
-                    public void widgetSelected(SelectionEvent arg0)
-                    {
-                        delayedUpdate(new Runnable() {
-                            public void run()
-                            {
-                                checkAndUpdateTestCases(false);
-                            }
-                        });
-                    }
-                });
-            menuItemUpdate.setText("Check for updates...");
         }
 
         if (UIUtils.isMacOSX()) macify(getDisplay());
@@ -1985,12 +1955,17 @@ public class MainWindow
     {
         if (wrapperIsRunnable() && restart)
             progressSection.setStatus(RunStatus.NotStarted);
-        int selectedCount = tree.getSelectionCount();
-        progressSection.setSelectedCount(selectedCount);
-        if (selectedCount > 0)
-            progressSection.setMaxCount(selectedCount);
-        else
-            progressSection.setMaxCount(tree.getItemCount());
+        delayedUpdate(new Runnable() {
+            public void run()
+            {
+                int selectedCount = tree.getSelectionCount();
+                progressSection.setSelectedCount(selectedCount);
+                if (selectedCount > 0)
+                    progressSection.setMaxCount(selectedCount);
+                else
+                    progressSection.setMaxCount(tree.getItemCount());
+            }
+        });
     }
 
 
@@ -2156,18 +2131,18 @@ public class MainWindow
         if (fileName != null && archiveManager.unpackArchive(new File(fileName)))
         {
             model.setTestSuiteDir(archiveManager.getInternalCasesDir());
-            invalidateSelectedResults(tree.getItems());
-            if (wrapperIsRunnable())
-                progressSection.setStatus(RunStatus.NotStarted);
-            progressSection.setDoneCount(0);
-            progressSection.setMaxCount(tree.getItemCount());
-            if (tree.getItemCount() > 0)
-            {
-                tree.setSelection(tree.getItem(0));
-                progressSection.setSelectedCount(1);
-                updatePlotsForSelection(tree.getItem(0));
-            }
+            resetAll();
         }
+    }
+
+
+    private void resetAll()
+    {
+        resetForRun();
+        clearFilters();
+        progressSection.setDoneCount(0);
+        invalidateSelectedResults(tree.getItems());
+        updateStatuses();
     }
 
 
@@ -2545,8 +2520,9 @@ public class MainWindow
             if (Tell.confirm(shell, "Updated test cases found. Download \n"
                              + "them and replace the current set of tests?"))
             {
-                resetForRun();
+                markAsRunning(false);
                 archiveManager.updateFromNetwork();
+                resetAll();
             }
         }
         else if (!quietly && !closing)
@@ -3156,6 +3132,22 @@ public class MainWindow
         AboutDialog dialog = new AboutDialog(shell, SWT.None);
         dialog.center(shell.getBounds());
         dialog.open();
+    }
+
+
+    private void reinstallInternalTestCases()
+    {
+        if (!Tell.confirm(shell, "This will replace the currently-installed\n"
+                          + "test cases with the cases originally included\n"
+                          + "in this copy of the SBML Test Runner. This\n"
+                          + "operation cannot be undone. Proceed?"))
+            return;
+
+        archiveManager.extractInternalCasesArchive();
+        if (model.getSuite() == null)   // Not sure this can ever happen.
+            model = new MainModel(archiveManager.getInternalCasesDir());
+        model.getSuite().initializeFromDirectory(archiveManager.getInternalCasesDir());
+        resetAll();
     }
 
 
