@@ -230,7 +230,7 @@ public class EditListOfWrappers
         // the list pointer.
         if (wrapperList.getSelectionIndex() == -1)
             wrapperList.select(0);
-            
+
         wrapperForm.loadFrom(wrapperList.getSelectedWrapper());
     }
 
@@ -253,6 +253,7 @@ public class EditListOfWrappers
     {
         WrapperConfig currentFormValues = wrapperForm.toConfig();
         String currentName = currentFormValues.getName();
+        if (lastWrapperDefinition == null) return false;
         return (! lastWrapperDefinition.equals(currentFormValues)
                 || ! wrapperForm.getInitialName().equals(currentName));
     }
