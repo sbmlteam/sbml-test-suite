@@ -62,6 +62,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.sbml.testsuite.core.CancelCallback;
+import org.sbml.testsuite.core.TestSuite;
 import org.sbml.testsuite.core.UpdateCallback;
 import org.sbml.testsuite.core.Util;
 import org.w3c.dom.NodeList;
@@ -74,7 +75,6 @@ public class CasesArchiveManager
 {
     private final String INTERNAL_ARCHIVE = "sbml-test-cases.zip";
     private final String TEMP_ZIP_FILE_NAME = "testcasearchive.zip";
-    private final String CASES_DATE_FILE = ".cases-archive-date";
 
     private final Display display;
     private Shell parentShell;
@@ -346,7 +346,7 @@ public class CasesArchiveManager
     /**
      * Reads the date stamp file in the test case directory and returns either
      * a Date object corresponding to that date, or null if it could not find
-     * the date file or something went wrong while trying to read it.  
+     * the date file or something went wrong while trying to read it.
      *
      * This method will bring up dialogs and tell the user if problems arise.
      */
@@ -364,19 +364,13 @@ public class CasesArchiveManager
                 return null;
             }
 
+            final String casesDateFileName = TestSuite.CASES_DATE_FILE_NAME;
             ZipInputStream zis = new ZipInputStream(in);
-            ZipEntry entry = null;
-            do
-            {
+            ZipEntry entry = zis.getNextEntry();
+            while (entry != null && !casesDateFileName.equals(entry.getName()))
                 entry = zis.getNextEntry();
-                if (entry == null)
-                    break;
-            }
-            while (entry != null && ! CASES_DATE_FILE.equals(entry.getName()));
             if (entry != null)
-            {
                 return Util.readArchiveDateFileStream(zis);
-            }
         }
         catch (Exception e)
         {
@@ -386,6 +380,18 @@ public class CasesArchiveManager
                        + "developers.", UIUtils.stackTraceToString(e));
         }
         return null;
+    }
+
+
+    /**
+     * Reads the date stamp file in the given test suite directory and
+     * returns either a Date object corresponding to that date, or null if it
+     * could not find the date file or something went wrong while trying to
+     * read it.
+     */
+    public Date getCasesDate(File dir)
+    {
+        return Util.readArchiveDateFile(dir, TestSuite.CASES_DATE_FILE_NAME);
     }
 
 
