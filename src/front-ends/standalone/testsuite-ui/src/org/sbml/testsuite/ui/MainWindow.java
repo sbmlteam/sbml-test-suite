@@ -2455,7 +2455,7 @@ public class MainWindow
     {
         model = new MainModel();
         TestSuite suite = model.getSuite();
-        Date casesDate = suite.getCasesReleaseDate();
+        Date casesDate = suite != null ? suite.getCasesReleaseDate() : null;
         final Date internalCasesDate = archiveManager.getInternalCasesDate();
         final File internalCasesDir = archiveManager.getInternalCasesDir();
         boolean unpackInternal = false;
@@ -2467,6 +2467,7 @@ public class MainWindow
             archiveManager.extractInternalCasesArchive();
             model = new MainModel(archiveManager.getInternalCasesDir());
             suite = model.getSuite();
+            casesDate = suite.getCasesReleaseDate();
         }
         else if (suite.getNumCases() == 0)
         {
