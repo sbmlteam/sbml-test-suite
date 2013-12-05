@@ -124,8 +124,7 @@ public class EditWrapper
         btnWrapperAnyLV.setSelection(config.isSupportsAllVersions());
         btnWrapperThreadsOK.setSelection(config.isConcurrencyAllowed());
         btnWrapperViewOnly.setSelection(config.isViewOnly());
-        updateForViewOnlyWrapper();
-        updateForNoWrapper();
+        updateWidgetStates();
     }
 
 
@@ -208,7 +207,7 @@ public class EditWrapper
         btnWrapperViewOnly.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0) {
-                updateForViewOnlyWrapper();
+                updateWidgetStates();
             }
         });
 
@@ -433,8 +432,7 @@ public class EditWrapper
             + "application must be instructed to write out the results into a "
             + "file named '%o/%n.csv' so that the SBML Test Runner can find it.");
 
-        updateForViewOnlyWrapper();
-        updateForNoWrapper();
+        updateWidgetStates();
     }
 
 
@@ -446,90 +444,172 @@ public class EditWrapper
 
     private boolean wrapperIsNoWrapper()
     {
-        return (txtName.getText() != null
-                && "-- no wrapper --".equals(txtName.getText()));
+        return ("-- no wrapper --".equals(txtName.getText()));
     }
 
 
-    private void updateForViewOnlyWrapper()
+    private void updateWidgetStates()
     {
-        if (wrapperIsViewOnly())
-        {
-            lblWrapper.setEnabled(false);
-            lblWrapper.setForeground(inactiveTextColor);
-            txtWrapper.setEnabled(false);
-            cmdBrowseWrapper.setEnabled(false);
-            lblWrapperArguments.setEnabled(false);
-            lblWrapperArguments.setForeground(inactiveTextColor);
-            btnWrapperThreadsOK.setEnabled(false);
-            btnWrapperAnyLV.setEnabled(false);
-            btnWrapperAnyLV.setSelection(true);
-            txtWrapperArgs.setEnabled(false);
-        }
-        else
-        {
-            lblWrapper.setEnabled(true);
-            lblWrapper.setForeground(normalTextColor);
-            txtWrapper.setEnabled(true);
-            cmdBrowseWrapper.setEnabled(true);
-            lblWrapperArguments.setEnabled(true);
-            lblWrapperArguments.setForeground(normalTextColor);
-            btnWrapperThreadsOK.setEnabled(true);
-            btnWrapperAnyLV.setEnabled(true);
-            txtWrapperArgs.setEnabled(true);
-        }
-    }
+        // The no-wrapper wrapper also possesses the property of being
+        // view-only, so test for no-wrapper first and view-only second.
 
-
-    private void updateForNoWrapper()
-    {
         if (wrapperIsNoWrapper())
         {
+            // Name field.
+
             lblName.setEnabled(false);
             lblName.setForeground(inactiveTextColor);
             txtName.setEnabled(false);
             txtName.setForeground(inactiveTextColor);
+
+            // Is the wrapper a view-only pseudo-wrapper?
+
+            btnWrapperViewOnly.setSelection(true);
+            btnWrapperViewOnly.setEnabled(false);
+            btnWrapperViewOnly.setForeground(inactiveTextColor);
+
+            // Wrapper can handle any L/V.
+
+            btnWrapperAnyLV.setSelection(true);
             btnWrapperAnyLV.setEnabled(false);
+            btnWrapperAnyLV.setForeground(inactiveTextColor);
+
+            // Wrapper can be run in parallel.
+
+            btnWrapperThreadsOK.setSelection(true);
             btnWrapperThreadsOK.setEnabled(false);
+            btnWrapperThreadsOK.setForeground(inactiveTextColor);
+
+            // Wrapper path field.
+
             lblWrapper.setEnabled(false);
             lblWrapper.setForeground(inactiveTextColor);
             txtWrapper.setEnabled(false);
             cmdBrowseWrapper.setEnabled(false);
-            lblWrapperOutputDir.setEnabled(false);
-            btnWrapperViewOnly.setEnabled(false);
-            lblUnsupportedTags.setEnabled(false);
-            lblUnsupportedTags.setForeground(inactiveTextColor);
-            txtUnsupportedTags.setEnabled(false);
-            cmdEditTags.setEnabled(false);
+
+            // Output directory.
+
             lblWrapperOutputDir.setEnabled(false);
             lblWrapperOutputDir.setForeground(inactiveTextColor);
             txtWrapperOutputDir.setEnabled(false);
             cmdBrowseOutputDir.setEnabled(false);
+
+            // Unsupported tags.
+
+            lblUnsupportedTags.setEnabled(false);
+            lblUnsupportedTags.setForeground(inactiveTextColor);
+            txtUnsupportedTags.setEnabled(false);
+            cmdEditTags.setEnabled(false);
+
+            // Wrapper arguments.
+
             lblWrapperArguments.setEnabled(false);
             lblWrapperArguments.setForeground(inactiveTextColor);
             txtWrapperArgs.setEnabled(false);
         }
-        else
+        else if (wrapperIsViewOnly())
         {
+            // Name field.
+
             lblName.setEnabled(true);
-            lblName.setForeground(inactiveTextColor);
+            lblName.setForeground(normalTextColor);
             txtName.setEnabled(true);
             txtName.setForeground(normalTextColor);
-            btnWrapperAnyLV.setEnabled(true);
-            btnWrapperThreadsOK.setEnabled(true);
+
+            // Is the wrapper a view-only pseudo-wrapper?
+
+            btnWrapperViewOnly.setSelection(true);
             btnWrapperViewOnly.setEnabled(true);
-            lblWrapper.setEnabled(true);
-            lblWrapper.setForeground(normalTextColor);
-            txtWrapper.setEnabled(true);
-            cmdBrowseWrapper.setEnabled(true);
-            lblUnsupportedTags.setEnabled(true);
-            lblUnsupportedTags.setForeground(normalTextColor);
-            txtUnsupportedTags.setEnabled(true);
-            cmdEditTags.setEnabled(true);
+            btnWrapperViewOnly.setForeground(normalTextColor);
+
+            // Wrapper can handle any L/V.
+
+            btnWrapperAnyLV.setSelection(true);
+            btnWrapperAnyLV.setEnabled(false);
+            btnWrapperAnyLV.setForeground(inactiveTextColor);
+
+            // Wrapper can be run in parallel.
+
+            btnWrapperThreadsOK.setSelection(true);
+            btnWrapperThreadsOK.setEnabled(false);
+            btnWrapperThreadsOK.setForeground(inactiveTextColor);
+
+            // Wrapper path field.
+
+            lblWrapper.setEnabled(false);
+            lblWrapper.setForeground(inactiveTextColor);
+            txtWrapper.setEnabled(false);
+            txtWrapper.setText("");
+            cmdBrowseWrapper.setEnabled(false);
+
+            // Output directory.
+
             lblWrapperOutputDir.setEnabled(true);
             lblWrapperOutputDir.setForeground(normalTextColor);
             txtWrapperOutputDir.setEnabled(true);
             cmdBrowseOutputDir.setEnabled(true);
+
+            // Unsupported tags.
+
+            lblUnsupportedTags.setEnabled(true);
+            lblUnsupportedTags.setForeground(normalTextColor);
+            txtUnsupportedTags.setEnabled(true);
+            cmdEditTags.setEnabled(true);
+
+            // Wrapper arguments.
+
+            lblWrapperArguments.setEnabled(false);
+            lblWrapperArguments.setForeground(inactiveTextColor);
+            txtWrapperArgs.setEnabled(false);
+            txtWrapperArgs.setText("");
+        }
+        else
+        {
+            // Name field.
+
+            lblName.setEnabled(true);
+            lblName.setForeground(normalTextColor);
+            txtName.setEnabled(true);
+            txtName.setForeground(normalTextColor);
+
+            // Is the wrapper a view-only pseudo-wrapper?
+
+            btnWrapperViewOnly.setEnabled(true);
+            btnWrapperViewOnly.setForeground(normalTextColor);
+
+            // Wrapper can handle any L/V.
+
+            btnWrapperAnyLV.setEnabled(true);
+            btnWrapperAnyLV.setForeground(normalTextColor);
+
+            // Wrapper can be run in parallel.
+
+            btnWrapperThreadsOK.setEnabled(true);
+            btnWrapperThreadsOK.setForeground(normalTextColor);
+
+            // Wrapper path field.
+
+            lblWrapper.setEnabled(true);
+            lblWrapper.setForeground(normalTextColor);
+            txtWrapper.setEnabled(true);
+            cmdBrowseWrapper.setEnabled(true);
+
+            // Output directory.
+
+            lblWrapperOutputDir.setEnabled(true);
+            lblWrapperOutputDir.setForeground(normalTextColor);
+            txtWrapperOutputDir.setEnabled(true);
+            cmdBrowseOutputDir.setEnabled(true);
+
+            // Unsupported tags.
+
+            lblUnsupportedTags.setEnabled(true);
+            lblUnsupportedTags.setForeground(normalTextColor);
+            txtUnsupportedTags.setEnabled(true);
+            cmdEditTags.setEnabled(true);
+
+            // Wrapper arguments.
+
             lblWrapperArguments.setEnabled(true);
             lblWrapperArguments.setForeground(normalTextColor);
             txtWrapperArgs.setEnabled(true);
