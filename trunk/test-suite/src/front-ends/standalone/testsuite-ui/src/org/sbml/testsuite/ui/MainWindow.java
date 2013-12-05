@@ -2541,7 +2541,7 @@ public class MainWindow
         }
         updateStatuses();
 
-        if (UIUtils.getBooleanPref("autoCheckUpdates", true, this))
+        if (UIUtils.getBooleanPref("autoCheckUpdates", false, this))
         {
             getDisplay().asyncExec(new Runnable() {
                 public void run()
