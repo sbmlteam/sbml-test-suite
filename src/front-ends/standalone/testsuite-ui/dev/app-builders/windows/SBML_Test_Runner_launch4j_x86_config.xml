@@ -22,7 +22,7 @@
     <minVersion>1.6.0</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJdk</jdkPreference>
-    <force32>false</force32>
+    <force32>true</force32>
   </jre>
   <messages>
     <startupErr>An error occurred while starting the application.</startupErr>
