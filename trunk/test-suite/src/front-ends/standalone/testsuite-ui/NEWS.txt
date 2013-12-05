@@ -43,12 +43,12 @@ Summary of changes to the test cases:
 
 Summary of changes and new features in the SBML Test Runner:
 
-* The Runner now checks the test case download site at SourceForge for
-  updates; if it finds a new case archive, it offers to download it
-  and install it.  Along with this functionality, there is a new item
-  in the preferences dialog to determine whether an update check is
-  performed when the application first starts up.  (The default is
-  yes.)
+* The Runner can now check the test case download site at SourceForge
+  for updates; if it finds a new case archive, it offers to download
+  it and install it.  Along with this functionality, there is a new
+  item in the preferences dialog to determine whether an update check
+  is performed when the application first starts up.  (The default is
+  no.)
 
 * The dialog presented while test cases are being unpacked has been
   changed completely, and now offers a "cancel" button.
