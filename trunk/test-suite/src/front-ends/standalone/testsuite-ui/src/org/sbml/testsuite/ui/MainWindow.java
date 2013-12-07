@@ -2473,15 +2473,13 @@ public class MainWindow
         {
             // We have a suite, but something is wrong with it.
 
-            if (Tell.error(shell,
-                           "Could not read test cases -- unpack bundled suite?",
-                           "Something is wrong with the test suite directory\n"
-                           + "currently configured in the preferences; the\n"
-                           + "Test Runner was unable to read the test cases.\n"
-                           + "Unless this is a deliberately-induced situation\n"
-                           + "as part of a special purpose, you are advised to\n"
-                           + "let the test runner reinstall its bundled test\n"
-                           + "case archive at this time."))
+            if (Tell.confirm(shell, "Something is wrong with the test cases\n"
+                             + "directory currently configured in the\n"
+                             + "preferences -- the Test Runner was unable\n"
+                             + "to read the test cases. Unless this is due to a\n"
+                             + "deliberate act on your part, it would be best\n"
+                             + "to let the Test Runner reinstall its bundled\n"
+                             + "test cases. Proceed to reinstall the cases now?"))
                 unpackInternal = true;
         }
         else if (suite.getCasesReleaseDate() == null
