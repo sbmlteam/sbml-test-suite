@@ -370,7 +370,17 @@ public class CasesArchiveManager
             while (entry != null && !casesDateFileName.equals(entry.getName()))
                 entry = zis.getNextEntry();
             if (entry != null)
-                return Util.readArchiveDateFileStream(zis);
+            {
+                // Problem: we store only a date in the file, without hh:mm:ss,
+                // which causes the Date object to be created with 00:00:00.
+                // This throws off the date comparisons.  Solution: we manually
+                // set the time to 23:59:59.
+                Date theDate = Util.readArchiveDateFileStream(zis);
+                theDate.setHours(23);
+                theDate.setMinutes(59);
+                theDate.setSeconds(59);
+                return theDate;
+            }
         }
         catch (Exception e)
         {
