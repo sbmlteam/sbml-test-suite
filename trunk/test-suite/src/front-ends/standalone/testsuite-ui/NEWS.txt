@@ -1,7 +1,7 @@
 SBML Test Suite Test Runner NEWS  -- History of user-visible changes
 
 ====================================================================
-Version 3.1.0 (2013-NN-NN)
+Version 3.1.0 (2013-12-10)
 ====================================================================
 
 Summary of changes to the test cases:
