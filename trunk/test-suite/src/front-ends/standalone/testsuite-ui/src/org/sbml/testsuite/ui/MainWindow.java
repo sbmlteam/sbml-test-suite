@@ -2473,9 +2473,9 @@ public class MainWindow
         {
             // We have a suite, but something is wrong with it.
 
-            if (Tell.confirm(shell, "Something is wrong with the test cases\n"
-                             + "directory currently configured in the\n"
-                             + "preferences -- the Test Runner was unable\n"
+            if (Tell.confirm(shell, "Something is wrong with the contents of the\n"
+                             + "test cases directory currently configured in\n"
+                             + "the preferences -- the Test Runner was unable\n"
                              + "to read the test cases. Unless this is due to a\n"
                              + "deliberate act on your part, it would be best\n"
                              + "to let the Test Runner reinstall its bundled\n"
