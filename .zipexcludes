@@ -1,5 +1,7 @@
 *.svn*
 *.DS_Store*
 *~
+.*~
 .zipincludes
 *.png
+*.svnignore
