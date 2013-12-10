@@ -1153,9 +1153,15 @@ public class MainWindow
                 }
             });
         if (UIUtils.isMacOSX())
-            menuItemPrefs.setText("Edit Wrappers");
+        {
+            menuItemPrefs.setText("Edit Wrappers\tCtrl+,");
+            menuItemPrefs.setAccelerator(SWT.MOD1 + ',');
+        }
         else
+        {
             menuItemPrefs.setText("Options/Wrappers\tCtrl+K");
+            menuItemPrefs.setAccelerator(SWT.MOD1 + 'K');
+        }
 
         if (! UIUtils.isMacOSX())
         {
@@ -2014,7 +2020,7 @@ public class MainWindow
             return;
 
         if (! Tell.confirm(shell, "Delete the selected result"
-                           + (selection.length > 1 ? "s" : "")                               
+                           + (selection.length > 1 ? "s" : "")
                            + "? This will\ndelete the file"
                            + (selection.length > 1 ? "s" : "")
                            + " containing the output data\n"
@@ -2083,19 +2089,19 @@ public class MainWindow
         PreferenceDialog dialog = new PreferenceDialog(shell);
         dialog.center(shell.getBounds());
         dialog.setTestSuiteSettings(model.getSettings());
-        File origTestSuiteDir = model.getTestSuiteDir();
+        File origCasesDir = new File(model.getSettings().getCasesDir());
 
         TestSuiteSettings result = dialog.open();
 
-        File newTestSuiteDir = new File(dialog.getCasesDir());
+        File newCasesDir = new File(dialog.getCasesDir());
         if (result != null &&
-            (!origTestSuiteDir.equals(newTestSuiteDir)
+            (!origCasesDir.equals(newCasesDir)
              || !currentWrapper.equals(result.getLastWrapper())))
         {
             // We got a result (=> user didn't cancel out) and either the
             // new test suite directory or the wrapper is different.
 
-            model.setTestSuiteDir(newTestSuiteDir);
+            model.setTestSuiteDir(newCasesDir);
             String lastWrapperName = result.getLastWrapperName();
             model.setSettings(result);
             if (lastWrapperName != null && lastWrapperName.length() > 0)
@@ -2103,6 +2109,17 @@ public class MainWindow
             else
                 model.getSettings().setLastWrapper(WrapperList.noWrapperName());
             result.saveAsDefault();
+
+            TestSuite suite = model.getSuite();
+            if (suite.getNumCases() == 0 || suite.getCasesReleaseDate() == null)
+                display.asyncExec(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        Tell.warn(shell, "Cannot find any test "
+                                  + "cases in this directory.");
+                    }
+                });
 
             resetAll();
             updateWrapperList();
@@ -2137,8 +2154,9 @@ public class MainWindow
         String fileName = dlg.open();
         if (fileName != null && archiveManager.unpackArchive(new File(fileName)))
         {
-            model.setTestSuiteDir(archiveManager.getInternalCasesDir());
+            model.setTestSuiteDir(archiveManager.getDefaultCasesDir());
             resetAll();
+            clearFilters();
         }
     }
 
@@ -2146,7 +2164,6 @@ public class MainWindow
     private void resetAll()
     {
         resetForRun();
-        clearFilters();
         progressSection.setDoneCount(0);
         invalidateSelectedResults(tree.getItems());
         updateStatuses();
@@ -2455,45 +2472,82 @@ public class MainWindow
     {
         model = new MainModel();
         TestSuite suite = model.getSuite();
-        Date casesDate = suite != null ? suite.getCasesReleaseDate() : null;
         final Date internalCasesDate = archiveManager.getInternalCasesDate();
-        final File internalCasesDir = archiveManager.getInternalCasesDir();
+        final File defaultCasesDir = archiveManager.getDefaultCasesDir();
         boolean unpackInternal = false;
 
         if (suite == null)
         {
-            // We don't have a suite yet. Unpack our internal copy.
+            // We don't have a suite. Unconditionally unpack our internal copy.
 
             archiveManager.extractInternalCasesArchive();
-            model = new MainModel(archiveManager.getInternalCasesDir());
+            model = new MainModel(defaultCasesDir);
             suite = model.getSuite();
-            casesDate = suite.getCasesReleaseDate();
+            if (suite == null)          // Something's really wrong. Give up.
+                return false;
         }
-        else if (suite.getNumCases() == 0)
-        {
-            // We have a suite, but something is wrong with it.
 
-            if (Tell.confirm(shell, "Something is wrong with the contents of the\n"
-                             + "test cases directory currently configured in\n"
-                             + "the preferences -- the Test Runner was unable\n"
-                             + "to read the test cases. Unless this is due to a\n"
-                             + "deliberate act on your part, it would be best\n"
-                             + "to let the Test Runner reinstall its bundled\n"
-                             + "test cases. Proceed to reinstall the cases now?"))
-                unpackInternal = true;
-        }
-        else if (suite.getCasesReleaseDate() == null
-                 || suite.getCasesReleaseDate().before(internalCasesDate))
+        File configuredDir = new File(model.getSettings().getCasesDir());
+        if (suite.getNumCases() == 0 || suite.getCasesReleaseDate() == null)
         {
-            // We have a suite, but it doesn't have a date file, implying
+            // We have a suite, but something is wrong with it.  There are
+            // two scenarios: (1) if this is the default dir, we reinstall
+            // our bundled test cases, or (2) if this is not the default
+            // directory, we offer to set the value to the default.
+
+            if (defaultCasesDir.equals(configuredDir))
+                unpackInternal = true;
+            else
+            {
+                String msg =
+                      "Something is wrong with the contents of the test\n"
+                    + "cases directory currently configured in the\n"
+                    + "preferences -- the Test Runner was unable to read\n"
+                    + "the test cases. Unless this is due to a deliberate\n"
+                    + "act on your part, it would be best to reset the\n"
+                    + "directory to the Test Runner's default directory.\n"
+                    + "Proceed?";
+                String details = "";
+                if (configuredDir != null)
+                    details +=
+                        "The directory configured in the preferences is\n"
+                        + configuredDir.getPath() + "\n";
+                details += "\nThe default directory is\n" + defaultCasesDir;
+                if (Tell.confirmWithDetails(shell, msg, details))
+                {
+                    suite.setCasesDirectory(defaultCasesDir);
+                    model.getSettings().setCasesDir(defaultCasesDir);
+                    model.getSuite().initializeFromDirectory(defaultCasesDir);
+                    configuredDir = defaultCasesDir;
+                }
+            }
+        }
+
+        // Check the default test case directory and update it if it's old.
+
+        Date defaultCasesDate = archiveManager.getCasesDate(defaultCasesDir);
+        if (defaultCasesDate == null)
+            unpackInternal = true;
+        else if (!unpackInternal
+                 && defaultCasesDate.compareTo(internalCasesDate) < 0)
+        {
+            // Either it's older or it doesn't have a date file, implying
             // it's older than the one shipped with the STS version 3.1.0.
 
-            if (Tell.confirm(shell,
-                             "The test cases found in the current test suite\n"
-                             + "directory are older than the test cases bundled\n"
-                             + "with this copy of the Test Runner. The Test\n"
-                             + "Runner can replace them with its bundled copy.\n"
-                             + "Proceed?"))
+            String msg =
+                "The test cases found in your default test suite directory\n"
+                + "are older than the test cases bundled with this copy of\n"
+                + "the Test Runner. The Test Runner can replace them with\n"
+                + "its bundled copy. Proceed?";
+            String details =
+                "The release date of the test cases in your directory\n"
+                + defaultCasesDir.getPath() + "\n"
+                + "is " + Util.archiveDateToString(defaultCasesDate)
+                + ", while the release date of the newer test\n"
+                + "cases bundled with this Test Runner is "
+                + Util.archiveDateToString(internalCasesDate) + ".";
+
+            if (Tell.confirmWithDetails(shell, msg, details))
                 unpackInternal = true;
         }
 
@@ -2507,8 +2561,8 @@ public class MainWindow
                     getDisplay().update();
 
                     archiveManager.extractInternalCasesArchive();
-                    model.getSuite().initializeFromDirectory(internalCasesDir);
-                    model.getSettings().setCasesDir(internalCasesDir);
+                    model.getSuite().initializeFromDirectory(defaultCasesDir);
+                    model.getSettings().setCasesDir(defaultCasesDir);
                 }
             });
         }
@@ -2560,12 +2614,17 @@ public class MainWindow
 
         if (archiveManager.checkForUpdates(quietly))
         {
-            if (Tell.confirm(shell, "Updated test cases found. Download \n"
-                             + "them and replace the current set of tests?"))
+            if (Tell.confirm(shell,
+                             "Updated test cases are available from the\n"
+                             + "download site. Proceed to download them\n"
+                             + "and replace the contents of your default\n"
+                             + "test suite directory, which is located in\n"
+                             + Util.getInternalTestSuiteDir()
+                             + "?"))
             {
                 markAsRunning(false);
                 archiveManager.updateFromNetwork();
-                final File casesDir = archiveManager.getInternalCasesDir();
+                final File casesDir = archiveManager.getDefaultCasesDir();
                 BusyIndicator.showWhile(getDisplay(), new Runnable() {
                     public void run()
                     {
@@ -2576,6 +2635,7 @@ public class MainWindow
                         model.getSuite().initializeFromDirectory(casesDir);
                         model.getSettings().setCasesDir(casesDir);
                         resetAll();
+                        clearFilters();
                     }
                 });
             }
@@ -3200,9 +3260,10 @@ public class MainWindow
 
         archiveManager.extractInternalCasesArchive();
         if (model.getSuite() == null)   // Not sure this can ever happen.
-            model = new MainModel(archiveManager.getInternalCasesDir());
-        model.getSuite().initializeFromDirectory(archiveManager.getInternalCasesDir());
+            model = new MainModel(archiveManager.getDefaultCasesDir());
+        model.getSuite().initializeFromDirectory(archiveManager.getDefaultCasesDir());
         resetAll();
+        clearFilters();
     }
 
 
@@ -3649,7 +3710,7 @@ public class MainWindow
         return findTreeItemByNumber(Integer.parseInt(num));
     }
 
-    
+
     private int getHighestCaseNumber()
     {
         if (tree == null) return 0;
@@ -3659,15 +3720,15 @@ public class MainWindow
 
     private boolean isInteger(String str)
     {
-        try  
-        {  
-            int d = Integer.parseInt(str);  
-        }  
-        catch (NumberFormatException e)  
-        {  
-            return false;  
-        }  
-        return true;  
+        try
+        {
+            int d = Integer.parseInt(str);
+        }
+        catch (NumberFormatException e)
+        {
+            return false;
+        }
+        return true;
     }
 
 
@@ -3747,7 +3808,7 @@ public class MainWindow
     private boolean directoriesOK()
     {
         File casesDir = model.getSuite().getCasesDirectory();
-        if (!casesDir.exists() || !casesDir.isDirectory())
+        if (casesDir == null || !casesDir.exists() || !casesDir.isDirectory())
         {
             Tell.error(shell, "The test case directory does not exist.",
                        "The directory containing the test cases does not\n"
