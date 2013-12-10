@@ -66,7 +66,7 @@ public class Tell
         warningIcon = Display.getCurrent().getSystemImage(SWT.ICON_WARNING);
         infoIcon    = Display.getCurrent().getSystemImage(SWT.ICON_INFORMATION);
         errorIcon   = Display.getCurrent().getSystemImage(SWT.ICON_ERROR);
-    }    
+    }
 
 
     static public boolean confirm(final Shell shell, final String question)
@@ -84,7 +84,27 @@ public class Tell
         return dialog.show() == 0;
     }
 
-    
+
+    static public boolean confirmWithDetails(final Shell shell,
+                                             final String question,
+                                             final String details)
+    {
+        Dialog dialog         = new Dialog(shell);
+        MessageArea msgArea   = dialog.getMessageArea();
+        FooterArea footerArea = dialog.getFooterArea();
+
+        dialog.setTitle("Confirmation");
+        dialog.setButtonType(OpalDialogType.OK_CANCEL);
+        dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
+        msgArea.setIcon(warningIcon);
+        msgArea.setText(question);
+        footerArea.setDefaultButtonIndex(1);
+        if (details != null && details.length() > 0)
+            footerArea.setDetailText(details);
+        return dialog.show() == 0;
+    }
+
+
     static public boolean saveCancel(final Shell shell, final String question)
     {
         Dialog dialog         = new Dialog(shell);
@@ -114,7 +134,7 @@ public class Tell
         return dialog.show() == 0;
     }
 
-    
+
     static public boolean informWithOverride(final Shell shell,
                                              final String info)
     {
@@ -130,6 +150,20 @@ public class Tell
         footerArea.addCheckBox("Proceed anyway", false);
         dialog.show();
         return footerArea.getCheckBoxValue();
+    }
+
+
+    static public boolean warn(final Shell shell, final String info)
+    {
+        Dialog dialog         = new Dialog(shell);
+        MessageArea msgArea   = dialog.getMessageArea();
+
+        dialog.setTitle(ResourceManager.getLabel(ResourceManager.WARNING));
+        dialog.setButtonType(OpalDialogType.CLOSE);
+        dialog.setCenterPolicy(Dialog.CenterOption.CENTER_ON_DIALOG);
+        msgArea.setIcon(warningIcon);
+        msgArea.setText(info);
+        return dialog.show() == 0;
     }
 
 
