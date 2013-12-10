@@ -334,12 +334,14 @@ public class CasesArchiveManager
 
 
     /**
-     * Returns the directory that contains the semantic test cases on the
-     * user's computer.
+     * Reads the date stamp file in the given test suite directory and
+     * returns either a Date object corresponding to that date, or null if it
+     * could not find the date file or something went wrong while trying to
+     * read it.
      */
-    public File getInternalCasesDir()
+    public Date getCasesDate(File dir)
     {
-        return new File(Util.getInternalTestSuiteDir(), "/cases/semantic/");
+        return Util.readArchiveDateFile(dir, TestSuite.CASES_DATE_FILE_NAME);
     }
 
 
@@ -370,17 +372,7 @@ public class CasesArchiveManager
             while (entry != null && !casesDateFileName.equals(entry.getName()))
                 entry = zis.getNextEntry();
             if (entry != null)
-            {
-                // Problem: we store only a date in the file, without hh:mm:ss,
-                // which causes the Date object to be created with 00:00:00.
-                // This throws off the date comparisons.  Solution: we manually
-                // set the time to 23:59:59.
-                Date theDate = Util.readArchiveDateFileStream(zis);
-                theDate.setHours(23);
-                theDate.setMinutes(59);
-                theDate.setSeconds(59);
-                return theDate;
-            }
+                return Util.readArchiveDateFileStream(zis);
         }
         catch (Exception e)
         {
@@ -390,18 +382,6 @@ public class CasesArchiveManager
                        + "developers.", UIUtils.stackTraceToString(e));
         }
         return null;
-    }
-
-
-    /**
-     * Reads the date stamp file in the given test suite directory and
-     * returns either a Date object corresponding to that date, or null if it
-     * could not find the date file or something went wrong while trying to
-     * read it.
-     */
-    public Date getCasesDate(File dir)
-    {
-        return Util.readArchiveDateFile(dir, TestSuite.CASES_DATE_FILE_NAME);
     }
 
 
@@ -458,6 +438,16 @@ public class CasesArchiveManager
         }
 
         Tell.error(parentShell, errorMessage, extraDetails);
+    }
+
+
+    /**
+     * Returns the directory that contains the semantic test cases on the
+     * user's computer.
+     */
+    public File getDefaultCasesDir()
+    {
+        return new File(Util.getInternalTestSuiteDir(), "/cases/semantic/");
     }
 
 
@@ -532,7 +522,7 @@ public class CasesArchiveManager
 
             // If we get here, we think we unzip'ed the archive.  Do a few
             // more sanity checks.
-            File casesDir = getInternalCasesDir();
+            File casesDir = getDefaultCasesDir();
             if (casesDir.isDirectory())
             {
                 success.set(true);
@@ -591,7 +581,8 @@ public class CasesArchiveManager
             return false;
         else
         {
-            Tell.inform(parentShell, "Finished installing test cases.");
+            Tell.inform(parentShell, "Finished installing test cases into\n"
+                        + Util.getInternalTestSuiteDir());
             return success.get();
         }
     }
