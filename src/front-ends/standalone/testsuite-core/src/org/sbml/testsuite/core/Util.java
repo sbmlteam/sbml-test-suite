@@ -1100,11 +1100,31 @@ public class Util
             char[] buffer = new char[10];
             reader.read(buffer, 0, 10);
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            return formatter.parse(new String(buffer));
+            Date theDate = formatter.parse(new String(buffer));
+
+            // Problem: we store only a date in the file, without hh:mm:ss,
+            // which causes the Date object to be created with 00:00:00.
+            // This throws off date comparisons.  Solution: we manually
+            // set the time to 23:59:59.
+
+            theDate.setHours(23);
+            theDate.setMinutes(59);
+            theDate.setSeconds(59);
+            return theDate;
         }
         catch (Exception e)
         {
             return null;
         }
     }
+
+
+    public static String archiveDateToString(Date date)
+    {
+        return String.format("%4d-%02d-%02d",
+                             date.getYear() + 1900,
+                             date.getMonth() + 1,
+                             date.getDate());
+    }
+
 }
