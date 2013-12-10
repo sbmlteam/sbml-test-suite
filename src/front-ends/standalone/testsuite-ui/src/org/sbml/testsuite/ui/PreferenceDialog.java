@@ -337,8 +337,8 @@ public class PreferenceDialog
         });
 
         shell.setDefaultButton(btnSave);
-        outerComp.setTabList(new Control[]{compButtons, wrappersEditor, 
-                                           txtCasesDir, compBrowse,
+        outerComp.setTabList(new Control[]{compButtons, txtCasesDir,
+                                           wrappersEditor, compBrowse,
                                            btnDeleteFiles, compThreads});
         compThreads.setTabList(new Control[]{btnOverrideNumThreads,
                                              txtNumThreads});
