@@ -50,7 +50,7 @@ Summary of changes and new features in the SBML Test Runner:
   no.)
 
 * The dialog presented while test cases are being unpacked has been
-  changed completely, and now offers a "cancel" button.
+  changed completely and is more responsive.
 
 * There is a new menu item in the Help menu, for reinstalling the
   test cases shipped with the Test Runner.
