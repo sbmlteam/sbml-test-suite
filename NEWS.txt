@@ -1,6 +1,25 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
+=== Test case archive update for release 3.1.0 (2014-02-26)
+
+This release concentrated on updates to the SED-ML files included with
+the test case archive; no other changes have been made.
+
+* Support for packages ('fbc': uses SED-ML L1v2, 'comp': assumes
+  flattening by libSBML)
+
+* Fixed an issue where time course simulations would yield one
+  additional output point
+
+* Fixed a number of issues with adjustments for amounts and
+  concentrations.
+
+(In the source code, the changes above are implemented in the SED-ML
+file generator in src/utilities/sedml.  This is what is used to
+produce the -sedml.xml files included in the archive release.)
+
+
 === Version 3.1.0 release (2013-12-10)
 
 Summary of changes to the test cases:
