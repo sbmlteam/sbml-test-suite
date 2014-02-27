@@ -139,8 +139,19 @@ clean-sedml:
 # cases, for update distributions by the test runner.  The file
 # ".zipexcludes" in this directory contains a list of files to be excluded
 # from the zip archive created.
+#
+# Note: the date is purposefully set to one day in the future, because of the
+# following problem.  The RSS feed published by sf.net for new files uses the
+# UTC time zone for the <pubdate> field, not *your* time zone.  So what can
+# happen (and has happened) is that if you create an archive at some point
+# during a given day, then upload it, if that moment happens to be already
+# the next day in the UTC time zone, the file will get a <pubdate> value of
+# the following day.  This will contradict the .cases-archive-date value, and
+# confuse the SBML Test Suite Test Runner: it will repeatedly think that a
+# new archive is available, because the archive it downloads is for date X
+# but the RSS feed will claim an archive of date X+1 is available.
 
-today		= $(shell date +"%F")
+today		= $(shell date -v +1d +"%F")
 cases-dist-name = sbml-test-cases-$(today).zip
 ts-file		= .cases-archive-date
 map-file	= cases/semantic/.cases-tags-map
