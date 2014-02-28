@@ -63,10 +63,10 @@
   <!--   -windows-64                                                       -->
   <!--   -linux-32                                                         -->
   <!--   -linux-64                                                         -->
-  <!--   -mac-lion-32                                                      -->
-  <!--   -mac-lion-64                                                      -->
-  <!--   -mac-snow-leopard-32                                              -->
-  <!--   -mac-snow-leopard-64                                              -->
+  <!--   -mac-32               (for Mac OS X 10.7 - 10.9)                  -->
+  <!--   -mac-64               (for Mac OS X 10.7 - 10.9)                  -->
+  <!--   -mac-snow-leopard-32  (for Mac OS X 10.6)                         -->
+  <!--   -mac-snow-leopard-64  (for Mac OS X 10.6)                         -->
   <!--                                                                     -->
   <!-- E.g. of invocation: "ant jar-linux-64". (The "ant dist" target does -->
   <!-- not have 32-bit and 64-bit variants; for simplicity and user        -->
@@ -274,36 +274,36 @@
   <target name="app" depends="app-mac-auto, app-win-auto, app-linux-auto" />
 
   <target name="app-mac-auto"    if="isMac">
-    <antcall target="app-mac-lion"/>
+    <antcall target="app-mac-normal"/>
     <antcall target="app-mac-leopard"/>
   </target>
   <target name="app-mac-auto-32" if="isMac">
-    <antcall target="app-mac-lion-32"/>
+    <antcall target="app-mac-normal-32"/>
     <antcall target="app-mac-leopard-32"/>
   </target>
   <target name="app-mac-auto-64" if="isMac">
-    <antcall target="app-mac-lion-64"/>
+    <antcall target="app-mac-normal-64"/>
     <antcall target="app-mac-leopard-64"/>
   </target>
 
   <!-- Targets for Mac OS X. -->
 
-  <target name="app-mac"    depends="app-mac-lion, app-mac-leopard"/>
+  <target name="app-mac"    depends="app-mac-normal, app-mac-leopard"/>
 
-  <target name="app-mac-lion"    depends="app-mac-lion-32, app-mac-lion-64"/>
-  <target name="app-mac-lion-32">
+  <target name="app-mac-normal"    depends="app-mac-normal-32, app-mac-normal-64"/>
+  <target name="app-mac-normal-32">
     <antcall target="jar-mac-32"/>
-    <antcall target="app-mac-lion-common">
-      <param name="os" value="Lion"/>
+    <antcall target="app-mac-normal-common">
+      <param name="os" value=""/>
       <param name="os.extra" value=""/>
       <param name="jvmarchs" value="i386"/>
     </antcall>
     <antcall target="clean-jar"/>
   </target>
-  <target name="app-mac-lion-64">
+  <target name="app-mac-normal-64">
     <antcall target="jar-mac-64"/>
-    <antcall target="app-mac-lion-common">
-      <param name="os" value="Lion"/>
+    <antcall target="app-mac-normal-common">
+      <param name="os" value=""/>
       <param name="os.extra" value=" x64"/>
       <param name="jvmarchs" value="x86_64"/>
     </antcall>
@@ -314,7 +314,7 @@
   <target name="app-mac-leopard-32">
     <antcall target="jar-mac-32"/>
     <antcall target="app-mac-leopard-common">
-      <param name="os" value="Snow Leopard"/>
+      <param name="os" value="SnowLeopard"/>
       <param name="os.extra" value=""/>
       <param name="jvmarchs" value="i386"/>
     </antcall>
@@ -323,26 +323,26 @@
   <target name="app-mac-leopard-64">
     <antcall target="jar-mac-64"/>
     <antcall target="app-mac-leopard-common">
-      <param name="os" value="Snow Leopard"/>
+      <param name="os" value="SnowLeopard"/>
       <param name="os.extra" value=" x64"/>
       <param name="jvmarchs" value="x86_64"/>
     </antcall>
     <antcall target="clean-jar"/>
   </target>
 
-  <target name="app-mac-lion-common" depends="init">
+  <target name="app-mac-normal-common" depends="init">
     <taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" />
-    <delete dir="${dist.dir}/${app.name} - ${os}${os.extra}.app" failonerror="false"/>
+    <delete dir="${dist.dir}/${app.name}${os.extra}.app" failonerror="false"/>
     <mkdir dir="${dist.dir}" />
     <jarbundler dir="${dist.dir}"
                 verbose="true"
-                name="${app.name} - ${os}${os.extra}"
+                name="${app.name}${os.extra}"
                 shortname="${app.name}"
                 mainclass="${app.main.class}"
                 bundleid="org.sbml.testsuite"
                 version="${app.version}"
                 icon="${app.icon.icns}"
-                infostring="${app.name} ${app.version} ${jvmarchs} for Mac OS X 10.7 and 10.8"
+                infostring="${app.name} ${app.version} ${jvmarchs} for Mac OS X 10.7 to 10.9"
                 jvmversion="1.6+"
                 jvmarchs="${jvmarchs}"
                 startOnMainThread="true"
@@ -474,7 +474,7 @@
   <target name="dist" depends="dist-mac-auto, dist-win-auto, dist-linux-auto"/>
 
   <target name="dist-mac-auto" if="isMac">
-    <antcall target="mac-dmg-lion"/>
+    <antcall target="mac-dmg-normal"/>
     <antcall target="mac-dmg-leopard"/>
   </target>
   <target name="dist-win-auto" if="isWindows">
@@ -486,22 +486,22 @@
 
   <!-- The following targets are internal and not really meant for users -->
 
-  <target name="mac-dmg-lion">
-    <antcall target="app-mac-lion"/>
+  <target name="mac-dmg-normal">
+    <antcall target="app-mac-normal"/>
     <antcall target="mac-dmg-common">
-      <param name="os" value="Lion"/>
+      <param name="os" value=""/>
     </antcall>
   </target>
 
   <target name="mac-dmg-leopard">
     <antcall target="app-mac-leopard"/>
     <antcall target="mac-dmg-common">
-      <param name="os" value="Snow Leopard"/>
+      <param name="os" value="-SnowLeopard"/>
     </antcall>
   </target>
 
   <target name="mac-dmg-common" depends="init">
-    <property name="dmg.basename" value="${dist.dir}/${app.name}-${app.version}-${os}"/>
+    <property name="dmg.basename" value="${dist.dir}/${app.name.nospace}-${app.version}${os}"/>
     <property name="dmg.name"     value="${dmg.basename}.dmg"/>
     <property name="dmg.tmp.name" value="${dmg.basename}-tmp.dmg"/>
     <property name="mountdir"     value="/tmp"/>
@@ -513,9 +513,9 @@
     <exec executable="hdiutil">
       <arg value="create"/>
       <arg value="-srcfolder"/>
-      <arg value="${dist.dir}/${app.name} - ${os}.app"/>
+      <arg value="${dist.dir}/${app.name}.app"/>
       <arg value="-srcfolder"/>
-      <arg value="${dist.dir}/${app.name} - ${os} x64.app"/>
+      <arg value="${dist.dir}/${app.name} x64.app"/>
       <arg value="-volname"/>
       <arg value="${app.name}"/>
       <arg value="-ov"/>
