@@ -2472,7 +2472,7 @@ public class MainWindow
     {
         model = new MainModel();
         TestSuite suite = model.getSuite();
-        final Date internalCasesDate = archiveManager.getInternalCasesDate();
+        final Date bundledCasesDate = archiveManager.getBundledCasesDate();
         final File defaultCasesDir = archiveManager.getDefaultCasesDir();
         boolean unpackInternal = false;
 
@@ -2480,7 +2480,7 @@ public class MainWindow
         {
             // We don't have a suite. Unconditionally unpack our internal copy.
 
-            archiveManager.extractInternalCasesArchive();
+            archiveManager.extractBundledCasesArchive();
             model = new MainModel(defaultCasesDir);
             suite = model.getSuite();
             if (suite == null)          // Something's really wrong. Give up.
@@ -2529,7 +2529,7 @@ public class MainWindow
         if (defaultCasesDate == null)
             unpackInternal = true;
         else if (!unpackInternal
-                 && defaultCasesDate.compareTo(internalCasesDate) < 0)
+                 && defaultCasesDate.compareTo(bundledCasesDate) < 0)
         {
             // Either it's older or it doesn't have a date file, implying
             // it's older than the one shipped with the STS version 3.1.0.
@@ -2545,7 +2545,7 @@ public class MainWindow
                 + "is " + Util.archiveDateToString(defaultCasesDate)
                 + ", while the release date of the newer test\n"
                 + "cases bundled with this Test Runner is "
-                + Util.archiveDateToString(internalCasesDate) + ".";
+                + Util.archiveDateToString(bundledCasesDate) + ".";
 
             if (Tell.confirmWithDetails(shell, msg, details))
                 unpackInternal = true;
@@ -2560,7 +2560,7 @@ public class MainWindow
                     // Otherwise, on the mac, it doesn't get shown.
                     getDisplay().update();
 
-                    archiveManager.extractInternalCasesArchive();
+                    archiveManager.extractBundledCasesArchive();
                     model.getSuite().initializeFromDirectory(defaultCasesDir);
                     model.getSettings().setCasesDir(defaultCasesDir);
                 }
@@ -3258,7 +3258,7 @@ public class MainWindow
                           + "operation cannot be undone. Proceed?"))
             return;
 
-        archiveManager.extractInternalCasesArchive();
+        archiveManager.extractBundledCasesArchive();
         if (model.getSuite() == null)   // Not sure this can ever happen.
             model = new MainModel(archiveManager.getDefaultCasesDir());
         model.getSuite().initializeFromDirectory(archiveManager.getDefaultCasesDir());
