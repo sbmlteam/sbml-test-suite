@@ -38,6 +38,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -79,7 +81,7 @@ public class CasesArchiveManager
     private final Display display;
     private Shell parentShell;
     private String updatedArchiveURL;
-    private Date internalCasesDate;
+    private Date userDefaultCasesDate;
     private NodeList rssContents;
     private TaskExecutor executor = new TaskExecutor(1);
     private StatusDialog currentDialog;
@@ -346,13 +348,13 @@ public class CasesArchiveManager
 
 
     /**
-     * Reads the date stamp file in the test case directory and returns either
-     * a Date object corresponding to that date, or null if it could not find
-     * the date file or something went wrong while trying to read it.
+     * Reads the date stamp file in the bundled archive of test cases and
+     * returns either a Date object corresponding to that date, or null if it
+     * could not find the date file or something went wrong.
      *
      * This method will bring up dialogs and tell the user if problems arise.
      */
-    public Date getInternalCasesDate()
+    public Date getBundledCasesDate()
     {
         try
         {
@@ -386,12 +388,49 @@ public class CasesArchiveManager
 
 
     /**
+     * Reads the date stamp file in the test case directory and returns either
+     * a Date object corresponding to that date, or null if it could not find
+     * the date file or something went wrong while trying to read it.
+     *
+     * This method will bring up dialogs and tell the user if problems arise.
+     */
+    public Date getUserDefaultCasesDate()
+    {
+        try
+        {
+            File dir = getDefaultCasesDir();
+            if (dir == null)
+                return null;
+            else
+                return getCasesDate(dir);
+        }
+        catch (Exception e)
+        {
+            // This means something is wrong with the default cases dir or
+            // the date file.  We handle this by returning a very old date,
+            // which will cause the calling code to treat it as a directory
+            // in need of an update.
+
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            try
+            {
+                return formatter.parse("2001-01-01");
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+    }
+
+
+    /**
      * Extract the archive of test cases that is bundled in the resources
      * directory of our application jar file.
      *
      * This method will bring up dialogs and tell the user if problems arise.
      */
-    public void extractInternalCasesArchive()
+    public void extractBundledCasesArchive()
     {
         File destDir = new File(Util.getUserDir());
         File destFile = new File(destDir, TEMP_ZIP_FILE_NAME);
@@ -637,7 +676,7 @@ public class CasesArchiveManager
             }
 
             Vector<String> archives
-                = Util.getCaseArchiveURLs(rssContents, internalCasesDate);
+                = Util.getCaseArchiveURLs(rssContents, userDefaultCasesDate);
             // We're only interested in the latest archive.
             if (archives != null && archives.size() > 0)
                 updatedArchiveURL = archives.firstElement();
@@ -654,9 +693,9 @@ public class CasesArchiveManager
     public boolean checkForUpdates(boolean quietly)
     {
         updatedArchiveURL = null;
-        if (internalCasesDate == null)
-            internalCasesDate = getInternalCasesDate();
-        if (internalCasesDate == null)
+        if (userDefaultCasesDate == null)
+            userDefaultCasesDate = getUserDefaultCasesDate();
+        if (userDefaultCasesDate == null)
             return false;
 
         executor.init(false, 1);
@@ -861,7 +900,7 @@ public class CasesArchiveManager
                 // Nothing else to do if we fail here.
             }
             // Update the case date based on the new copy.
-            internalCasesDate = getInternalCasesDate();
+            userDefaultCasesDate = getUserDefaultCasesDate();
         }
     }
 
