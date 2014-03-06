@@ -1,6 +1,40 @@
 SBML Test Suite Test Runner NEWS  -- History of user-visible changes
 
 ====================================================================
+Version 3.1.1 (2014-03-06)
+====================================================================
+
+Summary of changes in the SBML Test Runner:
+
+* Fixed handling of network updates to the test cases.  The previous
+  version would incorrectly always report that new test cases are
+  available for downloading, even after the user did an update.
+
+* Bundles the 2014-02-27 release of the test case archive.
+
+* Tested under Mac OS X 10.9 (Mavericks).
+
+
+Summary of changes to the test cases:
+
+This release concentrated on updates to the SED-ML files included with
+the test case archive; no other changes have been made.
+
+* Support for packages ('fbc': uses SED-ML L1v2, 'comp': assumes
+  flattening by libSBML)
+
+* Fixed an issue where time course simulations would yield one
+  additional output point
+
+* Fixed a number of issues with adjustments for amounts and
+  concentrations.
+
+(In the source code, the changes above are implemented in the SED-ML
+file generator in src/utilities/sedml.  This is what is used to
+produce the -sedml.xml files included in the archive release.)
+
+
+====================================================================
 Version 3.1.0 (2013-12-10)
 ====================================================================
 
