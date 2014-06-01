@@ -127,7 +127,7 @@ public class ZipServlet extends HttpServlet
                                "Session does not contain data path information.");
 
             @SuppressWarnings("unchecked")
-            Set<Integer> cases = (Set<Integer>) s.getAttribute("casesToReturn");
+            Vector<String> cases = (Vector<String>) s.getAttribute("casesToReturn");
 
             if (cases == null)
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
@@ -152,8 +152,8 @@ public class ZipServlet extends HttpServlet
 
             OnlineSTS.logInfo(request, "Zip'ing up " + cases.size() + " cases");
 
-            for (Integer c : cases)
-                addFilesToZip(c.toString(), root, ARCHIVE_NAME, includeFileRegex, zos);
+            for (String c : cases)
+                addFilesToZip(c, root, ARCHIVE_NAME, includeFileRegex, zos);
 
             zos.flush();
             zos.close();

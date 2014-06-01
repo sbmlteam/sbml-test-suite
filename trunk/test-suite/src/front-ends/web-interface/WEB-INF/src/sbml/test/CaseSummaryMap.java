@@ -86,58 +86,67 @@ public class CaseSummaryMap
     }
 
 
-    /**
-     * Returns a count of cases that have any of the given tags.
-     *
-     * @return the number of cases that have the given tags.
-     */
-    public int countTaggedAny(Vector<String> tags)
+    public Vector<String> getAllCaseNames()
     {
-        return countTaggedAny(new TagBits(tags, knownTags));
+        Vector<String> v = new Vector<String>();
+        for (CaseSummary c : values())
+            v.add(c.getCaseName());
+        return v;
     }
 
 
-    /**
-     * Return a count of cases that have any of the given tags.
-     * This version uses a TagBits object.
-     *
-     * @return the number of cases that have the given tags.
-     */
-    public int countTaggedAny(TagBits tagBits)
-    {
-        int count = 0;
-        for (CaseSummary cs : this.values())
-            if (cs.getTagBits().intersects(tagBits))
-                count++;
-        return count;
-    }
+    // /**
+    //  * Returns a count of cases that have any of the given tags.
+    //  *
+    //  * @return the number of cases that have the given tags.
+    //  */
+    // public int countTaggedAny(Vector<String> tags)
+    // {
+    //     return countTaggedAny(new TagBits(tags, knownTags));
+    // }
 
 
-    /**
-     * Return a count of cases that have <em>all</em> of the given tags.
-     *
-     * @return the number of cases that have the given tags.
-     */
-    public int countTaggedAll(Vector<String> tags)
-    {
-        return countTaggedAll(new TagBits(tags, knownTags));
-    }
+    // /**
+    //  * Return a count of cases that have any of the given tags.
+    //  * This version uses a TagBits object.
+    //  *
+    //  * @return the number of cases that have the given tags.
+    //  */
+    // public int countTaggedAny(TagBits tagBits)
+    // {
+    //     int count = 0;
+    //     for (CaseSummary cs : this.values())
+    //         if (cs.getTagBits().intersects(tagBits))
+    //             count++;
+    //     return count;
+    // }
 
 
-    /**
-     * Return a count of cases that have <em>all</em> of the given tags.
-     * This version uses a TagBits object.
-     *
-     * @return the number of cases that have the given tags.
-     */
-    public int countTaggedAll(TagBits tagBits)
-    {
-        int count = 0;
-        for (CaseSummary cs : this.values())
-            if (cs.getTagBits().contains(tagBits))
-                count++;
-        return count;
-    }
+    // /**
+    //  * Return a count of cases that have <em>all</em> of the given tags.
+    //  *
+    //  * @return the number of cases that have the given tags.
+    //  */
+    // public int countTaggedAll(Vector<String> tags)
+    // {
+    //     return countTaggedAll(new TagBits(tags, knownTags));
+    // }
+
+
+    // /**
+    //  * Return a count of cases that have <em>all</em> of the given tags.
+    //  * This version uses a TagBits object.
+    //  *
+    //  * @return the number of cases that have the given tags.
+    //  */
+    // public int countTaggedAll(TagBits tagBits)
+    // {
+    //     int count = 0;
+    //     for (CaseSummary cs : this.values())
+    //         if (cs.getTagBits().contains(tagBits))
+    //             count++;
+    //     return count;
+    // }
 
 
 
@@ -178,9 +187,13 @@ public class CaseSummaryMap
         if (tagBits == null)
             return;
 
-        for (Map.Entry<Integer, CaseSummary> e : this.entrySet())
-            if (e.getValue() != null && e.getValue().getTagBits().contains(tagBits))
-                this.remove(e.getKey());
+        Iterator<Map.Entry<Integer, CaseSummary>> it = entrySet().iterator();
+        while (it.hasNext())
+        {
+            Map.Entry<Integer, CaseSummary> e = it.next();
+            if (e.getValue() != null && ! e.getValue().getTagBits().contains(tagBits))
+                it.remove();
+        }
     };
 
 
@@ -230,9 +243,13 @@ public class CaseSummaryMap
         if (lv == null)
             return;
 
-        for (Map.Entry<Integer, CaseSummary> e : this.entrySet())
-            if (e.getValue() != null && e.getValue().hasLevelAndVersion(lv))
-                this.remove(e.getKey());
+        Iterator<Map.Entry<Integer, CaseSummary>> it = entrySet().iterator();
+        while (it.hasNext())
+        {
+            Map.Entry<Integer, CaseSummary> e = it.next();
+            if (e.getValue() != null && ! e.getValue().hasLevelAndVersion(lv))
+                it.remove();
+        }
     }
 
 
@@ -250,9 +267,13 @@ public class CaseSummaryMap
         if (tagBits == null)
             return;
 
-        for (Map.Entry<Integer, CaseSummary> e : this.entrySet())
+        Iterator<Map.Entry<Integer, CaseSummary>> it = entrySet().iterator();
+        while (it.hasNext())
+        {
+            Map.Entry<Integer, CaseSummary> e = it.next();
             if (e.getValue() != null && tagBits.intersects(e.getValue().getTagBits()))
-                this.remove(e.getKey());
+                it.remove();
+        }
     };
 
 
@@ -302,13 +323,18 @@ public class CaseSummaryMap
         if (levelsAndVersions == null || levelsAndVersions.size() == 0)
             return;
 
-        for (Map.Entry<Integer, CaseSummary> e : this.entrySet())
+        Iterator<Map.Entry<Integer, CaseSummary>> it = entrySet().iterator();
+        while (it.hasNext())
+        {
+            Map.Entry<Integer, CaseSummary> e = it.next();
             if (e.getValue() != null)
                 for (String lv : levelsAndVersions)                
-                    if (e.getValue().hasLevelAndVersion(lv)) {
-                        this.remove(e.getKey());
+                    if (e.getValue().hasLevelAndVersion(lv))
+                    {
+                        it.remove();
                         break;
                     }
+        }
     };
 
 
@@ -317,13 +343,19 @@ public class CaseSummaryMap
         if (levelsAndVersions == null || levelsAndVersions.length == 0)
             return;
 
-        for (Map.Entry<Integer, CaseSummary> e : this.entrySet())
+
+        Iterator<Map.Entry<Integer, CaseSummary>> it = entrySet().iterator();
+        while (it.hasNext())
+        {
+            Map.Entry<Integer, CaseSummary> e = it.next();
             if (e.getValue() != null)
                 for (int i = 0; i < levelsAndVersions.length; i++)
-                    if (e.getValue().hasLevelAndVersion(levelsAndVersions[i])) {
-                        this.remove(e.getKey());
+                    if (e.getValue().hasLevelAndVersion(levelsAndVersions[i]))
+                    {
+                        it.remove();
                         break;
                     }
+        }
     };
 
 
@@ -332,10 +364,36 @@ public class CaseSummaryMap
         if (oneLV == null)
             return;
 
-        for (Map.Entry<Integer, CaseSummary> e : this.entrySet())
+        Iterator<Map.Entry<Integer, CaseSummary>> it = entrySet().iterator();
+        while (it.hasNext())
+        {
+            Map.Entry<Integer, CaseSummary> e = it.next();
             if (e.getValue() != null && e.getValue().hasLevelAndVersion(oneLV))
-                this.remove(e.getKey());
+                it.remove();
+        }
     };
+
+
+    public void removeIfInvolvesPackagesOtherThan(String[] packages)
+    {
+        if (packages == null)
+            return;
+
+        HashSet<String> okPackages = new HashSet<String>(Arrays.asList(packages));
+
+        Iterator<Map.Entry<Integer, CaseSummary>> it = entrySet().iterator();
+        while (it.hasNext())
+        {
+            Map.Entry<Integer, CaseSummary> e = it.next();
+            if (e.getValue() != null)
+                for (String casePkg : e.getValue().getCasePackages())
+                    if (! okPackages.contains(casePkg))
+                    {
+                        it.remove();
+                        break;
+                    }
+        }
+    }
 
 
     // 
@@ -368,20 +426,25 @@ public class CaseSummaryMap
 
         while (fileReader.hasNext())
         {
-            Scanner tagreader   = new Scanner(fileReader.nextLine());
-            String caseNum      = tagreader.next();
-            Vector<String> tags = new Vector<String>();
-            Vector<String> lv   = new Vector<String>();
+            Scanner tagreader        = new Scanner(fileReader.nextLine());
+            String caseNum           = tagreader.next();
+            Vector<String> tags      = new Vector<String>();
+            Vector<String> lv        = new Vector<String>();
+            HashSet<String> packages = new HashSet<String>();
+
+            packages.add("core");       // Core is always present.
 
             // Rest of line consists of tags, including "level.version" tags.
 
             while (tagreader.hasNext())
             {
-                String tag     = tagreader.next();
-                char firstChar = tag.charAt(0);
+                String tag = tagreader.next();
+                int pos    = tag.indexOf(':');
 
                 if (tag.length() == 3)  // Only level.version tags are 3 chars.
                     lv.add(tag);
+                else if (pos > 0)
+                    packages.add(tag.substring(0, pos));
                 else
                     tags.add(tag);
             }
@@ -389,6 +452,7 @@ public class CaseSummaryMap
             CaseSummary theCase = new CaseSummary(caseNum);
             theCase.setTags(tags, knownTags);
             theCase.setLevelsAndVersions(lv);
+            theCase.setPackages(packages);
 
             this.put(Integer.parseInt(caseNum), theCase);
         }

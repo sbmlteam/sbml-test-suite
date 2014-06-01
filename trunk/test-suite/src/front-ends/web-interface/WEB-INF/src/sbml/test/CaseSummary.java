@@ -64,11 +64,18 @@ public class CaseSummary
     }
 
     public void setTags(Vector<String> tags, Vector<String> allTags)
+        throws Exception
     {
         this.tagStrings = tags;
-        this.numBits    = allTags.size();
+        this.numTagBits = allTags.size();
         this.tagBits    = new TagBits(tags, allTags);
-        this.tagCode    = tagBits.longValue(numBits);
+        this.tagCode    = tagBits.longValue(numTagBits);
+    }
+
+    public void setPackages(HashSet<String> packages)
+        throws Exception
+    {
+        this.packages = packages;
     }
 
     public boolean caseHasTag(String tag)
@@ -84,11 +91,29 @@ public class CaseSummary
         return true;
     }
 
+    public boolean caseHasPackage(String pkg)
+    {
+        return packages.contains(pkg);
+    }
+
+    public boolean caseHasPackages(String[] pkgs)
+    {
+        for (String p : pkgs)
+            if (! packages.contains(p))
+                return false;
+        return true;
+    }
+
     public Vector<String> getCaseTags()
     {
         return this.tagStrings;
-    };
+    }
     
+    public HashSet<String> getCasePackages()
+    {
+        return this.packages;
+    }
+
     public TagBits getTagBits()
     {
         return tagBits;
@@ -98,17 +123,18 @@ public class CaseSummary
     {
         return tagCode;
     }
-
+    
     // 
     // -------------------------- Private variables ---------------------------
     // 
 
-    private Vector<String> levelsAndVersions = new Vector<String>();
-    private Vector<String> tagStrings = new Vector<String>();
-    private TagBits tagBits;
-    private long tagCode;
     private String caseName;
     private int caseNum;
-    private int numBits;
+    private Vector<String> levelsAndVersions = new Vector<String>();
+    private Vector<String> tagStrings        = new Vector<String>();
+    private HashSet<String> packages         = new HashSet<String>();
+    private TagBits tagBits;
+    private long tagCode;
+    private int numTagBits;
 
 }// end of class
