@@ -58,6 +58,7 @@ OnlineSTS.logInvocation(request);
 
 String[] ctags         = request.getParameterValues("ctags");
 String[] ttags         = request.getParameterValues("ttags");
+String[] packages      = request.getParameterValues("packages");
 String levelAndVersion = request.getParameter("levelAndVersion");
 
 //
@@ -88,23 +89,33 @@ CaseSummaryMap cases   = new CaseSummaryMap(casesRootDir);
 // }
 
 cases.retainIfHasLevelAndVersion(levelAndVersion);
+cases.removeIfInvolvesPackagesOtherThan(packages);
 cases.removeIfTagged(ctags); 
 cases.removeIfTagged(ttags); 
  
-Set<Integer> casesToReturn = cases.keySet();
-
-OnlineSTS.logInfo(request, "Selection yielded " + casesToReturn.size()
+OnlineSTS.logInfo(request, "Selection yielded " + cases.size()
                   + " cases " + "of level/version " + levelAndVersion);
 
-if (casesToReturn.size() < 1)
+String pkgsRequested = new String();
+for (String pkg : packages)
+    pkgsRequested += pkg + " ";
+
+OnlineSTS.logInfo(request, "Packages included: " + pkgsRequested);
+
+if (cases.size() < 1)
     throw new JspException("STS has no cases to put into archive");
+
+// For debugging:
+//
+// for (Map.Entry<Integer, CaseSummary> e : cases.entrySet())
+//     OnlineSTS.logInfo(request, "case " + e.getKey() + ": " + e.getValue().getCasePackages());
 
 //
 // 5. Call our zip file builder with the results and some additional param.
 //
 
 session.putValue("casesRootDir"   , casesRootDir);
-session.putValue("casesToReturn"  , casesToReturn);
+session.putValue("casesToReturn"  , cases.getAllCaseNames());
 session.putValue("levelAndVersion", levelAndVersion);
 
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");

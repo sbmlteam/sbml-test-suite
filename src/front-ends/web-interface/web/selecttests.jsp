@@ -211,13 +211,15 @@ function isExcluded(tagName, tags)
 
 function resetAvailableTags()
 {
-  var ctags = document.options.ctags;
-  var ttags = document.options.ttags;
+  var ctags    = document.options.ctags;
+  var ttags    = document.options.ttags;
+  var packages = document.options.packages;
 
   var index = document.options.levelAndVersion.selectedIndex;
 
   enableAllTags(ctags);
   enableAllTags(ttags);
+  enableAllTags(packages);
 
   switch (document.options.levelAndVersion[index].value)
   {
@@ -246,6 +248,9 @@ function resetAvailableTags()
     setEnabled("EventUsesTriggerTimeValues",    false, ttags);
     setEnabled("EventUsesAssignmentTimeValues", false, ttags);
     setEnabled("EventT0Firing",                 false, ttags);
+    // packages
+    setEnabled("comp",                          false, packages);
+    setEnabled("fbc",                           false, packages);
     break;
 
   case "2.1":
@@ -260,6 +265,9 @@ function resetAvailableTags()
     setEnabled("EventIsNotPersistent",          false, ttags);
     setEnabled("EventUsesAssignmentTimeValues", false, ttags);
     setEnabled("EventT0Firing",                 false, ttags);
+    // packages
+    setEnabled("comp",                          false, packages);
+    setEnabled("fbc",                           false, packages);
     break;
 
   case "2.2":
@@ -274,6 +282,9 @@ function resetAvailableTags()
     setEnabled("EventIsNotPersistent",          false, ttags);
     setEnabled("EventUsesAssignmentTimeValues", false, ttags);
     setEnabled("EventT0Firing",                 false, ttags);
+    // packages
+    setEnabled("comp",                          false, packages);
+    setEnabled("fbc",                           false, packages);
     break;
 
   case "2.4":
@@ -286,6 +297,9 @@ function resetAvailableTags()
     setEnabled("SpeciesReferenceInMath",        false, ttags);
     setEnabled("EventIsNotPersistent",          false, ttags);
     setEnabled("EventT0Firing",                 false, ttags);
+    // packages
+    setEnabled("comp",                          false, packages);
+    setEnabled("fbc",                           false, packages);
     break;
 
   case "3.1":
@@ -707,7 +721,7 @@ must be excluded too, and remain so while the relevant components are
 selected for exclusion.  In addition, not all components are available in
 all SBML Levels/Versions.  </p>
 
-<h3 style="margin-top: 1.5em">(b) Select the SBML component tags you would like to exclude:</h3>
+<h3 style="margin-top: 1.5em">(b) Select the SBML component tags you would like to <u>exclude</u>:</h3>
 
 <p>
 <table class="borderless-table smaller-font" width="100%"> 
@@ -753,7 +767,7 @@ all SBML Levels/Versions.  </p>
   </tr>
 </table> 
 
-<h3>(c) Select the test tags you would like to exclude: <span style="font-weight: normal">(Hover over items for short explanations)</span></h3>
+<h3>(c) Select the test tags you would like to <u>exclude</u>: <span style="font-weight: normal">(Hover over items for short explanations)</span></h3>
 
 <p>
 <div id="tags">
@@ -868,6 +882,39 @@ all SBML Levels/Versions.  </p>
   </tr>
 </table> 
 </div>
+
+<!-- 2014-06-01 [mhucka@caltech.edu] disabled because results processing
+isn't implemented yet.
+
+<h3>(d) Select additional optional test cases for SBML Level 3 packages you would like to <u>include</u>:</h3>
+
+<p>
+<div id="tags">
+<table class="borderless-table smaller-font" width="100%">
+  <tr>
+    <td width="30%" valign="top" style="padding: 0 0 0 1em">
+        <input type="hidden" name="packages" value="core"/>
+        <input type="checkbox" name="packages" onchange="propagate()" value="comp"/>
+            <span id="comp" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
+	    title="Include test cases for the SBML Level 3 Hierarchical Model Composition package."
+            >SBML Level 3 Hierarchical Model Composition</span><br/>
+        <input type="checkbox" name="packages" onchange="propagate()" value="fbc"/>
+            <span id="fbc" onmouseover="this.className='gray-back'" onmouseout="this.className='white-back'"
+	    title="Include test cases for the SBML Level 3 Flux Balance Constraints package."
+            >SBML Level 3 Flux Balance Constraints</span><br/>
+    </td>         
+  </tr>
+</table> 
+</div>
+-->
+<!-- 2014-06-01 [mhucka@caltech.edu] the following are hidden fake entries so 
+that the forms on this page still work.
+-->
+  <input type="hidden" name="packages" value="core"/>
+  <input type="hidden" name="packages" value="comp"/>
+  <input type="hidden" name="packages" value="fbc"/>
+<!-- 2014-06-01 [mhucka@caltech.edu] End of fake hidden fields -->
+
 
 <p style="margin-top: 1.5em">
 When you are finished excluding tests, click the <i>Get test cases</i> button to download a
