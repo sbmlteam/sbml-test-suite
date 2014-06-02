@@ -17,8 +17,8 @@ multiple times, but each time uses the value of y from the time it first trigger
 that y gets reset to one four times.
 
 The third is set 'persistent=false' and 'useValuesFromTriggerTime=false',
-and sets z=z+1, meaning that every time it triggers, it has the potential to increase z
-by one, but if multitrig drops below 1 again, it will not actually do so.  In the end,
+and sets z=z+3, meaning that every time it triggers, it has the potential to increase z
+by three, but if multitrig drops below 1 again, it will not actually do so.  In the end,
 it only executes a single time.
 
 The model also contains nine events with the same trigger and with decreasing priorities 
