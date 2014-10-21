@@ -1,6 +1,15 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
+=== Test case archive update (2014-10-23)
+
+This release updates only test cases.
+
+* Loosened tolerances of settings for case 1148. 
+
+* Corrected the description of case 978.
+
+
 === Version 3.1.1 release (2014-03-06)
 
 Summary of changes in the SBML Test Runner:
