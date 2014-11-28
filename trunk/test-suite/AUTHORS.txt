@@ -4,7 +4,8 @@
            Lucian Smith, Kimberly Begley, and Andrew Finney
 
 		       with contributions from
-	 Bruce Shapiro and many others in the SBML community.
+                Bruce Shapiro, Stanley Gu, and others
+                        in the SBML community.
 
      For more information about SBML or the Test Suite, contact:
 
