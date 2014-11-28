@@ -1,12 +1,14 @@
-       Licensing and Distribution Terms for the SBML Test Suite
+        Licensing and Distribution Terms for the SBML Test Suite
 
-Copyright (C) 2010-2013 jointly by the following organizations: 
+The majority of the SBML Test Suite is copyrighted as follows:
+
+* Copyright (C) 2010-2014 jointly by the following organizations: 
     1. California Institute of Technology, Pasadena, CA, USA
     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK.
 
-Copyright (C) 2008-2009 California Institute of Technology (USA).
+* Copyright (C) 2008-2009 California Institute of Technology (USA).
 
-Copyright (C) 2004-2007 jointly by the following organizations:
+* Copyright (C) 2004-2007 jointly by the following organizations:
     1. California Institute of Technology (USA) and
     2. University of Hertfordshire (UK).
 
@@ -20,13 +22,73 @@ WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
 MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  The software and
 documentation provided hereunder is on an "as is" basis, and the
 copyright holders have no obligations to provide maintenance, support,
-updates, enhancements or modifications.  In no event shall the
-copyright holders be liable to any party for direct, indirect,
-special, incidental or consequential damages, including lost profits,
-arising out of the use of this software and its documentation, even if
-the copyright holders have been advised of the possibility of such
-damage.  See the GNU Lesser General Public License for more details.
+updates, enhancements or modifications.  In no event shall the copyright
+holders be liable to any party for direct, indirect, special, incidental
+or consequential damages, including lost profits, arising out of the use
+of this software and its documentation, even if the copyright holders
+have been advised of the possibility of such damage.  See the GNU Lesser
+General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with this library if not, write to the Free Software Foundation,
 Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+
+
+       Contributed software incorporated into the SBML Test Suite
+
+The SBML Test Suite includes contributions from other people who were
+not funded directly by the grants for the project nor employed by the
+copyright holders noted above.  The following is information about the
+copyright and distribution terms of those additions:
+
+* sbmltest2archive, copyright (C) Stanley Gu 2014 <stanleygu@gmail.com>
+  and distributed under the terms of the MIT License.
+
+
+          Third-party software and materials incorporated into
+                          the SBML Test Suite
+
+The SBML Test Runner and other parts of the SBML Test Suite make use of
+a number of software libraries and other materials created by other
+parties.  Copies of these materials are incorporated into the repository
+the SBML Test Suite.
+
+ 1. Simple Widget Toolkit (SWT) -- http://www.eclipse.org/swt/
+    [checked 2013-04-12]
+    Eclipse Public License v1.0
+
+ 2. Simple XML Framework -- http://simple.sourceforge.net
+    [checked 2013-04-12]
+    Apache License 2.0
+
+ 3. Opal Widgets -- http://code.google.com/a/eclipselabs.org/p/opal/
+    [checked 2013-04-12]
+    Eclipse Public License v1.0
+
+ 4. SWTChart -- http://www.swtchart.org
+    [checked 2013-04-12]
+    Eclipse Public License v1.0
+
+ 5. Icons8 icons for iOS -- http://icons8.com
+    [checked 2013-05-12]
+    Creative Commons Attribution-NoDerivs 3.0 Unported
+
+ 6. Apache Commons FileUpload library -- http://commons.apache.org/fileupload
+    [checked 2008-08-10]
+    Apache License version 2.0
+
+ 7. Apache Commons IO library -- http://commons.apache.org/io
+    [checked 2008-08-10]
+    Apache License version 2.0
+
+ 8. Apache Jakarta Standard Tag Library -- http://jakarta.apache.org/taglibs/
+    [checked 2008-08-10]
+    Apache License version 2.0
+
+ 9. Mozilla Rhino -- http://www.mozilla.org/rhino/
+    [checked 2008-02]
+    Mozilla Public License version 1.1
+
+10. Wiky -- http://goessner.net/articles/wiky
+    [checked 2008-08-09]
+    GNU Lesser General Public License
