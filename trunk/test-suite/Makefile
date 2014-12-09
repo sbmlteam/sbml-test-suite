@@ -114,6 +114,7 @@ else
 endif
 
 cases-sbml-files = $(wildcard cases/semantic/*/*-sbml-l[1234]v[0-9].xml)
+
 all-sedml-files	:= $(patsubst %-l1v2.xml,%-l1v2-sedml.xml,$(cases-sbml-files))
 all-sedml-files	:= $(patsubst %-l2v1.xml,%-l2v1-sedml.xml,$(all-sedml-files))
 all-sedml-files	:= $(patsubst %-l2v2.xml,%-l2v2-sedml.xml,$(all-sedml-files))
@@ -126,10 +127,40 @@ cases/semantic/%-sedml.xml: cases/semantic/%.xml src/utilities/sedml/GenerateSed
 
 sedml: $(all-sedml-files)
 
-
 # Note: a simple rm -f $(all-sedml-files) doesn't work -- arg list is too long.
 clean-sedml:
-	$(foreach f,$(wildcard cases/semantic/*/*-sedml.xml),$(shell rm -f $f))
+ $(foreach f,$(wildcard cases/semantic/*/*-sedml.xml),$(shell rm -f $f))
+
+
+#
+# 'make omex'
+#
+
+
+ifeq "$(shell uname)" "Darwin"
+  define make_omex_files
+    @echo "Creating COMBINE Archive for $(dir $(1))"
+    env DYLD_LIBRARY_PATH="$(abspath src/utilities/sedml):$(DYLD_LIBRARY_PATH)" \
+    mono ./src/utilities/sedml/GenerateSedML.exe -c $(dir $(1)) -a -o
+  endef
+else
+  define make_omex_files
+    @echo "Creating COMBINE Archive for $(dir $(1))"
+    env LD_LIBRARY_PATH="$(abspath src/utilities/sedml):$(DYLD_LIBRARY_PATH)" \
+    mono ./src/utilities/sedml/GenerateSedML.exe -c $(dir $(1)) -a -o
+  endef
+endif
+
+all-omex-files := $(patsubst %-results.csv,%.omex,$(cases-csv-files))
+
+cases/semantic/%.omex: cases/semantic/%-results.csv src/utilities/sedml/GenerateSedML.exe
+	$(call make_omex_files,$@)
+
+omex: html plots $(all-omex-files)
+
+# Note: a simple rm -f $(all-omex-files) doesn't work -- arg list is too long.
+clean-omex:
+	$(foreach f,$(wildcard cases/semantic/*/*.omex),$(shell rm -f $f))
 
 
 # -----------------------------------------------------------------------------
@@ -163,7 +194,7 @@ contents	= cases/semantic \
            NEWS.txt       \
            LICENSE.txt
 
-cases-dist: html plots sedml tags-map
+cases-dist: html plots sedml omex tags-map
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/semantic/$(ts-file)
 	@echo $(today) > cases/syntactic/$(ts-file)
@@ -248,6 +279,7 @@ svn-ignores: $(cases-html-plot-files) $(cases-jpg-plot-files)
 	  echo $$name-model.html > $(tmpfile); \
 	  echo $$name-plot'.*' >> $(tmpfile); \
 	  echo '*-sedml.xml' >> $(tmpfile); \
+    echo '*.omex' >> $(tmpfile); \
 	  svn propset -F $(tmpfile) svn:ignore $$dir; \
 	done
 	@rm -f $(tmpfile)
