@@ -304,7 +304,8 @@ clean-readme:
 # Cleaning.
 # -----------------------------------------------------------------------------
 
-clean: clean-readme clean-dist clean-cases-dist clean-html clean-plots clean-sedml
+clean: clean-readme clean-dist clean-cases-dist clean-html clean-plots \
+	clean-sedml clean-omex
 
 
 # -----------------------------------------------------------------------------
