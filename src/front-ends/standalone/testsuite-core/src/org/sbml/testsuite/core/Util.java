@@ -34,6 +34,7 @@ import java.awt.Desktop;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -44,10 +45,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.HttpURLConnection;
-import java.net.UnknownHostException;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -61,12 +62,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.NamedNodeMap;
-import java.io.ByteArrayOutputStream;
 import org.xml.sax.SAXParseException;
-import java.net.SocketTimeoutException;
 
 /**
  * Util, a collection of static functions used all over the place.
@@ -77,29 +76,25 @@ public class Util
      * SourceForge URL for the last 100 file releases in the SBML Test Suite
      * branch.
      */
-    private final static String RSS_QUERY
-    = "http://sourceforge.net/api/file/index/project-id/71971/mtime/desc/limit/100/path/test-suite/rss";
-
+    private final static String RSS_QUERY              = "http://sourceforge.net/projects/sbml/rss?path=/test-suite&limit=100";
 
     /**
      * Timeout duration for how long we're willing to wait on establishing
-     * the connection to SourceForge.  Time is in milliseconds;
+     * the connection to SourceForge. Time is in milliseconds;
      */
-    private final static int NET_CONNECTION_TIMEOUT = 5000;
-
+    private final static int    NET_CONNECTION_TIMEOUT = 5000;
 
     /**
      * Timeout duration for how long we're willing to wait on reading from
-     * the connection to SourceForge.  Time is in milliseconds;
+     * the connection to SourceForge. Time is in milliseconds;
      */
-    private final static int NET_READ_TIMEOUT = 10000;
-
+    private final static int    NET_READ_TIMEOUT       = 10000;
 
     /**
      * Size of the buffer used for reading from streams and network
      * connections.
      */
-    private final static int BUFFER_SIZE = 1024;
+    private final static int    BUFFER_SIZE            = 1024;
 
 
     /**
@@ -114,7 +109,7 @@ public class Util
 
     /**
      * Returns a network connection for our RSS query.
-     *
+     * 
      * Callers can use this to test the ability to connect to sf.net
      * before invoking getRSSFeedConnection(...).
      */
@@ -131,8 +126,7 @@ public class Util
             // read from the connection. Let's get the exception now if we can.
 
             int code = connection.getResponseCode();
-            if (code < 200 || code > 400)
-                return null;
+            if (code < 200 || code > 400) return null;
 
             // Set timeout parameters.
             connection.setConnectTimeout(NET_CONNECTION_TIMEOUT);
@@ -164,67 +158,125 @@ public class Util
 
     /**
      * Returns a NodeList of the contents at our RSS URL.
-     *
+     * 
      * Callers can cache this value and use it in subsequent calls to other
      * methods like getCaseArchiveURLs(...), to reduce network accesses.
      * (Users on slow network links may appreciate that.)
-     *
+     * 
      * For programming reference purposes, here is a sample of the RSS feed
      * contents returned by sf.net (in Nov. 2013):
      * 
      * <?xml version="1.0" encoding="utf-8"?>
-     * <rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:files="http://sourceforge.net/api/files.rdf#" xmlns:media="http://video.search.yahoo.com/mrss/" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:sf="http://sourceforge.net/api/sfelements.rdf#" version="2.0">
-     *   <channel xmlns:files="http://sourceforge.net/api/files.rdf#" xmlns:media="http://video.search.yahoo.com/mrss/" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:sf="http://sourceforge.net/api/sfelements.rdf#">
-     *     <title><![CDATA[Systems Biology Markup Language (SBML) downloads]]></title>
-     *     <link>http://sourceforge.net/api/file/index/project-id/71971/mtime/desc/limit/100/path/test-suite/rss</link>
-     *     <description><![CDATA[Files from Systems Biology Markup Language (SBML). The Systems Biology Markup Language (SBML) is an XML-based description language for representing computational models in systems biology. Visit the project web site to learn more.]]></description>
-     *     <pubDate>Sat, 23 Nov 2013 22:06:35 +0000</pubDate>
-     *     <managingEditor>noreply@sourceforge.net (SourceForge.net)</managingEditor>
-     *     <generator>Zend_Feed</generator>
-     *     <docs>http://blogs.law.harvard.edu/tech/rss</docs>
-     *     <item>
-     *       <title><![CDATA[/test-suite/3.0.0/cases-archive]]></title>
-     *       <link>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/</link>
-     *       <guid>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/</guid>
-     *       <description><![CDATA[/test-suite/3.0.0/cases-archive]]></description>
-     *       <pubDate>Fri, 17 May 2013 19:38:31 +0000</pubDate>
-     *       <files:sf-file-id xmlns:files="http://sourceforge.net/api/files.rdf#">8337375</files:sf-file-id>
-     *       <media:content xmlns:media="http://video.search.yahoo.com/mrss/" type="" url="http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/download" filesize=""><media:title>test-suite</media:title><media:hash algo="md5"></media:hash></media:content>
-     *     </item>
-     *     <item>
-     *       <title><![CDATA[/test-suite/3.0.0/cases-archive/sbml-test-cases-2013-06-06.zip]]></title>
-     *       <link>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/sbml-test-cases-2013-06-06.zip/download</link>
-     *       <guid>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/sbml-test-cases-2013-06-06.zip/download</guid>
-     *       <description><![CDATA[/test-suite/3.0.0/cases-archive/sbml-test-cases-2013-06-06.zip]]></description>
-     *       <pubDate>Thu, 06 Jun 2013 19:45:48 +0000</pubDate>
-     *       <files:sf-file-id xmlns:files="http://sourceforge.net/api/files.rdf#">8485257</files:sf-file-id>
-     *       <files:extra-info xmlns:files="http://sourceforge.net/api/files.rdf#">empty (Zip archive data)</files:extra-info>
-     *       <media:content xmlns:media="http://video.search.yahoo.com/mrss/" type="application/zip; charset=binary" url="http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/sbml-test-cases-2013-06-06.zip/download" filesize="42819933"><media:title>test-suite</media:title><media:hash algo="md5">93d19b51b33a6f0578db789fd25a146c</media:hash></media:content>
-     *     </item>
-     *     <item>
-     *       <title><![CDATA[/test-suite/3.0.0/test-runner/linux]]></title>
-     *       <link>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-runner/linux/</link>
-     *       <guid>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-runner/linux/</guid>
-     *       <description><![CDATA[/test-suite/3.0.0/test-runner/linux]]></description>
-     *       <pubDate>Fri, 17 May 2013 19:38:49 +0000</pubDate>
-     *       <files:sf-file-id xmlns:files="http://sourceforge.net/api/files.rdf#">8337381</files:sf-file-id>
-     *       <media:content xmlns:media="http://video.search.yahoo.com/mrss/" type="" url="http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-runner/linux/download" filesize=""><media:title>test-suite</media:title><media:hash algo="md5"></media:hash></media:content>
-     *     </item>
-     *     <item>
-     *       <title><![CDATA[/test-suite/3.0.0/test-runner/linux/SBMLTestRunner-3.0.0-linux-x64-installer.run]]></title>
-     *       <link>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-runner/linux/SBMLTestRunner-3.0.0-linux-x64-installer.run/download</link>
-     *       <guid>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-runner/linux/SBMLTestRunner-3.0.0-linux-x64-installer.run/download</guid>
-     *       <description><![CDATA[/test-suite/3.0.0/test-runner/linux/SBMLTestRunner-3.0.0-linux-x64-installer.run]]></description>
-     *       <pubDate>Thu, 06 Jun 2013 19:42:57 +0000</pubDate>
-     *       <files:sf-file-id xmlns:files="http://sourceforge.net/api/files.rdf#">8485251</files:sf-file-id>
-     *       <files:extra-info xmlns:files="http://sourceforge.net/api/files.rdf#">ELF 64-bit LSB executable, x86-64 (GNU/Linux)</files:extra-info>
-     *       <media:content xmlns:media="http://video.search.yahoo.com/mrss/" type="application/x-executable; charset=binary" url="http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-runner/linux/SBMLTestRunner-3.0.0-linux-x64-installer.run/download" filesize="49740935"><media:title>test-suite</media:title><media:hash algo="md5">095f40dcd18829d01326f0bceadd4e1a</media:hash></media:content>
-     *     </item>
-     *    ...
-     *     <doap:Project xmlns:doap="http://usefulinc.com/ns/doap#" name="Systems Biology Markup Language (SBML)" description="The Systems Biology Markup Language (SBML) is an XML-based description language for representing computational models in systems biology. Visit the project web site to learn more."><sf:id xmlns:sf="http://sourceforge.net/api/sfelements.rdf#">71971</sf:id></doap:Project>
-     *   </channel>
+     * <rss xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     * xmlns:files="http://sourceforge.net/api/files.rdf#"
+     * xmlns:media="http://video.search.yahoo.com/mrss/"
+     * xmlns:doap="http://usefulinc.com/ns/doap#"
+     * xmlns:sf="http://sourceforge.net/api/sfelements.rdf#" version="2.0">
+     * <channel xmlns:files="http://sourceforge.net/api/files.rdf#"
+     * xmlns:media="http://video.search.yahoo.com/mrss/"
+     * xmlns:doap="http://usefulinc.com/ns/doap#"
+     * xmlns:sf="http://sourceforge.net/api/sfelements.rdf#">
+     * <title><![CDATA[Systems Biology Markup Language (SBML)
+     * downloads]]></title>
+     * <link>http://sourceforge.net/api/file/index/project-id/71971/mtime/desc/
+     * limit/100/path/test-suite/rss</link>
+     * <description><![CDATA[Files from Systems Biology Markup Language (SBML).
+     * The Systems Biology Markup Language (SBML) is an XML-based description
+     * language for representing computational models in systems biology. Visit
+     * the project web site to learn more.]]></description>
+     * <pubDate>Sat, 23 Nov 2013 22:06:35 +0000</pubDate>
+     * <managingEditor>noreply@sourceforge.net
+     * (SourceForge.net)</managingEditor>
+     * <generator>Zend_Feed</generator>
+     * <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+     * <item>
+     * <title><![CDATA[/test-suite/3.0.0/cases-archive]]></title>
+     * <link>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-
+     * archive/</link>
+     * <guid>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-
+     * archive/</guid>
+     * <description><![CDATA[/test-suite/3.0.0/cases-archive]]></description>
+     * <pubDate>Fri, 17 May 2013 19:38:31 +0000</pubDate>
+     * <files:sf-file-id
+     * xmlns:files="http://sourceforge.net/api/files.rdf#">8337375
+     * </files:sf-file-id>
+     * <media:content xmlns:media="http://video.search.yahoo.com/mrss/" type=""
+     * url=
+     * "http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/download"
+     * filesize=""><media:title>test-suite</media:title><media:hash
+     * algo="md5"></media:hash></media:content>
+     * </item>
+     * <item>
+     * <title><![CDATA[/test-suite/3.0.0/cases-archive/sbml-test-cases-2013-06-
+     * 06.zip]]></title>
+     * <link>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-
+     * archive/sbml-test-cases-2013-06-06.zip/download</link>
+     * <guid>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-
+     * archive/sbml-test-cases-2013-06-06.zip/download</guid>
+     * <description><![CDATA[/test-suite/3.0.0/cases-archive/sbml-test-cases-
+     * 2013-06-06.zip]]></description>
+     * <pubDate>Thu, 06 Jun 2013 19:45:48 +0000</pubDate>
+     * <files:sf-file-id
+     * xmlns:files="http://sourceforge.net/api/files.rdf#">8485257
+     * </files:sf-file-id>
+     * <files:extra-info
+     * xmlns:files="http://sourceforge.net/api/files.rdf#">empty (Zip archive
+     * data)</files:extra-info>
+     * <media:content xmlns:media="http://video.search.yahoo.com/mrss/"
+     * type="application/zip; charset=binary" url=
+     * "http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/cases-archive/sbml-test-cases-2013-06-06.zip/download"
+     * filesize="42819933"><media:title>test-suite</media:title><media:hash
+     * algo="md5">93d19b51b33a6f0578db789fd25a146c</media:hash></media:content>
+     * </item>
+     * <item>
+     * <title><![CDATA[/test-suite/3.0.0/test-runner/linux]]></title>
+     * <link>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-
+     * runner/linux/</link>
+     * <guid>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-
+     * runner/linux/</guid>
+     * <description><![CDATA[/test-suite/3.0.0/test-runner/linux]]></description
+     * >
+     * <pubDate>Fri, 17 May 2013 19:38:49 +0000</pubDate>
+     * <files:sf-file-id
+     * xmlns:files="http://sourceforge.net/api/files.rdf#">8337381
+     * </files:sf-file-id>
+     * <media:content xmlns:media="http://video.search.yahoo.com/mrss/" type=""
+     * url=
+     * "http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-runner/linux/download"
+     * filesize=""><media:title>test-suite</media:title><media:hash
+     * algo="md5"></media:hash></media:content>
+     * </item>
+     * <item>
+     * <title><![CDATA[/test-suite/3.0.0/test-runner/linux/SBMLTestRunner-3.0.0-
+     * linux-x64-installer.run]]></title>
+     * <link>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-
+     * runner/linux/SBMLTestRunner-3.0.0-linux-x64-installer.run/download</link>
+     * <guid>http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-
+     * runner/linux/SBMLTestRunner-3.0.0-linux-x64-installer.run/download</guid>
+     * <description><![CDATA[/test-suite/3.0.0/test-runner/linux/SBMLTestRunner-
+     * 3.0.0-linux-x64-installer.run]]></description>
+     * <pubDate>Thu, 06 Jun 2013 19:42:57 +0000</pubDate>
+     * <files:sf-file-id
+     * xmlns:files="http://sourceforge.net/api/files.rdf#">8485251
+     * </files:sf-file-id>
+     * <files:extra-info xmlns:files="http://sourceforge.net/api/files.rdf#">ELF
+     * 64-bit LSB executable, x86-64 (GNU/Linux)</files:extra-info>
+     * <media:content xmlns:media="http://video.search.yahoo.com/mrss/"
+     * type="application/x-executable; charset=binary" url=
+     * "http://sourceforge.net/projects/sbml/files/test-suite/3.0.0/test-runner/linux/SBMLTestRunner-3.0.0-linux-x64-installer.run/download"
+     * filesize="49740935"><media:title>test-suite</media:title><media:hash
+     * algo="md5">095f40dcd18829d01326f0bceadd4e1a</media:hash></media:content>
+     * </item>
+     * ...
+     * <doap:Project xmlns:doap="http://usefulinc.com/ns/doap#"
+     * name="Systems Biology Markup Language (SBML)" description=
+     * "The Systems Biology Markup Language (SBML) is an XML-based description language for representing computational models in systems biology. Visit the project web site to learn more."
+     * ><sf:id
+     * xmlns:sf="http://sourceforge.net/api/sfelements.rdf#">71971</sf:id
+     * ></doap:Project>
+     * </channel>
      * </rss>
-     *
+     * 
      */
     public static NodeList getRSSFeedContents(HttpURLConnection connection)
     {
@@ -254,8 +306,8 @@ public class Util
 
     /**
      * Returns test case archives that can be found among the last 100
-     * releases of the Test Suite. 
-     *
+     * releases of the Test Suite.
+     * 
      * @return list of archive urls
      */
 
@@ -268,7 +320,7 @@ public class Util
     /**
      * Returns test case archives that can be found among the last 100
      * releases of the Test Suite.
-     *
+     * 
      * @return list of archive urls
      */
 
@@ -285,17 +337,19 @@ public class Util
      * @param date
      *            the cutoff day, only archives newer than this date will be
      *            included
-     *
+     * 
      * @return a vector of URLs, or null if an error occurred while trying
-     * to contact the sf.net servers.
+     *         to contact the sf.net servers.
      */
-    public static Vector<String> getCaseArchiveURLs(NodeList contents, Date date)
+    public static Vector<String>
+            getCaseArchiveURLs(NodeList contents, Date date)
     {
-        if (contents == null ) return null;
+        if (contents == null) return null;
         Vector<String> result = new Vector<String>();
         try
         {
-            DateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy kk:mm:ss zzz");
+            DateFormat df = new SimpleDateFormat(
+                                                 "EEE, dd MMM yyyy kk:mm:ss zzz");
             for (int i = 0; i < contents.getLength(); ++i)
             {
                 Element current = (Element) contents.item(i);
@@ -305,6 +359,9 @@ public class Util
                 if (date != null)
                 {
                     String pubDateString = getTextFromTag(current, "pubDate");
+                    // deal with a bug at SF, that contains an invalid UTC date
+                    if (pubDateString.endsWith("UT"))
+                        pubDateString = pubDateString + "C";
                     Date published = df.parse(pubDateString);
                     // skip all releases before the date
                     if (published.compareTo(date) <= 0) continue;
@@ -324,7 +381,7 @@ public class Util
     /**
      * Given a particular link URL, returns the size (if any) reported in the
      * RSS item from sf.net.
-     *
+     * 
      * @return the size if found, or null if no size found.
      */
     public static int getCasesArchiveSize(String linkURL)
@@ -336,13 +393,12 @@ public class Util
     /**
      * Given a particular link URL, returns the size (if any) reported in the
      * RSS item from sf.net.
-     *
+     * 
      * @return the size if found, or null if no size found.
      */
     public static int getCasesArchiveSize(NodeList contents, String linkURL)
     {
-        if (linkURL == null || contents == null)
-            return -1;
+        if (linkURL == null || contents == null) return -1;
         try
         {
             for (int i = 0; i < contents.getLength(); ++i)
@@ -374,7 +430,7 @@ public class Util
 
     /**
      * Return the inner text from the given tag
-     *
+     * 
      * @param current
      *            the current element
      * @param tag
@@ -495,9 +551,9 @@ public class Util
      *            a callback object to test for cancelling the download
      * @param updateCallback
      *            a callback object to invoke each time a multiple of the
-     *            buffer size is read.  Callers can use getStreamReadBufferSize()
+     *            buffer size is read. Callers can use getStreamReadBufferSize()
      *            to find out the buffer size.
-     *
+     * 
      * @return true if operation succeeded, false if it failed or was cancelled
      */
     public static boolean downloadUrlToStream(URL url, OutputStream out,
@@ -527,12 +583,11 @@ public class Util
                 // We may not get the number of bytes we ask for in a read.
                 // Thus, we need to track when we reach BUFFER_SIZE amounts.
 
-                long current = bytesWritten/BUFFER_SIZE;
+                long current = bytesWritten / BUFFER_SIZE;
                 if (current > multiples)
                 {
                     multiples = current;
-                    if (updateCallback != null)
-                        updateCallback.update();
+                    if (updateCallback != null) updateCallback.update();
                     if (cancelCallback != null && multiples % 8 == 0
                         && cancelCallback.cancellationRequested())
                     {
@@ -1104,7 +1159,7 @@ public class Util
 
             // Problem: we store only a date in the file, without hh:mm:ss,
             // which causes the Date object to be created with 00:00:00.
-            // This throws off date comparisons.  Solution: we manually
+            // This throws off date comparisons. Solution: we manually
             // set the time to 23:59:59.
 
             theDate.setHours(23);
@@ -1121,10 +1176,8 @@ public class Util
 
     public static String archiveDateToString(Date date)
     {
-        return String.format("%4d-%02d-%02d",
-                             date.getYear() + 1900,
-                             date.getMonth() + 1,
-                             date.getDate());
+        return String.format("%4d-%02d-%02d", date.getYear() + 1900,
+                             date.getMonth() + 1, date.getDate());
     }
 
 }
