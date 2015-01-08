@@ -10,7 +10,8 @@
   discrete stochastic models test suite, Bioinformatics, 24:285-286.
 
                 Originally developed circa 2007-2010.
-          Added to the SBML Test Suite distribution in 2014.
+        The SBML 3.1 version of DSMTS (dated October 21, 2010)
+     was added to the SBML Test Suite distribution in late 2014.
 
             The master version of the DSMTS is located at:
                      http://dsmts.googlecode.com/
