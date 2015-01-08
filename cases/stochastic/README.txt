@@ -37,18 +37,28 @@ species quantities, are provided for each test case.  This may be used
 to test the behavior of stochastic simulators.
 
 The directories and files have been renamed according to the
-conventions used elsewhere in the SBML Test Suite, but the name of the
-model files in each subdirectory do still include the base name of the
-original model files so that they can be identified more easily.
+conventions used elsewhere in the SBML Test Suite, but many of the
+files in each subdirectory are still named as they were originally so
+that the correspondences should be easy to identify.
 
 Here are the files in each directory (where "N", "Y" and "Z" are digits):
 
-  NNNNN/NNNNN-dsmts-YYY-ZZ.mod   -- original model definition
-        NNNNN-mean.csv           -- means of the simulation results
-        NNNNN-results.csv        -- combined means & std deviation
-        NNNNN-sd.csv             -- standard deviations of the results
-        NNNNN-settings.txt       -- SBML test suite settings file
-        NNNNN-sbml-l3v1.xml      -- SBML Level 3 Version 1 model file
+  NNNNN/dsmts-YYY-ZZ.mod       -- original model definition
+        dsmts-YYY-ZZ-mean.csv  -- means of the simulation results
+        dsmts-YYY-ZZ-sd.csv    -- standard deviations of the results
+        NNNNN-results.csv      -- SBML Test Suite-style results file
+        NNNNN-settings.txt     -- SBML Test Suite settings file
+        NNNNN-sbml-l3v1.xml    -- SBML Level 3 Version 1 model file
+
+The files "NNNNN-sbml-l3v1.xml" are renamed versions of the original
+model files, which had names of the form "dsmts-YYY-ZZ.xml".
+
+The files "NNNNN-results.csv" and "NNNNN-settings.txt" are new files
+added for the purposes of the SBML Test Suite.  "NNNNN-results.csv" is
+simply a combination of the mean and standard deviation results files
+that are separated in the DSMTS; the other parts of the SBML Test
+Suite use a single results file, so we simply combined the DSMTS
+results into one file.
 
 
 ------------------
