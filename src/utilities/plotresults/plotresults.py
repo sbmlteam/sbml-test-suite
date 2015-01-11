@@ -23,9 +23,10 @@
 # This file is part of the SBML Test Suite.  Please visit http://sbml.org for
 # more information about SBML, and the latest version of the SBML Test Suite.
 #
-# Copyright (C) 2010-2012 jointly by the following organizations: 
+# Copyright (C) 2010-2015 jointly by the following organizations:
 #     1. California Institute of Technology, Pasadena, CA, USA
 #     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK.
+#     3. University of Heidelberg, Heidelberg, Germany
 #
 # Copyright (C) 2008-2009 California Institute of Technology (USA).
 #
@@ -41,6 +42,7 @@
 # http://sbml.org/Software/SBML_Test_Suite/license.html
 # ---------------------------------------------------------------------- -->*/
 
+import pdb
 import argparse
 import csv
 import sys
@@ -54,7 +56,7 @@ from itertools import cycle
 
 __desc = '''Create a plot of the data stored in an SBML Test Suite case results
 CSV file.  The plot is in the form of an HTML file that uses JavaScript to
-draw the curves and provide additional capabilities.  The HTML file produced 
+draw the curves and provide additional capabilities.  The HTML file produced
 has the same name as the given DATA file, but with .html as the suffix.'''
 
 __desc_end = '''This file is part of the SBML Test Suite.  Please visit
@@ -65,29 +67,32 @@ the SBML Test Suite.'''
 def parse_cmdline(direct_args = None):
     parser = argparse.ArgumentParser(description=__desc, epilog=__desc_end)
 
-    parser.add_argument("-q", "--quiet", action="store_const", const=True,
-                        help="be quiet; don't print error or warning messages")
-
-    parser.add_argument("-c", "--complete", action="store_const", const=True,
-                        help="write a complete HTML page, not just a fragment")
-
-    parser.add_argument("-n", "--no-buttons", action="store_const", const=True, 
-                        help="omit interactive buttons and text from the HTML output")
-
     parser.add_argument("-d", "--data", required=True,
-                        help="the CSV file containing the data to plot")
+                        help="CSV file containing the data to plot")
+
+    parser.add_argument("-s", "--second",
+                        help="(optional) second CSV file")
+
+    parser.add_argument("-o", "--output", required=True,
+                        help="HTML file where the output should be written")
 
     parser.add_argument("-t", "--type", default="timeseries",
                         help="(optional) type of data: 'timeseries' (default) or 'steadystate'")
 
-    parser.add_argument("-o", "--output", required=True,
-                        help="the HTML file where the output should be written")
+    parser.add_argument("-2", "--two-axes", action="store_const", const=True,
+                        help="(optional) don't overlay plots; use separate axes")
 
-    parser.add_argument("-r", "--results", 
-                        help="(optional) a second CSV file to overlay over the data")
+    parser.add_argument("-n", "--no-buttons", action="store_const", const=True,
+                        help="(optional) omit interactive buttons and text")
+
+    parser.add_argument("-c", "--complete", action="store_const", const=True,
+                        help="(optional) write a complete HTML page, not a fragment")
 
     parser.add_argument("-l", "--library", default="highcharts",
                         help="(optional) library to use: 'highcharts' (default) or 'flot'")
+
+    parser.add_argument("-q", "--quiet", action="store_const", const=True,
+                        help="(optional) be quiet; don't print error or warning messages")
 
     return parser.parse_args(direct_args)
 
@@ -96,8 +101,12 @@ def get_data_file_name(direct_args = None):
     return expanded_path(direct_args.data)
 
 
-def get_results_file_name(direct_args = None):
-    return expanded_path(direct_args.results)
+def get_second_file_name(direct_args = None):
+    return expanded_path(direct_args.second)
+
+
+def get_2axis_flag(direct_args = None):
+    return direct_args.two_axes
 
 
 def get_output_file_name(direct_args = None):
@@ -132,14 +141,14 @@ def get_quiet_flag(direct_args = None):
 # classes, one for each of the plotting libraries.
 
 class PlotWriter():
-    our_colors = [ '#4572A7' 
-                   , '#AA4643' 
-                   , '#89A54E' 
-                   , '#80699B' 
-                   , '#3D96AE' 
-                   , '#DB843D' 
-                   , '#92A8CD' 
-                   , '#A47D7C' 
+    our_colors = [ '#4572A7'
+                   , '#AA4643'
+                   , '#89A54E'
+                   , '#80699B'
+                   , '#3D96AE'
+                   , '#DB843D'
+                   , '#92A8CD'
+                   , '#A47D7C'
                    , '#B5CA92'
                    , '#F9B7B0'
                    , '#A9BDE6'
@@ -187,8 +196,8 @@ class PlotWriter():
             self.file.write('<html><title>' + title + '</title>\n<body>')
 
 
-    def write_code_start(self, column_labels, buttons, type):
-        self.generator.write_code_start(column_labels, buttons, type)
+    def write_code_start(self, column_labels, buttons, type, second_axis):
+        self.generator.write_code_start(column_labels, buttons, type, second_axis)
         if type == 'steadystate':
             self.file.write('''
             xAxis: {
@@ -213,36 +222,54 @@ class PlotWriter():
 ''')
 
 
-    def write_data(self, column_labels, time, expected_values, other_values, type):
+    def write_data(self, column_labels, time, data_values, second_values, type):
         if type == 'steadystate':
             self.file.write('''
-                { name: "data", color: "rgba(30, 50, 170, .6)", shadow: false, data: 
+                { name: "data", color: "rgba(30, 50, 170, .6)", shadow: false, data:
 [''')
             for col in range(0, len(column_labels)):
                 if col > 0: self.file.write(', ')
                 label = column_labels[col]
-                self.file.write(expected_values[label][0])
+                self.file.write(data_values[label][0])
             self.file.write(']\n}')
         else:
             colors = cycle(self.our_colors)
             for col in range(1, len(column_labels)):
                 if col > 1: self.file.write(',')
-                label = column_labels[col]
-                color = colors.next()
-                self.generator.write_series_start(label, 'Solid', color)
-                for row in range(0, len(expected_values[label])):
-                    if row: self.file.write(',')
-                    self.file.write('\n[' + time[row] + ', '
-                                    + expected_values[label][row] + ']')
-                self.generator.write_series_stop()
-                if any(other_values):
+                col_name = column_labels[col]
+                self.write_one_axis(time, col_name, data_values, colors)
+                if any(second_values):
                     self.file.write(',')
-                    self.generator.write_series_start(label + ' (u)', 'ShortDash', color)
-                    for row in range(0, len(other_values[label])):
-                        if row: self.file.write(',')
-                        self.file.write('\n[' + time[row] + ', '
-                                        + other_values[label][row] + ']')
-                    self.generator.write_series_stop()
+                    self.write_one_axis(time, col_name, second_values,
+                                        colors, dashed=True)
+
+
+    def write_2axis_data(self, time, data_values, second_values=None):
+        colors = cycle(self.our_colors)
+        self.write_one_axis(time, 0, data_values, colors, yAxis=0)
+        self.file.write(',')
+        if second_values:
+            self.write_one_axis(time, 0, second_values, colors, yAxis=1)
+        else:
+            # If not given 2nd value array, plot 2nd column from data_values.
+            self.write_one_axis(time, 1, data_values, colors, yAxis=1)
+
+
+    def write_one_axis(self, time, column, data, colors, dashed=False, yAxis=0):
+        color = colors.next()
+        if isinstance(column, int):
+            label = data.keys()[column]
+        else:
+            label = column
+        if dashed:
+            self.generator.write_series_start(label + ' (u)', 'ShortDash', color, yAxis)
+        else:
+            self.generator.write_series_start(label, 'Solid', color, yAxis)
+        for row in range(0, len(data[label])):
+            if row: self.file.write(',')
+            self.file.write('\n[' + time[row] + ', '
+                            + data[label][row] + ']')
+        self.generator.write_series_stop()
 
 
     def write_code_end(self, column_labels, type):
@@ -298,8 +325,8 @@ class PlotGenerator():
 
 #
 # Generator for Flot (http://flotcharts.org)
-# 
- 
+#
+
 class FlotPlotGenerator(PlotGenerator):
 
     # Most, but not everything in Flot, is easily styled using CSS.  For some
@@ -313,7 +340,7 @@ class FlotPlotGenerator(PlotGenerator):
 <script language="javascript" src="http://cdnjs.cloudflare.com/ajax/libs/flot/0.7/jquery.flot.min.js"></script>
 <style>
 body {
-   background-color: white;   
+   background-color: white;
 }
 
 #placeholder {
@@ -371,7 +398,7 @@ function doPlot() {
             self.file.write(15*' ' + '{ data: ' + label + ', label: \"'
                             + label + '\", shadowSize: 0 },\n')
         self.file.write('''           ],
-           { 
+           {
                series: { points: { show: false, radius: 2 },
                          lines: { show: true } },
                legend: { container: "#legend", noColumns: 8 },
@@ -397,18 +424,18 @@ function doPlot() {
         if (item) {
             if (previousPoint != item.dataIndex) {
                 previousPoint = item.dataIndex;
-                
+
                 $("#tooltip").remove();
                 var x = item.datapoint[0].toFixed(2),
                     y = item.datapoint[1].toFixed(2);
-                
+
                 showTooltip(item.pageX, item.pageY,
                             item.series.label + " at time " + x + " = " + y);
             }
         }
         else {
             $("#tooltip").remove();
-            previousPoint = null;            
+            previousPoint = null;
         }
     });
 
@@ -425,14 +452,14 @@ function doPlot() {
 
 class HighchartsPlotGenerator(PlotGenerator):
 
-    def write_code_start(self, column_labels, buttons, type):
+    def write_code_start(self, column_labels, buttons, type, two_axis):
         self.file.write('''
 <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 <style>
 body {
-   background-color: white;   
+   background-color: white;
    font-family: Helvetica, Verdana, sans-serif;
    font-size: 10pt;
 }
@@ -517,14 +544,36 @@ $(function () {
                 maxPadding: 0,
                 lineWidth: 0
             },
-            yAxis: {
+            yAxis: [{
                 gridLineWidth: 1,
                 gridLineDashStyle: 'ShortDot',
                 tickPosition: 'inside',
                 title: {
                     text: null
                 }
-            },
+            }''')
+        if two_axis:
+            # FIXME: the color hard-coding for the 2nd axis is a hack.  It's
+            # needed because this function is separate from the one that
+            # writes out the data, so they can't directly synchronize color
+            # choices.  This hack depends on the fact that when using -2,
+            # there are always only 2 lines to draw, so we always know what
+            # the 2nd color will be.
+            self.file.write(''', {
+                opposite: true,
+                gridLineWidth: 1,
+                gridLineDashStyle: 'ShortDot',
+                tickPosition: 'inside',
+                title: {
+                    text: null
+                },
+                labels: {
+                    style: {
+                        color: "#AA4643"
+                    }
+                }
+            }''')
+        self.file.write('''],
             tooltip: {
                 borderWidth: 1,''')
         if type == 'steadystate':
@@ -571,9 +620,10 @@ $(function () {
             },''')
 
 
-    def write_series_start(self, label, style, color):
-        self.file.write('\n{ name: "' + label + '"' 
-                        + ', color: "' + color + '"'                        
+    def write_series_start(self, label, style, color, yAxis=0):
+        self.file.write('\n{ name: "' + label + '"'
+                        + ', yAxis: ' + str(yAxis)
+                        + ', color: "' + color + '"'
                         + ', dashStyle: "' + style + '"'
                         + ('' if style == 'Solid' else ', lineWidth: 4')
                         + ', shadow: false, data: [')
@@ -588,7 +638,7 @@ $(function () {
 ]
         });
     });
-    
+
 });
 </script>
 ''')
@@ -624,7 +674,7 @@ def parse_data_file(csv_file, type):
     #       will (or should be) 'time' if the type is not 'steadystate'
     #
     #   time: a vector of the time points.
-    # 
+    #
     #   values: a dictionary of data values keyed by the column labels.
     #       We skip the first column because we keep it in the separate
     #       'time' vector, so this dictionary stores just columns 2-n,
@@ -690,13 +740,14 @@ def main():
 
     args          = parse_cmdline()
     data_fname    = get_data_file_name(args)
-    results_fname = get_results_file_name(args)
+    second_fname  = get_second_file_name(args)
     plot_fname    = get_output_file_name(args)
     library_name  = get_library_flag(args)
     quietly       = get_quiet_flag(args)
     complete      = get_complete_flag(args)
     show_buttons  = not get_no_buttons_flag(args)
     type          = get_type_flag(args)
+    twoaxes       = get_2axis_flag(args)
 
     # Sanity-check the arguments.
 
@@ -707,30 +758,38 @@ def main():
     elif re.search('.html$', plot_fname) == None:
         stop("'" + plot_fname + "' is not a .html file", quietly)
 
-    if results_fname != None:
-        if not valid_file(results_fname):
-            stop("cannot read file '" + results_fname + "'", quietly)
-        elif re.search('.csv$', results_fname) == None:
-            stop("'" + results_fname + "' is not a .csv file", quietly)
+    if second_fname != None:
+        if not valid_file(second_fname):
+            stop("cannot read file '" + second_fname + "'", quietly)
+        elif re.search('.csv$', second_fname) == None:
+            stop("'" + second_fname + "' is not a .csv file", quietly)
 
     if type != 'steadystate' and type != 'timeseries':
         stop("Only 'timeseries' and 'steadystate' are permitted --type values",
              quietly)
 
-    # Parse the CSV data files and do some simple error checking to
-    # make sure the results look like they belong together.
+    # Parse the CSV data files, and along the way, do simple error checking
+    # to make sure the two data files look like they belong together.
 
     column_labels, time, data_values = parse_data_file(data_fname, type)
 
-    # Only read the 2nd data file if we read some data:
-    r_column_labels = []
-    r_time          = []
-    r_values        = []
-    if results_fname != None and any(data_values):
-        r_column_labels, r_time, r_values = parse_data_file(results_fname, type)
+    if twoaxes and second_fname:
+        if len(column_labels) > 2:
+            stop("When using -2, data files can only contain one column", quietly)
+    elif twoaxes:
+        if len(column_labels) != 3:
+            stop("When using -2, data file must contain two columns", quietly)
 
-        if set(r_column_labels).symmetric_difference(column_labels) != set():
-            stop("'" + data_fname + "' and '" + results_fname \
+    # Only read the results data file if we read some data in the main one:
+    s_column_labels = []
+    s_time          = []
+    s_values        = []
+    if second_fname != None and any(data_values):
+        s_column_labels, s_time, s_values = parse_data_file(second_fname, type)
+
+        if set(s_column_labels).symmetric_difference(column_labels) != set() \
+           and not twoaxes:
+            stop("'" + data_fname + "' and '" + second_fname \
                  + " do not have the same column labels.", quietly)
 
         # Time steps are trickier to compare because they're floating point
@@ -739,16 +798,11 @@ def main():
         # values and therefore can't apply the same algorithm.  So all we can
         # do is compare the number of time steps and hope for the best.
 
-        if len(time) != len(r_time):
-            stop("'" + data_fname + "' and '" + results_fname \
+        if len(time) != len(s_time):
+            stop("'" + data_fname + "' and '" + second_fname \
                  + " do not have the same number of time steps/rows.", quietly)
 
     if not quietly:
-        if results_fname != None:
-            print "Plotting '" + data_fname + "' and '" + results_fname + "':"
-        else:
-            print "Plotting '" + data_fname + "':"
-
         if not any(data_values):
             print "   Data contains unplottable values (e.g., INF)."
         else:
@@ -766,8 +820,14 @@ def main():
     writer.open(plot_fname)
     writer.write_html_start(data_fname)
     if data_values:
-        writer.write_code_start(column_labels, show_buttons, type)
-        writer.write_data(column_labels, time, data_values, r_values, type)
+        writer.write_code_start(column_labels, show_buttons, type, twoaxes)
+        if twoaxes:
+            if second_fname:
+                writer.write_2axis_data(time, data_values, s_values)
+            else:
+                writer.write_2axis_data(time, data_values)
+        else:
+            writer.write_data(column_labels, time, data_values, s_values, type)
         writer.write_code_end(column_labels, type)
         writer.write_html_body()
     else:
