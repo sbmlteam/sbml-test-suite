@@ -483,8 +483,12 @@ $(function () {
             self.file.write('''
             exporting: {
                 buttons: {
-                    exportButton: { y: 5 },
-                    printButton: { y: 5 }
+                    contextButton: {
+                        align: "left",
+                        symbol: "export",
+                        y: -35,
+                        x: 40
+                    }
                 }
             },''')
         else:
@@ -516,6 +520,9 @@ $(function () {
         });
     });
 
+});
+$.extend(Highcharts.Renderer.prototype.symbols, {
+  export: function (a,b,c,d) {return ["M",a,b+c,"L",a+c,b+d,a+c,b+d*0.8,a,b+d*0.8,"Z","M",a+c*0.5,b+d*0.8,"L",a+c*0.8,b+d*0.4,a+c*0.4,b+d*0.4,a+c*0.4,b,a+c*0.6,b,a+c*0.6,b+d*0.4,a+c*0.2,b+d*0.4,"Z"]}
 });
 </script>
 ''')  # '''
