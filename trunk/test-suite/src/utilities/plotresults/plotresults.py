@@ -326,6 +326,13 @@ class PlotGenerator():
 #
 # Generator for Flot (http://flotcharts.org)
 #
+# Note 2015-01-10: This is far out of date with the rest of the code.
+# Although it worked at one time, after the switch to Highcharts, we
+# no longer kept this updated with the changes in features, and now
+# this version doesn't interact with the rest of the code.  I'm leaving
+# it here instead of deleting in case someone has a use for a Flot-based
+# plotter in some distant, hazy future.
+#
 
 class FlotPlotGenerator(PlotGenerator):
 
@@ -663,7 +670,7 @@ def expanded_path(path):
 
 def stop(message, be_quiet):
     if not be_quiet:
-        print("Error: " + message)
+        print("Error: " + message + ".")
         print("Quitting.")
     sys.exit(1)
 
@@ -750,6 +757,9 @@ def main():
     twoaxes       = get_2axis_flag(args)
 
     # Sanity-check the arguments.
+
+    if 'flot' in library_name:
+        stop("so sorry, but Flot support is currently broken", quietly)
 
     if not valid_file(data_fname):
         stop("cannot read file '" + data_fname + "'", quietly)
