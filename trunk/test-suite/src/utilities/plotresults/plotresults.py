@@ -324,136 +324,6 @@ class PlotGenerator():
 
 
 #
-# Generator for Flot (http://flotcharts.org)
-#
-# Note 2015-01-10: This is far out of date with the rest of the code.
-# Although it worked at one time, after the switch to Highcharts, we
-# no longer kept this updated with the changes in features, and now
-# this version doesn't interact with the rest of the code.  I'm leaving
-# it here instead of deleting in case someone has a use for a Flot-based
-# plotter in some distant, hazy future.
-#
-
-class FlotPlotGenerator(PlotGenerator):
-
-    # Most, but not everything in Flot, is easily styled using CSS.  For some
-    # other things, Flot takes arguments to FLot function calls and outputs
-    # style="..."  attributes on the HTML elements.  Thus, there are two
-    # places where styling is controlled.
-
-    def write_code_start(self, column_labels, buttons, type):
-        self.file.write('''
-<script language="javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-<script language="javascript" src="http://cdnjs.cloudflare.com/ajax/libs/flot/0.7/jquery.flot.min.js"></script>
-<style>
-body {
-   background-color: white;
-}
-
-#placeholder {
-   height: 400px;
-   width: 600px;
-   background-color: white;
-}
-
-.tickLabels, #legend {
-    font-family: Helvetica, Verdana, sans-serif;
-}
-
-.xAxis, .yAxis {
-    color: #545454 !important;
-}
-
-#legend {
-    margin: 10 10 10 0;
-}
-
-.legendLabel {
-    color: #666 !important;
-    padding-right: 10px;
-}
-
-#tooltip {
-    position: absolute;
-    display: none;
-    border: 1px solid #fdd;
-    padding: 2px;
-    background-color: #fee;
-    opacity: 0.80;
-    font-family: Helvetica, Verdana, sans-serif;
-}
-</style>
-<script>
-$(function () {
-''')
-
-    def write_series_start(self, label):
-        self.file.write('var ' + label + ' = [')
-
-
-    def write_series_stop(self):
-        self.file.write('];\n')
-
-
-    def write_code_end(self, column_labels, type):
-        self.file.write('''
-function doPlot() {
-    $.plot($("#placeholder"),
-           [
-''')
-        for label in column_labels[1:]:
-            self.file.write(15*' ' + '{ data: ' + label + ', label: \"'
-                            + label + '\", shadowSize: 0 },\n')
-        self.file.write('''           ],
-           {
-               series: { points: { show: false, radius: 2 },
-                         lines: { show: true } },
-               legend: { container: "#legend", noColumns: 8 },
-               crosshair: { mode: "x" },
-               grid: { backgroundColor: "#fff", color: "#999",
-                       borderColor: "#ccc", borderWidth: 1,
-                       hoverable: true, clickable: true}
-           });
-    }
-
-    function showTooltip(x, y, contents) {
-        $('<div id="tooltip">' + contents + '</div>').css( {
-            top: y + 5,
-            left: x + 5
-        }).appendTo("body").fadeIn(200);
-    }
-
-    var previousPoint = null;
-    $("#placeholder").bind("plothover", function (event, pos, item) {
-        $("#x").text(pos.x.toFixed(2));
-        $("#y").text(pos.y.toFixed(2));
-
-        if (item) {
-            if (previousPoint != item.dataIndex) {
-                previousPoint = item.dataIndex;
-
-                $("#tooltip").remove();
-                var x = item.datapoint[0].toFixed(2),
-                    y = item.datapoint[1].toFixed(2);
-
-                showTooltip(item.pageX, item.pageY,
-                            item.series.label + " at time " + x + " = " + y);
-            }
-        }
-        else {
-            $("#tooltip").remove();
-            previousPoint = null;
-        }
-    });
-
-    doPlot();
-    $("button").click(function () { doPlot(); });
-
-});
-</script>
-''')
-
-#
 # Generator for Highcharts JS (http://highcharts.com)
 #
 
@@ -648,9 +518,138 @@ $(function () {
 
 });
 </script>
+''')  # '''
+
+
+#
+# Generator for Flot (http://flotcharts.org)
+#
+# Note 2015-01-10: This is far out of date with the rest of the code.
+# Although it worked at one time, after the switch to Highcharts, we
+# no longer kept this updated with the changes in features, and now
+# this version doesn't interact with the rest of the code.  I'm leaving
+# it here instead of deleting in case someone has a use for a Flot-based
+# plotter in some distant, hazy future.
+#
+
+class FlotPlotGenerator(PlotGenerator):
+
+    # Most, but not everything in Flot, is easily styled using CSS.  For some
+    # other things, Flot takes arguments to FLot function calls and outputs
+    # style="..."  attributes on the HTML elements.  Thus, there are two
+    # places where styling is controlled.
+
+    def write_code_start(self, column_labels, buttons, type):
+        self.file.write('''
+<script language="javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script language="javascript" src="http://cdnjs.cloudflare.com/ajax/libs/flot/0.7/jquery.flot.min.js"></script>
+<style>
+body {
+   background-color: white;
+}
+
+#placeholder {
+   height: 400px;
+   width: 600px;
+   background-color: white;
+}
+
+.tickLabels, #legend {
+    font-family: Helvetica, Verdana, sans-serif;
+}
+
+.xAxis, .yAxis {
+    color: #545454 !important;
+}
+
+#legend {
+    margin: 10 10 10 0;
+}
+
+.legendLabel {
+    color: #666 !important;
+    padding-right: 10px;
+}
+
+#tooltip {
+    position: absolute;
+    display: none;
+    border: 1px solid #fdd;
+    padding: 2px;
+    background-color: #fee;
+    opacity: 0.80;
+    font-family: Helvetica, Verdana, sans-serif;
+}
+</style>
+<script>
+$(function () {
 ''')
 
-# '''
+    def write_series_start(self, label):
+        self.file.write('var ' + label + ' = [')
+
+
+    def write_series_stop(self):
+        self.file.write('];\n')
+
+
+    def write_code_end(self, column_labels, type):
+        self.file.write('''
+function doPlot() {
+    $.plot($("#placeholder"),
+           [
+''')
+        for label in column_labels[1:]:
+            self.file.write(15*' ' + '{ data: ' + label + ', label: \"'
+                            + label + '\", shadowSize: 0 },\n')
+        self.file.write('''           ],
+           {
+               series: { points: { show: false, radius: 2 },
+                         lines: { show: true } },
+               legend: { container: "#legend", noColumns: 8 },
+               crosshair: { mode: "x" },
+               grid: { backgroundColor: "#fff", color: "#999",
+                       borderColor: "#ccc", borderWidth: 1,
+                       hoverable: true, clickable: true}
+           });
+    }
+
+    function showTooltip(x, y, contents) {
+        $('<div id="tooltip">' + contents + '</div>').css( {
+            top: y + 5,
+            left: x + 5
+        }).appendTo("body").fadeIn(200);
+    }
+
+    var previousPoint = null;
+    $("#placeholder").bind("plothover", function (event, pos, item) {
+        $("#x").text(pos.x.toFixed(2));
+        $("#y").text(pos.y.toFixed(2));
+
+        if (item) {
+            if (previousPoint != item.dataIndex) {
+                previousPoint = item.dataIndex;
+
+                $("#tooltip").remove();
+                var x = item.datapoint[0].toFixed(2),
+                    y = item.datapoint[1].toFixed(2);
+
+                showTooltip(item.pageX, item.pageY,
+                            item.series.label + " at time " + x + " = " + y);
+            }
+        }
+        else {
+            $("#tooltip").remove();
+            previousPoint = null;
+        }
+    });
+
+    doPlot();
+    $("button").click(function () { doPlot(); });
+
+});
+</script>
+''')
 
 
 # -----------------------------------------------------------------------------
