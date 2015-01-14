@@ -82,6 +82,9 @@ def parse_cmdline(direct_args = None):
     parser.add_argument("-2", "--two-axes", action="store_const", const=True,
                         help="(optional) don't overlay plots; use separate axes")
 
+    parser.add_argument("-g", "--group",
+                        help="(optional) group 2nd axis data by column name substring")
+
     parser.add_argument("-n", "--no-buttons", action="store_const", const=True,
                         help="(optional) omit interactive buttons and text")
 
@@ -107,6 +110,10 @@ def get_second_file_name(direct_args = None):
 
 def get_2axis_flag(direct_args = None):
     return direct_args.two_axes
+
+
+def get_group_text(direct_args = None):
+    return direct_args.group
 
 
 def get_output_file_name(direct_args = None):
@@ -196,8 +203,8 @@ class PlotWriter():
             self.file.write('<html><title>' + title + '</title>\n<body>')
 
 
-    def write_code_start(self, column_labels, buttons, type, second_axis):
-        self.generator.write_code_start(column_labels, buttons, type, second_axis)
+    def write_code_start(self, column_labels, buttons, type, second_axis, axis_title):
+        self.generator.write_code_start(column_labels, buttons, type, second_axis, axis_title)
         if type == 'steadystate':
             self.file.write('''
             xAxis: {
@@ -241,30 +248,42 @@ class PlotWriter():
                 if any(second_values):
                     self.file.write(',')
                     self.write_one_axis(time, col_name, second_values,
-                                        colors, dashed=True)
+                                        colors, style='ShortDash')
 
 
-    def write_2axis_data(self, time, data_values, second_values=None):
+    def write_2axis_data(self, time, data_values, second_values=None, group=None):
         colors = cycle(self.our_colors)
-        self.write_one_axis(time, 0, data_values, colors, yAxis=0)
-        self.file.write(',')
-        if second_values:
-            self.write_one_axis(time, 0, second_values, colors, yAxis=1)
+        if group:
+            # Look for the columns that contain the text "group" in their names
+            for col in [c for c in data_values.keys() if group in c]:
+                data = {col: data_values[col]}
+                self.write_one_axis(time, col, data, colors, yAxis=1, style='ShortDot')
+                self.file.write(',')
+            for col in [c for c in data_values.keys() if group not in c]:
+                data = {col: data_values[col]}
+                self.write_one_axis(time, col, data, colors, yAxis=0)
+                self.file.write(',')
+        elif second_values:
+            for col in range(0, len(second_values.keys())):
+                if col: self.file.write(',')
+                self.write_one_axis(time, col, second_values, colors, style='ShortDot', yAxis=1)
         else:
-            # If not given 2nd value array, plot 2nd column from data_values.
-            self.write_one_axis(time, 1, data_values, colors, yAxis=1)
+            # If not given 2nd value array, plot two columns from data_values.
+            self.write_one_axis(time, 0, data_values, colors, yAxis=0)
+            self.file.write(',')
+            self.write_one_axis(time, 1, data_values, colors, style='ShortDot', yAxis=1)
 
 
-    def write_one_axis(self, time, column, data, colors, dashed=False, yAxis=0):
+    def write_one_axis(self, time, column, data, colors, style="Solid", yAxis=0):
         color = colors.next()
         if isinstance(column, int):
             label = data.keys()[column]
         else:
             label = column
-        if dashed:
-            self.generator.write_series_start(label + ' (u)', 'ShortDash', color, yAxis)
+        if style != 'Solid':
+            self.generator.write_series_start(label + ' (u)', style, color, yAxis)
         else:
-            self.generator.write_series_start(label, 'Solid', color, yAxis)
+            self.generator.write_series_start(label, style, color, yAxis)
         for row in range(0, len(data[label])):
             if row: self.file.write(',')
             self.file.write('\n[' + time[row] + ', '
@@ -327,9 +346,12 @@ class PlotGenerator():
 # Generator for Highcharts JS (http://highcharts.com)
 #
 
+# <script src="jquery-1.7.1.min.js"></script>
+# <script src="highcharts.js"></script>
+
 class HighchartsPlotGenerator(PlotGenerator):
 
-    def write_code_start(self, column_labels, buttons, type, two_axis):
+    def write_code_start(self, column_labels, buttons, type, two_axis, axis_title=None):
         self.file.write('''
 <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
@@ -430,25 +452,22 @@ $(function () {
                 }
             }''')
         if two_axis:
-            # FIXME: the color hard-coding for the 2nd axis is a hack.  It's
-            # needed because this function is separate from the one that
-            # writes out the data, so they can't directly synchronize color
-            # choices.  This hack depends on the fact that when using -2,
-            # there are always only 2 lines to draw, so we always know what
-            # the 2nd color will be.
             self.file.write(''', {
                 opposite: true,
                 gridLineWidth: 1,
                 gridLineDashStyle: 'ShortDot',
                 tickPosition: 'inside',
                 title: {
-                    text: null
-                },
-                labels: {
+                    text: ''')
+            if axis_title:
+                self.file.write("'" + axis_title + "'")
+            else:
+                self.file.write('null')
+            self.file.write(''',
                     style: {
-                        color: "#AA4643"
+                        color: "#000000"
                     }
-                }
+                },
             }''')
         self.file.write('''],
             tooltip: {
@@ -506,7 +525,7 @@ $(function () {
                         + ', yAxis: ' + str(yAxis)
                         + ', color: "' + color + '"'
                         + ', dashStyle: "' + style + '"'
-                        + ('' if style == 'Solid' else ', lineWidth: 4')
+                        + ('' if style == 'Solid' else ', lineWidth: 2')
                         + ', shadow: false, data: [')
 
 
@@ -758,14 +777,15 @@ def main():
     library_name  = get_library_flag(args)
     quietly       = get_quiet_flag(args)
     complete      = get_complete_flag(args)
-    show_buttons  = not get_no_buttons_flag(args)
+    buttons       = not get_no_buttons_flag(args)
     type          = get_type_flag(args)
     twoaxes       = get_2axis_flag(args)
+    group_text    = get_group_text(args)
 
     # Sanity-check the arguments.
 
     if 'flot' in library_name:
-        stop("so sorry, but Flot support is currently broken", quietly)
+        stop("very sorry, but Flot support is currently broken", quietly)
 
     if not valid_file(data_fname):
         stop("cannot read file '" + data_fname + "'", quietly)
@@ -789,12 +809,8 @@ def main():
 
     column_labels, time, data_values = parse_data_file(data_fname, type)
 
-    if twoaxes and second_fname:
-        if len(column_labels) > 2:
-            stop("When using -2, data files can only contain one column", quietly)
-    elif twoaxes:
-        if len(column_labels) != 3:
-            stop("When using -2, data file must contain two columns", quietly)
+    if group_text and not twoaxes:
+        fail("grouping is only available with -2, two-axis plots")
 
     # Only read the results data file if we read some data in the main one:
     s_column_labels = []
@@ -836,10 +852,16 @@ def main():
     writer.open(plot_fname)
     writer.write_html_start(data_fname)
     if data_values:
-        writer.write_code_start(column_labels, show_buttons, type, twoaxes)
+        if twoaxes:
+            axis_title = None
+            if group_text:
+                axis_title = 'Columns with text "' + group_text + '" in their names'
+        writer.write_code_start(column_labels, buttons, type, twoaxes, axis_title)
         if twoaxes:
             if second_fname:
                 writer.write_2axis_data(time, data_values, s_values)
+            elif group_text:
+                writer.write_2axis_data(time, data_values, group=group_text)
             else:
                 writer.write_2axis_data(time, data_values)
         else:
