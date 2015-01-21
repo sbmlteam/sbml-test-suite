@@ -57,7 +57,7 @@ vector<string> createTranslations(SBMLDocument* document, const string oldfilena
     ret.push_back("1.2");
   }
   else {
-    if (translatedDoc->setLevelAndVersion(1, 2) && !hasActualErrors(translatedDoc)) {
+    if (translatedDoc->setLevelAndVersion(1, 2, false)) {// && !hasActualErrors(translatedDoc)) {
       string newfilename = filename.replace(lxvx_place,4,"l1v2");
       if (newfilename == oldfilename) {
         ret.push_back("1.2");
@@ -77,7 +77,7 @@ vector<string> createTranslations(SBMLDocument* document, const string oldfilena
     }
     else {
       translatedDoc = document->clone();
-      if (translatedDoc->setLevelAndVersion(2, v) && !hasActualErrors(translatedDoc)) {
+      if (translatedDoc->setLevelAndVersion(2, v, false) ) {//&& !hasActualErrors(translatedDoc)) {
         string thislv = "l2v" + toString(v);
         string newfilename = filename.replace(lxvx_place,4,thislv);
         if (newfilename == oldfilename) { 
@@ -100,7 +100,7 @@ vector<string> createTranslations(SBMLDocument* document, const string oldfilena
   else {
     translatedDoc = document->clone();
     translatedDoc->setLevelAndVersion(3, 1);
-    if (!hasActualErrors(translatedDoc)) {
+    //if (!hasActualErrors(translatedDoc)) {
       string newfilename = filename.replace(lxvx_place,4,"l3v1");
       if (newfilename == oldfilename) {
         ret.push_back("3.1");
@@ -110,7 +110,7 @@ vector<string> createTranslations(SBMLDocument* document, const string oldfilena
         cout << "Successfully wrote translation of model to level 3 version 1" << endl;
         ret.push_back("3.1");
       }  
-    }
+    //}
     delete translatedDoc;
   }
   return ret;
@@ -278,7 +278,7 @@ string getReactionTable(Model* model,  const map<string, vector<double> >& resul
       else 
 #endif
       if (rxn->isSetKineticLaw()) {
-        ret << "$" << SBML_formulaToString(rxn->getKineticLaw()->getMath()) << "$";
+        ret << "$" << SBML_formulaToL3String(rxn->getKineticLaw()->getMath()) << "$";
       }
       else {
         ret << "$(not set)$";
@@ -372,9 +372,9 @@ string getEventTable(Model* model)
       Event* event = model->getEvent(e);
       if (event->isSetId()) ret << event->getId();
       ret << " | ";
-      ret << "$" << SBML_formulaToString(event->getTrigger()->getMath()) << "$ | ";
+      ret << "$" << SBML_formulaToL3String(event->getTrigger()->getMath()) << "$ | ";
       if (priority) {
-        if (event->isSetPriority()) ret << "$" << SBML_formulaToString(event->getPriority()->getMath()) << "$";
+        if (event->isSetPriority()) ret << "$" << SBML_formulaToL3String(event->getPriority()->getMath()) << "$";
         else ret << "(unset)";
         ret << " | ";
       }
@@ -393,7 +393,7 @@ string getEventTable(Model* model)
         }
       }
       if (delay) {
-        if (event->isSetDelay()) ret << "$" << SBML_formulaToString(event->getDelay()->getMath()) << "$ | ";
+        if (event->isSetDelay()) ret << "$" << SBML_formulaToL3String(event->getDelay()->getMath()) << "$ | ";
         else ret << "$0$ | ";
       }
       if (event->getNumEventAssignments()==0) {
@@ -408,7 +408,7 @@ string getEventTable(Model* model)
             }
           }
           EventAssignment* ea = event->getEventAssignment(e); 
-          ret << "$" << ea->getVariable() << " = " << SBML_formulaToString(ea->getMath()) << "$ |";
+          ret << "$" << ea->getVariable() << " = " << SBML_formulaToL3String(ea->getMath()) << "$ |";
         }
       }
     }
@@ -447,7 +447,7 @@ string getRuleTable(Model* model)
         ret << "Assignment";
         break;
       }
-      ret << " | " << var << " | $" << SBML_formulaToString(rule->getMath()) << "$ |";
+      ret << " | " << var << " | $" << SBML_formulaToL3String(rule->getMath()) << "$ |";
     }
     ret << "]" << endl;
     ret << endl;
@@ -474,10 +474,10 @@ string getInitialSpeciesLevels(Model* model, bool isconst)
       }
       ret << id << " | $"; 
       if (ia != NULL) {
-        ret << SBML_formulaToString(ia->getMath()) << "$ |";
+        ret << SBML_formulaToL3String(ia->getMath()) << "$ |";
       }
       else {
-        ret << SBML_formulaToString(rule->getMath()) << "$ |";
+        ret << SBML_formulaToL3String(rule->getMath()) << "$ |";
       }
     }
     else if (species->isSetInitialAmount()) {
@@ -511,10 +511,10 @@ string getInitialParameterLevels(Model* model, bool isconst)
     InitialAssignment* ia = model->getInitialAssignment(id);
     if ((rule != NULL && rule->getTypeCode() != SBML_RATE_RULE) || ia != NULL) {
       if (ia != NULL) {
-        ret << SBML_formulaToString(ia->getMath()) << "$ |";
+        ret << SBML_formulaToL3String(ia->getMath()) << "$ |";
       }
       else {
-        ret << SBML_formulaToString(rule->getMath()) << "$ |";
+        ret << SBML_formulaToL3String(rule->getMath()) << "$ |";
       }
     }
     else if (param->isSetValue()) {
@@ -545,10 +545,10 @@ string getInitialCompartmentLevels(Model* model, bool isconst)
     InitialAssignment* ia = model->getInitialAssignment(id);
     if ((rule != NULL && rule->getTypeCode() != SBML_RATE_RULE) || ia != NULL) {
       if (ia != NULL) {
-        ret << SBML_formulaToString(ia->getMath()) << "$ |";
+        ret << SBML_formulaToL3String(ia->getMath()) << "$ |";
       }
       else {
-        ret << SBML_formulaToString(rule->getMath()) << "$ |";
+        ret << SBML_formulaToL3String(rule->getMath()) << "$ |";
       }
     }
     else if (compartment->isSetVolume()) {
@@ -627,7 +627,7 @@ string getModelSummary(Model* model,  const map<string, vector<double> >& result
       ret << model->getNumConstraints() << " constraints (";
       for (unsigned int c=0; c<model->getNumConstraints(); c++) {
         if (c>1) ret << ", ";
-        ret << SBML_formulaToString(model->getConstraint(c)->getMath());
+        ret << SBML_formulaToL3String(model->getConstraint(c)->getMath());
       }
       ret << ") ";
       if (model->getNumFunctionDefinitions() > 0) ret << "and ";
@@ -637,7 +637,7 @@ string getModelSummary(Model* model,  const map<string, vector<double> >& result
       for (unsigned int fd=0; fd<model->getNumFunctionDefinitions(); fd++) {
         const FunctionDefinition* func = model->getFunctionDefinition(fd);
         ret << "; " << func->getId() << ": $" 
-            << SBML_formulaToString(func->getMath()->getRightChild()) << "$" << endl;
+            << SBML_formulaToL3String(func->getMath()->getRightChild()) << "$" << endl;
       }
     }
   }
@@ -940,12 +940,14 @@ main (int argc, char* argv[])
     return 1;
   }
 
+  /*
   if (hasActualErrors(document))
   {
     cerr << "Encountered the following SBML errors:" << endl;
     printActualErrors(document);
     return 1;
   }
+  */
 
   //Get the results file, if one exists.
   unsigned int level   = document->getLevel  ();
