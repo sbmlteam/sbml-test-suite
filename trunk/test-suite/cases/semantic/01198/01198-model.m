@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A species and a compartment both under control of a rate rule.
 componentTags:   AssignmentRule, Compartment, Parameter, RateRule, Species
-testTags:        Amount, BoundaryCondition, InitialValueReassigned, NonConstantCompartment, NonConstantParameter, NonUnityCompartment
+testTags:        Amount, BoundaryCondition, InitialValueReassigned, NonConstantCompartment, NonConstantParameter, NonUnityCompartment, VolumeConcentrationRates
 testType:        TimeCourse
 levels:          1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:     Numeric
