@@ -275,7 +275,10 @@ class PlotWriter():
 
 
     def write_one_axis(self, time, column, data, colors, style="Solid", yAxis=0):
-        color = colors.next()
+        if sys.version < '3':
+            color = colors.next()
+        else:
+            color = next(colors)
         if isinstance(column, int):
             label = data.keys()[column]
         else:
@@ -513,10 +516,7 @@ $(function () {
         else:
             self.file.write('''
             exporting: {
-                buttons: {
-                    exportButton: { enabled: false },
-                    printButton: { enabled: false }
-                }
+                enabled: false
             },''')
 
 
@@ -728,7 +728,10 @@ def parse_data_file(csv_file, type):
         seen_labels = []
         unique_column_labels = []
 
-        column_labels = contents.next();
+        if sys.version < '3':
+            column_labels = contents.next();
+        else:
+            column_labels = next(contents);
         # In duplicate_columns, the fake 1st entry is just to make indexing
         # correspond 1-1 with column_labels, whose first column we skip if
         # the plot type is time-series.
@@ -836,15 +839,15 @@ def main():
 
     if not quietly:
         if not any(data_values):
-            print "   Data contains unplottable values (e.g., INF)."
+            print("   Data contains unplottable values (e.g., INF).")
         else:
             if type == 'steadystate':
                 start = 0
             else:
-                print "   " + str(len(time)) + " time points"
+                print("   " + str(len(time)) + " time points")
                 start = 1
-            print "   " + str(len(column_labels) - start) + " variables: " \
-                + ' '.join(column_labels[start:])
+            print("   " + str(len(column_labels) - start) + " variables: " 
+                  + ' '.join(column_labels[start:]))
 
     # Get down to business and write the output.
 
@@ -852,10 +855,9 @@ def main():
     writer.open(plot_fname)
     writer.write_html_start(data_fname)
     if data_values:
-        if twoaxes:
-            axis_title = None
-            if group_text:
-                axis_title = 'Columns with text "' + group_text + '" in their names'
+        axis_title = None
+        if twoaxes and group_text:
+            axis_title = 'Columns with text "' + group_text + '" in their names'
         writer.write_code_start(column_labels, buttons, type, twoaxes, axis_title)
         if twoaxes:
             if second_fname:
@@ -874,7 +876,7 @@ def main():
     writer.close()
 
     if not quietly:
-        print "Wrote '" + plot_fname + "'."
+        print("Wrote '" + plot_fname + "'.")
 
 
 if __name__ == '__main__':
