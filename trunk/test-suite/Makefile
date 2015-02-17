@@ -150,7 +150,6 @@ clean-sedml:
 # 'make omex'
 #
 
-
 ifeq "$(shell uname)" "Darwin"
   define make_omex_files
     @echo "Creating COMBINE Archive for $(dir $(1))"
@@ -196,31 +195,50 @@ clean-omex:
 # new archive is available, because the archive it downloads is for date X
 # but the RSS feed will claim an archive of date X+1 is available.
 
-today		= $(shell date -v +1d +"%F")
-cases-dist-name = sbml-test-cases-$(today).zip
-ts-file		= .cases-archive-date
-map-file	= cases/semantic/.cases-tags-map
-contents	= cases/semantic \
-	   	  cases/stochastic \
-	   	  $(ts-file)     \
-	   	  $(map-file)    \
-	   	  COPYING.html   \
-	   	  COPYING.txt    \
-	   	  NEWS.txt       \
-	   	  LICENSE.txt
+today   = $(shell date -v +1d +"%F")
+ts-file = .cases-archive-date
 
-cases-dist: html plots sedml omex tags-map
+semantic-cases-dist-name   = sbml-test-cases-$(today).zip
+semantic-map-file	   = cases/semantic/.cases-tags-map
+semantic-contents	   = cases/semantic \
+			     $(ts-file)     \
+			     $(semantic-map-file)    \
+			     COPYING.html   \
+			     COPYING.txt    \
+			     NEWS.txt       \
+			     LICENSE.txt
+
+stochastic-cases-dist-name = sbml-stochastic-test-cases-$(today).zip
+stochastic-map-file	   = cases/stochastic/.cases-tags-map
+stochastic-contents	   = cases/stochastic \
+			     $(ts-file)     \
+			     $(stochastic-map-file)    \
+			     COPYING.html   \
+			     COPYING.txt    \
+			     NEWS.txt       \
+			     LICENSE.txt
+
+semantic-cases-dist: html plots sedml omex tags-map
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/semantic/$(ts-file)
-	@echo $(today) > cases/stochastic/$(ts-file)
-	@echo $(today) > cases/syntactic/$(ts-file)
 	make $(map-file)
-	zip -r $(cases-dist-name) $(contents) -x@.zipexcludes
+	zip -r $(semantic-cases-dist-name) $(contents) -x@.zipexcludes
 	@echo "---------------------------------------------------------------"
 	@echo "Next: upload zip file to SourceForge as updated test cases dist."
 	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
 	@echo "---------------------------------------------------------------"
 
+stochastic-cases-dist: html plots sedml omex tags-map
+	@echo $(today) > $(ts-file)
+	@echo $(today) > cases/stochastic/$(ts-file)
+	make $(map-file)
+	zip -r $(stochastic-cases-dist-name) $(contents) -x@.zipexcludes
+	@echo "---------------------------------------------------------------"
+	@echo "Next: upload zip file to SourceForge as updated test cases dist."
+	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
+	@echo "---------------------------------------------------------------"
+
+cases-dist: semantic-cases-dist stochastic-cases-dist
 
 tags-map $(map-file): $(semantic-cases-m-files)
 	@echo "Making tags map file:"
