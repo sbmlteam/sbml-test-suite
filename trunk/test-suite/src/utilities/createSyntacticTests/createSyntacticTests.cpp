@@ -135,7 +135,10 @@ parseDirectories ( const vector<string>& directories, const string& outdir, cons
         const SBMLErrorLog* errlog = document->getErrorLog();
         bool copy = true;
         if (errlog->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) > file->getNumFailures() + (file->getAdditionalFailId() > 0)) {
-          cout << "Not copying document " << file->getFilename() << ", since it has multiple errors." << endl;
+          cout << "Not copying document " << file->getFilename() << ", since it has more errors than the expected " << file->getNumFailures() << "." <<  endl;
+          if (file->getNumFailures() == 0) {
+            file = file;
+          }
           copy = false;
         }
         stringstream sevlv;
@@ -155,14 +158,23 @@ parseDirectories ( const vector<string>& directories, const string& outdir, cons
           cout << "Not copying document " << file->getFilename() << ", since it has no errors at all, but should." << endl;
           copy = false;
         }
+        if (fullname.find("fail") != string::npos && !errlog->contains(file->getConstraintId())) {
+          cout << "Not copying document " << file->getFilename() << ", since the error it is supposed to have did not appear." << endl;
+          copy = false;
+        }
         sevlv << "-l" << document->getLevel() << "v" << document->getVersion();
         outfilename.insert(outfilename.size()-4, sevlv.str());
         if (copy) {
+          report << ",copy";
           mkdir((outdir + "/" + file->getConstraintIdString()).c_str());
           outfilename = outdir + "/" + file->getConstraintIdString() + "/" + outfilename;
           copyFile(fullname, outfilename);
           createConstraintsFile(outfilename, errlog, uniqueErrors, uniqueErrorIDs);
-          report << ",copy";
+          if (file->getConstraintId()==1020310) {
+            //These are models that refer to external model definitions, and need to be copied verbatim.
+            outfilename = outdir + "/" + file->getConstraintIdString() + "/" + file->getFilename();
+            copyFile(fullname, outfilename);
+          }
         }
         else {
           report << ",no_copy";
@@ -234,28 +246,28 @@ main (int argc, char* argv[])
   vector<string> fbcValidationDirectories;
   vector<string> layoutValidationDirectories;
   vector<string> qualValidationDirectories;
-  //validationDirectories.push_back(prefix + "/validator/test/test-data/libsbml-constraints/");
-  //validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-annotation-constraints/");
+  validationDirectories.push_back(prefix + "/validator/test/test-data/libsbml-constraints/");
+  validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-annotation-constraints/");
   validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-general-consistency-constraints/");
-  //validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-identifier-constraints/");
-  //validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-mathml-constraints/");
-  //validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-modeldefinition-constraints/");
-  //validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-modeling-practice-constraints/");
-  //validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-notes-constraints/");
-  //validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-sbo-constraints/");
-  //validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-unit-constraints/");
-  //validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-xml-constraints/");
-  //validationDirectories.push_back(prefix + "/validator/test/test-data/xml-parser-constraints/");
-  //compValidationDirectories.push_back(prefix + "/packages/comp/validator/test/test-data/general-constraints/");
-  //compValidationDirectories.push_back(prefix + "/packages/comp/validator/test/test-data/identifier-constraints/");
-  //compValidationDirectories.push_back(prefix + "/packages/comp/validator/test/test-data/units-constraints/");
-  //fbcValidationDirectories.push_back(prefix + "/packages/fbc/validator/test/test-data/general-constraints/");
-  //fbcValidationDirectories.push_back(prefix + "/packages/fbc/validator/test/test-data/identifier-constraints/");
-  //layoutValidationDirectories.push_back(prefix + "/packages/layout/validator/test/test-data/general-constraints/");
-  //layoutValidationDirectories.push_back(prefix + "/packages/layout/validator/test/test-data/identifier-constraints/");
-  //qualValidationDirectories.push_back(prefix + "/packages/qual/validator/test/test-data/general-constraints/");
-  //qualValidationDirectories.push_back(prefix + "/packages/qual/validator/test/test-data/identifier-constraints/");
-  //qualValidationDirectories.push_back(prefix + "/packages/qual/validator/test/test-data/math-constraints/");
+  validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-identifier-constraints/");
+  validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-mathml-constraints/");
+  validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-modeldefinition-constraints/");
+  validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-modeling-practice-constraints/");
+  validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-notes-constraints/");
+  validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-sbo-constraints/");
+  validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-unit-constraints/");
+  validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-xml-constraints/");
+  validationDirectories.push_back(prefix + "/validator/test/test-data/xml-parser-constraints/");
+  compValidationDirectories.push_back(prefix + "/packages/comp/validator/test/test-data/general-constraints/");
+  compValidationDirectories.push_back(prefix + "/packages/comp/validator/test/test-data/identifier-constraints/");
+  compValidationDirectories.push_back(prefix + "/packages/comp/validator/test/test-data/units-constraints/");
+  fbcValidationDirectories.push_back(prefix + "/packages/fbc/validator/test/test-data/general-constraints/");
+  fbcValidationDirectories.push_back(prefix + "/packages/fbc/validator/test/test-data/identifier-constraints/");
+  layoutValidationDirectories.push_back(prefix + "/packages/layout/validator/test/test-data/general-constraints/");
+  layoutValidationDirectories.push_back(prefix + "/packages/layout/validator/test/test-data/identifier-constraints/");
+  qualValidationDirectories.push_back(prefix + "/packages/qual/validator/test/test-data/general-constraints/");
+  qualValidationDirectories.push_back(prefix + "/packages/qual/validator/test/test-data/identifier-constraints/");
+  qualValidationDirectories.push_back(prefix + "/packages/qual/validator/test/test-data/math-constraints/");
 
   cout << endl;
   cout << "Syntactic Test Suite Creation" << endl;
