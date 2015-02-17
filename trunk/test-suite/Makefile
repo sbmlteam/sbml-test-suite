@@ -6,9 +6,10 @@
 ## This file is part of the SBML Test Suite.  Please visit http://sbml.org for
 ## more information about SBML, and the latest version of the SBML Test Suite.
 ##
-## Copyright (C) 2010-2014 jointly by the following organizations: 
+## Copyright (C) 2010-2015 jointly by the following organizations: 
 ##     1. California Institute of Technology, Pasadena, CA, USA
 ##     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK.
+##     3. University of Heidelberg, Heidelberg, Germany
 ##
 ## Copyright (C) 2008-2009 California Institute of Technology (USA).
 ##
@@ -38,62 +39,75 @@ define make_html
   ./src/utilities/desc2html/desc2html.sh $(addsuffix .m,$(basename $(1))) $(1)
 endef
 
-cases-m-files    = $(wildcard cases/semantic/*/*-model.m)
-cases-html-files = $(addsuffix .html,$(basename $(cases-m-files)))
+semantic-cases-m-files    = $(wildcard cases/semantic/*/*-model.m)
+semantic-cases-html-files = $(addsuffix .html,$(basename $(semantic-cases-m-files)))
 
-html: $(cases-html-files)
+html: $(semantic-cases-html-files)
 
 cases/semantic/%-model.html: cases/semantic/%-model.m
 	$(call make_html,$@)
 
 clean-html:
-	rm -f $(cases-html-files)
+	rm -f $(semantic-cases-html-files)
 
 #
 # 'make plots'
 #
 
-# 2012-12-17 [MH] Completely changed the way the plots are done.  We now
-# create an HTML page with the help of JavaScript plotting libraries (by
-# default, Highcharts JS) and generate PNG images using PhantomJS.
+plotter = ./src/utilities/plotresults/plotresults.py
 
-cases-csv-files       = $(wildcard cases/semantic/*/*-results.csv)
-cases-html-plot-files = $(patsubst %-results.csv,%-plot.html,$(cases-csv-files))
-cases-png-plot-files  = $(patsubst %-results.csv,%-plot.png,$(cases-csv-files))
-cases-jpg-plot-files  = $(patsubst %-results.csv,%-plot.jpg,$(cases-csv-files))
+# Semantic test suite
+
+semantic-cases-csv-files       = $(wildcard cases/semantic/*/*-results.csv)
+semantic-cases-html-plot-files = $(patsubst %-results.csv,%-plot.html,$(semantic-cases-csv-files))
+semantic-cases-png-plot-files  = $(patsubst %-results.csv,%-plot.png,$(semantic-cases-csv-files))
+semantic-cases-jpg-plot-files  = $(patsubst %-results.csv,%-plot.jpg,$(semantic-cases-csv-files))
 
 cases/semantic/%-plot.html: cases/semantic/%-results.csv
-	@mfile=$(patsubst %-plot.html,%-model.m,$@) ;\
-	if test -n "`grep 'packagesPresent: *fbc' $$mfile`"; then \
-	  ./src/utilities/plotresults/plotresults.py -q -t steadystate -d $(patsubst %-plot.html,%-results.csv,$@) -o $@ ;\
-	else \
-	  ./src/utilities/plotresults/plotresults.py -q -d $(patsubst %-plot.html,%-results.csv,$@) -o $@ ;\
-	fi
+	if test -n "`grep 'packagesPresent: *fbc' $(patsubst %-plot.html,%-model.m,$@)`"; then \
+	  flag="-t steadystate"; \
+	fi; \
+	$(plotter) -q $$flag -d $(patsubst %-plot.html,%-results.csv,$@) -o $@
 
 cases/semantic/%-plot.png: cases/semantic/%-plot.html
-	@mfile=$(patsubst %-plot.png,%-model.m,$@) ;\
-	if test -n "`grep 'packagesPresent: *fbc' $$mfile`"; then \
-	  ./src/utilities/plotresults/plotresults.py -n -q -t steadystate -d $(patsubst %-plot.html,%-results.csv,$<) -o /tmp/$(notdir $<) ;\
-	else \
-	  ./src/utilities/plotresults/plotresults.py -n -q -d $(patsubst %-plot.html,%-results.csv,$<) -o /tmp/$(notdir $<) ;\
-	fi
+	if test -n "`grep 'packagesPresent: *fbc' $(patsubst %-plot.png,%-model.m,$@)`"; then \
+	  flag="-t steadystate"; \
+	fi; \
+	$(plotter) -n -q $$flag -d $(patsubst %-plot.html,%-results.csv,$<) -o /tmp/$(notdir $<)
 	phantomjs ./src/utilities/rasterize/rasterize.js /tmp/$(notdir $<) $@
 
 cases/semantic/%-plot.jpg: cases/semantic/%-plot.html cases/semantic/%-plot.png
 	convert -quality 90 $(patsubst %-plot.jpg,%-plot.png,$@) $@
 
-plots: html-plots jpg-plots
+# Stochastic test suite
 
-html-plots: $(cases-html-plot-files)
+stochastic-cases-csv-files       = $(wildcard cases/stochastic/*/*-results.csv)
+stochastic-cases-html-plot-files = $(patsubst %-results.csv,%-plot.html,$(stochastic-cases-csv-files))
+stochastic-cases-png-plot-files  = $(patsubst %-results.csv,%-plot.png,$(stochastic-cases-csv-files))
+stochastic-cases-jpg-plot-files  = $(patsubst %-results.csv,%-plot.jpg,$(stochastic-cases-csv-files))
 
-png-plots: $(cases-png-plot-files)
+cases/stochastic/%-plot.html: cases/stochastic/%-results.csv
+	$(plotter) -q -2 -g mean -d $(patsubst %-plot.html,%-results.csv,$@) -o $@ ;\
 
-jpg-plots: $(cases-jpg-plot-files)
+cases/stochastic/%-plot.png: cases/stochastic/%-plot.html
+	$(plotter) -n -2 -g mean -q -d $(patsubst %-plot.html,%-results.csv,$<) -o /tmp/$(notdir $<) ;\
+	phantomjs ./src/utilities/rasterize/rasterize.js /tmp/$(notdir $<) $@
+
+cases/stochastic/%-plot.jpg: cases/stochastic/%-plot.html cases/stochastic/%-plot.png
+	convert -quality 90 $(patsubst %-plot.jpg,%-plot.png,$@) $@
+
+plots: html-plots jpg-plots png-plots
+
+html-plots: $(semantic-cases-html-plot-files) $(stochastic-cases-html-plot-files)
+
+png-plots: $(semantic-cases-png-plot-files) $(stochastic-cases-png-plot-files)
+
+jpg-plots: $(semantic-cases-jpg-plot-files) $(stochastic-cases-jpg-plot-files)
 
 clean-plots:
-	rm -f $(cases-html-plot-files)
-	rm -f $(cases-png-plot-files)
-	rm -f $(cases-jpg-plot-files)
+	rm -f $(semantic-cases-html-plot-files)
+	rm -f $(semantic-cases-png-plot-files)
+	rm -f $(semantic-cases-jpg-plot-files)
 
 #
 # 'make sedml'
@@ -113,9 +127,9 @@ else
   endef
 endif
 
-cases-sbml-files = $(wildcard cases/semantic/*/*-sbml-l[1234]v[0-9].xml)
+semantic-cases-sbml-files = $(wildcard cases/semantic/*/*-sbml-l[1234]v[0-9].xml)
 
-all-sedml-files	:= $(patsubst %-l1v2.xml,%-l1v2-sedml.xml,$(cases-sbml-files))
+all-sedml-files	:= $(patsubst %-l1v2.xml,%-l1v2-sedml.xml,$(semantic-cases-sbml-files))
 all-sedml-files	:= $(patsubst %-l2v1.xml,%-l2v1-sedml.xml,$(all-sedml-files))
 all-sedml-files	:= $(patsubst %-l2v2.xml,%-l2v2-sedml.xml,$(all-sedml-files))
 all-sedml-files	:= $(patsubst %-l2v3.xml,%-l2v3-sedml.xml,$(all-sedml-files))
@@ -151,7 +165,7 @@ else
   endef
 endif
 
-all-omex-files := $(patsubst %-results.csv,%.omex,$(cases-csv-files))
+all-omex-files := $(patsubst %-results.csv,%.omex,$(semantic-cases-csv-files))
 
 cases/semantic/%.omex: cases/semantic/%-results.csv src/utilities/sedml/GenerateSedML.exe
 	$(call make_omex_files,$@)
@@ -187,16 +201,18 @@ cases-dist-name = sbml-test-cases-$(today).zip
 ts-file		= .cases-archive-date
 map-file	= cases/semantic/.cases-tags-map
 contents	= cases/semantic \
-	   $(ts-file)     \
-	   $(map-file)    \
-           COPYING.html   \
-           COPYING.txt    \
-           NEWS.txt       \
-           LICENSE.txt
+	   	  cases/stochastic \
+	   	  $(ts-file)     \
+	   	  $(map-file)    \
+	   	  COPYING.html   \
+	   	  COPYING.txt    \
+	   	  NEWS.txt       \
+	   	  LICENSE.txt
 
 cases-dist: html plots sedml omex tags-map
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/semantic/$(ts-file)
+	@echo $(today) > cases/stochastic/$(ts-file)
 	@echo $(today) > cases/syntactic/$(ts-file)
 	make $(map-file)
 	zip -r $(cases-dist-name) $(contents) -x@.zipexcludes
@@ -206,7 +222,7 @@ cases-dist: html plots sedml omex tags-map
 	@echo "---------------------------------------------------------------"
 
 
-tags-map $(map-file): $(cases-m-files)
+tags-map $(map-file): $(semantic-cases-m-files)
 	@echo "Making tags map file:"
 	src/utilities/make-tag-map/make-tag-map.sh $(map-file)
 
@@ -270,17 +286,21 @@ endif
 # needs to be executed when new case files are added to the test suite.
 # 
 
-cases-dirs = $(wildcard cases/semantic/*)
+cases-dirs = $(wildcard cases/semantic/*) $(wildcard cases/stochastic/*)
 tmpfile    = .tmp.make.ignores
 
-svn-ignores: $(cases-html-plot-files) $(cases-jpg-plot-files)
+svn-ignores: \
+  $(semantic-cases-html-plot-files) $(semantic-cases-jpg-plot-files) \
+  $(stochastic-cases-html-plot-files) $(stochastic-cases-jpg-plot-files)
 	@list='$(cases-dirs)'; for dir in $$list; do \
-	  name=`basename $$dir`; \
-	  echo $$name-model.html > $(tmpfile); \
-	  echo $$name-plot'.*' >> $(tmpfile); \
-	  echo '*-sedml.xml' >> $(tmpfile); \
-    echo '*.omex' >> $(tmpfile); \
-	  svn propset -F $(tmpfile) svn:ignore $$dir; \
+	  if [ -d $$dir ]; then \
+	    name=`basename $$dir`; \
+	    echo $$name-model.html > $(tmpfile); \
+	    echo $$name-plot'.*' >> $(tmpfile); \
+	    echo '*-sedml.xml' >> $(tmpfile); \
+	    echo '*.omex' >> $(tmpfile); \
+	    svn propset -F $(tmpfile) svn:ignore $$dir; \
+	  fi \
 	done
 	@rm -f $(tmpfile)
 
