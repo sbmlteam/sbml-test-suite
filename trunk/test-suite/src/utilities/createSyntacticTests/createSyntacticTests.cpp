@@ -109,27 +109,36 @@ void createConstraintsFile(const string& sbmlfilename, const SBMLErrorLog* errlo
  * Parse the files in the given set of directories, copy the files out (renamed) if they only contain the errors they claim they do, and report what we're doing.
  */
 bool
-parseDirectories ( const vector<string>& directories, const string& outdir, const string& package, ofstream& report, vector<SBMLError*>& uniqueErrors, set<unsigned int>& uniqueErrorIDs)
+parseDirectories ( const vector<string>& directories, const string& outdir, const string& package, ofstream& report, vector<SBMLError*>& uniqueErrors, set<unsigned int>& uniqueErrorIDs, bool fullreport)
 {
   for (size_t d=0; d<directories.size(); d++) {
     set<TestFile> files    = TestFile::getFilesIn(directories[d]);
     if (files.size() > 0) {
       cout << files.size() << " files found in directory " << directories[d] << ":" << endl;
       for (set<TestFile>::iterator file=files.begin(); file != files.end(); file++) {
+        stringstream reportline;
         if (file->getConstraintId() >= 90500 && file->getConstraintId() < 90600) {
           //The 905xx constraints are duplicates, and don't need to go into a test suite.
           continue;
         }
-        report << file->getDirectory() 
-          << "," << file->getFilename()
-          << "," << file->getConstraintId()
-          << "," << file->getNumFailures()
-          << "," << file->getSequenceId()
-          << "," << file->getAdditionalFailId()
-          << "," << package;
-
+        if (fullreport) {
+          reportline << file->getDirectory() 
+            << "," << file->getFilename() << ",";
+        }
+        reportline
+            << file->getConstraintId()
+            << "," << file->getNumFailures()
+            << "," << file->getSequenceId()
+            << "," << file->getAdditionalFailId();
         string fullname = file->getFullname();
         string outfilename = file->getNewFilename();
+        if (fullname.find("pass")) {
+          reportline << "," << "pass";
+        }
+        else {
+          reportline << "," << "fail";
+        }
+        reportline << "," << package;
         SBMLDocument* document = readSBMLFromFile(fullname.c_str());
         document->checkConsistency();
         const SBMLErrorLog* errlog = document->getErrorLog();
@@ -144,19 +153,27 @@ parseDirectories ( const vector<string>& directories, const string& outdir, cons
         stringstream sevlv;
         if (errlog->getNumFailsWithSeverity(LIBSBML_SEV_FATAL) > 0) {
           sevlv << "-sev" << LIBSBML_SEV_FATAL;
+          reportline << ",Fatal";
         }
         else if (errlog->getNumFailsWithSeverity(LIBSBML_SEV_ERROR) > 0) {
           sevlv << "-sev" << LIBSBML_SEV_ERROR;
+          reportline << ",Error";
         }
         else if (errlog->getNumFailsWithSeverity(LIBSBML_SEV_WARNING) > 0) {
           sevlv << "-sev" << LIBSBML_SEV_WARNING;
+          reportline << ",Warning";
         }
         else if (errlog->getNumFailsWithSeverity(LIBSBML_SEV_INFO) > 0) {
           sevlv << "-sev" << LIBSBML_SEV_INFO;
+          reportline << ",Info";
         }
         else if (fullname.find("pass") == string::npos) {
           cout << "Not copying document " << file->getFilename() << ", since it has no errors at all, but should." << endl;
+          reportline << ",None" ;
           copy = false;
+        }
+        else {
+          reportline << ",None" ;
         }
         if (fullname.find("fail") != string::npos && !errlog->contains(file->getConstraintId())) {
           cout << "Not copying document " << file->getFilename() << ", since the error it is supposed to have did not appear." << endl;
@@ -165,25 +182,30 @@ parseDirectories ( const vector<string>& directories, const string& outdir, cons
         sevlv << "-l" << document->getLevel() << "v" << document->getVersion();
         outfilename.insert(outfilename.size()-4, sevlv.str());
         if (copy) {
-          report << ",copy";
+          if (fullreport) {
+            reportline << ",copy";
+          }
           mkdir((outdir + "/" + file->getConstraintIdString()).c_str());
-          outfilename = outdir + "/" + file->getConstraintIdString() + "/" + outfilename;
-          copyFile(fullname, outfilename);
-          createConstraintsFile(outfilename, errlog, uniqueErrors, uniqueErrorIDs);
+          string fulloutfilename = outdir + "/" + file->getConstraintIdString() + "/" + outfilename;
+          copyFile(fullname, fulloutfilename);
+          createConstraintsFile(fulloutfilename, errlog, uniqueErrors, uniqueErrorIDs);
           if (file->getConstraintId()==1020310) {
             //These are models that refer to external model definitions, and need to be copied verbatim.
-            outfilename = outdir + "/" + file->getConstraintIdString() + "/" + file->getFilename();
-            copyFile(fullname, outfilename);
+            fulloutfilename = outdir + "/" + file->getConstraintIdString() + "/" + file->getFilename();
+            copyFile(fullname, fulloutfilename);
           }
         }
-        else {
-          report << ",no_copy";
+        else if (fullreport) {
+          reportline << ",no_copy";
         }
         for (unsigned int e=0; e<errlog->getNumErrors(); e++)
         {
-          report << "," << errlog->getError(e)->getErrorId();
+          reportline << "," << errlog->getError(e)->getErrorId();
         }
-        report << endl;
+        reportline << endl;
+        if (fullreport || copy) {
+          report << outfilename << "," << reportline.str();
+        }
         delete document;
       }
     }
@@ -239,6 +261,12 @@ main (int argc, char* argv[])
     outdir = argv[2];
   }
 
+  bool fullreport = false;
+  if (argc >= 4)
+  {
+    if ((string)argv[3] == "-full") fullreport = true;
+  }
+
   prefix += "/src/sbml";
   outdir += "/syntactic";
   vector<string> validationDirectories;
@@ -274,35 +302,56 @@ main (int argc, char* argv[])
   cout << "=============================" << endl;
   cout << endl;
 
-  string reportfile = outdir + "/report.csv";
+  string reportfile = outdir + "/summary.csv";
+  if (fullreport) {
+    reportfile = outdir + "/summary-full.csv";
+  }
   ofstream report(reportfile.c_str());
+  report << "Filename,";
+  if (fullreport) {
+    report << "Original directory,";
+    report << "Original filename,";
+  }
+  report << "Validation number,";
+  report << "Num Failures,";
+  report << "ID,";
+  report << "Other error,";
+  report << "Pass/fail,";
+  report << "Package,";
+  report << "Error/Warning,";
+  if (fullreport) {
+    report << "Copy/no copy,";
+  }
+  report << "Validation error/warning list" << endl;
   vector<SBMLError*> uniqueErrors;
   set<unsigned int> uniqueErrorIDs;
-  if (parseDirectories(validationDirectories, outdir, "", report, uniqueErrors, uniqueErrorIDs)) return 1;
-  if (parseDirectories(compValidationDirectories, outdir, "comp", report, uniqueErrors, uniqueErrorIDs)) return 1;
-  if (parseDirectories(fbcValidationDirectories, outdir, "fbc", report, uniqueErrors, uniqueErrorIDs)) return 1;
-  if (parseDirectories(layoutValidationDirectories, outdir, "layout", report, uniqueErrors, uniqueErrorIDs)) return 1;
-  if (parseDirectories(qualValidationDirectories, outdir, "qual", report, uniqueErrors, uniqueErrorIDs)) return 1;
-  //Output the unique error messages, so we can read them:
-  ofstream cfile((outdir + "/uniqueErrors.txt").c_str());
-  if (!cfile.good()) {
-    cout << "Unable to open file " << outdir << "/uniqueErrors.txt for writing.  Check that the directory exists, and if it does not, create it first." << endl;
-    return false;
-  }
-  for (size_t err=0; err<uniqueErrors.size(); err++) {
-    SBMLError* error = uniqueErrors[err];
+  if (parseDirectories(validationDirectories, outdir, "", report, uniqueErrors, uniqueErrorIDs, fullreport)) return 1;
+  if (parseDirectories(compValidationDirectories, outdir, "comp", report, uniqueErrors, uniqueErrorIDs, fullreport)) return 1;
+  if (parseDirectories(fbcValidationDirectories, outdir, "fbc", report, uniqueErrors, uniqueErrorIDs, fullreport)) return 1;
+  if (parseDirectories(layoutValidationDirectories, outdir, "layout", report, uniqueErrors, uniqueErrorIDs, fullreport)) return 1;
+  if (parseDirectories(qualValidationDirectories, outdir, "qual", report, uniqueErrors, uniqueErrorIDs, fullreport)) return 1;
+  if (fullreport) {
+    //Output the unique error messages, so we can read them:
+    ofstream cfile((outdir + "/uniqueErrors.txt").c_str());
+    if (!cfile.good()) {
+      cout << "Unable to open file " << outdir << "/uniqueErrors.txt for writing.  Check that the directory exists, and if it does not, create it first." << endl;
+      return false;
+    }
+    for (size_t err=0; err<uniqueErrors.size(); err++) {
+      SBMLError* error = uniqueErrors[err];
+      cfile << "------------------" << endl;
+      cfile << "Validation id    :\t" << TestFile::getConstraintIdString(error->getErrorId()) << endl;
+      cfile << "Validation number:\t" << error->getErrorId() << endl;
+      cfile << "Severity         :\t" << error->getSeverityAsString() << endl;
+      cfile << "Line number      :\t" << error->getLine() << endl;
+      //cfile << "Column number    :\t" << error->getColumn() << endl;
+      cfile << "Package          :\t" << error->getPackage() << endl;
+      cfile << "Short message    :\t" << error->getShortMessage() << endl;
+      cfile << "Full message     :\t" << error->getMessage() << endl;
+      delete error;
+    }
     cfile << "------------------" << endl;
-    cfile << "Validation id    :\t" << TestFile::getConstraintIdString(error->getErrorId()) << endl;
-    cfile << "Validation number:\t" << error->getErrorId() << endl;
-    cfile << "Severity         :\t" << error->getSeverityAsString() << endl;
-    cfile << "Line number      :\t" << error->getLine() << endl;
-    //cfile << "Column number    :\t" << error->getColumn() << endl;
-    cfile << "Package          :\t" << error->getPackage() << endl;
-    cfile << "Short message    :\t" << error->getShortMessage() << endl;
-    cfile << "Full message     :\t" << error->getMessage() << endl;
-    delete error;
   }
-  cfile << "------------------" << endl;
   return 0;
 }
 
