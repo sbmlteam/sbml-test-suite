@@ -136,14 +136,37 @@ all-sedml-files	:= $(patsubst %-l2v3.xml,%-l2v3-sedml.xml,$(all-sedml-files))
 all-sedml-files	:= $(patsubst %-l2v4.xml,%-l2v4-sedml.xml,$(all-sedml-files))
 all-sedml-files	:= $(patsubst %-l3v1.xml,%-l3v1-sedml.xml,$(all-sedml-files))
 
-cases/semantic/%-sedml.xml: cases/semantic/%.xml src/utilities/sedml/GenerateSedML.exe
+%-sbml-l1v2-sedml.xml: %-sbml-l1v2.xml src/utilities/sedml/GenerateSedML.exe
+	$(call make_sedml_files,$@)
+
+%-sbml-l2v1-sedml.xml: %-sbml-l2v1.xml src/utilities/sedml/GenerateSedML.exe
+	$(call make_sedml_files,$@)
+
+%-sbml-l2v2-sedml.xml: %-sbml-l2v2.xml src/utilities/sedml/GenerateSedML.exe
+	$(call make_sedml_files,$@)
+
+%-sbml-l2v3-sedml.xml: %-sbml-l2v3.xml src/utilities/sedml/GenerateSedML.exe
+	$(call make_sedml_files,$@)
+
+%-sbml-l2v4-sedml.xml: %-sbml-l2v4.xml src/utilities/sedml/GenerateSedML.exe
+	$(call make_sedml_files,$@)
+
+%-sbml-l3v1-sedml.xml: %-sbml-l3v1.xml src/utilities/sedml/GenerateSedML.exe
 	$(call make_sedml_files,$@)
 
 sedml: $(all-sedml-files)
 
-# Note: a simple rm -f $(all-sedml-files) doesn't work -- arg list is too long.
+# Note #1: a simple rm -f $(all-sedml-files) doesn't work -- arg list is too long.
+#
+# Note #2: make sure the command line under the clean-sedml directive is
+# preceeded by a tab, not spaces, or you will experience first-hand insane
+# make behavior #1,346, wherein make runs this next command every time you
+# run "make sedml".  Why does it do that?  Who knows?  It's an insane make
+# behavior!  (Incidentally, insane make behavior #1,346 is one of a long list
+# of insane make behaviors, the most noteworthy of which is insane make
+# behavior #1: spaces versus tabs make such a difference in makefiles.)
 clean-sedml:
- $(foreach f,$(wildcard cases/semantic/*/*-sedml.xml),$(shell rm -f $f))
+	$(foreach f,$(wildcard cases/semantic/*/*-sedml.xml),$(shell rm -f $f))
 
 
 #
@@ -354,7 +377,7 @@ clean: clean-readme clean-dist clean-cases-dist clean-html clean-plots \
 	clean-readme clean-dist clean-cases-dist clean-html \
 	clean-plots clean-sedml
 
-.SUFFIXES: .png .svg .jpg .csv .html .xml .txt
+.SUFFIXES: .png .svg .jpg .csv .html .xml .txt .m
 
 # ----------------------------------------------------------------------------- 
 # End. 
