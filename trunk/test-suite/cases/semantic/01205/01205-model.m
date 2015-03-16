@@ -1,7 +1,7 @@
 (*
 
 category:        Test
-synopsis:        A species and a compartment both under control of a rate rule.
+synopsis:        A species concentration under control of a rate rule.
 componentTags:   AssignmentRule, Compartment, Parameter, RateRule, Species
 testTags:        Amount, BoundaryCondition, InitialValueReassigned, NonConstantParameter, NonUnityCompartment
 testType:        TimeCourse
@@ -9,7 +9,7 @@ levels:          1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:     Numeric
 packagesPresent: 
 
- A species and its compartment are both under control of rate rules, and the species is set 'hasOnlySubstanceUnits=false', meaning that the species concentration is affected by both rates of change.  That value then gets assigned to the parameter 'x', since we typically only require Species output in amounts.
+ A species is under control of a rate rule, and set 'hasOnlySubstanceUnits=false', meaning that the species concentration is affected by this rate of change, but the volume of the compartment stays constant.  That value then gets assigned to the parameter 'x', since we typically only require Species output in amounts.
 
 The model contains:
 * 1 species (S1)
