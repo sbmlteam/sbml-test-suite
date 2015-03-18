@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Test of nested 1-child MathML constructs plus, times, and, or, and xor.
 componentTags: InitialAssignment, Parameter
-testTags:      InitialValueReassigned
+testTags:      InitialValueReassigned, UncommonMathML
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
