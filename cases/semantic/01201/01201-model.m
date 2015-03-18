@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Nested piecewise in conditional and return
 componentTags:   AssignmentRule, Parameter, RateRule
-testTags:        InitialValueReassigned, NonConstantParameter
+testTags:        InitialValueReassigned, NonConstantParameter, UncommonMathML
 testType:        TimeCourse
 levels:          1.2, 2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:     Analytic
