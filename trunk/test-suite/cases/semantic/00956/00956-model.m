@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Several parameters with initial assignment rules, testing various L1 built-in functions acting on constants.
 componentTags: InitialAssignment, Parameter
-testTags:      InitialValueReassigned
+testTags:      InitialValueReassigned, UncommonMathML
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 3.1
 generatedBy:   Analytic
