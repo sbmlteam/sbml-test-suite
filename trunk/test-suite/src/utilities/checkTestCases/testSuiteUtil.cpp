@@ -353,6 +353,8 @@ bool initialOverriddenIn(string id, Model* model, const map<string, vector<doubl
 
 void checkRules(Model* model, set<string>& components, set<string>& tests)
 {
+  set<const Species*> changedSpecies;
+  set<const Compartment*> changedCompartments;
   for (unsigned int r=0; r<model->getNumRules(); r++) {
     Rule* rule = model->getRule(r);
     int typecode = rule->getTypeCode();
@@ -364,6 +366,22 @@ void checkRules(Model* model, set<string>& components, set<string>& tests)
     }
     else if (typecode == SBML_RATE_RULE) {
       components.insert("RateRule");
+      //Now check to see if it's a rate rule for a compartment, and, if so, if there's also a rate rule for a species it has.
+      const SBase* referenced = model->getElementBySId(rule->getVariable());
+      if (referenced && referenced->getTypeCode() == SBML_COMPARTMENT) {
+        changedCompartments.insert(static_cast<const Compartment*>(referenced));
+      }
+      else if (referenced && referenced->getTypeCode() == SBML_SPECIES) {
+        changedSpecies.insert(static_cast<const Species*>(referenced));
+      }
+    }
+  }
+  for (set<const Compartment*>::iterator changed=changedCompartments.begin(); changed != changedCompartments.end(); changed++) {
+    string compartmentID = (*changed)->getId();
+    for (set<const Species*>::iterator species=changedSpecies.begin(); species != changedSpecies.end(); species++) {
+      if ((*species)->getCompartment() == compartmentID && !(*species)->getHasOnlySubstanceUnits()) {
+        tests.insert("VolumeConcentrationRates");
+      }
     }
   }
 }

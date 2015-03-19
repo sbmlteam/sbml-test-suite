@@ -57,7 +57,7 @@ vector<string> createTranslations(SBMLDocument* document, const string oldfilena
     ret.push_back("1.2");
   }
   else {
-    if (translatedDoc->setLevelAndVersion(1, 2, false)) {// && !hasActualErrors(translatedDoc)) {
+    if (translatedDoc->setLevelAndVersion(1, 2, false) && !hasActualErrors(translatedDoc)) {
       string newfilename = filename.replace(lxvx_place,4,"l1v2");
       if (newfilename == oldfilename) {
         ret.push_back("1.2");
@@ -77,7 +77,7 @@ vector<string> createTranslations(SBMLDocument* document, const string oldfilena
     }
     else {
       translatedDoc = document->clone();
-      if (translatedDoc->setLevelAndVersion(2, v, false) ) {//&& !hasActualErrors(translatedDoc)) {
+      if (translatedDoc->setLevelAndVersion(2, v, false) && !hasActualErrors(translatedDoc)) {
         string thislv = "l2v" + toString(v);
         string newfilename = filename.replace(lxvx_place,4,thislv);
         if (newfilename == oldfilename) { 
@@ -99,8 +99,7 @@ vector<string> createTranslations(SBMLDocument* document, const string oldfilena
   }
   else {
     translatedDoc = document->clone();
-    translatedDoc->setLevelAndVersion(3, 1);
-    //if (!hasActualErrors(translatedDoc)) {
+    if (translatedDoc->setLevelAndVersion(3, 1, false) && !hasActualErrors(translatedDoc)) {
       string newfilename = filename.replace(lxvx_place,4,"l3v1");
       if (newfilename == oldfilename) {
         ret.push_back("3.1");
@@ -110,7 +109,7 @@ vector<string> createTranslations(SBMLDocument* document, const string oldfilena
         cout << "Successfully wrote translation of model to level 3 version 1" << endl;
         ret.push_back("3.1");
       }  
-    //}
+    }
     delete translatedDoc;
   }
   return ret;
