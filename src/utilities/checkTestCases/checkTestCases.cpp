@@ -240,6 +240,9 @@ void checkUnaddableTests(set<string>& tests, set<string>& components, const stri
     }
     tests.erase("RandomEventExecution");
   }
+
+  //UncommonMathML is not yet testable
+  tests.erase("UncommonMathML");
 }
 
 bool checkLine(ifstream& infile, const string& begin, const string& settingsfile)
