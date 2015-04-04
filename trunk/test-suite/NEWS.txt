@@ -3,20 +3,45 @@
 
 === Version 3.2.0 (forthcoming)
 
-* With the consent of the original authors, the test cases directory
-  now includes the entire SBML Discrete Stochastic Model Test Suite
-  (DSMTS), developed by Thomas W. Evans Colin S. Gillespie, and Darren
-  J. Wilkinson (from the University of Liverpool and Newcastle
-  University).  This is located in the directory cases/stochastic/.
-  Currently, these files are not further integrated into the SBML Test
+Important: DO NOT RUN semantic test cases 1199-1204 on systems that
+use libSBML 5.11.2 or earlier.  Test cases 1199-1204 test the use of
+nested MathML "piecewise" constructs, which unfortunately revealed a
+bug in libSBML versions prior to 5.11.4.  Make sure to use libSBML
+5.11.4 or later.
+
+New in this release:
+
+* Beginning with this version, the distribution of the test cases will
+  be split, with separate archives for semantic, stochastic and
+  syntactic test cases.  This will not effectively change the semantic
+  cases distribution archives, but will allow for the introduction of
+  new stochastic and syntactic test cases without disrupting the
+  existing infrastructure for the test suite.
+
+* New in 3.2.0, with the consent of the original authors, the Discrete
+  Stochastic Model Test Suite (DSMTS) is available in SVN and will be
+  available as a separate archive release.  The DSMTS was developed by
+  Thomas W. Evans, Colin S. Gillespie, and Darren J. Wilkinson (from
+  the University of Liverpool and Newcastle University).  The files
+  are located in the directory cases/stochastic in the SVN repository
+  and distributed as "sbml-stochastic-test-cases-YYYY-MM-DD.zip".
+  Currently, these files are not fully integrated into the SBML Test
   Suite, and in particular, the SBML Test Runner and the Online
-  facilities do not interact with these files, although it is the
-  intention to figure out how to integrate them better in the future.
-  For now, as a first step, we distribute the DSMTS as part of the
-  SBML Test Suite so that people can start experimenting with it.
-  Please see the file cases/stochastic/README.txt for more
-  information, including a reference to the paper by Evans et al. and
-  pointers on how to use the DSMTS.
+  facilities do not interact with these files, although it is our goal
+  to figure out how to integrate them better in the future.  For now,
+  as a first step, we distribute the DSMTS as an add-on to the SBML
+  Test Suite so that people can start experimenting with it.  Please
+  see the file cases/stochastic/README.txt for more information,
+  including a reference to the paper by Evans et al. and pointers on
+  how to use the DSMTS.
+
+* New in 3.2.0, the syntactic test cases directory (cases/syntactic)
+  has been completely replaced by a large set of test cases
+  auto-generated from libSBML's syntactic test cases.  Lucian Smith
+  developed a program that generates the syntactic test cases from
+  libSBML's code base.  This program is 'createSyntacticTests' and
+  can be found in the subdirectory src/utilities/createSyntacticTests
+  of the SBML Test Suite source code repository.
 
 * The semantic test cases in the cases/semantic/ directory now include
   OMEX format files.  (See http://co.mbine.org/documents/archive for a
@@ -24,6 +49,20 @@
   version of Frank Bergmann's program to generate SED-ML files.
   Stanley Gu has also contributed an OMEX file generator written in
   Python, and this is available in the SBML Test Suite SVN repository.
+
+* New test cases 1199-1218.  Cases 1199-1204 test the use of nested
+  piecewise operators in mathematical formulas; cases 1205-1208 test
+  variable-size compartments; cases 1209-1216 test the use of multiple
+  arguments to MathML relational operators such as le/ge/eq.
+
+Updates:
+
+* The plotresults.py script used to generate the plots of results now
+  offers the ability to plot on dual axes.  This is used to generate
+  the plots for the stochastic test suite results.  Also,
+  plotresults.py has had its command line options changed in order to
+  work with the input/output combinations that are now possible.  Also,
+  plotresults.py now works in Python 3.
 
 
 === Test case archive update (2014-10-23)
