@@ -63,6 +63,11 @@ semantic-cases-html-plot-files = $(patsubst %-results.csv,%-plot.html,$(semantic
 semantic-cases-png-plot-files  = $(patsubst %-results.csv,%-plot.png,$(semantic-cases-csv-files))
 semantic-cases-jpg-plot-files  = $(patsubst %-results.csv,%-plot.jpg,$(semantic-cases-csv-files))
 
+semantic-cases-plot-files = \
+	$(semantic-cases-html-plot-files) \
+	$(semantic-cases-png-plot-files) \
+	$(semantic-cases-jpg-plot-files)
+
 cases/semantic/%-plot.html: cases/semantic/%-results.csv
 	if test -n "`grep 'packagesPresent: *fbc' $(patsubst %-plot.html,%-model.m,$@)`"; then \
 	  flag="-t steadystate"; \
@@ -86,6 +91,11 @@ stochastic-cases-html-plot-files = $(patsubst %-results.csv,%-plot.html,$(stocha
 stochastic-cases-png-plot-files  = $(patsubst %-results.csv,%-plot.png,$(stochastic-cases-csv-files))
 stochastic-cases-jpg-plot-files  = $(patsubst %-results.csv,%-plot.jpg,$(stochastic-cases-csv-files))
 
+stochastic-cases-plot-files = \
+	$(stochastic-cases-html-plot-files) \
+	$(stochastic-cases-png-plot-files) \
+	$(stochastic-cases-jpg-plot-files)
+
 cases/stochastic/%-plot.html: cases/stochastic/%-results.csv
 	$(plotter) -q -2 -g mean -d $(patsubst %-plot.html,%-results.csv,$@) -o $@ ;\
 
@@ -105,9 +115,8 @@ png-plots: $(semantic-cases-png-plot-files) $(stochastic-cases-png-plot-files)
 jpg-plots: $(semantic-cases-jpg-plot-files) $(stochastic-cases-jpg-plot-files)
 
 clean-plots:
-	rm -f $(semantic-cases-html-plot-files)
-	rm -f $(semantic-cases-png-plot-files)
-	rm -f $(semantic-cases-jpg-plot-files)
+	rm -f $(semantic-cases-plot-files)
+	rm -f $(stochastic-cases-plot-files)
 
 #
 # 'make sedml'
@@ -232,43 +241,53 @@ semantic-contents	   = cases/semantic \
 			     LICENSE.txt
 
 stochastic-cases-dist-name = sbml-stochastic-test-cases-$(today).zip
-stochastic-map-file	   = cases/stochastic/.cases-tags-map
 stochastic-contents	   = cases/stochastic \
 			     $(ts-file)     \
-			     $(stochastic-map-file)    \
-			     COPYING.html   \
-			     COPYING.txt    \
 			     NEWS.txt       \
-			     LICENSE.txt
+
+syntactic-cases-dist-name  = sbml-syntactic-test-cases-$(today).zip
+syntactic-contents	   = cases/syntactic \
+			     $(ts-file)     \
+			     NEWS.txt       \
 
 semantic-cases-dist: html plots sedml omex tags-map
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/semantic/$(ts-file)
 	make $(map-file)
-	zip -r $(semantic-cases-dist-name) $(contents) -x@.zipexcludes
+	zip -r $(semantic-cases-dist-name) $(semantic-contents) -x@.zipexcludes
 	@echo "---------------------------------------------------------------"
 	@echo "Next: upload zip file to SourceForge as updated test cases dist."
 	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
 	@echo "---------------------------------------------------------------"
 
-stochastic-cases-dist: html plots sedml omex tags-map
+stochastic-cases-dist: $(stochastic-cases-plot-files)
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/stochastic/$(ts-file)
-	make $(map-file)
-	zip -r $(stochastic-cases-dist-name) $(contents) -x@.zipexcludes
+	zip -r $(stochastic-cases-dist-name) $(stochastic-contents) -x@.zipexcludes
 	@echo "---------------------------------------------------------------"
 	@echo "Next: upload zip file to SourceForge as updated test cases dist."
 	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
 	@echo "---------------------------------------------------------------"
 
-cases-dist: semantic-cases-dist stochastic-cases-dist
+syntactic-cases-dist:
+	@echo $(today) > $(ts-file)
+	@echo $(today) > cases/syntactic/$(ts-file)
+	zip -r $(syntactic-cases-dist-name) $(syntactic-contents) -x@.zipexcludes
+	@echo "---------------------------------------------------------------"
+	@echo "Next: upload zip file to SourceForge as updated test cases dist."
+	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
+	@echo "---------------------------------------------------------------"
+
+cases-dist: semantic-cases-dist stochastic-cases-dist syntactic-cases-dist
 
 tags-map $(map-file): $(semantic-cases-m-files)
 	@echo "Making tags map file:"
 	src/utilities/make-tag-map/make-tag-map.sh $(map-file)
 
 clean-cases-dist: clean-html clean-plots clean-sedml
-	rm -f $(cases-dist-name)
+	rm -f $(semantic-cases-dist-name)
+	rm -f $(stochastic-cases-dist-name)
+	rm -f $(syntactic-cases-dist-name)
 
 
 # -----------------------------------------------------------------------------
