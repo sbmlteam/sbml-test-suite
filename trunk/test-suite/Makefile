@@ -246,7 +246,9 @@ stochastic-contents	   = cases/stochastic \
 			     NEWS.txt       \
 
 syntactic-cases-dist-name  = sbml-syntactic-test-cases-$(today).zip
-syntactic-contents	   = cases/syntactic \
+syntactic-contents	   = cases/syntactic/*.txt \
+			     cases/syntactic/[0-9]* \
+			     cases/syntactic/[a-z]*-[0-9]* \
 			     $(ts-file)     \
 			     NEWS.txt       \
 
@@ -264,6 +266,9 @@ stochastic-cases-dist: $(stochastic-cases-plot-files)
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/stochastic/$(ts-file)
 	zip -r $(stochastic-cases-dist-name) $(stochastic-contents) -x@.zipexcludes
+	cp cases/stochastic/README.txt 00README.txt
+	zip -g $(stochastic-cases-dist-name) 00README.txt
+	rm -f 00README.txt
 	@echo "---------------------------------------------------------------"
 	@echo "Next: upload zip file to SourceForge as updated test cases dist."
 	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
@@ -273,6 +278,9 @@ syntactic-cases-dist:
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/syntactic/$(ts-file)
 	zip -r $(syntactic-cases-dist-name) $(syntactic-contents) -x@.zipexcludes
+	cp cases/syntactic/00README.txt .
+	zip -g $(syntactic-cases-dist-name) 00README.txt
+	rm -f 00README.txt
 	@echo "---------------------------------------------------------------"
 	@echo "Next: upload zip file to SourceForge as updated test cases dist."
 	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
