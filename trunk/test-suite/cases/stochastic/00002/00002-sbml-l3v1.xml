@@ -2,7 +2,7 @@
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
   <model id="BirthDeath02" name="Birth-death model (001), variant 02" substanceUnits="item" timeUnits="second" volumeUnits="litre">
     <listOfCompartments>
-      <compartment id="Cell" constant="true"/>
+      <compartment id="Cell" spatialDimensions="3" constant="true"/>
     </listOfCompartments>
     <listOfSpecies>
       <species id="X" compartment="Cell" initialAmount="100" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>

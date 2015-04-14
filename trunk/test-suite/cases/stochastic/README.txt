@@ -49,21 +49,84 @@ Here are the files in each directory (where "N", "Y" and "Z" are digits):
         NNNNN-results.csv      -- SBML Test Suite-style results file
         NNNNN-settings.txt     -- SBML Test Suite settings file
         NNNNN-sbml-l3v1.xml    -- SBML Level 3 Version 1 model file
+        NNNNN-sbml-l2v1.xml    -- SBML Level 2 Version 1 model file
+        NNNNN-sbml-l2v2.xml    -- SBML Level 2 Version 2 model file
+        NNNNN-sbml-l2v3.xml    -- SBML Level 2 Version 3 model file
+        NNNNN-sbml-l2v4.xml    -- SBML Level 2 Version 4 model file
 
 The files "NNNNN-sbml-l3v1.xml" are renamed versions of the original
-model files, which had names of the form "dsmts-YYY-ZZ.xml".
+model files, which had names of the form "dsmts-YYY-ZZ.xml". One slight
+change was made for each: all compartments were given a 'spatialDimensions'
+attribute so that they could be translated to SBML Level 2.
 
-The files "NNNNN-results.csv" and "NNNNN-settings.txt" are new files
-added for the purposes of the SBML Test Suite.  "NNNNN-results.csv" is
-simply a combination of the mean and standard deviation results files
-that are separated in the DSMTS; the other parts of the SBML Test
-Suite use a single results file, so we simply combined the DSMTS
-results into one file.
+The files "NNNNN-sbml-l2vN.xml" are translated versions of the original
+Level 3 model.
 
+The file "NNNNN-results.csv" is a new file added for the purposes of the
+SBML Test Suite.  "NNNNN-results.csv" is simply a combination of the mean
+and standard deviation results files that are separated in the DSMTS; the
+other parts of the SBML Test Suite use a single results file, so we simply
+combined the DSMTS results into one file.
+
+The file "NNNNN-model.m" is a new file added for the purposes of the SBML
+Test Suite.  It mirrors the model file in the semantic test suite, with the
+same overall format, same suite of component tags and test tags, and same
+overall description.  The only difference is that the 'testType' listed
+for all stochastic test suite models is 'StochasticTimeCourse'.
+
+The file "NNNNN-settings.txt" is a new file added for the purposes of the
+SBML Test Suite.  It mirrors the settings files in the semantic test suite,
+with a few differences:
+   * The 'absolute' and 'relative' settings are unused, as the method used
+     to calculate a stochastic test success or failure is very different
+     from that of a normal semantic test suite simulation.
+   * A new 'output' setting is used, which lists all the 'X-mean' and 'X-sd'
+     entries present in the NNNNN-results.csv file.  The relevant output 
+     model variables are still listed in the 'variables' and 'amount' 
+     settings--'output' appends both '-mean' and '-sd' to those variables.
+   * New 'meanRange' and 'outputRange' settings are included, to be used
+     in assessing a stochastic run's success or failure (see below).
 
 ------------------
 2. GETTING STARTED
 ------------------
+
+As described in more detail in DSMTS-userguide-31v2.pdf, stochastic
+simulations should be run n times, where n is at a minimum 1,000, but
+more reasonably set to 10,000 for repeated tests, and which will need
+to be 100,000 or 1,000,000 to detect more subtle implementation
+errors.  Once the tests have been run, the average value of X for
+each time point t (X_t) should be recorded, along with the standard
+deviation of that value (S_t).  These calculated values are then
+compared with the expected values (mu_t for the expected mean at time
+point t, and sigma_t for the expected standard deviation at time
+point t; values found in NNNNN-results.csv) to calculate the following
+values:
+
+Z_t = sqrt(n)*(X_t-mu_t)/sigma_t
+
+and
+
+Y_t = sqrt(n/2)*(S_t^2/sigma_t^2 - 1)
+
+
+Z_t should always fall in the range 'meanRange' from the settings file
+(which currently will always be the range (-3,3)).
+
+Y_t should always fall in the range 'sdRange' from the settings file
+(which currently will always be the range (-5,5)).
+
+Do note that due to the nature of stochastic simulation, a correct
+simulator will still occasionally fail a test or two here or there,
+especially when multiple tests are being performed.  As DSMTS-userguide
+estimates, in a complete run of the entire stochastic test suite with
+n=10,000, two or three Z_t tests may fail, and five or six Y_t tests may
+fail.
+
+
+-------------------------
+3. TEST SUITE INTEGRATION
+-------------------------
 
 As of this writing, the DSMTS are not full integrated into the SBML
 Test Suite Test Runner or the Online SBML Test Suite.  The DSMTS is
@@ -73,17 +136,15 @@ developers to begin investigating how they might be able to use it.
 Please see the user guide in the file "dsmts-userguide.pdf" in this
 directory for more information about the DSMTS.
 
-If you use DSMTS, please make sure to cite the paper by the original
-authors:
-
-  Evans, T. W., Gillespie, C. S., Wilkinson, D. J. (2008) The SBML
-  discrete stochastic models test suite, Bioinformatics, 24:285-286.
-
-
 ---------------------------------
-3. LICENSE AND DISTRIBUTION TERMS
+4. LICENSE AND DISTRIBUTION TERMS
 ---------------------------------
 
 The DSMTS is licensed under the GNU LGPL by the original authors
 (Evans, Gillespie, Wilkinson).
 
+If you use DSMTS, please make sure to cite the paper by the original
+authors:
+
+  Evans, T. W., Gillespie, C. S., Wilkinson, D. J. (2008) The SBML
+  discrete stochastic models test suite, Bioinformatics, 24:285-286.
