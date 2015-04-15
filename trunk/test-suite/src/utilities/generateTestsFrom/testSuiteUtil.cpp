@@ -581,7 +581,7 @@ void checkSpeciesRefs(Model* model, ListOfSpeciesReferences* losr, set<string>& 
   }
 }
 
-void checkReactions(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results, bool fbc)
+void checkReactions(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results, int type)
 {
   if (model->getNumReactions() > 0) {
     components.insert("Reaction");
@@ -591,7 +591,7 @@ void checkReactions(Model* model, set<string>& components, set<string>& tests,  
         tests.insert("FastReaction");
       }
       if (rxn->isSetReversible() && rxn->getReversible()) {
-        if (!fbc) {
+        if (type!=1) {
           tests.insert("ReversibleReaction [?]");
         }
       }
@@ -609,13 +609,16 @@ void checkReactions(Model* model, set<string>& components, set<string>& tests,  
   }
 }
 
-void checkSpecies(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results, bool fbc)
+void checkSpecies(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results, int type)
 {
   //Must call this after 'checkCompartments' because we look in 'tests' for 'NonUnityCompartment'.
   if (model->getNumSpecies() > 0) {
     components.insert("Species");
-    if (!fbc) {
+    if (type==0) {
       tests.insert("Amount||Concentration");
+    }
+    else if (type==2) {
+      tests.insert("Amount");
     }
     for (unsigned int s=0; s<model->getNumSpecies(); s++) {
       Species* species = model->getSpecies(s);

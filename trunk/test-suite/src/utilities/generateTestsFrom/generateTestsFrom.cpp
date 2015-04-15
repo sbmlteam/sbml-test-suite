@@ -150,6 +150,21 @@ vector<string> getIdListFrom(ListOf* list)
   return ret;
 }
 
+vector<string> getLocalParameterIdListFrom(const Model* model)
+{
+  vector<string> ret;
+  for (unsigned int rxn=0; rxn<model->getNumReactions(); rxn++) {
+    const Reaction* reaction = model->getReaction(rxn);
+    string rxnid = reaction->getId();
+    const KineticLaw* kl = reaction->getKineticLaw();
+    if (kl==NULL) continue;
+    for (unsigned int lp=0; lp<kl->getNumLocalParameters(); lp++) {
+      ret.push_back(rxnid + "." + kl->getLocalParameter(lp)->getId());
+    }
+  }
+  return ret;
+}
+
 string getHalfReaction(ListOfSpeciesReferences* srs, vector<string>& stoichrefs, Model* model,  const map<string, vector<double> >& results)
 {
   stringstream ret;
@@ -566,6 +581,31 @@ string getInitialCompartmentLevels(Model* model, bool isconst)
   return ret.str();
 }
 
+string getInitialLocalParameterLevels(const Model* model)
+{
+  stringstream ret;
+  for (unsigned long r=0; r<model->getNumReactions(); r++) {
+    const Reaction* rxn = model->getReaction(r);
+    string id = rxn->getId();
+    const KineticLaw* kl = rxn->getKineticLaw();
+    if (kl==NULL) {
+      continue;
+    }
+    for (unsigned long lp=0; lp<kl->getNumLocalParameters(); lp++) {
+      const LocalParameter* localparam = kl->getLocalParameter(lp);
+      ret << endl << "| Initial value of local parameter '" << id << "." << localparam->getId() << "' | $"; 
+      if (localparam->isSetValue()) {
+        ret << localparam->getValue() << "$ |";
+      }
+      else {
+        ret << "unknown$ |";
+      }
+      ret << " constant |";
+    }
+  }
+  return ret.str();
+}
+
 string getInitialAssignmentTable(Model* model)
 {
   stringstream ret;
@@ -576,6 +616,7 @@ string getInitialAssignmentTable(Model* model)
   ret << getInitialSpeciesLevels(model, false);
   ret << getInitialParameterLevels(model, true);
   ret << getInitialParameterLevels(model, false);
+  ret << getInitialLocalParameterLevels(model);
   ret << getInitialCompartmentLevels(model, true);
   ret << getInitialCompartmentLevels(model, false);
   ret << "]" << endl;
@@ -593,7 +634,7 @@ bool allSpeciesSetAmountUsedConcentration(Model* model)
   return true;
 }
 
-string getModelSummary(Model* model,  const map<string, vector<double> >& results, bool flat)
+string getModelSummary(Model* model,  const map<string, vector<double> >& results, bool flat, int type)
 {
   stringstream ret;
   if (flat) {
@@ -610,6 +651,12 @@ string getModelSummary(Model* model,  const map<string, vector<double> >& result
   namelist = getIdListFrom(model->getListOfParameters());
   if (namelist.size()>0) {
     ret << "* " << namelist.size() << " parameter";
+    if (namelist.size() > 1) ret << "s";
+    ret << " (" << getString(namelist) << ")\n";
+  }
+  namelist = getLocalParameterIdListFrom(model);
+  if (namelist.size()>0) {
+    ret << "* " << namelist.size() << " local parameter";
     if (namelist.size() > 1) ret << "s";
     ret << " (" << getString(namelist) << ")\n";
   }
@@ -702,20 +749,30 @@ string getModelSummary(Model* model,  const map<string, vector<double> >& result
     ret << "appear in expressions." << endl << endl;
   }
 
-  ret << "{Keep this next line if 'generatedBy' is 'Analytic':}" << endl;
+  if (type!=2) {
+    ret << "{Keep this next line if 'generatedBy' is 'Analytic':}" << endl;
+  }
   ret << "Note: The test data for this model was generated from an analytical" << endl;
   ret << "solution of the system of equations." << endl;
 
   return ret.str();
 }
 
-string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const map<string, vector<double> >& results)
+string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const map<string, vector<double> >& results, int type)
 {
   set<string> components;
   set<string> tests;
   set<string> packages;
   SBMLDocument* doc = model->getSBMLDocument();
   string testType = "TimeCourse";
+  string generatedBy = "Analytic||Numeric";
+  if (type==1) {
+    testType = "FluxBalanceSteadyState";
+  }
+  else if (type==2) {
+    testType = "StochasticTimeCourse";
+    generatedBy = "Analytic";
+  }
 
 #ifdef USE_COMP
   CompSBMLDocumentPlugin* compdoc = static_cast<CompSBMLDocumentPlugin*>(doc->getPlugin("comp"));
@@ -744,14 +801,12 @@ string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const ma
   }
 #endif
 
-  bool fbc = false;
 #ifdef USE_FBC
   FbcModelPlugin* fbcmodplug = static_cast<FbcModelPlugin*>(model->getPlugin("fbc"));
   if (fbcmodplug != NULL) {
     packages.insert("fbc");
     checkFbc(fbcmodplug, components, tests, results);
     testType = "FluxBalanceSteadyState";
-    fbc = true;
   }
 #endif
 
@@ -765,8 +820,8 @@ string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const ma
     components.insert("InitialAssignment");
   }
   checkParameters(model, components, tests, results);
-  checkReactions(model, components, tests, results, fbc);
-  checkSpecies(model, components, tests, results, fbc);
+  checkReactions(model, components, tests, results, type);
+  checkSpecies(model, components, tests, results, type);
   if (model->isSetConversionFactor()) {
     tests.insert("ConversionFactors");
   }
@@ -788,7 +843,7 @@ string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const ma
   ret += "testTags:        " + getString(tests) + "\n";
   ret += "testType:        " + testType + "\n";
   ret += "levels:          " + getString(levelsandversions) + "\n";
-  ret += "generatedBy:     Analytic||Numeric\n";
+  ret += "generatedBy:     " + generatedBy + "\n";
   ret += "packagesPresent: " + getString(packages) + "\n";
   ret += "\n";
   ret += "{Write general description of why you have created the model here.}\n";
@@ -856,10 +911,10 @@ writeMFile(string contents, string modfilename)
   }
   if (analytic > 0) {
     size_t keepline = contents.find("{Keep this next");
-    if (analytic==1) {
+    if (analytic==1 && keepline != string::npos) {
       contents.replace(keepline, 54, "");
     }
-    else if (analytic==2) {
+    else if (analytic==2 && keepline != string::npos) {
       contents.replace(keepline, 54+68+38, "");
     }
   }
@@ -876,7 +931,7 @@ writeMFile(string contents, string modfilename)
   cout << "Successfully wrote model description file " << modfilename << endl;
 }
 
-void writeSettingsFile(string modfilename, bool fbc)
+void writeSettingsFile(string modfilename, int type, Model* model)
 {
   size_t sbml_place = modfilename.find("-sbml-l");
   if (sbml_place==string::npos) {
@@ -893,11 +948,33 @@ void writeSettingsFile(string modfilename, bool fbc)
   string variables = "__";
   string abs = "0.0001";
   string rel = "0.0001";
-  if (fbc) {
+  string amount = "";
+  string concentration = "";
+  string output = "";
+  if (type==1) {
+    //FBC test
     start = "";
     duration = "";
     steps = "";
     abs = "";
+  }
+  if (type==2) {
+    //Stochastic
+    duration = "50";
+    steps = "50";
+    abs = "";
+    rel = "";
+    variables = "";
+    for (unsigned int s=0; s<model->getNumSpecies(); s++) {
+      if (s>0) {
+        variables += ", ";
+        output += ", ";
+      }
+      string id = model->getSpecies(s)->getId();
+      variables += id;
+      output += id + "-mean, " + id + "-sd";
+    }
+    amount = variables;
   }
   ofstream file(filename);
   file << "start: " << start << endl;
@@ -906,8 +983,14 @@ void writeSettingsFile(string modfilename, bool fbc)
   file << "variables: " << variables << endl;
   file << "absolute: " << abs << endl;
   file << "relative: " << rel << endl;
-  file << "amount: " << endl;
-  file << "concentration: " << endl;
+  file << "amount: " << amount << endl;
+  file << "concentration: " << concentration << endl;
+  if (type==2) {
+    //Stochastic
+    file << "output: " << output << endl;
+    file << "meanRange: (-3, 3)" << endl;
+    file << "sdRange: (-5, 5)" << endl;
+  }
 }
 
 int
@@ -920,11 +1003,15 @@ main (int argc, char* argv[])
   }
 
   bool translateonly = false;
+  int type = 0;
   string filename = "";
   for (int a=1; a<argc; a++) {
     string option = argv[a];
     if (option == "-t") {
       translateonly = true;
+    }
+    else if (option== "-s") {
+      type = 2;
     }
     else {
       filename = option;
@@ -959,8 +1046,14 @@ main (int argc, char* argv[])
 
   vector<string> levelsandversions = createTranslations(document, filename);
   if (!translateonly) {
+#ifdef USE_FBC
+    FbcModelPlugin* fbcmodplug = static_cast<FbcModelPlugin*>(document->getModel()->getPlugin("fbc"));
+    if (fbcmodplug != NULL) {
+      type = 1;
+    }
+#endif
     string mfile = "(*\n\n";
-    mfile += getSuiteHeaders(levelsandversions, model, results);
+    mfile += getSuiteHeaders(levelsandversions, model, results, type);
     bool flat = false;
 #ifdef USE_COMP
     SBMLDocument newdoc = *document;
@@ -985,17 +1078,10 @@ main (int argc, char* argv[])
       writeSBMLToFile(&flatdoc, flatfilename.c_str());
     }
 #endif
-    mfile += getModelSummary(model, results, flat);
+    mfile += getModelSummary(model, results, flat, type);
     mfile += "\n*)";
     writeMFile(mfile, filename);
-    bool fbc = false;
-#ifdef USE_FBC
-    FbcModelPlugin* fbcmodplug = static_cast<FbcModelPlugin*>(document->getModel()->getPlugin("fbc"));
-    if (fbcmodplug != NULL) {
-      fbc = true;
-    }
-#endif
-    writeSettingsFile(filename, fbc);
+    writeSettingsFile(filename, type, model);
   }
 
   delete document;
