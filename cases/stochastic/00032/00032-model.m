@@ -9,7 +9,7 @@ levels:          2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:     Analytic
 packagesPresent: 
 
-This model is the same as model 00030, with an event that resets the two species levels.
+This model is the same as model 00030, with an event that resets the two species levels based on time.
 
 The model contains:
 * 2 species (P, P2)

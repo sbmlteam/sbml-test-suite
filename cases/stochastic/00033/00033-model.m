@@ -9,7 +9,7 @@ levels:          2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:     Analytic
 packagesPresent: 
 
-This model is the same as model 00032, with an event trigger based on time instead of species level.
+This model is the same as model 00032, with an event trigger based on species levels instead of time.
 
 The model contains:
 * 2 species (P, P2)
