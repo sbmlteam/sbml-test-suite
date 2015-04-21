@@ -38,8 +38,8 @@
       </reaction>
     </listOfReactions>
     <listOfEvents>
-      <event id="reset">
-        <trigger>
+      <event id="reset" useValuesFromTriggerTime="true">
+        <trigger initialValue="false" persistent="true">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
               <geq/>
