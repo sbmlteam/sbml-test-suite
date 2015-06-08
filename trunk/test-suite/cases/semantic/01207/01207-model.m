@@ -5,7 +5,7 @@ synopsis:        Variable compartment with explicitly fixed species
 componentTags:   AssignmentRule, Compartment, Parameter, RateRule, Species
 testTags:        Amount, BoundaryCondition, HasOnlySubstanceUnits, InitialValueReassigned, NonConstantCompartment, NonConstantParameter, NonUnityCompartment
 testType:        TimeCourse
-levels:          1.2, 2.1, 2.2, 2.3, 2.4, 3.1
+levels:          2.1, 2.2, 2.3, 2.4, 3.1
 generatedBy:     Analytic
 packagesPresent: 
 
