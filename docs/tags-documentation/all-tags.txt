@@ -73,6 +73,7 @@ RandomEventExecution	L3v1+	The model contains two or more events that execute at
 ReversibleReaction	all	The model contains at least one reaction whose kinetic law produces a negative value for at least part of the duration of the simulation.
 SpeciesReferenceInMath	L3v1+	The model contains at least one species reference with an identifier that is used in a mathematical formula elsewhere in the model.
 UncommonMathML	L2v1+	The model contains at least one MathML construct that is not typically encountered in biological models, such as an unusual function, or a common function with an unusual number of arguments.
+VolumeConcentrationRates	L2v1+	The model contains at least one species whose change in concentration is controlled by two rate rules: one for the compartment size, and one for the species amount.
 comp:ConversionFactor	L3v1+	The model contains at least one replacedElement with a conversionFactor attribute, which affects the interpretation of the math in the model.
 comp:ExtentConversionFactor	L3v1+	The model contains at least one submodel with an extentConversionFactor attribute, which affects the interpretation of the reactions in the submodel.
 comp:TimeConversionFactor	L3v1+	The model contains at least one submodel with a timeConversionFactor attribute, which affects the interpretation of the math and the reactions in the submodel.
