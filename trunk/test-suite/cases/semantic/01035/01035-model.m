@@ -5,7 +5,7 @@ synopsis:      Single reversible reaction with an initial assignment.
 componentTags: Compartment, Species, Reaction, Parameter, InitialAssignment  
 testTags:      Amount, ReversibleReaction
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 3.1
+levels:        2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Numeric
 
 Note:  This test is a copy of model 835, with the products and reactants reversed, 

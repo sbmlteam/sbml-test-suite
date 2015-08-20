@@ -5,7 +5,7 @@ synopsis:      Basic one reaction with one species in one compartment and one ev
 componentTags: AssignmentRule, Compartment, EventNoDelay, Parameter, Reaction, Species
 testTags:      Amount, NonConstantCompartment, NonConstantParameter, NonUnityCompartment, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There is one species called S1 and two parameters, k1 and fakeC.  It is identical in design and expected output to model 00945, except that instead of the event assigning to a compartment directly, it assigns to a temporary variable 'fakeC' which is then assigned to compartment C through an assignment rule.

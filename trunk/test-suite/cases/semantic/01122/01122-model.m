@@ -5,7 +5,7 @@ synopsis:        Test of proper interpretation of a boundary species set hasOnly
 componentTags:   Compartment, RateRule, Reaction, Species
 testTags:        Amount, BoundaryCondition, NonConstantCompartment, NonUnityCompartment
 testType:        TimeCourse
-levels:          1.2, 2.1, 2.2, 2.3, 2.4, 3.1
+levels:          1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:     Numeric
 packagesPresent: 
 

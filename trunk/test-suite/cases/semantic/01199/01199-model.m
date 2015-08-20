@@ -5,7 +5,7 @@ synopsis:        Nested piecewise in conditional.
 componentTags:   AssignmentRule, Parameter, RateRule
 testTags:        InitialValueReassigned, NonConstantParameter, UncommonMathML
 testType:        TimeCourse
-levels:          2.1, 2.2, 2.3, 2.4, 3.1
+levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:     Analytic
 packagesPresent: 
 

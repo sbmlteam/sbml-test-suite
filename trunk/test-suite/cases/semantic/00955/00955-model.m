@@ -5,7 +5,7 @@ synopsis:      Several parameters with assignment rules involving time, testing 
 componentTags: AssignmentRule, CSymbolTime, Parameter
 testTags:      NonConstantParameter, InitialValueReassigned, UncommonMathML
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
  The model tests the various mathematical constructs present in L1, as applied to the time variable.  Ironically, this doesn't work in L1, since time isn't present, but hey.

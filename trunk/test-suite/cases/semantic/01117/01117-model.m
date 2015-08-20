@@ -5,7 +5,7 @@ synopsis:      Testing that the species amount does not change, even in a changi
 componentTags: Compartment, RateRule, Species
 testTags:      Amount, ConstantSpecies, NonConstantCompartment, NonUnityCompartment
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
  This model tests that the simulator should, by default, assume that a species set boundaryCondition=false and hasOnlySubstanceUnits=false, residing in a compartment that changes over time, should keep its *amount* constant, not its concentration.

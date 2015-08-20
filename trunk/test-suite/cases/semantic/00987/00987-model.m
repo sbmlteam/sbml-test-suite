@@ -5,7 +5,7 @@ synopsis:      A fast and slow reaction, the first of which feeds into the secon
 componentTags: CSymbolTime, Compartment, EventNoDelay, Parameter, Reaction, Species
 testTags:      Amount, FastReaction, NonConstantParameter, HasOnlySubstanceUnits
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
 After the event fires, the 'fast' reaction should go to completion instantly, converting all of A to B.  Then B converts to C normally.

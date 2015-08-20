@@ -6,7 +6,7 @@ with one reaction marked as fast and one species a boundary.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      Amount, FastReaction, BoundaryCondition
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Numeric
 
 Note:  This test is a copy of model 873, with the products and reactants reversed, and a negative kinetic law.  This gives the same results, but during the simulation, the kinetic law fails to go negative (a requirement for the ReversibeReaction tag).  The reaction listed below is therfore equivalent to the one in the file, but reversed from it.

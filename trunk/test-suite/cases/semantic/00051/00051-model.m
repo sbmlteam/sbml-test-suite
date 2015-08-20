@@ -6,7 +6,7 @@ synopsis:      Basic single forward reaction with two species in a compartment
 componentTags: Compartment, Species, Reaction, Parameter, RateRule 
 testTags:      Amount, NonConstantCompartment, NonUnityCompartment
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Numeric
 
 The model contains one varying compartment called C.  There are two

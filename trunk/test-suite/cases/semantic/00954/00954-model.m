@@ -5,7 +5,7 @@ synopsis:      Several parameters with assignment rules, testing various L1 buil
 componentTags: AssignmentRule, Parameter
 testTags:      InitialValueReassigned, UncommonMathML
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
 The model tests the various mathematical constructs present in L1.

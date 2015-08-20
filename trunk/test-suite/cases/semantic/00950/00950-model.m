@@ -5,7 +5,7 @@ synopsis:      Three constant parameters, with initialassignments to inf, -inf, 
 componentTags: InitialAssignment, Parameter
 testTags:      InitialValueReassigned
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 3.1
+levels:        2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
  This model tests the 'INF' and 'NaN' constructs with initial assignments.

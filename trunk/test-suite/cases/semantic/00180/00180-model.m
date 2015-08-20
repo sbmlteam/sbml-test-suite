@@ -5,7 +5,7 @@ synopsis:      Model with parameters and rules with an initialAssignment.
 componentTags: Parameter, InitialAssignment, RateRule 
 testTags:      NonConstantParameter, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 3.1
+levels:        2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Numeric
 
 The model contains two varying parameters called S1 and S2 and two constant

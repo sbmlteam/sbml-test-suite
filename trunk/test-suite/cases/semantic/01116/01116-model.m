@@ -5,7 +5,7 @@ synopsis:      Testing 'piecewise' without 'otherwise'.
 componentTags: InitialAssignment, Parameter
 testTags:      InitialValueReassigned, UncommonMathML
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 3.1
+levels:        2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
  MathML allows the construction of 'piecwise' functions without 'otherwise'.  When all cases are accounted for, this shouldn't make a difference in the output of the model.

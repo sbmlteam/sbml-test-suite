@@ -5,7 +5,7 @@ synopsis:      A species that changes behavior between its IntialAssignment ands
 componentTags: AssignmentRule, CSymbolDelay, CSymbolTime, Compartment, InitialAssignment, Parameter, Reaction, Species
 testTags:      Amount, NonConstantParameter, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 3.1
+levels:        2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
 The model contains a single species S1 whose InitialAssignment claims that it has been oscillating (the sine function) up until the start of the simulation, at which point a reaction begins to create it.  A parameter (y) echoes this species with a 0.2 second delay, meaning that it starts by 'seeing' the oscillations before echoing the linear increase.

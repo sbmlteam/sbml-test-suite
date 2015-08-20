@@ -5,7 +5,7 @@ synopsis:      A very simple reaction with stoichiometry changed by a rate rule.
 componentTags: StoichiometryMath, Compartment, Parameter, RateRule, Reaction, Species
 testTags:      Amount, AssignedVariableStoichiometry, NonConstantParameter, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4
+levels:        2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:   Analytic
 
 Note:  earlier versions of the test suite contained a 3.1 version of this test.

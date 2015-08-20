@@ -6,7 +6,7 @@ synopsis:      Testing different versions of initialAmount vs. initialConcentrat
 componentTags: AssignmentRule, Compartment, Parameter, RateRule, Species
 testTags:      Amount, HasOnlySubstanceUnits, MultiCompartment, NonConstantCompartment, NonConstantParameter, NonUnityCompartment, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
  This model has four species in a constant (non-unity) compartment with the four different combinations of being set by initialAmount or initialConcentration, and being set 'hasOnlySubstanceUnits' equal to true or false.  It also has another four species with the same spread, in a different compartment whose volume changes over time.  Each of these eight species is assigned to a parameter, to catch the 'hasOnlySubstanceUnits' differences (every other parameter has units of amount or concentration, respectively).

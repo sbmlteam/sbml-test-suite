@@ -6,7 +6,7 @@ compartment using an assignmentRule to assign value to the compartment.
 componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule 
 testTags:      Amount, InitialValueReassigned
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are three

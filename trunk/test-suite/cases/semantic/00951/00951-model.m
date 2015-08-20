@@ -5,7 +5,7 @@ synopsis:      Three constant parameters, with initial values of inf, -inf, and 
 componentTags: Parameter
 testTags:      
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
 This model tests the INF and NaN constructs.
