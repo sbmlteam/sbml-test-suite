@@ -5,7 +5,7 @@ synopsis:      A model that tests how not to vary a species.
 componentTags: Compartment, RateRule, Species
 testTags:      Amount, BoundaryCondition, ConstantSpecies, NonConstantCompartment, NonUnityCompartment
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
  This model tests that the simulator should, by default, assume that a species set boundaryCondition=true and hasOnlySubstanceUnits=false, residing in a compartment that changes over time, should keep its *amount* constant, not its concentration.

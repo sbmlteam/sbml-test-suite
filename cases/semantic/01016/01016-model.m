@@ -5,7 +5,7 @@ synopsis:      Basic reaction and rate rule with three species in a size-10 comp
 componentTags: Compartment, Species, Reaction, Parameter, RateRule 
 testTags:      Amount, HasOnlySubstanceUnits, NonUnityCompartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
 Note:  This test is a direct copy of test 00331, but with a size-10 compartment, to test the 'hasOnlySubstanceUnits' attribute.  The model should have exactly the same results, as concentration should have never been used to calculate anything.

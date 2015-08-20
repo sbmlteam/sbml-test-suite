@@ -5,7 +5,7 @@ synopsis:      A fast and slow reaction, the first of which feeds into the secon
 componentTags: Compartment, Reaction, Species
 testTags:      Amount, FastReaction, HasOnlySubstanceUnits
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
 The 'fast' reaction should go to completion instantly, converting all of A to B.  Then B converts to C normally.

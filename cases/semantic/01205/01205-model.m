@@ -5,7 +5,7 @@ synopsis:        A species concentration under control of a rate rule.
 componentTags:   AssignmentRule, Compartment, Parameter, RateRule, Species
 testTags:        Amount, BoundaryCondition, InitialValueReassigned, NonConstantParameter, NonUnityCompartment
 testType:        TimeCourse
-levels:          1.2, 2.1, 2.2, 2.3, 2.4, 3.1
+levels:          1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:     Numeric
 packagesPresent: 
 

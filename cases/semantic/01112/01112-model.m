@@ -5,7 +5,7 @@ synopsis:      Test of 0-child MathML constructs plus, times, and, or, and xor.
 componentTags: InitialAssignment, Parameter
 testTags:      InitialValueReassigned, UncommonMathML
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 3.1
+levels:        2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
 In the official MathML spec, plus, times, and, or, and xor may all have 0 arguments.  When they do, they are supposed return identity for that construct, namely:

@@ -5,7 +5,7 @@ synopsis:      Basic one reaction with one species in one compartment and one ev
 componentTags: Compartment, EventNoDelay, Parameter, Reaction, Species
 testTags:      Concentration, NonConstantCompartment, NonUnityCompartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Numeric
 
 Test of an event changing the size of a compartment.

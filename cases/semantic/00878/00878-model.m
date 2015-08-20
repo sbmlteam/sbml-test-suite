@@ -6,7 +6,7 @@ using csymbol time within an initialAssignment.
 componentTags: Compartment, Species, CSymbolTime, Reaction, Parameter, InitialAssignment 
 testTags:      Amount, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 3.1
+levels:        2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
 The model contains one compartment called C.  There are two

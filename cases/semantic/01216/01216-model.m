@@ -5,7 +5,7 @@ synopsis:        Assignment rules with nary relational elements.
 componentTags:   AssignmentRule, Parameter
 testTags:        InitialValueReassigned, UncommonMathML
 testType:        TimeCourse
-levels:          2.1, 2.2, 2.3, 2.4, 3.1
+levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:     Analytic
 packagesPresent: 
 

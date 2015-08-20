@@ -5,7 +5,7 @@ synopsis:      Test of nested 1-child MathML constructs plus, times, and, or, an
 componentTags: InitialAssignment, Parameter
 testTags:      InitialValueReassigned, UncommonMathML
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 3.1
+levels:        2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
 In the official MathML spec, plus, times, and, or, and xor may all have 1 arguments.  When they do, they are supposed return that argument.

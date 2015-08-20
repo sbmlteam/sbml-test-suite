@@ -5,7 +5,7 @@ synopsis:      Model with parameters and assignmentRule only.
 componentTags: Parameter, AssignmentRule 
 testTags:      
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
 The model contains two constant

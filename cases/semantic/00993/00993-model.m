@@ -5,7 +5,7 @@ synopsis:      A simple reaction with stoichiometry set to a parameter, which in
 componentTags: StoichiometryMath, AlgebraicRule, Compartment, Parameter, Reaction, Species
 testTags:      Amount, AssignedVariableStoichiometry, InitialValueReassigned, NonConstantParameter, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4
+levels:        2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:   Numeric
 
 The stoichiometry of the reaction '-> nX' is set to be equal to p1, a parameter that is set by an algebraic rule to be equal to X.

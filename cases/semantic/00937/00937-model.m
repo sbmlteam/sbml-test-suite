@@ -5,7 +5,7 @@ synopsis:      Two oscillators; one that echoes the first by a delay.
 componentTags: AssignmentRule, CSymbolDelay, CSymbolTime, Parameter
 testTags:      NonConstantParameter, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Analytic
 
 The model contains one parameter (x) that oscillates (from the 'sin' function), and a second parameter (y) that echoes the first after a 0.2 second delay.

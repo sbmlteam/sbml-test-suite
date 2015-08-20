@@ -5,7 +5,7 @@ synopsis:        Variable compartment with variable species concentration
 componentTags:   AssignmentRule, Compartment, Parameter, RateRule, Species
 testTags:        Amount, BoundaryCondition, InitialValueReassigned, NonConstantCompartment, NonConstantParameter, NonUnityCompartment, VolumeConcentrationRates
 testType:        TimeCourse
-levels:          1.2, 2.1, 2.2, 2.3, 2.4, 3.1
+levels:          1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:     Analytic
 packagesPresent: 
 

@@ -6,7 +6,7 @@ compartment using an assignmentRule to vary one species.
 componentTags: StoichiometryMath, Compartment, Species, Reaction, Parameter, AssignmentRule 
 testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4
+levels:        2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:   Numeric
 
 Note:  earlier versions of the test suite contained a 3.1 version of this test.

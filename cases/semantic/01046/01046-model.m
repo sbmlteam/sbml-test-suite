@@ -6,7 +6,7 @@ synopsis:      Two reversible reactions with four species in one compartment
 componentTags: Compartment, Species, Reaction, Parameter, EventNoDelay 
 testTags:      Amount, ReversibleReaction
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Numeric
 
 Note:  This test is a copy of model 846, with the products and reactants reversed, 

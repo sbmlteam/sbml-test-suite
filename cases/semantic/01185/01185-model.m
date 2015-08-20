@@ -5,7 +5,7 @@ synopsis:        A kinetic law set by a constant with an initial assignment.
 componentTags:   Compartment, InitialAssignment, Parameter, Reaction, Species
 testTags:        Amount, InitialValueReassigned
 testType:        TimeCourse
-levels:          2.2, 2.3, 2.4, 3.1
+levels:          2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:     Numeric
 packagesPresent: 
 

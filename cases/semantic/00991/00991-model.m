@@ -5,7 +5,7 @@ synopsis:      A simple reaction with stoichiometry set to a parameter that vari
 componentTags: StoichiometryMath, Compartment, EventNoDelay, Parameter, Reaction, Species
 testTags:      Amount, AssignedVariableStoichiometry, NonUnityStoichiometry, NonConstantParameter
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4
+levels:        2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:   Numeric
 
 The stoichiometry of the reaction '-> nX' is set to be equal to p1, a parameter that starts at 1 and switches to 2 due to an event.

@@ -6,7 +6,7 @@ synopsis:      Basic two reactions using functiondefinitions with four species i
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      Amount, HasOnlySubstanceUnits, NonUnityCompartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:   Numeric
 
 Note:  This test is a direct copy of test 00115, but with a size-10 compartment, to test the 'hasOnlySubstanceUnits' attribute.  The model should have exactly the same results, as concentration should have never been used to calculate anything.
