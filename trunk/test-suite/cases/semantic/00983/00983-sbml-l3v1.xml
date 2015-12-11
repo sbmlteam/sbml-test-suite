@@ -13,7 +13,7 @@
           <cn type="integer"> 1 </cn>
         </math>
       </rateRule>
-      <algebraicRule variable="temp">
+      <algebraicRule>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
             <plus/>
