@@ -128,7 +128,7 @@ fail.
 3. TEST SUITE INTEGRATION
 -------------------------
 
-As of this writing, the DSMTS are not full integrated into the SBML
+As of this writing, the DSMTS are not fully integrated into the SBML
 Test Suite Test Runner or the Online SBML Test Suite.  The DSMTS is
 distributed with the SBML Test Suite test cases in order to encourage
 developers to begin investigating how they might be able to use it.
