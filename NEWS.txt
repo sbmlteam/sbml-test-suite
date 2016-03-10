@@ -53,9 +53,16 @@ New in this release:
 * New test cases 1199-1218.  Cases 1199-1204 test the use of nested
   piecewise operators in mathematical formulas; cases 1205-1208 test
   variable-size compartments; cases 1209-1216 test the use of multiple
-  arguments to MathML relational operators such as le/ge/eq.
+  arguments to MathML relational operators such as le/ge/eq; cases
+  1217-1218 check interdependent initial assignments and assignment
+  rules.
 
 Updates:
+
+* SBML Level 2 Version 5 models added to all tests that included
+  a Level 2 Version 4 model for that test.  All are syntactically
+  identical to the L2v4 versions, apart from the declared SBML
+  namespace.
 
 * The plotresults.py script used to generate the plots of results now
   offers the ability to plot on dual axes.  This is used to generate
@@ -63,6 +70,19 @@ Updates:
   plotresults.py has had its command line options changed in order to
   work with the input/output combinations that are now possible.  Also,
   plotresults.py now works in Python 3.
+
+* The stochastic test cases were updated from the originals taken
+  from the DSMTS to be fully valid SBML, and to include other
+  level/version combinations.
+
+* Results from stochastic test 33 (originally test 003-04 in the DSMTS)
+  were re-calculated by Darren Wilkinson, after the previous results
+  were found to be slightly incorrect.
+
+* Fixes to validation warnings and errors for models 937, 950,
+  983, and 1018.
+
+
 
 
 === Test case archive update (2014-10-23)
