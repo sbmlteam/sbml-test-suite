@@ -1,0 +1,21 @@
+    Stochastic Test Suite NEWS -- History of user-visible changes
+
+
+====================================================================
+3.2 (August 2015)
+====================================================================
+
+* Bug fixes
+	
+  - Update expected results of model 00033 (formerly 003-04) based
+    on user feedback, from Darren's re-calculated results:
+    https://groups.google.com/d/msg/sbml-discuss/cGD2gq4LeOo/XeIzkR3oFAAJ
+
+
+====================================================================
+3.2 beta (April 2015)
+====================================================================
+
+* Initial conversion of DSTS to the SBML Test Suite format.
+
+
