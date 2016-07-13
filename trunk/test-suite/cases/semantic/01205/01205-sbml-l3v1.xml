@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created by libAntimony version v2.6.1 on 2015-01-20 10:38 with libSBML version 5.11.1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model id="case01198" name="case01198">
+  <model id="case01205" name="case01205">
     <listOfCompartments>
       <compartment id="C1" spatialDimensions="3" size="0.5" constant="true"/>
     </listOfCompartments>

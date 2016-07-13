@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model id="case00995" name="case00995">
+  <model id="case00996" name="case00996">
     <listOfParameters>
       <parameter id="p1" value="1" constant="false"/>
       <parameter id="p2" value="0" constant="false"/>
