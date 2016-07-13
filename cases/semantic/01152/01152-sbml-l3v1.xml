@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created by libAntimony version v2.3-beta with libSBML version 5.5.0. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" level="3" version="1" comp:required="true">
-  <model id="doc0" name="doc0">
+  <model id="case01152" name="case01152">
     <listOfParameters>
       <parameter id="conv" value="0.1" constant="true"/>
       <parameter id="p8" value="8" constant="false">

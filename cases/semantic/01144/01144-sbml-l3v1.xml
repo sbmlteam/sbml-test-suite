@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" level="3" version="1" comp:required="true">
-  <model>
+  <model id="case01144" name="case01144">
     <listOfParameters>
       <parameter id="timeconv" value="60" constant="true"/>
       <parameter id="extentconv" value="1000" constant="true"/>

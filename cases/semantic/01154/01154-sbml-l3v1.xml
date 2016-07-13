@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" level="3" version="1" comp:required="true">
-  <model>
+  <model id="case01154" name="case01154">
     <comp:listOfSubmodels>
       <comp:submodel comp:id="sub1" comp:modelRef="moddef1">
         <comp:listOfDeletions>
