@@ -23,9 +23,8 @@
   | 3. License and distribution terms                             |
    `--------------------------------------------------------------'
 
---------------
 1. EXPLANATION
---------------
+======================================================================
     
 The SBML Discrete Stochastic Model Test Suite (DSMTS) was developed
 and contributed by Thomas Evans, Colin Gillespie and Darren Wilkinson.
@@ -33,13 +32,15 @@ Each test case consists of an SBML model intended for simulation in a
 discrete stochastic regime; the models have been solved either
 analytically or using numerical methods, and the expected time course
 data, together with expected means and standard deviations of model
-species quantities, are provided for each test case.  This may be used
-to test the behavior of stochastic simulators.
+species quantities, are provided for each test case.  The combination
+of models and known results may be used to test the behavior of
+SBML-compatible stochastic simulation systems.
 
-The directories and files have been renamed according to the
-conventions used elsewhere in the SBML Test Suite, but many of the
-files in each subdirectory are still named as they were originally so
-that the correspondences should be easy to identify.
+The directories and files have been renamed from their original
+versions according to the conventions used elsewhere in the SBML Test
+Suite, but many of the files in each subdirectory are still named as
+they were originally so that the correspondences between this and the
+DSMTS should be easy to identify.
 
 Here are the files in each directory (where "N", "Y" and "Z" are digits):
 
@@ -99,27 +100,27 @@ Finally, the files whose names begin with "dsmts-" are the original
 files from the DSMTS created by Evans, Gillespie and Wilkinson.
 
 
-------------------
 2. GETTING STARTED
-------------------
+======================================================================
 
-As described in more detail in DSMTS-userguide-31v2.pdf, stochastic
-simulations should be run n times, where n is at a minimum 1,000, but
-more reasonably set to 10,000 for repeated tests, and which will need
-to be 100,000 or 1,000,000 to detect more subtle implementation
-errors.  Once the tests have been run, the average value of X for
-each time point t (X_t) should be recorded, along with the standard
-deviation of that value (S_t).  These calculated values are then
-compared with the expected values (mu_t for the expected mean at time
-point t, and sigma_t for the expected standard deviation at time
-point t; values found in NNNNN-results.csv) to calculate the following
-values:
+To begin, please read the document "DSMTS-userguide-31v2.pdf" included
+in this directory.  As described in more detail in that file, the
+stochastic simulations of these models should be run n times, where n
+is at a minimum 1,000, but more reasonably set to 10,000 for repeated
+tests, and which will need to be 100,000 or 1,000,000 to detect more
+subtle implementation errors.  Once the tests have been run, the
+average value of X for each time point t (X_t) should be recorded,
+along with the standard deviation of that value (S_t).  These
+calculated values are then compared with the expected values (mu_t for
+the expected mean at time point t, and sigma_t for the expected
+standard deviation at time point t; values found in NNNNN-results.csv)
+to calculate the following values:
 
-Z_t = sqrt(n)*(X_t-mu_t)/sigma_t
+  Z_t = sqrt(n) * (X_t - mu_t)/sigma_t
 
 and
 
-Y_t = sqrt(n/2)*(S_t^2/sigma_t^2 - 1)
+  Y_t = sqrt(n/2) * (S_t^2/sigma_t^2 - 1)
 
 
 Z_t should always fall in the range 'meanRange' from the settings file
@@ -128,29 +129,28 @@ Z_t should always fall in the range 'meanRange' from the settings file
 Y_t should always fall in the range 'sdRange' from the settings file
 (which currently will always be the range (-5,5)).
 
-Do note that due to the nature of stochastic simulation, a correct
+Note that due to the nature of stochastic simulation, a correct
 simulator will still occasionally fail a test or two here or there,
-especially when multiple tests are being performed.  As DSMTS-userguide
-estimates, in a complete run of the entire stochastic test suite with
-n=10,000, two or three Z_t tests may fail, and five or six Y_t tests may
-fail.
+especially when multiple tests are being performed.  As
+DSMTS-userguide estimates, in a complete run of the entire stochastic
+test suite with n=10,000, two or three Z_t tests may fail, and five or
+six Y_t tests may fail.
 
 
--------------------------
 3. TEST SUITE INTEGRATION
--------------------------
+======================================================================
 
-As of this writing, the DSMTS are not fully integrated into the SBML
-Test Suite Test Runner or the Online SBML Test Suite.  The DSMTS is
+As of this writing, the DSMTS is not integrated into the SBML Test
+Suite Test Runner or the Online SBML Test Suite.  The DSMTS is
 distributed with the SBML Test Suite test cases in order to encourage
 developers to begin investigating how they might be able to use it.
 
 Please see the user guide in the file "dsmts-userguide.pdf" in this
 directory for more information about the DSMTS.
 
----------------------------------
+
 4. LICENSE AND DISTRIBUTION TERMS
----------------------------------
+======================================================================
 
 The DSMTS is licensed under the GNU LGPL by the original authors
 (Evans, Gillespie, Wilkinson).
