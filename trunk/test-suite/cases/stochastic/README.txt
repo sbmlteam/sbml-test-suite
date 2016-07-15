@@ -1,6 +1,6 @@
             DSMTS -- Discrete Stochastic Model Test Suite
 
- Thomas W. Evans (a), Colin S. Gillespie (b), Darren J. Wilkinson (c)
+ Thomas W. Evans (a), Colin S. Gillespie (b), Darren J. Wilkinson (b)
                    (a) University of Liverpool, UK
                      (b) Newcastle University, UK
 
@@ -43,16 +43,19 @@ that the correspondences should be easy to identify.
 
 Here are the files in each directory (where "N", "Y" and "Z" are digits):
 
-  NNNNN/dsmts-YYY-ZZ.mod       -- original model definition
-        dsmts-YYY-ZZ-mean.csv  -- means of the simulation results
-        dsmts-YYY-ZZ-sd.csv    -- standard deviations of the results
+  NNNNN/NNNNN-model.m          -- model description
+        NNNNN-plot.html        -- interactive plot of simulation reuslts
+        NNNNN-plot.jpg         -- image of plot of simulation results
         NNNNN-results.csv      -- SBML Test Suite-style results file
-        NNNNN-settings.txt     -- SBML Test Suite settings file
-        NNNNN-sbml-l3v1.xml    -- SBML Level 3 Version 1 model file
         NNNNN-sbml-l2v1.xml    -- SBML Level 2 Version 1 model file
         NNNNN-sbml-l2v2.xml    -- SBML Level 2 Version 2 model file
         NNNNN-sbml-l2v3.xml    -- SBML Level 2 Version 3 model file
         NNNNN-sbml-l2v4.xml    -- SBML Level 2 Version 4 model file
+        NNNNN-sbml-l3v1.xml    -- SBML Level 3 Version 1 model file
+        NNNNN-settings.txt     -- SBML Test Suite settings file
+        dsmts-YYY-ZZ.mod       -- original model definition
+        dsmts-YYY-ZZ-mean.csv  -- means of the simulation results
+        dsmts-YYY-ZZ-sd.csv    -- standard deviations of the results
 
 The files "NNNNN-sbml-l3v1.xml" are renamed versions of the original
 model files, which had names of the form "dsmts-YYY-ZZ.xml". One slight
@@ -86,6 +89,15 @@ with a few differences:
      settings--'output' appends both '-mean' and '-sd' to those variables.
    * New 'meanRange' and 'outputRange' settings are included, to be used
      in assessing a stochastic run's success or failure (see below).
+
+The files "NNNNN-plot.*" are plots of the simulation results.  The HTML
+version of the file is interactive; mousing over the plot lines brings
+up a dynamic display of the value at that point in the plot.  The JPG
+image is a static version of the plot.
+
+Finally, the files whose names begin with "dsmts-" are the original
+files from the DSMTS created by Evans, Gillespie and Wilkinson.
+
 
 ------------------
 2. GETTING STARTED
