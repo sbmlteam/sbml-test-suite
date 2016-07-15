@@ -1,3 +1,5 @@
+              The SBML Test Suite: Stochastic Test Cases
+                            based upon the
             DSMTS -- Discrete Stochastic Model Test Suite
 
  Thomas W. Evans (a), Colin S. Gillespie (b), Darren J. Wilkinson (b)
