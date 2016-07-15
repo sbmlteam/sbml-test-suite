@@ -1,3 +1,4 @@
+
               The SBML Test Suite -- Test Cases Archive
 
             For more information about the SBML Test Suite
@@ -89,8 +90,30 @@ of SBML understanding and compliance.
   produce for a given model/test case.
 
 
+Usage
+======================================================================
+
+For more information about using these test cases, please refer to the
+instructions either at the top level of the SBML Test Suite project
+repository, or in the individual subdirectories under this directory.
 
 
+
+     .-://///:`  .:/+++++/-`      .--.             `---`  `--
+  -/++//:---:.`://+syyyssoo+`    ohhy`            /hhh.  -hy`
+`/++/-`       ::/ohhyyssssoss-   ohhh+           .yhhh.  .hy`          
+:++/.        `:::sysoo+++++oss.  ohoyh-         `ohoyh.  .hy`          
+++//`        `--:/oo+///://+os:  oh//hs`        :hs.yh.  .hy`          
+/+//.       `..--:////:--:/oos.  oh/`sh/       `yh-`yh.  .hy`          
+`////:-.......---::://///++oo-   oh/ -hy.      +h+ `yh.  .hy`          
+  .:///:::::--::::://///++oo:    oh/  +hs     -hy` `yh.  .hy`          
+`::-``..--::::::://osyyysoooo.   oh/  `yh:   `sh:  `yh.  .hy`          
+:o+/`      .:////oyhyyyyyyssss`  oh/   :hy`  /ho`  `yh.  .hy`          
+/oo/        .///oyysoo+++oosyy-  oh/    oho .hh.   `yh.  .hy`          
+.sso:       `+++oso+//////syyy`  oh/    .hh-oh/    `yh.  .hy`          
+ :sss+-`   ./oooooo//:::+syyy.   oh/     /hhhs`    `yh.  -hy`          
+  `/syssooossssssssssssyyyy/`    oh/      shh-     `yh.  -hhooooooooooo
+    `-/+oso+/-.-:/osyyso/-`      -:.      .:-      `--`  `:::::::::::::
 
 
 
