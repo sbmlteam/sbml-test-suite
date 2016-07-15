@@ -1,31 +1,102 @@
-The SBML Test Suite comes in three sections:
+              The SBML Test Suite -- Test Cases Archive
 
-Semantic:
-        * The semantic test suite contains valid SBML models with known
-          simulation results.  They are used to test simulator accuracy.
-          Each test consists of a directory containing the model (or models,
-          if that model can be translated to other SBML levels/versions
-          without semantic loss), instructions on how to simulate that model,
-          and the expected results.  Broad categories of what is being tested
-          are included as 'tags'.
+            For more information about the SBML Test Suite
+        please visit http://sbml.org/Software/SBML_Test_Suite
+          or contact the SBML Team at sbml-team@caltech.edu
 
-Stochastic:
-        * The stochastic test suite contains valid SBML models with known
-          stochastic simulation results.  They are used to test stochastic
-          simulator accuracy. Each test consists of a directory containing the
-          model (or models, if that model can be translated to other SBML
-          levels/versions without semantic loss), instructions on how to
-          simulate that model, and the expected results.  Because the expected
-          results are stochastic, each test is designed to be run multiple
-          times, with summary statistics collected for each, which are then
-          compared to the expected summary statistics using a formula derived
-          from the number of times the test was repeated.  Broad categories of
-          what is being tested are included as 'tags'.
+             Please report problems  using the tracker at
+          https://github.com/sbmlteam/sbml-test-suite/issues
 
-Syntactic:
-        * The syntactic test suite consists of valid and invalid SBML models.
-          Each test is designed to check a particular validation rule, and
-          each model in the test directory will either fail or pass that
-          validation rule, according to its filename.  Details about the
-          error and the error message produced by libsbml are included, as are
-          'incidental' warnings that the model may also produce.
+    Please join the sbml-interoperability mailing list by visiting
+                      http://www.sbml.org/Forums
+
+Authors
+======================================================================
+
+The SBML Test Suite has been developed over many years, with the
+contributions of many people.  The following are the primary authors
+of the three separate test case collections:
+
+* Semantic test suite:
+
+  Sarah M. Keating (a,b), Lucian P. Smith (b,c), Bruce Shapiro (b),
+  Michael Hucka (b), Frank T. Bergmann (d)
+
+* Stochastic test suite:
+
+  Thomas W. Evans (e), Colin S. Gillespie (f), Darren J. Wilkinson (f),
+  Lucian P. Smith (b,c)
+   
+* Syntactic test suite:
+
+  Sarah M. Keating (a,b), Lucian P. Smith (b,c)
+
+Additional contributions are gratefully acknowledged from Stanley Gu
+(c) and others in the SBML community.
+
+Institutions:
+
+   (a) EMBL-EBI, Hinxton, Cambridgeshire, UK
+   (b) California Institute of Technology, Pasadena, CA, US
+   (c) University of Washington, Seattle, WA, US
+   (d) University of Heidelberg, Heidelberg, DE
+   (e) University of Liverpool, Liverpool, UK
+   (f) Newcastle University, Newcastle, UK
+
+
+Introduction
+======================================================================
+
+The SBML Test Suite test cases are divided into 3 sets and (as of
+version 3.2.0), distributed separately.  Each tests a different aspect
+of SBML understanding and compliance.
+
+* Semantic: The semantic test suite contains valid SBML models with
+  known, deterministic simulation results.  These models can be used
+  to test the ability of a software system to understand the meaning
+  of different SBML constructs and properly simulate the models in a
+  deterministic fashion.  An example of a deterministic simulator is a
+  system using a numerical differential-algebraic solver that supports
+  discontinuous events.  Each test consists of a directory containing
+  the model (or models, if that model can be translated to other SBML
+  Levels + Version combinations without semantic loss), together with
+  instructions on how to simulate that model, and the expected
+  results.
+
+* Stochastic: The stochastic test suite contains valid SBML models
+  with known, stochastic simulation results.  These tests exercise
+  fewer features of SBML, and are instead intended to test the
+  accuracy of systems that employ discrete stochastic simulation
+  algorithms.  Each test consists of a directory containing the model
+  (or models, if that model can be translated to other SBML Levels +
+  Version combination without semantic loss), together with
+  instructions on how to simulate that model, and the expected
+  results.  Because the expected results are stochastic, each test
+  case is designed to be performed multiple times, with summary
+  statistics collected for each, which are then compared to the
+  expected summary statistics using a formula derived from the number
+  of times the test was repeated.
+
+* Syntactic: The syntactic test suite consists of valid and invalid
+  SBML models.  Each test is designed to check a particular SBML
+  validation rule.  These rules are defined in the SBML specification
+  documents.  Each case model in this part of the Test Suite is
+  expected to be recognized by a software system as being either valid
+  or invalid -- nothing more.  The validity is indicated in the file
+  name of a model.  (Example: "01002-fail-01-01-sev2-l2v1.txt".)
+  Details about the error and the error message produced by libSBML
+  are included, as are incidental warnings that libSBML may also
+  produce for a given model/test case.
+
+
+
+
+
+
+
+----------------------------------------------------------------------
+The following is for [X]Emacs users.  Please leave in place.
+Local Variables:
+fill-column: 70
+End:
+----------------------------------------------------------------------
