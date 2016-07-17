@@ -21,7 +21,8 @@ of the three separate test case collections:
 * Semantic test suite:
 
   Sarah M. Keating (a,b), Lucian P. Smith (b,c), Bruce Shapiro (b),
-  Michael Hucka (b), Frank T. Bergmann (d), Brett Olivier (g)
+  Michael Hucka (b), Frank T. Bergmann (d), Brett Olivier (g),
+  Andrew Finney (b)
 
 * Stochastic test suite:
 
