@@ -1,5 +1,6 @@
 The SBML Test Suite has been developed thanks to support by the
-National Institutes of Health (USA) under grants GM077671 and GM070923.
+National Institutes of Health (USA) under grants GM077671 and GM070923,
+and the BBSRC through grants BEP 17042, BBS/B/16550, and BBC0082001.
 
 Additional support for this and other projects of the SBML Team have
 been provided by the following organizations since the year 2000: the

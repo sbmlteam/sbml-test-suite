@@ -2,7 +2,7 @@
 
 The majority of the SBML Test Suite is copyrighted as follows:
 
-* Copyright (C) 2010-2015 jointly by the following organizations: 
+* Copyright (C) 2010-2016 jointly by the following organizations: 
     1. California Institute of Technology, Pasadena, CA, USA
     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK.
     3. University of Heidelberg, Heidelberg, Germany
@@ -41,6 +41,10 @@ The SBML Test Suite includes contributions from other people who were
 not funded directly by the grants for the project nor employed by the
 copyright holders noted above.  The following is information about the
 copyright and distribution terms of those additions:
+
+* Discrete Stochastic Model Test Suite (DSMTS), written by Thomas
+  W. Evans, Colin S. Gillespie, and Darren J. Wilkinson, and distributed
+  under the terms of the GNU LGPL v.2.1.
 
 * sbmltest2archive, copyright (C) Stanley Gu 2014 <stanleygu@gmail.com>
   and distributed under the terms of the MIT License.
