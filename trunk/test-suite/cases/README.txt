@@ -21,7 +21,7 @@ of the three separate test case collections:
 * Semantic test suite:
 
   Sarah M. Keating (a,b), Lucian P. Smith (b,c), Bruce Shapiro (b),
-  Michael Hucka (b), Frank T. Bergmann (d)
+  Michael Hucka (b), Frank T. Bergmann (d), Brett Olivier (g)
 
 * Stochastic test suite:
 
@@ -43,6 +43,7 @@ Institutions:
    (d) University of Heidelberg, Heidelberg, DE
    (e) University of Liverpool, Liverpool, UK
    (f) Newcastle University, Newcastle, UK
+   (g) Vrije Universiteit Amsterdam
 
 
 Introduction
