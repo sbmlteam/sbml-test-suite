@@ -1,3 +1,4 @@
+
               The SBML Test Suite: Stochastic Test Cases
                             based upon the
             DSMTS -- Discrete Stochastic Model Test Suite
@@ -15,17 +16,25 @@
         The SBML 3.1 version of DSMTS (dated October 21, 2010)
         was added to the SBML Test Suite distribution in 2015.
 
-            The master version of the DSMTS is located at:
-                     http://dsmts.googlecode.com/
+            For more information about the SBML Test Suite
+        please visit http://sbml.org/Software/SBML_Test_Suite
+          or contact the SBML Team at sbml-team@caltech.edu
+
+             Please report problems  using the tracker at
+          https://github.com/sbmlteam/sbml-test-suite/issues
+
+    Please join the sbml-interoperability mailing list by visiting
+                      http://www.sbml.org/Forums
 
    ,--------------------------------------------------------------.
   | Table of contents                                             |
-  | 1. Explanation                                                |  
+  | 1. Introduction                                               |  
   | 2. Getting started                                            |
-  | 3. License and distribution terms                             |
+  | 3. Test Suite integration                                     |
+  | 4. License and distribution terms                             |
    `--------------------------------------------------------------'
 
-1. EXPLANATION
+1. INTRODUCTION
 ======================================================================
     
 The SBML Discrete Stochastic Model Test Suite (DSMTS) was developed
@@ -47,7 +56,7 @@ DSMTS should be easy to identify.
 Here are the files in each directory (where "N", "Y" and "Z" are digits):
 
   NNNNN/NNNNN-model.m          -- model description
-        NNNNN-plot.html        -- interactive plot of simulation reuslts
+        NNNNN-plot.html        -- interactive plot of simulation results
         NNNNN-plot.jpg         -- image of plot of simulation results
         NNNNN-results.csv      -- SBML Test Suite-style results file
         NNNNN-sbml-l2v1.xml    -- SBML Level 2 Version 1 model file
@@ -162,3 +171,30 @@ authors:
 
   Evans, T. W., Gillespie, C. S., Wilkinson, D. J. (2008) The SBML
   discrete stochastic models test suite, Bioinformatics, 24:285-286.
+
+
+
+
+     .-://///:`  .:/+++++/-`      .--.             `---`  `--
+  -/++//:---:.`://+syyyssoo+`    ohhy`            /hhh.  -hy`
+`/++/-`       ::/ohhyyssssoss-   ohhh+           .yhhh.  .hy`          
+:++/.        `:::sysoo+++++oss.  ohoyh-         `ohoyh.  .hy`          
+++//`        `--:/oo+///://+os:  oh//hs`        :hs.yh.  .hy`          
+/+//.       `..--:////:--:/oos.  oh/`sh/       `yh-`yh.  .hy`          
+`////:-.......---::://///++oo-   oh/ -hy.      +h+ `yh.  .hy`          
+  .:///:::::--::::://///++oo:    oh/  +hs     -hy` `yh.  .hy`          
+`::-``..--::::::://osyyysoooo.   oh/  `yh:   `sh:  `yh.  .hy`          
+:o+/`      .:////oyhyyyyyyssss`  oh/   :hy`  /ho`  `yh.  .hy`          
+/oo/        .///oyysoo+++oosyy-  oh/    oho .hh.   `yh.  .hy`          
+.sso:       `+++oso+//////syyy`  oh/    .hh-oh/    `yh.  .hy`          
+ :sss+-`   ./oooooo//:::+syyy.   oh/     /hhhs`    `yh.  -hy`          
+  `/syssooossssssssssssyyyy/`    oh/      shh-     `yh.  -hhooooooooooo
+    `-/+oso+/-.-:/osyyso/-`      -:.      .:-      `--`  `:::::::::::::
+
+
+----------------------------------------------------------------------
+The following is for [X]Emacs users.  Please leave in place.
+Local Variables:
+fill-column: 70
+End:
+----------------------------------------------------------------------
