@@ -30,7 +30,7 @@
   | Table of contents                                             |
   | 1. Introduction                                               |  
   | 2. Getting started                                            |
-  | 3. Test Suite integration                                     |
+  | 3. (Lack of) Integration with the rest of the SBML Test Suite |
   | 4. License and distribution terms                             |
    `--------------------------------------------------------------'
 
@@ -148,7 +148,7 @@ test suite with n=10,000, two or three Z_t tests may fail, and five or
 six Y_t tests may fail.
 
 
-3. TEST SUITE INTEGRATION
+3. (LACK OF) INTEGRATION WITH THE REST OF THE SBML TEST SUITE
 ======================================================================
 
 As of this writing, the DSMTS is not integrated into the SBML Test
