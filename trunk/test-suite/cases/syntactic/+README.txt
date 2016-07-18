@@ -29,6 +29,10 @@
 1. INTRODUCTION
 ======================================================================
 
+The SBML Test Suite is a conformance testing system for SBML. It
+allows developers and users to test the degree and correctness of SBML
+support provided in an SBML-compatible software package.
+
 This portion of the SBML Test Suite consists of syntactic test cases
 only.  These test models are provided for two purposes.  First, they
 are here simply to present malformed input for your SBML interpreter,
