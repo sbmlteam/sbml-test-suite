@@ -156,8 +156,8 @@ Suite Test Runner or the Online SBML Test Suite.  The DSMTS is
 distributed with the SBML Test Suite test cases in order to encourage
 developers to begin investigating how they might be able to use it.
 
-Please see the user guide in the file "dsmts-userguide.pdf" in this
-directory for more information about the DSMTS.
+Please see the user guide in the file "DSMTS-userguide-31v2.pdf" in
+this directory for more information about the DSMTS.
 
 
 4. LICENSE AND DISTRIBUTION TERMS
