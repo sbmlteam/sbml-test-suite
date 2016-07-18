@@ -242,18 +242,19 @@ steps: The number of steps at which the output is sampled.  The
 
 variables: The variables (in addition to time) whose values are
   tabulated in the CSV file.  These are SBML model id's separated by
-  commas.  Order is significant, as results files without headers will
-  be assumed to be output in the order present on this line.
-
-  Important note #1: if a symbol in this list refers to a species in
-  the model, then that symbol will also be listed in either the
-  "amount" or "concentration" lists described below.  
-
-  Important note #2: If a listed variable has two underscores in it
-  ("__"), that variable is actually present only in a submodel of the
-  main model, from the Hierarchical Model Composition package, in the
-  format "submodelID__variableID".  If the model is flattened, the
-  variable will appear automatically.
+  commas.  The order of this list is significant: a results file
+  without headers will be assumed to contain values for variables in
+  the order present on this line.  Important note #1: if a symbol in
+  this list refers to a species in the model, then that symbol will
+  ALSO be listed in either the "amount" or "concentration" lists
+  described below.  The presence of a species in the "amount" or
+  "concentration" list indicates whether the values for the species
+  are considered to be in amount units (i.e., direct quantity, not a
+  concentration) or in concentration units, respectively.  Important
+  note #2: if a listed variable has two underscores ("__") in its
+  name, that variable is actually present only in a submodel of the
+  main model, using the SBML Level 3 Hierarchical Model Composition
+  package, in the format "submodelID__variableID".
 
 absolute: A float-point number representing the absolute difference
   permitted for this test case when evaluating a software tool. The
@@ -272,6 +273,7 @@ amount: A list of the variable whose output in the results file is in
 concentration: A list of the variable whose output in the results file
   is in concentration (not amount) units.  This list of variables must
   be a subset of the names listed in "variables".
+
 
 Tolerances and errors for TimeCourse tests
 ......................................................................
@@ -329,7 +331,10 @@ to "concentration" vs. "amount").
 The expected results stored in the file "NNNNN-results.csv" are simply
 organized as a table of values.  The values will be slightly different
 depending on whether a "TimeCourse" or "FluxBalanceSteadyState" test
-was requested.
+was requested.  When species are output, the values may represent
+either amounts or concentrations, depending on whether the species is
+listed in the "amount" or "concentration" field of the settings file.
+
 
 Results data format for TimeCourse tests
 ......................................................................
@@ -370,6 +375,7 @@ following convention:
 
 These symbols are treated in a case-insensitive manner by the SBML
 Test Suite.
+
 
 The results data format for FluxBalanceSteadyState tests
 ......................................................................
