@@ -64,7 +64,8 @@ of SBML understanding and compliance.
   the model (or models, if that model can be translated to other SBML
   Levels + Version combinations without semantic loss), together with
   instructions on how to simulate that model, and the expected
-  results.
+  results.  For more information about the semantic test cases, please
+  look in the file named "+README.txt" in the semantic/ subdirectory.
 
 * Stochastic: The stochastic test suite contains valid SBML models
   with known, stochastic simulation results.  These tests exercise
@@ -78,7 +79,9 @@ of SBML understanding and compliance.
   case is designed to be performed multiple times, with summary
   statistics collected for each, which are then compared to the
   expected summary statistics using a formula derived from the number
-  of times the test was repeated.
+  of times the test was repeated.  For more information about the
+  stochastic test cases, please look in the file named "+README.txt"
+  in the stochastic/ subdirectory.
 
 * Syntactic: The syntactic test suite consists of valid and invalid
   SBML models.  Each test is designed to check a particular SBML
@@ -89,7 +92,9 @@ of SBML understanding and compliance.
   name of a model.  (Example: "01002-fail-01-01-sev2-l2v1.txt".)
   Details about the error and the error message produced by libSBML
   are included, as are incidental warnings that libSBML may also
-  produce for a given model/test case.
+  produce for a given model/test case.  For more information about the
+  stochastic test cases, please look in the file named "+README.txt"
+  in the syntactic/ subdirectory.
 
 
 Usage
