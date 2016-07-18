@@ -257,14 +257,17 @@ variables: The variables (in addition to time) whose values are
   package, in the format "submodelID__variableID".
 
 absolute: A float-point number representing the absolute difference
-  permitted for this test case when evaluating a software tool. The
-  formula used to calculate data point differences is discussed below.
+  permitted for this test case when comparing numerical values to the
+  results to those produced by a software tool.  The meaning of this
+  tolerance and the formula used to calculate data point differences
+  is discussed below.
 
 relative: A float-point number representing the relative difference
-  permitted for this test case when evaluating a software tool.  The
-  value of 0.0001 was the tolerance agreed upon by the SBML community
-  during discussions at SBML Hackathons in 2008. The formula used to
-  calculate data point differences is discussed below.
+  permitted for this test case when comparing numerical values to the
+  results produced by a software tool.  The value of 0.0001 was the
+  tolerance agreed upon by the SBML community during discussions at
+  SBML Hackathons in 2008.  The meaning of this tolerance and the
+  formula used to calculate data point differences is discussed below.
 
 amount: A list of the variable whose output in the results file is in
   amount (not concentration) units.  This list of variables must be a
@@ -278,20 +281,30 @@ concentration: A list of the variable whose output in the results file
 Tolerances and errors for TimeCourse tests
 ......................................................................
 
-The absolute and relative tolerances are used in the following way.
-First let the following variables be defined:
+Due to the nature of digital computing, the numerical results produced
+by any software can never be expected to be exactly the same as the
+reference results provided with each test case.  Comparison of results
+must be made with respect to some bounds or tolerances.  For purposes
+of comparing the results produced by software to the reference results
+provided in this test suite, two tolerances are defined: absolute and
+relative.  These are defined in the settings file for each test case
+(see above).  
 
-  T_a stand for the absolute tolerance for this test case,
+Let the following variables be defined:
 
-  T_r stand for the relative tolerance for this test case,
+  T_a stand for the absolute tolerance for a test case,
+
+  T_r stand for the relative tolerance for a test case,
 
   C_ij stand for the expected correct value for row i, column j, of
-  the result data set
+  the result data set for the test case
   
-  U_ij stand for the the user's uploaded result value.   
+  U_ij stand for the corresponding value produced by a given
+  software simulation system run by the user
 
-Then, a data point U_ij is considered to be within tolerances if and
-only if the following expression is true:
+These absolute and relative tolerances are used in the following way:
+a data point U_ij is considered to be within tolerances if and only if
+the following expression is true:
   
   |C_ij - U_ij| <= (T_a + T_r * |C_ij|)
 
