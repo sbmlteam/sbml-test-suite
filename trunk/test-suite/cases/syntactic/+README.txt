@@ -22,7 +22,8 @@
   | 4. Interpretation of file names                               |
   | 5. Interpretation of .txt files                               |
   | 6. Interpretation of the file uniqueErrors.txt                |
-  | 7. Licensing and distribution terms                           |
+  | 7. (Lack of) Integration with the rest of the SBML Test Suite |
+  | 8. Licensing and distribution terms                           |
    `--------------------------------------------------------------'
 
 
@@ -203,7 +204,19 @@ The file "uniqueErrors.txt" in the folder "cases/syntactic/" contains
 a list of every error represented by the test syntactic cases.
 
 
-7. LICENSE AND DISTRIBUTION TERMS
+7. (LACK OF) INTEGRATION WITH THE REST OF THE SBML TEST SUITE
+======================================================================
+
+As of this writing, the syntactic tests are not integrated into the
+SBML Test Suite Test Runner or the database of test results at
+http://sbml.org/Facilities/Database.  The syntactic tests of the SBML
+Test Suite are distributed in order to encourage developers to begin
+investigating how they might be able to use these tests, but users and
+developers need to develop their own approaches to running the tests
+in software.
+
+
+8. LICENSE AND DISTRIBUTION TERMS
 ======================================================================
 
 For full license information, please refer to the file "LICENSE.txt".

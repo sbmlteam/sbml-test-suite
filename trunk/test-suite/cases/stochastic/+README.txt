@@ -152,9 +152,12 @@ six Y_t tests may fail.
 ======================================================================
 
 As of this writing, the DSMTS is not integrated into the SBML Test
-Suite Test Runner or the Online SBML Test Suite.  The DSMTS is
-distributed with the SBML Test Suite test cases in order to encourage
-developers to begin investigating how they might be able to use it.
+Suite Test Runner or the database of test results at
+http://sbml.org/Facilities/Database.  The DSMTS is distributed with
+the SBML Test Suite in order to encourage developers to begin
+investigating how they might be able to use it, but users and
+developers need to develop their own approaches to running the tests
+in software.
 
 Please see the user guide in the file "DSMTS-userguide-31v2.pdf" in
 this directory for more information about the DSMTS.
