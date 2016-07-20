@@ -28,7 +28,8 @@
   | 4. The format of the settings file                            |
   | 5. The format of the results file                             |
   | 6. Component tags and test tags                               |
-  | 7. Licensing and distribution terms                           |
+  | 7. Additional comments and tips                               |
+  | 8. Licensing and distribution terms                           |
    `--------------------------------------------------------------'
 
 
@@ -446,7 +447,28 @@ for a human-readable list and the definitions of each tag:
   http://sbml.org/Software/SBML_Test_Suite/Case_Descriptions/Tags
 
 
-7. LICENSE AND DISTRIBUTION TERMS
+7. ADDITIONAL COMMENTS AND TIPS
+======================================================================
+
+A frequent cause of difficulties in interpreting the SBML Test Suite
+results is that the output expected in the Test Suite results is not
+necessarily the same as the values for the species in the model.  In
+particular, the output values requested for some test cases may be in
+concentration units (alternatively, amounts) even if the species in
+the model have units of amounts (alternatively, concentrations).  For
+example, test cases 947 and 948 are the same as test cases 945 and
+946, except that 945 and 946 ask for species S1' output in amount
+units, while 947 and 948 ask for the output in concentration units.
+(For the latter, you can see that the concentration suddenly drops by
+a factor of 10 when the compartment size is changed, as is correct
+when the amount stays the same.)  This is a purposeful test, to
+determine whether software tools can correctly handle SBML models that
+contain species expressed in either amounts or concentrations, and the
+possibility that compartment sizes may change over the course of
+simulations and alter one but not the other.
+
+
+8. LICENSE AND DISTRIBUTION TERMS
 ======================================================================
 
 For full license information, please refer to the file "LICENSE.txt".
