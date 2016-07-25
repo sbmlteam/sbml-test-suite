@@ -136,13 +136,14 @@ else
   endef
 endif
 
-semantic-cases-sbml-files = $(wildcard cases/semantic/*/*-sbml-l[1234]v[0-9].xml)
+semantic-cases-sbml-files = $(wildcard cases/semantic/*/*-sbml-l[0-9]v[0-9].xml)
 
 all-sedml-files	:= $(patsubst %-l1v2.xml,%-l1v2-sedml.xml,$(semantic-cases-sbml-files))
 all-sedml-files	:= $(patsubst %-l2v1.xml,%-l2v1-sedml.xml,$(all-sedml-files))
 all-sedml-files	:= $(patsubst %-l2v2.xml,%-l2v2-sedml.xml,$(all-sedml-files))
 all-sedml-files	:= $(patsubst %-l2v3.xml,%-l2v3-sedml.xml,$(all-sedml-files))
 all-sedml-files	:= $(patsubst %-l2v4.xml,%-l2v4-sedml.xml,$(all-sedml-files))
+all-sedml-files	:= $(patsubst %-l2v5.xml,%-l2v5-sedml.xml,$(all-sedml-files))
 all-sedml-files	:= $(patsubst %-l3v1.xml,%-l3v1-sedml.xml,$(all-sedml-files))
 
 %-sbml-l1v2-sedml.xml: %-sbml-l1v2.xml src/utilities/sedml/GenerateSedML.exe
@@ -158,6 +159,9 @@ all-sedml-files	:= $(patsubst %-l3v1.xml,%-l3v1-sedml.xml,$(all-sedml-files))
 	$(call make_sedml_files,$@)
 
 %-sbml-l2v4-sedml.xml: %-sbml-l2v4.xml src/utilities/sedml/GenerateSedML.exe
+	$(call make_sedml_files,$@)
+
+%-sbml-l2v5-sedml.xml: %-sbml-l2v5.xml src/utilities/sedml/GenerateSedML.exe
 	$(call make_sedml_files,$@)
 
 %-sbml-l3v1-sedml.xml: %-sbml-l3v1.xml src/utilities/sedml/GenerateSedML.exe
@@ -243,14 +247,20 @@ semantic-contents	   = cases/semantic \
 stochastic-cases-dist-name = sbml-stochastic-test-cases-$(today).zip
 stochastic-contents	   = cases/stochastic \
 			     $(ts-file)     \
+			     COPYING.html   \
+			     COPYING.txt    \
 			     NEWS.txt       \
+			     LICENSE.txt
 
 syntactic-cases-dist-name  = sbml-syntactic-test-cases-$(today).zip
 syntactic-contents	   = cases/syntactic/*.txt \
 			     cases/syntactic/[0-9]* \
 			     cases/syntactic/[a-z]*-[0-9]* \
 			     $(ts-file)     \
+			     COPYING.html   \
+			     COPYING.txt    \
 			     NEWS.txt       \
+			     LICENSE.txt
 
 semantic-cases-dist: html plots sedml omex tags-map
 	@echo $(today) > $(ts-file)
@@ -266,9 +276,6 @@ stochastic-cases-dist: $(stochastic-cases-plot-files)
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/stochastic/$(ts-file)
 	zip -r $(stochastic-cases-dist-name) $(stochastic-contents) -x@.zipexcludes
-	cp cases/stochastic/README.txt 00README.txt
-	zip -g $(stochastic-cases-dist-name) 00README.txt
-	rm -f 00README.txt
 	@echo "---------------------------------------------------------------"
 	@echo "Next: upload zip file to SourceForge as updated test cases dist."
 	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
@@ -278,9 +285,6 @@ syntactic-cases-dist:
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/syntactic/$(ts-file)
 	zip -r $(syntactic-cases-dist-name) $(syntactic-contents) -x@.zipexcludes
-	cp cases/syntactic/00README.txt .
-	zip -g $(syntactic-cases-dist-name) 00README.txt
-	rm -f 00README.txt
 	@echo "---------------------------------------------------------------"
 	@echo "Next: upload zip file to SourceForge as updated test cases dist."
 	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
