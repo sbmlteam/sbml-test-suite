@@ -471,13 +471,13 @@ simulations and alter one but not the other.
 8. LICENSE AND DISTRIBUTION TERMS
 ======================================================================
 
-For full license information, please refer to the file "LICENSE.txt".
-Briefly, the test case distributions of the SBML Test Suite are
-distributed under the terms of the LGPL; the overall SBML Test Suite
-(including the software components) are distributed under the LGPL but
-include components from other sources licensed under other open-source
-terms.  (However, none of the terms are more restrictive than the
-LGPL.)
+For full license information, please refer to the file "LICENSE.txt"
+in the parent directory.  Briefly, the test case distributions of the
+SBML Test Suite are distributed under the terms of the LGPL; the
+overall SBML Test Suite (including the software components) are
+distributed under the LGPL but include components from other sources
+licensed under other open-source terms.  (However, none of the terms
+are more restrictive than the LGPL.)
 
 
 
