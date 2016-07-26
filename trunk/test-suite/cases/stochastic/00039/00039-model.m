@@ -1,7 +1,7 @@
 (*
 
 category:        Test
-synopsis:        [[Write description here.]]
+synopsis:        Basic two-reaction system.
 componentTags:   Compartment, Parameter, Reaction, Species
 testTags:        Amount, HasOnlySubstanceUnits, NonUnityStoichiometry
 testType:        StochasticTimeCourse
