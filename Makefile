@@ -236,31 +236,29 @@ ts-file = .cases-archive-date
 
 semantic-cases-dist-name   = sbml-test-cases-$(today).zip
 semantic-map-file	   = cases/semantic/.cases-tags-map
-semantic-contents	   = cases/semantic \
-			     $(ts-file)     \
-			     $(semantic-map-file)    \
-			     COPYING.html   \
-			     COPYING.txt    \
-			     NEWS.txt       \
-			     LICENSE.txt
+semantic-contents	   = cases/semantic	  \
+		 	     cases/LICENSE.txt	  \
+		 	     cases/NEWS.txt       \
+		 	     cases/README.txt	  \
+			     $(ts-file)		  \
+			     $(semantic-map-file)
+
 
 stochastic-cases-dist-name = sbml-stochastic-test-cases-$(today).zip
-stochastic-contents	   = cases/stochastic \
-			     $(ts-file)     \
-			     COPYING.html   \
-			     COPYING.txt    \
-			     NEWS.txt       \
-			     LICENSE.txt
+stochastic-contents	   = cases/stochastic  \
+		 	     cases/LICENSE.txt \
+		 	     cases/NEWS.txt    \
+		 	     cases/README.txt  \
+			     $(ts-file)
 
 syntactic-cases-dist-name  = sbml-syntactic-test-cases-$(today).zip
-syntactic-contents	   = cases/syntactic/*.txt \
-			     cases/syntactic/[0-9]* \
+syntactic-contents	   = cases/syntactic/*.txt	   \
+			     cases/syntactic/[0-9]*	   \
 			     cases/syntactic/[a-z]*-[0-9]* \
-			     $(ts-file)     \
-			     COPYING.html   \
-			     COPYING.txt    \
-			     NEWS.txt       \
-			     LICENSE.txt
+		 	     cases/LICENSE.txt		   \
+		 	     cases/NEWS.txt		   \
+		 	     cases/README.txt		   \
+			     $(ts-file)
 
 semantic-cases-dist: html plots sedml omex tags-map
 	@echo $(today) > $(ts-file)
