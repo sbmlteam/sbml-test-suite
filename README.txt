@@ -68,7 +68,7 @@ framework for running software tools through the suite; and
 (3) basic documentation on the test cases and the use of the suite.
 
 Two systems are available for running the Test Suite.  The first is
-the Standalone Standalone, which is a package consisting of all the
+the Standalone Test Suite, which is a package consisting of all the
 test cases and a platform-independent application (the SBML Test
 Runner) runnable on almost any computer.  The second is an online
 system (http://sbml.org/Facilities/Online_SBML_Test_Suite) allowing
