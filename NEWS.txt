@@ -1,7 +1,7 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
-=== Version 3.2.0 (28 July 2016)
+=== Version 3.2.0 (29 July 2016)
 
 Important: DO NOT RUN semantic test cases 1199-1204 on systems that
 use libSBML 5.11.2 or earlier.  Test cases 1199-1204 test the use of
@@ -83,6 +83,10 @@ Updates:
   and 1018.
 
 Additional notes:
+
+* The SBML Test Runner has not yet been updated for release 3.2.0
+  of the test cases.  We will announce when a new version of the
+  Test Runner is available.
 
 * This is the last release planned from SourceForge.net.  In the
   future, we plan to move to GitHub and make future releases from
