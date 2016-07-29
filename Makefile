@@ -263,7 +263,7 @@ syntactic-contents	   = cases/syntactic/*.txt	   \
 semantic-cases-dist: html plots sedml omex tags-map
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/semantic/$(ts-file)
-	make $(map-file)
+	make $(semantic-map-file)
 	zip -r $(semantic-cases-dist-name) $(semantic-contents) -x@.zipexcludes
 	@echo "---------------------------------------------------------------"
 	@echo "Next: upload zip file to SourceForge as updated test cases dist."
@@ -283,6 +283,7 @@ syntactic-cases-dist:
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/syntactic/$(ts-file)
 	zip -r $(syntactic-cases-dist-name) $(syntactic-contents) -x@.zipexcludes
+	zip -d $(syntactic-cases-dist-name) cases/syntactic/uniqueErrors.txt
 	@echo "---------------------------------------------------------------"
 	@echo "Next: upload zip file to SourceForge as updated test cases dist."
 	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
@@ -290,9 +291,9 @@ syntactic-cases-dist:
 
 cases-dist: semantic-cases-dist stochastic-cases-dist syntactic-cases-dist
 
-tags-map $(map-file): $(semantic-cases-m-files)
+tags-map $(semantic-map-file): $(semantic-cases-m-files)
 	@echo "Making tags map file:"
-	src/utilities/make-tag-map/make-tag-map.sh $(map-file)
+	src/utilities/make-tag-map/make-tag-map.sh $(semantic-map-file)
 
 clean-cases-dist: clean-html clean-plots clean-sedml
 	rm -f $(semantic-cases-dist-name)
