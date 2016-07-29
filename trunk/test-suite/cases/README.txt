@@ -33,8 +33,10 @@ of the three separate test case collections:
 
   Sarah M. Keating (a,b), Lucian P. Smith (b,c)
 
-Additional contributions are gratefully acknowledged from Stanley Gu
-(c) and others in the SBML community.
+Additional contributions are gratefully acknowledged from Ralph Gauges
+(h), Chris Myers (i), Akira Funahashi (j), Andreas Dräger (k), Roland
+Keller (k), Fedor Kolpakov (l), Stanley Gu (c), and others in the SBML
+community.
 
 Institutions:
 
@@ -45,7 +47,11 @@ Institutions:
    (e) University of Liverpool, Liverpool, UK
    (f) Newcastle University, Newcastle, UK
    (g) Vrije Universiteit Amsterdam
-
+   (h) Heidelberg Institute for Theoretical Studies, Heidelberg, DE
+   (i) University of Utah, Salt Lake City, UT, US
+   (j) Systems Biology Institute, Tokyo, JP
+   (k) University of Tuebingen, Tübingen, DE
+   (l) Institute of Systems Biology, Novosibirsk, RU   
 
 Introduction
 ======================================================================
