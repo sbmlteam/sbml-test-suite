@@ -15,7 +15,7 @@
 
 
  Please report problems with the SBML Test Suite using the tracker at
-          http://sbml.org/software/test-suite/issue-tracker
+          https://github.com/sbmlteam/sbml-test-suite/issues
 
     Please join the sbml-interoperability mailing list by visiting
                       http://www.sbml.org/Forums
