@@ -1,0 +1,36 @@
+img {
+  border: none;
+}
+
+hr {
+  color: #ddd;
+}
+
+table.borderless-table {  
+  font-size: 9pt;
+}
+
+#resultsmap table {
+  width: 90%;
+  margin: 0px;
+  padding: 0px;
+  border: 1px solid #ccc;
+}
+
+#resultsmap td,
+#resultsmap tr {
+  height: 15px !important;
+  margin: 0px;
+  padding: 0px;
+}
+
+#resultsmap a {
+  padding: 0; 
+  margin: 0;
+  border: none;
+}
+
+#siteAttribution { 
+  margin: 2em auto !important;
+  width: 746px !important;
+}

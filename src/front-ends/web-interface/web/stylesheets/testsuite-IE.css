@@ -1,0 +1,32 @@
+#navbartext { 
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+#article {  
+  width: 746px !important;
+  margin-top: 0em;
+}
+
+#content.rounded12 {
+  margin-top: 2.5em;
+  border: none;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+#siteAttribution a,
+#siteAttribution a:visited {
+  display: inline !important;
+  margin: 5px auto 0px auto !important;
+  color: #ddd;
+}
+
+#background {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.ie-submit-button-fix {
+  padding: 1.5em 0;
+}
