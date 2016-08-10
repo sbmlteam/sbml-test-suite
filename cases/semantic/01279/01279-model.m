@@ -5,7 +5,7 @@ synopsis:        Use of the 'implies' MathML in assignment rules.
 componentTags:   AssignmentRule, CSymbolTime, Parameter, UncommonMathML
 testTags:        InitialValueReassigned, NonConstantParameter
 testType:        TimeCourse
-levels:          3.1, 3.2
+levels:          3.2
 generatedBy:     Numeric
 packagesPresent: 
 

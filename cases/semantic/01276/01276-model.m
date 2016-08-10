@@ -5,7 +5,7 @@ synopsis:        Use of the 'min' MathML in initial assignments.
 componentTags:   InitialAssignment, Parameter
 testTags:        InitialValueReassigned
 testType:        TimeCourse
-levels:          1.2, 2.1, 3.1, 3.2
+levels:          3.2
 generatedBy:     Numeric
 packagesPresent: 
 
