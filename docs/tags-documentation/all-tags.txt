@@ -65,6 +65,7 @@ HasOnlySubstanceUnits	L2v1+	A species with a value of 'true' for its 'hasOnlySub
 InitialValueReassigned	all	The initial numerical value of a species, compartment, parameter, or (in SBML Level 3) species reference is determined by an initial assignment, assignment rule, or algebraic rule.
 LocalParameters	all	The model contains a kinetic law with a 'listOfParameters' (SBML Levels 1-2) or 'listOfLocalParameters' (SBML Level 3).
 MultiCompartment	all	At least two compartments are present in the model.
+NoMathML	L3v2+	The model contains at least one SBML element with no MathML child that must be ignored.
 NonConstantCompartment	all	The model contains at least one compartment whose size changes over the course of the simulation.
 NonConstantParameter	all	The model contains at least one parameter whose value changes over the course of the simulation.
 NonUnityCompartment	all	The model contains at least one compartment whose size is not 1.0 for at least part of the duration of the simulation.
