@@ -40,7 +40,12 @@ endif()
 
 include(${LIBSBML_ROOT_SOURCE_DIR}/common.cmake)
 
-file(GLOB CPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/checkTestCases.cpp )
+file(GLOB CPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/checkTestCases.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../testSuiteUtil/testSuiteUtil.cpp )
+
+SET_SOURCE_FILES_PROPERTIES(
+    ${CMAKE_CURRENT_SOURCE_DIR}/../testSuiteUtil/testSuiteUtil.cpp
+    PROPERTIES HEADER_FILE_ONLY true
+    )
 
 set(TEST_FILES ${CPP_FILES} )
 
@@ -55,4 +60,7 @@ endif(EXTRA_INCLUDE_DIRS)
 add_executable(checkTestCases ${TEST_FILES})
 target_link_libraries(checkTestCases ${LIBSBML_LIBRARY}-static)
 
-
+#if (MSVC)
+#    #set_target_properties(checkTestCases PROPERTIES LINK_FLAGS "setargv.obj")
+#    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} setargv.obj")
+#endif(MSVC)

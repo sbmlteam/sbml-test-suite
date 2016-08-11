@@ -22,7 +22,7 @@
 using namespace std;
 LIBSBML_CPP_NAMESPACE_USE
 
-#include "testSuiteUtil.cpp"
+#include "../testSuiteUtil/testSuiteUtil.cpp"
 
 //Finds the list of tags or whatever in the .m file, separated by commas, after the ':'.
 set<string> getList(string line)
@@ -141,7 +141,7 @@ void checkLevels(string filename, set<string> levels) {
   }
   size_t mod = filename.find("-model");
   filename.erase(mod);
-  for (set<string>::iterator l=levels.begin(); l != levels.end(); l++) {
+  for (set<string>::iterator l = levels.begin(); l != levels.end(); l++) {
     string lv = *l;
     lv.replace(lv.find("."), 1, "v");
     string newfile = filename + "-sbml-l" + lv + ".xml";
@@ -149,15 +149,19 @@ void checkLevels(string filename, set<string> levels) {
     if (doc->getModel() == NULL) {
       cerr << "Error:  unable to read file '" << newfile << ".  Perhaps this level and version does not actually exist?" << endl;
     }
-  if (hasActualErrors(doc))
-  {
-    cerr << "Error:  the test model '" << newfile << "' is invalid.  Encountered the following SBML errors:" << endl;
-    printActualErrors(doc);
-    return;
-  }
-    if (hasActualErrors(doc)) {
-      cerr << "Encountered the following SBML errors:" << endl;
+    if (hasActualErrors(doc))
+    {
+      cerr << "Error:  the test model '" << newfile << "' is invalid.  Encountered the following SBML errors:" << endl;
       printActualErrors(doc);
+      return;
+    }
+    string testnum = filename;
+    if (testnum.size() > 5) {
+      testnum.erase(0, testnum.size()-5);
+      string modid = doc->getModel()->getId();
+      if (modid.find(testnum) == string::npos) {
+        cout << "Warning:  the test model '" << newfile << "' does not have the number of the test (" << testnum << ") in it." << endl;
+      }
     }
   }
   set<string> allLevels;
@@ -197,15 +201,9 @@ void deduceTags(Model* model, set<string>& components, set<string>& tests,  cons
     tests.insert("ConversionFactors");
   }
   string modxml = model->toSBML();
-  if (modxml.find("http://www.sbml.org/sbml/symbols/avogadro") != string::npos) {
-    components.insert("CSymbolAvogadro");
-  }
-  if (modxml.find("http://www.sbml.org/sbml/symbols/delay") != string::npos) {
-    components.insert("CSymbolDelay");
-  }
-  if (modxml.find("http://www.sbml.org/sbml/symbols/time") != string::npos) {
-    components.insert("CSymbolTime");
-  }
+  checkMathML(modxml, components);
+  checkConstraints(model, components, tests);
+  checkFunctionDefinitions(model, components, tests);
 }
 
 void removeIdenticals(set<string>& set1, set<string>& set2)
@@ -399,21 +397,28 @@ void compareTests(set<string>& tests, set<string>& known_tests, const string& fi
 void checkTags(const string& filename, set<string> known_components, set<string> known_tests, bool fbc)
 {
   //Actually need the model for this
-  string l3v1 = filename;
-  size_t mod = l3v1.find("-model");
-  l3v1.erase(mod);
-  string resultsfile = l3v1 + "-results.csv";
-  l3v1 = l3v1 + "-sbml-l3v1.xml";
-  SBMLDocument* document = readSBML(l3v1.c_str());
+  string l3v2 = filename;
+  size_t mod = l3v2.find("-model");
+  l3v2.erase(mod);
+  string resultsfile = l3v2 + "-results.csv";
+  l3v2 = l3v2 + "-sbml-l3v2.xml";
+  SBMLDocument* document = readSBML(l3v2.c_str());
   Model* model = document->getModel();
+  string l3v1 = l3v2;
   if (model==NULL) {
-    string l2v4 = l3v1;
-    l2v4.replace(l2v4.find("l3v1"), 4, "l2v4");
+    l3v1.replace(l3v1.find("l3v2"), 4, "l3v1");
+    delete document;
+    document = readSBML(l3v1.c_str());
+    model = document->getModel();
+  }
+  if (model == NULL) {
+    string l2v4 = l3v2;
+    l2v4.replace(l2v4.find("l3v2"), 4, "l2v4");
     delete document;
     document = readSBML(l2v4.c_str());
     model = document->getModel();
-    if (model==NULL) {
-      cerr << "Error:  unable to read the file " << l3v1 << " or " << l2v4 << ", or they contain invalid SBML." << endl;
+    if (model == NULL) {
+      cerr << "Error:  unable to read the file " << l3v2 << ", " << l3v1 << " or " << l2v4 << ", or they contain invalid SBML." << endl;
       return;
     }
   }

@@ -40,7 +40,13 @@ endif()
 
 include(${LIBSBML_ROOT_SOURCE_DIR}/common.cmake)
 
-file(GLOB CPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/generateTestsFrom.cpp )
+file(GLOB CPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/generateTestsFrom.cpp  ${CMAKE_CURRENT_SOURCE_DIR}/../testSuiteUtil/testSuiteUtil.cpp )
+
+SET_SOURCE_FILES_PROPERTIES(
+    ${CMAKE_CURRENT_SOURCE_DIR}/../testSuiteUtil/testSuiteUtil.cpp
+    PROPERTIES HEADER_FILE_ONLY true
+    )
+
 file(GLOB H_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.h )
 
 set(TEST_FILES ${CPP_FILES} ${H_FILES})

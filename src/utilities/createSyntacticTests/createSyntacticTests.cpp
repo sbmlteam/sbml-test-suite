@@ -235,6 +235,10 @@ main (int argc, char* argv[])
   cout << "Please compile libsbml with qual enabled to run this program." << endl;
   return 1;
 #endif
+#ifndef  LIBSBML_HAS_PACKAGE_GROUPS
+  cout << "Please compile libsbml with groups enabled to run this program." << endl;
+  return 1;
+#endif
 
   string prefix(".");
 
@@ -274,6 +278,7 @@ main (int argc, char* argv[])
   vector<string> fbcValidationDirectories;
   vector<string> layoutValidationDirectories;
   vector<string> qualValidationDirectories;
+  vector<string> groupsValidationDirectories;
   validationDirectories.push_back(prefix + "/validator/test/test-data/libsbml-constraints/");
   validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-annotation-constraints/");
   validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-general-consistency-constraints/");
@@ -296,6 +301,8 @@ main (int argc, char* argv[])
   qualValidationDirectories.push_back(prefix + "/packages/qual/validator/test/test-data/general-constraints/");
   qualValidationDirectories.push_back(prefix + "/packages/qual/validator/test/test-data/identifier-constraints/");
   qualValidationDirectories.push_back(prefix + "/packages/qual/validator/test/test-data/math-constraints/");
+  groupsValidationDirectories.push_back(prefix + "/packages/groups/validator/test/test-data/general-constraints/");
+  groupsValidationDirectories.push_back(prefix + "/packages/groups/validator/test/test-data/identifier-constraints/");
 
   cout << endl;
   cout << "Syntactic Test Suite Creation" << endl;
@@ -330,6 +337,7 @@ main (int argc, char* argv[])
   if (parseDirectories(fbcValidationDirectories, outdir, "fbc", report, uniqueErrors, uniqueErrorIDs, fullreport)) return 1;
   if (parseDirectories(layoutValidationDirectories, outdir, "layout", report, uniqueErrors, uniqueErrorIDs, fullreport)) return 1;
   if (parseDirectories(qualValidationDirectories, outdir, "qual", report, uniqueErrors, uniqueErrorIDs, fullreport)) return 1;
+  if (parseDirectories(groupsValidationDirectories, outdir, "groups", report, uniqueErrors, uniqueErrorIDs, fullreport)) return 1;
   if (fullreport) {
     //Output the unique error messages, so we can read them:
     ofstream cfile((outdir + "/uniqueErrors.txt").c_str());

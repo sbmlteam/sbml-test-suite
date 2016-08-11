@@ -156,7 +156,7 @@ TestFile::getConstraintIdString(int idnum)
     id.replace(0,2,"qual-");
   }
   else if (idnum <= 4099999) {
-    //id.replace(0,2,"comp-");
+    id.replace(0,2,"groups-");
   }
   else if (idnum <= 5099999) {
     //id.replace(0,2,"comp-");

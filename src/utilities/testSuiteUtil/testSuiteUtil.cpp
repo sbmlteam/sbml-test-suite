@@ -172,6 +172,9 @@ bool getConstant(string id, Model* model,  const map<string, vector<double> >& r
 
 bool variesIn(const ASTNode* math, Model* model,  const map<string, vector<double> >& results)
 {
+  if (math == NULL) {
+    return false;
+  }
   if (math->getType() == AST_NAME_TIME) return true;
   if (math->getType() == AST_NAME) {
     string id = math->getName();
@@ -186,6 +189,9 @@ bool variesIn(const ASTNode* math, Model* model,  const map<string, vector<doubl
 
 bool appearsIn(string id, const ASTNode* math)
 {
+  if (math == NULL) {
+    return false;
+  }
   if (math->getType() == AST_NAME) {
     if (id==math->getName()) return true;
   }
@@ -357,6 +363,9 @@ void checkRules(Model* model, set<string>& components, set<string>& tests)
   set<const Compartment*> changedCompartments;
   for (unsigned int r=0; r<model->getNumRules(); r++) {
     Rule* rule = model->getRule(r);
+    if (rule->isSetMath() == false) {
+      tests.insert("NoMathML");
+    }
     int typecode = rule->getTypeCode();
     if (typecode == SBML_ALGEBRAIC_RULE) {
       components.insert("AlgebraicRule");
@@ -382,6 +391,11 @@ void checkRules(Model* model, set<string>& components, set<string>& tests)
       if ((*species)->getCompartment() == compartmentID && !(*species)->getHasOnlySubstanceUnits()) {
         tests.insert("VolumeConcentrationRates");
       }
+    }
+  }
+  for (unsigned int ia = 0; ia < model->getNumInitialAssignments(); ia++) {
+    if (model->getInitialAssignment(ia)->isSetMath() == false) {
+      tests.insert("NoMathML");
     }
   }
 }
@@ -430,16 +444,28 @@ void checkEvents(Model* model, set<string>& components, set<string>& tests)
     Event* event = model->getEvent(e);
     if (event->isSetDelay()) {
       components.insert("EventWithDelay");
+      if (event->getDelay()->isSetMath() == false) {
+        tests.insert("NoMathML");
+      }
     }
     else {
       components.insert("EventNoDelay");
     }
     if (event->isSetPriority()) {
       components.insert("EventPriority");
+      if (event->getPriority()->isSetMath() == false) {
+        tests.insert("NoMathML");
+      }
     }
     if (event->isSetTrigger()) {
       Trigger* trigger = event->getTrigger();
+      if (trigger->isSetMath() == false) {
+        tests.insert("NoMathML");
+      }
       if (event->isSetDelay() || model->getNumEvents() > 1) {
+        if (event->isSetDelay() && event->getDelay()->isSetMath() == false) {
+          tests.insert("NoMathML");
+        }
         if (trigger->isSetPersistent()) {
           if (trigger->getPersistent()) {
             tests.insert("EventIsPersistent [?]");
@@ -459,6 +485,11 @@ void checkEvents(Model* model, set<string>& components, set<string>& tests)
       }
       if (trigger->isSetInitialValue() && trigger->getInitialValue()==false) {
         tests.insert("EventT0Firing [?]");
+      }
+    }
+    for (unsigned long ea = 0; ea < event->getNumEventAssignments(); ea++) {
+      if (event->getEventAssignment(ea)->isSetMath() == false) {
+        tests.insert("NoMathML");
       }
     }
   }
@@ -581,7 +612,7 @@ void checkSpeciesRefs(Model* model, ListOfSpeciesReferences* losr, set<string>& 
   }
 }
 
-void checkReactions(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results, bool fbc)
+void checkReactions(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results, int type)
 {
   if (model->getNumReactions() > 0) {
     components.insert("Reaction");
@@ -591,7 +622,7 @@ void checkReactions(Model* model, set<string>& components, set<string>& tests,  
         tests.insert("FastReaction");
       }
       if (rxn->isSetReversible() && rxn->getReversible()) {
-        if (!fbc) {
+        if (type!=1) {
           tests.insert("ReversibleReaction [?]");
         }
       }
@@ -604,19 +635,26 @@ void checkReactions(Model* model, set<string>& components, set<string>& tests,  
         if (kl->getNumParameters() > 0) {
           tests.insert("LocalParameters");
         }
+        if (kl->isSetMath() == false) {
+          tests.insert("NoMathML");
+        }
       }
     }
   }
 }
 
-void checkSpecies(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results, bool fbc)
+void checkSpecies(Model* model, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results, int type)
 {
   //Must call this after 'checkCompartments' because we look in 'tests' for 'NonUnityCompartment'.
   if (model->getNumSpecies() > 0) {
     components.insert("Species");
-    if (!fbc) {
+    if (type==0) {
       tests.insert("Amount||Concentration");
     }
+    else if (type==2) {
+      tests.insert("Amount");
+    }
+	set<string> compartments;
     for (unsigned int s=0; s<model->getNumSpecies(); s++) {
       Species* species = model->getSpecies(s);
       if (species->isSetBoundaryCondition() && species->getBoundaryCondition()) {
@@ -637,6 +675,56 @@ void checkSpecies(Model* model, set<string>& components, set<string>& tests,  co
       else if (species->isSetId() && initialOverriddenIn(species->getId(), model, results, tests)) {
         tests.insert("InitialValueReassigned");
       }
+      if (species->isSetCompartment()) {
+        compartments.insert(species->getCompartment());
+      }
+    }
+    if (tests.find("MultiCompartment") != tests.end() && compartments.size()==1) {
+      cerr << "Error:  multiple compartments discovered, but all species are in a single compartment." << endl;
+      tests.insert("ERRORMultiCompartment");
+    }
+  }
+}
+
+void checkMathML(const string& modxml, set<string>& components)
+{
+  if (modxml.find("http://www.sbml.org/sbml/symbols/avogadro") != string::npos) {
+    components.insert("CSymbolAvogadro");
+  }
+  if (modxml.find("http://www.sbml.org/sbml/symbols/delay") != string::npos) {
+    components.insert("CSymbolDelay");
+  }
+  if (modxml.find("http://www.sbml.org/sbml/symbols/time") != string::npos) {
+    components.insert("CSymbolTime");
+  }
+  if (modxml.find("http://www.sbml.org/sbml/symbols/rateOf") != string::npos) {
+    components.insert("CSymbolRateOf");
+  }
+  if (modxml.find("quotient") != string::npos) {
+    components.insert("UncommonMathML");
+  }
+  if (modxml.find("rem") != string::npos) {
+    components.insert("UncommonMathML");
+  }
+  if (modxml.find("implies") != string::npos) {
+    components.insert("UncommonMathML");
+  }
+}
+
+void checkConstraints(Model* model, set<string>& components, set<string>& tests)
+{
+  for (unsigned int c = 0; c < model->getNumConstraints(); c++) {
+    if (!model->getConstraint(c)->isSetMath()) {
+      tests.insert("NoMathML");
+    }
+  }
+}
+
+void checkFunctionDefinitions(Model* model, set<string>& components, set<string>& tests)
+{
+  for (unsigned int c = 0; c < model->getNumFunctionDefinitions(); c++) {
+    if (!model->getFunctionDefinition(c)->isSetMath()) {
+      tests.insert("NoMathML");
     }
   }
 }
