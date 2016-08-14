@@ -215,10 +215,9 @@ clean-omex:
 # -----------------------------------------------------------------------------
 # Case archive, for the test runner
 # -----------------------------------------------------------------------------
-# Use 'make cases-dist' for generating the zip archive of just the test
-# cases, for update distributions by the test runner.  The file
-# ".zipexcludes" in this directory contains a list of files to be excluded
-# from the zip archive created.
+# Use 'make cases-dist' for generating the zip archives of test cases.  The
+# file ".zipexcludes" in this directory contains a list of files to be
+# excluded from the zip archive created.
 #
 # Note: the date is purposefully set to one day in the future, because of the
 # following problem.  The RSS feed published by sf.net for new files uses the
@@ -234,7 +233,7 @@ clean-omex:
 today   = $(shell date -v +1d +"%F")
 ts-file = .cases-archive-date
 
-semantic-cases-dist-name   = sbml-test-cases-$(today).zip
+semantic-cases-dist-name   = sbml-semantic-test-cases-$(today).zip
 semantic-map-file	   = cases/semantic/.cases-tags-map
 semantic-contents	   = cases/semantic	  \
 		 	     cases/LICENSE.txt	  \
@@ -252,44 +251,42 @@ stochastic-contents	   = cases/stochastic  \
 			     $(ts-file)
 
 syntactic-cases-dist-name  = sbml-syntactic-test-cases-$(today).zip
-syntactic-contents	   = cases/syntactic/*.txt	   \
-			     cases/syntactic/[0-9]*	   \
+syntactic-contents	   = cases/syntactic	/*.txt         \
+			     cases/syntactic/[0-9]*        \
 			     cases/syntactic/[a-z]*-[0-9]* \
 		 	     cases/LICENSE.txt		   \
 		 	     cases/NEWS.txt		   \
 		 	     cases/README.txt		   \
 			     $(ts-file)
 
+all-cases-dist-name       = sbml-all-test-cases-$(today).zip
+
 semantic-cases-dist: html plots sedml omex tags-map
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/semantic/$(ts-file)
 	make $(semantic-map-file)
 	zip -r $(semantic-cases-dist-name) $(semantic-contents) -x@.zipexcludes
-	@echo "---------------------------------------------------------------"
-	@echo "Next: upload zip file to SourceForge as updated test cases dist."
-	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
-	@echo "---------------------------------------------------------------"
 
 stochastic-cases-dist: $(stochastic-cases-plot-files)
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/stochastic/$(ts-file)
 	zip -r $(stochastic-cases-dist-name) $(stochastic-contents) -x@.zipexcludes
-	@echo "---------------------------------------------------------------"
-	@echo "Next: upload zip file to SourceForge as updated test cases dist."
-	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
-	@echo "---------------------------------------------------------------"
 
 syntactic-cases-dist:
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/syntactic/$(ts-file)
 	zip -r $(syntactic-cases-dist-name) $(syntactic-contents) -x@.zipexcludes
 	zip -d $(syntactic-cases-dist-name) cases/syntactic/uniqueErrors.txt
-	@echo "---------------------------------------------------------------"
-	@echo "Next: upload zip file to SourceForge as updated test cases dist."
-	@echo "Please don't forget to do 'svn commit' for the time-stamp file."
-	@echo "---------------------------------------------------------------"
 
-cases-dist: semantic-cases-dist stochastic-cases-dist syntactic-cases-dist
+all-cases-dist: semantic-cases-dist stochastic-cases-dist syntactic-cases-dist
+	zip -r $(all-cases-dist-name) $(semantic-contents) \
+	   $(stochastic-contents) $(syntactic-contents) -x@.zipexcludes
+
+cases-dist: all-cases-dist
+	@echo "---------------------------------------------------------------"
+	@echo "Next: release the zip file."
+	@echo "Please don't forget to do 'git commit' the time-stamp file."
+	@echo "---------------------------------------------------------------"
 
 tags-map $(semantic-map-file): $(semantic-cases-m-files)
 	@echo "Making tags map file:"
