@@ -6,7 +6,7 @@ componentTags:   AssignmentRule, CSymbolRateOf, Compartment, Parameter, Reaction
 testTags:        Amount, InitialValueReassigned, NonConstantParameter
 testType:        TimeCourse
 levels:          3.2
-generatedBy:     Analytic
+generatedBy:     Numeric
 packagesPresent: 
 
  The rateOf csymbol is used here in an assignment rule that references a species changing due to a reactions with a non-constant kinetic law.
@@ -38,8 +38,5 @@ The species' initial quantities are given in terms of substance units to
 make it easier to use the model in a discrete stochastic simulator, but
 their symbols represent their values in concentration units where they
 appear in expressions.
-
-Note: The test data for this model was generated from an analytical
-solution of the system of equations.
 
 *)
