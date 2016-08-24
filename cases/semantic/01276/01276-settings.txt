@@ -1,7 +1,7 @@
 start: 0
 duration: 10
 steps: 10
-variables: p1, p2, p3, p4
+variables: p1, p2, p3
 absolute: 0.0001
 relative: 0.0001
 amount: 

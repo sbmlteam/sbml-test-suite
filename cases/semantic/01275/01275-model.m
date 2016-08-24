@@ -9,16 +9,15 @@ levels:          3.2
 generatedBy:     Numeric
 packagesPresent: 
 
-Four tests of the 'max' MathML construct. NOTE:  MUST UPDATE THIS TEST AFTER THE COMMUNITY VOTES ON WHAT SHOULD BE DONE WITH 'MAX()'.
+Three tests of the 'max' MathML construct.
 
 The model contains:
-* 4 parameters (p1, p2, p3, p4)
+* 3 parameters (p1, p2, p3)
 The initial conditions are as follows:
 
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter p1 | $max(-1, -10)$ | constant |
 | Initial value of parameter p2 | $max(30)$ | constant |
-| Initial value of parameter p3 | $max(2, 200, 20)$ | constant |
-| Initial value of parameter p4 | $max()$ | constant |]
+| Initial value of parameter p3 | $max(2, 200, 20)$ | constant |]
 
 *)

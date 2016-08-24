@@ -6,7 +6,6 @@
       <parameter id="p1" constant="true"/>
       <parameter id="p2" constant="true"/>
       <parameter id="p3" constant="true"/>
-      <parameter id="p4" constant="true"/>
     </listOfParameters>
     <listOfInitialAssignments>
       <initialAssignment symbol="p1">
@@ -33,13 +32,6 @@
             <cn type="integer"> 2 </cn>
             <cn type="integer"> 200 </cn>
             <cn type="integer"> 20 </cn>
-          </apply>
-        </math>
-      </initialAssignment>
-      <initialAssignment symbol="p4">
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <apply>
-            <max/>
           </apply>
         </math>
       </initialAssignment>
