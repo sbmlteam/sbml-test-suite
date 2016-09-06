@@ -9,7 +9,7 @@
       <species id="S1" compartment="c" initialAmount="2" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
     </listOfSpecies>
     <listOfReactions>
-      <reaction id="J0" reversible="true" fast="false">
+      <reaction id="J0" reversible="true">
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <cn type="integer"> 2 </cn>

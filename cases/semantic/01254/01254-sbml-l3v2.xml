@@ -22,7 +22,7 @@
       </initialAssignment>
     </listOfInitialAssignments>
     <listOfReactions>
-      <reaction id="J0" reversible="false" fast="false">
+      <reaction id="J0" reversible="false">
         <listOfProducts>
           <speciesReference species="S1" stoichiometry="1" constant="true"/>
         </listOfProducts>
@@ -32,7 +32,7 @@
           </math>
         </kineticLaw>
       </reaction>
-      <reaction id="J1" reversible="false" fast="false">
+      <reaction id="J1" reversible="false">
         <listOfReactants>
           <speciesReference species="S1" stoichiometry="1" constant="true"/>
         </listOfReactants>

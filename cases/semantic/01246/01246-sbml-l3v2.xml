@@ -9,14 +9,14 @@
       <species id="S1" compartment="c" initialAmount="2" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
     </listOfSpecies>
     <listOfReactions>
-      <reaction id="J0" reversible="false" fast="false">
+      <reaction id="J0" reversible="false">
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <cn type="integer"> 2 </cn>
           </math>
         </kineticLaw>
       </reaction>
-      <reaction id="J1" reversible="false" fast="false">
+      <reaction id="J1" reversible="false">
         <listOfProducts>
           <speciesReference species="S1" stoichiometry="1" constant="true"/>
         </listOfProducts>

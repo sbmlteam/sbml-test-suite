@@ -9,7 +9,7 @@
       <species id="S1" compartment="C" initialConcentration="1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
     </listOfSpecies>
     <listOfReactions>
-      <reaction id="J0" reversible="true" fast="false">
+      <reaction id="J0" reversible="true">
         <listOfReactants>
           <speciesReference species="S1" stoichiometry="1" constant="true"/>
         </listOfReactants>
@@ -19,7 +19,7 @@
           </math>
         </kineticLaw>
       </reaction>
-      <reaction id="J1" reversible="true" fast="false">
+      <reaction id="J1" reversible="true">
         <listOfProducts>
           <speciesReference species="S1" stoichiometry="1" constant="true"/>
         </listOfProducts>

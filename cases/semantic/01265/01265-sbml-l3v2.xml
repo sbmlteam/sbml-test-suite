@@ -23,7 +23,7 @@
       </rateRule>
     </listOfRules>
     <listOfReactions>
-      <reaction id="J0" reversible="false" fast="false">
+      <reaction id="J0" reversible="false">
         <listOfProducts>
           <speciesReference species="S1" stoichiometry="1" constant="true"/>
         </listOfProducts>
