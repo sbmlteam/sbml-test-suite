@@ -73,6 +73,65 @@ of SBML understanding and compliance.
   in the [cases/syntactic/](cases/syntactic) subdirectory.
 
 
+► The Test Runner
+-----------------
+
+If you have downloaded a release of the standalone version of the SBML Test Suite, your distribution will consist of a few files and a file named `SBMLTestSuite.jar`.  To start the SBML Test Runner contained in the `.jar` file, you can simply double-click on the `.jar` file in most windowing environments (e.g., the Mac OS X Finder).  If that does not work, try executing the following command in a command shell or terminal window:
+
+```csh
+java -jar SBMLTestSuite.jar
+```
+
+Once the application is running, chose the option **New Test Run** from the File menu.  The first time in a session, it will lead you through the configuration steps.  Once the SBML Test Runner is configured, the green arrow button on the front panel will be enabled.  Click on the button to run the tests.
+
+The most complicated part is providing the *test wrapper*: a script or application that takes certain commands from SBML Test Runner on the command line and invokes the application being tested in such a way that the application reads an SBML file, runs it with certain simulation settings, and writes an output file containing the results of the simulation.  The SBML Test Runner provides you with the ability to specify a complete command line invoking the wrapper.  This command line can contain the following substitution symbols:
+
+* `%d` = path to the directory containing all test cases
+* `%n` = current test case number (of the form `NNNNN`)
+* `%o` = directory where the CSV output file should be written
+
+The specific values will be set by the SBML Test Runner itself; they are not under user control.  However, the order in which the arguments are handed to the wrapper is under user control.  For example, if the path to your test wrapper is `/home/myself/wrapper`, the command line you provide might look like this:
+
+```csh
+/home/myself/wrapper %d %n %o
+```
+
+but you could equally chose to write it as, say, 
+
+```csh
+/home/myself/wrapper %n %d %o
+```
+
+if your wrapper was written to take the arguments in that order.
+
+The reason all three values are needed will become apparent shortly.  The directory indicated by `%d` will contain a large number of subdirectories named after the test case number (i.e., `00001`, `00002`, `00003`, etc.).  Inside each of these directories, there will be multiple SBML files, a settings file, and some miscellaneous other files:
+
+* `0xxxx-sbml-l1v2.xml`   &ndash; the model in SBML Level 1 Version 2 format
+* `0xxxx-sbml-l2v1.xml`   &ndash; the model in SBML Level 2 Version 1 format
+* `0xxxx-sbml-l2v2.xml`   &ndash; the model in SBML Level 2 Version 2 format
+* `0xxxx-sbml-l2v3.xml`   &ndash; the model in SBML Level 2 Version 3 format
+* `0xxxx-settings.txt`    &ndash; the settings file
+
+You will need to write the wrapper such that it performs the following
+steps:
+
+1. Extracts the relevant simulation run settings from the file `%d/%n/%n-sbml-lXvY.xml`.  These settings include the starting time of the simulation, the duration of the simulation, the variables whose values should appear in the output, the number of output steps to record in the output, and the tolerances to use.
+
+2. Tells the to-be-tested application to (i) read an SBML file named `%d/%n/%n-sbml-lXvY.xml`, where X is the SBML Level and Y is the Version within the Level, (ii) execute a simulation with the settings determined in step (a), and (iii) write the output as a file named `%o/%n.csv`.  The command line arguments to be handed to the application depend on the application itself.
+
+The SBML Test Runner will go through every test in the test case directory and invoke the wrapper, once for each test case.  It will do this by executing command lines that look a bit like this:
+
+```
+/path/to/your/wrapper  %d  00001  %o
+/path/to/your/wrapper  %d  00002  %o
+/path/to/your/wrapper  %d  00003  %o
+/path/to/your/wrapper  %d  00004  %o
+...
+```
+
+where `%d` is the path to the directory containing all the test case subdirectories and `%o` is the directory where the SBML Test Runner will expect to find the output written by the application.
+
+
 ⁇ Getting Help
 ------------
 
