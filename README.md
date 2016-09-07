@@ -36,17 +36,25 @@ Funding for the continued development of the core of the SBML Test Suite current
 
 The SBML Test Suite has been in development for many years, and many people have contributed in various ways large and small.  The following are the primary authors of different parts:
 
-* Semantic test suite:
+* Semantic test cases:
 
   Sarah M. Keating<sup>a,b</sup>, Lucian P. Smith<sup>b,c</sup>, Bruce Shapiro <sup>b</sup>, Michael Hucka<sup>b</sup>, Frank T. Bergmann<sup>d</sup>, Brett Olivier<sup>g</sup>, Andrew Finney<sup>b</sup>
 
-* Stochastic test suite:
+* Stochastic test cases:
 
   Thomas W. Evans<sup>e</sup>, Colin S. Gillespie<sup>f</sup>, Darren J. Wilkinson<sup>f</sup>, Lucian P. Smith<sup>b,c</sup>
    
-* Syntactic test suite:
+* Syntactic test cases:
 
   Sarah M. Keating<sup>a,b</sup>, Lucian P. Smith<sup>b,c</sup>
+
+* SBML Test Runners:
+
+  Frank T. Bergmann<sup>d</sup>, Michael Hucka<sup>b</sup>, Kimberley Begley
+
+* Online SBML Test Suite Database:
+
+  Frank T. Bergmann<sup>d</sup>
 
 Additional contributions are gratefully acknowledged from Ralph Gauges h</sup>, Chris Myers<sup>i</sup>, Akira Funahashi<sup>j</sup>, Andreas Dräger<sup>k</sup>, Roland Keller<sup>k</sup>, Fedor Kolpakov<sup>l</sup>, Stanley Gu<sup>c</sup>, and others in the SBML community.
 
