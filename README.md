@@ -73,6 +73,12 @@ of SBML understanding and compliance.
   in the [cases/syntactic/](cases/syntactic) subdirectory.
 
 
+⁇ Getting Help
+------------
+
+The SBML Test Suite is under active development by a distributed team.  If you have any questions, please feel free to post or email on the  ([https://groups.google.com/forum/#!forum/sbml-interoperability](https://groups.google.com/forum/#!forum/sbml-interoperability)) forum, or contact the [SBML Team](mailto:sbml-team@caltech.edu) directly.
+
+
 ♬ Contributing
 ------------
 
