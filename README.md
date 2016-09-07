@@ -38,41 +38,35 @@ The SBML Test Suite has been in development for many years, and many people have
 
 * Semantic test suite:
 
-  Sarah M. Keating (a,b), Lucian P. Smith (b,c), Bruce Shapiro (b),
-  Michael Hucka (b), Frank T. Bergmann (d), Brett Olivier (g),
-  Andrew Finney (b)
+  Sarah M. Keating<sup>a,b</sup>, Lucian P. Smith<sup>b,c</sup>, Bruce Shapiro <sup>b</sup>, Michael Hucka<sup>b</sup>, Frank T. Bergmann<sup>d</sup>, Brett Olivier<sup>g</sup>, Andrew Finney<sup>b</sup>
 
 * Stochastic test suite:
 
-  Thomas W. Evans (e), Colin S. Gillespie (f), Darren J. Wilkinson (f),
-  Lucian P. Smith (b,c)
+  Thomas W. Evans<sup>e</sup>, Colin S. Gillespie<sup>f</sup>, Darren J. Wilkinson<sup>f</sup>, Lucian P. Smith<sup>b,c</sup>
    
 * Syntactic test suite:
 
-  Sarah M. Keating (a,b), Lucian P. Smith (b,c)
+  Sarah M. Keating<sup>a,b</sup>, Lucian P. Smith<sup>b,c</sup>
 
-Additional contributions are gratefully acknowledged from Ralph Gauges
-(h), Chris Myers (i), Akira Funahashi (j), Andreas Dräger (k), Roland
-Keller (k), Fedor Kolpakov (l), Stanley Gu (c), and others in the SBML
-community.
+Additional contributions are gratefully acknowledged from Ralph Gauges h</sup>, Chris Myers<sup>i</sup>, Akira Funahashi<sup>j</sup>, Andreas Dräger<sup>k</sup>, Roland Keller<sup>k</sup>, Fedor Kolpakov<sup>l</sup>, Stanley Gu<sup>c</sup>, and others in the SBML community.
 
 Institutions:
 
-   (a) EMBL-EBI, Hinxton, Cambridgeshire, UK
-   (b) California Institute of Technology, Pasadena, CA, US
-   (c) University of Washington, Seattle, WA, US
-   (d) University of Heidelberg, Heidelberg, DE
-   (e) University of Liverpool, Liverpool, UK
-   (f) Newcastle University, Newcastle, UK
-   (g) Vrije Universiteit Amsterdam
-   (h) Heidelberg Institute for Theoretical Studies, Heidelberg, DE
-   (i) University of Utah, Salt Lake City, UT, US
-   (j) Systems Biology Institute, Tokyo, JP
-   (k) University of Tuebingen, Tübingen, DE
-   (l) Institute of Systems Biology, Novosibirsk, RU   
+  <sup>a</sup> EMBL-EBI, Hinxton, Cambridgeshire, UK<br>
+  <sup>b</sup> California Institute of Technology, Pasadena, CA, US<br>
+  <sup>c</sup> University of Washington, Seattle, WA, US<br>
+  <sup>d</sup> University of Heidelberg, Heidelberg, DE<br>
+  <sup>e</sup> University of Liverpool, Liverpool, UK<br>
+  <sup>f</sup> Newcastle University, Newcastle, UK<br>
+  <sup>g</sup> Vrije Universiteit Amsterdam<br>
+  <sup>h</sup> Heidelberg Institute for Theoretical Studies, Heidelberg, DE<br>
+  <sup>i</sup> University of Utah, Salt Lake City, UT, US<br>
+  <sup>j</sup> Systems Biology Institute, Tokyo, JP<br>
+  <sup>k</sup> University of Tuebingen, Tübingen, DE<br>
+  <sup>l</sup> Institute of Systems Biology, Novosibirsk, RU   <br>
 
 
 ☮ Copyright and license
 ---------------------
 
-Please see the file [../LICENSE.txt](https://raw.githubusercontent.com/sbmlteam/moccasin/master/LICENSE.txt) for copyright and license details.
+Please see the file [../LICENSE.txt](https://raw.githubusercontent.com/sbmlteam/moccasin/master/LICENSE.txt</sup> for copyright and license details.
