@@ -5,7 +5,7 @@ synopsis:        A boundary substance-only species in non-unit compartment under
 componentTags:   Compartment, RateRule, Species
 testTags:        Amount, BoundaryCondition, HasOnlySubstanceUnits, NonUnityCompartment
 testType:        TimeCourse
-levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: 
 
@@ -30,3 +30,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

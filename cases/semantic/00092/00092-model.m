@@ -6,7 +6,7 @@ compartment using both an assignmentRule and a rateRule to vary species.
 componentTags: Compartment, Species, Reaction, Parameter, RateRule, AssignmentRule 
 testTags:      Amount, InitialValueReassigned
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are four
@@ -64,3 +64,4 @@ addReaction[ S3 -> S1, reversible -> False,
 	     kineticLaw -> k2 * S3 * compartment ];
 
 makemodel[]
+

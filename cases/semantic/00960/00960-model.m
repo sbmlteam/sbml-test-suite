@@ -5,7 +5,7 @@ synopsis:      Four different ways of writing the avogadro number in an initial 
 componentTags: CSymbolAvogadro, InitialAssignment, Parameter
 testTags:      InitialValueReassigned
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
 The model assigns avogadro's number as a csymbol to four parameters.  It tries to fool you by calling two of them 'time' and 'delay', and by not giving one a name at all.
@@ -27,3 +27,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

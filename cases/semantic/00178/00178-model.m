@@ -5,7 +5,7 @@ synopsis:      Model with parameters and rules with a functionDefinition.
 componentTags: Parameter, FunctionDefinition, RateRule 
 testTags:      NonConstantParameter
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains three varying parameters called S1, S2 and S3 and two constant
@@ -51,3 +51,4 @@ addRule[ type->RateRule, variable -> S1, math -> k2 * S3 - multiply[k1, S1, S2]]
 addRule[ type->RateRule, variable -> S2, math -> k2 * S3 - multiply[k1, S1, S2]];
 
 makemodel[]
+

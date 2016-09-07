@@ -5,7 +5,7 @@ synopsis:        A species replacing one thing and replaced by something else.
 componentTags:   Compartment, Species, comp:ModelDefinition, comp:ReplacedBy, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
 testTags:        Concentration, ConstantSpecies, MultiCompartment, NonUnityCompartment, comp:SubmodelOutput
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: comp
 
@@ -35,3 +35,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

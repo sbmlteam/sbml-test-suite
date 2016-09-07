@@ -6,7 +6,7 @@ synopsis:      Two reversible reactions with four species in one compartment
 componentTags: Compartment, Species, Reaction, Parameter, EventWithDelay 
 testTags:      Amount, ReversibleReaction, EventUsesTriggerTimeValues
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is a copy of model 849, with the products and reactants reversed, and a negative kinetic law.  This gives the same results, but during the simulation, the kinetic law actually goes negative (a requirement for reversibe reactions).  The reaction listed below is therfore equivalent to the one in the file, but reversed from it.
@@ -67,3 +67,4 @@ addReaction[ S3 -> S4,
 addEvent[ trigger -> S1 < 0.5, delay -> 1.89, eventAssignment -> {S2->1.5, S4->S2} ];
 
 makemodel[]
+

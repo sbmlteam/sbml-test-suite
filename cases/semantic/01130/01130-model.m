@@ -5,7 +5,7 @@ synopsis:        A hierarchical model with a sub-submodel compartment replacemen
 componentTags:   Compartment, Species, comp:ModelDefinition, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
 testTags:        Concentration, ConstantSpecies, NonUnityCompartment, MultiCompartment, comp:SubmodelOutput
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: comp
 
@@ -34,3 +34,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

@@ -5,7 +5,7 @@ synopsis:      Two reactions and a rate rule with four species in a compartment.
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter, RateRule
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 725.
@@ -60,3 +60,4 @@ addReaction[reactants->{S3}, products->{S1, S2}, reactantStoichiometry->{4 * p1}
 	     kineticLaw -> k2 * S3 * C ];
 
 makemodel[]
+

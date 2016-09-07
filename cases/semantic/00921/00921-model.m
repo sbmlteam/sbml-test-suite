@@ -5,7 +5,7 @@ synopsis:      Model with parameters and initialAssignments only.
 componentTags: Parameter, InitialAssignment 
 testTags:      InitialValueReassigned
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic
 
 The model contains two constant
@@ -40,3 +40,4 @@ addParameter[ k2, value->0.3 ];
 addInitialAssignment[ k1, math -> k2 * 1.5];
 
 makemodel[]
+

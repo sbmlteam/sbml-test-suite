@@ -5,7 +5,7 @@ synopsis:      Model varying compartment using rules only.
 componentTags: Compartment, Species, RateRule 
 testTags:      Concentration, NonConstantCompartment, NonUnityCompartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic
 
 The model contains one varying compartment called c and a species
@@ -36,3 +36,4 @@ addSpecies[s, initialConcentration -> 2];
 addRule[ type->RateRule, variable -> c, math -> c * 0.5];
 
 makemodel[]
+

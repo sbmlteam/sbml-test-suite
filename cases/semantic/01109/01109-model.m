@@ -5,7 +5,7 @@ synopsis:      A simple reaction with stoichiometry set to be equal to 'time'.
 componentTags: AssignmentRule, CSymbolTime, Compartment, Parameter, Reaction, Species
 testTags:      InitialValueReassigned, Amount, AssignedVariableStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 994.
@@ -37,3 +37,4 @@ The initial conditions are as follows:
 | Initial volume of compartment 'default_compartment' | $1$ | constant |]
 
 *)
+

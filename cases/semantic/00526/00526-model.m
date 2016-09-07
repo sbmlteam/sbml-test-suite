@@ -6,7 +6,7 @@ compartment using initialAssignment to set the initial value of the compartment.
 componentTags: Compartment, Species, Reaction, Parameter, InitialAssignment 
 testTags:      Amount, LocalParameters, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are two species called 
@@ -56,3 +56,4 @@ addReaction[ S1 -> S2, reversible -> False,
 	     kineticLaw -> C * k * S1, parameters -> {k -> 0.5} ];
 
 makemodel[]
+

@@ -6,7 +6,7 @@ an algebraic rule used to determine rate of change of one species.
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter, AlgebraicRule 
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 564.
@@ -63,3 +63,4 @@ addReaction[reactants->{S3}, products->{S1, S2}, reactantStoichiometry->{4 * p1}
 	     kineticLaw -> k2 * S3 * C ];
 
 makemodel[]
+

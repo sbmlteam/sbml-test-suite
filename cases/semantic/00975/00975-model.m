@@ -5,7 +5,7 @@ synopsis:      A three-step reaction scheme with a model conversion factor.
 componentTags: Compartment, Parameter, Reaction, Species
 testTags:      Amount, ConversionFactors, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 This model tests conversion factors through a system of three reactions.  There is a conversion factor ('modelconv') on the model of 4.  This changes how S1 and S2 change in time, but not how S1 and S2 are interpreted in the reaction rates.
@@ -40,3 +40,4 @@ their symbols represent their values in concentration units where they
 appear in expressions.
 
 *)
+

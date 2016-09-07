@@ -5,7 +5,7 @@ synopsis:        A simple reaction whose identifier is used in another reaction'
 componentTags:   Compartment, Parameter, Reaction, Species
 testTags:        Amount
 testType:        TimeCourse
-levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: 
 
@@ -34,3 +34,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

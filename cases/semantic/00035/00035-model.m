@@ -6,7 +6,7 @@ synopsis:      Basic two reactions with four species in one compartment
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      Amount
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are four
@@ -56,3 +56,4 @@ addReaction[ S3 + S4 -> S1 + S2, reversible -> False,
 	     kineticLaw -> k2 * S3 * S4 * compartment ];
 
 makemodel[]
+

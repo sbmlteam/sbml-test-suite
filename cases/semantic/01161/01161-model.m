@@ -5,7 +5,7 @@ synopsis:        A hierarchical model whose submodel has a local parameter.
 componentTags:   Compartment, Parameter, Reaction, Species, comp:ModelDefinition, comp:Submodel
 testTags:        Amount, HasOnlySubstanceUnits, LocalParameters, comp:SubmodelOutput
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: comp
 
@@ -32,3 +32,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

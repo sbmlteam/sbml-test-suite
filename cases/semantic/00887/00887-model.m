@@ -6,7 +6,7 @@ and two events that assigns value to a species with a delay using csymbol time.
 componentTags: Compartment, Species, Reaction, Parameter, CSymbolTime, EventWithDelay, EventNoDelay 
 testTags:      Amount, EventIsPersistent
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are three species
@@ -61,3 +61,4 @@ addEvent[ trigger -> S1 < 0.75,
 addEvent[ trigger -> S3 > 1.4, eventAssignment -> S1->0.25  ];
 
 makemodel[]
+

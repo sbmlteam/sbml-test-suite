@@ -5,7 +5,7 @@ synopsis:      Several events conspire within the same time step to trigger thre
 componentTags: CSymbolTime, EventNoDelay, EventPriority, Parameter
 testTags:      EventIsNotPersistent, EventIsPersistent, EventUsesAssignmentTimeValues, EventUsesTriggerTimeValues, NonConstantParameter
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
 This model contains two events that trigger when the parameter multitrig increases to 
@@ -62,3 +62,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

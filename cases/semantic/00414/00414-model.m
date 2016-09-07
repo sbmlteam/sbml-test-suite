@@ -7,7 +7,7 @@ species using a function.
 componentTags: Compartment, Species, Reaction, Parameter, EventWithDelay, FunctionDefinition
 testTags:      Amount, EventIsPersistent
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are three species
@@ -69,3 +69,4 @@ addEvent[ trigger -> lessthan[S1, 0.77], delay->1, eventAssignment -> S2->1.2 ];
 addEvent[ trigger -> S3 > 1.2, delay->1.2, eventAssignment -> S1->1*divide[k3, k4] ];
 
 makemodel[]
+

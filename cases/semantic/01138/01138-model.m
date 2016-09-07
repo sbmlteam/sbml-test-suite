@@ -5,7 +5,7 @@ synopsis:        A hierarchical model with a conversion factor
 componentTags:   AssignmentRule, Parameter, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
 testTags:        InitialValueReassigned, NonConstantParameter, comp:ConversionFactor, comp:SubmodelOutput
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: comp
 
@@ -30,3 +30,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

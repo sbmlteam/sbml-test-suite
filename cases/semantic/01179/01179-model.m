@@ -5,7 +5,7 @@ synopsis:        A hierarchical model with a time conversion and a replacement c
 componentTags:   CSymbolTime, Parameter, RateRule, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
 testTags:        NonConstantParameter, comp:ConversionFactor, comp:TimeConversionFactor
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: comp
 
@@ -27,3 +27,4 @@ The initial conditions are as follows:
 | Initial value of parameter t1 | $1$ | variable |]
 
 *)
+

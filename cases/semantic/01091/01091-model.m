@@ -6,7 +6,7 @@ synopsis:      Two reactions and a rate rule that applies a functionDefinition
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter, FunctionDefinition, RateRule 
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 727.
@@ -67,3 +67,4 @@ addReaction[ S3 -> S1 + S2, reversible -> False,
 	     kineticLaw -> k2 * S3 * C ];
 
 makemodel[]
+

@@ -5,7 +5,7 @@ synopsis:      Competing events with the same priority, jointly causing a parame
 componentTags: AssignmentRule, CSymbolTime, EventNoDelay, EventPriority, Parameter
 testTags:      EventIsNotPersistent, EventIsPersistent, EventUsesTriggerTimeValues, NonConstantParameter, RandomEventExecution
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
 This model (the same basic model as 952) contains two events with the same trigger, the same priority, both set 'persistent=false', and both of which disable the trigger of the other.  This means that every .01 seconds, one fires and the other does not, at random, and increases the parameters Q or R, respectively.  A third parameter, S, is assigned the value of Q+R, meaning that it doesn't matter which one fires; S will increase monotonically.
@@ -58,7 +58,7 @@ Previous version of this file:
 category:      Test
 componentTags: Parameter, EventNoDelay, EventPriority, AssignmentRule, CSymbolTime
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
 The events are:
@@ -92,3 +92,4 @@ solution of the system of equations.
 
 
 */
+

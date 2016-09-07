@@ -6,7 +6,7 @@ synopsis:      Two reactions and a rate rule that applies a functionDefinition
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, RateRule 
 testTags:      Amount, LocalParameters
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are four
@@ -66,3 +66,4 @@ addReaction[ S3 -> S1 + S2, reversible -> False,
 	     kineticLaw -> k * S3 * C, parameters -> {k -> 0.3} ];
 
 makemodel[]
+

@@ -5,7 +5,7 @@ synopsis:      One reactions and two rate rules with four species in a compartme
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter, RateRule, EventNoDelay 
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 730.
@@ -65,3 +65,4 @@ addReaction[reactants->{S1}, products->{S2}, reactantStoichiometry->{4 * p1},
 addEvent[ trigger -> S1 < 0.5, eventAssignment -> S2 -> 2.0 ];
 
 makemodel[]
+

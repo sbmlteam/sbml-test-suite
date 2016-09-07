@@ -5,7 +5,7 @@ synopsis:        A species and a compartment both under control of a rate rule.
 componentTags:   AssignmentRule, Compartment, Parameter, RateRule, Species
 testTags:        Amount, BoundaryCondition, InitialValueReassigned, NonConstantCompartment, NonConstantParameter, NonUnityCompartment, VolumeConcentrationRates
 testType:        TimeCourse
-levels:          1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:          1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: 
 
@@ -31,3 +31,4 @@ The initial conditions are as follows:
 | Initial volume of compartment 'C1' | $0.5$ | variable |]
 
 *)
+

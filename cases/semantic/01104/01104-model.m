@@ -5,7 +5,7 @@ synopsis:      A simple reaction with stoichiometry the same as its species.  Fo
 componentTags: AssignmentRule, Compartment, Parameter, Reaction, Species
 testTags:      Amount, AssignedVariableStoichiometry, InitialValueReassigned, NonUnityStoichiometry, HasOnlySubstanceUnits
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 989.
@@ -40,3 +40,4 @@ The initial conditions are as follows:
 | Initial volume of compartment 'default_compartment' | $1$ | constant |]
 
 *)
+

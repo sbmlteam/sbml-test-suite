@@ -7,7 +7,7 @@ the kinetic law.
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      Amount, 0D-Compartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There are two
@@ -51,3 +51,4 @@ addReaction[ S1 -> S2, reversible -> False,
 	     kineticLaw -> multiply[k1,S1] ];
 
 makemodel[]
+

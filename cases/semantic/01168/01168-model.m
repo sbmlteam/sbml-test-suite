@@ -5,7 +5,7 @@ synopsis:        This hierarchical model references an external model definition
 componentTags:   Compartment, Reaction, Species, comp:ExternalModelDefinition, comp:Submodel
 testTags:        Amount, comp:SubmodelOutput
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: comp
 
@@ -36,3 +36,4 @@ The initial conditions are as follows:
 | Initial volume of compartment 'A__comp' | $1$ | constant |]
 
 *)
+

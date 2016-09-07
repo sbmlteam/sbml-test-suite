@@ -5,7 +5,7 @@ synopsis:      A very simple reaction with stoichiometry set by an assignmentRul
 componentTags: AssignmentRule, Compartment, Parameter, Reaction, Species
 testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry, InitialValueReassigned
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
 The speciesReference ('Xref') is set with an assignmentRule of 3.  A 'stoichiometry' value of '1' is provided in the speciesReference in the reaction itself, which should be overridden by the assignment rule.
@@ -38,3 +38,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

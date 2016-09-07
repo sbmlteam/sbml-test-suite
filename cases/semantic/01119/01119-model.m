@@ -5,7 +5,7 @@ synopsis:      Competing events with the same trigger and delay, but different p
 componentTags: CSymbolTime, EventPriority, EventWithDelay, Parameter
 testTags:      NonConstantParameter
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
  This test ensures that when two events have the same trigger and same delay, they will still execute in the correct order (by priority).
@@ -33,3 +33,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

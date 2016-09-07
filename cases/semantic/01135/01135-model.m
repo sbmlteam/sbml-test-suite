@@ -5,7 +5,7 @@ synopsis:        Hierarchical model with chained replacedBys.
 componentTags:   Parameter, comp:ModelDefinition, comp:ReplacedBy, comp:SBaseRef, comp:Submodel
 testTags:        
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: comp
 
@@ -22,3 +22,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

@@ -5,7 +5,7 @@ synopsis:      Basic reactions with three species in a 0-dimensional compartment
 componentTags: Compartment, Species, Reaction, Parameter
 testTags:      Amount, 0D-Compartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are three
@@ -46,3 +46,4 @@ addReaction[ S3 -> S1 + S2, reversible -> False,
 	     kineticLaw -> k2 * S3 ];
 
 makemodel[]
+

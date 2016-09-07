@@ -5,7 +5,7 @@ synopsis:      Algebraic rule used to determine rate of species change.
 componentTags: Compartment, Species, Reaction, Parameter, AlgebraicRule, InitialAssignment 
 testTags:      Amount, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are two
@@ -59,3 +59,4 @@ addReaction[ products->{S1}, modifiers->S2, reversible -> False,
 	     kineticLaw -> C * k2 * S2 ];
 
 makemodel[]
+

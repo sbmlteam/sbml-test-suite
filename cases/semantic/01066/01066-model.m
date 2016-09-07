@@ -6,7 +6,7 @@ synopsis:      Basic reactions with three species in a compartment
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter 
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 69.
@@ -53,3 +53,4 @@ addReaction[ reactants->{S3}, products->{S1, S2}, reactantStoichiometry->{2 * p1
 	     kineticLaw -> k2 * S3 * compartment ];
 
 makemodel[]
+

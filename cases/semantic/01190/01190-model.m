@@ -5,7 +5,7 @@ synopsis:        Maximize single objective function, non-unitary objective flux 
 componentTags:   Compartment, Reaction, Species, fbc:FluxBound, fbc:FluxObjective, fbc:Objective
 testTags:        BoundaryCondition, NonUnityStoichiometry, fbc:BoundGreaterEqual, fbc:BoundLessEqual, fbc:MaximizeObjective
 testType:        FluxBalanceSteadyState
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: fbc
 
@@ -50,3 +50,4 @@ There are 26 reactions, and 52 flux bounds:
 | R26: S -> Y | $R26 >= 0 && R26 <= 1000$ |]
 
 *)
+

@@ -5,7 +5,7 @@ synopsis:        A hierarchical model with a conversion factor on a compartment.
 componentTags:   Compartment, Parameter, RateRule, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
 testTags:        NonConstantCompartment, NonUnityCompartment, comp:ConversionFactor
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: comp
 
@@ -30,3 +30,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

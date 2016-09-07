@@ -5,7 +5,7 @@ synopsis:      Test a delayed event trigger that transitions from false to true 
 componentTags: Compartment, EventWithDelay, RateRule, Species
 testTags:      Amount, EventT0Firing, HasOnlySubstanceUnits, NonConstantCompartment, NonUnityCompartment
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
  This model has a delayed event which fires at t0 due to it being set 'initialValue=false'.
@@ -35,3 +35,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

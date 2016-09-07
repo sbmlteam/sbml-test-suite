@@ -6,7 +6,7 @@ synopsis:      Model using parameters and rules only with
 componentTags: Parameter, RateRule, EventWithDelay 
 testTags:      NonConstantParameter, EventIsPersistent
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains three varying parameters called S1, S2 and S3 and two constant
@@ -52,3 +52,4 @@ addEvent[ trigger -> S1 < 0.75, delay->1, eventAssignment -> S2->1 ];
 addEvent[ trigger -> S3 > 1.4, delay->1.5, eventAssignment -> S1->1 ];
 
 makemodel[]
+

@@ -6,7 +6,7 @@ compartment using an assignmentRule to vary one species.
 componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule, EventWithDelay  
 testTags:      Amount, LocalParameters, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are three
@@ -65,3 +65,4 @@ addReaction[ S1 -> S2, reversible -> False,
 addEvent[ trigger -> S1 < 0.1, delay-> 0.5, eventAssignment -> S2->1 ];
 
 makemodel[]
+

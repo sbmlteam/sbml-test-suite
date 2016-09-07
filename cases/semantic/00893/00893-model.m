@@ -5,7 +5,7 @@ synopsis:      Model with parameters and rules only, with csymbol time.
 componentTags: Parameter, RateRule, CSymbolTime
 testTags:      NonConstantParameter
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains three varying parameters called P1, P2 and P3 and one
@@ -42,3 +42,4 @@ addRule[ type->RateRule, variable -> P1, math -> -(P3 * P1)];
 addRule[ type->RateRule, variable -> P2, math -> P3 * P1];
 
 makemodel[]
+

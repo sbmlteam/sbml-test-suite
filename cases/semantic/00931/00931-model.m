@@ -5,7 +5,7 @@ synopsis:      Single forward reaction with two species in one compartment and a
 componentTags: Compartment, CSymbolTime, Species, EventNoDelay, EventPriority
 testTags:      Amount
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
 The model contains one compartment called "C".  There are two
@@ -43,4 +43,5 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+
 

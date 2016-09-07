@@ -5,7 +5,7 @@ synopsis:      Model using parameters and both rate and algebraic rules.
 componentTags: Parameter, RateRule, AlgebraicRule 
 testTags:      NonConstantParameter
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains two varying parameters called S1 and S2 and two constant
@@ -40,3 +40,4 @@ addRule[ type->AlgebraicRule, math -> S1 + S2-k1];
 addRule[ type->RateRule, variable -> S1, math -> k2 * S2 ];
 
 makemodel[]
+

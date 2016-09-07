@@ -5,7 +5,7 @@ synopsis:        Single objective, test: R07 EQ 0.2, R10 EQ 0.2, R25 EQ 0.6
 componentTags:   Compartment, Reaction, Species, fbc:FluxBound, fbc:FluxObjective, fbc:Objective
 testTags:        BoundaryCondition, NonUnityStoichiometry, fbc:BoundEqual, fbc:BoundGreaterEqual, fbc:BoundLessEqual, fbc:MaximizeObjective
 testType:        FluxBalanceSteadyState
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: fbc
 
@@ -50,3 +50,4 @@ There are 26 reactions, and 49 flux bounds:
 | R26: S -> Y | $R26 >= 0 && R26 <= 1000$ |]
 
 *)
+

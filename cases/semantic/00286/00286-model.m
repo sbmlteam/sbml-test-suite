@@ -5,7 +5,7 @@ synopsis:        Reactions occurring between two compartments.
 componentTags:   AssignmentRule, Compartment, Parameter, Reaction, Species
 testTags:        Amount, MultiCompartment, NonUnityStoichiometry
 testType:        TimeCourse
-levels:          1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:          1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: 
 
@@ -75,3 +75,4 @@ addReaction[ S2 -> S3, reversible -> False,
 	     kineticLaw -> k2 * (S2-S3) * compartment1 ];
 
 makemodel[]
+

@@ -6,7 +6,7 @@ synopsis:      Rate rule using a functionDefinition used to determine value of p
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, RateRule 
 testTags:      Concentration, NonConstantParameter, NonUnityCompartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are two
@@ -55,3 +55,4 @@ addReaction[ S1 -> S2, reversible -> False,
 	     kineticLaw -> k1 * S1 * C ];
 
 makemodel[]
+

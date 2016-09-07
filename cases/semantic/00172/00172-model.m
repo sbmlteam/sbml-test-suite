@@ -5,7 +5,7 @@ synopsis:      Model using rules and parameters with an event.
 componentTags: Parameter, RateRule, EventNoDelay 
 testTags:      NonConstantParameter
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains two varying parameters called S1 and S2 and one constant
@@ -45,3 +45,4 @@ addRule[ type->RateRule, variable -> S2, math -> k1 * S1];
 addEvent[ trigger -> S1 < 0.1, eventAssignment -> S1->1];
 
 makemodel[]
+

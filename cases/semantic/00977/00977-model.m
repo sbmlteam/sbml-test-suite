@@ -5,7 +5,7 @@ synopsis:      A three-step reaction scheme with a species conversion factor.
 componentTags: Compartment, Parameter, Reaction, Species
 testTags:      Amount, ConversionFactors, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 This model tests conversion factors through a system of three reactions.  There is a conversion factor ('S1conv') on species S1.  This means that S1 is converted according to S1conv, and S2 is not converted.  This changes how S1 change in time, but not how S1 is interpreted in the reaction rates.
@@ -36,3 +36,4 @@ The initial conditions are as follows:
 | Initial volume of compartment 'default_compartment' | $1$ | constant |]
 
 *)
+

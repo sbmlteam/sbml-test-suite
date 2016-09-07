@@ -7,7 +7,7 @@ compartment using an assignmentRule with a
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition, AssignmentRule 
 testTags:      Concentration, NonUnityCompartment, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are three
@@ -57,3 +57,4 @@ addReaction[ S1 -> S2, reversible -> False,
 	     kineticLaw -> C * k2 * S1];
 
 makemodel[]
+

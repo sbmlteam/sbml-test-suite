@@ -6,7 +6,7 @@ synopsis:      Two reactions with two species in one compartment, with a
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      Amount, NonUnityCompartment, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There are two
@@ -49,3 +49,4 @@ addReaction[ 0.7 S2 -> S1, reversible -> False,
 	     kineticLaw -> k2 * S2 * compartment ];
 
 makemodel[]
+

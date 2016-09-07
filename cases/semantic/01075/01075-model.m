@@ -6,7 +6,7 @@ synopsis:      Basic two reactions with four species in one compartment
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter, EventWithDelay 
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 448.
@@ -63,3 +63,4 @@ addEvent[ trigger -> S4 > S2, delay->0.5, eventAssignment -> S1->2 10^-1 ];
 addEvent[ trigger -> S3 > 10/(4 10^1), delay->1.5, eventAssignment -> S4->1 10^-1 ];
 
 makemodel[]
+

@@ -5,7 +5,7 @@ synopsis:        A hierarchical model with a time conversion factor.
 componentTags:   CSymbolTime, EventWithDelay, Parameter, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
 testTags:        EventUsesTriggerTimeValues, NonConstantParameter, comp:TimeConversionFactor
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: comp
 
@@ -26,3 +26,4 @@ The initial conditions are as follows:
 | Initial value of parameter t5 | $1$ | variable |]
 
 *)
+

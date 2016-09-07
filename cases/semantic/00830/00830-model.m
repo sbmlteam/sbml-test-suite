@@ -5,7 +5,7 @@ synopsis:      Two reversible reactions with global and local parameters.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      Amount, LocalParameters
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are two species called 
@@ -53,3 +53,4 @@ addReaction[ S3 -> S4,
 	     kineticLaw -> (kf * S3 - kr * S4) * C];
 
 makemodel[]
+

@@ -5,7 +5,7 @@ synopsis:        A hierarchical model with a submodel reaction modified by time 
 componentTags:   CSymbolTime, Compartment, Parameter, Reaction, Species, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
 testTags:        Amount, HasOnlySubstanceUnits, comp:ExtentConversionFactor, comp:SubmodelOutput, comp:TimeConversionFactor
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: comp
 
@@ -34,3 +34,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

@@ -5,7 +5,7 @@ synopsis:      Single reversible reaction.
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter 
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 828.
@@ -48,3 +48,4 @@ addReaction[ reactants->{S1, S2}, products->{S3}, reactantStoichiometry->{1, 4 *
 	     kineticLaw -> (kf * S1 * S2 - kr * S3) * C ];
 
 makemodel[]
+

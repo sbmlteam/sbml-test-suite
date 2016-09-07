@@ -5,7 +5,7 @@ synopsis:        A simple reaction whose identifier is used in an event priority
 componentTags:   CSymbolTime, Compartment, EventNoDelay, EventPriority, Parameter, Reaction, Species
 testTags:        Amount, NonConstantParameter
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: 
 
@@ -39,3 +39,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

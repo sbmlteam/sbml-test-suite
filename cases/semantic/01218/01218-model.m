@@ -5,7 +5,7 @@ synopsis:        Mixed assignment rule and initial assignment dependencies
 componentTags:   AssignmentRule, InitialAssignment, Parameter
 testTags:        InitialValueReassigned
 testType:        TimeCourse
-levels:          2.2, 2.3, 2.4, 2.5, 3.1
+levels:          2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: 
 
@@ -38,3 +38,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+
