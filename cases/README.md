@@ -34,7 +34,6 @@ Institutions:
   <sup>j</sup> Systems Biology Institute, Tokyo, JP<br>
   <sup>k</sup> University of Tuebingen, Tübingen, DE<br>
   <sup>l</sup> Institute of Systems Biology, Novosibirsk, RU   <br>
-  <sup>m</sup> Population Health Research Institute, Hamilton, ON<br>
 
 
 Introduction
