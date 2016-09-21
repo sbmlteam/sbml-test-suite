@@ -1,5 +1,5 @@
-The SBML Test Suite –– Test Cases Archive
-=========================================
+The SBML Test Suite –– Semantic Test Cases
+==========================================
 
 The semantic test cases portion of the SBML Test Suite contains valid SBML models together with expected numerical results when these models are simulated using a deterministic simulation approach.  (Stochastic simulations are tested using a separate, companion set of test cases in the SBML Test Suite.)  An example of a deterministic simulator is a system using a numerical differential-algebraic solver that supports discontinuous events.  Each test consists of a directory containing the model (or models, if that model can be translated to other SBML Levels + Version combinations without semantic loss), together with instructions on how to simulate that model, and the expected results.
 
