@@ -5,6 +5,8 @@
     <listOfParameters>
       <parameter id="p1" constant="false"/>
       <parameter id="p2" constant="false"/>
+      <parameter id="p3" constant="false"/>
+      <parameter id="p4" constant="false"/>
     </listOfParameters>
     <listOfRules>
       <assignmentRule variable="p1">
@@ -31,12 +33,46 @@
             <apply>
               <gt/>
               <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <cn> 5.5 </cn>
+            </apply>
+            <apply>
+              <lt/>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
               <cn> 2.5 </cn>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="p3">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <implies/>
+            <apply>
+              <lt/>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <cn> 5.5 </cn>
             </apply>
             <apply>
               <gt/>
               <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <cn> 2.5 </cn>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="p4">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <implies/>
+            <apply>
+              <lt/>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
               <cn> 5.5 </cn>
+            </apply>
+            <apply>
+              <lt/>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <cn> 2.5 </cn>
             </apply>
           </apply>
         </math>
