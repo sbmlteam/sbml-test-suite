@@ -1,12 +1,10 @@
 The SBML Test Suite –– Stochastic Test Cases
 ============================================
 
-The SBML Discrete Stochastic Model Test Suite (DSMTS) was developed and contributed by Thomas Evans, Colin Gillespie and Darren Wilkinson.  Each test case consists of an SBML model intended for simulation in a discrete stochastic regime; the models have been solved either analytically or using numerical methods, and the expected time course data, together with expected means and standard deviations of model species quantities, are provided for each test case.  The combination of models and known results may be used to test the behavior of SBML-compatible stochastic simulation systems.
+The SBML Discrete Stochastic Model Test Suite (DSMTS) was developed and contributed by Thomas Evans, Colin Gillespie and Darren Wilkinson.  Each test case consists of an [SBML](http://sbml.org) model intended for simulation in a discrete stochastic regime; the models have been solved either analytically or using numerical methods, and the expected time course data, together with expected means and standard deviations of model species quantities, are provided for each test case.  The combination of models and known results may be used to test the behavior of SBML-compatible stochastic simulation systems.
 
 ----
-*Main Authors*:
-
-Thomas W. Evans<sup>a</sup>, Colin S. Gillespie<sup>b</sup>, Darren J. Wilkinson<sup>b</sup>, Lucian P. Smith<sup>c,d</sup>
+*Main Authors*: Thomas W. Evans<sup>a</sup>, [Colin S. Gillespie](https://github.com/csgillespie)<sup>b</sup>, [Darren J. Wilkinson](https://github.com/darrenjw)<sup>b</sup>, [Lucian P. Smith](https://github.com/luciansmith)<sup>c,d</sup>
 
 Institutions:
 
@@ -31,8 +29,8 @@ If you use this test suite, please cite the following paper:
 
 <dl>
 <dd>
-Evans, T. W., Gillespie, C. S., Wilkinson, D. J. (2008) <a href="http://bioinformatics.oxfordjournals.org/content/24/2/285">The SBML
-discrete stochastic models test suite</a>, <i>Bioinformatics</i>, 24:285-286.
+Evans, T. W., Gillespie, C. S., Wilkinson, D. J. <a href="http://bioinformatics.oxfordjournals.org/content/24/2/285">The SBML
+discrete stochastic models test suite</a>, <i>Bioinformatics</i>, 24:285-286, 2008.
 </dd>
 </dl>
 
@@ -43,11 +41,7 @@ use, to improve other people's ability to reproduce your results.
 Organization of folders and files
 ---------------------------------
 
-The directories and files have been renamed from their original
-versions according to the conventions used elsewhere in the SBML Test
-Suite, but many of the files in each subdirectory are still named as
-they were originally so that the correspondences between this and the
-DSMTS should be easy to identify.
+The directories and files have been renamed from their original versions according to the conventions used elsewhere in the [SBML Test Suite](https://github.com/sbmlteam/sbml-test-suite), but many of the files in each subdirectory are still named as they were originally so that the correspondences between this and the DSMTS should be easy to identify.
 
 Here are the files in each directory (where `N`, `Y` and `Z` are digits):
 
@@ -68,68 +62,48 @@ Here are the files in each directory (where `N`, `Y` and `Z` are digits):
 The files `NNNNN-sbml-l3v1.xml` are renamed versions of the original
 model files, which had names of the form `dsmts-YYY-ZZ.xml`. One
 slight change was made for each: all compartments were given a
-`spatialDimensions` attribute so that they could be translated to SBML
-Level 2.
+`spatialDimensions` attribute so that they could be translated to [SBML
+Level 2](http://sbml.org/Documents/Specifications#SBML_Level_2).
 
-The files `NNNNN-sbml-l2vN.xml` are translated versions of the
-original Level 3 model.
+The files `NNNNN-sbml-l2vN.xml` are translated versions of the original [SBML Level 3](http://sbml.org/Documents/Specifications#SBML_Level_3) version of the model.
 
-The file `NNNNN-results.csv` is a new file added for the purposes of
-the SBML Test Suite.  `NNNNN-results.csv` is simply a combination of
-the mean and standard deviation results files that are separated in
-the DSMTS; the other parts of the SBML Test Suite use a single results
-file, so we simply combined the DSMTS results into one file.
+The file `NNNNN-results.csv` is a new file added for the purposes of the SBML Test Suite.  `NNNNN-results.csv` is simply a combination of the mean and standard deviation results files that are separated in the DSMTS; the other parts of the SBML Test Suite use a single results file, so we simply combined the DSMTS results into one file.
 
-The file `NNNNN-model.m` is a new file added for the purposes of the
-SBML Test Suite.  It mirrors the model file in the semantic test
-suite, with the same overall format, same suite of component tags and
-test tags, and same overall description.  The only difference is that
-the `testType` listed for all stochastic test suite models is
-`StochasticTimeCourse`.
+The file `NNNNN-model.m` is a new file added for the purposes of the SBML Test Suite.  It mirrors the model file in the semantic test suite, with the same overall format, same suite of component tags and test tags, and same overall description.  The only difference is that the `testType` listed for all stochastic test suite models is `StochasticTimeCourse`.
 
-The file `NNNNN-settings.txt` is a new file added for the purposes of
-the SBML Test Suite.  It mirrors the settings files in the semantic
-test suite, with a few differences:
+The file `NNNNN-settings.txt` is a new file added for the purposes of the SBML Test Suite.  It mirrors the settings files in the semantic test suite, with a few differences:
 
-* The `absolute` and `relative` settings are unused, as the method
-  used to calculate a stochastic test success or failure is very
-  different from that of a normal semantic test suite simulation.
+* The `absolute` and `relative` settings are unused, as the method used to calculate a stochastic test success or failure is very different from that of a normal semantic test suite simulation.
 
-* A new `output` setting is used, which lists all the `X-mean` and
-  `X-sd` entries present in the `NNNNN-results.csv` file.  The
-  relevant output model variables are still listed in the `variables`
-  and `amount` settings – `output` appends both `-mean` and `-sd` to
-  those variables.
+* A new `output` setting is used, which lists all the `X-mean` and `X-sd` entries present in the `NNNNN-results.csv` file.  The relevant output model variables are still listed in the `variables` and `amount` settings – `output` appends both `-mean` and `-sd` to those variables.
 
-* New `meanRange` and `outputRange` settings are included, to be used
-  in assessing a stochastic run's success or failure (see below).
+* New `meanRange` and `outputRange` settings are included, to be used in assessing a stochastic run's success or failure (see below).
 
-The files `NNNNN-plot.*` are plots of the simulation results.  The HTML
-version of the file is interactive; mousing over the plot lines brings
-up a dynamic display of the value at that point in the plot.  The JPG
-image is a static version of the plot.
+The files `NNNNN-plot.*` are plots of the simulation results.  The HTML version of the file is interactive; mousing over the plot lines brings up a dynamic display of the value at that point in the plot.  The JPG image is a static version of the plot.
 
-Finally, the files whose names begin with `dsmts-` are the original
-files from the DSMTS created by Evans, Gillespie and Wilkinson.
+Finally, the files whose names begin with `dsmts-` are the original files from the DSMTS created by Evans, Gillespie and Wilkinson.
 
 
 Getting started
 ---------------
 
-To begin, please read the document `DSMTS-userguide-31v2.pdf` included in this directory.  As described in more detail in that file, the stochastic simulations of these models should be run n times, where n is at a minimum 1,000, but more reasonably set to 10,000 for repeated tests, and which will need to be 100,000 or 1,000,000 to detect more subtle implementation errors.  Once the tests have been run, the average value of X for each time point t (<i>X</i><sub>t</sub>) should be recorded, along with the standard deviation of that value (<i>S</i><sub>t</sub>).  These calculated values are then compared with the expected values (<i>mu</i><sub>t</sub> for the expected mean at time point <i>t</i>, and <i>sigma</i><sub>t</sub> for the expected standard deviation at time point <i>t</i>; values found in `NNNNN-results.csv`) to calculate the following values:
+To begin, please read the document `DSMTS-userguide-31v2.pdf` included in this directory.  As described in more detail in that file, the stochastic simulations of these models should be run <i>n</i> times, where <i>n</i> is at a minimum 1,000, but more reasonably set to 10,000 for repeated tests, and which will need to be 100,000 or 1,000,000 to detect more subtle implementation errors.  Once the tests have been run, the average value of <i>X</i> for each time point t (<i>X<sub>t</sub></i>) should be recorded, along with the standard deviation of that value (<i>S<sub>t</sub></i>).  These calculated values are then compared with the expected values (<i>mu<sub>t</sub></i> for the expected mean at time point <i>t</i>, and <i>sigma<sub>t</sub></i> for the expected standard deviation at time point <i>t</i>; values found in `NNNNN-results.csv`) to calculate the following values:
 
+<center>
 <i>Z<sub>t</sub> = sqrt(n) * (X<sub>t</sub> - mu<sub>t</sub>)/sigma<sub>t</sub></i>
+</center>
 
 and
 
+<center>
 <i>Y<sub>t</sub> = sqrt(n/2) * (S<sub>t</sub>^2/sigma<sub>t</sub>^2 - 1)</i>
+</center>
 
+<i>Z<sub>t</sub></i> should always fall in the range `meanRange` from the settings file (which currently will always be the range (-3,3)).
 
-<i>Z</i><sub>t</sub> should always fall in the range `meanRange` from the settings file (which currently will always be the range (-3,3)).
+<i>Y<sub>t</sub></i> should always fall in the range `sdRange` from the settings file (which currently will always be the range (-5,5)).
 
-<i>Y</i><sub>t</sub> should always fall in the range `sdRange` from the settings file (which currently will always be the range (-5,5)).
-
-Note that due to the nature of stochastic simulation, a correct simulator will still occasionally fail a test or two here or there, especially when multiple tests are being performed.  As written in the user guide, in a complete run of the entire stochastic test suite with <i>n</i>=10,000, two or three <i>Z</i><sub>t</sub> tests may fail, and five or six <i>Y</i><sub>t</sub> tests may fail.
+Note that due to the nature of stochastic simulation, a correct simulator will still occasionally fail a test or two here or there, especially when multiple tests are being performed.  As written in the user guide, in a complete run of the entire stochastic test suite with <i>n</i>=10,000, two or three <i>Z<sub>t</sub></i> tests may fail, and five or six <i>Y<sub>t</sub></i> tests may fail.
 
 
 (Lack of) Integration with the rest of the sbml test suite
