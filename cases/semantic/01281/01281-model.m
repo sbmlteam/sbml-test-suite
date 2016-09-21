@@ -17,7 +17,7 @@ The model contains:
 There are 3 rules:
 
 [{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
-| Assignment | p1 | $min(-5, time)$ |
+| Assignment | p1 | $min(-5, -time)$ |
 | Assignment | p2 | $min(time)$ |
 | Assignment | p3 | $min(5, time, 7)$ |]
 

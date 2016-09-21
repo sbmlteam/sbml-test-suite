@@ -13,7 +13,10 @@
           <apply>
             <min/>
             <cn type="integer"> -5 </cn>
-            <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+            <apply>
+               <minus/>
+               <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+            </apply>
           </apply>
         </math>
       </assignmentRule>
