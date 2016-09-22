@@ -117,7 +117,7 @@ this directory for more information about the DSMTS.
 History
 -------
 
-Originally developed circa 2007-2010.  The SBML 3.1 version of DSMTS (dated October 21, 2010) was added to the SBML Test Suite distribution in 2015.
+Originally developed circa 2007-2010.  The SBML Level 3 Version 1 version of DSMTS (dated October 21, 2010) was added to the SBML Test Suite distribution in 2015.
 
 
 License and distribution terms
@@ -133,5 +133,6 @@ More information
 More information about the SBML Test Suite is available online at
 [http://sbml.org/Software/SBML_Test_Suite](http://sbml.org/Software/SBML_Test_Suite).
 
+<p align="center">
 [![SBML Logo](https://raw.githubusercontent.com/sbmlteam/sbml-test-suite/develop/src/misc/graphics-originals/Official-sbml-supported-70.jpg)](http://sbml.org)
-
+</p>
