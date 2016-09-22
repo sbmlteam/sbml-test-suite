@@ -89,15 +89,15 @@ Getting started
 
 To begin, please read the document `DSMTS-userguide-31v2.pdf` included in this directory.  As described in more detail in that file, the stochastic simulations of these models should be run <i>n</i> times, where <i>n</i> is at a minimum 1,000, but more reasonably set to 10,000 for repeated tests, and which will need to be 100,000 or 1,000,000 to detect more subtle implementation errors.  Once the tests have been run, the average value of <i>X</i> for each time point t (<i>X<sub>t</sub></i>) should be recorded, along with the standard deviation of that value (<i>S<sub>t</sub></i>).  These calculated values are then compared with the expected values (<i>mu<sub>t</sub></i> for the expected mean at time point <i>t</i>, and <i>sigma<sub>t</sub></i> for the expected standard deviation at time point <i>t</i>; values found in `NNNNN-results.csv`) to calculate the following values:
 
-<center>
+<p align="center">
 <i>Z<sub>t</sub> = sqrt(n) * (X<sub>t</sub> - mu<sub>t</sub>)/sigma<sub>t</sub></i>
-</center>
+</p>
 
 and
 
-<center>
+<p align="center">
 <i>Y<sub>t</sub> = sqrt(n/2) * (S<sub>t</sub>^2/sigma<sub>t</sub>^2 - 1)</i>
-</center>
+</p>
 
 <i>Z<sub>t</sub></i> should always fall in the range `meanRange` from the settings file (which currently will always be the range (-3,3)).
 
