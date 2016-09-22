@@ -6,7 +6,7 @@ componentTags:   CSymbolRateOf, CSymbolTime, EventNoDelay, EventPriority, Parame
 testTags:        NonConstantParameter
 testType:        TimeCourse
 levels:          3.2
-generatedBy:     Analytic
+generatedBy:     Numeric
 packagesPresent: 
 
  A rateOf csymbol is used here in an event priority that assigns to p2.
@@ -17,14 +17,14 @@ The model contains:
 There are 2 events:
 
 [{width:35em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  | *Event Assignments* |
-| E0 | $time > 5.5$ | $5$ | $p2 = 5$ |
+| E0 | $time > 5.5$ | $0.0105$ | $p2 = 5$ |
 | E1 | $time > 5.5$ | $rateOf(p1)$ | $p2 = 3$ |]
 
 
 There is one rule:
 
 [{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
-| Rate | p1 | $0.01 * p1$ |]
+| Rate | p1 | $1$ |]
 
 The initial conditions are as follows:
 
