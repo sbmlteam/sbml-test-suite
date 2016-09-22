@@ -22,18 +22,18 @@ Additional contributions are gratefully acknowledged from Ralph Gauges h</sup>, 
 
 Institutions:
 
-  <sup>a</sup> EMBL-EBI, Hinxton, Cambridgeshire, UK<br>
-  <sup>b</sup> California Institute of Technology, Pasadena, CA, US<br>
-  <sup>c</sup> University of Washington, Seattle, WA, US<br>
-  <sup>d</sup> University of Heidelberg, Heidelberg, DE<br>
-  <sup>e</sup> University of Liverpool, Liverpool, UK<br>
-  <sup>f</sup> Newcastle University, Newcastle, UK<br>
-  <sup>g</sup> Vrije Universiteit Amsterdam<br>
-  <sup>h</sup> Heidelberg Institute for Theoretical Studies, Heidelberg, DE<br>
-  <sup>i</sup> University of Utah, Salt Lake City, UT, US<br>
-  <sup>j</sup> Systems Biology Institute, Tokyo, JP<br>
-  <sup>k</sup> University of Tuebingen, Tübingen, DE<br>
-  <sup>l</sup> Institute of Systems Biology, Novosibirsk, RU   <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>a</sup> EMBL-EBI, Hinxton, Cambridgeshire, UK<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>b</sup> California Institute of Technology, Pasadena, CA, US<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>c</sup> University of Washington, Seattle, WA, US<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>d</sup> University of Heidelberg, Heidelberg, DE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>e</sup> University of Liverpool, Liverpool, UK<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>f</sup> Newcastle University, Newcastle, UK<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>g</sup> Vrije Universiteit Amsterdam<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>h</sup> Heidelberg Institute for Theoretical Studies, Heidelberg, DE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>i</sup> University of Utah, Salt Lake City, UT, US<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>j</sup> Systems Biology Institute, Tokyo, JP<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>k</sup> University of Tuebingen, Tübingen, DE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>l</sup> Institute of Systems Biology, Novosibirsk, RU   <br>
 
 
 Introduction
