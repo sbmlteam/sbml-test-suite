@@ -6,13 +6,12 @@ The semantic test cases portion of the SBML Test Suite contains valid SBML model
 ----
 *Main Authors*: Sarah M. Keating<sup>a,b</sup>, Lucian P. Smith<sup>b,c</sup>, Bruce Shapiro <sup>b</sup>, Michael Hucka<sup>b</sup>, Frank T. Bergmann<sup>d</sup>, Brett Olivier<sup>e</sup>, Andrew Finney<sup>b</sup>
 
-Institutions:
-
+*Institutions*:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>a</sup> EMBL-EBI, Hinxton, Cambridgeshire, UK<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>b</sup> California Institute of Technology, Pasadena, CA, US<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>c</sup> University of Washington, Seattle, WA, US<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>d</sup> University of Heidelberg, Heidelberg, DE<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>e</sup> Vrije Universiteit Amsterdam<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>e</sup> Vrije Universiteit, Amsterdam<br>
 
 *Repository*:   [https://github.com/sbmlteam/sbml-test-suite](https://github.com/sbmlteam/sbml-test-suite)
 
@@ -235,9 +234,7 @@ Tags are labels used to indicate properties of test cases in the SBML Test Suite
 
 * Test tags may be combined in the same model. In fact, many of the SBML Test Suite test models are designed to explore escalating combinations of tests: one set of models may test a given tag, then another set of models may test that same tag plus a second tag, then a third model may test those two tags plus a third tag, in different combinations; and so on.  Some test tags indicate particular aspects of concepts introduced by a SBML Level 3 package. Tags that test aspects of the Hierarchical Model Composition package are prefixed with `comp:`, and tags that test aspects of the Flux Balance Constraints package are prefixed with `fbc:`.
 
-There are many possible tags.  Please consult the following web page for a human-readable list and the definitions of each tag:
-
-[http://sbml.org/Software/SBML_Test_Suite/Case_Descriptions/Tags](http://sbml.org/Software/SBML_Test_Suite/Case_Descriptions/Tags)
+There are many possible tags.  Please consult the following web page for a human-readable list and the definitions of each tag: [http://sbml.org/Software/SBML_Test_Suite/Case_Descriptions/Tags](http://sbml.org/Software/SBML_Test_Suite/Case_Descriptions/Tags)
 
 
 Additional comments and tips
