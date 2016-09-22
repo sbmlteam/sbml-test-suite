@@ -6,12 +6,12 @@ The SBML Discrete Stochastic Model Test Suite (DSMTS) was developed and contribu
 ----
 *Main Authors*: Thomas W. Evans<sup>a</sup>, [Colin S. Gillespie](https://github.com/csgillespie)<sup>b</sup>, [Darren J. Wilkinson](https://github.com/darrenjw)<sup>b</sup>, [Lucian P. Smith](https://github.com/luciansmith)<sup>c,d</sup>
 
-Institutions:
+*Institutions*:
 
-  <sup>a</sup> University of Liverpool, Liverpool, UK<br>
-  <sup>b</sup> Newcastle University, Newcastle, UK<br>
-  <sup>c</sup> California Institute of Technology, Pasadena, CA, US<br>
-  <sup>d</sup> University of Washington, Seattle, WA, US<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>a</sup> University of Liverpool, Liverpool, UK<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>b</sup> Newcastle University, Newcastle, UK<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>c</sup> California Institute of Technology, Pasadena, CA, US<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>d</sup> University of Washington, Seattle, WA, US<br>
 
 *Repository*:   [https://github.com/sbmlteam/sbml-test-suite](https://github.com/sbmlteam/sbml-test-suite)
 
@@ -87,7 +87,7 @@ Finally, the files whose names begin with `dsmts-` are the original files from t
 Getting started
 ---------------
 
-To begin, please read the document `DSMTS-userguide-31v2.pdf` included in this directory.  As described in more detail in that file, the stochastic simulations of these models should be run <i>n</i> times, where <i>n</i> is at a minimum 1,000, but more reasonably set to 10,000 for repeated tests, and which will need to be 100,000 or 1,000,000 to detect more subtle implementation errors.  Once the tests have been run, the average value of <i>X</i> for each time point <i>t</i> (<i>X<sub>t</sub></i>) should be recorded, along with the standard deviation of that value (<i>S<sub>t</sub></i>).  These calculated values are then compared with the expected values (<i>mu<sub>t</sub></i> for the expected mean at time point <i>t</i>, and <i>sigma<sub>t</sub></i> for the expected standard deviation at time point <i>t</i>; values found in `NNNNN-results.csv`) to calculate the following values:
+To begin, please read the document [DSMTS-userguide-31v2.pdf](DSMTS-userguide-31v2.pdf) included in this directory.  As described in more detail in that file, the stochastic simulations of these models should be run <i>n</i> times, where <i>n</i> is at a minimum 1,000, but more reasonably set to 10,000 for repeated tests, and which will need to be 100,000 or 1,000,000 to detect more subtle implementation errors.  Once the tests have been run, the average value of <i>X</i> for each time point <i>t</i> (<i>X<sub>t</sub></i>) should be recorded, along with the standard deviation of that value (<i>S<sub>t</sub></i>).  These calculated values are then compared with the expected values (<i>mu<sub>t</sub></i> for the expected mean at time point <i>t</i>, and <i>sigma<sub>t</sub></i> for the expected standard deviation at time point <i>t</i>; values found in `NNNNN-results.csv`) to calculate the following values:
 
 <p align="center">
 <i>Z<sub>t</sub> = sqrt(n) * (X<sub>t</sub> - mu<sub>t</sub>)/sigma<sub>t</sub></i>
@@ -111,7 +111,7 @@ Note that due to the nature of stochastic simulation, a correct simulator will s
 
 As of this writing, the DSMTS is not integrated into the SBML Test Suite Test Runner or the database of test results at [http://sbml.org/Facilities/Database](http://sbml.org/Facilities/Database).  The DSMTS is distributed with the SBML Test Suite in order to encourage developers to begin investigating how they might be able to use it, but users and developers need to develop their own approaches to running the tests in software.
 
-Please see the user guide in the file `DSMTS-userguide-31v2.pdf` in
+Please see the user guide in the file [DSMTS-userguide-31v2.pdf](DSMTS-userguide-31v2.pdf) in
 this directory for more information about the DSMTS.
 
 
