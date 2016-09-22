@@ -1,20 +1,18 @@
-The SBML Test Suite –– Semantic Test Cases
+The SBML Test Suite – Semantic Test Cases
 ==========================================
 
 The semantic test cases portion of the SBML Test Suite contains valid SBML models together with expected numerical results when these models are simulated using a deterministic simulation approach.  (Stochastic simulations are tested using a separate, companion set of test cases in the SBML Test Suite.)  An example of a deterministic simulator is a system using a numerical differential-algebraic solver that supports discontinuous events.  Each test consists of a directory containing the model (or models, if that model can be translated to other SBML Levels + Version combinations without semantic loss), together with instructions on how to simulate that model, and the expected results.
 
 ----
-*Main Authors*:
-
-Sarah M. Keating<sup>a,b</sup>, Lucian P. Smith<sup>b,c</sup>, Bruce Shapiro <sup>b</sup>, Michael Hucka<sup>b</sup>, Frank T. Bergmann<sup>d</sup>, Brett Olivier<sup>e</sup>, Andrew Finney<sup>b</sup>
+*Main Authors*: Sarah M. Keating<sup>a,b</sup>, Lucian P. Smith<sup>b,c</sup>, Bruce Shapiro <sup>b</sup>, Michael Hucka<sup>b</sup>, Frank T. Bergmann<sup>d</sup>, Brett Olivier<sup>e</sup>, Andrew Finney<sup>b</sup>
 
 Institutions:
 
-  <sup>a</sup> EMBL-EBI, Hinxton, Cambridgeshire, UK<br>
-  <sup>b</sup> California Institute of Technology, Pasadena, CA, US<br>
-  <sup>c</sup> University of Washington, Seattle, WA, US<br>
-  <sup>d</sup> University of Heidelberg, Heidelberg, DE<br>
-  <sup>e</sup> Vrije Universiteit Amsterdam<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>a</sup> EMBL-EBI, Hinxton, Cambridgeshire, UK<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>b</sup> California Institute of Technology, Pasadena, CA, US<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>c</sup> University of Washington, Seattle, WA, US<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>d</sup> University of Heidelberg, Heidelberg, DE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>e</sup> Vrije Universiteit Amsterdam<br>
 
 *Repository*:   [https://github.com/sbmlteam/sbml-test-suite](https://github.com/sbmlteam/sbml-test-suite)
 
@@ -28,17 +26,17 @@ Institutions:
 Organization of folders and files
 ---------------------------------
 
-Relative to the entire SBML Test Suite, the directory where this README.md file is located is `cases/semantic`.  In this directory, you will find a large number of subdirectories whose names are all five digits, i.e., _NNNNN_.  Each contains the files for a single test case.  The following are the files provided:
+Relative to the entire SBML Test Suite, the directory where this `README.md` file is located is `cases/semantic`.  In this directory, you will find a large number of subdirectories whose names are all five digits, i.e., _NNNNN_.  Each contains the files for a single test case.  The following are the files provided:
 
 * `NNNNN-sbml-lXvY.xml`.  These are the SBML files defining the model that constitutes a given test.  Most tests have all of the following files, but note that they all define the same test; they are simply in different SBML Level/Version formats:
 
-** `NNNNN-sbml-l3v1.xml`   – SBML Level 3 Version 1
-** `NNNNN-sbml-l2v5.xml`   – SBML Level 2 Version 5
-** `NNNNN-sbml-l2v4.xml`   – SBML Level 2 Version 4
-** `NNNNN-sbml-l2v3.xml`   – SBML Level 2 Version 3
-** `NNNNN-sbml-l2v2.xml`   – SBML Level 2 Version 2
-** `NNNNN-sbml-l2v1.xml`   – SBML Level 2 Version 1
-** `NNNNN-sbml-l1v2.xml`   – SBML Level 1 Version 2
+  * `NNNNN-sbml-l3v1.xml`   – SBML Level 3 Version 1
+  * `NNNNN-sbml-l2v5.xml`   – SBML Level 2 Version 5
+  * `NNNNN-sbml-l2v4.xml`   – SBML Level 2 Version 4
+  * `NNNNN-sbml-l2v3.xml`   – SBML Level 2 Version 3
+  * `NNNNN-sbml-l2v2.xml`   – SBML Level 2 Version 2
+  * `NNNNN-sbml-l2v1.xml`   – SBML Level 2 Version 1
+  * `NNNNN-sbml-l1v2.xml`   – SBML Level 1 Version 2
 
 * `NNNNN-model.m`.  A description of the test model that includes the "tags" used to describe the test being performed, as well as a description of the model.  The format of this file is described in a separate section below.  This file is also used to generate the human-readable HTML file, and in some models, it contains commands used to generate the SBML file as well, but this is not available for all test case files.  Note that the simulation settings are stored in a separate file, named `NNNNN-settings.txt`.
 
@@ -54,13 +52,13 @@ Relative to the entire SBML Test Suite, the directory where this README.md file 
 
 * `NNNNN-sbml-lXvY-sedml.xml`.  These are files in SED-ML format for running the test case in software systems that can automate their execution using SED-ML.  Like the SBML files themselves, these come in different SBML Level + Version combinations.
 
-** `NNNNN-sbml-l3v1-sedml.xml`   – SBML Level 3 Version 1
-** `NNNNN-sbml-l2v5-sedml.xml`   – SBML Level 2 Version 5
-** `NNNNN-sbml-l2v4-sedml.xml`   – SBML Level 2 Version 4
-** `NNNNN-sbml-l2v3-sedml.xml`   – SBML Level 2 Version 3
-** `NNNNN-sbml-l2v2-sedml.xml`   – SBML Level 2 Version 2
-** `NNNNN-sbml-l2v1-sedml.xml`   – SBML Level 2 Version 1
-** `NNNNN-sbml-l1v2-sedml.xml`   – SBML Level 1 Version 2
+  * `NNNNN-sbml-l3v1-sedml.xml`   – SBML Level 3 Version 1
+  * `NNNNN-sbml-l2v5-sedml.xml`   – SBML Level 2 Version 5
+  * `NNNNN-sbml-l2v4-sedml.xml`   – SBML Level 2 Version 4
+  * `NNNNN-sbml-l2v3-sedml.xml`   – SBML Level 2 Version 3
+  * `NNNNN-sbml-l2v2-sedml.xml`   – SBML Level 2 Version 2
+  * `NNNNN-sbml-l2v1-sedml.xml`   – SBML Level 2 Version 1
+  * `NNNNN-sbml-l1v2-sedml.xml`   – SBML Level 1 Version 2
 
 * `NNNNN-antimony.txt`.  (Some models only.)  A description of the test model in Antimony format used to generate the SBML file.
 
@@ -85,21 +83,21 @@ packagesPresent:
 
 The meaning of each field is described below:
 
-`category`: Many of the models used in the test suite are not biologically meaningful.  This field determines whether this case refers to a test model or a more realistic model.  `Test` means the model is for testing and not meant to be biologically realistic.
+* `category`: Many of the models used in the test suite are not biologically meaningful.  This field determines whether this case refers to a test model or a more realistic model.  `Test` means the model is for testing and not meant to be biologically realistic.
 
-`synopsis`: Brief textual description of the model, in English.  The value of this field may span over more than one line.
+* `synopsis`: Brief textual description of the model, in English.  The value of this field may span over more than one line.
 
-`componentTags`: These tags describe the SBML components that are present in this model.  Tags are discussed in a separate section below.
+* `componentTags`: These tags describe the SBML components that are present in this model.  Tags are discussed in a separate section below.
   
-`testTags`: These tags describe the aspects of SBML interpretation that are being tested in this model.  Tags are discussed in a separate section below.
+* `testTags`: These tags describe the aspects of SBML interpretation that are being tested in this model.  Tags are discussed in a separate section below.
 
-`testType`: Since it is possible to simulate data from models in different ways, this tag indicates the type of test to perform on the given model.  Currently, there are two tags: `TimeCourse`, for the majority of tests in the suite, and `FluxBalanceSteadyState`, for tests that involve the SBML Level 3 'Flux Balance Analysis' package.
+* `testType`: Since it is possible to simulate data from models in different ways, this tag indicates the type of test to perform on the given model.  Currently, there are two tags: `TimeCourse`, for the majority of tests in the suite, and `FluxBalanceSteadyState`, for tests that involve the SBML Level 3 'Flux Balance Analysis' package.
   
-`levels`: Not all SBML components and attributes exist in every level and version of SBML.  This tag indicates the relevant SBML Levels+Version combinations permissible for this particular case.  The format of the tag is two integers separated by a dot; e.g., `2.4` signifies Level 2 Version 4.
+* `levels`: Not all SBML components and attributes exist in every level and version of SBML.  This tag indicates the relevant SBML Levels+Version combinations permissible for this particular case.  The format of the tag is two integers separated by a dot; e.g., `2.4` signifies Level 2 Version 4.
 
-`generatedBy`: This tag indicates whether the results data for this case has been generated analytically (tag value `Analytic`) or numerically (tag value `Numeric`).
+* `generatedBy`: This tag indicates whether the results data for this case has been generated analytically (tag value `Analytic`) or numerically (tag value `Numeric`).
 
-`packagesPresent`:This tag indicates whether any SBML Level 3 packages are present in the model.  Possible tag values are (at present) `comp`, if elements from the Hierarchical Model Composition package are present, and `fbc`, if elements from the Flux Balance Constraints package are present.
+* `packagesPresent`:This tag indicates whether any SBML Level 3 packages are present in the model.  Possible tag values are (at present) `comp`, if elements from the Hierarchical Model Composition package are present, and `fbc`, if elements from the Flux Balance Constraints package are present.
 
 
 The format of the settings file
@@ -127,21 +125,21 @@ Depending on the type of test requested (`TimeCourse` or `FluxBalanceSteadyState
 
 The information about run parameters is stored in a file named `NNNNN-settings.txt`.  This file is generated automatically after a test case is created by an author.  The generation is accomplished using a script that reads the CSV file and summarizes the actual test run; this approach reduces the chances of human errors introducing a mismatch between the claimed simulation settings and the actual settings used to generate the reference data.
 
-`start`: The start time of the simulation time-series data in the output (CSV) file.  Often this is `0`, but not necessarily.
+* `start`: The start time of the simulation time-series data in the output (CSV) file.  Often this is `0`, but not necessarily.
 
-`duration`: The duration of the simulation run, in the model's units of time.
+* `duration`: The duration of the simulation run, in the model's units of time.
 
-`steps`: The number of steps at which the output is sampled.  The samples are evenly spaced.  When a simulation system calculates the data points to record, it will typically divide the duration by the number of time steps.  Thus, for _X_ steps, the data file will have _X_+1 data rows.
+* `steps`: The number of steps at which the output is sampled.  The samples are evenly spaced.  When a simulation system calculates the data points to record, it will typically divide the duration by the number of time steps.  Thus, for _X_ steps, the data file will have _X_+1 data rows.
 
-`variables`: The variables (in addition to time) whose values are tabulated in the CSV file.  These are SBML model id's separated by commas.  The order of this list is significant: a results file without headers will be assumed to contain values for variables in the order present on this line.  Important note #1: if a symbol in this list refers to a species in the model, then that symbol will ALSO be listed in either the `amount` or `concentration` lists described below.  The presence of a species in the `amount` or `concentration` list indicates whether the values for the species are considered to be in amount units (i.e., direct quantity, not a concentration) or in concentration units, respectively.  Important note #2: if a listed variable has two underscores (`__`) in its name, that variable is actually present only in a submodel of the main model, using the SBML Level 3 Hierarchical Model Composition package, in the format `submodelID__variableID`.
+* `variables`: The variables (in addition to time) whose values are tabulated in the CSV file.  These are SBML model id's separated by commas.  The order of this list is significant: a results file without headers will be assumed to contain values for variables in the order present on this line.  Important note #1: if a symbol in this list refers to a species in the model, then that symbol will ALSO be listed in either the `amount` or `concentration` lists described below.  The presence of a species in the `amount` or `concentration` list indicates whether the values for the species are considered to be in amount units (i.e., direct quantity, not a concentration) or in concentration units, respectively.  Important note #2: if a listed variable has two underscores (`__`) in its name, that variable is actually present only in a submodel of the main model, using the SBML Level 3 Hierarchical Model Composition package, in the format `submodelID__variableID`.
 
-`absolute`: A float-point number representing the absolute difference permitted for this test case when comparing numerical values to the results to those produced by a software tool.  The meaning of this tolerance and the formula used to calculate data point differences is discussed below.
+* `absolute`: A float-point number representing the absolute difference permitted for this test case when comparing numerical values to the results to those produced by a software tool.  The meaning of this tolerance and the formula used to calculate data point differences is discussed below.
 
-`relative`: A float-point number representing the relative difference permitted for this test case when comparing numerical values to the results produced by a software tool.  The value of 0.0001 was the tolerance agreed upon by the SBML community during discussions at SBML Hackathons in 2008.  The meaning of this tolerance and the formula used to calculate data point differences is discussed below.
+* `relative`: A float-point number representing the relative difference permitted for this test case when comparing numerical values to the results produced by a software tool.  The value of 0.0001 was the tolerance agreed upon by the SBML community during discussions at SBML Hackathons in 2008.  The meaning of this tolerance and the formula used to calculate data point differences is discussed below.
 
-`amount`: A list of the variable whose output in the results file is in amount (not concentration) units.  This list of variables must be a subset of the names listed in `variables`.
+* `amount`: A list of the variable whose output in the results file is in amount (not concentration) units.  This list of variables must be a subset of the names listed in `variables`.
 
-`concentration`: A list of the variable whose output in the results file is in concentration (not amount) units.  This list of variables must be a subset of the names listed in `variables`.
+* `concentration`: A list of the variable whose output in the results file is in concentration (not amount) units.  This list of variables must be a subset of the names listed in `variables`.
 
 
 ### Tolerances and errors for TimeCourse tests
@@ -160,15 +158,14 @@ Let the following variables be defined:
 
 These absolute and relative tolerances are used in the following way: a data point <i>U<sub>ij</sub></i> is considered to be within tolerances if and only if the following expression is true:
   
-<i>|C<sub>ij</sub> - U<sub>ij</sub>| <= (T<sub>a</sub> + T<sub>r</sub> * |C<sub>ij</sub>|)</i>
+<p align="center">
+<i>|C<sub>ij</sub> - U<sub>ij</sub>| &le; (T<sub>a</sub> + T<sub>r</sub> * |C<sub>ij</sub>|)</i>
+</p>
 
 
-Settings file for FluxBalanceSteadyState tests 
-......................................................................
+### Settings file for FluxBalanceSteadyState tests 
 
-For tests with the `testType` tag `FluxBalanceSteadyState`, the
-settings file is the same format as for `TimeCourse` tests, but more
-lines are left blank, as they have no meaning.  Here's an example:
+For tests with the `testType` tag `FluxBalanceSteadyState`, the settings file is the same format as for `TimeCourse` tests, but more lines are left blank, as they have no meaning.  Here's an example:
 
 ```
 start:
@@ -217,8 +214,7 @@ It is possible for some values to be _Not a Number_ (indicating the result is no
 These symbols are treated in a case-insensitive manner by the SBML Test Suite.
 
 
-The results data format for FluxBalanceSteadyState tests
-......................................................................
+## The results data format for FluxBalanceSteadyState tests
 
 As is the case for the `TimeCourse` results, `FluxBalanceSteadyState` test results are stored in the file `NNNNN-results.csv`, and organized as a table of values.  The first, header line indicates the expected variables, and the second line indicates the value of those variables at steady state:
 
@@ -247,7 +243,7 @@ There are many possible tags.  Please consult the following web page for a human
 Additional comments and tips
 ----------------------------
 
-A frequent cause of difficulties in interpreting the SBML Test Suite results is that the output expected in the Test Suite results is not necessarily the same as the values for the species in the model.  In particular, the output values requested for some test cases may be in concentration units (alternatively, amounts) even if the species in the model have units of amounts (alternatively, concentrations).  For example, test cases 947 and 948 are the same as test cases 945 and 946, except that 945 and 946 ask for species S1' output in amount units, while 947 and 948 ask for the output in concentration units.  (For the latter, you can see that the concentration suddenly drops by a factor of 10 when the compartment size is changed, as is correct when the amount stays the same.)  This is a purposeful test, to determine whether software tools can correctly handle SBML models that contain species expressed in either amounts or concentrations, and the possibility that compartment sizes may change over the course of simulations and alter one but not the other.
+A frequent cause of difficulties in interpreting the SBML Test Suite results is that the output expected in the Test Suite results is not necessarily the same as the values for the species in the model.  In particular, the output values requested for some test cases may be in concentration units (alternatively, amounts) even if the species in the model have units of amounts (alternatively, concentrations).  For example, test cases 947 and 948 are the same as test cases 945 and 946, except that 945 and 946 ask for species `S1` output in amount units, while 947 and 948 ask for the output in concentration units.  (For the latter, you can see that the concentration suddenly drops by a factor of 10 when the compartment size is changed, as is correct when the amount stays the same.)  This is a purposeful test, to determine whether software tools can correctly handle SBML models that contain species expressed in either amounts or concentrations, and the possibility that compartment sizes may change over the course of simulations and alter one but not the other.
 
 
 Copyright and license
