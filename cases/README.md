@@ -57,7 +57,7 @@ For more information about using these test cases, please refer to the instructi
 Licensing
 ---------
 
-For full license information, please refer to the file [_LICENSE.txt_](_LICENSE.txt_).  Briefly, the test case distributions of the SBML Test Suite are distributed under the terms of the LGPL; the overall SBML Test Suite (including the software components) are distributed under the [LGPL](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html) but include components from other sources licensed under other open-source terms.  (However, none of the terms are more restrictive than the [LGPL](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html).)
+For full license information, please refer to the file [LICENSE.txt](LICENSE.txt).  Briefly, the test case distributions of the SBML Test Suite are distributed under the terms of the LGPL; the overall SBML Test Suite (including the software components) are distributed under the [LGPL](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html) but include components from other sources licensed under other open-source terms.  (However, none of the terms are more restrictive than the [LGPL](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html).)
 
 
 Bugs and other issues
