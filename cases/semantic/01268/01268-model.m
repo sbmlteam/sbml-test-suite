@@ -17,7 +17,7 @@ The model contains:
 There is one event:
 
 [{width:35em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Delay*  | *Event Assignments* |
-| E0 | $time > 5.9$ | $rateOf(p1)$ | $p2 = 5$ |]
+| E0 | $time > 5.9$ | $100 * rateOf(p1)$ | $p2 = 5$ |]
 
 
 There is one rule:

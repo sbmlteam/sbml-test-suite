@@ -31,8 +31,12 @@
         <delay>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/rateOf"> rateOf </csymbol>
-              <ci> p1 </ci>
+              <times/>
+              <cn type="integer"> 100 </cn>
+              <apply>
+                <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/rateOf"> rateOf </csymbol>
+                <ci> p1 </ci>
+              </apply>
             </apply>
           </math>
         </delay>
