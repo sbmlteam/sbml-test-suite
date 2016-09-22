@@ -41,7 +41,7 @@ of SBML understanding and compliance.
   Levels + Version combinations without semantic loss), together with
   instructions on how to simulate that model, and the expected
   results.  For more information about the semantic test cases, please
-  look in the file named *+README.txt* in the [cases/semantic/](cases/semantic) subdirectory.
+  look in the file named [README.md](cases/semantic/README.md) in the [cases/semantic/](cases/semantic) subdirectory.
 
 * *Stochastic*: The stochastic test suite contains valid SBML models
   with known, stochastic simulation results.  These tests exercise
@@ -56,7 +56,7 @@ of SBML understanding and compliance.
   statistics collected for each, which are then compared to the
   expected summary statistics using a formula derived from the number
   of times the test was repeated.  For more information about the
-  stochastic test cases, please look in the file named *+README.txt*
+  stochastic test cases, please look in the file named [README.md](cases/stochastic/README.md)
   in the [cases/stochastic/](cases/stochastic) subdirectory.
 
 * *Syntactic*: The syntactic test suite consists of valid and invalid
@@ -69,7 +69,7 @@ of SBML understanding and compliance.
   Details about the error and the error message produced by libSBML
   are included, as are incidental warnings that libSBML may also
   produce for a given model/test case.  For more information about the
-  stochastic test cases, please look in the file named *+README.txt*
+  stochastic test cases, please look in the file named [README.md](cases/syntactic/README.md)
   in the [cases/syntactic/](cases/syntactic) subdirectory.
 
 
@@ -151,43 +151,43 @@ Funding for the continued development of the core of the SBML Test Suite current
 
 The SBML Test Suite has been in development for many years, and many people have contributed in various ways large and small.  The following are the primary authors of different parts:
 
-* Semantic test cases:
+* *Semantic test cases*:
 
   Sarah M. Keating<sup>a,b</sup>, Lucian P. Smith<sup>b,c</sup>, Bruce Shapiro <sup>b</sup>, Michael Hucka<sup>b</sup>, Frank T. Bergmann<sup>d</sup>, Brett Olivier<sup>g</sup>, Andrew Finney<sup>b</sup>
 
-* Stochastic test cases:
+* *Stochastic test cases*:
 
   Thomas W. Evans<sup>e</sup>, Colin S. Gillespie<sup>f</sup>, Darren J. Wilkinson<sup>f</sup>, Lucian P. Smith<sup>b,c</sup>
    
-* Syntactic test cases:
+* *Syntactic test cases*:
 
   Sarah M. Keating<sup>a,b</sup>, Lucian P. Smith<sup>b,c</sup>
 
-* SBML Test Runners:
+* *SBML Test Runners*:
 
   Frank T. Bergmann<sup>d</sup>, Michael Hucka<sup>b</sup>, Kimberley Begley<sup>m</sup>
 
-* Online SBML Test Suite Database:
+* *Online SBML Test Suite Database*:
 
   Frank T. Bergmann<sup>d</sup>
 
-Additional contributions are gratefully acknowledged from Ralph Gauges h</sup>, Chris Myers<sup>i</sup>, Akira Funahashi<sup>j</sup>, Andreas Dräger<sup>k</sup>, Roland Keller<sup>k</sup>, Fedor Kolpakov<sup>l</sup>, Stanley Gu<sup>c</sup>, and others in the SBML community.
+Additional contributions are gratefully acknowledged from Ralph Gauges<sup>h</sup>, Chris Myers<sup>i</sup>, Akira Funahashi<sup>j</sup>, Andreas Dräger<sup>k</sup>, Roland Keller<sup>k</sup>, Fedor Kolpakov<sup>l</sup>, Stanley Gu<sup>c</sup>, and others in the SBML community.
 
 Institutions:
 
-  <sup>a</sup> EMBL-EBI, Hinxton, Cambridgeshire, UK<br>
-  <sup>b</sup> California Institute of Technology, Pasadena, CA, US<br>
-  <sup>c</sup> University of Washington, Seattle, WA, US<br>
-  <sup>d</sup> University of Heidelberg, Heidelberg, DE<br>
-  <sup>e</sup> University of Liverpool, Liverpool, UK<br>
-  <sup>f</sup> Newcastle University, Newcastle, UK<br>
-  <sup>g</sup> Vrije Universiteit Amsterdam<br>
-  <sup>h</sup> Heidelberg Institute for Theoretical Studies, Heidelberg, DE<br>
-  <sup>i</sup> University of Utah, Salt Lake City, UT, US<br>
-  <sup>j</sup> Systems Biology Institute, Tokyo, JP<br>
-  <sup>k</sup> University of Tuebingen, Tübingen, DE<br>
-  <sup>l</sup> Institute of Systems Biology, Novosibirsk, RU   <br>
-  <sup>m</sup> Population Health Research Institute, Hamilton, ON<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>a</sup> EMBL-EBI, Hinxton, Cambridgeshire, UK<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>b</sup> California Institute of Technology, Pasadena, CA, US<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>c</sup> University of Washington, Seattle, WA, US<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>d</sup> University of Heidelberg, Heidelberg, DE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>e</sup> University of Liverpool, Liverpool, UK<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>f</sup> Newcastle University, Newcastle, UK<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>g</sup> Vrije Universiteit Amsterdam<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>h</sup> Heidelberg Institute for Theoretical Studies, Heidelberg, DE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>i</sup> University of Utah, Salt Lake City, UT, US<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>j</sup> Systems Biology Institute, Tokyo, JP<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>k</sup> University of Tuebingen, Tübingen, DE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>l</sup> Institute of Systems Biology, Novosibirsk, RU   <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>m</sup> Population Health Research Institute, Hamilton, ON<br>
 
 
 ☮ Copyright and license
