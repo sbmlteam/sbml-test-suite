@@ -25,6 +25,7 @@ cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.html
 cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.png
 cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.jpg
 cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-sbml-l[0-9]v[0-9]-sedml.xml
+cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9].omex
 cases/semantic/.cases-archive-date
 
 cases/stochastic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.html
