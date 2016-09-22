@@ -259,6 +259,90 @@ bool checkLine(ifstream& infile, const string& begin, const string& settingsfile
   return false;
 }
 
+bool checkVariables(ifstream& infile, Model* model, const string& settingsfile)
+{
+  string line;
+  getline(infile, line);
+  if (line.find("variables:") == string::npos) {
+    cerr << "Error:  no 'variables' line in the correct place in settings file " << settingsfile << endl;
+    return true;
+  }
+  line.erase(0, 11);
+  if (line.size() == 0) {
+    cerr << "Error: no value for 'variables' value in settings file " << settingsfile << endl;
+    return true;
+  }
+  set<string> variables;
+  size_t comma = line.find(',');
+  while (comma != string::npos) {
+    string var = line.substr(0, comma);
+    line.erase(0, comma+1);
+    if (line[0] == ' ') {
+      line.erase(0, 1);
+    }
+    pair<set<string>::iterator, bool> ret = variables.insert(var);
+    if (ret.second == false) {
+      cerr << "Error:  the settings document requested output for variable '" << var << " twice.";
+      return true;
+    }
+    comma = line.find(',');
+  }
+  variables.insert(line);
+
+  for (set<string>::iterator var = variables.begin(); var != variables.end(); var++) {
+    if (model->getElementBySId(*var) == NULL) {
+      cerr << "Error:  the settings document " << settingsfile << " requested output for variable '" << *var << "', but no such variable could be found in the SBML document." << endl;
+      return true;
+    }
+  }
+  size_t setspot = settingsfile.find("settings.txt");
+  if (setspot == string::npos) {
+    cerr << "Error: The settings file doesn't have 'settings.txt' in it.";
+    return true;
+  }
+  string results = settingsfile.substr(0, setspot) + "results.csv";
+  ifstream resfile(results);
+  if (!resfile.good()) {
+    cerr << "Error:  could not open the results file " << results << endl;
+    return true;
+  }
+  getline(resfile, line);
+  comma = line.find(',');
+  set<string> resvars;
+  while (comma != string::npos) {
+    string var = line.substr(0, comma);
+    line.erase(0, comma + 1);
+    if (line[0] == ' ') {
+      line.erase(0, 1);
+    }
+    pair<set<string>::iterator, bool> ret = resvars.insert(var);
+    if (ret.second == false) {
+      cerr << "Error:  the results file lists variable '" << var << " twice.";
+      return true;
+    }
+    comma = line.find(',');
+  }
+  resvars.insert(line);
+
+  for (set<string>::iterator var = variables.begin(); var != variables.end(); var++) {
+    if (resvars.find(*var) == resvars.end()) {
+      cerr << "Error:  the settings document requested output for variable '" << *var << "', but that variable was not found in the results file " << results << "." << endl;
+      return true;
+    }
+  }
+  for (set<string>::iterator var = resvars.begin(); var != resvars.end(); var++) {
+    if (variables.find(*var) == variables.end()) {
+      if (*var != "time" && *var != "Time") {
+        cerr << "Error:  the results file contains output for variable '" << *var << "', but that variable was not requested in the settings file " << settingsfile << "." << endl;
+        return true;
+      }
+    }
+  }
+
+
+  return false;
+}
+
 bool checkPossible(ifstream& infile, const string& begin, bool shouldbe, const string& settingsfile)
 {
   string line;
@@ -279,7 +363,7 @@ bool checkPossible(ifstream& infile, const string& begin, bool shouldbe, const s
   return false;
 }
 
-void checkSettingsFile(const string& filename, bool known_amount, bool known_conc, bool fbc)
+void checkSettingsFile(const string& filename, bool known_amount, bool known_conc, Model* model, bool fbc)
 {
   string settingsfile = filename;
   size_t mod = settingsfile.find("-model");
@@ -302,14 +386,14 @@ void checkSettingsFile(const string& filename, bool known_amount, bool known_con
   if (checkLine(infile, "steps", settingsfile)) return;
 }
 
-  if (checkLine(infile, "variables", settingsfile)) return;
+  if (checkVariables(infile, model, settingsfile)) return;
   if (checkLine(infile, "absolute", settingsfile)) return;
   if (checkLine(infile, "relative", settingsfile)) return;
   if (checkPossible(infile, "amount", known_amount, settingsfile)) return;
   if (checkPossible(infile, "concentration", known_conc, settingsfile)) return;
 }
 
-void checkSimilarTests(set<string>& tests, set<string>& known_tests, const string& filename, bool fbc) 
+void checkSimilarTests(set<string>& tests, set<string>& known_tests, const string& filename, Model* model, bool fbc) 
 {
   bool known_amount  = known_tests.find("Amount") != known_tests.end();
   bool known_conc    = known_tests.find("Concentration") != known_tests.end();
@@ -321,7 +405,7 @@ void checkSimilarTests(set<string>& tests, set<string>& known_tests, const strin
     known_tests.erase("Concentration");
     tests.erase("Amount||Concentration");
   }
-  checkSettingsFile(filename, known_amount, known_conc, fbc);
+  checkSettingsFile(filename, known_amount, known_conc, model, fbc);
 
   //EventIsNotPersistent
   if(tests.find("EventIsNotPersistent [?]") != tests.end() && known_tests.find("EventIsNotPersistent") == known_tests.end()) {
@@ -380,11 +464,11 @@ void checkSimilarTests(set<string>& tests, set<string>& known_tests, const strin
 
 }
 
-void compareTests(set<string>& tests, set<string>& known_tests, const string& filename, set<string>& components, bool fbc)
+void compareTests(set<string>& tests, set<string>& known_tests, const string& filename, set<string>& components, Model* model, bool fbc)
 {
   removeIdenticals(tests, known_tests);
   checkUnaddableTests(known_tests, components, filename);
-  checkSimilarTests(tests, known_tests, filename, fbc);
+  checkSimilarTests(tests, known_tests, filename, model, fbc);
 
   for (set<string>::iterator c=tests.begin(); c != tests.end(); c++) {
     cerr << "Error in " << filename << ":  testTag " << *c << " should be tested by this model, but the tag was not listed." << endl;
@@ -447,7 +531,7 @@ void checkTags(const string& filename, set<string> known_components, set<string>
 #endif
   deduceTags(model, components, tests, results, fbc);
   //Have to check tests before components because checking the tests uses the components list.
-  compareTests(tests, known_tests, filename, components, fbc);
+  compareTests(tests, known_tests, filename, components, model, fbc);
   compareComponents(components, known_components, filename);
   delete document;
 }
