@@ -193,4 +193,4 @@ Institutions:
 ☮ Copyright and license
 ---------------------
 
-Please see the file [../LICENSE.txt](https://raw.githubusercontent.com/sbmlteam/moccasin/master/LICENSE.txt) for copyright and license details.
+Please see the file [../LICENSE.txt](https://raw.githubusercontent.com/sbmlteam/sbml-test-suite/develop/src/misc/graphics-originals/Official-sbml-supported-70.jpg) for copyright and license details.
