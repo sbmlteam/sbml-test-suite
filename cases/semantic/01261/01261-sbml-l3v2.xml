@@ -4,6 +4,7 @@
   <model id="case01261" name="case01261">
     <listOfParameters>
       <parameter id="p1" value="1" constant="false"/>
+      <parameter id="p3" constant="false"/>
       <parameter id="p2" value="10" constant="false"/>
     </listOfParameters>
     <listOfRules>
@@ -16,6 +17,14 @@
           </apply>
         </math>
       </rateRule>
+      <assignmentRule variable="p3">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/rateOf"> rateOf </csymbol>
+            <ci> p1 </ci>
+          </apply>
+        </math>
+      </assignmentRule>
     </listOfRules>
     <listOfEvents>
       <event id="_E0" useValuesFromTriggerTime="true">
@@ -27,7 +36,7 @@
                 <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/rateOf"> rateOf </csymbol>
                 <ci> p1 </ci>
               </apply>
-              <cn> 1.05 </cn>
+              <cn> 0.0105 </cn>
             </apply>
           </math>
         </trigger>
