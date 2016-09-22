@@ -30,7 +30,7 @@
         </trigger>
         <priority>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <cn> 2.1 </cn>
+            <cn> 0.021 </cn>
           </math>
         </priority>
         <listOfEventAssignments>
