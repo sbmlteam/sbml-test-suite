@@ -6,8 +6,7 @@ The SBML Discrete Stochastic Model Test Suite (DSMTS) was developed and contribu
 ----
 *Main Authors*: Thomas W. Evans<sup>a</sup>, [Colin S. Gillespie](https://github.com/csgillespie)<sup>b</sup>, [Darren J. Wilkinson](https://github.com/darrenjw)<sup>b</sup>, [Lucian P. Smith](https://github.com/luciansmith)<sup>c,d</sup>
 
-*Institutions*:
-
+*Institutions*:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>a</sup> University of Liverpool, Liverpool, UK<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>b</sup> Newcastle University, Newcastle, UK<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>c</sup> California Institute of Technology, Pasadena, CA, US<br>
@@ -106,7 +105,7 @@ and
 Note that due to the nature of stochastic simulation, a correct simulator will still occasionally fail a test or two here or there, especially when multiple tests are being performed.  As written in the user guide, in a complete run of the entire stochastic test suite with <i>n</i>=10,000, two or three <i>Z<sub>t</sub></i> tests may fail, and five or six <i>Y<sub>t</sub></i> tests may fail.
 
 
-(Lack of) Integration with the rest of the sbml test suite
+(Lack of) Integration with the rest of the SBML Test Suite
 ----------------------------------------------------------
 
 As of this writing, the DSMTS is not integrated into the SBML Test Suite Test Runner or the database of test results at [http://sbml.org/Facilities/Database](http://sbml.org/Facilities/Database).  The DSMTS is distributed with the SBML Test Suite in order to encourage developers to begin investigating how they might be able to use it, but users and developers need to develop their own approaches to running the tests in software.
