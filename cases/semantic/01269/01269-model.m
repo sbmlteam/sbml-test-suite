@@ -2,7 +2,7 @@
 
 category:        Test
 synopsis:        A rateOf csymbol used everywhere.
-componentTags:   CSymbolRateOf, Compartment, EventPriority, EventWithDelay, Parameter, RateRule, Reaction, Species
+componentTags:   CSymbolRateOf, CSymbolTime, Compartment, EventPriority, EventWithDelay, Parameter, RateRule, Reaction, Species
 testTags:        Amount, NonConstantParameter
 testType:        TimeCourse
 levels:          3.2
@@ -25,8 +25,8 @@ There is one reaction:
 There are 2 events:
 
 [{width:40em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  |  *Delay*  | *Event Assignments* |
-| _E0 | $4.5$ | $3$ | $rateOf(p1)$ | $p2 = rateOf(p1) + 2$ |
-| _E1 | $4.5$ | $rateOf(p1)$ | $rateOf(p1)$ | $p2 = rateOf(p1) + 5$ |]
+| _E0 | $time > 4.5$ | $3$ | $rateOf(p1)$ | $p2 = rateOf(p1) + 2$ |
+| _E1 | $time > 4.5$ | $rateOf(p1)$ | $rateOf(p1)$ | $p2 = rateOf(p1) + 5$ |]
 
 
 There is one rule:
