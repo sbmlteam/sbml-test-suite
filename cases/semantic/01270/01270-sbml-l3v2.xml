@@ -59,7 +59,7 @@
         </delay>
         <priority>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <cn> 2.05 </cn>
+            <cn> 0.02 </cn>
           </math>
         </priority>
         <listOfEventAssignments>

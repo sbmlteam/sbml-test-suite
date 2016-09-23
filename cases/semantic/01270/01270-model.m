@@ -25,7 +25,7 @@ There is one reaction:
 There are 2 events:
 
 [{width:40em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  |  *Delay*  | *Event Assignments* |
-| _E0 | $time > 4.5$ | $2.05$ | $rateOf(p1)$ | $p2 = rateOf(p1) + 2$ |
+| _E0 | $time > 4.5$ | $0.02$ | $rateOf(p1)$ | $p2 = rateOf(p1) + 2$ |
 | _E1 | $time > 4.5$ | $rateOf(p1)$ | $rateOf(p1)$ | $p2 = rateOf(p1) + 5$ |]
 
 
