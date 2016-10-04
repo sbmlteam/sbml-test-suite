@@ -36,7 +36,7 @@ When viewed from the top level, the cases are located in the subfolder `cases/sy
 
 Each folder is named after the validation rule that it tests.  Validation rules that appear in [SBML core specifications](http://sbml.org/Documents/Specifications) (starting from SBML Level 2 Version 2) are simply labeled with the number of the validation rule.  Validation messages that are not in the SBML core specification, but are used by libSBML have the numbers in the 80000-99999 range.  Those in the 80000-89999 range are warnings, and those in the 90000-99999 range are errors.
 
-Validation rules from package specifications are given name and number combinations that come from each specification: `comp-xxxxx` rules come from the Hierarchical Model Composition package, `fbc-xxxxx` rules come from the Flux Balance Constraints package, `layout-xxxxx` rules come from the Layout package, and `qual-xxxxx` rules come from the Qualitative Models package.
+Validation rules from package specifications are given name and number combinations that come from each specification: `comp-xxxxx` rules come from the Hierarchical Model Composition package, `fbc-xxxxx` rules come from the Flux Balance Constraints package, `groups-xxxxx` rules come from the Groups package, `layout-xxxxx` rules come from the Layout package, and `qual-xxxxx` rules come from the Qualitative Models package.
 
 
 Interpretation of file names
@@ -65,7 +65,7 @@ Elements in double brackets (`[[]]`) are optional; elements in single brackets a
 
 * `sev`[#]: `sev0` through `sev3`, indicating the severity of the validation rule being tested.  The vast majority of these are `sev1`, for warnings, or `sev2`, for errors.  `sev0` validation messages are informational only, and `sev3` errors are fatal.
 
-* `l`[#]`v`[#]: The SBML Level and Version of the model.  Possible values are `l1v2`, `l2v1`, `l2v2`, `l2v3`, `l2v4`, `l2v5`, `l3v1` and `l3v2`.
+* `l`[#]`v`[#]: The SBML Level and Version of the model.  Possible values are `l1v2`, `l2v1`, `l2v2`, `l2v3`, `l2v4`, `l2v5`, `l3v1` and `l3v2`.  In cases where the XML itself is malformed, `l0v2` is used, as this is what libSBML reports as the level/version.
 
 
 Interpretation of `.txt` files
@@ -96,8 +96,7 @@ If from an SBML core specification, it will simply be that validation number, an
 
 * `Severity`: Either `Error` or `Warning`.
 
-* `Line number`: The line number of the XML file where the validation
-problem was found.
+* `Line number`: The line number of the XML file where the validation problem was found.
 
 * `Package`: The short name of the package the message comes from.  Possibilities are `comp`, `fbc`, `layout`, `qual` and `` (if not from a package).
 
