@@ -26,7 +26,7 @@
         </trigger>
         <priority>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <cn> 0.0105 </cn>
+            <cn> 1.01 </cn>
           </math>
         </priority>
         <listOfEventAssignments>
