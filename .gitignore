@@ -27,10 +27,18 @@ cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.jpg
 cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-sbml-l[0-9]v[0-9]-sedml.xml
 cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9].omex
 cases/semantic/.cases-archive-date
+cases/semantic/.cases-tags-map
 
 cases/stochastic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.html
 cases/stochastic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.png
 cases/stochastic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.jpg
 cases/stochastic/.cases-archive-date
 
+cases/syntactic/[0-9][0-9][0-9][0-9][0-9]
+cases/syntactic/comp-[0-9][0-9][0-9][0-9][0-9]
+cases/syntactic/fbc-[0-9][0-9][0-9][0-9][0-9]
+cases/syntactic/groups-[0-9][0-9][0-9][0-9][0-9]
+cases/syntactic/layout-[0-9][0-9][0-9][0-9][0-9]
+cases/syntactic/qual-[0-9][0-9][0-9][0-9][0-9]
 cases/syntactic/.cases-archive-date
+cases/syntactic/uniqueErrors.txt
