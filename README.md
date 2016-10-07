@@ -16,6 +16,11 @@ The SBML Test Suite is a conformance testing system for [SBML](http://sbml.org).
 
 *License*: For full license information, please refer to the file [../LICENSE.txt](https://raw.githubusercontent.com/sbmlteam/moccasin/master/LICENSE.txt) for details.  Briefly, the test case distributions of the SBML Test Suite are distributed under the terms of the [LGPL v2.1](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html); the overall SBML Test Suite (including the software components) are distributed under the LGPL but include components from other sources licensed under other open-source terms.  (However, none of the terms are more restrictive than the LGPL.)
 
+🏁 Recent news and activities
+------------------------------
+
+Please see the file [NEWS.txt](NEWS.txt) for a summary of the changes in the most recent release.
+
 ☀ Background
 ----------
 
