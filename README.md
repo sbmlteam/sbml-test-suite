@@ -19,7 +19,7 @@ The SBML Test Suite is a conformance testing system for [SBML](http://sbml.org).
 🏁 Recent news and activities
 ------------------------------
 
-Please see the file [NEWS.txt](NEWS.txt) for a summary of the changes in the most recent release.
+Please see the file [NEWS.md](NEWS.md) for a summary of the changes in the most recent release.
 
 ☀ Background
 ----------
