@@ -1,6 +1,73 @@
 	The Systems Biology Markup Language (SBML) Test Suite
 	       NEWS -- history of user-visible changes
 
+=== Version 3.3.0 (forthcoming)
+
+Important: DO NOT RUN semantic test cases 1199-1204 on systems that
+use libSBML 5.11.2 or earlier.  Test cases 1199-1204 test the use of
+nested MathML "piecewise" constructs, which unfortunately revealed a
+bug in libSBML versions prior to 5.11.4.  Make sure to use libSBML
+5.11.4 or later.
+
+New in this release:
+
+* The SBML Test Suite home repository has been moved to GitHub.
+  New development will take place in the branch called 'develop':
+  https://github.com/sbmlteam/sbml-test-suite/tree/develop
+  Each time we make a new release, we will merge the changes into
+  branch 'master' and start the next new developments in 'develop'.
+
+* New semantic test cases:
+
+  - Cases 01224-01233 test the use of a reaction identifier in the
+    MathML of another construct.
+
+  - Cases 01219-01223 test the use of compartment sizes other than 1
+    in combination with of species having attribute
+    hasOnlySubstanceUnits=true and various values for initialAmount
+    and initialConcentration.
+
+* New semantic and syntactic test cases for the release candidate
+  specification of SBML Level 3 Version 2.  To test these, you will
+  NEED THE LATEST EXPERIMENTAL VERSION of libSBML, 5.14.0
+  (http://sbml.org/Software/libSBML).
+
+  - All existing tests that could be translated to L3V2 now have L3V2
+    versions.
+
+  - There are tests for the use of elements without child elements,
+    which is allowed in L3V2 but not in lower versions of L3.  This
+    includes 'math' children especially, but also things like the
+    'Trigger' of events. (Tests 1234-1247, and 1271.)
+  
+  - New test cases for the use of Boolean values in numeric contexts,
+    and visa versa.  (Tests 01282-01292.)
+  
+  - The use of the newly-added MathML operators: 'max', 'min', 'rem',
+    'quotient', 'implies'. (Tests 01272-01281.)
+
+  - The use of the newly-added MathML csymbol for 'rateof'. (Tests
+    1248-1270.)
+
+Changes in this release:
+
+* A few things have been cleaned up in past tests. Examples include
+  model identifiers of a few test models that were misleading (now
+  fixed), and a few tests that were designed to test species in
+  multiple compartments were at some point accidentally changed so
+  that all the species were put into a single compartment (they have
+  been redistributed appropriately now).
+
+* The issue tracker for the Test Suite is now the GitHub tracker:
+  https://github.com/sbmlteam/sbml-test-suite/issues
+  Lucian Smith migrated the previous issues from the SourceForce
+  tracker, so they are now in the GitHub tracker, for history.  
+  We credit the following guides for helpful info about how to
+  achieve this migration:
+  - https://github.com/mephenor/JSBML-Migration-Guide/wiki/
+  - https://github.com/cmungall/gosf2github
+
+
 === Version 3.2.0 (29 July 2016)
 
 Important: DO NOT RUN semantic test cases 1199-1204 on systems that
