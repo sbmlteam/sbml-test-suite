@@ -14,7 +14,7 @@ New in this release:
 
     - Cases 01224-01233 test the use of a reaction identifier in the MathML of another construct.
 
-    - Cases 01219-01223 test the use of compartment sizes other than 1 in combination with of species having attribute `hasOnlySubstanceUnits`=`true` and various values for attributes `initialAmount` and `initialConcentration`.
+    - Cases 01219-01223 test the use of compartment sizes other than `1` in combination with of species having attribute `hasOnlySubstanceUnits`=`true` and various values for attributes `initialAmount` and `initialConcentration` in combination with rate rules.
 
 * New semantic and syntactic test cases for the release candidate specification of [SBML Level 3 Version 2](http://sbml.org/Documents/Specifications/SBML_Level_3/Version_2/Core/Release_1).  To test these, you will **need the latest experimental version** of [libSBML](http://sbml.org/Software/libSBML), 5.14.0.
 
