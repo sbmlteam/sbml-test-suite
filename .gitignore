@@ -1,24 +1,12 @@
-# Mac-specific things.
-# ......................................................................
-
-.DS_Store
-
-
-# Emacs.
-# ......................................................................
-
-*~
-.#*
-.git/COMMIT_EDITMSG
-
-
-# Generic programming things.
-# ......................................................................
-
-TAGS
-
 # SBML Test Suite-specific things.
 # ......................................................................
+
+# Ignore previews
+
+NEWS.html
+README.html
+
+# Ignore generated files in the test suite directories.
 
 cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-model.html
 cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.html
@@ -42,3 +30,22 @@ cases/syntactic/layout-[0-9][0-9][0-9][0-9][0-9]
 cases/syntactic/qual-[0-9][0-9][0-9][0-9][0-9]
 cases/syntactic/.cases-archive-date
 cases/syntactic/uniqueErrors.txt
+
+# General Mac-specific things.
+# ......................................................................
+
+.DS_Store
+
+
+# General Emacs things.
+# ......................................................................
+
+*~
+.#*
+.git/COMMIT_EDITMSG
+
+
+# Generic programming things.
+# ......................................................................
+
+TAGS
