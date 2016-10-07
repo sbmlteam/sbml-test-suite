@@ -1,166 +1,78 @@
-	The Systems Biology Markup Language (SBML) Test Suite
-	       NEWS -- history of user-visible changes
+NEWS — history of changes to the SBML Test Suite
+================================================
 
-=== Version 3.3.0 (forthcoming)
+Version 3.3.0 (forthcoming)
+---------------------------
 
-Important: DO NOT RUN semantic test cases 1199-1204 on systems that
-use libSBML 5.11.2 or earlier.  Test cases 1199-1204 test the use of
-nested MathML "piecewise" constructs, which unfortunately revealed a
-bug in libSBML versions prior to 5.11.4.  Make sure to use libSBML
-5.11.4 or later.
+_Important_: **do not run** semantic test cases 1199-1204 on systems that use [libSBML](http://sbml.org/Software/libSBML) 5.11.2 or earlier.  Test cases 1199-1204 test the use of nested MathML `<piecewise>` constructs, which unfortunately revealed a bug in [libSBML](http://sbml.org/Software/libSBML) versions prior to 5.11.4.  Make sure to use [libSBML](http://sbml.org/Software/libSBML) 5.11.4 or later.
 
 New in this release:
 
-* The SBML Test Suite home repository has been moved to GitHub.
-  New development will take place in the branch called 'develop':
-  https://github.com/sbmlteam/sbml-test-suite/tree/develop
-  Each time we make a new release, we will merge the changes into
-  branch 'master' and start the next new developments in 'develop'.
+* The SBML Test Suite home repository has been moved to GitHub.  New development will take place in the branch called 'develop': [https://github.com/sbmlteam/sbml-test-suite/tree/develop](https://github.com/sbmlteam/sbml-test-suite/tree/develop) Each time we make a new release, we will merge the changes into branch 'master' and start the next new developments in 'develop'.
 
 * New semantic test cases:
 
-  - Cases 01224-01233 test the use of a reaction identifier in the
-    MathML of another construct.
+    - Cases 01224-01233 test the use of a reaction identifier in the MathML of another construct.
 
-  - Cases 01219-01223 test the use of compartment sizes other than 1
-    in combination with of species having attribute
-    hasOnlySubstanceUnits=true and various values for initialAmount
-    and initialConcentration.
+    - Cases 01219-01223 test the use of compartment sizes other than 1 in combination with of species having attribute `hasOnlySubstanceUnits`=`true` and various values for attributes `initialAmount` and `initialConcentration`.
 
-* New semantic and syntactic test cases for the release candidate
-  specification of SBML Level 3 Version 2.  To test these, you will
-  NEED THE LATEST EXPERIMENTAL VERSION of libSBML, 5.14.0
-  (http://sbml.org/Software/libSBML).
+* New semantic and syntactic test cases for the release candidate specification of [SBML Level 3 Version 2](http://sbml.org/Documents/Specifications/SBML_Level_3/Version_2/Core/Release_1).  To test these, you will **need the latest experimental version** of [libSBML](http://sbml.org/Software/libSBML), 5.14.0.
 
-  - All existing tests that could be translated to L3V2 now have L3V2
-    versions.
+    - All existing tests that could be translated to SBML Level 3 Version 2 (L3V2) now have L3V2 versions.
 
-  - There are tests for the use of elements without child elements,
-    which is allowed in L3V2 but not in lower versions of L3.  This
-    includes 'math' children especially, but also things like the
-    'Trigger' of events. (Tests 1234-1247, and 1271.)
+    - There are tests for the use of elements without child elements, which is allowed in L3V2 but not in lower versions of L3.  This includes `<math>` children especially, but also things like the `<trigger>` of events. (Tests 1234-1247, and 1271.)
   
-  - New test cases for the use of Boolean values in numeric contexts,
-    and visa versa.  (Tests 01282-01292.)
+    - New test cases for the use of Boolean values in numeric contexts, and visa versa.  (Tests 01282-01292.)
   
-  - The use of the newly-added MathML operators: 'max', 'min', 'rem',
-    'quotient', 'implies'. (Tests 01272-01281.)
+    - The use of the newly-added MathML operators: `max`, `min`, `rem`, `quotient`, `implies`. (Tests 01272-01281.)
 
-  - The use of the newly-added MathML csymbol for 'rateof'. (Tests
-    1248-1270.)
+    - The use of the newly-added MathML csymbol for `<rateof>`. (Tests 1248-1270.)
 
 Changes in this release:
 
-* A few things have been cleaned up in past tests. Examples include
-  model identifiers of a few test models that were misleading (now
-  fixed), and a few tests that were designed to test species in
-  multiple compartments were at some point accidentally changed so
-  that all the species were put into a single compartment (they have
-  been redistributed appropriately now).
+* A few things have been cleaned up in past tests. Examples include model identifiers of a few test models that were misleading (now fixed), and a few tests that were designed to test species in multiple compartments were at some point accidentally changed so that all the species were put into a single compartment (they have been redistributed appropriately now).
 
-* The issue tracker for the Test Suite is now the GitHub tracker:
-  https://github.com/sbmlteam/sbml-test-suite/issues
-  Lucian Smith migrated the previous issues from the SourceForce
-  tracker, so they are now in the GitHub tracker, for history.  
-  We credit the following guides for helpful info about how to
-  achieve this migration:
-  - https://github.com/mephenor/JSBML-Migration-Guide/wiki/
-  - https://github.com/cmungall/gosf2github
+* The issue tracker for the Test Suite is now the GitHub tracker: [https://github.com/sbmlteam/sbml-test-suite/issues](https://github.com/sbmlteam/sbml-test-suite/issues). Lucian Smith migrated the previous issues from the SourceForce tracker, so they are now in the GitHub tracker, for history.  We thank the guides by [Thomas Zajac](https://github.com/mephenor/JSBML-Migration-Guide/wiki/) and [Chris Mungall](https://github.com/cmungall/gosf2github) for helpful info about how to achieve this migration.
 
 
-=== Version 3.2.0 (29 July 2016)
+Version 3.2.0 (29 July 2016)
+----------------------------
 
-Important: DO NOT RUN semantic test cases 1199-1204 on systems that
-use libSBML 5.11.2 or earlier.  Test cases 1199-1204 test the use of
-nested MathML "piecewise" constructs, which unfortunately revealed a
-bug in libSBML versions prior to 5.11.4.  Make sure to use libSBML
-5.11.4 or later.
+_Important_: **do not run** semantic test cases 1199-1204 on systems that use [libSBML](http://sbml.org/Software/libSBML) 5.11.2 or earlier.  Test cases 1199-1204 test the use of nested MathML `<piecewise>` constructs, which unfortunately revealed a bug in [libSBML](http://sbml.org/Software/libSBML) versions prior to 5.11.4.  Make sure to use [libSBML](http://sbml.org/Software/libSBML) 5.11.4 or later.
 
 New in this release:
 
-* Beginning with this version, the distribution of the test cases will
-  be split, with separate archives for semantic, stochastic and
-  syntactic test cases.  This will not effectively change the semantic
-  cases distribution archives, but will allow for the introduction of
-  new stochastic and syntactic test cases without disrupting the
-  existing infrastructure for the test suite.
+* Beginning with this version, the distribution of the test cases will be split, with separate archives for semantic, stochastic and syntactic test cases.  This will not effectively change the semantic cases distribution archives, but will allow for the introduction of new stochastic and syntactic test cases without disrupting the existing infrastructure for the test suite.
 
-* New in 3.2.0, with the consent of the original authors, the Discrete
-  Stochastic Model Test Suite (DSMTS) is available in SVN and will be
-  available as a separate archive release.  The DSMTS was developed by
-  Thomas W. Evans, Colin S. Gillespie, and Darren J. Wilkinson (from
-  the University of Liverpool and Newcastle University).  The files
-  are located in the directory cases/stochastic in the SVN repository
-  and distributed as "sbml-stochastic-test-cases-YYYY-MM-DD.zip".
-  Currently, these files are not fully integrated into the SBML Test
-  Suite, and in particular, the SBML Test Runner and the Online
-  facilities do not interact with these files, although it is our goal
-  to figure out how to integrate them better in the future.  For now,
-  as a first step, we distribute the DSMTS as an add-on to the SBML
-  Test Suite so that people can start experimenting with it.  Please
-  see the file cases/stochastic/README.txt for more information,
-  including a reference to the paper by Evans et al. and pointers on
-  how to use the DSMTS.
+* New in 3.2.0, with the consent of the original authors, the [Discrete Stochastic Model Test Suite](https://www.ncbi.nlm.nih.gov/pubmed/18025005) (DSMTS) is available in SVN and will be available as a separate archive release.  The DSMTS was developed by Thomas W. Evans, Colin S. Gillespie, and Darren J. Wilkinson (from the University of Liverpool and Newcastle University).  The files are located in the directory cases/stochastic in the SVN repository and distributed as `sbml-stochastic-test-cases-YYYY-MM-DD.zip`.  Currently, these files are not fully integrated into the SBML Test Suite, and in particular, the SBML Test Runner and the Online facilities do not interact with these files, although it is our goal to figure out how to integrate them better in the future.  For now, as a first step, we distribute the DSMTS as an add-on to the SBML Test Suite so that people can start experimenting with it.  Please see the file [cases/stochastic/README.txt](cases/stochastic/README.txt) for more information, including a reference to the paper by Evans et al. and pointers on how to use the DSMTS.
 
-* New in 3.2.0, the syntactic test cases directory (cases/syntactic)
-  has been completely replaced by a large set of test cases
-  auto-generated from libSBML's syntactic test cases.  Lucian Smith
-  developed a program that generates the syntactic test cases from
-  libSBML's code base.  This program is 'createSyntacticTests' and
-  can be found in the subdirectory src/utilities/createSyntacticTests
-  of the SBML Test Suite source code repository.
+* New in 3.2.0, the syntactic test cases directory ([cases/syntactic](cases/syntactic)) has been completely replaced by a large set of test cases auto-generated from libSBML's syntactic test cases.  Lucian Smith developed a program that generates the syntactic test cases from libSBML's code base.  This program is `createSyntacticTests` and can be found in the subdirectory [src/utilities/createSyntacticTests](src/utilities/createSyntacticTests) of the SBML Test Suite source code repository.
 
-* The semantic test cases in the cases/semantic/ directory now include
-  OMEX format files.  (See http://co.mbine.org/documents/archive for a
-  description of this format.)  They were generated by a modified
-  version of Frank Bergmann's program to generate SED-ML files.
-  Stanley Gu has also contributed an OMEX file generator written in
-  Python, and this is available in the SBML Test Suite SVN repository.
+* The semantic test cases in the cases/semantic/ directory now include [OMEX](http://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-014-0369-z) format files.  (See [http://co.mbine.org/documents/archive](http://co.mbine.org/documents/archive) for a description of this format.)  They were generated by a modified version of Frank Bergmann's program to generate SED-ML files.  Stanley Gu has also contributed an OMEX file generator written in Python, and this is available in the SBML Test Suite SVN repository.
 
-* New test cases 1199-1218.  Cases 1199-1204 test the use of nested
-  piecewise operators in mathematical formulas; cases 1205-1208 test
-  variable-size compartments; cases 1209-1216 test the use of multiple
-  arguments to MathML relational operators such as le/ge/eq; cases
-  1217-1218 check interdependent initial assignments and assignment
-  rules.
+* New test cases 1199-1218.  Cases 1199-1204 test the use of nested piecewise operators in mathematical formulas; cases 1205-1208 test variable-size compartments; cases 1209-1216 test the use of multiple arguments to MathML relational operators such as `le`, `ge` and `eq`; cases 1217-1218 check interdependent initial assignments and assignment rules.
 
 Updates:
 
-* SBML Level 2 Version 5 models added to all tests that included a
-  Level 2 Version 4 model for that test.  All are syntactically
-  identical to the L2v4 versions, apart from the declared SBML
-  namespace.
+* SBML Level 2 Version 5 models added to all tests that included a Level 2 Version 4 model for that test.  All are syntactically identical to the L2v4 versions, apart from the declared SBML namespace.
 
-* The plotresults.py script used to generate the plots of results now
-  offers the ability to plot on dual axes.  This is used to generate
-  the plots for the stochastic test suite results.  Also,
-  plotresults.py has had its command line options changed in order to
-  work with the input/output combinations that are now possible.
-  Also, plotresults.py now works in Python 3.
+* The `plotresults.py` script used to generate the plots of results now offers the ability to plot on dual axes.  This is used to generate the plots for the stochastic test suite results.  Also, `plotresults.py` has had its command line options changed in order to work with the input/output combinations that are now possible.  Also, `plotresults.py` now works in Python 3.
 
-* The stochastic test cases were updated from the originals taken from
-  the DSMTS to be fully valid SBML, and to include other level/version
-  combinations.
+* The stochastic test cases were updated from the originals taken from the DSMTS to be fully valid SBML, and to include other level/version combinations.
 
-* Results from stochastic test 33 (originally test 003-04 in the
-  DSMTS) were re-calculated by Darren Wilkinson, after the previous
-  results were found to be slightly incorrect.
+* Results from stochastic test 33 (originally test 003-04 in the DSMTS) were re-calculated by Darren Wilkinson, after the previous results were found to be slightly incorrect.
 
-* Fixes to validation warnings and errors for models 937, 950, 983,
-  and 1018.
+* Fixes to validation warnings and errors for models 937, 950, 983, and 1018.
 
 Additional notes:
 
-* The SBML Test Runner has not yet been updated for release 3.2.0
-  of the test cases.  We will announce when a new version of the
-  Test Runner is available.
+* The SBML Test Runner has not yet been updated for release 3.2.0 of the test cases.  We will announce when a new version of the Test Runner is available.
 
-* This is the last release planned from SourceForge.net.  In the
-  future, we plan to move to GitHub and make future releases from
-  GitHub.
+* This is the last release planned from SourceForge.net.  In the future, we plan to move to GitHub and make future releases from GitHub.
 
 
-=== Test case archive update (2014-10-23)
+Test case archive update (2014-10-23)
+-------------------------------------
 
 This release updates only test cases.
 
@@ -169,180 +81,119 @@ This release updates only test cases.
 * Corrected the description of case 978.
 
 
-=== Version 3.1.1 release (2014-03-06)
+Version 3.1.1 release (2014-03-06)
+----------------------------------
 
 Summary of changes in the SBML Test Runner:
 
-* Fixed handling of network updates to the test cases.  The previous
-  version would incorrectly always report that new test cases are
-  available for downloading, even after the user did an update.
+* Fixed handling of network updates to the test cases.  The previous version would incorrectly always report that new test cases are available for downloading, even after the user did an update.
 
 * Bundles the 2014-02-27 release of the test case archive.
 
 * Tested under Mac OS X 10.9 (Mavericks).
 
 
-=== Test case archive update for release 3.1.0 (2014-02-27)
+Test case archive update for release 3.1.0 (2014-02-27)
+-------------------------------------------------------
 
-This release concentrated on updates to the SED-ML files included with
-the test case archive; no other changes have been made.
+This release concentrated on updates to the SED-ML files included with the test case archive; no other changes have been made.
 
-* Support for packages ('fbc': uses SED-ML L1v2, 'comp': assumes
-  flattening by libSBML)
+* Support for packages (_fbc_: uses SED-ML L1v2, _comp_: assumes flattening by libSBML)
 
-* Fixed an issue where time course simulations would yield one
-  additional output point
+* Fixed an issue where time course simulations would yield one additional output point
 
-* Fixed a number of issues with adjustments for amounts and
-  concentrations.
+* Fixed a number of issues with adjustments for amounts and concentrations.
 
-(In the source code, the changes above are implemented in the SED-ML
-file generator in src/utilities/sedml.  This is what is used to
-produce the -sedml.xml files included in the archive release.)
+(In the source code, the changes above are implemented in the SED-ML file generator in src/utilities/sedml.  This is what is used to produce the -sedml.xml files included in the archive release.)
 
 
-=== Version 3.1.0 release (2013-12-10)
+Version 3.1.0 release (2013-12-10)
+----------------------------------
 
 Summary of changes to the test cases:
 
-* Test cases 1186-1196 for the SBML Flux Balance Constraints package
-  ('fbc') have been updated to reflect the syntax of the final SBML
-  fbc specification, for example with respect to <listOfFluxes> vs.
-  <listOfFluxObjectives>.
+* Test cases 1186-1196 for the [SBML Flux Balance Constraints](http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/fbc) package (_fbc_) have been updated to reflect the syntax of the final SBML _fbc_ specification, for example with respect to `<listOfFluxes>` vs.  `<listOfFluxObjectives>`.
 
-* Test cases 1186-1196 for 'fbc' have been udpated to standardize the
-  way <notes> element bodies' XML namespaces are declared.
+* Test cases 1186-1196 for _fbc_ have been udpated to standardize the way `<notes>` element bodies' XML namespaces are declared.
 
-* Removed the Test Suite tag 'comp:NotRequired' on Hierarchical Model
-  Composition ('comp') models because the 'required' attribute for
-  'comp' is now considered to be always required to be "true".
+* Removed the Test Suite tag `comp:NotRequired` on [SBML Hierarchical Model Composition](http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/comp) (_comp_) models because the `required` attribute for _comp_ is now considered to be always required to be `"true"`.
 
-* Corrected a bug in the description of some 'comp' models that
-  claimed their initial value was set by a rate rule.
+* Corrected a bug in the description of some _comp_ models that claimed their initial value was set by a rate rule.
 
-* Corrected a small error in the description of a numerical value in
-  model 1000.
+* Corrected a small error in the description of a numerical value in model 1000.n
 
-* Updated some 'comp' models to conform to the validation rules
-  defined in Release 3 of the 'comp' specification.  This was mostly
-  in regards to elements pointing at other elements.
+* Updated some _comp_ models to conform to the validation rules defined in Release 3 of the _comp_ specification.  This was mostly in regards to elements pointing at other elements.
 
-* Added some missing comp:SBaseRef tags to 'comp' models that required
-  them.
+* Added some missing `comp:SBaseRef` tags to _comp_ models that required them.
 
-* Updated the names and id's of a number of models so that they
-  matched the pattern "case#####" used by other models.
+* Updated the names and id's of a number of models so that they matched the pattern `case#####` used by other models.
 
-* The cases directories (cases/semantic and cases/syntactic) now
-  contain a copy of the date-of-release marker file, named
-  .cases-release-date.
+* The cases directories (cases/semantic and cases/syntactic) now contain a copy of the date-of-release marker file, named `.cases-release-date`.
 
 * SED-ML files are now available for the FBC test cases.
 
-
 Summary of changes and new features in the SBML Test Runner:
 
-* The Runner can now check the test case download site at SourceForge
-  for updates; if it finds a new case archive, it offers to download
-  it and install it.  Along with this functionality, there is a new
-  item in the preferences dialog to determine whether an update check
-  is performed when the application first starts up.  (The default is
-  no.)
+* The Runner can now check the test case download site at SourceForge for updates; if it finds a new case archive, it offers to download it and install it.  Along with this functionality, there is a new item in the preferences dialog to determine whether an update check is performed when the application first starts up.  (The default is no.)
 
-* The dialog presented while test cases are being unpacked has been
-  changed completely and is more responsive.
+* The dialog presented while test cases are being unpacked has been changed completely and is more responsive.
 
-* There is a new menu item in the Help menu, for reinstalling the
-  test cases shipped with the Test Runner.
+* There is a new menu item in the Help menu, for reinstalling the test cases shipped with the Test Runner.
 
-* The dialogs showing tags (which appear in two places, one for the
-  wrapper configuration, and another in the filter dialog) now show
-  summaries of the tags in the pop-up tooltips.  Users can hover their
-  mouse over a tag name to see a summary of the tag's meaning.
+* The dialogs showing tags (which appear in two places, one for the wrapper configuration, and another in the filter dialog) now show summaries of the tags in the pop-up tooltips.  Users can hover their mouse over a tag name to see a summary of the tag's meaning.
 
-* The Runner now checks for missing columns in the data and reports it
-  as an error.
+* The Runner now checks for missing columns in the data and reports it as an error.
 
-* The user manual has been updated to account for some of the changes
-  described above.
+* The user manual has been updated to account for some of the changes described above.
 
 * Various bugs have been fixed.
 
 
-=== Version 3.0.0 release (2013-06-06)
+Version 3.0.0 release (2013-06-06)
+----------------------------------
 
 Changes to the test cases:
 
-* The previous 3.0.0 beta release had a testing artifact accidentally
-  left in the results file for case 000950.  Fixed.
+* The previous 3.0.0 beta release had a testing artifact accidentally left in the results file for case 000950.  Fixed.
 
 Changes to the SBML Test Runner:
 
-This is the release of version 3.0.0.  The following are additional
-changes not logged in the notes for beta versions up to this point.
+_This is the release of version 3.0.0.  The following are additional
+changes not logged in the notes for beta versions up to this point._
 
 New features:
 
-* The position and size of the main window and the results map are now
-  remembered across invocations of the Test Runner.
+* The position and size of the main window and the results map are now remembered across invocations of the Test Runner.
 
-* The results map now displays an explanation of the result codes, in
-  the information box at the bottom, when the mouse is moved over a
-  result in the map.
+* The results map now displays an explanation of the result codes, in the information box at the bottom, when the mouse is moved over a result in the map.
 
-* The runner now provides a way to view output that might have been
-  produced by the wrapper on the standard output and standard error
-  streams.  There are menu options in the menu bar and the pop-up
-  menus.
+* The runner now provides a way to view output that might have been produced by the wrapper on the standard output and standard error streams.  There are menu options in the menu bar and the pop-up menus.
 
-* There is a now a help system.  Contents are sparse at the moment,
-  but at least there's something...
+* There is a now a help system.  Contents are sparse at the moment, but at least there's something...
 
 Changes: 
 
-* The test runner will now delete output results files before invoking
-  the wrapper on each test case.  If the deletion fails, it reports an
-  error (as a "black" color in the results map).  This is to help
-  prevent situations in which an output file is locked by another
-  process (e.g., open in an Excel window on Windows) and the wrapper
-  does not return an error value when it tries to write to the file;
-  in that situation, the Test Runner would have no way of knowing that
-  a problem occurred.  (If the wrapper could be counted on to return
-  an error, then there wouldn't be a potential problem, but not all
-  wrappers behave as expected.)  This way, by attempting to delete the
-  file first, the Test Runner can tell the user something is wrong.
+* The SBML Test Runner will now delete output results files before invoking the wrapper on each test case.  If the deletion fails, it reports an error (as a "black" color in the results map).  This is to help prevent situations in which an output file is locked by another process (e.g., open in an Excel window on Windows) and the wrapper does not return an error value when it tries to write to the file; in that situation, the Test Runner would have no way of knowing that a problem occurred.  (If the wrapper could be counted on to return an error, then there wouldn't be a potential problem, but not all wrappers behave as expected.)  This way, by attempting to delete the file first, the Test Runner can tell the user something is wrong.
 
-* The system previously didn't report the case of when a results file
-  existed but was unreadable or had a parse error.  The system now
-  catches this and communicates the errors up to the GUI.
+* The system previously didn't report the case of when a results file existed but was unreadable or had a parse error.  The system now catches this and communicates the errors up to the GUI.
 
-* The order of OK/Save and Cancel buttons in the dialogs has been made
-  consistent across the different dialogs.
+* The order of OK/Save and Cancel buttons in the dialogs has been made consistent across the different dialogs.
 
-* There are now new menu items to sync/refresh selected results from
-  their files, instead of (previously) having only the option to sync
-  all results.
+* There are now new menu items to sync/refresh selected results from their files, instead of (previously) having only the option to sync all results.
 
-* The system no longer selects any cases when you first start up.
-  Instead, things are left blank, and a message is printed in the
-  description area about "no case selected" to give the user a clue
-  about why they're seeing blanks.
+* The system no longer selects any cases when you first start up.  Instead, things are left blank, and a message is printed in the description area about "no case selected" to give the user a clue about why they're seeing blanks.
 
-* Implemented graphing of FBC results.  The current implementation is
-  kind of simplistic and uses bar graphs, but hopefully will be good
-  enough for now.
+* Implemented graphing of SBML FBC results.  The current implementation is kind of simplistic and uses bar graphs, but hopefully will be good enough for now.
 
-* Commented out the SED-ML menu options because they're currently
-  unimplemented and may not be for a while yet.
+* Commented out the SED-ML menu options because they're currently unimplemented and may not be for a while yet.
 
-* Fixed: changing the SBML Level & Version using the pull-down menu in
-  the main window didn't refresh the case list or stop a running
-  simulation.
+* Fixed: changing the SBML Level & Version using the pull-down menu in the main window didn't refresh the case list or stop a running simulation.
 
 Released 6 June 2013.
 
 
-=== Version 3.0.0beta2 release (2013-05-21)
+Version 3.0.0beta2 release (2013-05-21)
+---------------------------------------
 
 Changes to the SBML Test Runner:
 
@@ -354,7 +205,8 @@ Changes to the SBML Test Runner:
 * Released 21 May 2013.
 
 
-=== Version 3.0.0beta1 release (2013-05-17)
+Version 3.0.0beta1 release (2013-05-17)
+---------------------------------------
 
 * Release beta1 of the new, standalone, SBML Test Runner.  (Note: the
   test cases archive does not include the Test Runner; it is made
@@ -391,7 +243,8 @@ Changes to the SBML Test Runner:
     actual SBML had been there before).
 
     
-=== Version 2.3.2 release (2013-02-03)
+Version 2.3.2 release (2013-02-03)
+---------------------------------------
 
 * Changes:
 
@@ -417,13 +270,15 @@ Changes to the SBML Test Runner:
   - The tolerances for tests 00983 and 00993 were relaxed by request.
 
 
-=== Version 2.3.1 release (2013-01-27)
+Version 2.3.1 release (2013-01-27)
+---------------------------------------
 
 The only difference is a change to the settings of case 993.  The
 tolerances have been loosened slightly.
 
 
-=== Version 2.3 release (2013-01-16)
+Version 2.3 release (2013-01-16)
+---------------------------------------
 
 The only real difference between this release and 2.2 is the addition
 of test cases for the SBML Level 3 packages of (a) Hierarchical Model
@@ -431,7 +286,8 @@ Composition and (b) Flux Balance Constraints.  They are test cases
 #1124-1196 minus #1184-1185.
 
 
-=== Version 2.2 release (2012-12-28)
+Version 2.2 release (2012-12-28)
+---------------------------------------
 
 IMPORTANT NOTE: the .zip archive distribution of cases ONLY contains
 cases #0-1123,1184,and 1185; cases #1124-1196 are available in the SVN
@@ -482,7 +338,8 @@ will distributed in the archive for the next major release (2.3).
     analytic, when in fact they were generated numerically.
 
 
-=== Version 2.1.2 release (2012-10-09)
+Version 2.1.2 release (2012-10-09)
+---------------------------------------
 
 * Bug fixes:
 
@@ -507,7 +364,8 @@ will distributed in the archive for the next major release (2.3).
   - We updated the copyright year.
 
 
-=== Version 2.1.1 release (2012-08-21)
+Version 2.1.1 release (2012-08-21)
+---------------------------------------
 
 General note: it is not clearly stated anywhere, but test case
 directories do not always contain all Level/Version combinations of
@@ -532,7 +390,8 @@ it does not indicate models are missing.
     problem was reported by Ilya Kiselev from DevelopmentOnTheEdge.com.
 
 
-=== Version 2.1.0 release (2012-08-06)
+Version 2.1.0 release (2012-08-06)
+---------------------------------------
 
 * Bug fixes:
 
@@ -606,7 +465,8 @@ attempt to recreate the plots using the scripts provided in the
 SBML Test Suite source directory.
 
 
-=== Version 2.0.2 release (2011-11-15) ===
+Version 2.0.2 release (2011-11-15) 
+---------------------------------------
 
 * Bug fixes:
 
@@ -618,7 +478,8 @@ SBML Test Suite source directory.
   - Case 00939 had incorrect results.
 
 
-=== Version 2.0.1 release (2011-06-16) ===
+Version 2.0.1 release (2011-06-16) 
+---------------------------------------
 
 * Bug fixes since last update:
 
@@ -633,7 +494,8 @@ SBML Test Suite source directory.
   - Added plots of results in SVG format.
 
 
-=== Version 2.0.0 release (2011-06-01) ===
+Version 2.0.0 release (2011-06-01) 
+---------------------------------------
 
 This is a release to introduce the SBML Level 3 Version 1 Core test
 cases, the SED-ML files, and the updated Online SBML Test Suite.
@@ -645,7 +507,8 @@ cases, the SED-ML files, and the updated Online SBML Test Suite.
     these have all been fixed.
 
 
-=== Update (2011-05-26) ===
+Update (2011-05-26) 
+---------------------------------------
 
 * New features:
 
@@ -658,7 +521,8 @@ cases, the SED-ML files, and the updated Online SBML Test Suite.
     different options that can be checked.)
 
 
-=== Update of test cases (2010-10-06) ===
+Update of test cases (2010-10-06) 
+---------------------------------------
 
   - All L3 models have been updated to comply with the final
     release of the SBML L3V1 core specification.
@@ -666,7 +530,8 @@ cases, the SED-ML files, and the updated Online SBML Test Suite.
   - There are examples of models that use the new Event semantics.
 
 
-=== Update of test cases (2010-04-20) ===
+Update of test cases (2010-04-20) 
+---------------------------------------
 
 * New features
 
@@ -710,7 +575,8 @@ cases, the SED-ML files, and the updated Online SBML Test Suite.
     The order of data did not match the order in the sbml files.
     This has been fixed.  Thanks to Chris Myers for reporting this.	       
 
-=== Version 2.0.0 alpha 4 (test-cases only release 2010-01-17) ===
+Version 2.0.0 alpha 4 (test-cases only release 2010-01-17) 
+---------------------------------------
 
 * Corrections to disputed results involving event test cases.
 
@@ -723,13 +589,15 @@ cases, the SED-ML files, and the updated Online SBML Test Suite.
   the test cases zip archive.
 
 
-=== Version 2.0.0 alpha 3 (limited release 2008-08-27) ===
+Version 2.0.0 alpha 3 (limited release 2008-08-27) 
+---------------------------------------
 
 * Fixed a problem in the Standalone Application in unpackaging the
   archive of test cases.
 
 
-=== Version 2.0.0 alpha 1 (limited release 2008-08-22) ===
+Version 2.0.0 alpha 1 (limited release 2008-08-22) 
+---------------------------------------
 
 * We redesigned and reimplemented the SBML Test Suite from the ground
   up.  The new system features a very large corpus of 900 carefully
@@ -786,7 +654,8 @@ cases, the SED-ML files, and the updated Online SBML Test Suite.
 ######################################################################
 
 
-=== Version 1.4 (2007-06-24, never released publicly) ===
+Version 1.4 (2007-06-24, never released publicly) 
+---------------------------------------
 
 * Merged the previous test suite (which in reality consisted of
   nothing more than sample models) with a slightly reorganized version
@@ -819,7 +688,8 @@ cases, the SED-ML files, and the updated Online SBML Test Suite.
   Versions 2 and 3.
 
 
-=== Version 1.3 ===
+Version 1.3 
+---------------------------------------
 
 Released 7 September 2004.
 
@@ -845,14 +715,16 @@ Released 7 September 2004.
   need to test their software's backward compatibility.
 
 
-=== Version 1.2 ===
+Version 1.2 
+---------------------------------------
 
 * We have removed the Level 1 Version 1 files from this set, because
   L1v1 is officially deprecated.  Users are encouraged to examine L1v2
   or better yet, Level 2.
 
 
-=== Version 1.1 ===
+Version 1.1 
+---------------------------------------
 
 * The KEGG translated files are no longer included with the test-suite
   distribution.  They can be obtained separately from the following site:
@@ -860,7 +732,8 @@ Released 7 September 2004.
   http://systems-biology.org/001/
 
 
-=== Version 1.0.1 ===
+Version 1.0.1 
+---------------------------------------
 
 * The following SBML Level 2 version 1 errata have been corrected in
   sbml-files/sbml-l2v1/from-spec:
@@ -884,21 +757,7 @@ Released 7 September 2004.
 * Released  7 August 2003
 
 
-=== Version 1.0.0 ===
+Version 1.0.0 
+---------------------------------------
 
 * Initial release, 29 June 2003.
-
-
-
-
-
-----------------------------------------------------------------------
-Last Modified: $Date$
-Last Modified By: $Author$
-$HeadURL$
-----------------------------------------------------------------------
-
-# The following is for [X]Emacs users.  Please leave in place.
-# Local Variables:
-# fill-column: 70
-# End:
