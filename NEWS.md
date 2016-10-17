@@ -20,7 +20,7 @@ New in this release:
 
     - All existing tests that could be translated to SBML Level 3 Version 2 (L3V2) now have L3V2 versions.
 
-    - There are tests for the use of elements without child elements, which is allowed in L3V2 but not in lower versions of L3.  This includes `<math>` children especially, but also things like the `<trigger>` of events. (Tests 1234-1247, and 1271.)
+    - There are tests for the use of elements without child elements, which is allowed in L3V2 but *not* in L3V1.  This includes `<math>` children especially, but also things like the `<trigger>` of events. (Tests 1234-1247, and 1271.)  This is because some things are allowed in L3V2 that were not allowed in lower Level+Version combinations of SBML.
   
     - New test cases for the use of Boolean values in numeric contexts, and visa versa.  (Tests 01282-01292.)
   
