@@ -237,8 +237,8 @@ semantic-cases-dist-name   = sbml-semantic-test-cases-$(today).zip
 semantic-map-file	   = cases/semantic/.cases-tags-map
 semantic-contents	   = cases/semantic	  \
 		 	     cases/LICENSE.txt	  \
-		 	     cases/NEWS.txt       \
-		 	     cases/README.txt	  \
+		 	     cases/NEWS.md        \
+		 	     cases/README.md 	  \
 			     $(ts-file)		  \
 			     $(semantic-map-file)
 
@@ -246,17 +246,17 @@ semantic-contents	   = cases/semantic	  \
 stochastic-cases-dist-name = sbml-stochastic-test-cases-$(today).zip
 stochastic-contents	   = cases/stochastic  \
 		 	     cases/LICENSE.txt \
-		 	     cases/NEWS.txt    \
-		 	     cases/README.txt  \
+		 	     cases/NEWS.md     \
+		 	     cases/README.md   \
 			     $(ts-file)
 
 syntactic-cases-dist-name  = sbml-syntactic-test-cases-$(today).zip
-syntactic-contents	   = cases/syntactic	/*.txt         \
+syntactic-contents	   = cases/syntactic/*.txt         \
 			     cases/syntactic/[0-9]*        \
 			     cases/syntactic/[a-z]*-[0-9]* \
 		 	     cases/LICENSE.txt		   \
-		 	     cases/NEWS.txt		   \
-		 	     cases/README.txt		   \
+		 	     cases/NEWS.md		   \
+		 	     cases/README.md 		   \
 			     $(ts-file)
 
 all-cases-dist-name       = sbml-all-test-cases-$(today).zip
@@ -303,14 +303,14 @@ clean-cases-dist: clean-html clean-plots clean-sedml
 # -----------------------------------------------------------------------------
 
 dist-dir   = SBMLTestSuite-$(shell cat VERSION.txt)
-dist-files = README.txt \
+dist-files = README.md  \
 	     AUTHORS.txt \
 	     COPYING.html \
 	     COPYING.txt \
 	     FUNDING.txt \
 	     LICENSE.txt \
 	     NEWS-OLD.txt \
-	     NEWS.txt \
+	     NEWS.md \
 	     VERSION.txt \
 	     docs/formatted/standalone-user-manual
 dist-jar   = src/front-ends/standalone/dist/SBMLTestSuite.jar
