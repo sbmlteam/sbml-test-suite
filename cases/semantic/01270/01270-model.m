@@ -1,7 +1,7 @@
 (*
 
 category:        Test
-synopsis:        A variable rateOf csymbol in an event assignment.
+synopsis:        A variable rateOf csymbol in several contexts at once.
 componentTags:   CSymbolRateOf, CSymbolTime, Compartment, EventPriority, EventWithDelay, Parameter, RateRule, Reaction, Species
 testTags:        Amount, NonConstantParameter
 testType:        TimeCourse
