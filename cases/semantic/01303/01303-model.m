@@ -7,7 +7,7 @@ testTags:        NonConstantParameter
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Analytic
-packagesPresent: comp
+packagesPresent: 
 
  A reaction with no products nor reactants, but which has a kinetic law, has its identifier used in an event assignment.
 
