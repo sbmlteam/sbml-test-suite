@@ -9,7 +9,7 @@ levels:          3.2
 generatedBy:     Numeric
 packagesPresent: 
 
- A variable rateOf csymbols is used here in a rate rule, defining the rate of change of p2 the same as the rate of change of p1.  This is exactly the same model as 01264, with p1 and p2 changing as species in reactions, instead of in a rate rule.
+ A variable rateOf csymbols is used here in a kinetic law, defining the rate of change of p2 the same as the rate of change of p1.  This is exactly the same model as 01264, with p1 and p2 changing as species in reactions, instead of in a rate rule.
 
 The model contains:
 * 2 species (p1, p2)
