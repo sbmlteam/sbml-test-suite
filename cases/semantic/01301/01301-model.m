@@ -1,15 +1,15 @@
 (*
 
 category:        Test
-synopsis:        An empty reaction's identifier used in an initial assignment.
-componentTags:   InitialAssignment, Parameter, Reaction
+synopsis:        An empty reaction's identifier used in an assignment rule.
+componentTags:   AssignmentRule, Parameter, Reaction
 testTags:        InitialValueReassigned
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Analytic
-packagesPresent: 
+packagesPresent: comp
 
- A reaction with no products nor reactants, but which has a kinetic law, has its identifier used in an initial assignment.
+ A reaction with no products nor reactants, but which has a kinetic law, has its identifier used in an assignment rule.
 
 The model contains:
 * 1 parameter (p1)
@@ -18,6 +18,12 @@ There is one reaction:
 
 [{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
 | J0: -> | $3$ |]
+
+
+There is one rule:
+
+[{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
+| Assignment | p1 | $J0$ |]
 
 The initial conditions are as follows:
 
