@@ -4,7 +4,7 @@
 
 			    Michael Hucka
 			 http://www.sbml.org/
-		     mailto:sbml-team@caltech.edu
+                  mailto:sbml-team@googlegroups.com
 
 This directory contains the unmodified Apache Commons IO library,
 obtained from http://commons.apache.org/io/.  The Commons IO library

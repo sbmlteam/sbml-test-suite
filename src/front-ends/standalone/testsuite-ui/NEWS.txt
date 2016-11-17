@@ -196,7 +196,7 @@ Version 3.0.0beta1 (2013-05-17)
 * This is a beta test release, and while it is believed to function
   correctly, it is likely that problems will be discovered in
   different user environments.  PLEASE REPORT ANY PROBLEMS to
-  sbml-team@caltech.edu.
+  sbml-team@googlegroups.com.
 
 * Released 17 May 2013.
 

@@ -4,7 +4,7 @@
 
 			    Michael Hucka
 			 http://www.sbml.org/
-		     mailto:sbml-team@caltech.edu
+                  mailto:sbml-team@googlegroups.com
 
 This is a simple program for plotting the results of a semantic case
 simulation.  It produces an HTML file that uses JavaScript libraries

@@ -18,7 +18,7 @@
   For more information about SBML or the Test Suite, please contact:
 
                             The SBML Team
-                        sbml-team@caltech.edu
+                      sbml-team@googlegroups.com
                          http://www.sbml.org/
 
         This software is licensed under the LGPL version 2.1.
@@ -51,7 +51,7 @@ REPORTING BUGS AND OTHER PROBLEMS
 Please report bugs and other issues to the developers at the following
 email address:
 
-  sbml-team@caltech.edu
+  sbml-team@googlegroups.com
 
 
 ACKNOWLEDGMENTS

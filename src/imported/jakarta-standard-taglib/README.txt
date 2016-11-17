@@ -4,7 +4,7 @@
 
 			    Michael Hucka
 			 http://www.sbml.org/
-		     mailto:sbml-team@caltech.edu
+                  mailto:sbml-team@googlegroups.com
 
 This directory contains the unmodified Apache Jakarta Standard Tag
 Library version 1.1, obtained from http://jakarta.apache.org/taglibs/.

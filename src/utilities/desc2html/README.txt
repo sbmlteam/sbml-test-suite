@@ -3,7 +3,7 @@
 
 			    Michael Hucka
 			 http://www.sbml.org/
-		     mailto:sbml-team@caltech.edu
+                  mailto:sbml-team@googlegroups.com
 
 "desc2html.sh" is a simple program for pulling out descriptions from
 SBML Test Suite test case definition files (which are Mathematica .m

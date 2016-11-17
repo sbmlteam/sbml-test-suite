@@ -11,7 +11,7 @@
 
                             The SBML Team
                          http://www.sbml.org/
-                     mailto:sbml-team@caltech.edu
+                  mailto:sbml-team@googlegroups.com
 
 This directory is the source directory for the Online SBML Test Suite.
 On the server for sbml.org, it is /var/lib/tomcat5/webapps/test_suite/.

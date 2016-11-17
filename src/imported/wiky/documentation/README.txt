@@ -4,7 +4,7 @@
 
 			    Michael Hucka
 			 http://www.sbml.org/
-		     mailto:sbml-team@caltech.edu
+                  mailto:sbml-team@googlegroups.com
 
 This directory contains copies of certain web pages for Wiky website
 as they appeared circa Feb. 2008, http://goessner.net/articles/wiky/.

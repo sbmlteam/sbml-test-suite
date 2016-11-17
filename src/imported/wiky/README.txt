@@ -3,7 +3,7 @@
 
 			    Michael Hucka
 			 http://www.sbml.org/
-		     mailto:sbml-team@caltech.edu
+                  mailto:sbml-team@googlegroups.com
 
 This directory contains a version of the Wiky program available from
 http://goessner.net/articles/wiky/.  Wiky was written by Stefan

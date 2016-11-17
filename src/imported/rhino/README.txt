@@ -3,7 +3,7 @@
 
 			    Michael Hucka
 			 http://www.sbml.org/
-		     mailto:sbml-team@caltech.edu
+                  mailto:sbml-team@googlegroups.com
 
 This directory contains the unmodified Rhino version 1.6 R7
 distribution.  Rhino is an implementation of a JavaScript interpreter

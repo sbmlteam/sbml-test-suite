@@ -4,7 +4,7 @@
 
 			    Michael Hucka
 			 http://www.sbml.org/
-		     mailto:sbml-team@caltech.edu
+                   mailto:sbml-team@googlegroups.com
 
 This is a trivial variation on an example script provided as part of
 PhantomJS (http://phantomjs.org) for creating an image of an HTML

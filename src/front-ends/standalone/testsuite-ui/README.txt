@@ -280,7 +280,7 @@ REPORTING BUGS AND OTHER PROBLEMS
 Please report bugs and other issues to the developers at the following
 email address:
 
-  sbml-team@caltech.edu
+  sbml-team@googlegroups.com
 
 
 ACKNOWLEDGMENTS
