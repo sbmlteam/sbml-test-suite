@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created by libAntimony version v2.9.0 with libSBML version 5.14.1. -->
-<sbml xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1" comp:required="true">
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
   <model id="case01323" name="case01323">
     <listOfParameters>
       <parameter id="a_sbml" constant="true"/>
+      <parameter id="a_truncated" constant="true"/>
       <parameter id="a_1865" constant="true"/>
       <parameter id="a_1873" constant="true"/>
       <parameter id="a_1890a" constant="true"/>
@@ -50,6 +51,15 @@
           <apply>
             <minus/>
             <cn type="e-notation"> 6.02214179 <sep/> 23 </cn>
+            <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
+          </apply>
+        </math>
+      </initialAssignment>
+      <initialAssignment symbol="a_truncated">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <cn type="e-notation"> 6.022142 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
         </math>

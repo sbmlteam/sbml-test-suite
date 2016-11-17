@@ -7,9 +7,9 @@ testTags:        InitialValueReassigned
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Analytic
-packagesPresent: comp
+packagesPresent: 
 
- Since 1865, people have been calculating avogadro's number with increasing accuracy.  In 2010, when the SBML Level 3 specification came out, the most accurate value anyone had calculated was 6.02214179e23, and this value was taken as canonical for all SBML files.  Since (and before) then, avogadro has taken other values.  However, none of them should be used.  This file checks that you use the value of avogadro from the correct year, by subtracting the csymbol 'avogadro' from the literal value of avogadro in different years.  If you fail this test, but get a value of '0' for one of your parameters, you are using the value of avogadro established in that year, and not as it had been determined to be in 2010.
+ Since 1865, people have been calculating avogadro's number with increasing accuracy.  In 2010, when the SBML Level 3 specification came out, the most accurate value anyone had calculated was 6.02214179e23, and this value was taken as canonical for all SBML files.  Since (and before) then, avogadro has taken other values.  However, none of them should be used.  This file checks that you use the value of avogadro from the correct year, by subtracting the csymbol 'avogadro' from the literal value of avogadro in different years.  If you fail this test, but get a value of '0' for one of your parameters, you are using the value of avogadro established in that year, and not as it had been determined to be in 2010.  One possibility is that you'll get a value of '0' for 'a_truncated', which means that your program is using 6.022142e23.  This will happen if you're using the infix output of an older version of libsbml, which truncated all e-notation variables to exactly six digits of precision after the decimal place.
 
 I don't really think that you're likely to be accidentally using the value of avogadro from 1865, but those values are provided here to sate your historical curiosity.  Values before and including 2001 were found in http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.408.199&rep=rep1&type=pdf, while values after that were found through direct citations, and by using the Internet Archive's copies of CODATA's recommended value for Avogadro:  http://web.archive.org/web/20040215162824*/http://physics.nist.gov/cgi-bin/cuu/Value?na
 
@@ -19,6 +19,7 @@ The initial conditions are as follows:
 
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial value of parameter a_sbml | $6.02214179e23 - avogadro$ | constant |
+| Initial value of parameter a_truncated | $6.022142e23 - avogadro$ | constant |
 | Initial value of parameter a_1865 | $7.2e24 - avogadro$ | constant |
 | Initial value of parameter a_1873 | $1.1e24 - avogadro$ | constant |
 | Initial value of parameter a_1890a | $7e23 - avogadro$ | constant |

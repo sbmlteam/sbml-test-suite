@@ -1,6 +1,7 @@
 model *case01323()
 
   a_sbml = 6.02214179e23 - avogadro
+  a_truncated = 6.022142e23 - avogadro
   a_1865 = 72e23 - avogadro
   a_1873 = 11e23 - avogadro
   a_1890a = 7e23 - avogadro
