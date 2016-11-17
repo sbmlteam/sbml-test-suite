@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Two events that trigger at t0, one of which cancels the other.
 componentTags:   EventNoDelay, EventPriority, Parameter
-testTags:        EventIsPersistent, EventT0Firing, NonConstantParameter
+testTags:        EventIsNotPersistent, EventT0Firing, NonConstantParameter
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Analytic
