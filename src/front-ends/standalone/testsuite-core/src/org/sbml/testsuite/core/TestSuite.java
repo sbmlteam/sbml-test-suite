@@ -261,6 +261,7 @@ public class TestSuite
                 return arg1.length() == 5;
             }
         });
+        Arrays.sort(files);
         for (String file : files)
         {
             TestCase newTestCase = new TestCase(new File(casesDirectory, file));
