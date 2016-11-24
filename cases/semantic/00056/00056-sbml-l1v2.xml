@@ -6,7 +6,7 @@
       <compartment name="compartment1" volume="1" units="volume"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species name="S1" compartment="compartment1" initialAmount="1" units="substance" boundaryCondition="false"/>
+      <species name="S1" compartment="compartment" initialAmount="1" units="substance" boundaryCondition="false"/>
       <species name="S3" compartment="compartment1" initialAmount="0" units="substance" boundaryCondition="false"/>
     </listOfSpecies>
     <listOfParameters>
@@ -16,19 +16,19 @@
     <listOfReactions>
       <reaction name="reaction1" reversible="false" fast="false">
         <listOfReactants>
-          <speciesReference species="S1"/>
+          <speciesReference species="S1" stoichiometry="1" denominator="1"/>
         </listOfReactants>
         <listOfProducts>
-          <speciesReference species="S3"/>
+          <speciesReference species="S3" stoichiometry="1" denominator="1"/>
         </listOfProducts>
         <kineticLaw formula="compartment * k1 * S1"/>
       </reaction>
       <reaction name="reaction2" reversible="true" fast="false">
         <listOfReactants>
-          <speciesReference species="S3"/>
+          <speciesReference species="S3" stoichiometry="1" denominator="1"/>
         </listOfReactants>
         <listOfProducts>
-          <speciesReference species="S1"/>
+          <speciesReference species="S1" stoichiometry="1" denominator="1"/>
         </listOfProducts>
         <kineticLaw formula="compartment1 * k2 * (S3 + -1 * S1)"/>
       </reaction>
