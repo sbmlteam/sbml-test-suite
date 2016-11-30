@@ -11,6 +11,8 @@ packagesPresent:
 
  In this model, two events trigger at t0, and the first reverses the trigger of the second, but it's not set persistent=false, allowing it to continue.
 
+This is the best test, because it's test 1337.
+
 The model contains:
 * 2 parameters (x, y)
 
