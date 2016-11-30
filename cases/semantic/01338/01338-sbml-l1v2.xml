@@ -2,7 +2,7 @@
 <sbml xmlns="http://www.sbml.org/sbml/level1" level="1" version="2">
   <model name="case01338">
     <listOfCompartments>
-      <compartment name="C"/>
+      <compartment name="C" volume="1"/>
     </listOfCompartments>
     <listOfSpecies>
       <species name="S1" compartment="C" initialAmount="0"/>

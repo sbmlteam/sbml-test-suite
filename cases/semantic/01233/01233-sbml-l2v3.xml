@@ -18,7 +18,7 @@
       </functionDefinition>
     </listOfFunctionDefinitions>
     <listOfCompartments>
-      <compartment id="c"/>
+      <compartment id="c" size="1"/>
     </listOfCompartments>
     <listOfSpecies>
       <species id="S1" compartment="c" initialConcentration="0"/>

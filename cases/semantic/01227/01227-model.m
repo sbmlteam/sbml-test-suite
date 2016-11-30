@@ -5,7 +5,7 @@ synopsis:        A simple reaction whose identifier is used in a trigger.
 componentTags:   CSymbolTime, Compartment, EventNoDelay, Parameter, Reaction, Species
 testTags:        Amount, NonConstantParameter
 testType:        TimeCourse
-levels:          2.1, 2.4, 2.5, 3.1, 3.2
+levels:          2.4, 2.5, 3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: 
 

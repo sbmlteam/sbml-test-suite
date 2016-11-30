@@ -2,7 +2,7 @@
 <sbml xmlns="http://www.sbml.org/sbml/level2/version3" level="2" version="3">
   <model id="case01219" name="case01219">
     <listOfCompartments>
-      <compartment id="c"/>
+      <compartment id="c" size="2"/>
     </listOfCompartments>
     <listOfSpecies>
       <species id="S1" compartment="c" initialAmount="1.2" hasOnlySubstanceUnits="true" boundaryCondition="true"/>
