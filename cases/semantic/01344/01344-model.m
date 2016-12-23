@@ -9,7 +9,7 @@ levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: comp
 
- In this model, an event uses trigger-time values, which makes a difference to the results.
+ In this model, a replaced submodel reaction ID is used in an assignment rule.
 
 The 'flattened' version of this hierarchical model contains:
 * 1 species (S1)
