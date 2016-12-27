@@ -2,7 +2,7 @@
 
 category:        Test
 synopsis:        A replaced reaction whose ID is used in math.
-componentTags:   AssignmentRule, Compartment, Parameter, Reaction, Species, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
+componentTags:   AssignmentRule, Compartment, Parameter, Reaction, Species, comp:ModelDefinition, comp:ReplacedElement, comp:SubmodelOutput, comp:Submodel
 testTags:        Amount, InitialValueReassigned
 testType:        TimeCourse
 levels:          3.1, 3.2
