@@ -1,7 +1,7 @@
 (*
 
 category:        Test
-synopsis:        A replaced reaction whose ID is used in math.
+synopsis:        A replaced reaction whose ID is used in am event priority.
 componentTags:   CSymbolTime, Compartment, EventNoDelay, EventPriority, Parameter, Reaction, Species, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
 testTags:        Amount, NonConstantParameter, comp:SubmodelOutput
 testType:        TimeCourse

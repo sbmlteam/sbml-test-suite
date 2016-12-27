@@ -1,7 +1,7 @@
 (*
 
 category:        Test
-synopsis:        A replaced reaction whose ID is used in math.
+synopsis:        A replaced reaction whose ID is used in an assignment rule.
 componentTags:   AssignmentRule, Compartment, Parameter, Reaction, Species, comp:ModelDefinition, comp:ReplacedElement, comp:SubmodelOutput, comp:Submodel
 testTags:        Amount, InitialValueReassigned
 testType:        TimeCourse
