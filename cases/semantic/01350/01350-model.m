@@ -1,7 +1,7 @@
 (*
 
 category:        Test
-synopsis:        A replaced reaction whose ID is used in an assignment rule.
+synopsis:        A replaced reaction whose ID is used in an algebraic rule.
 componentTags:   AlgebraicRule, Compartment, Parameter, Reaction, Species, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
 testTags:        Amount, InitialValueReassigned, comp:SubmodelOutput
 testType:        TimeCourse
@@ -9,7 +9,7 @@ levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: comp
 
- In this model, a replaced submodel reaction ID is used in an assignment rule.
+ In this model, a replaced submodel reaction ID is used in an algebraic rule.
 
 The 'flattened' version of this hierarchical model contains:
 * 1 species (S1)

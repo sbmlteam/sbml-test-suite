@@ -1,7 +1,7 @@
 (*
 
 category:        Test
-synopsis:        A replaced parameter whose ID is used in an assignment rule.
+synopsis:        A replaced parameter whose ID is used in an algebraic rule.
 componentTags:   AlgebraicRule, Parameter, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
 testTags:        InitialValueReassigned, comp:SubmodelOutput
 testType:        TimeCourse
@@ -9,7 +9,7 @@ levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: comp
 
- In this model, a replaced submodel parameter ID is used in an assignment rule.
+ In this model, a replaced submodel parameter ID is used in an algebraic rule.
 
 The 'flattened' version of this hierarchical model contains:
 * 2 parameters (J1, A__x)
