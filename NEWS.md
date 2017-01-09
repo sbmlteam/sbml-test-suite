@@ -10,23 +10,42 @@ New in this release:
 
 * The SBML Test Suite home repository has been moved to GitHub.  New development will take place in the branch called 'develop': [https://github.com/sbmlteam/sbml-test-suite/tree/develop](https://github.com/sbmlteam/sbml-test-suite/tree/develop) Each time we make a new release, we will merge the changes into branch 'master' and start the next new developments in 'develop'.
 
-* New semantic test cases:
-
-    - Cases 01224-01233 test the use of a reaction identifier in the MathML of another construct.
-
-    - Cases 01219-01223 test the use of compartment sizes other than `1` in combination with of species having attribute `hasOnlySubstanceUnits`=`true` and various values for attributes `initialAmount` and `initialConcentration` in combination with rate rules.
-
-* New semantic and syntactic test cases for the release candidate specification of [SBML Level 3 Version 2](http://sbml.org/Documents/Specifications/SBML_Level_3/Version_2/Core/Release_1).  To test these, you will **need the latest experimental version** of [libSBML](http://sbml.org/Software/libSBML), 5.14.0.
+* New semantic test cases.  Note that tests 01234-01292 specifically test models that follow the release candidate specification of [SBML Level 3 Version 2](http://sbml.org/Documents/Specifications/SBML_Level_3/Version_2/Core/Release_1), which encode elements and situations that were not present or illegal in SBML Level 3 Version 1.  If your simulator uses libsbml, it will **need the latest experimental version** of [libSBML](http://sbml.org/Software/libSBML), 5.14.0.
 
     - All existing tests that could be translated to SBML Level 3 Version 2 (L3V2) now have L3V2 versions.
 
-    - There are tests for the use of elements without child elements, which is allowed in L3V2 but *not* in L3V1.  This includes `<math>` children especially, but also things like the `<trigger>` of events. (Tests 1234-1247, and 1271.)  This is because some things are allowed in L3V2 that were not allowed in lower Level+Version combinations of SBML.
-  
-    - New test cases for the use of Boolean values in numeric contexts, and visa versa.  (Tests 01282-01292.)
-  
-    - The use of the newly-added MathML operators: `max`, `min`, `rem`, `quotient`, `implies`. (Tests 01272-01281.)
+    - Cases 01219-01223 test the use of compartment sizes other than `1` in combination with of species having attribute `hasOnlySubstanceUnits`=`true` and various values for attributes `initialAmount` and `initialConcentration` in combination with rate rules.
 
-    - The use of the newly-added MathML csymbol for `<rateof>`. (Tests 1248-1270.)
+    - Cases 01224-01233 and 01300-01306 test the use of a reaction identifier in the MathML of another construct.
+
+    - Cases 01234-01247, 01271, and 01300-01306 test simulator robustness to the use of elements without child elements allowed in L3V2 but *not* in L3V1.  This includes `<math>` children especially, but also things like the `<trigger>` of events.  This is because some things are allowed in L3V2 that were not allowed in lower Level+Version combinations of SBML.
+
+    - Cases 01248-01270 and 01293-1299 test the new 'rateOf' SBML Level 3 Version 2 construct.
+
+    - Cases 01272-01281 test the new MathML elements: `max`, `min`, `rem`, `quotient`, and `implies`, allowed in SBML Level 3 Version 2.
+
+    - Cases 01282-01292 test the use of Boolean values in numeric contexts, and visa versa.
+
+    - Cases 01307-01309 are tests where a species in the model is used as an amount, but its output is requested by the test suite in terms of its concentration.
+
+    - Case 01310 has a compartment with spatialDimensions of 2.7
+
+    - Cases 01311-01315 test nested function definitions.
+
+    - Cases 01316-01322 test csymbols with names that shadow other parameters or functions.
+
+    - Cases 01323 tests that the proper value of Avogadro is being used, when compared to all historical values of Avogadro.
+
+    - Cases 01324-01338 test various event semantics, including simultaneous and delayed events.
+
+    - Cases 01339-01340 test reactions whose rate changes between being negative and being positive.
+
+    - Cases 01341-01342 test the existence of a compartment, species, and nothing else.
+
+    - Case 01343 tests the 'tanh' MathML function.
+
+    - Cases 01344-01394 test hierarchical models where the IDs of replaced elements in submodels are used in math in those submodels, including dependency chains across parent/child boundaries.
+
 
 Changes in this release:
 
