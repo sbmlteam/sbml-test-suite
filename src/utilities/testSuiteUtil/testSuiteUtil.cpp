@@ -410,7 +410,7 @@ void checkCompartments(Model* model, set<string>& components, set<string>& tests
     for (unsigned int c=0; c<model->getNumCompartments(); c++) {
       Compartment* compartment = model->getCompartment(c);
       double initialResult;
-      if (compartment->isSetSpatialDimensions() && compartment->getSpatialDimensions()==0) {
+      if (compartment->isSetSpatialDimensions() && compartment->getSpatialDimensionsAsDouble()==0) {
         tests.insert("0D-Compartment");
       }
       if (compartment->isSetId() && variesIn(compartment->getId(), model, results)) {
@@ -679,7 +679,7 @@ void checkSpecies(Model* model, set<string>& components, set<string>& tests,  co
         compartments.insert(species->getCompartment());
       }
     }
-    if (tests.find("MultiCompartment") != tests.end() && compartments.size()==1) {
+    if (tests.find("MultiCompartment") != tests.end() && compartments.size()==1 && model->getNumSpecies() > 1) {
       cerr << "Error:  multiple compartments discovered, but all species are in a single compartment." << endl;
       tests.insert("ERRORMultiCompartment");
     }

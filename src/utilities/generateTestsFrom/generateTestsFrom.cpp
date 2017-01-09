@@ -168,6 +168,27 @@ vector<string> getLocalParameterIdListFrom(const Model* model)
   return ret;
 }
 
+vector<string> getSpeciesReferenceIdListFrom(const Model* model)
+{
+  vector<string> ret;
+  for (unsigned int rxn = 0; rxn<model->getNumReactions(); rxn++) {
+    const Reaction* reaction = model->getReaction(rxn);
+    for (unsigned int sr = 0; sr < reaction->getNumReactants(); sr++) {
+      const SpeciesReference* specref = reaction->getReactant(sr);
+      if (specref->isSetId()) {
+        ret.push_back(specref->getId());
+      }
+    }
+    for (unsigned int sr = 0; sr < reaction->getNumProducts(); sr++) {
+      const SpeciesReference* specref = reaction->getProduct(sr);
+      if (specref->isSetId()) {
+        ret.push_back(specref->getId());
+      }
+    }
+  }
+  return ret;
+}
+
 string getHalfReaction(ListOfSpeciesReferences* srs, vector<string>& stoichrefs, Model* model,  const map<string, vector<double> >& results)
 {
   stringstream ret;
@@ -715,6 +736,12 @@ string getModelSummary(Model* model,  const map<string, vector<double> >& result
   namelist = getIdListFrom(model->getListOfCompartments());
   if (namelist.size()>0) {
     ret << "* " << namelist.size() << " compartment";
+    if (namelist.size() > 1) ret << "s";
+    ret << " (" << getString(namelist) << ")\n";
+  }
+  namelist = getSpeciesReferenceIdListFrom(model);
+  if (namelist.size()>0) {
+    ret << "* " << namelist.size() << " species reference";
     if (namelist.size() > 1) ret << "s";
     ret << " (" << getString(namelist) << ")\n";
   }
