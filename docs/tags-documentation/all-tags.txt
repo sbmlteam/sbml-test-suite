@@ -21,6 +21,7 @@ AssignmentRule	all	An assignment rule is present in the model.
 Compartment	all	A compartment is present in the model.
 CSymbolAvogadro	L3v1+	A MathML csymbol element is present in the model with the definition http://www.sbml.org/sbml/symbols/avogadro
 CSymbolDelay	L2v1+	A MathML csymbol element is present in the model with the definition http://www.sbml.org/sbml/symbols/delay
+CSymbolRateOf	L3v2+	A MathML csymbol element is present in the model with the definition http://www.sbml.org/sbml/symbols/rateOf
 CSymbolTime	L2v1+	A MathML csymbol element is present in the model with the definition http://www.sbml.org/sbml/symbols/time
 EventNoDelay	L2v1+	An event is present in the model without a child 'delay' element.
 EventPriority	L3v1+	A priority element is present in the model (as a child of an event element).
