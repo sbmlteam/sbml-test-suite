@@ -6,7 +6,7 @@ componentTags:   AssignmentRule, CSymbolDelay, CSymbolRateOf, Compartment, Param
 testTags:        Amount, InitialValueReassigned, NonConstantParameter
 testType:        TimeCourse
 levels:          3.2
-generatedBy:     Analytic
+generatedBy:     Numeric
 packagesPresent: 
 
 In this model, we test the calculation of the delay of the result of a 'rateOf' csymbol.
@@ -36,8 +36,5 @@ The initial conditions are as follows:
 | Initial value of parameter P0 | $rateOf(S1)$ | variable |
 | Initial value of parameter P1 | $delay(rateOf(S1), 1)$ | variable |
 | Initial volume of compartment 'C' | $1$ | constant |]
-
-Note: The test data for this model was generated from an analytical
-solution of the system of equations.
 
 *)
