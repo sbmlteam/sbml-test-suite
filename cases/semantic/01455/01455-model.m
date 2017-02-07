@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Testing the rateOf csymbol together with the hasOnlySubstanceUnits attribute
 componentTags:   AssignmentRule, CSymbolRateOf, Compartment, Parameter, Reaction, Species
-testTags:        Amount, HasOnlySubstanceUnits, InitialValueReassigned, NonConstantParameter
+testTags:        Amount, HasOnlySubstanceUnits, InitialValueReassigned, NonConstantParameter, NonUnityCompartment
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Analytic

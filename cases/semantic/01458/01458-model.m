@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Testing the rateOf csymbol together with a non-unity compartment
 componentTags:   AssignmentRule, CSymbolRateOf, Compartment, Parameter, RateRule, Species
-testTags:        Amount||Concentration, InitialValueReassigned, NonConstantParameter, NonUnityCompartment
+testTags:        Amount, InitialValueReassigned, NonConstantParameter, NonUnityCompartment
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Analytic
