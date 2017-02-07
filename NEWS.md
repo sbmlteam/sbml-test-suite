@@ -46,6 +46,15 @@ New in this release:
 
     - Cases 01344-01394 test hierarchical models where the IDs of replaced elements in submodels are used in math in those submodels, including dependency chains across parent/child boundaries.
 
+    - Case 01395 is a huge model where it can make a difference if the rules are not re-ordered.
+
+    - Cases 01396-99 test combinations of 'fast' reactions with assigned stoichiometries and local parameters.
+
+    - Cases 01400-01419 test the 'rateOf' and 'delay' csymbols in combination with each other and with various other tests.
+
+    - Cases 01420-01453 test single reactions that have multiple speciesReferences that all point to the same species.
+
+
 
 Changes in this release:
 
