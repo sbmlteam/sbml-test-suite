@@ -5,7 +5,7 @@ synopsis:        Several parameters with algebraic rules, testing various L1 bui
 componentTags:   AlgebraicRule, Parameter
 testTags:        InitialValueReassigned, UncommonMathML
 testType:        TimeCourse
-levels:          1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
+levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: 
 
