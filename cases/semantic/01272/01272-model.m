@@ -2,8 +2,8 @@
 
 category:        Test
 synopsis:        Use of the 'quotient' MathML in an initial assignment.
-componentTags:   InitialAssignment, Parameter, UncommonMathML
-testTags:        InitialValueReassigned
+componentTags:   InitialAssignment, Parameter
+testTags:        InitialValueReassigned, UncommonMathML
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Numeric

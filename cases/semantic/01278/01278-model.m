@@ -2,8 +2,8 @@
 
 category:        Test
 synopsis:        Use of the 'rem' MathML in an assignment rule.
-componentTags:   AssignmentRule, CSymbolTime, Parameter, UncommonMathML
-testTags:        InitialValueReassigned, NonConstantParameter
+componentTags:   AssignmentRule, CSymbolTime, Parameter
+testTags:        InitialValueReassigned, NonConstantParameter, UncommonMathML
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Numeric
