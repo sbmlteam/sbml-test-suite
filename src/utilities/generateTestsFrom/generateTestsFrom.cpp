@@ -340,6 +340,21 @@ string getReactionTable(Model* model,  const map<string, vector<double> >& resul
     }
     ret << endl;
   }
+  bool someConversionFactors = false;
+  if (model->isSetConversionFactor()) {
+    someConversionFactors = true;
+    ret << "The conversion factor for the model is '" << model->getConversionFactor() << "'" << endl;
+  }
+  for (unsigned long sp = 0; sp < model->getNumSpecies(); sp++) {
+    Species* species = model->getSpecies(sp);
+    if (species->isSetConversionFactor()) {
+      someConversionFactors = true;
+      ret << "The conversion factor for the species '" << species->getId() << "' is '" << species->getConversionFactor() << "'" << endl;
+    }
+  }
+  if (someConversionFactors) {
+    ret << endl;
+  }
   return ret.str();
 }
 
@@ -649,6 +664,72 @@ string getInitialLocalParameterLevels(const Model* model)
   return ret.str();
 }
 
+string writeSpeciesReferenceInitLevels(const Model* model, const SpeciesReference* sr)
+{
+  stringstream ret;
+  string id = sr->getIdAttribute();
+  const InitialAssignment* ia = model->getInitialAssignment(id);
+  const AssignmentRule* ar = model->getAssignmentRule(id);
+  const StoichiometryMath* sm = sr->getStoichiometryMath();
+  bool haveSomething = false;
+  if (ia != NULL && ia->isSetMath()) {
+    ret << endl << "| Initial value of species reference '" << id << "' | $";
+    char* math = SBML_formulaToL3String(ia->getMath());
+    ret << math << "$ |";
+    delete(math);
+    haveSomething = true;
+  }
+  else if (ar != NULL && ar->isSetMath()) {
+    ret << endl << "| Initial value of species reference '" << id << "' | $";
+    char* math = SBML_formulaToL3String(ar->getMath());
+    ret << math << "$ |";
+    delete(math);
+    haveSomething = true;
+  }
+  else if (sm != NULL && sm->isSetMath()) {
+    ret << endl << "| Initial value of species reference '" << id << "' | $";
+    char* math = SBML_formulaToL3String(sm->getMath());
+    ret << math << "$ |";
+    delete(math);
+    haveSomething = true;
+  }
+  else if (sr->isSetStoichiometry()) {
+    ret << endl << "| Initial value of species reference '" << id << "' | $" << sr->getStoichiometry() << "$ |";
+    haveSomething = true;
+  }
+
+  if (haveSomething) {
+    if (sr->getConstant()) {
+      ret << " constant |";
+    }
+    else {
+      ret << " variable |";
+    }
+  }
+  return ret.str();
+}
+
+string getInitialSpeciesReferenceLevels(const Model* model)
+{
+  stringstream ret;
+  for (unsigned long r = 0; r<model->getNumReactions(); r++) {
+    const Reaction* rxn = model->getReaction(r);
+    for (unsigned long rt = 0; rt < rxn->getNumReactants(); rt++) {
+      const SpeciesReference* sr = rxn->getReactant(rt);
+      if (sr->isSetId()) {
+        ret << writeSpeciesReferenceInitLevels(model, sr);
+      }
+    }
+    for (unsigned long pr = 0; pr < rxn->getNumProducts(); pr++) {
+      const SpeciesReference* sr = rxn->getProduct(pr);
+      if (sr->isSetId()) {
+        ret << writeSpeciesReferenceInitLevels(model, sr);
+      }
+    }
+  }
+  return ret.str();
+}
+
 string getInitialAssignmentTable(Model* model)
 {
   stringstream ret;
@@ -662,6 +743,7 @@ string getInitialAssignmentTable(Model* model)
   ret << getInitialLocalParameterLevels(model);
   ret << getInitialCompartmentLevels(model, true);
   ret << getInitialCompartmentLevels(model, false);
+  ret << getInitialSpeciesReferenceLevels(model);
   ret << "]" << endl;
   return ret.str();
 }

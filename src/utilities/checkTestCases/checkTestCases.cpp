@@ -201,7 +201,7 @@ void deduceTags(Model* model, set<string>& components, set<string>& tests,  cons
     tests.insert("ConversionFactors");
   }
   string modxml = model->toSBML();
-  checkMathML(modxml, components);
+  checkMathML(modxml, components, tests);
   checkConstraints(model, components, tests);
   checkFunctionDefinitions(model, components, tests);
 }
@@ -324,23 +324,46 @@ bool checkVariables(ifstream& infile, Model* model, const string& settingsfile)
   }
   resvars.insert(line);
 
+  bool hasproblems = false;
   for (set<string>::iterator var = variables.begin(); var != variables.end(); var++) {
     if (resvars.find(*var) == resvars.end()) {
       cerr << "Error:  the settings document requested output for variable '" << *var << "', but that variable was not found in the results file " << results << "." << endl;
-      return true;
+      hasproblems = true;
     }
   }
   for (set<string>::iterator var = resvars.begin(); var != resvars.end(); var++) {
     if (variables.find(*var) == variables.end()) {
       if (*var != "time" && *var != "Time") {
         cerr << "Error:  the results file contains output for variable '" << *var << "', but that variable was not requested in the settings file " << settingsfile << "." << endl;
-        return true;
+        hasproblems = true;
       }
     }
   }
 
+  for (unsigned long sp = 0; sp < model->getNumSpecies(); sp++) {
+    Species* species = model->getSpecies(sp);
+    if (species->isSetId() && variables.find(species->getId()) == variables.end()) {
+      cerr << "Error:  the SBML model contains the species '" << species->getId() << "', but that species is not requested in the settings file " << settingsfile << "." << endl;
+    }
+  }
 
-  return false;
+  for (unsigned long c = 0; c < model->getNumCompartments(); c++) {
+    Compartment* compartment = model->getCompartment(c);
+    if (compartment->isSetId() && variables.find(compartment->getId()) == variables.end()) {
+      cerr << "Error:  the SBML model contains the compartment '" << compartment->getId() << "', but that compartment is not requested in the settings file " << settingsfile << "." << endl;
+      hasproblems = true;
+    }
+  }
+
+  for (unsigned long p = 0; p < model->getNumParameters(); p++) {
+    Parameter* parameter = model->getParameter(p);
+    if (parameter->isSetId() && variables.find(parameter->getId()) == variables.end()) {
+      cerr << "Error:  the SBML model contains the parameter '" << parameter->getId() << "', but that parameter is not requested in the settings file " << settingsfile << "." << endl;
+      hasproblems = true;
+    }
+  }
+
+  return hasproblems;
 }
 
 bool checkPossible(ifstream& infile, const string& begin, bool shouldbe, const string& settingsfile)

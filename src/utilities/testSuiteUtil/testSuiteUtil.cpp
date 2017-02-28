@@ -516,6 +516,9 @@ void checkParameters(Model* model, set<string>& components, set<string>& tests, 
 
 bool foundInMath(string id, const ASTNode* astn)
 {
+  if (astn == NULL) {
+    return false;
+  }
   if (astn->getType()==AST_NAME && astn->getName() == id) return true;
   for (unsigned long c=0; c<astn->getNumChildren(); c++) {
     if (foundInMath(id, astn->getChild(c))) return true;
@@ -686,7 +689,7 @@ void checkSpecies(Model* model, set<string>& components, set<string>& tests,  co
   }
 }
 
-void checkMathML(const string& modxml, set<string>& components)
+void checkMathML(const string& modxml, set<string>& components, set<string>& tests)
 {
   if (modxml.find("http://www.sbml.org/sbml/symbols/avogadro") != string::npos) {
     components.insert("CSymbolAvogadro");
@@ -701,13 +704,13 @@ void checkMathML(const string& modxml, set<string>& components)
     components.insert("CSymbolRateOf");
   }
   if (modxml.find("quotient") != string::npos) {
-    components.insert("UncommonMathML");
+    tests.insert("UncommonMathML");
   }
   if (modxml.find("rem") != string::npos) {
-    components.insert("UncommonMathML");
+    tests.insert("UncommonMathML");
   }
   if (modxml.find("implies") != string::npos) {
-    components.insert("UncommonMathML");
+    tests.insert("UncommonMathML");
   }
 }
 
