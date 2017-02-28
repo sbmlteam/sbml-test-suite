@@ -1,7 +1,7 @@
 (*
 
 category:        Test
-synopsis:        A delay of a boundary species that changes.
+synopsis:        A delay of species from a fast reaction.
 componentTags:   AssignmentRule, CSymbolDelay, Compartment, Parameter, Reaction, Species
 testTags:        Amount, FastReaction, InitialValueReassigned, NonConstantParameter
 testType:        TimeCourse
