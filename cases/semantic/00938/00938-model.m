@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A species that changes behavior between its IntialAssignment andsubsequently produced by a reaction, being echoed by a parameter viewing it through a delay.
 componentTags: AssignmentRule, CSymbolDelay, CSymbolTime, Compartment, InitialAssignment, Parameter, Reaction, Species
-testTags:      Amount, NonConstantParameter, InitialValueReassigned
+testTags:      Amount, NonConstantParameter, InitialValueReassigned, UncommonMathML
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic

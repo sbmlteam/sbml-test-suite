@@ -3,7 +3,7 @@
 category:      Test
 synopsis:       A constant species that nevertheless varies in its IntialAssignment, but is constant thereafter, being echoed by a parameter viewing it through a delay.
 componentTags: AssignmentRule, CSymbolDelay, CSymbolTime, Compartment, InitialAssignment, Parameter, Species
-testTags:      Amount, NonConstantParameter
+testTags:      Amount, NonConstantParameter, UncommonMathML
 testType:      TimeCourse
 levels:        2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic

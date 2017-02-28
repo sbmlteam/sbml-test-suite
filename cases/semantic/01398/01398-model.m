@@ -34,7 +34,8 @@ The initial conditions are as follows:
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial concentration of species S1 | $5$ | variable |
 | Initial concentration of species S2 | $0$ | variable |
-| Initial volume of compartment 'default_compartment' | $1$ | constant |]
+| Initial volume of compartment 'default_compartment' | $1$ | constant |
+| Initial value of species reference 'S1_stoichiometry' | $1$ | variable |]
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.

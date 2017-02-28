@@ -12,7 +12,7 @@
     <listOfReactions>
       <reaction id="J0" reversible="true" fast="true">
         <listOfReactants>
-          <speciesReference id="S1_stoichiometry" species="S1" stoichiometry="1" constant="true"/>
+          <speciesReference id="S1_stoichiometry" species="S1" stoichiometry="1" constant="false"/>
         </listOfReactants>
         <listOfProducts>
           <speciesReference species="S2" stoichiometry="1" constant="true"/>

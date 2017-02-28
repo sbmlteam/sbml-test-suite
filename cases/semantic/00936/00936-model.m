@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      Limited-time oscillation that triggers a delayed event three times before the first one executes.
 componentTags: AssignmentRule, CSymbolTime, Compartment, EventWithDelay, Species
-testTags:      Concentration, BoundaryCondition, EventIsPersistent, EventUsesAssignmentTimeValues, InitialValueReassigned
+testTags:      Concentration, BoundaryCondition, EventIsPersistent, EventUsesAssignmentTimeValues, InitialValueReassigned, UncommonMathML
 testType:      TimeCourse
 levels:        2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic
