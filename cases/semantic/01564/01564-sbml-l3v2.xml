@@ -66,7 +66,11 @@
         </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <exponentiale/>
+            <apply>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <exponentiale/>
+            </apply>
           </math>
         </kineticLaw>
       </reaction>
@@ -77,8 +81,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <exp/>
-              <exponentiale/>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <exp/>
+                <exponentiale/>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -90,8 +98,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <abs/>
-              <cn type="integer"> -1 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <abs/>
+                <cn type="integer"> -1 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -103,8 +115,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <abs/>
+              <times/>
               <cn type="integer"> 1 </cn>
+              <apply>
+                <abs/>
+                <cn type="integer"> 1 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -116,8 +132,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <arccos/>
-              <cn type="integer"> -1 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <arccos/>
+                <cn type="integer"> -1 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -129,8 +149,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <arccos/>
-              <cn> 0.5 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <arccos/>
+                <cn> 0.5 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -142,8 +166,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <arcsin/>
+              <times/>
               <cn type="integer"> 1 </cn>
+              <apply>
+                <arcsin/>
+                <cn type="integer"> 1 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -155,8 +183,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <arcsin/>
-              <cn> -0.5 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <arcsin/>
+                <cn> -0.5 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -168,8 +200,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <arctan/>
-              <cn> 2.8 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <arctan/>
+                <cn> 2.8 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -181,8 +217,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <arctan/>
-              <cn> -7.09 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <arctan/>
+                <cn> -7.09 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -194,8 +234,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <ceiling/>
-              <cn> 0.5 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <ceiling/>
+                <cn> 0.5 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -207,8 +251,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <ceiling/>
-              <cn> 3.55 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <ceiling/>
+                <cn> 3.55 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -220,8 +268,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <ceiling/>
-              <cn> -4.6 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <ceiling/>
+                <cn> -4.6 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -233,8 +285,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <cos/>
-              <cn> 9.1 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <cos/>
+                <cn> 9.1 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -246,8 +302,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <cos/>
-              <cn> -0.22 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <cos/>
+                <cn> -0.22 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -259,8 +319,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <exp/>
-              <cn type="integer"> 0 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <exp/>
+                <cn type="integer"> 0 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -272,8 +336,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <exp/>
+              <times/>
               <cn type="integer"> 1 </cn>
+              <apply>
+                <exp/>
+                <cn type="integer"> 1 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -285,8 +353,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <exp/>
-              <cn> 0.77 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <exp/>
+                <cn> 0.77 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -298,8 +370,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <floor/>
-              <cn> -4.6 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <floor/>
+                <cn> -4.6 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -311,8 +387,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <floor/>
-              <cn> 9.1 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <floor/>
+                <cn> 9.1 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -324,8 +404,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <ln/>
-              <cn> 0.2 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <ln/>
+                <cn> 0.2 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -337,8 +421,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <ln/>
+              <times/>
               <cn type="integer"> 1 </cn>
+              <apply>
+                <ln/>
+                <cn type="integer"> 1 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -350,11 +438,15 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <log/>
-              <logbase>
-                <cn type="integer"> 10 </cn>
-              </logbase>
-              <cn> 0.2 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <log/>
+                <logbase>
+                  <cn type="integer"> 10 </cn>
+                </logbase>
+                <cn> 0.2 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -366,11 +458,15 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <log/>
-              <logbase>
-                <cn type="integer"> 10 </cn>
-              </logbase>
+              <times/>
               <cn type="integer"> 1 </cn>
+              <apply>
+                <log/>
+                <logbase>
+                  <cn type="integer"> 10 </cn>
+                </logbase>
+                <cn type="integer"> 1 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -382,9 +478,13 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <power/>
+              <times/>
               <cn type="integer"> 1 </cn>
-              <cn type="integer"> 2 </cn>
+              <apply>
+                <power/>
+                <cn type="integer"> 1 </cn>
+                <cn type="integer"> 2 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -396,9 +496,13 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <power/>
-              <cn type="integer"> 2 </cn>
-              <cn type="integer"> 2 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <power/>
+                <cn type="integer"> 2 </cn>
+                <cn type="integer"> 2 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -410,9 +514,13 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <power/>
-              <cn> 1.4 </cn>
-              <cn> 5.1 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <power/>
+                <cn> 1.4 </cn>
+                <cn> 5.1 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -424,9 +532,13 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <power/>
-              <cn type="integer"> 4 </cn>
-              <cn type="integer"> 2 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <power/>
+                <cn type="integer"> 4 </cn>
+                <cn type="integer"> 2 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -438,9 +550,13 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <power/>
-              <cn> 3.1 </cn>
-              <cn type="integer"> 2 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <power/>
+                <cn> 3.1 </cn>
+                <cn type="integer"> 2 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -452,11 +568,15 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <root/>
-              <degree>
-                <cn type="integer"> 2 </cn>
-              </degree>
-              <cn type="integer"> 4 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <root/>
+                <degree>
+                  <cn type="integer"> 2 </cn>
+                </degree>
+                <cn type="integer"> 4 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -468,11 +588,15 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <root/>
-              <degree>
-                <cn type="integer"> 2 </cn>
-              </degree>
-              <cn> 7.4 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <root/>
+                <degree>
+                  <cn type="integer"> 2 </cn>
+                </degree>
+                <cn> 7.4 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -484,8 +608,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <sin/>
-              <cn> 2.1 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <sin/>
+                <cn> 2.1 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -497,8 +625,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <sin/>
-              <cn type="integer"> 0 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <sin/>
+                <cn type="integer"> 0 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -510,8 +642,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <sin/>
-              <cn> -5.9 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <sin/>
+                <cn> -5.9 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -523,8 +659,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <tan/>
-              <cn type="integer"> 0 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <tan/>
+                <cn type="integer"> 0 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -536,8 +676,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <tan/>
-              <cn> 1.11 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <tan/>
+                <cn> 1.11 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -549,8 +693,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <tan/>
-              <cn type="integer"> -6 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <tan/>
+                <cn type="integer"> -6 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -562,8 +710,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <sec/>
-              <cn> 0.5 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <sec/>
+                <cn> 0.5 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -575,8 +727,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <csc/>
-              <cn> 4.5 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <csc/>
+                <cn> 4.5 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -588,8 +744,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <cot/>
-              <cn> 0.2 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <cot/>
+                <cn> 0.2 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -601,8 +761,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <sinh/>
-              <cn> 0.3 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <sinh/>
+                <cn> 0.3 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -614,8 +778,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <cosh/>
-              <cn> 1.7 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <cosh/>
+                <cn> 1.7 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -627,8 +795,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <arcsec/>
-              <cn> 2.3 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <arcsec/>
+                <cn> 2.3 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -640,8 +812,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <arccsc/>
-              <cn> 1.1 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <arccsc/>
+                <cn> 1.1 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -653,8 +829,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <arccot/>
-              <cn> -0.1 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <arccot/>
+                <cn> -0.1 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -666,8 +846,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <arcsinh/>
-              <cn type="integer"> 99 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <arcsinh/>
+                <cn type="integer"> 99 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -679,8 +863,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <arccosh/>
-              <cn> 1.34 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <arccosh/>
+                <cn> 1.34 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -692,8 +880,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <arctanh/>
-              <cn> -0.7 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <arctanh/>
+                <cn> -0.7 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -705,8 +897,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <arcsech/>
-              <cn> 0.42 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <arcsech/>
+                <cn> 0.42 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -718,8 +914,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <arccsch/>
-              <cn> 0.01 </cn>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <arccsch/>
+                <cn> 0.01 </cn>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
@@ -732,6 +932,7 @@
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
               <times/>
+              <cn type="integer"> 1 </cn>
             </apply>
           </math>
         </kineticLaw>
@@ -743,7 +944,11 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <plus/>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <plus/>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
