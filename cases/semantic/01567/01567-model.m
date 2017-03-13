@@ -9,7 +9,7 @@ levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:     Analytic
 packagesPresent: 
 
-The model tests various uncommon mathematical constructs using a species reference.
+The model tests a fast reaction which is positive or negative depending on the results of an algebraic rule.
 
 The model contains:
 * 2 species (S1, S2)
