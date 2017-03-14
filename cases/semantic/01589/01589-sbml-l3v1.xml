@@ -2,26 +2,14 @@
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
   <model id="case01589" name="case01589">
     <listOfParameters>
+      <parameter id="reset" value="0" constant="false"/>
       <parameter id="Q" value="0" constant="false"/>
       <parameter id="R" value="0" constant="false"/>
-      <parameter id="reset" value="0" constant="false"/>
-      <parameter id="k1" constant="true"/>
       <parameter id="maxdiff" value="0" constant="false"/>
       <parameter id="errorLow" value="0" constant="false"/>
       <parameter id="errorHigh" value="0" constant="false"/>
       <parameter id="S" constant="false"/>
     </listOfParameters>
-    <listOfInitialAssignments>
-      <initialAssignment symbol="k1">
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <apply>
-            <times/>
-            <cn type="integer"> 1 </cn>
-            <cn> 0.01 </cn>
-          </apply>
-        </math>
-      </initialAssignment>
-    </listOfInitialAssignments>
     <listOfRules>
       <algebraicRule>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -54,7 +42,7 @@
         </trigger>
         <priority>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <ci> k1 </ci>
+            <cn> 0.01 </cn>
           </math>
         </priority>
         <listOfEventAssignments>
@@ -68,7 +56,7 @@
               <apply>
                 <plus/>
                 <ci> Q </ci>
-                <ci> k1 </ci>
+                <cn> 0.01 </cn>
               </apply>
             </math>
           </eventAssignment>
@@ -104,7 +92,7 @@
               <apply>
                 <plus/>
                 <ci> R </ci>
-                <ci> k1 </ci>
+                <cn> 0.01 </cn>
               </apply>
             </math>
           </eventAssignment>
