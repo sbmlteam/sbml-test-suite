@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v2.9.1 with libSBML version 5.14.1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version2/core" level="3" version="2">
-  <model id="case01591" name="case01591">
+  <model id="case01590" name="case01590">
     <listOfParameters>
       <parameter id="S" constant="false"/>
       <parameter id="Q" value="0" constant="false"/>
@@ -21,11 +20,6 @@
           </apply>
         </math>
       </assignmentRule>
-      <rateRule variable="reset">
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <cn type="integer"> 1 </cn>
-        </math>
-      </rateRule>
     </listOfRules>
     <listOfEvents>
       <event id="Qinc" useValuesFromTriggerTime="true">
@@ -33,11 +27,20 @@
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
               <geq/>
-              <ci> reset </ci>
-              <cn> 0.01 </cn>
+              <apply>
+                <minus/>
+                <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+                <ci> reset </ci>
+              </apply>
+              <cn> 0.005 </cn>
             </apply>
           </math>
         </trigger>
+        <delay>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn> 0.005 </cn>
+          </math>
+        </delay>
         <priority>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <cn type="integer"> 1 </cn>
@@ -46,7 +49,7 @@
         <listOfEventAssignments>
           <eventAssignment variable="reset">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <cn type="integer"> 0 </cn>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
             </math>
           </eventAssignment>
           <eventAssignment variable="Q">
@@ -65,11 +68,20 @@
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
               <geq/>
-              <ci> reset </ci>
-              <cn> 0.01 </cn>
+              <apply>
+                <minus/>
+                <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+                <ci> reset </ci>
+              </apply>
+              <cn> 0.005 </cn>
             </apply>
           </math>
         </trigger>
+        <delay>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn> 0.005 </cn>
+          </math>
+        </delay>
         <priority>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <cn type="integer"> 1 </cn>
@@ -78,7 +90,7 @@
         <listOfEventAssignments>
           <eventAssignment variable="reset">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <cn type="integer"> 0 </cn>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
             </math>
           </eventAssignment>
           <eventAssignment variable="R">
