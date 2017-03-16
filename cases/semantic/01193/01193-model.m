@@ -7,7 +7,7 @@ testTags:        BoundaryCondition, NonUnityStoichiometry, fbc:BoundGreaterEqual
 testType:        FluxBalanceSteadyState
 levels:          3.1, 3.2
 generatedBy:     Numeric
-packagesPresent: fbc
+packagesPresent: fbc, fbc_v1
 
  Single objective, test R07 GE 0.5, R10 GE 0.5
 
