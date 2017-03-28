@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        FBC test with initial assignment with no MathML to a flux bound.
 componentTags:   Compartment, InitialAssignment, Parameter, Reaction, Species, fbc:FluxObjective, fbc:Objective
-testTags:        BoundaryCondition, InitialValueReassigned, NoMathML, NonUnityStoichiometry, fbc:MaximizeObjective, fbc:nonStrict
+testTags:        BoundaryCondition, InitialValueReassigned, NoMathML, NonUnityStoichiometry, fbc:MaximizeObjective, fbc:NonStrict
 testType:        FluxBalanceSteadyState
 levels:          3.2
 generatedBy:     Numeric

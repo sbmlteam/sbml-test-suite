@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        FBC with empty assignment rule to flux bound.
 componentTags:   AssignmentRule, Compartment, Parameter, Reaction, Species, fbc:FluxObjective, fbc:Objective
-testTags:        BoundaryCondition, InitialValueReassigned, NoMathML, NonUnityStoichiometry, fbc:MinimizeObjective, fbc:nonStrict
+testTags:        BoundaryCondition, InitialValueReassigned, NoMathML, NonUnityStoichiometry, fbc:MinimizeObjective, fbc:NonStrict
 testType:        FluxBalanceSteadyState
 levels:          3.2
 generatedBy:     Numeric

@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        FBC test with initial assignment to stoichiometry.
 componentTags:   Compartment, InitialAssignment, Parameter, Reaction, Species, fbc:FluxObjective, fbc:Objective
-testTags:        AssignedConstantStoichiometry, BoundaryCondition, InitialValueReassigned, NonUnityStoichiometry, fbc:MinimizeObjective, fbc:nonStrict
+testTags:        AssignedConstantStoichiometry, BoundaryCondition, InitialValueReassigned, NonUnityStoichiometry, fbc:MinimizeObjective, fbc:NonStrict
 testType:        FluxBalanceSteadyState
 levels:          3.1, 3.2
 generatedBy:     Numeric
