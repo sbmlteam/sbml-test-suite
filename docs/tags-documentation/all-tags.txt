@@ -85,6 +85,7 @@ fbc:BoundGreaterEqual	L3v1+	The model contains at least one fbc:fluxBound with a
 fbc:BoundLessEqual	L3v1+	The model contains at least one fbc:fluxBound with an 'operation' attribute of 'lessEqual'.
 fbc:MaximizeObjective	L3v1+	The model contains at least one fbc:objective with a 'type' attribute of 'maximize'.
 fbc:MinimizeObjective	L3v1+	The model contains at least one fbc:objective with a 'type' attribute of 'minimize'.
+fbc:NonStrict	L3v1+	The model is set 'fbc:strict="false"' because of a construct in the model not allowed in 'strict' models.
 
 # Removed tags:
 # Delay                 Removed this as a tag as this is covered by EventWithDelay and CSymbolDelay.
