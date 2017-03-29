@@ -153,7 +153,7 @@ Changes in this release:
 
 * The issue tracker for the Test Suite is now the GitHub tracker: [https://github.com/sbmlteam/sbml-test-suite/issues](https://github.com/sbmlteam/sbml-test-suite/issues). Lucian Smith migrated the previous issues from the SourceForce tracker, so they are now in the GitHub tracker, for history.  We thank the guides by [Thomas Zajac](https://github.com/mephenor/JSBML-Migration-Guide/wiki/) and [Chris Mungall](https://github.com/cmungall/gosf2github) for helpful info about how to achieve this migration.
 
-* With the addition of FBC v2 tests, the `packagesPresent` line in the .m file can now include `fbc_v1` or `fbc_v2`, depending on which version of the test it is.  The original `fbc` tag is still present.
+* With the addition of FBC v2 tests, the `packagesPresent` line in the .m file can now include `fbc_v1` or `fbc_v2`, depending on which version of the test it is.  The original `fbc` tag is still present.  In addition, a new FBC test tag 'fbc:NonStrict' is now provided for FBC v2 models where the 'strict' flag has been set to 'false'.
 
 
 Version 3.2.0 (29 July 2016)
