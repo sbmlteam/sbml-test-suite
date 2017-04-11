@@ -5,7 +5,7 @@ synopsis:        A species reference to a substance-only species.
 componentTags:   Compartment, InitialAssignment, Parameter, Reaction, Species
 testTags:        Amount, HasOnlySubstanceUnits, InitialValueReassigned, NonUnityCompartment, NonUnityStoichiometry, SpeciesReferenceInMath
 testType:        TimeCourse
-levels:          2.1, 3.1, 3.2
+levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: 
 
