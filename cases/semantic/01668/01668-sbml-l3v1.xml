@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model id="case01666" name="case01666" conversionFactor="m_cf">
+  <model id="case01668" name="case01668" conversionFactor="m_cf">
     <listOfCompartments>
       <compartment id="C" spatialDimensions="3" size="1" constant="true"/>
     </listOfCompartments>
