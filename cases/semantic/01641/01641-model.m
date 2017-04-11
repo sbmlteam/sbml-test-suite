@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        The csymbols avogadro and time with each other's names.
 componentTags:   CSymbolAvogadro, CSymbolTime, InitialAssignment, Parameter
-testTags:        InitialValueReassigned, NonConstantParameter
+testTags:        InitialValueReassigned
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Analytic
