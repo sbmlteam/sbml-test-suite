@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Model and species conversion factors for a persistent event.
 componentTags:   Compartment, EventWithDelay, Parameter, Reaction, Species
-testTags:        Amount||Concentration, ConversionFactors, EventIsPersistent
+testTags:        Amount, ConversionFactors, EventIsPersistent
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Analytic
