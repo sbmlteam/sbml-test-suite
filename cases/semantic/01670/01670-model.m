@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Species conversion factor for event-modified species.
 componentTags:   CSymbolTime, Compartment, EventNoDelay, Parameter, Reaction, Species
-testTags:        Amount||Concentration, ConversionFactors, ReversibleReaction [?]
+testTags:        Amount, ConversionFactors
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Analytic
