@@ -26,6 +26,8 @@ The initial conditions are as follows:
 
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial concentration of species A | $1$ | variable |
-| Initial volume of compartment 'C' | $1$ | constant |]
+| Initial volume of compartment 'C' | $1$ | constant |
+| Initial value of species reference 'A1_sr' | $2$ | constant |
+| Initial value of species reference 'A1_sr2' | $1$ | constant |]
 
 *)
