@@ -15,7 +15,7 @@
       </rateRule>
     </listOfRules>
     <listOfEvents>
-      <event id="E0" useValuesFromTriggerTime="false">
+      <event id="E0">
         <trigger>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>

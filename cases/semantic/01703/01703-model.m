@@ -5,7 +5,7 @@ synopsis:        A persistent event involving a substance-only species.
 componentTags:   Compartment, EventWithDelay, RateRule, Species
 testTags:        Amount, EventIsPersistent, HasOnlySubstanceUnits, NonUnityCompartment
 testType:        TimeCourse
-levels:          2.4, 2.5, 3.1, 3.2
+levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: 
 
@@ -17,8 +17,8 @@ The model contains:
 
 There is one event:
 
-[{width:40em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Use values from:*  |  *Delay*  | *Event Assignments* |
-| E0 | $(S1 <= 4.3) && (S1 >= 3)$ | Assignment time | $2$ | $S1 = 10$ |]
+[{width:35em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Delay*  | *Event Assignments* |
+| E0 | $(S1 <= 4.3) && (S1 >= 3)$ | $2$ | $S1 = 10$ |]
 
 
 There is one rule:
