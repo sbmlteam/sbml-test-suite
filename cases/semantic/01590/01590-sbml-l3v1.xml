@@ -22,7 +22,7 @@
       </assignmentRule>
     </listOfRules>
     <listOfEvents>
-      <event id="Qinc" useValuesFromTriggerTime="true">
+      <event id="Qinc" useValuesFromTriggerTime="false">
         <trigger initialValue="true" persistent="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -63,7 +63,7 @@
           </eventAssignment>
         </listOfEventAssignments>
       </event>
-      <event id="Rinc" useValuesFromTriggerTime="true">
+      <event id="Rinc" useValuesFromTriggerTime="false">
         <trigger initialValue="true" persistent="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>

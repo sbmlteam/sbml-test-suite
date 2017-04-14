@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v2.9.1 with libSBML version 5.15.1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version2/core" level="3" version="2">
   <model id="case01590" name="case01590">
     <listOfParameters>
@@ -22,7 +23,7 @@
       </assignmentRule>
     </listOfRules>
     <listOfEvents>
-      <event id="Qinc" useValuesFromTriggerTime="true">
+      <event id="Qinc" useValuesFromTriggerTime="false">
         <trigger initialValue="true" persistent="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -63,7 +64,7 @@
           </eventAssignment>
         </listOfEventAssignments>
       </event>
-      <event id="Rinc" useValuesFromTriggerTime="true">
+      <event id="Rinc" useValuesFromTriggerTime="false">
         <trigger initialValue="true" persistent="false">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>

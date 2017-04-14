@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Competing events with the same priority, jointly causing a parameter to monotonically increase, checking to make sure the two events are not exactly evenly distributed.  NOTE:  STOCHASTIC TEST. Your software may fail periodically; it is only supposed to succeed in the majority of cases.
 componentTags:   AssignmentRule, CSymbolTime, EventNoDelay, EventPriority, EventWithDelay, Parameter
-testTags:        EventIsNotPersistent, InitialValueReassigned, NonConstantParameter, RandomEventExecution
+testTags:        EventIsNotPersistent, EventUsesAssignmentTimeValues, InitialValueReassigned, NonConstantParameter, RandomEventExecution
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Analytic
@@ -16,14 +16,14 @@ The model contains:
 
 There are 5 events:
 
-[{width:45em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  |  *Delay*  | *Event Assignments* |
-| Qinc | $(time - reset) >= 0.005$ | $1$ | false | $0.005$ | $reset = time$ |
-|  |  |  |  |  | $Q = Q + 0.01$ |
-| Rinc | $(time - reset) >= 0.005$ | $1$ | false | $0.005$ | $reset = time$ |
-|  |  |  |  |  | $R = R + 0.01$ |
-| maxcheck | $abs(Q - R) > maxdiff$ | (unset) | true | $0$ | $maxdiff = abs(Q - R)$ |
-| error_check | $(time >= 99) && (maxdiff < 0.2)$ | (unset) | true | $0$ | $errorLow = 1$ |
-| error_check2 | $maxdiff >= 4$ | (unset) | true | $0$ | $errorHigh = 1$ |]
+[{width:50em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  |  *Persistent*  |  *Use values from:*  |  *Delay*  | *Event Assignments* |
+| Qinc | $(time - reset) >= 0.005$ | $1$ | false | Assignment time | $0.005$ | $reset = time$ |
+|  |  |  |  |  |  | $Q = Q + 0.01$ |
+| Rinc | $(time - reset) >= 0.005$ | $1$ | false | Assignment time | $0.005$ | $reset = time$ |
+|  |  |  |  |  |  | $R = R + 0.01$ |
+| maxcheck | $abs(Q - R) > maxdiff$ | (unset) | true | Trigger time | $0$ | $maxdiff = abs(Q - R)$ |
+| error_check | $(time >= 99) && (maxdiff < 0.2)$ | (unset) | true | Trigger time | $0$ | $errorLow = 1$ |
+| error_check2 | $maxdiff >= 4$ | (unset) | true | Trigger time | $0$ | $errorHigh = 1$ |]
 
 
 There is one rule:
