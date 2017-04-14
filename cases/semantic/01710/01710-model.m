@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A persistent event that uses a parameter with the same ID as a local parameter.
 componentTags:   Compartment, EventWithDelay, Parameter, RateRule, Reaction, Species
-testTags:        Amount||Concentration, EventIsPersistent [?], EventUsesTriggerTimeValues [?], HasOnlySubstanceUnits, LocalParameters, NonConstantParameter, ReversibleReaction [?]
+testTags:        Amount, EventIsPersistent, HasOnlySubstanceUnits, LocalParameters, NonConstantParameter
 testType:        TimeCourse
 levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:     Analytic

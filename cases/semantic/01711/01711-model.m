@@ -1,9 +1,9 @@
 (*
 
 category:        Test
-synopsis:        A persistent event that uses a parameter with the same ID as a local parameter.
+synopsis:        A non-persistent event that uses a parameter with the same ID as a local parameter.
 componentTags:   Compartment, EventWithDelay, Parameter, RateRule, Reaction, Species
-testTags:        Amount||Concentration, EventIsNotPersistent [?], EventUsesTriggerTimeValues [?], HasOnlySubstanceUnits, LocalParameters, NonConstantParameter, ReversibleReaction [?]
+testTags:        Amount, EventIsNotPersistent, HasOnlySubstanceUnits, LocalParameters, NonConstantParameter
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Analytic
