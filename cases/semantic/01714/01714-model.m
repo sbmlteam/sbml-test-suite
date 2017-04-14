@@ -23,10 +23,11 @@ There is one reaction:
 | J0: -> S1 | $k1$ |]
 
 
-There is one event:
+There are 2 events:
 
 [{width:35em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Priority*  | *Event Assignments* |
-| E1 | $time > 2.5$ | $2.5$ | $k1 = 5$ |]
+| E0 | $time > 2.5$ | $k1$ | $k1 = 5$ |
+| E1 | $time > 2.5$ | $2.5$ | $k1 = 10$ |]
 
 The initial conditions are as follows:
 
