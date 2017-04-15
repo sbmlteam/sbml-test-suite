@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A non-persistent event that references a stoichiometry.
 componentTags:   Compartment, EventNoDelay, Parameter, RateRule, Reaction, Species
-testTags:        Amount||Concentration, AssignedVariableStoichiometry, EventT0Firing [?], NonConstantParameter, NonUnityStoichiometry, ReversibleReaction [?], SpeciesReferenceInMath
+testTags:        Amount, AssignedVariableStoichiometry, EventT0Firing, NonConstantParameter, NonUnityStoichiometry, SpeciesReferenceInMath
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Analytic
