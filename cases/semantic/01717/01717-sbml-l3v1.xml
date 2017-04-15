@@ -9,7 +9,6 @@
     </listOfSpecies>
     <listOfParameters>
       <parameter id="P1" value="0" constant="false"/>
-      <parameter id="k1" value="2" constant="true"/>
     </listOfParameters>
     <listOfRules>
       <rateRule variable="S1_stoich">
