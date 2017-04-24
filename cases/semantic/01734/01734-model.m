@@ -9,7 +9,7 @@ levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: 
 
- In this model, a species conversion factor affects a reaction with assigned stoichiometries and assigned stoichiometries, changing the levels of S1 and S2, but not S3 and S4.
+ In this model, a species conversion factor affects a reaction with assigned stoichiometries and boundary conditions, changing the levels of S1 and S2, but not S3 and S4.
 
 The model contains:
 * 4 species (S1, S2, S3, S4)
