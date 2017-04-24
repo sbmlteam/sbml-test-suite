@@ -15,20 +15,12 @@
     <listOfInitialAssignments>
       <initialAssignment symbol="S1_stoich">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <apply>
-            <divide/>
-            <cn> 1.5 </cn>
-            <cn type="integer"> 1 </cn>
-          </apply>
+          <cn> 1.5 </cn>
         </math>
       </initialAssignment>
       <initialAssignment symbol="S2_stoich">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <apply>
-            <divide/>
-            <cn> 1.5 </cn>
-            <cn type="integer"> 1 </cn>
-          </apply>
+          <cn> 1.5 </cn>
         </math>
       </initialAssignment>
     </listOfInitialAssignments>

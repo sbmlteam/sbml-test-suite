@@ -32,8 +32,8 @@ The initial conditions are as follows:
 | Initial amount of species S2 | $3$ | variable |
 | Initial value of parameter s1_cf | $5$ | constant |
 | Initial volume of compartment 'C' | $1$ | constant |
-| Initial value of species reference 'S1_stoich' | $1.5 / 1$ | constant |
-| Initial value of species reference 'S2_stoich' | $1.5 / 1$ | constant |]
+| Initial value of species reference 'S1_stoich' | $1.5$ | constant |
+| Initial value of species reference 'S2_stoich' | $1.5$ | constant |]
 
 The species' initial quantities are given in terms of substance units to
 make it easier to use the model in a discrete stochastic simulator, but

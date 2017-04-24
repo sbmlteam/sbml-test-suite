@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v2.9.1 with libSBML version 5.14.1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
   <model id="case01724" name="case01724" conversionFactor="m_cf">
     <listOfCompartments>
@@ -16,20 +15,12 @@
     <listOfInitialAssignments>
       <initialAssignment symbol="S1_stoich">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <apply>
-            <divide/>
-            <cn> 1.5 </cn>
-            <cn type="integer"> 1 </cn>
-          </apply>
+          <cn> 1.5 </cn>
         </math>
       </initialAssignment>
       <initialAssignment symbol="S2_stoich">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <apply>
-            <divide/>
-            <cn> 1.5 </cn>
-            <cn type="integer"> 1 </cn>
-          </apply>
+          <cn> 1.5 </cn>
         </math>
       </initialAssignment>
     </listOfInitialAssignments>
