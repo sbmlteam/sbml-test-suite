@@ -17,7 +17,7 @@ The model contains:
 There are 2 events:
 
 [{width:40em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *initialValue*  |  *Delay*  | *Event Assignments* |
-| E0 | $P1 > 1$ | false | $2.5$ | $P1 = 3$ |
+| E0 | $P1 > 1$ | false | $2.3$ | $P1 = 3$ |
 | E1 | $P1 > 1$ | false | $1.5$ | $P1 = 0$ |]
 
 The initial conditions are as follows:

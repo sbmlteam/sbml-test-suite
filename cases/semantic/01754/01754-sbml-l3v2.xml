@@ -28,7 +28,7 @@
         </trigger>
         <delay>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <cn> 2.5 </cn>
+            <cn> 2.3 </cn>
           </math>
         </delay>
         <listOfEventAssignments>
