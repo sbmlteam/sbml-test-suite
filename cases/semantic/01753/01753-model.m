@@ -9,7 +9,7 @@ levels:          3.1
 generatedBy:     Analytic
 packagesPresent: 
 
- In this model, a local parameter shadows a species reference, in a formula that also includes a different species reference..
+ In this model, a local parameter shadows a species reference, in a formula that also includes a different species reference.
 
 The model contains:
 * 2 species (S1, S2)
