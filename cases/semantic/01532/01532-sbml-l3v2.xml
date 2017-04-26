@@ -57,9 +57,6 @@
       <parameter id="P50" value="0" constant="false"/>
       <parameter id="P51" value="0" constant="false"/>
       <parameter id="P52" value="0" constant="false"/>
-      <parameter id="P53" value="0" constant="false"/>
-      <parameter id="P54" value="0" constant="false"/>
-      <parameter id="P55" value="0" constant="false"/>
     </listOfParameters>
     <listOfRules>
       <rateRule variable="trig">
