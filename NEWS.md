@@ -196,7 +196,7 @@ New in this release:
 
     - Cases 01758-01759 test delayed events that trigger themselves.
 
-    - Cases 01760-01763 test the potential conflict between the 'avogadro' csymbol with parameters and local parameters named 'avogadro'.
+    - Cases 01760-01763 test the potential conflict between the `avogadro` csymbol with parameters and local parameters named `avogadro`.
 
     - Cases 01775-01777 test using avogadro to set conversion factor values.
 
