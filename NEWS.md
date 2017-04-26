@@ -146,6 +146,60 @@ New in this release:
 
     - Cases 01628-01630 test FBC initial assignments and assignment rules with no MathML.
 
+    - Cases 01631-01634 test when multiple reactions with assigned stoichiometries affect the same species.
+
+    - Cases 01635-01636 test assigning variable stoichiometries to boundary species.
+
+    - Case 01637 tests a variable stoichiometry with the same ID as a local parameter.
+
+    - Cases 01638-01640 test boundary species and local parameter ID shadowing.
+
+    - Case 01641 tests avogadro and time with the name of the other csymbol.
+
+    - Cases 01642-01653 test conversion factors with function definitions, substance-only species, local parameters, and species references.
+
+    - Case 01654 tests calling a function definition with a species reference.
+
+    - Case 01655 tests a species reference to a substance-only species.
+
+    - Cases 01656 and 1764-1774 test local parameters that shadow species reference IDs, in various MathML contexts.
+
+    - Case 01657 tests a species reference with an empty assignment rule.
+
+    - Cases 01658-01665 test the use of avogadro in various event elements and a rate rule.
+
+    - Cases 01666-01668 test when conversion factors are set for species only affected by rate rules.
+
+    - Cases 01669-01692 test conversion factors for species also affected by or used in events.
+
+    - Cases 01693-01702 test function definitions and various events, including ones that fire at t0, and those affected by assignment-time or trigger-time settings.
+
+    - Cases 01703-01709 test substance-only species together with various types of events.
+
+    - Cases 01710-01716 test local parameters shadowing global parameters that are used in various event constructs, and for different types of events.
+
+    - Cases 01717-01721 test referencing stoichiometries in various types of events.
+
+    - Cases 01722-01723 test using avogadro with assigned stoichiometries.
+
+    - Cases 01724-01738 test conversion factors, assigned stoichiometries, and boundary conditions in different combinations.
+
+    - Cases 01739-01741 test conversion factors and local parameters.
+
+    - Cases 01742-01745 test stoichiometries assigned with function definitions.
+
+    - Cases 01746-01749 test substance-only species in reactions with set stoichiometries.
+
+    - Cases 01750-01753 test local parameters shadowing variable stoichiometries and boundary species.
+
+    - Cases 01754-01757 test the use of initial assignments with various types of events, especially those that fire at t0.
+
+    - Cases 01758-01759 test delayed events that trigger themselves.
+
+    - Cases 01760-01763 test the potential conflict between the 'avogadro' csymbol with parameters and local parameters named 'avogadro'.
+
+    - Cases 01775-01777 test using avogadro to set conversion factor values.
+
 
 Changes in this release:
 
