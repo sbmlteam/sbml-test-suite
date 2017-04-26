@@ -4,7 +4,7 @@ NEWS — history of changes to the SBML Test Suite
 Version 3.3.0 (forthcoming)
 ---------------------------
 
-_Important_: **do not run** semantic test cases 1199-1204 on systems that use [libSBML](http://sbml.org/Software/libSBML) 5.11.2 or earlier.  Test cases 1199-1204 test the use of nested MathML `<piecewise>` constructs, which unfortunately revealed a bug in [libSBML](http://sbml.org/Software/libSBML) versions prior to 5.11.4.  Make sure to use [libSBML](http://sbml.org/Software/libSBML) 5.11.4 or later.
+_Important_: **do not run** semantic test cases 1199-1204 on systems that use [libSBML](http://sbml.org/Software/libSBML) 5.11.2 or earlier.  Test cases 1199-1204 test the use of nested MathML `<piecewise>` constructs, which unfortunately revealed a bug in [libSBML](http://sbml.org/Software/libSBML) versions prior to 5.11.4.  Make sure to use [libSBML](http://sbml.org/Software/libSBML) 5.11.4 or later.  A handful of tests incorrectly report that they are invalid in versions of libSBML earlier than 5.15.0, but will parse correctly in those versions.
 
 New in this release:
 
