@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Use of a Boolean in rate rules.
 componentTags:   Parameter, RateRule
-testTags:        NonConstantParameter
+testTags:        BoolNumericSwap, NonConstantParameter
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Analytic

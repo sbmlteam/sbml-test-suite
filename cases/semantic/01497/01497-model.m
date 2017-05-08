@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Use of the 'implies' MathML in assignment rules.
 componentTags:   AssignmentRule, CSymbolTime, FunctionDefinition, Parameter
-testTags:        InitialValueReassigned, NonConstantParameter, UncommonMathML
+testTags:        InitialValueReassigned, L3v2MathML, NonConstantParameter
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Numeric

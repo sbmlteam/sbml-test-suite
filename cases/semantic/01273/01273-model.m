@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Use of the 'rem' MathML in an initial assignment.
 componentTags:   InitialAssignment, Parameter
-testTags:        InitialValueReassigned, UncommonMathML
+testTags:        InitialValueReassigned, L3v2MathML
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Numeric

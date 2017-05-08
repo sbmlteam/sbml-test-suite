@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Use of the 'quotient' MathML in an assignment rule.
 componentTags:   AssignmentRule, CSymbolTime, Parameter
-testTags:        InitialValueReassigned, NonConstantParameter, UncommonMathML
+testTags:        InitialValueReassigned, L3v2MathML, NonConstantParameter
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Numeric

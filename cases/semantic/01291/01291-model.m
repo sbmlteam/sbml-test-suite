@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Use of a Boolean in assignment rules.
 componentTags:   AssignmentRule, Parameter
-testTags:        InitialValueReassigned
+testTags:        BoolNumericSwap, InitialValueReassigned
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Analytic

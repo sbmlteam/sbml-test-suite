@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Use of the 'min' MathML in initial assignments.
 componentTags:   InitialAssignment, Parameter
-testTags:        InitialValueReassigned
+testTags:        InitialValueReassigned, L3v2MathML
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Numeric

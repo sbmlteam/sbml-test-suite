@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Use of a Boolean in an event priority.
 componentTags:   CSymbolTime, EventNoDelay, EventPriority, Parameter
-testTags:        NonConstantParameter
+testTags:        BoolNumericSwap, NonConstantParameter
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Analytic

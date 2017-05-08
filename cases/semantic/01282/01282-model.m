@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Use of numbers in boolean contexts.
 componentTags:   InitialAssignment, Parameter
-testTags:        InitialValueReassigned
+testTags:        BoolNumericSwap, InitialValueReassigned
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Numeric
