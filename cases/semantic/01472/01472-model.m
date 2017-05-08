@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        An element in an external model submodel as the target of a replacedBy element.
 componentTags:   Compartment, Reaction, Species, comp:ExternalModelDefinition, comp:ReplacedBy, comp:SBaseRef, comp:Submodel
-testTags:        Amount, FastReaction, comp:SubmodelOutput
+testTags:        Amount, comp:SubmodelOutput
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Numeric

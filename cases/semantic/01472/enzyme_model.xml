@@ -18,7 +18,7 @@
         <species id="ES" compartment="comp" initialConcentration="1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
       </listOfSpecies>
       <listOfReactions>
-        <reaction id="J0" reversible="true" fast="true">
+        <reaction id="J0" reversible="true" fast="false">
           <listOfReactants>
             <speciesReference species="S" stoichiometry="1" constant="true"/>
             <speciesReference species="E" stoichiometry="1" constant="true"/>
@@ -40,7 +40,7 @@
             </math>
           </kineticLaw>
         </reaction>
-        <reaction id="J1" reversible="true" fast="true">
+        <reaction id="J1" reversible="true" fast="false">
           <listOfReactants>
             <speciesReference species="ES" stoichiometry="1" constant="true"/>
           </listOfReactants>
