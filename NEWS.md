@@ -68,7 +68,7 @@ New in this release:
 
     - Cases 01467-01470 test conversion factors separated by submodel indirection.
 
-    - Cases 01471-01477 test combinations of `comp` elements, including external model definitions, conversion factors, and the replacedBy construct.
+    - Cases 01471-01477 and 1778 test combinations of `comp` elements, including external model definitions, conversion factors, and the replacedBy construct.
 
     - Case 01478 tests volume concentration rates with a function definition.
 
