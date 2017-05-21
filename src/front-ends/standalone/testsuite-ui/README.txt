@@ -53,7 +53,7 @@ are placed in the directory "dist".
   ant jar
     Creates a self-contained jar file.  Whether it is 32-bit or 64-bit
     is determined automatically based on the current platform.  The
-    result can be executed using "jar -jar sbmltestrunner.jar"
+    result can be executed using "java -jar sbmltestrunner.jar"
 
   ant app
     Creates *two* executable applications that wrap the jar file,
