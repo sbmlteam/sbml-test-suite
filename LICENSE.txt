@@ -2,6 +2,13 @@
 
 The majority of the SBML Test Suite is copyrighted as follows:
 
+* Copyright (C) 2016-2017 jointly by the following organizations: 
+    1. California Institute of Technology, Pasadena, CA, USA
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK.
+    3. University of Heidelberg, Heidelberg, Germany
+    4. The University of Tuebingen, Tübingen, Germany
+    5. The Babraham Institute, Cambridge, UK
+
 * Copyright (C) 2010-2016 jointly by the following organizations: 
     1. California Institute of Technology, Pasadena, CA, USA
     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK.
