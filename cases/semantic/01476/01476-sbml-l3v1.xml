@@ -3,7 +3,7 @@
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" level="3" version="1" comp:required="true">
   <model id="case01476" name="case01476">
     <listOfCompartments>
-      <compartment id="C" spatialDimensions="3" size="1" constant="true">
+      <compartment id="C" initialAmount="1" spatialDimensions="3" size="1" constant="true">
         <comp:listOfReplacedElements>
           <comp:replacedElement comp:idRef="sub1" comp:submodelRef="sub2">
             <comp:sBaseRef comp:idRef="C"/>
