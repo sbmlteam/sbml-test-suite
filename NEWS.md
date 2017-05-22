@@ -10,7 +10,7 @@ New in this release:
 
 * The SBML Test Suite home repository has been moved to GitHub.  New development will take place in the branch called 'develop': [https://github.com/sbmlteam/sbml-test-suite/tree/develop](https://github.com/sbmlteam/sbml-test-suite/tree/develop) Each time we make a new release, we will merge the changes into branch 'master' and start the next new developments in 'develop'.
 
-* New installer for Mac OS&nbsp;X. The installation is now distributed as an OS&nbsp;X `.pkg` installer file.  It will install the test runner into the user's `/Applications` folder by default.
+* New SBML Test Runner installer for Mac OS&nbsp;X. The installation is now distributed as an OS&nbsp;X `.pkg` installer file instead of a `.dmg` image.  It will install the Test Runner into the user's `/Applications` folder by default.
 
 * New semantic test cases.  Note that many tests starting at 01234 specifically test models that follow the release candidate specification of [SBML Level&nbsp;3 Version 2](http://sbml.org/Documents/Specifications/SBML_Level_3/Version_2/Core/Release_1), which encode elements and situations that were not present or illegal in SBML Level&nbsp;3 Version&nbsp;1.  If your simulator uses libSBML, it will need libSBML version [5.15.0](http://sbml.org/Software/libSBML) or later of the stable release of libSBML, or [5.14.0](http://sbml.org/Software/libSBML) or later of the experimental release.
 
