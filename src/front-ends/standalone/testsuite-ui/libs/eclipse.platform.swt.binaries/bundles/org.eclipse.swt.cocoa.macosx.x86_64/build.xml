@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.eclipse.swt.cocoa.macosx.x86_64" default="build.jars" basedir=".">
+
+	<property name="swt.ws" value="cocoa" />
+	<property name="swt.os" value="macosx" />
+	<property name="swt.arch" value="x86_64" />
+	
+	<!-- These properties are used by eclipse when exporting as Deployable plugin and fragments -->
+	<property name="version.suffix" value="3.106.0" />
+	
+	<condition property="plugindir" value="../../../eclipse.platform.swt/bundles/org.eclipse.swt" else="${buildDirectory}/plugins/org.eclipse.swt">
+		<available file="../../../eclipse.platform.swt/bundles/org.eclipse.swt" type="dir"/>
+	</condition>
+	<import file="${plugindir}/buildFragment.xml"/>
+	<import file="${plugindir}/buildSWT.xml"/>
+</project>
