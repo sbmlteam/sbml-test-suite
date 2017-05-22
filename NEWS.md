@@ -1,4 +1,4 @@
-NEWS — history of changes to the SBML Test Suite
+NEWS &ndash; history of changes to the SBML Test Suite
 ================================================
 
 Version 3.3.0 (forthcoming)
