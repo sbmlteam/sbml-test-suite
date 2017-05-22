@@ -8,7 +8,7 @@ _Important_: **do not run** semantic test cases 1199-1204 on systems that use [l
 
 New in this release:
 
-* The SBML Test Suite home repository has been moved to GitHub.  New development will take place in the branch called 'develop': [https://github.com/sbmlteam/sbml-test-suite/tree/develop](https://github.com/sbmlteam/sbml-test-suite/tree/develop) Each time we make a new release, we will merge the changes into branch 'master' and start the next new developments in 'develop'.
+* New installer for Mac OS&nbsp;X. The installation is now distributed as an OS&nbsp;X `.pkg` installer file.  It will install the test runner into the user's `/Applications` folder by default.
 
 * New semantic test cases.  Note that tests 01234-01292 specifically test models that follow the release candidate specification of [SBML Level 3 Version 2](http://sbml.org/Documents/Specifications/SBML_Level_3/Version_2/Core/Release_1), which encode elements and situations that were not present or illegal in SBML Level 3 Version 1.  If your simulator uses libsbml, it will **need the latest experimental version** of [libSBML](http://sbml.org/Software/libSBML), 5.14.0.
 
@@ -54,6 +54,7 @@ New in this release:
 
     - Cases 01420-01453 test single reactions that have multiple speciesReferences that all point to the same species.
 
+* The SBML Test Suite home repository has been moved to GitHub.  New development will take place in the branch called 'develop': [https://github.com/sbmlteam/sbml-test-suite/tree/develop](https://github.com/sbmlteam/sbml-test-suite/tree/develop) Each time we make a new release, we will merge the changes into branch 'master' and start the next new developments in 'develop'.
 
 
 Changes in this release:
