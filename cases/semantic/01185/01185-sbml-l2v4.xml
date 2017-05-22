@@ -2,10 +2,10 @@
 <sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
   <model id="case_01185" name="case_01185">
     <listOfCompartments>
-      <compartment sboTerm="SBO:0000410" id="default_compartment" size="1"/>
+      <compartment id="C" size="1"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" compartment="default_compartment" initialAmount="1"/>
+      <species id="S1" compartment="C" initialAmount="1"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" value="-2"/>

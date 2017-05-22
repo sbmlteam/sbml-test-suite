@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Use of a number in a trigger.
 componentTags:   EventNoDelay, Parameter
-testTags:        EventT0Firing, NonConstantParameter
+testTags:        BoolNumericSwap, EventT0Firing, NonConstantParameter
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Numeric

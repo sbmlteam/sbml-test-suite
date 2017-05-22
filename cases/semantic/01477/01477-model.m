@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A hierarchical model with a species modified by a conversion factor.
 componentTags:   Compartment, Parameter, Reaction, Species, comp:ExternalModelDefinition, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
-testTags:        Amount, InitialValueReassigned, comp:ConversionFactor
+testTags:        Amount, comp:ConversionFactor
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Numeric
@@ -24,13 +24,8 @@ There is one reaction:
 The initial conditions are as follows:
 
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
-| Initial level of species s1 | $unknown$ | variable |
+| Initial concentration of species s1 | $2$ | variable |
 | Initial value of parameter cf | $10$ | constant |
 | Initial volume of compartment 'C' | $1$ | constant |]
-
-The species' initial quantities are given in terms of substance units to
-make it easier to use the model in a discrete stochastic simulator, but
-their symbols represent their values in concentration units where they
-appear in expressions.
 
 *)

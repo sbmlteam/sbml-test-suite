@@ -52,6 +52,7 @@ fbc:Objective	L3v1+	An objective is present in the model, in the 'fbc' namespace
 Amount	all	The value of at least one species is requested to be output in units of amount, not concentration.
 AssignedConstantStoichiometry	L2v1+	The model contains a stoichiometry value that is assigned by a 'stoichiometryMath' construct (in SBML Level 2) or by an initial assignment, assignment rule, or algebraic rule (in SBML Level 3), but thereafter the value remains constant for the duration of the simulation.
 AssignedVariableStoichiometry	L2v1+	The model contains a stoichiometry value that is assigned by a 'stoichiometryMath' construct (in SBML Level 2) or by an initial assignment, assignment rule, algebraic rule or event (in Level 3); however, the value is changed over the course of the simulation.
+BoolNumericSwap	L3v2+	The model contains Boolean math in a numeric context, or visa versa, following a relaxation in the L3v2 specification.
 BoundaryCondition	all	A species with a value of 'true' for its 'boundaryCondition' attribute is present in the model.
 Concentration	all	The value of at least one species is requested to be output in units of concentration, not amount.
 ConstantSpecies	L2v1+	A species with a value of 'true' for its 'constant' attribute is present in the model.
@@ -64,6 +65,7 @@ EventUsesTriggerTimeValues	L2v1+	The model contains at least one event whose 'us
 FastReaction	all	A reaction with a value of 'true' for its 'fast' attribute is present in the model.
 HasOnlySubstanceUnits	L2v1+	A species with a value of 'true' for its 'hasOnlySubstanceUnits' attribute is present in the model.
 InitialValueReassigned	all	The initial numerical value of a species, compartment, parameter, or (in SBML Level 3) species reference is determined by an initial assignment, assignment rule, or algebraic rule.
+L3v2MathML	L3v2+	One or more of the MathML elements 'min', 'max', 'rem', 'quotient', or 'implies' are present.
 LocalParameters	all	The model contains a kinetic law with a 'listOfParameters' (SBML Levels 1-2) or 'listOfLocalParameters' (SBML Level 3).
 MultiCompartment	all	At least two compartments are present in the model.
 NoMathML	L3v2+	The model contains at least one SBML element with no MathML child that must be ignored.
@@ -85,6 +87,7 @@ fbc:BoundGreaterEqual	L3v1+	The model contains at least one fbc:fluxBound with a
 fbc:BoundLessEqual	L3v1+	The model contains at least one fbc:fluxBound with an 'operation' attribute of 'lessEqual'.
 fbc:MaximizeObjective	L3v1+	The model contains at least one fbc:objective with a 'type' attribute of 'maximize'.
 fbc:MinimizeObjective	L3v1+	The model contains at least one fbc:objective with a 'type' attribute of 'minimize'.
+fbc:NonStrict	L3v1+	The model is set 'fbc:strict="false"' because of a construct in the model not allowed in 'strict' models.
 
 # Removed tags:
 # Delay                 Removed this as a tag as this is covered by EventWithDelay and CSymbolDelay.

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v2.9.1 with libSBML version 5.14.1. -->
-<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" level="3" version="1" comp:required="true">
+<sbml xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1" comp:required="true">
   <model id="case01477" name="case01477">
     <listOfCompartments>
       <compartment id="C" spatialDimensions="3" size="1" constant="true">
@@ -12,7 +11,7 @@
       </compartment>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="s1" compartment="C" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+      <species id="s1" compartment="C" initialConcentration="2" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
         <comp:listOfReplacedElements>
           <comp:replacedElement comp:idRef="sub1" comp:submodelRef="sub2">
             <comp:sBaseRef comp:idRef="s1"/>
@@ -24,10 +23,10 @@
       <parameter id="cf" value="10" constant="true"/>
     </listOfParameters>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub2" comp:id="sub2" comp:modelRef="moddef2"/>
+      <comp:submodel comp:id="sub2" comp:modelRef="moddef2"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfExternalModelDefinitions>
-    <comp:externalModelDefinition comp:id="moddef2" comp:source="external.xml" comp:modelRef="moddef2" />
+    <comp:externalModelDefinition comp:id="moddef2" comp:source="external.xml" comp:modelRef="moddef2"/>
   </comp:listOfExternalModelDefinitions>
 </sbml>

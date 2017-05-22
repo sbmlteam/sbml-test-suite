@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Use of a Boolean in event delays.
 componentTags:   CSymbolTime, EventWithDelay, Parameter
-testTags:        NonConstantParameter
+testTags:        BoolNumericSwap, NonConstantParameter
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Analytic

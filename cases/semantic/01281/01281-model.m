@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Use of the 'min' MathML in assignment rules.
 componentTags:   AssignmentRule, CSymbolTime, Parameter
-testTags:        InitialValueReassigned, NonConstantParameter
+testTags:        InitialValueReassigned, L3v2MathML, NonConstantParameter
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Numeric

@@ -4,15 +4,18 @@ NEWS — history of changes to the SBML Test Suite
 Version 3.3.0 (forthcoming)
 ---------------------------
 
-_Important_: **do not run** semantic test cases 1199-1204 on systems that use [libSBML](http://sbml.org/Software/libSBML) 5.11.2 or earlier.  Test cases 1199-1204 test the use of nested MathML `<piecewise>` constructs, which unfortunately revealed a bug in [libSBML](http://sbml.org/Software/libSBML) versions prior to 5.11.4.  Make sure to use [libSBML](http://sbml.org/Software/libSBML) 5.11.4 or later.
+_Important_: **do not run** semantic test cases 1199-1204 on systems that use [libSBML](http://sbml.org/Software/libSBML) 5.11.2 or earlier.  Test cases 1199-1204 test the use of nested MathML `<piecewise>` constructs, which unfortunately revealed a bug in [libSBML](http://sbml.org/Software/libSBML) versions prior to 5.11.4.  Make sure to use [libSBML](http://sbml.org/Software/libSBML) 5.11.4 or later.  LibSBML versions prior to 5.15.0 will also report a handful of test files
+as being invalid SBML, but will still parse the files correctly.
 
 New in this release:
 
+* The SBML Test Suite home repository has been moved to GitHub.  New development will take place in the branch called 'develop': [https://github.com/sbmlteam/sbml-test-suite/tree/develop](https://github.com/sbmlteam/sbml-test-suite/tree/develop) Each time we make a new release, we will merge the changes into branch 'master' and start the next new developments in 'develop'.
+
 * New installer for Mac OS&nbsp;X. The installation is now distributed as an OS&nbsp;X `.pkg` installer file.  It will install the test runner into the user's `/Applications` folder by default.
 
-* New semantic test cases.  Note that tests 01234-01292 specifically test models that follow the release candidate specification of [SBML Level 3 Version 2](http://sbml.org/Documents/Specifications/SBML_Level_3/Version_2/Core/Release_1), which encode elements and situations that were not present or illegal in SBML Level 3 Version 1.  If your simulator uses libsbml, it will **need the latest experimental version** of [libSBML](http://sbml.org/Software/libSBML), 5.14.0.
+* New semantic test cases.  Note that many tests starting at 01234 specifically test models that follow the release candidate specification of [SBML Level&nbsp;3 Version 2](http://sbml.org/Documents/Specifications/SBML_Level_3/Version_2/Core/Release_1), which encode elements and situations that were not present or illegal in SBML Level&nbsp;3 Version&nbsp;1.  If your simulator uses libSBML, it will need libSBML version [5.15.0](http://sbml.org/Software/libSBML) or later of the stable release of libSBML, or [5.14.0](http://sbml.org/Software/libSBML) or later of the experimental release.
 
-    - All existing tests that could be translated to SBML Level 3 Version 2 (L3V2) now have L3V2 versions.
+    - All existing tests that could be translated to SBML Level 3 Version&nbsp;2 (L3V2) now have L3V2 versions.
 
     - Cases 01219-01223 test the use of compartment sizes other than `1` in combination with of species having attribute `hasOnlySubstanceUnits`=`true` and various values for attributes `initialAmount` and `initialConcentration` in combination with rate rules.
 
@@ -20,21 +23,21 @@ New in this release:
 
     - Cases 01234-01247, 01271, and 01300-01306 test simulator robustness to the use of elements without child elements allowed in L3V2 but *not* in L3V1.  This includes `<math>` children especially, but also things like the `<trigger>` of events.  This is because some things are allowed in L3V2 that were not allowed in lower Level+Version combinations of SBML.
 
-    - Cases 01248-01270 and 01293-1299 test the new 'rateOf' SBML Level 3 Version 2 construct.
+    - Cases 01248-01270 and 01293-1299 test the new `rateOf` SBML Level&nbsp;3 Version&nbsp;2 construct.
 
-    - Cases 01272-01281 test the new MathML elements: `max`, `min`, `rem`, `quotient`, and `implies`, allowed in SBML Level 3 Version 2.
+    - Cases 01272-01281 test the new MathML elements: `max`, `min`, `rem`, `quotient`, and `implies`, allowed in SBML Level&nbsp;3 Version&nbsp;2.
 
     - Cases 01282-01292 test the use of Boolean values in numeric contexts, and visa versa.
 
     - Cases 01307-01309 are tests where a species in the model is used as an amount, but its output is requested by the test suite in terms of its concentration.
 
-    - Case 01310 has a compartment with spatialDimensions of 2.7
+    - Case 01310 has a compartment with a `spatialDimensions` value of 2.7.  (Yes, this is valid SBML.)
 
     - Cases 01311-01315 test nested function definitions.
 
     - Cases 01316-01322 test csymbols with names that shadow other parameters or functions.
 
-    - Cases 01323 tests that the proper value of Avogadro is being used, when compared to all historical values of Avogadro.
+    - Cases 01323 tests that the proper value of Avogadro's constant is being used, when compared to all historical values of Avogadro's constant.
 
     - Cases 01324-01338 test various event semantics, including simultaneous and delayed events.
 
@@ -42,26 +45,171 @@ New in this release:
 
     - Cases 01341-01342 test the existence of a compartment, species, and nothing else.
 
-    - Case 01343 tests the 'tanh' MathML function.
+    - Case 01343 tests the `tanh` MathML function.
 
     - Cases 01344-01394 test hierarchical models where the IDs of replaced elements in submodels are used in math in those submodels, including dependency chains across parent/child boundaries.
 
     - Case 01395 is a huge model where it can make a difference if the rules are not re-ordered.
 
-    - Cases 01396-99 test combinations of 'fast' reactions with assigned stoichiometries and local parameters.
+    - Cases 01396-99 test combinations of `fast` reactions with assigned stoichiometries and local parameters.
 
-    - Cases 01400-01419 test the 'rateOf' and 'delay' csymbols in combination with each other and with various other tests.
+    - Cases 01400-01419 test the `rateOf` and `delay` csymbols in combination with each other and with various other tests.
 
     - Cases 01420-01453 test single reactions that have multiple speciesReferences that all point to the same species.
 
-* The SBML Test Suite home repository has been moved to GitHub.  New development will take place in the branch called 'develop': [https://github.com/sbmlteam/sbml-test-suite/tree/develop](https://github.com/sbmlteam/sbml-test-suite/tree/develop) Each time we make a new release, we will merge the changes into branch 'master' and start the next new developments in 'develop'.
+    - Case 01454 tests the combination of the `delay` csymbol and the VolumeConcentrationRates.
 
+    - Cases 01455-01460 test the combination of the `rateOf` csymbol with  compartments having volumes other than `1`, the `hasOnlySubstanceUnits` attribute, and local parameters.
+
+    - Case 01461 tests a `rateOf` csymbol that points to a parameter with a rate rule that has no MathML content.
+
+    - Cases 01462-01463 test the `rateOf` csymbol with VolumeConcentrationRates.
+
+    - Cases 01464-01465 test assigned stoichiometries with no MathML.
+
+    - Case 01466 tests random event execution at time = 0.
+
+    - Cases 01467-01470 test conversion factors separated by submodel indirection.
+
+    - Cases 01471-01477 and 1778 test combinations of `comp` elements, including external model definitions, conversion factors, and the `replacedBy` construct.
+
+    - Case 01478 tests volume concentration rates with a function definition.
+
+    - Case 01479 tests csymbol `avogadro` in an algebraic rule.
+
+    - Cases 01480-01481 test stoichiometry math with the `delay` csymbol.
+
+    - Cases 01482-01484 test the `rateOf` csymbol in an algebraic rule.
+
+    - Cases 01485-01497 test various combinations of uncommon MathML used in function definitions.
+
+    - Case 01498 tests the combination of species references in MathML with volume concentration rates.
+
+    - Cases 01499-01503 test algebraic rules with conversion factors and uncommon MathML.
+
+    - Cases 01504-01512 test volume concentration rates in concert with events of various types.
+
+    - Cases 01513-01514 test volume concentration rates in concert with initial assignments.
+
+    - Cases 01515-01517 test uncommon MathML in rate rules and with assigned stoichiometries.
+
+    - Cases 01518-01524 test the csymbol `delay` with various types of events.
+
+    - Cases 01525-01529 test the `rateOf` csymbol with various types of events.
+
+    - Cases 01530-01533 test uncommon MathML in event triggers, assignments, priorities, and delays.
+
+    - Cases 01534-01539 test the csymbol `delay` when assigning to stoichiometries, with boundary species, and with fast reactions.
+
+    - Cases 01540-01543 test the `rateOf` csymbol with boundary species and with assigned stoichiometries.
+
+    - Cases 01544-01546 test conversion factors in reactions that have a `fast` attribute value of `true`.
+
+    - Cases 01547-01551 test reactions that have `fast="true"` with function definitions having various kinetic laws.
+
+    - Cases 01552-01554 test assigning to stoichiometries, but with missing MathML.
+
+    - Cases 01555-01557 test assigning to boundary species, but with missing MathML.
+
+    - Cases 01558-01560 test referencing a species reference from a fast reaction.
+
+    - Cases 01561-01563 test uncommon MathML used to assign to stoichiometries.
+
+    - Cases 01564-01565 test uncommon MathML used to assign to kinetic laws of normal and fast reactions.
+
+    - Case 01566 tests uncommon MathML that use a species reference.
+
+    - Cases 01567-01570 test fast reactions with algebraic rules, assignment rules, rate rules, and initial assignments.
+
+    - Cases 01571-01572 test fast reactions with assigned stoichiometries.
+
+    - Cases 01573-01574 test assigned stoichiometries for boundary species.
+
+    - Cases 01575-01579 test algebraic rules with various types of events and event elements.
+
+    - Cases 01580-01587 test assigned stoichiometries in the context of various types of events.
+
+    - Cases 01588-01593 test random events with initial assignments, algebraic rules, rate rules, delayed events, and the csymbol delay.
+
+    - Cases 01594-01599 test uncommon MathML in various types of events.
+
+    - Cases 01600-01603 test missing MathML in delayed events.
+
+    - Case 01604 tests the `time` csymbol in a delayed event assignment.
+
+    - Case 01605 tests random events with additional event assignments with no MathML.
+
+    - Cases 01606-01616 are FBC v2 versions of the previously-added FBC v1 tests.
+
+    - Cases 01617-01623 test FBC v2 non-strict tests with assigned constant bounds and stoichiometries.
+
+    - Cases 01624-01625 test FBC minimization where one reaction has a fixed value (both v1 and v2).
+
+    - Cases 01626-01627 test random events with stoichiometries and volume-concentration rates.
+
+    - Cases 01628-01630 test FBC initial assignments and assignment rules with no MathML.
+
+    - Cases 01631-01634 test when multiple reactions with assigned stoichiometries affect the same species.
+
+    - Cases 01635-01636 test assigning variable stoichiometries to boundary species.
+
+    - Case 01637 tests a variable stoichiometry with the same ID as a local parameter.
+
+    - Cases 01638-01640 test boundary species and local parameter ID shadowing.
+
+    - Case 01641 tests `avogadro` and `time` with the name of the other csymbol.
+
+    - Cases 01642-01653 test conversion factors with function definitions, substance-only species, local parameters, and species references.
+
+    - Case 01654 tests calling a function definition with a species reference.
+
+    - Case 01655 tests a species reference to a substance-only species.
+
+    - Cases 01656 and 1764-1774 test local parameters that shadow species reference IDs, in various MathML contexts.
+
+    - Case 01657 tests a species reference with an empty assignment rule.
+
+    - Cases 01658-01665 test the use of csymbol `avogadro` in various event elements and a rate rule.
+
+    - Cases 01666-01668 test when conversion factors are set for species only affected by rate rules.
+
+    - Cases 01669-01692 test conversion factors for species also affected by or used in events.
+
+    - Cases 01693-01702 test function definitions and various events, including ones that fire at t0, and those affected by assignment-time or trigger-time settings.
+
+    - Cases 01703-01709 test substance-only species together with various types of events.
+
+    - Cases 01710-01716 test local parameters shadowing global parameters that are used in various event constructs, and for different types of events.
+
+    - Cases 01717-01721 test referencing stoichiometries in various types of events.
+
+    - Cases 01722-01723 test using `avogadro` with assigned stoichiometries.
+
+    - Cases 01724-01738 test conversion factors, assigned stoichiometries, and boundary conditions in different combinations.
+
+    - Cases 01739-01741 test conversion factors and local parameters.
+
+    - Cases 01742-01745 test stoichiometries assigned with function definitions.
+
+    - Cases 01746-01749 test substance-only species in reactions with set stoichiometries.
+
+    - Cases 01750-01753 test local parameters shadowing variable stoichiometries and boundary species.
+
+    - Cases 01754-01757 test the use of initial assignments with various types of events, especially those that fire at time = 0.
+
+    - Cases 01758-01759 test delayed events that trigger themselves.
+
+    - Cases 01760-01763 test the potential conflict between the `avogadro` csymbol with parameters and local parameters named `avogadro`.
+
+    - Cases 01775-01777 test using avogadro to set conversion factor values.
 
 Changes in this release:
 
 * A few things have been cleaned up in past tests. Examples include model identifiers of a few test models that were misleading (now fixed), and a few tests that were designed to test species in multiple compartments were at some point accidentally changed so that all the species were put into a single compartment (they have been redistributed appropriately now).
 
 * The issue tracker for the Test Suite is now the GitHub tracker: [https://github.com/sbmlteam/sbml-test-suite/issues](https://github.com/sbmlteam/sbml-test-suite/issues). Lucian Smith migrated the previous issues from the SourceForce tracker, so they are now in the GitHub tracker, for history.  We thank the guides by [Thomas Zajac](https://github.com/mephenor/JSBML-Migration-Guide/wiki/) and [Chris Mungall](https://github.com/cmungall/gosf2github) for helpful info about how to achieve this migration.
+
+* With the addition of FBC v2 tests, the `packagesPresent` line in the .m file can now include `fbc_v1` or `fbc_v2`, depending on which version of the test it is.  The original `fbc` tag is still present.  In addition, a new FBC test tag 'fbc:NonStrict' is now provided for FBC v2 models where the 'strict' flag has been set to 'false'.
 
 
 Version 3.2.0 (29 July 2016)
@@ -251,10 +399,10 @@ Version 3.0.0beta1 release (2013-05-17)
   - Reordered components of 1027, 1028, and 1029 l2v1 models, for
     validity.
 
-  - Fixed validity of model 1141 (incorrect 'const' flag).
+  - Fixed validity of model 1141 (incorrect `const` flag).
 
   - Model 1141's settings file claimed it wanted a compartment's
-    'concentration'.  This was removed.
+    `concentration`.  This was removed.
 
   - Various tags added and removed where appropriate, because they
     were incorrect.  A few InitialValue tags; a few BoundaryCondition
@@ -278,7 +426,7 @@ Version 2.3.2 release (2013-02-03)
 * Changes:
 
   - The settings.txt files for the FBC tests (01186-01196) now
-    have their 'start', 'duration', and 'steps' lines set to be
+    have their `start`, `duration`, and `steps` lines set to be
     blank instead of having dummy values that were not used.
 
   - FBC package test case results are now plotted in a more sensible
@@ -290,7 +438,7 @@ Version 2.3.2 release (2013-02-03)
   - The *-model.m files for the FBC tests were modified to include
     more detailed descriptions of the models.
 
-  - The test tags 'BoundaryCondition' and 'NonUnityStoichiometry'
+  - The test tags `BoundaryCondition` and `NonUnityStoichiometry`
     were added to all FBC tests (as they all contained those elements)
     and the tags fbc:BoundGreaterEqual, fbc:BoundLessEqual, and
     fbc:BoundEqual were added to several tests where they had been
@@ -372,16 +520,16 @@ Version 2.1.2 release (2012-10-09)
 
 * Bug fixes:
 
-  - Models 1117 and 1121 did not have proper 'synopsis' entries in their
+  - Models 1117 and 1121 did not have proper `synopsis` entries in their
     .m files.  These have been added.
 
-  - The model ids in test 931 were changed from 'case_00930' to 'case_00931'
+  - The model ids in test 931 were changed from `case_00930` to `case_00931`
 
   - The VERSION.txt file was not updated for 2.1.1 from 2.1.0.  Now it
     correctly reads the current release number (2.1.2).
 
   - The documentation for some cases had misformatted division
-    operators: the '/' character was missing in some cases where a
+    operators: the `/` character was missing in some cases where a
     division was being described.  Those parts of the documentation
     should now be fixed.
 
@@ -426,11 +574,11 @@ Version 2.1.0 release (2012-08-06)
 
   - Models 00056, 00112, 00288, 00293, and 00294 had reactions with
     kinetic laws that went negative, but which were flagged
-    'reversible=false'.  They are now correctly flagged as
-    'reversible=true'.
+    `reversible=false`.  They are now correctly flagged as
+    `reversible=true`.
 
   - Several L1 versions of tests with algebraic rules were ambiguous
-    due to L1 not having the 'constant' flag.  These models have been
+    due to L1 not having the `constant` flag.  These models have been
     removed.
 
 * Changes since last update:
@@ -455,12 +603,12 @@ Version 2.1.0 release (2012-08-06)
     construct) and L3 versions (which use the speciesReference id in
     rules and events to change or set the stoichiometry).
 
-  - A new program, 'generateTestsFrom' was written which takes an SBML
+  - A new program, `generateTestsFrom` was written which takes an SBML
     model as input and outputs the different translations of that model,
-    a generic 'settings' file, and a model description file with what
+    a generic `settings` file, and a model description file with what
     tags it can deduce from the SBML model.  See src\utilities\c++\
 
-  - A new program, 'checkTestCases' was written which analyzes the
+  - A new program, `checkTestCases` was written which analyzes the
     contents of a test case directory and determines whether the tags
     are correct, the models are valid and present, and the settings
     file is of the right basic format.  See src\utilities\c++\
@@ -484,7 +632,7 @@ Version 2.1.0 release (2012-08-06)
     goes negative during the requested simulation (as per the new
     definition of the ReversibleReaction tag).
 
-  - One new 'kitchen sink' test (1000) which tests almost all tags
+  - One new `kitchen sink` test (1000) which tests almost all tags
     in one complicated model.
 
 Note: the syntax of some gnuplot commands changed from version 4.4
@@ -565,7 +713,7 @@ Update of test cases (2010-04-20)
 * New features
 
   - Cases where an initial value is reassigned by math within the
-    model have been tagged with an 'InitialValueReassigned' tag.
+    model have been tagged with an `InitialValueReassigned` tag.
 
   - New cases that involve just a non-varying parameter whose value
     is set by initialAssignment or assignmentRule have been added.
@@ -768,7 +916,7 @@ Version 1.0.1
   sbml-files/sbml-l2v1/from-spec:
 
     - l2v1-2D-compartments.xml: the "JO" in the MathML should really
-      be a "J0" (the numeral zero, no the letter 'oh').
+      be a "J0" (the numeral zero, no the letter `oh`).
 
     - l2v1-boundary.xml: the one rule in listOfRules should not use
       <apply> ... </apply>; these tags should be omitted. Thanks to

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v2.9.0 with libSBML version 5.14.1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
   <model id="case01323" name="case01323">
     <listOfParameters>
@@ -49,7 +48,7 @@
       <initialAssignment symbol="a_sbml">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.02214179 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -58,7 +57,7 @@
       <initialAssignment symbol="a_truncated">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.022142 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -67,7 +66,7 @@
       <initialAssignment symbol="a_1865">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 7.2 <sep/> 24 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -76,7 +75,7 @@
       <initialAssignment symbol="a_1873">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 1.1 <sep/> 24 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -85,7 +84,7 @@
       <initialAssignment symbol="a_1890a">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 7 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -94,7 +93,7 @@
       <initialAssignment symbol="a_1890b">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.08 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -103,7 +102,7 @@
       <initialAssignment symbol="a_1901">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.16 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -112,7 +111,7 @@
       <initialAssignment symbol="a_1903">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 9.3 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -121,7 +120,7 @@
       <initialAssignment symbol="a_1904">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 8.7 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -130,7 +129,7 @@
       <initialAssignment symbol="a_1908">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -139,7 +138,7 @@
       <initialAssignment symbol="a_1909">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.16 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -148,7 +147,7 @@
       <initialAssignment symbol="a_1914a">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -157,7 +156,7 @@
       <initialAssignment symbol="a_1914b">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 5.91 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -166,7 +165,7 @@
       <initialAssignment symbol="a_1915">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.06 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -175,7 +174,7 @@
       <initialAssignment symbol="a_1917">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.064 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -184,7 +183,7 @@
       <initialAssignment symbol="a_1923">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 5.9 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -193,7 +192,7 @@
       <initialAssignment symbol="a_1924">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.004 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -202,7 +201,7 @@
       <initialAssignment symbol="a_1929">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.0644 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -211,7 +210,7 @@
       <initialAssignment symbol="a_1931">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.019 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -220,7 +219,7 @@
       <initialAssignment symbol="a_1941">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.02283 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -229,7 +228,7 @@
       <initialAssignment symbol="a_1945">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.02338 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -238,7 +237,7 @@
       <initialAssignment symbol="a_1948">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.0232 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -247,7 +246,7 @@
       <initialAssignment symbol="a_1949">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.02403 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -256,7 +255,7 @@
       <initialAssignment symbol="a_1951">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.02544 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -265,7 +264,7 @@
       <initialAssignment symbol="a_1965a">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.022088 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -274,7 +273,7 @@
       <initialAssignment symbol="a_1965b">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.02252 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -283,7 +282,7 @@
       <initialAssignment symbol="a_1973">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.022045 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -292,7 +291,7 @@
       <initialAssignment symbol="a_1974">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.0220943 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -301,7 +300,7 @@
       <initialAssignment symbol="a_1987a">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.022134 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -310,7 +309,7 @@
       <initialAssignment symbol="a_1987b">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.0221367 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -319,7 +318,7 @@
       <initialAssignment symbol="a_1992">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.0221363 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -328,7 +327,7 @@
       <initialAssignment symbol="a_1994">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.0221379 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -337,7 +336,7 @@
       <initialAssignment symbol="a_1995">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.0221365 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -346,7 +345,7 @@
       <initialAssignment symbol="a_1999">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.022155 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -355,7 +354,7 @@
       <initialAssignment symbol="a_2000">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.02214199 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -364,7 +363,7 @@
       <initialAssignment symbol="a_2001">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.0221339 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -373,7 +372,7 @@
       <initialAssignment symbol="a_2002">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.0221415 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -382,7 +381,7 @@
       <initialAssignment symbol="a_2003">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.0221353 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -391,7 +390,7 @@
       <initialAssignment symbol="a_2006">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.02214179 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -400,7 +399,7 @@
       <initialAssignment symbol="a_2011">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.02214129 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>
@@ -409,7 +408,7 @@
       <initialAssignment symbol="a_2015">
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
-            <minus/>
+            <divide/>
             <cn type="e-notation"> 6.022140857 <sep/> 23 </cn>
             <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/avogadro"> avogadro </csymbol>
           </apply>

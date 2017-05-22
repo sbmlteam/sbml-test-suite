@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Use of the 'implies' MathML in initial assignments.
 componentTags:   InitialAssignment, Parameter
-testTags:        InitialValueReassigned, UncommonMathML
+testTags:        InitialValueReassigned, L3v2MathML
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Numeric

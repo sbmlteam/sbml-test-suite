@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Use of a Boolean in kinetic laws.
 componentTags:   Compartment, Reaction, Species
-testTags:        Amount
+testTags:        Amount, BoolNumericSwap
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Analytic

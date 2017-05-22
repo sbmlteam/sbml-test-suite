@@ -96,7 +96,7 @@ The meaning of each field is described below:
 
 * `generatedBy`: This tag indicates whether the results data for this case has been generated analytically (tag value `Analytic`) or numerically (tag value `Numeric`).
 
-* `packagesPresent`:This tag indicates whether any SBML Level 3 packages are present in the model.  Possible tag values are (at present) `comp`, if elements from the Hierarchical Model Composition package are present, and `fbc`, if elements from the Flux Balance Constraints package are present.
+* `packagesPresent`: This tag indicates whether any SBML Level 3 packages are present in the model.  Possible tag values are (at present) `comp`, if elements from the Hierarchical Model Composition package are present, `fbc`, if elements from the Flux Balance Constraints package are present, `fbc_v1` if the Flux Balance Constraints package being used is version 1, and `fbc_v2` if version 2.  All Flux Balance Constraints packages will therefore have at least two tags: one `fbc` tag, and one tag indicating which version of that specification is being used.
 
 
 The format of the settings file
