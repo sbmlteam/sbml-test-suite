@@ -1,0 +1,105 @@
+<html>
+  <body style="font-family: helvetica">
+
+    <center>
+      <h3>Release notes for version 3.3.0</h3>
+      <p style="font-style: italic">
+        The SBML Test Runner is the work of
+        <a href="http://www.cds.caltech.edu/~mhucka/">Michael Hucka</a> and 
+        <a href="http://www.cos.uni-heidelberg.de/index.php/f.bergmann">Frank T. Bergmann</a>.
+      </p>
+      <p style="font-style: italic">The SBML Test Suite overall is the work of 
+        <a href="http://www.ebi.ac.uk/about/people/sarah-keating">Sarah M. Keating</a>,
+        <a href="http://www.cds.caltech.edu/~mhucka/">Michael Hucka</a>,
+        <a href="http://www.washington.edu/home/peopledir/?method=name&term=smith">Lucian P. Smith</a>,
+        <a href="http://www.cos.uni-heidelberg.de/index.php/f.bergmann">Frank T. Bergmann</a>,
+        <a href="http://www.bruce-shapiro.com">Bruce E. Shapiro</a>,
+        Thomas W. Evans,
+        <a href="http://www.ncl.ac.uk/maths/about/staff/profile/colingillespie.html">Colin S. Gillespie</a>,
+        <a href="https://www.staff.ncl.ac.uk/d.j.wilkinson">Darren J. Wilkinson</a>,
+        <a href="http://www.bgoli.net">Brett Olivier</a>, and
+        <a href="https://www.linkedin.com/in/andrewmartinfinney">Andrew Finney</a>.
+      </p>
+    </center>
+
+    <p> The <a href="http://sbml.org/Software/SBML_Test_Suite">SBML Test Suite</a> 
+      allows users and developers to test the degree and correctness of SBML
+      support provided in an SBML-compatible software package.  It consists
+      of&nbsp;(1) a collection of <a href="http://sbml.org">SBML</a>
+      models, each with associated simulation results, and&nbsp;(2) the SBML
+      Test Runner, a GUI program for controlling applications to make them
+      run through each test case in the suite and report successes and
+      failures.  The SBML Test Runner is a Java program that uses the Eclipse
+        <a href="https://www.eclipse.org/swt/">SWT</a> widget toolkit and can
+      be used on Mac OS X, Linux and Windows.</p>
+
+    <p> The test cases in the overall Test Suite are divided into 3
+      sets: <em>semantic</em>, <em>stochastic</em>, and <em>syntactic</em>. Each
+      set is meant to exercise a different aspect of SBML understanding and
+      compliance.  The SBML Test Runner currently <strong>only implements facilities
+      for running the semantic tests</strong>.  The semantic portion of the Test
+      Suite contains valid SBML models with known, deterministic simulation
+      results.  These models can be used to test the ability of a software
+      system to understand the meaning of different SBML constructs and
+      properly simulate the models in a deterministic fashion.</p>
+
+    <p style="font-weight: bold; font-style: italic">New in this release:</p>
+
+    <ul>
+      <li style="margin-bottom: 1ex">New installer for Mac OS&nbsp;X. The
+      installation is now distributed as an OS&nbsp;X <code>.pkg</code>
+      installer file.  It will install the test runner into the user's
+      <code>/Applications</code> folder by default.</li> 
+
+      <li style="margin-bottom: 1ex">The SBML Test Suite home repository has
+      been moved to GitHub. New development will take place in the branch
+      called &#8216;develop&#8217;: <a
+      href="https://github.com/sbmlteam/sbml-test-suite/tree/develop">
+        https://github.com/sbmlteam/sbml-test-suite/tree/develop</a> 
+      Each time we make a new release, we will merge the changes into branch
+      &#8216;master&#8217; and start the next new developments in
+      &#8216;develop&#8217;.</li>
+
+      <li style="margin-bottom: 1em">Hundreds of new semantic test cases,
+        numbers 01219&ndash;1777. Note that tests 01234&#8211;01292
+        specifically test models that follow the release candidate
+        specification of <a
+    href="http://sbml.org/Documents/Specifications/SBML_Level_3/Version_2/Core/Release_1">SBML
+    Level 3 Version 2</a>, which encode elements and situations that were not
+    present or illegal in SBML Level&nbsp;3 Version&nbsp;1. If your simulator
+    uses libsbml, it will <strong>need the latest experimental version of <a
+    href="http://sbml.org/Software/libSBML">libSBML</a>, 5.14.0 or
+    later</strong>. Please see the file NEWS.md (provided with the
+        distribution) for more details about the changes to the test cases.</li>  
+    </ul>
+
+    <p style="font-weight: bold; font-style: italic">Changes in this release:</p>
+
+    <ul>
+
+      <li style="margin-bottom: 1em">A few things have been cleaned up in
+      past tests. Examples include model identifiers of a few test models
+      that were misleading (now fixed), and a few tests that were designed to
+      test species in multiple compartments were at some point accidentally
+      changed so that all the species were put into a single compartment
+      (they have been redistributed appropriately now).</li> 
+
+      <li style="margin-bottom: 1em">The issue tracker for the Test Suite is now the GitHub tracker: <a
+    href="https://github.com/sbmlteam/sbml-test-suite/issues">https://github.com/sbmlteam/sbml-test-suite/issues</a>. Lucian
+        Smith migrated the previous issues from the SourceForce tracker, so
+        they are now in the GitHub tracker, for history. We thank the guides
+        by <a href="https://github.com/mephenor/JSBML-Migration-Guide/wiki/">Thomas
+        Zajac</a> and <a href="https://github.com/cmungall/gosf2github">Chris
+        Mungall</a> for helpful info about how to achieve this migration.</li> 
+
+    <li>With the addition of FBC v2 tests, the <code>packagesPresent</code> line in
+      the <code>.m</code> file can now include <code>fbc_v1</code> or
+      <code>fbc_v2</code>, depending on which version of the test it is.
+      The original <code>fbc</code> tag is still present.  In addition,
+      a new FBC test tag <code>fbc:NonStrict</code> is now provided for FBC
+      v2 models where the <code>strict</code> flag has been set to
+        <code>false</code>.</code>
+
+    </ul>
+  </body>
+</html>
