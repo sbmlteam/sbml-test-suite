@@ -474,6 +474,9 @@ void checkEvents(Model* model, set<string>& components, set<string>& tests)
             tests.insert("EventIsNotPersistent [?]");
           }
         }
+        else if (model->getLevel() == 2) {
+          tests.insert("EventIsPersistent [?]");
+        }
         if (event->isSetUseValuesFromTriggerTime()) {
           if (event->getUseValuesFromTriggerTime()) {
             tests.insert("EventUsesTriggerTimeValues [?]");
@@ -537,7 +540,8 @@ bool foundInMath(string id, Model* model)
     if (foundInMath(id, astn)) return true;
   }
   for (unsigned long rxn=0; rxn<model->getNumReactions(); rxn++) {
-    if (model->getReaction(rxn)->getKineticLaw()->getParameter(id) == NULL) {
+    KineticLaw* kl = model->getReaction(rxn)->getKineticLaw();
+    if (kl != NULL && model->getReaction(rxn)->getKineticLaw()->getParameter(id) == NULL) {
       const ASTNode* astn = model->getReaction(rxn)->getKineticLaw()->getMath();
       if (foundInMath(id, astn)) return true;
     }
@@ -703,14 +707,71 @@ void checkMathML(const string& modxml, set<string>& components, set<string>& tes
   if (modxml.find("http://www.sbml.org/sbml/symbols/rateOf") != string::npos) {
     components.insert("CSymbolRateOf");
   }
-  if (modxml.find("quotient") != string::npos) {
+  if (modxml.find("<arccos/>") != string::npos) {
     tests.insert("UncommonMathML");
   }
-  if (modxml.find("rem") != string::npos) {
+  if (modxml.find("<arcsin/>") != string::npos) {
     tests.insert("UncommonMathML");
   }
-  if (modxml.find("implies") != string::npos) {
+  if (modxml.find("<arctan/>") != string::npos) {
     tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<cos/>") != string::npos) {
+    tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<sin/>") != string::npos) {
+    tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<tan/>") != string::npos) {
+    tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<sec/>") != string::npos) {
+    tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<csc/>") != string::npos) {
+    tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<cot/>") != string::npos) {
+    tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<sinh/>") != string::npos) {
+    tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<cosh/>") != string::npos) {
+    tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<arcsec/>") != string::npos) {
+    tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<arcsinh/>") != string::npos) {
+    tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<arccosh/>") != string::npos) {
+    tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<arctanh/>") != string::npos) {
+    tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<arcsech/>") != string::npos) {
+    tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<arccoth/>") != string::npos) {
+    tests.insert("UncommonMathML");
+  }
+  if (modxml.find("<min/>") != string::npos) {
+    tests.insert("L3v2MathML");
+  }
+  if (modxml.find("<max/>") != string::npos) {
+    tests.insert("L3v2MathML");
+  }
+  if (modxml.find("<implies/>") != string::npos) {
+    tests.insert("L3v2MathML");
+  }
+  if (modxml.find("<quotient/>") != string::npos) {
+    tests.insert("L3v2MathML");
+  }
+  if (modxml.find("<rem/>") != string::npos) {
+    tests.insert("L3v2MathML");
   }
 }
 
@@ -729,6 +790,33 @@ void checkFunctionDefinitions(Model* model, set<string>& components, set<string>
     if (!model->getFunctionDefinition(c)->isSetMath()) {
       tests.insert("NoMathML");
     }
+  }
+}
+
+void checkBooleans(SBMLDocument* doc, set<string>& components, set<string>& tests)
+{
+  if (doc->getLevel() < 3) {
+    return;
+  }
+  if (doc->getVersion() < 2) {
+    return;
+  }
+  SBMLDocument* translatedDoc = doc->clone();
+  if (translatedDoc->setLevelAndVersion(3, 1, true)) {
+    //Successful translation means that there is no use of booleans in numeric contexts, or visa versa.
+    return;
+  }
+  SBMLErrorLog* errlog = translatedDoc->getErrorLog();
+  if (errlog->contains(10209)
+    || errlog->contains(10210)
+    || errlog->contains(10211)
+    || errlog->contains(10212)
+    || errlog->contains(10213)
+    || errlog->contains(10217)
+    || errlog->contains(98006)
+    || errlog->contains(21202)
+    || errlog->contains(21001)) {
+    tests.insert("BoolNumericSwap");
   }
 }
 
@@ -795,6 +883,9 @@ void checkComp(CompSBMLDocumentPlugin* compdoc, set<string>& components, set<str
 #ifdef USE_FBC
 void checkFbc(FbcModelPlugin* fbcmodplug, set<string>& components, set<string>& tests,  const map<string, vector<double> >& results)
 {
+  if (fbcmodplug->isSetStrict() && fbcmodplug->getStrict() == false) {
+    tests.insert("fbc:NonStrict");
+  }
   List* allElements = fbcmodplug->getAllElements();
   for (unsigned int e=0; e<allElements->getSize(); e++) {
     SBase* element = static_cast<SBase*>(allElements->get(e));
@@ -834,14 +925,6 @@ void checkFbc(FbcModelPlugin* fbcmodplug, set<string>& components, set<string>& 
     default:
       break;
     }
-  }
-  for (map<string, vector<double> >::const_iterator result=results.begin(); 
-    result != results.end(); result++) {
-      string id = result->first;
-      if (id.find("__") != string::npos) {
-        //It is probably a submodel element, renamed
-        tests.insert("fbc:SubmodelOutput");
-      }
   }
 }
 #endif

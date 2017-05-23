@@ -204,6 +204,7 @@ void deduceTags(Model* model, set<string>& components, set<string>& tests,  cons
   checkMathML(modxml, components, tests);
   checkConstraints(model, components, tests);
   checkFunctionDefinitions(model, components, tests);
+  checkBooleans(model->getSBMLDocument(), components, tests);
 }
 
 void removeIdenticals(set<string>& set1, set<string>& set2)
@@ -259,7 +260,7 @@ bool checkLine(ifstream& infile, const string& begin, const string& settingsfile
   return false;
 }
 
-bool checkVariables(ifstream& infile, Model* model, const string& settingsfile)
+bool checkVariables(ifstream& infile, Model* model, const string& settingsfile, bool checkVariableReporting)
 {
   string line;
   getline(infile, line);
@@ -282,7 +283,7 @@ bool checkVariables(ifstream& infile, Model* model, const string& settingsfile)
     }
     pair<set<string>::iterator, bool> ret = variables.insert(var);
     if (ret.second == false) {
-      cerr << "Error:  the settings document requested output for variable '" << var << " twice.";
+      cerr << "Error:  the settings document requested output for variable '" << var << "' twice." << endl;
       return true;
     }
     comma = line.find(',');
@@ -325,6 +326,7 @@ bool checkVariables(ifstream& infile, Model* model, const string& settingsfile)
   resvars.insert(line);
 
   bool hasproblems = false;
+  
   for (set<string>::iterator var = variables.begin(); var != variables.end(); var++) {
     if (resvars.find(*var) == resvars.end()) {
       cerr << "Error:  the settings document requested output for variable '" << *var << "', but that variable was not found in the results file " << results << "." << endl;
@@ -340,29 +342,30 @@ bool checkVariables(ifstream& infile, Model* model, const string& settingsfile)
     }
   }
 
-  for (unsigned long sp = 0; sp < model->getNumSpecies(); sp++) {
-    Species* species = model->getSpecies(sp);
-    if (species->isSetId() && variables.find(species->getId()) == variables.end()) {
-      cerr << "Error:  the SBML model contains the species '" << species->getId() << "', but that species is not requested in the settings file " << settingsfile << "." << endl;
+  if (checkVariableReporting) {
+    for (unsigned long sp = 0; sp < model->getNumSpecies(); sp++) {
+      Species* species = model->getSpecies(sp);
+      if (species->isSetId() && variables.find(species->getId()) == variables.end()) {
+        cerr << "Error:  the SBML model contains the species '" << species->getId() << "', but that species is not requested in the settings file " << settingsfile << "." << endl;
+      }
+    }
+
+    for (unsigned long c = 0; c < model->getNumCompartments(); c++) {
+      Compartment* compartment = model->getCompartment(c);
+      if (compartment->isSetId() && variables.find(compartment->getId()) == variables.end()) {
+        cerr << "Error:  the SBML model contains the compartment '" << compartment->getId() << "', but that compartment is not requested in the settings file " << settingsfile << "." << endl;
+        hasproblems = true;
+      }
+    }
+
+    for (unsigned long p = 0; p < model->getNumParameters(); p++) {
+      Parameter* parameter = model->getParameter(p);
+      if (parameter->isSetId() && variables.find(parameter->getId()) == variables.end()) {
+        cerr << "Error:  the SBML model contains the parameter '" << parameter->getId() << "', but that parameter is not requested in the settings file " << settingsfile << "." << endl;
+        hasproblems = true;
+      }
     }
   }
-
-  for (unsigned long c = 0; c < model->getNumCompartments(); c++) {
-    Compartment* compartment = model->getCompartment(c);
-    if (compartment->isSetId() && variables.find(compartment->getId()) == variables.end()) {
-      cerr << "Error:  the SBML model contains the compartment '" << compartment->getId() << "', but that compartment is not requested in the settings file " << settingsfile << "." << endl;
-      hasproblems = true;
-    }
-  }
-
-  for (unsigned long p = 0; p < model->getNumParameters(); p++) {
-    Parameter* parameter = model->getParameter(p);
-    if (parameter->isSetId() && variables.find(parameter->getId()) == variables.end()) {
-      cerr << "Error:  the SBML model contains the parameter '" << parameter->getId() << "', but that parameter is not requested in the settings file " << settingsfile << "." << endl;
-      hasproblems = true;
-    }
-  }
-
   return hasproblems;
 }
 
@@ -386,7 +389,7 @@ bool checkPossible(ifstream& infile, const string& begin, bool shouldbe, const s
   return false;
 }
 
-void checkSettingsFile(const string& filename, bool known_amount, bool known_conc, Model* model, bool fbc)
+void checkSettingsFile(const string& filename, bool known_amount, bool known_conc, Model* model, bool fbc, bool checkVariableReporting)
 {
   string settingsfile = filename;
   size_t mod = settingsfile.find("-model");
@@ -409,7 +412,7 @@ void checkSettingsFile(const string& filename, bool known_amount, bool known_con
   if (checkLine(infile, "steps", settingsfile)) return;
 }
 
-  if (checkVariables(infile, model, settingsfile)) return;
+  if (checkVariables(infile, model, settingsfile, checkVariableReporting)) return;
   if (checkLine(infile, "absolute", settingsfile)) return;
   if (checkLine(infile, "relative", settingsfile)) return;
   if (checkPossible(infile, "amount", known_amount, settingsfile)) return;
@@ -418,17 +421,21 @@ void checkSettingsFile(const string& filename, bool known_amount, bool known_con
 
 void checkSimilarTests(set<string>& tests, set<string>& known_tests, const string& filename, Model* model, bool fbc) 
 {
-  bool known_amount  = known_tests.find("Amount") != known_tests.end();
-  bool known_conc    = known_tests.find("Concentration") != known_tests.end();
+  bool checkVariableReporting = !fbc;
+  if (known_tests.find("RandomEventExecution") != known_tests.end()) {
+    checkVariableReporting = false;
+  }
+  bool known_amount = known_tests.find("Amount") != known_tests.end();
+  bool known_conc = known_tests.find("Concentration") != known_tests.end();
   if (tests.find("Amount||Concentration") != tests.end()) {
-    if (!known_amount && !known_conc) {
+    if (!known_amount && !known_conc && checkVariableReporting) {
       cerr << "Error in " << filename << ":  there should be an 'Amount' or a 'Concentration' testTag, but neither were found." << endl;
     }
     known_tests.erase("Amount");
     known_tests.erase("Concentration");
     tests.erase("Amount||Concentration");
   }
-  checkSettingsFile(filename, known_amount, known_conc, model, fbc);
+  checkSettingsFile(filename, known_amount, known_conc, model, fbc, checkVariableReporting);
 
   //EventIsNotPersistent
   if(tests.find("EventIsNotPersistent [?]") != tests.end() && known_tests.find("EventIsNotPersistent") == known_tests.end()) {
@@ -490,8 +497,8 @@ void checkSimilarTests(set<string>& tests, set<string>& known_tests, const strin
 void compareTests(set<string>& tests, set<string>& known_tests, const string& filename, set<string>& components, Model* model, bool fbc)
 {
   removeIdenticals(tests, known_tests);
-  checkUnaddableTests(known_tests, components, filename);
   checkSimilarTests(tests, known_tests, filename, model, fbc);
+  checkUnaddableTests(known_tests, components, filename);
 
   for (set<string>::iterator c=tests.begin(); c != tests.end(); c++) {
     cerr << "Error in " << filename << ":  testTag " << *c << " should be tested by this model, but the tag was not listed." << endl;

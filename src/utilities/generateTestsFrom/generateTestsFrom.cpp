@@ -269,40 +269,55 @@ string getReactionTable(Model* model,  const map<string, vector<double> >& resul
 #ifdef USE_FBC
       if (fbc != NULL) {
         bool nobounds = true;
-        for (unsigned int b=0; b<fbc->getNumFluxBounds(); b++) {
-          FluxBound* fb = fbc->getFluxBound(b);
-          if (fb->getReaction() == rxn->getId()) {
-            if (nobounds) {
-              nobounds = false;
-              ret << "$";
-            }
-            else {
-              ret << " && ";
-            }
-            ret << rxn->getId() << " ";
-            if (fb->getOperation() == "greaterEqual") {
-              ret << ">=";
-            }
-            else if (fb->getOperation() == "lessEqual") {
-              ret << "<=";
-            }
-            else if (fb->getOperation() == "equal") {
-              ret << "==";
-            }
-            else {
-              assert(false);
-              ret << "??";
-            }
-            ret << " " ;
-            double fbval = fb->getValue();
-            if (fbval == numeric_limits<double>::infinity()) {
-              ret << "INF";
-            }
-            else if (fbval == -numeric_limits<double>::infinity()) {
-              ret << "-INF";
-            }
-            else {
-              ret << fbval;
+        FbcReactionPlugin* fbcrxnplug = static_cast<FbcReactionPlugin*>(rxn->getPlugin("fbc"));
+        if (fbcrxnplug != NULL && fbcrxnplug->getPackageVersion() == 2) {
+          string lower = "(unset)";
+          string upper = "(unset)";
+          if (fbcrxnplug->isSetLowerFluxBound()) {
+            lower = fbcrxnplug->getLowerFluxBound();
+          }
+          if (fbcrxnplug->isSetUpperFluxBound()) {
+            upper = fbcrxnplug->getUpperFluxBound();
+          }
+          ret << "$" << lower << " <= " << rxn->getId() << " <= " << upper << "$";
+          nobounds = false;
+        }
+        else {
+          for (unsigned int b = 0; b < fbc->getNumFluxBounds(); b++) {
+            FluxBound* fb = fbc->getFluxBound(b);
+            if (fb->getReaction() == rxn->getId()) {
+              if (nobounds) {
+                nobounds = false;
+                ret << "$";
+              }
+              else {
+                ret << " && ";
+              }
+              ret << rxn->getId() << " ";
+              if (fb->getOperation() == "greaterEqual") {
+                ret << ">=";
+              }
+              else if (fb->getOperation() == "lessEqual") {
+                ret << "<=";
+              }
+              else if (fb->getOperation() == "equal") {
+                ret << "==";
+              }
+              else {
+                assert(false);
+                ret << "??";
+              }
+              ret << " ";
+              double fbval = fb->getValue();
+              if (fbval == numeric_limits<double>::infinity()) {
+                ret << "INF";
+              }
+              else if (fbval == -numeric_limits<double>::infinity()) {
+                ret << "-INF";
+              }
+              else {
+                ret << fbval;
+              }
             }
           }
         }
@@ -537,7 +552,7 @@ string getInitialSpeciesLevels(Model* model, bool isconst)
     Rule* rule = model->getRule(id);
     InitialAssignment* ia = model->getInitialAssignment(id);
     ret << endl << "| ";
-    if ((rule != NULL && rule->getTypeCode() != SBML_RATE_RULE) || ia != NULL) {
+    if ((rule != NULL && rule->getTypeCode() != SBML_RATE_RULE && rule->isSetMath()) || (ia != NULL &&  ia->isSetMath())) {
       if (species->getHasOnlySubstanceUnits()) {
         ret << "Initial amount of species ";
       }
@@ -545,7 +560,7 @@ string getInitialSpeciesLevels(Model* model, bool isconst)
         ret << "Initial concentration of species ";
       }
       ret << id << " | $"; 
-      if (ia != NULL) {
+      if (ia != NULL && ia->isSetMath()) {
         ret << SBML_formulaToL3String(ia->getMath()) << "$ |";
       }
       else {
@@ -730,19 +745,24 @@ string getInitialSpeciesReferenceLevels(const Model* model)
   return ret.str();
 }
 
-string getInitialAssignmentTable(Model* model)
+string getInitialAssignmentTable(Model* model, bool fbc)
 {
   stringstream ret;
   if (model->getNumParameters() + model->getNumSpecies() + model->getNumCompartments() == 0) return "";
+  if (fbc && model->getNumParameters() == 0) return "";
   ret << "The initial conditions are as follows:" << endl << endl;
   ret << "[{width:35em,margin: 1em auto}|       | *Value* | *Constant* |";
-  ret << getInitialSpeciesLevels(model, true);
-  ret << getInitialSpeciesLevels(model, false);
+  if (!fbc) {
+    ret << getInitialSpeciesLevels(model, true);
+    ret << getInitialSpeciesLevels(model, false);
+  }
   ret << getInitialParameterLevels(model, true);
   ret << getInitialParameterLevels(model, false);
-  ret << getInitialLocalParameterLevels(model);
-  ret << getInitialCompartmentLevels(model, true);
-  ret << getInitialCompartmentLevels(model, false);
+  if (!fbc) {
+    ret << getInitialLocalParameterLevels(model);
+    ret << getInitialCompartmentLevels(model, true);
+    ret << getInitialCompartmentLevels(model, false);
+  }
   ret << getInitialSpeciesReferenceLevels(model);
   ret << "]" << endl;
   return ret.str();
@@ -896,9 +916,7 @@ string getModelSummary(Model* model,  const map<string, vector<double> >& result
   ret << getEventTable(model);
   ret << getRuleTable(model);
   ret << getFunctionDefinitionTable(model);
-  if (!fbc) {
-    ret << getInitialAssignmentTable(model);
-  }
+  ret << getInitialAssignmentTable(model, fbc);
   ret << endl;
 
   if (allSpeciesSetAmountUsedConcentration(model)) {
@@ -966,6 +984,16 @@ string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const ma
     packages.insert("fbc");
     checkFbc(fbcmodplug, components, tests, results);
     testType = "FluxBalanceSteadyState";
+    switch(fbcmodplug->getPackageVersion()) {
+    case 1:
+      packages.insert("fbc_v1");
+      break;
+    case 2:
+      packages.insert("fbc_v2");
+      break;
+    default:
+      assert(false);
+    }
   }
 #endif
 
@@ -985,9 +1013,11 @@ string getSuiteHeaders(vector<string> levelsandversions, Model* model,  const ma
     tests.insert("ConversionFactors");
   }
   string modxml = model->toSBML();
-  checkMathML(modxml, components);
+  checkMathML(modxml, components, tests);
   checkConstraints(model, components, tests);
   checkFunctionDefinitions(model, components, tests);
+
+  checkBooleans(doc, components, tests);
 
   string ret = "";
   ret += "category:        Test\n";

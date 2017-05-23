@@ -261,7 +261,12 @@ int
     for (auto& p : recursive_directory_iterator("C:/Users/Lucian/Desktop/test-suite/cases/semantic")) {
       stringstream fname;
       fname << p;
-      if (fname.str().find("-model.m") != string::npos) {
+      if (fname.str().find("-model.m") != string::npos 
+          && fname.str().find("01000") == string::npos
+          && fname.str().find("01121") == string::npos
+          && fname.str().find("01122") == string::npos
+          && fname.str().find("01123") == string::npos
+        ) {
         filelist.push_back(fname.str());
       }
     }

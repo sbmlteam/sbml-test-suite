@@ -164,6 +164,9 @@ TestFile::getConstraintIdString(int idnum)
   else if (idnum <= 6099999) {
     id.replace(0,2,"layout-");
   }
+  else if (idnum <= 7099999) {
+    id.replace(0, 2, "multi-");
+  }
   return id;
 }
 
