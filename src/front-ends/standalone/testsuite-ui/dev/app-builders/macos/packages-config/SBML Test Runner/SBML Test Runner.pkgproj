@@ -795,7 +795,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../readme-screen.html</string>
+							<string>../../../../../ReleaseNotes.html</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
