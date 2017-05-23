@@ -4,11 +4,10 @@
     <center>
       <h3>Release notes for version 3.3.0</h3>
       <p style="font-style: italic">
-        The SBML Test Runner is the work of
-        <a href="http://www.cds.caltech.edu/~mhucka/">Michael Hucka</a> and 
-        <a href="http://www.cos.uni-heidelberg.de/index.php/f.bergmann">Frank T. Bergmann</a>.
+        <a href="http://www.cds.caltech.edu/~mhucka/">Michael Hucka</a> and
+        <a href="http://www.cos.uni-heidelberg.de/index.php/f.bergmann">Frank T. Bergmann</a>
       </p>
-      <p style="font-style: italic">The SBML Test Suite overall is the work of 
+      <p style="font-style: italic">The overall SBML Test Suite is the work of 
         <a href="http://www.ebi.ac.uk/about/people/sarah-keating">Sarah M. Keating</a>,
         <a href="http://www.cds.caltech.edu/~mhucka/">Michael Hucka</a>,
         <a href="http://www.washington.edu/home/peopledir/?method=name&term=smith">Lucian P. Smith</a>,
@@ -46,31 +45,34 @@
     <p style="font-weight: bold; font-style: italic">New in this release:</p>
 
     <ul>
-      <li style="margin-bottom: 1ex">New installer for Mac OS&nbsp;X. The
-      installation is now distributed as an OS&nbsp;X <code>.pkg</code>
-      installer file.  It will install the test runner into the user's
-      <code>/Applications</code> folder by default.</li> 
+      <li style="margin-bottom: 1ex">There is a new installer for Mac
+      OS&nbsp;X. The installation is now distributed as an OS&nbsp;X <code>.pkg</code>
+      installer file.  By default, it will install the SBML Test Runner into the 
+      <code>/Applications</code> folder on the user's computer.</li> 
+
+      <li style="margin-bottom: 1em">This release contains hundreds of new
+        semantic test cases, numbers 01219&ndash;1777, written by
+        Lucian P. Smith.  They test many more SBML features and
+        rules. Important note: tests 01234&#8211;01292 specifically test
+        models that follow the release candidate specification of <a
+        href="http://sbml.org/Documents/Specifications/SBML_Level_3/Version_2/Core/Release_1">SBML
+        Level 3 Version 2</a>, which encode elements and situations that were not
+        present or illegal in SBML Level&nbsp;3 Version&nbsp;1. If your simulator
+        uses libsbml, it will <strong>need the latest experimental version of <a
+        href="http://sbml.org/Software/libSBML">libSBML</a>, 5.14.0 or 
+        later</strong>. Please see the file <code>NEWS.html</code> (provided
+        with the distribution) for more details about the changes to the test
+        cases.</li>  
 
       <li style="margin-bottom: 1ex">The SBML Test Suite home repository has
-      been moved to GitHub. New development will take place in the branch
-      called &#8216;develop&#8217;: <a
-      href="https://github.com/sbmlteam/sbml-test-suite/tree/develop">
-        https://github.com/sbmlteam/sbml-test-suite/tree/develop</a> 
-      Each time we make a new release, we will merge the changes into branch
-      &#8216;master&#8217; and start the next new developments in
-      &#8216;develop&#8217;.</li>
+        been moved to <a
+        href="https://github.com/sbmlteam/sbml-test-suite">GitHub</a>. 
+        New development will take place in the branch called
+        <a href="https://github.com/sbmlteam/sbml-test-suite/tree/develop">&#8216;develop&#8217;</a>.
+        Each time we make a new release, we will merge the changes into branch
+        &#8216;master&#8217; and start the next new developments in
+        &#8216;develop&#8217;.</li>
 
-      <li style="margin-bottom: 1em">Hundreds of new semantic test cases,
-        numbers 01219&ndash;1777. Note that tests 01234&#8211;01292
-        specifically test models that follow the release candidate
-        specification of <a
-    href="http://sbml.org/Documents/Specifications/SBML_Level_3/Version_2/Core/Release_1">SBML
-    Level 3 Version 2</a>, which encode elements and situations that were not
-    present or illegal in SBML Level&nbsp;3 Version&nbsp;1. If your simulator
-    uses libsbml, it will <strong>need the latest experimental version of <a
-    href="http://sbml.org/Software/libSBML">libSBML</a>, 5.14.0 or
-    later</strong>. Please see the file NEWS.md (provided with the
-        distribution) for more details about the changes to the test cases.</li>  
     </ul>
 
     <p style="font-weight: bold; font-style: italic">Changes in this release:</p>
