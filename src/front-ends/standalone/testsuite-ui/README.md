@@ -1,7 +1,7 @@
 SBML Test Runner
 ================
 
-The SBML Test Runner is a Java program that uses the Eclipse [SWT](https://www.eclipse.org/swt) widget toolkit and can be used on Mac OS X, Linux and Windows.  It is a standalone application with a graphical user interface (GUI) for controlling SBML-compatible applications and making them run test cases from the [SBML Test Suite](http://sbml.org/Software/SBML_Test_Suite).
+<img align="right" src="https://raw.githubusercontent.com/sbmlteam/sbml-test-suite/master/src/front-ends/standalone/testsuite-ui/src/data/application-icons/linux/icon_64x64.png"> The SBML Test Runner is a Java program that uses the Eclipse [SWT](https://www.eclipse.org/swt) widget toolkit and can be used on Mac OS X, Linux and Windows.  It is a standalone application with a graphical user interface (GUI) for controlling SBML-compatible applications and making them run test cases from the [SBML Test Suite](http://sbml.org/Software/SBML_Test_Suite).
 
 ----
 *Main Authors*: [Michael Hucka](http://www.cds.caltech.edu/~mhucka) and [Frank T. Bergmann](http://www.cos.uni-heidelberg.de/index.php/f.bergmann?l=_e)
