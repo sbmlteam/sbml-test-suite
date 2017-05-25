@@ -132,7 +132,7 @@ The SBML Test Suite has been in development for many years, and many people have
 
 * *SBML Test Runners*:
 
-  Frank T. Bergmann<sup>d</sup>, Michael Hucka<sup>b</sup>, Kimberley Begley<sup>m</sup>
+  Frank T. Bergmann<sup>d</sup>, Michael Hucka<sup>b</sup>, Kimberley Begley
 
 * *Online SBML Test Suite Database*:
 
@@ -154,7 +154,6 @@ Institutions:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>j</sup> Systems Biology Institute, Tokyo, JP<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>k</sup> University of Tuebingen, Tübingen, DE<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>l</sup> Institute of Systems Biology, Novosibirsk, RU   <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>m</sup> Population Health Research Institute, Hamilton, ON<br>
 
 
 ☮ Copyright and license
