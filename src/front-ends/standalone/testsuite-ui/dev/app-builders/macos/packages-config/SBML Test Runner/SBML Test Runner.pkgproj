@@ -25,7 +25,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../../../build/ABOUT.html</string>
+											<string>../../../../../dist/ABOUT.html</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -41,7 +41,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../../../build/CHANGES.html</string>
+											<string>../../../../../dist/CHANGES.html</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -57,7 +57,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../../../build/COPYING.html</string>
+											<string>../../../../../dist/COPYING.html</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -73,7 +73,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../../../build/LICENSE.html</string>
+											<string>../../../../../dist/LICENSE.html</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -89,7 +89,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../../../../../build/NEWS.html</string>
+											<string>../../../../../dist/NEWS.html</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -811,7 +811,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../../../../../build/CHANGES.html</string>
+							<string>../../../../../dist/CHANGES.html</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
