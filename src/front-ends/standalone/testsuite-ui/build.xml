@@ -144,7 +144,7 @@
     <!-- Start with fixed text for the top, then generate HTML for the middle,
          and finally close with some more fixed text for the bottom -->
     <copy file="dev/release-notes/release-notes-fragment-top.html"
-          tofile="${build.dir}/CHANGES.html"
+          tofile="${dist.dir}/CHANGES.html"
           overwrite="true"/>
     <exec executable="multimarkdown">
       <arg value="CHANGES.md"/>
@@ -152,19 +152,19 @@
       <arg value="--to=html"/>
       <arg value="--output=${build.dir}/CHANGES-TMP.html"/>
     </exec>
-    <concat append="true" destfile="${build.dir}/CHANGES.html">
+    <concat append="true" destfile="${dist.dir}/CHANGES.html">
       <filelist dir="${build.dir}" files="CHANGES-TMP.html"/>
     </concat>
-    <concat append="true" destfile="${build.dir}/CHANGES.html">
+    <concat append="true" destfile="${dist.dir}/CHANGES.html">
       <filelist dir="dev/release-notes" files="release-notes-fragment-bottom.html"/>
     </concat>
-    <replaceregexp file="${build.dir}/CHANGES.html"
+    <replaceregexp file="${dist.dir}/CHANGES.html"
                    match="%VERSION%" replace="${app.version}"/>
     <!-- Hack to deal with ugly formatting resulting from how the installer
          treats <li> elements -->
-    <replace file="${build.dir}/CHANGES.html"
+    <replace file="${dist.dir}/CHANGES.html"
                    token="&lt;li&gt;&lt;p&gt;" value="&lt;li style=&quot;margin-bottom: 1em&quot;&gt;"/>
-    <replace file="${build.dir}/CHANGES.html"
+    <replace file="${dist.dir}/CHANGES.html"
                    token="&lt;/p&gt;&lt;/li&gt;" value="&lt;/li&gt;"/>
     <!-- Clean up some temporary files -->
     <delete file="${build.dir}/CHANGES-TMP.html" />
@@ -177,7 +177,7 @@
       <arg value="--title"/>
       <arg value="About the SBML Test Suite"/>
       <arg value="--export"/>
-      <arg value="${build.dir}/ABOUT.html"/>
+      <arg value="${dist.dir}/ABOUT.html"/>
     </exec>
     <exec executable="grip">
       <arg value="../../../../NEWS.md"/>
@@ -185,15 +185,15 @@
       <arg value="--title"/>
       <arg value="NEWS"/>
       <arg value="--export"/>
-      <arg value="${build.dir}/NEWS.html"/>
+      <arg value="${dist.dir}/NEWS.html"/>
     </exec>
   </target>
 
   <target name="add-misc-files" depends="make-html-files, generate-changes-file"> 
     <copy file="../../../../LICENSE.html" 
-          todir="${build.dir}" overwrite="true"/>
+          todir="${dist.dir}" overwrite="true"/>
     <copy file="../../../../COPYING.html" 
-          todir="${build.dir}" overwrite="true"/>
+          todir="${dist.dir}" overwrite="true"/>
   </target>
 
   <target name="clean">
@@ -365,12 +365,9 @@
     <antcall target="clean-jar"/>
   </target>
 
-  <target name="app-mac-normal-common" depends="init">
+  <target name="app-mac-normal-common" depends="init, make-html-files, add-misc-files">
     <delete dir="${dist.dir}/${app.name}.app" failonerror="false"/>
     <mkdir dir="${dist.dir}" />
-    <copy file="${build.dir}/sbmltestrunner.jar"
-          todir="${dist.dir}"
-          overwrite="true"/>
     <mkdir dir="${basedir}/package/macosx" />
     <copy file="${basedir}/dev/app-builders/macos/javapackager-config/Info.plist"
           todir="${basedir}/package/macosx"
@@ -496,11 +493,15 @@
 
   <!-- The following targets are meant to be invoked by users.             -->
 
-  <target name="dist" depends="dist-mac, dist-win, dist-linux"/>
+  <target name="dist" depends="dist-mac-auto, dist-win-auto, dist-linux-auto"/>
 
   <!-- Targets for Mac. -->
 
-  <target name="dist-mac" depends="init, app-mac-normal, make-html-files, add-misc-files">
+  <target name="dist-mac-auto"    if="isMac">
+    <antcall target="dist-mac"/>
+  </target>
+
+  <target name="dist-mac" depends="init, app-mac-normal">
     <exec executable="packagesbuild">
       <arg value="dev/app-builders/macos/packages-config/SBML Test Runner/SBML Test Runner.pkgproj"/>
     </exec>
@@ -508,8 +509,11 @@
           tofile="${dist.dir}/${app.name}-${app.version}.pkg" overwrite="true"/>
   </target>
 
-
   <!-- Targets for Windows. -->
+
+  <target name="dist-win-auto"    if="isWindows">
+    <antcall target="dist-win"/>
+  </target>
 
   <target name="dist-win" depends="init">
     <antcall target="app-win"/>
@@ -528,6 +532,10 @@
 
 
   <!-- Targets for Linux. -->
+
+  <target name="dist-linux-auto"    if="isLinux">
+    <antcall target="dist-linux"/>
+  </target>
 
   <target name="dist-linux" depends="init">
     <antcall target="app-linux"/>
