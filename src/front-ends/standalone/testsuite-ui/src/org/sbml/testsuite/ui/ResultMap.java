@@ -41,6 +41,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -82,6 +83,7 @@ public class ResultMap
     private TestSuite                suite;
     private WrapperConfig            wrapper;
     private String                   lastName;
+    private String                   lastItemclicked;
 
     private ActionListener           singleClickAction;
     private ActionListener           reRunAction;
@@ -289,7 +291,9 @@ public class ResultMap
         canvas.addMouseMoveListener(new MouseMoveListener() {
             public void mouseMove(MouseEvent arg0)
             {
-                String name = getIdFromPoint(arg0);
+            	String name = getIdFromPoint(arg0);
+
+
                 if (name != null)
                 {
                     if (suite != null)
@@ -320,6 +324,25 @@ public class ResultMap
             }
         });
 
+        canvas.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseUp(MouseEvent arg0) {
+
+            }
+
+            @Override
+            public void mouseDown(MouseEvent arg0) {
+                // remember the last item we actually clicked on 
+                lastItemclicked = lastName;
+
+            }
+
+            @Override
+            public void mouseDoubleClick(MouseEvent arg0) {
+
+            }
+        });
+
         Button cmdClose = new Button(shell, SWT.NONE);
         cmdClose.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -342,7 +365,7 @@ public class ResultMap
                 if (reRunAction != null)
                 {
                     viewOutputAction.actionPerformed(new ActionEvent(ResultMap.this,
-                                                                     1, lastName));
+                                                                     1, lastItemclicked));
                 }
             }
         });
@@ -355,7 +378,7 @@ public class ResultMap
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                TestCase test = suite.get(lastName);
+                TestCase test = suite.get(lastItemclicked);
                 if (test != null) Util.openFile(test.getSBMLFile());
             }
         });
@@ -366,7 +389,7 @@ public class ResultMap
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                TestCase test = suite.get(lastName);
+                TestCase test = suite.get(lastItemclicked);
                 if (test != null) Util.openFile(wrapper.getResultFile(test));
             }
         });
@@ -377,7 +400,7 @@ public class ResultMap
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                TestCase test = suite.get(lastName);
+                TestCase test = suite.get(lastItemclicked);
                 if (test != null) Util.openFile(test.getExpectedResultFile());
             }
         });
@@ -388,7 +411,7 @@ public class ResultMap
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                TestCase test = suite.get(lastName);
+                TestCase test = suite.get(lastItemclicked);
                 if (test != null) Util.openFile(test.getDescriptionHTML());
             }
         });
@@ -399,7 +422,7 @@ public class ResultMap
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                TestCase test = suite.get(lastName);
+                TestCase test = suite.get(lastItemclicked);
                 if (test != null) Util.openFile(test.getCaseDirectory());
             }
         });
@@ -415,7 +438,7 @@ public class ResultMap
                 if (reRunAction != null)
                 {
                     reRunAction.actionPerformed(new ActionEvent(ResultMap.this,
-                                                                1, lastName));
+                                                                1, lastItemclicked));
                 }
             }
         });
@@ -429,7 +452,7 @@ public class ResultMap
                 if (reRunAction != null)
                 {
                     refreshFileAction.actionPerformed(new ActionEvent(ResultMap.this,
-                                                                      1, lastName));
+                                                                      1, lastItemclicked));
                 }
             }
         });
