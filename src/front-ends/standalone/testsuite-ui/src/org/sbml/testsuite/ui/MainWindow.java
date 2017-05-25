@@ -245,6 +245,7 @@ public class MainWindow
             menu = new Menu(dropdown.getParent().getShell());
 
             addOption(HIGHEST_LV_TEXT);
+            addOption(new LevelVersion(3, 2));
             addOption(new LevelVersion(3, 1));
             addOption(new LevelVersion(2, 5));
             addOption(new LevelVersion(2, 4));
