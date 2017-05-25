@@ -140,20 +140,56 @@
           overwrite="true"/>
   </target>
 
+  <target name="generate-changes-file" depends="init">
+    <!-- Start with fixed text for the top, then generate HTML for the middle,
+         and finally close with some more fixed text for the bottom -->
+    <copy file="dev/release-notes/release-notes-fragment-top.html"
+          tofile="${build.dir}/CHANGES.html"
+          overwrite="true"/>
+    <exec executable="multimarkdown">
+      <arg value="CHANGES.md"/>
+      <arg value="--snippet"/>
+      <arg value="--to=html"/>
+      <arg value="--output=${build.dir}/CHANGES-TMP.html"/>
+    </exec>
+    <concat append="true" destfile="${build.dir}/CHANGES.html">
+      <filelist dir="${build.dir}" files="CHANGES-TMP.html"/>
+    </concat>
+    <concat append="true" destfile="${build.dir}/CHANGES.html">
+      <filelist dir="dev/release-notes" files="release-notes-fragment-bottom.html"/>
+    </concat>
+    <replaceregexp file="${build.dir}/CHANGES.html"
+                   match="%VERSION%" replace="${app.version}"/>
+    <!-- Hack to deal with ugly formatting resulting from how the installer
+         treats <li> elements -->
+    <replace file="${build.dir}/CHANGES.html"
+                   token="&lt;li&gt;&lt;p&gt;" value="&lt;li style=&quot;margin-bottom: 1em&quot;&gt;"/>
+    <replace file="${build.dir}/CHANGES.html"
+                   token="&lt;/p&gt;&lt;/li&gt;" value="&lt;/li&gt;"/>
+    <!-- Clean up some temporary files -->
+    <delete file="${build.dir}/CHANGES-TMP.html" />
+  </target>
+
   <target name="make-html-files"> 
     <exec executable="grip">
       <arg value="../../../../README.md"/>
+      <arg value="--user-content"/>
+      <arg value="--title"/>
+      <arg value="About the SBML Test Suite"/>
       <arg value="--export"/>
-      <arg value="${build.dir}/README.html"/>
+      <arg value="${build.dir}/ABOUT.html"/>
     </exec>
     <exec executable="grip">
       <arg value="../../../../NEWS.md"/>
+      <arg value="--user-content"/>
+      <arg value="--title"/>
+      <arg value="NEWS"/>
       <arg value="--export"/>
       <arg value="${build.dir}/NEWS.html"/>
     </exec>
   </target>
 
-  <target name="add-misc-files" depends="make-html-files"> 
+  <target name="add-misc-files" depends="make-html-files, generate-changes-file"> 
     <copy file="../../../../LICENSE.html" 
           todir="${build.dir}" overwrite="true"/>
     <copy file="../../../../COPYING.html" 
@@ -460,22 +496,11 @@
 
   <!-- The following targets are meant to be invoked by users.             -->
 
-  <target name="dist" depends="dist-mac-auto, dist-win-auto, dist-linux-auto"/>
+  <target name="dist" depends="dist-mac, dist-win, dist-linux"/>
 
-  <target name="dist-mac-auto" if="isMac">
-    <antcall target="dist-mac"/>
-  </target>
-  <target name="dist-win-auto" if="isWindows">
-    <antcall target="dist-win"/>
-  </target>
-  <target name="dist-linux-auto" if="isLinux">
-    <antcall target="dist-linux"/>
-  </target>
+  <!-- Targets for Mac. -->
 
-  <!-- The following targets are internal and not really meant for users -->
-
-  <target name="dist-mac" depends="init, make-html-files, add-misc-files">
-    <antcall target="app-mac-normal"/>
+  <target name="dist-mac" depends="init, app-mac-normal, make-html-files, add-misc-files">
     <exec executable="packagesbuild">
       <arg value="dev/app-builders/macos/packages-config/SBML Test Runner/SBML Test Runner.pkgproj"/>
     </exec>
