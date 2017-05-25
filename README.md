@@ -141,7 +141,7 @@ Institutions:
 🏛 Copyright and license
 ---------------------
 
-Please see the file [LICENSE.html](LICENSE.html) for copyright and license details.
+Please see the file [LICENSE.html](http://htmlpreview.github.io/?https://github.com/sbmlteam/sbml-test-suite/blob/develop/LICENSE.html) for copyright and license details.
 
 
 More information
