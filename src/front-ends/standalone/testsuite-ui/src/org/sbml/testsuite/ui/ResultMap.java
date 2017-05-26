@@ -162,7 +162,6 @@ public class ResultMap
 
         shell = new Shell(dialogStyle);
         shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
-        shell.setSize(595, 520);
         shell.setLayout(new FormLayout());
 
         Listener hideListener = new Listener() {
