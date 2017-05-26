@@ -67,7 +67,7 @@ Contributions to the SBML Test Suite are very much welcome in all areas.  Please
 ☺ Acknowledgments
 -----------------------
 
-Funding for the continued development of the core of the SBML Test Suite currently comes from the [National Institute of General Medical Sciences](https://www.nigms.nih.gov) via grant NIH R01 070923 (Principal Investigator: Michael Hucka).
+Funding for the continued development of the core of the SBML Test Suite currently comes from the [National Institute of General Medical Sciences](https://www.nigms.nih.gov) via grant GM070923 (Principal Investigator: Michael Hucka).  Past development of different parts of the Test Suite have been funded by NIH grants GM077671 and GM070923 as well as BBSRC grants BEP&nbsp;17042, BBS/B/16550, and BBC0082001 (Principal Investigator: Darren J. Wilkinson).
 
 The SBML Test Suite has been in development for many years, and many people have contributed in various ways large and small.  The following are the primary authors of different parts:
 
