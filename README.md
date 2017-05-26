@@ -40,45 +40,16 @@ The SBML Test Suite test cases are divided into 3 sets and (as of version 3.2.0)
 * *Syntactic*: The syntactic test suite consists of valid and invalid SBML models.  Each test is designed to check a particular SBML validation rule.  These rules are defined in the SBML specification documents.  Each case model in this part of the Test Suite is expected to be recognized by a software system as being either valid or invalid &ndash; nothing more.  The validity is indicated in the file name of a model.  (Example: `01002-fail-01-01-sev2-l2v1.txt`.)  Details about the error and the error message produced by libSBML are included, as are incidental warnings that libSBML may also produce for a given model/test case.  For more information about the stochastic test cases, please look in the file named [README.md](cases/syntactic/README.md) in the [cases/syntactic/](cases/syntactic) subdirectory.
 
 
-► The Test Runner
------------------
+► The SBML Test Runner
+----------------------
 
-If you have downloaded a release of the standalone version of the SBML Test Suite, your distribution will consist of a few files and a program named `SBML Test Runner`.
-
-Once you start the SBML Test Runner, if you have never run it before, it will first open a preferences/configuration panel.  The most complicated part is providing the _test wrapper_: a small program that gets invoked by the SBML Test Runner with specific arguments on the command line and in turn invokes the application is being tested.  It is the wrapper's job to make the application read an SBML file, run it with certain simulation settings, and write an output file containing the results of a simulation in comma-separated value (CSV) format.  A wrapper might be as simple as a shell script that invokes the application with appropriate arguments, but in some cases, may need to be more elaborate (perhaps to convert the output data from the application).  The SBML Test Runner does not supply the wrappers &ndash; **you will have to write a wrapper program** yourself or obtain one from the developer(s) of the software you want to test.
-
-The following image shows the wrapper configuration part of the preferences panel:
+If you have downloaded a release of the standalone version of the SBML Test Suite, your distribution will consist of a few files and a program named `SBML Test Runner`.  The SBML Test Runner can be used to run an application against the collection of semantic test cases in the Test Suite, and report successes and failures.  It comes complete with the test cases already included, and it can automatically check for updates to the test cases.  The image below shows an example run from the SBML Test Runner:
 
 <p align="center">
-<img src=".graphics/wrapper-config.png"/>
+<img src=".graphics/example-run.png"/>
 </p>
 
-The SBML Test Runner provides you with the ability to specify a complete command line invoking the wrapper.  This command line can contain the following substitution symbols:
-
-* `%d` = path to the directory containing all test cases
-* `%n` = current test case number (of the form `NNNNN`)
-* `%o` = directory where the CSV output file should be written
-* `%l` = the SBML Level of the test case
-* `%v` = the Version of SBML within the SBML Level
-
-The specific values will be set by the SBML Test Runner itself; they are not under user control.  However, the _order_ in which the arguments are handed to the wrapper is under your control, simply by writing the arguments in the desired order in the _Arguments to wrapper_ field.
-
-The directory indicated by `%d` will contain a large number of subdirectories named after the test case number (i.e., `00001`, `00002`, `00003`, etc.).  Inside each of these directories, there will be multiple SBML files, a settings file, and some miscellaneous other files:
-
-* `xxxxx-sbml-l1v2.xml`   &ndash; the model in SBML Level 1 Version 2 format
-* `xxxxx-sbml-l2v1.xml`   &ndash; the model in SBML Level 2 Version 1 format
-* `xxxxx-sbml-l2v2.xml`   &ndash; the model in SBML Level 2 Version 2 format
-* `xxxxx-sbml-l2v3.xml`   &ndash; the model in SBML Level 2 Version 3 format
-* `xxxxx-settings.txt`    &ndash; the settings file
-
-You will need to write the wrapper such that it performs the following
-steps:
-
-1. Extracts the relevant simulation run settings from the file `%d/%n/%n-sbml-lXvY.xml`.  These settings include the starting time of the simulation, the duration of the simulation, the variables whose values should appear in the output, the number of output steps to record in the output, and the tolerances to use.
-
-2. Tells the to-be-tested application to (i) read an SBML file named `%d/%n/%n-sbml-lXvY.xml`, where _X_ is the SBML Level and _Y_ is the Version within the Level, (ii) execute a simulation with the settings determined in step (a), and (iii) write the output as a file named `%o/%n.csv`.  The command line arguments to be handed to the application depend on the application itself.
-
-Once the wrapper is defined, back in the main screen of the SBML Test Runner, you will be able to click on the run button in the middle of the application toolbar.  The SBML Test Runner will proceed to go through every test in the test case directory and invoke the wrapper, once for each test case, substituting the values for the place holders `%d`, `%n`, `%o`, `%l`, and `%v`.  When the wrapper exits, the Test Runner will look for a file named `%o/%n.csv` to read the application's output.  Finally, it will compare the output to the expected results for the test case, and indicate whether the output matches the expected results within specific tolerances.
+More information can be found in a [separate README file](src/front-ends/standalone/testsuite-ui) for the SBML Test Runner
 
 
 ⁇ Getting Help
