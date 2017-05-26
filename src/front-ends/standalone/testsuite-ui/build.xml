@@ -227,6 +227,35 @@
     </javac>
   </target>
 
+  <target name="check-cases-exists">
+    <pathconvert property="casesArchiveExists" setonempty="false" pathsep=" ">
+      <path>
+        <fileset dir="../../../../" includes="sbml-semantic-test-cases-*.zip" />
+      </path>
+    </pathconvert>
+  </target>
+
+  <target name="complain-cases-missing" depends="check-cases-exists"
+          unless="casesArchiveExists">
+    <echo>
+      Cannot continue because the test cases archive file
+      ../../../../sbml-semantic-test-cases-YYYY-MM-DD.zip
+      is missing.  Please run "make semantic-cases-dist" in
+      the top-level directory, ../../../../.
+    </echo>
+    <fail message="File missing -- stopping."/>
+  </target>
+
+  <target name="copy-cases-archive" depends="check-cases-exists, complain-cases-missing"
+          if="casesArchiveExists">
+    <copy tofile="${build.dest}/org/sbml/testsuite/ui/resources/sbml-semantic-test-cases.zip"
+          overwrite="true">
+      <fileset dir="../../../../">
+        <include name="sbml-semantic-test-cases-*.zip"/>
+      </fileset>
+    </copy>
+  </target>
+
   <!-- =================================================================== -->
   <!-- Jars                                                                -->
   <!--                                                                     -->
@@ -302,7 +331,7 @@
     <property name="swt.file" value="libs/swt.jar"/>
   </target>
 
-  <target name="jar-common" depends="build">
+  <target name="jar-common" depends="build, copy-cases-archive">
     <copy todir="${build.dest}" overwrite="true">
       <fileset dir="src" includes="org/sbml/testsuite/ui/resources/**" />
     </copy>
@@ -314,6 +343,7 @@
         <attribute name="Implementation-Version" value="${app.version}" />
         <attribute name="Built-Timestamp" value="${timestamp}" />
         <attribute name="Built-By" value="${user.name}" />
+        <!-- <attribute name="SplashScreen-Image" value="org/sbml/testsuite/ui/resources/icon_128x128.png" /> -->
       </manifest>
       <zipgroupfileset file="${core.dir}/dist/testsuite-core.jar"/>
       <zipgroupfileset file="libs/jna-3.5.2.jar" />
