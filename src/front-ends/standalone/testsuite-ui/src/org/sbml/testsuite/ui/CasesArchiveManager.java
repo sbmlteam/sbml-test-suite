@@ -76,7 +76,7 @@ import org.w3c.dom.NodeList;
  */
 public class CasesArchiveManager
 {
-    private final String INTERNAL_ARCHIVE = "sbml-test-cases.zip";
+    private final String INTERNAL_ARCHIVE = "sbml-semantic-test-cases.zip";
     private final String TEMP_ZIP_FILE_NAME = "testcasearchive.zip";
 
     private final Display display;
