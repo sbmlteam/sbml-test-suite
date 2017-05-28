@@ -30,6 +30,9 @@
 
 package org.sbml.testsuite.ui;
 
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
@@ -59,7 +62,7 @@ public class AboutDialog
     final Cursor handCursor = UIUtils.createCursor(SWT.CURSOR_HAND);
     Object result;
     Shell  shell;
-
+    Date   casesDate;
 
     /**
      * Constructor to create the dialog.
@@ -70,8 +73,18 @@ public class AboutDialog
     public AboutDialog(Shell parent, int style)
     {
         super(parent, style);
-        setText("About the SBML Test Runner");
-        createContents();
+    }
+
+
+    /**
+     * Set information that we display in the dialog.
+     *
+     * @param casesReleaseDate
+     *            the release date of the test cases being used.
+     */
+    public void setInfo(Date casesReleaseDate)
+    {
+        casesDate = casesReleaseDate;
     }
 
 
@@ -125,8 +138,22 @@ public class AboutDialog
             lblVersion.setFont(UIUtils.createResizedFont("Verdana", SWT.ITALIC, -1));
         else
             lblVersion.setFont(UIUtils.createResizedFont("Verdana", SWT.ITALIC, 0));
-        lblVersion.setBounds(158, 40, 150, 14);
+        lblVersion.setBounds(158, 38, 300, 14);
         lblVersion.setText("Version: " + Program.getVersion());
+
+        if (casesDate != null)
+        {
+            Label lblCasesDate = new Label(shell, SWT.RIGHT);
+            lblCasesDate.setAlignment(SWT.LEFT);
+            if (UIUtils.isMacOSX())
+                lblCasesDate.setFont(UIUtils.createResizedFont("Verdana", SWT.ITALIC, -1));
+            else
+                lblCasesDate.setFont(UIUtils.createResizedFont("Verdana", SWT.ITALIC, 0));
+            lblCasesDate.setBounds(158, 53, 300, 16);
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String dateStr = formatter.format(casesDate);
+            lblCasesDate.setText("Test cases release date: " + dateStr);
+        }
 
         Label lblTheSbmlTest = new Label(shell, SWT.WRAP);
         lblTheSbmlTest.setBounds(16, 154 - offset + 2, 418, 67);
@@ -145,19 +172,19 @@ public class AboutDialog
             lblNewLabel_2.setFont(UIUtils.createResizedFont("SansSerif", SWT.BOLD, -2));
         else
             lblNewLabel_2.setFont(UIUtils.createResizedFont("SansSerif", SWT.BOLD, -1));
-        lblNewLabel_2.setBounds(158, 67 - offset, 270, 28);
+        lblNewLabel_2.setBounds(158, 76 - offset, 270, 28);
         if (UIUtils.isMacOSX())
             lblNewLabel_2.setText("Authors: Frank T. Bergmann and Michael Hucka.");
         else
             lblNewLabel_2.setText("Authors: Frank T. Bergmann and\nMichael Hucka.");
 
         Label lblPartOfThe = new Label(shell, SWT.WRAP);
-        lblPartOfThe.setText("Part of the SBML Test Suite, written by Sarah Keating, Lucian Smith, Frank Bergmann, Kimberley Begley and Michael Hucka.");
+        lblPartOfThe.setText("Part of the SBML Test Suite by S.M. Keating, M. Hucka, L.P. Smith, F.T. Bergmann, B.E. Shapiro, T.W. Evans, C.S. Gillespie, D.J. Wilkinson, B.G. Olivier and A.M. Finney.");
         if (UIUtils.isMacOSX())
-            lblPartOfThe.setFont(UIUtils.createResizedFont("Verdana", SWT.NORMAL, -2));
+            lblPartOfThe.setFont(UIUtils.createResizedFont("Verdana", SWT.NORMAL, -3));
         else
-            lblPartOfThe.setFont(UIUtils.createResizedFont("Verdana", SWT.NORMAL, -1));
-        lblPartOfThe.setBounds(158, 93 + offset, 270, 49);
+            lblPartOfThe.setFont(UIUtils.createResizedFont("Verdana", SWT.NORMAL, -2));
+        lblPartOfThe.setBounds(158, 97 + offset, 270, 49);
 
         Label lblNewLabel_3 = new Label(shell, SWT.WRAP);
         if (UIUtils.isMacOSX())
@@ -248,6 +275,7 @@ public class AboutDialog
      */
     public void open()
     {
+        createContents();
         shell.open();
         shell.layout();
         Display display = getParent().getDisplay();
