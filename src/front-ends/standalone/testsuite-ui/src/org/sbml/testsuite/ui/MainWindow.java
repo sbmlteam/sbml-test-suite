@@ -3247,7 +3247,14 @@ public class MainWindow
 
     protected void showAbout()
     {
+        File casesDir = null;
+        if (model != null)
+            casesDir = model.getSuite().getCasesDirectory();
+        Date casesDate = null;
+        if (casesDir != null)
+            casesDate = archiveManager.getCasesDate(casesDir);
         AboutDialog dialog = new AboutDialog(shell, SWT.None);
+        dialog.setInfo(casesDate);
         dialog.center(shell.getBounds());
         dialog.open();
     }
