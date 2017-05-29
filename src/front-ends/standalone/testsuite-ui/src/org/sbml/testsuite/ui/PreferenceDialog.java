@@ -601,11 +601,25 @@ public class PreferenceDialog
         {
             File path = new File(outputPath);
             if (! path.exists())
-                return Tell.informWithOverride(shell,
-                                               "The output directory specified in the "
-                                               + "\nwrapper configuration does not appear "
-                                               + "\nto exist; consequently, the wrapper "
-                                               + "\ncannot be used.");
+            {
+                if (Tell.confirm(shell, "The path to the output directory specified "
+                                 + "\nin the wrapper configuration does not appear "
+                                 + "\nto exist. Click OK to create it."))
+                {
+                    if (! path.mkdir())
+                        return Tell.informWithOverride(shell,
+                                                       "Unable to create the directory "
+                                                       + "specified\nin the wrapper configuration.");
+                }
+                else
+                {
+                    return Tell.informWithOverride(shell,
+                                                   "The output directory specified in the "
+                                                   + "\nwrapper configuration does not appear "
+                                                   + "\nto exist; consequently, the wrapper "
+                                                   + "\ncannot be used.");
+                }
+            }
             else if (! path.isDirectory())
                 return Tell.informWithOverride(shell,
                                                "The output directory specified in the "
