@@ -2490,13 +2490,18 @@ public class MainWindow
                 return false;
         }
 
+        // Do some basic sanity checking on the directory that's been
+        // configured.  It might be the directory the user specified, or it
+        // might be what we just unpacked.
+
         File configuredDir = new File(model.getSettings().getCasesDir());
-        if (suite.getNumCases() == 0 || suite.getCasesReleaseDate() == null)
+        if (suite.getNumCases() == 0)
         {
-            // We have a suite, but something is wrong with it.  There are
-            // two scenarios: (1) if this is the default dir, we reinstall
-            // our bundled test cases, or (2) if this is not the default
-            // directory, we offer to set the value to the default.
+            // We have been pointed to a directory of test cases, but
+            // something is wrong with it.  There are two scenarios: (1) if
+            // this is the default dir, we reinstall our bundled test cases,
+            // or (2) if this is not the default directory, we offer to set
+            // the configured test case directory to the default test case dir.
 
             if (defaultCasesDir.equals(configuredDir))
                 unpackInternal = true;
@@ -3668,7 +3673,7 @@ public class MainWindow
         if (! wrapper.canRun())
         {
             if (wrapperIsNoWrapper(wrapper))
-                Tell.inform(shell, "The special '-- no wrapper --' can only "
+                Tell.inform(shell, "Note: The special '-- no wrapper --' can only "
                             + "\nbe used for browsing the SBML Test Suite; "
                             + "\nit is not runnable.");
             else
