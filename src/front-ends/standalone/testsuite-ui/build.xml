@@ -343,7 +343,7 @@
         <attribute name="Implementation-Version" value="${app.version}" />
         <attribute name="Built-Timestamp" value="${timestamp}" />
         <attribute name="Built-By" value="${user.name}" />
-        <!-- <attribute name="SplashScreen-Image" value="org/sbml/testsuite/ui/resources/icon_128x128.png" /> -->
+        <attribute name="SplashScreen-Image" value="org/sbml/testsuite/ui/resources/icon_256x256.png" />
       </manifest>
       <zipgroupfileset file="${core.dir}/dist/testsuite-core.jar"/>
       <zipgroupfileset file="libs/jna-3.5.2.jar" />
@@ -402,6 +402,10 @@
     <copy file="${basedir}/dev/app-builders/macos/javapackager-config/Info.plist"
           todir="${basedir}/package/macosx"
           overwrite="true"/>
+    <mkdir dir="${basedir}/package/macosx/images" />
+    <copy file="${basedir}/src/data/application-icons/macosx/SBML Test Runner logo.iconset/icon_256x256.png"
+          tofile="${dist.dir}/sbmltestrunner-splashscreen.png"
+          overwrite="true"/>
     <exec executable="/usr/libexec/java_home" outputproperty="jre.path" />
     <exec executable="javapackager">
       <arg value="-deploy"/>
@@ -419,11 +423,14 @@
       <arg value="${app.main.class}" />
       <arg value="-srcfiles" />
       <arg value="sbmltestrunner.jar" />
+      <arg value="-srcfiles" />
+      <arg value="sbmltestrunner-splashscreen.png" />
       <arg value="-outdir" />
       <arg value="${dist.dir}" />
       <arg value="-Bicon=${app.icon.icns}" />
       <arg value="-Bruntime=${jre.path}" />
       <arg value="-BappVersion=3.3.0" />
+      <arg value="-BjvmOptions=-Xmx128m"/>
       <arg value="-outfile" />
       <arg value="ignore-not-used" />
     </exec>
@@ -431,12 +438,17 @@
     <move file="${dist.dir}/bundles/${app.name}.app"
           todir="${dist.dir}" overwrite="true"/>
     <delete dir="${dist.dir}/bundles" failonerror="false"/>
+    <!-- javapackager doesn't include the Java bin directory. -->
+    <copy file="${jre.path}/bin/java"
+          tofile="${dist.dir}/${app.name}.app/Contents/PlugIns/Java/Contents/Home/jre/bin/java"/>
+    <chmod file="${dist.dir}/${app.name}.app/Contents/PlugIns/Java/Contents/Home/jre/bin/java"
+           perm="a+rx"/>
     <!-- Clean up some things we don't use from javapackager. -->
     <delete file="${dist.dir}/ignore-not-used.html" failonerror="false"/>
     <delete file="${dist.dir}/ignore-not-used.jnlp" failonerror="false"/>
+    <delete file="${dist.dir}/sbmltestrunner-splashscreen.png" failonerror="false"/>
     <delete dir="${basedir}/package" failonerror="false"/>
   </target>
-
 
   <!-- Targets for Windows. -->
 
