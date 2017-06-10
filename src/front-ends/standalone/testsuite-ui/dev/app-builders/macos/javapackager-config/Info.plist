@@ -35,7 +35,7 @@
   <key>JVMRuntime</key>
   <string>$APPDIR/plugins/Java</string>
   <key>JVMMainClassName</key>
-  <string>org.sbml.testsuite.ui.Program</string>
+  <string>org.sbml.testsuite.ui.MacStarter</string>
   <key>JVMAppClasspath</key>
   <string></string>
   <key>JVMMainJarName</key>
@@ -44,12 +44,7 @@
   <string>org/sbml/testsuite/ui</string>
   <key>JVMOptions</key>
   <array>
-    <string>-XstartOnFirstThread</string>
-    <string>-Dapple.laf.useScreenMenuBar=true</string>
-    <string>-Dcom.apple.macos.use-file-dialog-packages=true</string>
-    <string>-Dcom.apple.macos.useScreenMenuBar=true</string>
-    <string>-Dcom.apple.mrj.application.apple.menu.about.name=SBMLTestRunner</string>
-    <string>-Dcom.apple.smallTabs=true</string>
+    <string>-splash:sbmltestrunner-splashscreen.png</string>
   </array>
   <key>JVMUserOptions</key>
     <dict>
