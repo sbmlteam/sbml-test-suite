@@ -430,7 +430,6 @@
       <arg value="-Bicon=${app.icon.icns}" />
       <arg value="-Bruntime=${jre.path}" />
       <arg value="-BappVersion=3.3.0" />
-      <arg value="-BjvmOptions=-Xmx128m"/>
       <arg value="-outfile" />
       <arg value="ignore-not-used" />
     </exec>
