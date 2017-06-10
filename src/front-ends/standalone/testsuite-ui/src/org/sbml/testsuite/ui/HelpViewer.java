@@ -51,6 +51,11 @@ import java.io.*;
 import java.net.*;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.KeyEvent;
 
 
 public class HelpViewer
@@ -111,7 +116,31 @@ public class HelpViewer
                 browser.forward();
             }
         });
-        
+
+        ToolItem sep1 = new ToolItem(navBar, SWT.NONE);
+        sep1.setText("   ");
+        sep1.setEnabled(false);
+
+        final ToolItem bigger = new ToolItem(navBar, SWT.PUSH);
+        bigger.setEnabled(true);
+        bigger.setImage(UIUtils.getImageResource("bigger-font.png"));
+        bigger.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event event)
+            {
+                increaseFontSize();
+            }
+        });
+
+        final ToolItem smaller = new ToolItem(navBar, SWT.PUSH);
+        smaller.setEnabled(true);
+        smaller.setImage(UIUtils.getImageResource("smaller-font.png"));
+        smaller.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event event)
+            {
+                decreaseFontSize();
+            }
+        });
+
         Composite comp = new Composite(shell, SWT.NONE);
         data = new GridData(GridData.FILL_BOTH);
         comp.setLayoutData(data);
@@ -160,6 +189,30 @@ public class HelpViewer
             }
         };
 
+        KeyListener fontSizeIncreaseListener = new KeyListener() {
+            @Override
+            public void keyReleased(KeyEvent e) { return; }
+            @Override
+            public void keyPressed(KeyEvent e)
+            {
+                if (UIUtils.isModifierKey(e) && e.keyCode == '+')
+                    increaseFontSize();
+            }
+        };
+        browser.addKeyListener(fontSizeIncreaseListener);
+
+        KeyListener fontSizeDecreaseListener = new KeyListener() {
+            @Override
+            public void keyReleased(KeyEvent e) { return; }
+            @Override
+            public void keyPressed(KeyEvent e)
+            {
+                if (UIUtils.isModifierKey(e) && e.keyCode == '+')
+                    increaseFontSize();
+            }
+        };
+        browser.addKeyListener(fontSizeDecreaseListener);
+
         // Build a table of contents. Open each HTML file found in the given
         // folder to retrieve their title.
 
@@ -200,6 +253,7 @@ public class HelpViewer
         browser.addProgressListener(tocProgressListener);
 
         sashForm.setWeights(new int[] {1, 15});
+        list.setFocus();
         shell.layout();
 
         // Add keyboard bindings for cancelling out of this: command-. on
@@ -227,6 +281,42 @@ public class HelpViewer
         });
 
         shell.addListener(SWT.Close, UIUtils.createShellCloseListener(shell));
+    }
+
+
+    private void increaseFontSize() {
+        // You would think that calling browser.setFont() would work here.
+        // But no, it doesn't; it has no effect at all.  So, we resort to
+        // this hack: call JavaScript code in the browser to change the size
+        // of the font in every element.
+
+        browser.evaluate("var tags = ['body', 'td', 'h1', 'h2', 'h3', 'code'];"
+                         + "for (var i = 0, i_max = tags.length; i < i_max; i++) {"
+                         + "    var elements = document.getElementsByTagName(tags[i]);"
+                         + "    for (var j = 0, j_max = elements.length; j < j_max; j++) {"
+                         + "        var prop = window.getComputedStyle(elements[j], null).getPropertyValue('font-size');"
+                         + "        if (prop) {"
+                         + "            var size = parseFloat(prop);"
+                         + "            elements[j].style.fontSize = parseInt(size, 10) + 1 + 'px';"
+                         + "        }"
+                         + "    }"
+                         + "}");
+    }
+
+
+    private void decreaseFontSize() {
+        // See comments for increaseFontSize().
+        browser.evaluate("var tags = ['body', 'td', 'h1', 'h2', 'h3', 'code'];"
+                         + "for (var i = 0, i_max = tags.length; i < i_max; i++) {"
+                         + "    var elements = document.getElementsByTagName(tags[i]);"
+                         + "    for (var j = 0, j_max = elements.length; j < j_max; j++) {"
+                         + "        var prop = window.getComputedStyle(elements[j], null).getPropertyValue('font-size');"
+                         + "        if (prop) {"
+                         + "            var size = parseFloat(prop);"
+                         + "            elements[j].style.fontSize = parseInt(size, 10) - 1 + 'px';"
+                         + "        }"
+                         + "    }"
+                         + "}");
     }
 
 
