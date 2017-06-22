@@ -677,7 +677,7 @@ public class CasesArchiveManager
             }
 
             Vector<String> archives
-                = Util.getCaseArchiveURLs(rssContents, userDefaultCasesDate);
+                = Util.getCasesArchiveURLs(rssContents, userDefaultCasesDate);
             // We're only interested in the latest archive.
             if (archives != null && archives.size() > 0)
                 updatedArchiveURL = archives.firstElement();
