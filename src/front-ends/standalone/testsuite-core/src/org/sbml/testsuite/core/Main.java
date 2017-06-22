@@ -63,7 +63,7 @@ public class Main
         }
         else if (args.isShouldListReleases())
         {
-            Vector<String> archives = Util.getCaseArchiveURLs(args.getPublishDate());
+            Vector<String> archives = Util.getCasesArchiveURLs(args.getPublishDate());
             if (archives == null)
                 System.out.println("Unable to retrieve list of archives from sf.net");
             else

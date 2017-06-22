@@ -161,7 +161,7 @@ public class Util
      * Returns a NodeList of the contents at our RSS URL.
      * 
      * Callers can cache this value and use it in subsequent calls to other
-     * methods like getCaseArchiveURLs(...), to reduce network accesses.
+     * methods like getCasesArchiveURLs(...), to reduce network accesses.
      * (Users on slow network links may appreciate that.)
      * 
      * For programming reference purposes, here is a sample of the RSS feed
@@ -312,9 +312,9 @@ public class Util
      * @return list of archive urls
      */
 
-    public static Vector<String> getCaseArchiveURLs()
+    public static Vector<String> getCasesArchiveURLs()
     {
-        return getCaseArchiveURLs(getRSSFeedContents(), null);
+        return getCasesArchiveURLs(getRSSFeedContents(), null);
     }
 
 
@@ -325,9 +325,9 @@ public class Util
      * @return list of archive urls
      */
 
-    public static Vector<String> getCaseArchiveURLs(Date date)
+    public static Vector<String> getCasesArchiveURLs(Date date)
     {
-        return getCaseArchiveURLs(getRSSFeedContents(), date);
+        return getCasesArchiveURLs(getRSSFeedContents(), date);
     }
 
 
@@ -343,7 +343,7 @@ public class Util
      *         to contact the sf.net servers.
      */
     public static Vector<String>
-            getCaseArchiveURLs(NodeList contents, Date date)
+            getCasesArchiveURLs(NodeList contents, Date date)
     {
         if (contents == null) return null;
         Vector<String> result = new Vector<String>();
