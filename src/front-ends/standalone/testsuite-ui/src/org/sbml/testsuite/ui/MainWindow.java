@@ -2534,7 +2534,6 @@ public class MainWindow
         // Check the default test case directory and update it if it's old.
 
         Date defaultCasesDate = archiveManager.getCasesDate(defaultCasesDir);
-        System.out.println(defaultCasesDate);
         if (defaultCasesDate == null)
             unpackInternal = true;
         else if (!unpackInternal
@@ -3676,7 +3675,8 @@ public class MainWindow
             if (wrapperIsNoWrapper(wrapper))
                 Tell.inform(shell, "Note: The special '-- no wrapper --' can only "
                             + "\nbe used for browsing the SBML Test Suite; "
-                            + "\nit is not runnable.");
+                            + "\nit is not runnable.  To run tests, please"
+                            + "\nselect or define a runnable wrapper.");
             else
                 Tell.inform(shell, "Something is wrong with the definition of "
                             + "\nthe selected wrapper. Running tests will "
