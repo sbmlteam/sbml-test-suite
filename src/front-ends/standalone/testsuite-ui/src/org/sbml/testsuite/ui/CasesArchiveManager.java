@@ -637,8 +637,6 @@ public class CasesArchiveManager
             return false;
         else
         {
-            Tell.inform(parentShell, "Finished installing test cases into\n"
-                        + Util.getInternalTestSuiteDir());
             return success.get();
         }
     }
