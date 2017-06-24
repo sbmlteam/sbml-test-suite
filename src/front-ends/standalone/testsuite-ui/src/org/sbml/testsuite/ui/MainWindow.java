@@ -2534,6 +2534,7 @@ public class MainWindow
         // Check the default test case directory and update it if it's old.
 
         Date defaultCasesDate = archiveManager.getCasesDate(defaultCasesDir);
+        System.out.println(defaultCasesDate);
         if (defaultCasesDate == null)
             unpackInternal = true;
         else if (!unpackInternal
@@ -2649,7 +2650,7 @@ public class MainWindow
             }
         }
         else if (!quietly && !closing)
-            Tell.inform(shell, "No test case updates found.");
+            Tell.inform(shell, "No new test cases found.");
     }
 
 
