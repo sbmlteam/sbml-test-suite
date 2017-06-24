@@ -42,11 +42,13 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import org.apache.commons.io.IOUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -64,6 +66,9 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.json.simple.JsonArray;
+import org.json.simple.JsonObject;
+import org.json.simple.Jsoner;
 import org.sbml.testsuite.core.CancelCallback;
 import org.sbml.testsuite.core.TestSuite;
 import org.sbml.testsuite.core.UpdateCallback;
@@ -81,9 +86,8 @@ public class CasesArchiveManager
 
     private final Display display;
     private Shell parentShell;
-    private String updatedArchiveURL;
+    private CasesArchiveData latestArchiveData;
     private Date userDefaultCasesDate;
-    private NodeList rssContents;
     private TaskExecutor executor = new TaskExecutor(1);
     private StatusDialog currentDialog;
 
@@ -337,6 +341,16 @@ public class CasesArchiveManager
 
 
     /**
+     * Returns the relative path to the cases datestamp file.
+     */
+    public String casesDateFileName()
+    {
+        return "cases" + File.separator + "semantic" + File.separator
+            + TestSuite.CASES_DATE_FILE_NAME;
+    }
+
+
+    /**
      * Reads the date stamp file in the given test suite directory and
      * returns either a Date object corresponding to that date, or null if it
      * could not find the date file or something went wrong while trying to
@@ -344,6 +358,8 @@ public class CasesArchiveManager
      */
     public Date getCasesDate(File dir)
     {
+        // FIXME when this gets called, dir is already cases/semantic, which
+        // is confusing and not consistent with casesDateFileName().
         return Util.readArchiveDateFile(dir, TestSuite.CASES_DATE_FILE_NAME);
     }
 
@@ -369,7 +385,7 @@ public class CasesArchiveManager
                 return null;
             }
 
-            final String casesDateFileName = TestSuite.CASES_DATE_FILE_NAME;
+            final String casesDateFileName = casesDateFileName();
             ZipInputStream zis = new ZipInputStream(in);
             ZipEntry entry = zis.getNextEntry();
             while (entry != null && !casesDateFileName.equals(entry.getName()))
@@ -642,16 +658,15 @@ public class CasesArchiveManager
             // in that case, we force a refresh, based on the premise that the
             // user wants an update check to be performed anew.
 
-            if (rssContents == null || currentDialog != null)
+            if (latestArchiveData == null || currentDialog != null)
             {
-                HttpURLConnection connection = Util.getRSSFeedConnection();
-                if (connection != null)
-                    rssContents = Util.getRSSFeedContents(connection);
-
-                if (connection == null || rssContents == null)
+                try
                 {
-                    // If we were running interactively, then tell the user
-                    // we failed.
+                    latestArchiveData = ArchiveServer.getLatestArchiveData("semantic");
+                }
+                catch (Exception e)
+                {
+                    // If we're running interactively, tell the user we failed.
                     if (currentDialog != null)
                     {
                         currentDialog.close();
@@ -662,8 +677,8 @@ public class CasesArchiveManager
                             public void run()
                             {
                                 Tell.error(parentShell,
-                                   "Unable to reach update server.",
-                                   "Either the attempt to connect to SourceForge\n"
+                                   "Problem getting archive data.",
+                                   "Either the attempt to connect to the server\n"
                                    + "failed, or else the data read from the server\n"
                                    + "is corrupted in some way.  This can happen\n"
                                    + "if the network is unreachable or the site\n"
@@ -672,16 +687,34 @@ public class CasesArchiveManager
                             }
                         });
                     }
+                    // Whether we tell the user or not, we give up.
+                    return;
+                }
+
+                if (latestArchiveData == null)
+                {
+                    // If we're running interactively, tell the user we failed.
+                    if (currentDialog != null)
+                    {
+                        currentDialog.close();
+                        if (parentShell == null || parentShell.isDisposed())
+                            return;
+                        display.syncExec(new Runnable() {
+                            @Override
+                            public void run()
+                            {
+                                Tell.error(parentShell,
+                                   "Failed to find updated test cases.",
+                                   "Something is wrong with the update server\n"
+                                   + "or this Test Runner. Please report\n"
+                                   + "this to the developers.\n");
+                            }
+                        });
+                    }
+                    // Whether we tell the user or not, we give up.
                     return;
                 }
             }
-
-            Vector<String> archives
-                = Util.getCasesArchiveURLs(rssContents, userDefaultCasesDate);
-            // We're only interested in the latest archive.
-            if (archives != null && archives.size() > 0)
-                updatedArchiveURL = archives.firstElement();
-
             if (currentDialog != null) currentDialog.close();
         }
     }
@@ -693,7 +726,7 @@ public class CasesArchiveManager
      */
     public boolean checkForUpdates(boolean quietly)
     {
-        updatedArchiveURL = null;
+        latestArchiveData = null;
         if (userDefaultCasesDate == null)
             userDefaultCasesDate = getUserDefaultCasesDate();
         if (userDefaultCasesDate == null)
@@ -731,7 +764,13 @@ public class CasesArchiveManager
                 return false;
         }
 
-        return (updatedArchiveURL != null);
+        if (latestArchiveData != null)
+        {
+            Date latestDate = latestArchiveData.archiveDate();
+            return latestDate.after(userDefaultCasesDate);
+        }
+        else
+            return false;
     }
 
 
@@ -819,13 +858,13 @@ public class CasesArchiveManager
 
     /**
      * Method that handles downloading and unpacking an archive over the net.
-     * This assumes that the archive URL (= updatedArchiveURL) and a cache
-     * of the RSS feed (= rssContents) have already been set by the time this
-     * method is called.
+     * This assumes that the archive URL (= updatedArchiveURL) and a cache of
+     * the archive data (= latestArchiveData) have already been set by the
+     * time this method is called.
      */
     public void updateFromNetwork()
     {
-        if (updatedArchiveURL == null || rssContents == null) return;
+        if (latestArchiveData == null) return;
 
         File destDir = new File(Util.getUserDir());
         File destFile = new File(destDir, TEMP_ZIP_FILE_NAME);
@@ -834,7 +873,7 @@ public class CasesArchiveManager
 
         try
         {
-            url = new URL(updatedArchiveURL);
+            url = new URL(latestArchiveData.archiveDownloadURL());
             fos = new FileOutputStream(destFile);
         }
         catch (MalformedURLException e)
@@ -858,7 +897,7 @@ public class CasesArchiveManager
             return;
         }
 
-        int size = Util.getCasesArchiveSize(rssContents, updatedArchiveURL);
+        int size = latestArchiveData.archiveSize();
         boolean infiniteBar = (size == -1);
 
         currentDialog = new StatusDialog("Downloading updated tests...",
