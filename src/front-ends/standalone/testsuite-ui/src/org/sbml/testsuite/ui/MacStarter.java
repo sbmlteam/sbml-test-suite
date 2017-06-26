@@ -33,6 +33,7 @@ import java.awt.SplashScreen;
 import java.io.File;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.lang.ClassLoader;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -187,49 +188,82 @@ import java.util.stream.Collectors;
  */
 public class MacStarter
 {
-    public static void main(String[] args)
+    public final static void main(String[] args)
+    {
+        Logger log;
+
+        // I could not get the command "java -jar our.jar SomeMainClass" to
+        // start a specific main class: it always started the main class that
+        // is defined in the jar manifest file.  Our manifest file has to set
+        // the main class as this (MacStarter), which means that trying to
+        // execute "java -jar our.jar SomeMainClass" from within MacStarter
+        // leads to infinite loops.  To avoid this, MacStarter sets a property
+        // when it runs the jar file, and if that property is set, it invokes
+        // the real main class instead of running the jar file again.
+
+        if (System.getProperty("macstarter.startmain", "notset").equals("notset"))
+        {
+            log = getLog(true);
+            log.info("Running jar");
+            runJar(log);
+        }
+        else
+        {
+            log = getLog(false);
+            log.info("Running main");
+            runMain(log);
+        }
+    }
+
+
+    private static void runJar(final Logger log)
     {
         String java = System.getProperty("java.home") + "/bin/java";
-        URL jarPathAsURL = getLocation(MacStarter.class);
-        String jarPathAsString = URLDecoder.decode(jarPathAsURL.toString());
-
-        initLog();
-        log.info("Java binary: " + java);
-        log.info("Jar path: " + jarPathAsString);
-
+        String jarPath = getLocation(MacStarter.class);
+        String iconPath = new File(jarPath).getParent() + "/sbmltestrunner-icon.png";
         int splashDuration = getSplashDuration();
+
+        log.info("Java binary: " + java);
+        log.info("Jar path: " + jarPath);
+        log.info("Icon path: " + iconPath);
         log.info("Splash duration: " + splashDuration);
 
-        Thread thread = Thread.currentThread();
         try
         {
             // Call on Java to start the real jar file.
+            // Note the use of -splash:none.  This is because we need to set
+            // the SplashScreen-Image property in the jar file manifest so
+            // that if the user invokes the jar file manually (and not via
+            // the app we create), they'll get the splash screen.  However,
+            // unless we take precautions, that property will also cause the
+            // splash screen to be shown when we invoke the code below,
+            // leading to two splash screens.  The -splash:none is done to
+            // block the splash screen when we run the jar from inside here.
             ProcessBuilder pb = new ProcessBuilder(java,
                                                    "-XstartOnFirstThread",
+                                                   "-Xdock:image=" + iconPath,
+                                                   "-Xdock:name=SBML Test Runner",
+                                                   "-Dapple.awt.UIElement=true",
                                                    "-Dapple.laf.useScreenMenuBar=true",
                                                    "-Dcom.apple.macos.use-file-dialog-packages=true",
                                                    "-Dcom.apple.macos.useScreenMenuBar=true",
-                                                   "-Dcom.apple.mrj.application.apple.menu.about.name=SBMLTestRunner",
+                                                   "-Dcom.apple.mrj.application.apple.menu.about.name=SBML Test Runner",
                                                    "-Dcom.apple.smallTabs=true",
-                                                   "-classpath", jarPathAsString,
-                                                   UI_MAIN_CLASS);
-            Process uiProcess = pb.inheritIO().start();
+                                                   "-Dmacstarter.startmain=true",
+                                                   "-splash:none",
+                                                   "-jar", jarPath);
+
+            if (log != null)
+                log.info("Command: " + pb.command());
+            pb.inheritIO().start();
 
             // Close the splash screen and exit this thread after a delay.
             TimerTask closerTask = new java.util.TimerTask() {
                     @Override
                     public void run() {
-                        try
-                        {
-                            final SplashScreen splash = SplashScreen.getSplashScreen();
-                            if (splash != null)
-                                splash.close();
-                        }
-                        catch (Exception e)
-                        {
-                            log.log(Level.SEVERE, "Unable to get SplashScreen", e);
-                        }
+                        closeSplashScreen(log);
                         System.exit(0);
+                        Runtime.getRuntime().halt(0);
                     }
                 };
             new java.util.Timer().schedule(closerTask, splashDuration * 1000);
@@ -241,14 +275,44 @@ public class MacStarter
     }
 
 
-    private static void initLog()
+    private static void runMain(final Logger log)
     {
-        log = Logger.getLogger(LOG_PREFIX);
+        final Class<?> entryPoint = org.sbml.testsuite.ui.Program.class;
+        final String[] args = new String[0];
+        try
+        {
+            entryPoint.getMethod("main", String[].class).invoke(null, (Object) args);
+        }
+        catch (Exception e)
+        {
+            log.log(Level.SEVERE, "Unable to invoke main", e);
+        }
+    }
+
+
+    private static void closeSplashScreen(final Logger log)
+    {
+        try
+        {
+            final SplashScreen splash = SplashScreen.getSplashScreen();
+            if (splash != null)
+                splash.close();
+        }
+        catch (Exception e)
+        {
+            log.log(Level.SEVERE, "Unable to get SplashScreen", e);
+        }
+    }
+
+
+    private static Logger getLog(boolean clearLog)
+    {
+        Logger log = Logger.getLogger(LOG_PREFIX);
         if (log == null)
         {
             // This shouldn't happen. Something is really wrong.
             System.err.println("MacStarter: failed to create Logger object.");
-            return;
+            return null;
         }
 
         // Check if we were told to log on the console.
@@ -287,7 +351,7 @@ public class MacStarter
         else if (logFile != null)
         {
             // Clear old log file content if there is any.
-            if (logFile.exists())
+            if (logFile.exists() && clearLog)
                 try
                 {
                     PrintWriter writer = new PrintWriter(logFile);
@@ -312,6 +376,7 @@ public class MacStarter
             }
         }
         log.setUseParentHandlers(false);
+        return log;
     }
 
 
@@ -329,21 +394,20 @@ public class MacStarter
      * Gets the base location of the given class.
      * <p>
      * If the class is directly on the file system (e.g.,
-     * "/path/to/my/package/MyClass.class") then it will return the base directory
-     * (e.g., "file:/path/to").
+     * "/path/to/my/package/MyClass.class") then it will return the base
+     * directory (e.g., "/path/to").
      * </p>
      * <p>
      * If the class is within a JAR file (e.g.,
      * "/path/to/my-jar.jar!/my/package/MyClass.class") then it will return the
-     * path to the JAR (e.g., "file:/path/to/my-jar.jar").
+     * path to the JAR (e.g., "/path/to/my-jar.jar").
      * </p>
      *
      * @param c The class whose location is desired.
-     * @see FileUtils#urlToFile(URL) to convert the result to a {@link File}.
      *
      * Originally from https://stackoverflow.com/a/12733172/743730
      */
-    private static URL getLocation(final Class<?> c)
+    private static String getLocation(final Class<?> c)
     {
         if (c == null)
             return null; // could not load the class
@@ -354,7 +418,7 @@ public class MacStarter
             final URL codeSourceLocation =
                 c.getProtectionDomain().getCodeSource().getLocation();
             if (codeSourceLocation != null)
-                return codeSourceLocation;
+                return new File(codeSourceLocation.toURI()).getPath();
         }
         catch (Exception e)
         {
@@ -386,21 +450,19 @@ public class MacStarter
 
         try
         {
-            return new URL(path);
+            URL pathAsURL = new URL(path);
+            return new File(pathAsURL.toURI()).getPath();
         }
-        catch (final MalformedURLException e)
+        catch (Exception e)
         {
             e.printStackTrace();
             return null;
         }
     }
 
-    /** Pointer to our log handler object. **/
-    private static Logger log;
 
     /** Various constants. **/
     private static final String LOG_PREFIX              = Thread.currentThread().getStackTrace()[0].getClassName();
     private static final String DEFAULT_LOG_FILE_NAME   = "sbmltestsuite.log";
-    private static final int    DEFAULT_SPLASH_DURATION = 3; // sec.
-    private static final String UI_MAIN_CLASS           = "org.sbml.testsuite.ui.Program";
+    private static final int    DEFAULT_SPLASH_DURATION = 2; // sec.
 }
