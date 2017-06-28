@@ -85,6 +85,8 @@
   <path id="testsuite-ui.classpath">
     <pathelement location="build" />
     <path refid="core.classpath" />
+    <pathelement location="./libs/commons-io-2.5.jar" />
+    <pathelement location="./libs/json-simple-2.1.2.jar" />
     <pathelement location="./libs/swt.jar" />
     <pathelement location="./libs/libswt-awt-cocoa-4745.jnilib" />
     <pathelement location="./libs/libswt-cocoa-4745.jnilib" />
@@ -351,6 +353,8 @@
       <zipgroupfileset file="libs/opal-0.9.5.1.jar"/>
       <zipgroupfileset file="libs/org.swtchart_0.7.0.v20110128.jar"/>
       <zipgroupfileset file="libs/simple-xml-2.6.4.jar"/>
+      <zipgroupfileset file="./libs/commons-io-2.5.jar" />
+      <zipgroupfileset file="./libs/json-simple-2.1.2.jar" />
       <zipgroupfileset file="${swt.file}"/>
       <fileset dir="libs" includes="*.jnilib" />
       <fileset dir="${build.dest}" includes="**" />
@@ -403,8 +407,11 @@
           todir="${basedir}/package/macosx"
           overwrite="true"/>
     <mkdir dir="${basedir}/package/macosx/images" />
-    <copy file="${basedir}/src/data/application-icons/macosx/SBML Test Runner logo.iconset/icon_256x256.png"
+    <copy file="${basedir}/src/data/application-icons/icon_256x256.png"
           tofile="${dist.dir}/sbmltestrunner-splashscreen.png"
+          overwrite="true"/>
+    <copy file="${basedir}/src/data/application-icons/icon_1024x1024.png"
+          tofile="${dist.dir}/sbmltestrunner-icon.png"
           overwrite="true"/>
     <exec executable="/usr/libexec/java_home" outputproperty="jre.path" />
     <exec executable="javapackager">
