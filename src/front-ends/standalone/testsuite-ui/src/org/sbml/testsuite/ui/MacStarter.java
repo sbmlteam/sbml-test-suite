@@ -225,9 +225,8 @@ public class MacStarter
             // block the splash screen when we run the jar from inside here.
             ProcessBuilder pb = new ProcessBuilder(java,
                                                    "-XstartOnFirstThread",
-                                                   "-Xdock:image=" + iconPath,
+                                                   "-Xdock:icon=" + iconPath,
                                                    "-Xdock:name=SBML Test Runner",
-                                                   "-Dapple.awt.UIElement=true",
                                                    "-Dapple.laf.useScreenMenuBar=true",
                                                    "-Dcom.apple.macos.use-file-dialog-packages=true",
                                                    "-Dcom.apple.macos.useScreenMenuBar=true",
