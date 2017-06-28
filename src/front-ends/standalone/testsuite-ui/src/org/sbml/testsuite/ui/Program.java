@@ -41,8 +41,12 @@ public class Program
      * Main entry point for the test runner
      * @param args command line arguments
      */
-    public static void main(String[] args)
+    public final static void main(String[] args)
     {
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name",
+                           "SBML Test Runner");
+        System.setProperty("apple.awt.application.name",
+                           "SBML Test Runner");
         try
         {
             if (UIUtils.isWindows())
