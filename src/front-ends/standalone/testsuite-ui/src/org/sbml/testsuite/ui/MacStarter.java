@@ -33,6 +33,8 @@ import java.awt.SplashScreen;
 import java.io.File;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.TimerTask;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -236,8 +238,13 @@ public class MacStarter
                                                    "-splash:none",
                                                    "-jar", jarPath);
 
-            if (log != null)
+            Map<String, String> env = pb.environment();
+            if (log != null) {
                 log.info("Command: " + pb.command());
+                for (Map.Entry<String, String> entry : env.entrySet()) {
+                    log.info("Env var " + entry.getKey() + " = " + entry.getValue());
+                }
+            }
             pb.inheritIO().start();
 
             // Close the splash screen and exit this thread after a delay.
