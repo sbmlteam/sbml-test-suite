@@ -320,6 +320,8 @@ public class MainWindow
     private final String              ITEM_RERUN  = "RERUN";
     private final String              ITEM_OUTPUT = "OUTPUT";
 
+    private final Point               defaultSize = new Point(900, 800);
+
     private Composite                 cmpDifferences;
     private Composite                 cmpGraphs;
     private GridLayout                gl_gridDifferences;
@@ -891,8 +893,8 @@ public class MainWindow
         shell = new Shell(SWT.CLOSE | SWT.INHERIT_DEFAULT | SWT.TITLE
                           | SWT.BORDER | SWT.MIN | SWT.MAX | SWT.RESIZE);
         shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
-        shell.setMinimumSize(new Point(850, 650));
-        shell.setSize(850, 650);
+        shell.setMinimumSize(defaultSize);
+        shell.setSize(defaultSize);
         shell.setText("SBML Test Runner");
         shell.addKeyListener(UIUtils.createCloseKeyListener(shell));
         shell.addListener(SWT.Close, new Listener() {
@@ -2213,6 +2215,9 @@ public class MainWindow
             UIUtils.saveWindow(shell, this);
             shell.dispose();
         }
+        // A sledgehammer, but I've had trouble finding the cause of processes
+        // not closing and I've wasted enough time looking for them.
+        Runtime.getRuntime().halt(0);
     }
 
 
@@ -2536,8 +2541,8 @@ public class MainWindow
         Date defaultCasesDate = archiveManager.getCasesDate(defaultCasesDir);
         if (defaultCasesDate == null)
             unpackInternal = true;
-        else if (!unpackInternal
-                 && defaultCasesDate.compareTo(bundledCasesDate) < 0)
+        if (defaultCasesDate != null && bundledCasesDate != null && !unpackInternal
+            && defaultCasesDate.compareTo(bundledCasesDate) < 0)
         {
             // Either it's older or it doesn't have a date file, implying
             // it's older than the one shipped with the STS version 3.1.0.
