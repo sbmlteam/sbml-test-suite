@@ -36,6 +36,12 @@ package org.sbml.testsuite.ui;
  */
 public class Program
 {
+    static {
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name",
+                           "SBML Test Runner");
+        System.setProperty("apple.awt.application.name",
+                           "SBML Test Runner");
+    }
 
     /**
      * Main entry point for the test runner
@@ -43,10 +49,6 @@ public class Program
      */
     public final static void main(String[] args)
     {
-        System.setProperty("com.apple.mrj.application.apple.menu.about.name",
-                           "SBML Test Runner");
-        System.setProperty("apple.awt.application.name",
-                           "SBML Test Runner");
         try
         {
             if (UIUtils.isWindows())
