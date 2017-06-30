@@ -30,7 +30,9 @@
 package org.sbml.testsuite.ui;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -498,6 +500,31 @@ public class CasesArchiveManager
 
 
     /**
+     * Write a short readme file into the test cases directory to help users
+     * figure out what it's about.
+     */
+    public void addReadmeToCasesDir(File destDir)
+    {
+        File readmeFile = new File(destDir, "README.txt");
+        String text = "This directory was created by the SBML Test Runner,"
+            + " \npart of the SBML Test Suite.  For more information, please"
+            + " \nvisit http://sbml.org/Software/SBML_Test_Suite.";
+
+        try
+        {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(readmeFile));
+            writer.append(text);
+            writer.flush();
+            writer.close();
+        }
+        catch (Exception e)
+        {
+            // Nothing to do.
+        }
+    }
+
+
+    /**
      * Returns the directory that contains the semantic test cases on the
      * user's computer.
      */
@@ -581,6 +608,7 @@ public class CasesArchiveManager
             File casesDir = getDefaultCasesDir();
             if (casesDir.isDirectory())
             {
+                addReadmeToCasesDir(Util.getInternalTestSuiteDir());
                 success.set(true);
                 currentDialog.close();
             }
