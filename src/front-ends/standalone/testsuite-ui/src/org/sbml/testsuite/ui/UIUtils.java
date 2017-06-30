@@ -490,6 +490,12 @@ public class UIUtils
 
     public static void restoreWindow(Shell shell, Object obj)
     {
+        restoreWindow(shell, obj, null);
+    }
+
+
+    public static void restoreWindow(Shell shell, Object obj, Rectangle preferred)
+    {
         Preferences prefs = Preferences.userNodeForPackage(obj.getClass());
         String name = obj.getClass().getName();
 
@@ -497,12 +503,16 @@ public class UIUtils
         int y = prefs.getInt(name + ".height", SWT.DEFAULT);
         if (x != SWT.DEFAULT || y != SWT.DEFAULT)
             shell.setSize(x, y);
+        else if (preferred != null)
+            shell.setSize(preferred.width, preferred.height);
 
         x = prefs.getInt(name + ".x", SWT.DEFAULT);
         y = prefs.getInt(name + ".y", SWT.DEFAULT);
         if (x != SWT.DEFAULT || y != SWT.DEFAULT)
             shell.setLocation(new Point(x, y));
-        else                            // Fall-back.
+        else if (preferred != null)
+            shell.setLocation(preferred.x, preferred.y);
+        else // Fall-back.
         {
             Monitor primary = shell.getDisplay().getPrimaryMonitor();
             Rectangle bounds = primary.getBounds();
