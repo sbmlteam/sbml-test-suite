@@ -98,10 +98,10 @@ public class ResultMap
     private MenuItem                 menuItemDeleteResults;
     private MenuItem                 menuItemViewOutput;
 
-    private final static int         squareWidth = 11;
-    private final static int         squareGap = 2;
-    private final static int         edgePadding = 20;
-    private final static int         dialogStyle
+    private final static int         SQUARE_WIDTH = 11;
+    private final static int         SQUARE_GAP = 2;
+    private final static int         EDGE_PADDING = 20;
+    private final static int         DIALOG_STYLE
         = SWT.DIALOG_TRIM | SWT.TOOL | SWT.RESIZE | SWT.MODELESS;
 
 
@@ -149,7 +149,7 @@ public class ResultMap
             + "more information, left-click to jump to that result in the "
             + "main window, and right-click for more options.";
 
-        shell = new Shell(dialogStyle);
+        shell = new Shell(DIALOG_STYLE);
         shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
         shell.setLayout(new FormLayout());
 
@@ -234,8 +234,8 @@ public class ResultMap
 
         final StyledText message = new StyledText(shell, SWT.WRAP);
         FormData fd_message = new FormData();
-        fd_message.left = new FormAttachment(0, edgePadding);
-        fd_message.right = new FormAttachment(100, -edgePadding);
+        fd_message.left = new FormAttachment(0, EDGE_PADDING);
+        fd_message.right = new FormAttachment(100, -EDGE_PADDING);
         fd_message.bottom = new FormAttachment(100, -50);
         fd_message.top = new FormAttachment(100, -85 + offset);
         message.setLayoutData(fd_message);
@@ -508,8 +508,8 @@ public class ResultMap
         int numCases = suite.getNumCases();
         Rectangle parentSize = parent.getBounds();
         int numSquaresSide = (int) Math.ceil(Math.sqrt(numCases));
-        int pixelsSide = numSquaresSide * (squareWidth + squareGap);
-        int width = pixelsSide + (2 * edgePadding);
+        int pixelsSide = numSquaresSide * (SQUARE_WIDTH + SQUARE_GAP);
+        int width = pixelsSide + (2 * EDGE_PADDING);
         int height = pixelsSide + 110; // Approximate, for text areas.
         int x = shell.getLocation().x + 10;
         int y = shell.getLocation().y + 10;
@@ -529,8 +529,8 @@ public class ResultMap
     public String getIdFromPoint(int xpos, int ypos)
     {
         String name = null;
-        int x = xpos / (squareWidth + squareGap);
-        int y = ypos / (squareWidth + squareGap);
+        int x = xpos / (SQUARE_WIDTH + SQUARE_GAP);
+        int y = ypos / (SQUARE_WIDTH + SQUARE_GAP);
         int index = y * itemsPerLine + x;
         if (index < caseNames.length && index >= 0) name = caseNames[index];
         if (name != null) lastName = name;
@@ -666,10 +666,10 @@ public class ResultMap
             gc.drawString("No Data ...", 10, 10);
             return;
         }
-        itemsPerLine = canvas.getBounds().width / (squareWidth + squareGap);
+        itemsPerLine = canvas.getBounds().width / (SQUARE_WIDTH + SQUARE_GAP);
 
-        int x = squareGap;
-        int y = squareGap;
+        int x = SQUARE_GAP;
+        int y = SQUARE_GAP;
         int i = 0;
         for (String caseName : caseNames)
         {
@@ -686,14 +686,14 @@ public class ResultMap
             */
             
             gc.setBackground(color);
-            gc.fillRoundRectangle(x, y, squareWidth, squareWidth, 5, 5);
+            gc.fillRoundRectangle(x, y, SQUARE_WIDTH, SQUARE_WIDTH, 5, 5);
 
-            x += squareWidth + squareGap;
+            x += SQUARE_WIDTH + SQUARE_GAP;
 
             if ((i + 1) % itemsPerLine == 0)
             {
-                x = squareGap;
-                y += squareWidth + squareGap;
+                x = SQUARE_GAP;
+                y += SQUARE_WIDTH + SQUARE_GAP;
             }
             i++;
         }
