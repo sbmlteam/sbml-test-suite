@@ -245,13 +245,16 @@ public class MainWindow
             menu = new Menu(dropdown.getParent().getShell());
 
             addOption(HIGHEST_LV_TEXT);
+            addOption(SWT.SEPARATOR);
             addOption(new LevelVersion(3, 2));
             addOption(new LevelVersion(3, 1));
+            addOption(SWT.SEPARATOR);
             addOption(new LevelVersion(2, 5));
             addOption(new LevelVersion(2, 4));
             addOption(new LevelVersion(2, 3));
             addOption(new LevelVersion(2, 2));
             addOption(new LevelVersion(2, 1));
+            addOption(SWT.SEPARATOR);
             addOption(new LevelVersion(1, 2));
         }
 
@@ -281,6 +284,15 @@ public class MainWindow
             menuItem.setText(itemText);
             menuItem.setData(lv);
             menuItem.addSelectionListener(selectionListener);
+            items.add(menuItem);
+        }
+
+
+        private void addOption(int separator)
+        {
+            MenuItem menuItem = new MenuItem(menu, separator);
+            menuItem.addSelectionListener(selectionListener);
+            menuItem.setEnabled(false);
             items.add(menuItem);
         }
 
