@@ -31,6 +31,7 @@
 
 package org.sbml.testsuite.core;
 
+import com.sun.jna.platform.FileUtils;
 import java.awt.Desktop;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -50,12 +51,16 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.URL;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Date;
 import java.util.Enumeration;
+import java.util.TimeZone;
 import java.util.Vector;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -68,6 +73,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 
+
 /**
  * Util, a collection of static functions used all over the place.
  */
@@ -77,7 +83,7 @@ public class Util
      * SourceForge URL for the last 100 file releases in the SBML Test Suite
      * branch.
      */
-    private final static String RSS_QUERY              = "http://sourceforge.net/projects/sbml/rss?path=/test-suite&limit=100";
+    private final static String SF_RSS_QUERY = "http://sourceforge.net/projects/sbml/rss?path=/test-suite&limit=100";
 
     /**
      * Timeout duration for how long we're willing to wait on establishing
@@ -118,7 +124,7 @@ public class Util
     {
         try
         {
-            URL url = new URL(RSS_QUERY);
+            URL url = new URL(SF_RSS_QUERY);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             // Test if the connection really was made. Otherwise, callers may
@@ -1181,4 +1187,26 @@ public class Util
                              date.getMonth() + 1, date.getDate());
     }
 
+
+    /**
+     * Remove a file by putting it in the trash if possible, and deleting
+     * it outright if no trash is available.
+     */
+    public static void deleteFile(File file)
+    {
+        FileUtils fileUtils = FileUtils.getInstance();
+        if (fileUtils.hasTrash())
+        {
+            try
+            {
+                fileUtils.moveToTrash( new File[] { file });
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+            }
+        }
+        else
+            file.delete();
+    }
 }
