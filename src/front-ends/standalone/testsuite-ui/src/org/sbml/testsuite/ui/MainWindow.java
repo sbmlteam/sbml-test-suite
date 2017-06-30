@@ -1022,6 +1022,33 @@ public class MainWindow
         tree.addListener(SWT.Selection, treeSelectionListener);
         tree.addListener(SWT.DefaultSelection, treeSelectionListener);
 
+        // Select first & last items in the list via HOME & END.
+
+        tree.addListener(SWT.HOME, new Listener() {
+            @Override
+            public void handleEvent(Event e)
+            {
+                TreeItem[] items = tree.getItems();
+                if (items != null) {
+                    tree.select(items[0]);
+                    tree.setSelection(items[0]);
+                }
+            }
+        });
+
+        tree.addListener(SWT.END, new Listener() {
+            @Override
+            public void handleEvent(Event e)
+            {
+                TreeItem[] items = tree.getItems();
+                if (items != null && items.length > 1) {
+                    int last = items.length - 1;
+                    tree.select(items[last]);
+                    tree.setSelection(items[last]);
+                }
+            }
+        });
+
         // The following changes the selection color of tree items by making
         // it almost transparent.  This is needed because otherwise, on Mac
         // OS, the system's coloring of select items may make the case result
