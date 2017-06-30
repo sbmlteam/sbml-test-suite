@@ -364,7 +364,7 @@ public class WrapperConfig
     {
         File testFile = getResultFile(test);
         if (testFile == null) return;
-        testFile.delete();
+        Util.deleteFile(testFile);
         resultFiles.remove(testFile);
         resultCache.put(test.getId(), new DelayedResult(ResultType.Unknown));
     }
