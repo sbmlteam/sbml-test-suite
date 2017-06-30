@@ -70,12 +70,14 @@ import org.sbml.testsuite.core.TestSuite;
 import org.sbml.testsuite.core.Util;
 import org.sbml.testsuite.core.WrapperConfig;
 
+
 /**
  * ResultMap is a dialog providing overview information about the test results.
  */
 public class ResultMap
 {
     private Shell                    shell;
+    private Shell                    parent;
     private Canvas                   canvas;
     private SortedMap<String, Color> data;
     private String[]                 caseNames;
@@ -98,21 +100,9 @@ public class ResultMap
 
     private final static int         squareWidth = 11;
     private final static int         squareGap = 2;
-    private final static int         dialogStyle 
+    private final static int         edgePadding = 20;
+    private final static int         dialogStyle
         = SWT.DIALOG_TRIM | SWT.TOOL | SWT.RESIZE | SWT.MODELESS;
-
-
-    /**
-     * Basic constructor.
-     * 
-     * @param parent
-     * @param style
-     */
-    public ResultMap(Shell parent, int style)
-    {
-        createContents();
-        shell.setText("Map of test results");
-    }
 
 
     /**
@@ -126,11 +116,10 @@ public class ResultMap
      */
     public ResultMap(Shell parent, TestSuite suite, WrapperConfig wrapper)
     {
-        this(parent, dialogStyle);
+        this.parent = parent;
         this.wrapper = wrapper;
         this.suite = suite;
-        shell.setText("Map of test results for wrapper \""
-                      + wrapper.getName() + "\"");
+        createContents();
     }
 
 
@@ -165,9 +154,9 @@ public class ResultMap
         shell.setLayout(new FormLayout());
 
         Listener hideListener = new Listener() {
-            public void handleEvent(Event event) 
-            { 
-                close(); 
+            public void handleEvent(Event event)
+            {
+                close();
                 event.doit = false;
             }
         };
@@ -224,11 +213,11 @@ public class ResultMap
                 paintCanvas(arg0.gc);
             }
         });
+
         FormData fd_canvas = new FormData();
         fd_canvas.top = new FormAttachment(0, 10);
         fd_canvas.left = new FormAttachment(0, 10);
         fd_canvas.right = new FormAttachment(100, -10);
-
         canvas.setLayoutData(fd_canvas);
 
         int offset = 20 - UIUtils.scaledFontSize(20);
@@ -245,13 +234,13 @@ public class ResultMap
 
         final StyledText message = new StyledText(shell, SWT.WRAP);
         FormData fd_message = new FormData();
-        fd_message.left = new FormAttachment(0, 20);
-        fd_message.right = new FormAttachment(100, -20);
+        fd_message.left = new FormAttachment(0, edgePadding);
+        fd_message.right = new FormAttachment(100, -edgePadding);
         fd_message.bottom = new FormAttachment(100, -50);
         fd_message.top = new FormAttachment(100, -85 + offset);
         message.setLayoutData(fd_message);
         if (!UIUtils.isMacOSX()) message.moveAbove(messageGroup);
-        
+
         final Font defaultFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, 0);
         final Font italicFont = UIUtils.createResizedFont("SansSerif", SWT.ITALIC, 0);
 
@@ -492,7 +481,7 @@ public class ResultMap
         cmdClose.addKeyListener(UIUtils.createCloseKeyListener(shell));
         cmdClose.addListener(SWT.Traverse, UIUtils.createEscapeKeyListener(shell));
 
-        //        shell.pack();
+        setName();
         shell.layout();
     }
 
@@ -503,6 +492,28 @@ public class ResultMap
     public Canvas getCanvas()
     {
         return canvas;
+    }
+
+
+    /**
+     * Adjust the size of the overall map window to cover the given number
+     * of cases.  This tries to make the proportions of the map window
+     * square-ish.
+     */
+    public Rectangle preferredSizeForNumCases()
+    {
+        if (suite == null || shell == null)
+            return null;
+
+        int numCases = suite.getNumCases();
+        Rectangle parentSize = parent.getBounds();
+        int numSquaresSide = (int) Math.ceil(Math.sqrt(numCases));
+        int pixelsSide = numSquaresSide * (squareWidth + squareGap);
+        int width = pixelsSide + (2 * edgePadding);
+        int height = pixelsSide + 110; // Approximate, for text areas.
+        int x = shell.getLocation().x + 10;
+        int y = shell.getLocation().y + 10;
+        return new Rectangle(x, y, width, height);
     }
 
 
@@ -624,7 +635,7 @@ public class ResultMap
     public void open()
     {
         if (shell == null) return;
-        UIUtils.restoreWindow(shell, this);
+        UIUtils.restoreWindow(shell, this, preferredSizeForNumCases());
         updateContextualMenu();
         shell.open();
     }
@@ -770,12 +781,18 @@ public class ResultMap
     }
 
 
+    public void setName()
+    {
+        shell.setText("Map of test results for wrapper \""
+                      + wrapper.getName() + "\"");
+    }
+
+
     public void updateWrapper(WrapperConfig wrapper)
     {
         if (wrapper == null) return;
         this.wrapper = wrapper;
-        shell.setText("Map of test results for wrapper \""
-                      + wrapper.getName() + "\"");
+        setName();
         updateContextualMenu();
     }
 
