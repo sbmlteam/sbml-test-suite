@@ -26,7 +26,7 @@ The initial conditions are as follows:
 |Initial concentration of S3   |$2.0 \x 10^-4$ |mole metre^-1^                      |
 |Initial concentration of S4   |$1.0 \x 10^-4$ |mole metre^-1^                      |
 |Value of parameter k1         |$0.75 \x 10^4$ |metre mole^-1^ second^-1^ |
-|Value of parameter k2         |$0.25 \x 10^4$ |mtere mole^-1^ second^-1^ |
+|Value of parameter k2         |$0.25 \x 10^4$ |metre mole^-1^ second^-1^ |
 |Length of compartment C       |$            1$ |metre                     |]
 
 *)
