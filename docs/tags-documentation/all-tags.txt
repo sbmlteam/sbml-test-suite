@@ -51,7 +51,7 @@ fbc:Objective	L3v1+	An objective is present in the model, in the 'fbc' namespace
 0D-Compartment	L2v1+	A compartment with a value of 0 for its 'spatialDimensions' attribute is present in the model.
 Amount	all	The value of at least one species is requested to be output in units of amount, not concentration.
 AssignedConstantStoichiometry	L2v1+	The model contains a stoichiometry value that is assigned by a 'stoichiometryMath' construct (in SBML Level 2) or by an initial assignment, assignment rule, or algebraic rule (in SBML Level 3), but thereafter the value remains constant for the duration of the simulation.
-AssignedVariableStoichiometry	L2v1+	The model contains a stoichiometry value that is assigned by a 'stoichiometryMath' construct (in SBML Level 2) or by an initial assignment, assignment rule, algebraic rule or event (in Level 3); however, the value is changed over the course of the simulation.
+AssignedVariableStoichiometry	L2v1+	The model contains a stoichiometry value that is assigned by a 'stoichiometryMath' construct (in SBML Level 2) or by an initial assignment, assignment rule, algebraic rule or event (in Level 3); however, the value is changedÂ over the course of the simulation.
 BoolNumericSwap	L3v2+	The model contains Boolean math in a numeric context, or visa versa, following a relaxation in the L3v2 specification.
 BoundaryCondition	all	A species with a value of 'true' for its 'boundaryCondition' attribute is present in the model.
 Concentration	all	The value of at least one species is requested to be output in units of concentration, not amount.
@@ -62,7 +62,7 @@ EventIsPersistent	L2v1+	The simulation behavior of the model is influenced by an
 EventT0Firing	L2v1+	The model contains at least one event whose 'trigger' component is 'true' at time 0, and whether it fires at time 0 (possible in SBML Level 3; impossible in SBML Level 2) makes a difference to the output of the simulation.
 EventUsesAssignmentTimeValues	L2v4+	The model contains at least one event whose 'useValuesFromTriggerTime' attribute is set to 'false', and this makes a difference in the output of the simulation.
 EventUsesTriggerTimeValues	L2v1+	The model contains at least one event whose 'useValuesFromTriggerTime' attribute is set to 'true' (SBML Level 2 Version 4 and later), or which is assumed to use values from the event's trigger time by default (SBML Level 2 prior to Version 4) and this makes a difference in the output of the simulation.
-FastReaction	all	A reaction with a value of 'true' for its 'fast' attribute is present in the model.
+FastReaction	L1v1-L3v1	A reaction with a value of 'true' for its 'fast' attribute is present in the model.
 HasOnlySubstanceUnits	L2v1+	A species with a value of 'true' for its 'hasOnlySubstanceUnits' attribute is present in the model.
 InitialValueReassigned	all	The initial numerical value of a species, compartment, parameter, or (in SBML Level 3) species reference is determined by an initial assignment, assignment rule, or algebraic rule.
 L3v2MathML	L3v2+	One or more of the MathML elements 'min', 'max', 'rem', 'quotient', or 'implies' are present.
