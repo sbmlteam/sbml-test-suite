@@ -230,6 +230,7 @@ public class MacStarter
                                                    "-Xdock:icon=" + iconPath,
                                                    "-Xdock:name=SBML Test Runner",
                                                    "-Dapple.laf.useScreenMenuBar=true",
+                                                   "-Dapple.awt.application.name=SBML Test Runner",
                                                    "-Dcom.apple.macos.use-file-dialog-packages=true",
                                                    "-Dcom.apple.macos.useScreenMenuBar=true",
                                                    "-Dcom.apple.mrj.application.apple.menu.about.name=SBML Test Runner",
