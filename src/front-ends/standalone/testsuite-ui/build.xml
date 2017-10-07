@@ -449,6 +449,10 @@
           tofile="${dist.dir}/${app.name}.app/Contents/PlugIns/Java/Contents/Home/jre/bin/java"/>
     <chmod file="${dist.dir}/${app.name}.app/Contents/PlugIns/Java/Contents/Home/jre/bin/java"
            perm="a+rx"/>
+    <!-- icon sometimes isn't found by the running app unless we put it here. -->
+    <copy file="${basedir}/src/data/application-icons/icon_1024x1024.png"
+          tofile="${dist.dir}/${app.name}.app/Contents/Java/sbmltestrunner-icon.png"
+          overwrite="true"/>
     <!-- Clean up some things we don't use from javapackager. -->
     <delete file="${dist.dir}/ignore-not-used.html" failonerror="false"/>
     <delete file="${dist.dir}/ignore-not-used.jnlp" failonerror="false"/>
