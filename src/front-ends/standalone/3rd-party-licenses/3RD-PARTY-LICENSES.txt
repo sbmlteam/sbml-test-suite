@@ -26,3 +26,15 @@ license files are gathered in the subdirectory licenses/lib-licenses/.
 5. Glyphicons Free -- http://glyphicons.com
    [checked 2013-04-12]   
    Creative Commons 3.0
+
+6. JNA -- https://github.com/java-native-access/jna
+   [2017-10-10]
+   Either Apache 2 or LGPL 2
+
+7. json-simple -- https://cliftonlabs.github.io/json-simple/
+   [checked 2017-06-30]
+   Apache License version 2.0
+
+8. Apache Commons IO library -- http://commons.apache.org/io
+   [checked 2008-08-10]
+   Apache License version 2.0
