@@ -5,8 +5,10 @@
   @author Michael Hucka
   @author Frank T. Bergmann
  
-  This file is part of the SBML Testsuite. Please visit http://sbml.org for
-  more information about SBML, and the latest version of the SBML Test Suite.
+  This file is part of the SBML Test Suite. Please visit the repository at
+  https://github.com/sbmlteam/sbml-test-suite/tree/develop or the SBML website
+  at http://sbml.org for more information about SBML, and the latest version 
+  of the SBML Test Suite.
  -->
 
 <project basedir="." default="jar" name="testsuite-ui">
@@ -158,14 +160,16 @@
       <filelist dir="${build.dir}" files="CHANGES-TMP.html"/>
     </concat>
     <concat append="true" destfile="${dist.dir}/CHANGES.html">
-      <filelist dir="dev/release-notes" files="release-notes-fragment-bottom.html"/>
+      <filelist dir="dev/release-notes" 
+                files="release-notes-fragment-bottom.html"/>
     </concat>
     <replaceregexp file="${dist.dir}/CHANGES.html"
                    match="%VERSION%" replace="${app.version}"/>
     <!-- Hack to deal with ugly formatting resulting from how the installer
          treats <li> elements -->
     <replace file="${dist.dir}/CHANGES.html"
-                   token="&lt;li&gt;&lt;p&gt;" value="&lt;li style=&quot;margin-bottom: 1em&quot;&gt;"/>
+                   token="&lt;li&gt;&lt;p&gt;" 
+                   value="&lt;li style=&quot;margin-bottom: 1em&quot;&gt;"/>
     <replace file="${dist.dir}/CHANGES.html"
                    token="&lt;/p&gt;&lt;/li&gt;" value="&lt;/li&gt;"/>
     <!-- Clean up some temporary files -->
@@ -406,6 +410,8 @@
     <copy file="${basedir}/dev/app-builders/macos/javapackager-config/Info.plist"
           todir="${basedir}/package/macosx"
           overwrite="true"/>
+    <replaceregexp file="${basedir}/package/macosx/Info.plist"
+                   match="%VERSION%" replace="${app.version}"/>
     <mkdir dir="${basedir}/package/macosx/images" />
     <copy file="${basedir}/src/data/application-icons/icon_256x256.png"
           tofile="${dist.dir}/sbmltestrunner-splashscreen.png"
