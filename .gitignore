@@ -31,6 +31,10 @@ cases/syntactic/qual-[0-9][0-9][0-9][0-9][0-9]
 cases/syntactic/.cases-archive-date
 cases/syntactic/uniqueErrors.txt
 
+# Ignore some other things that are auto-generated.
+
+.cases-archive-date
+
 # OS-specific things to ignore:
 # .............................................................................
 
