@@ -31,11 +31,16 @@ cases/syntactic/qual-[0-9][0-9][0-9][0-9][0-9]
 cases/syntactic/.cases-archive-date
 cases/syntactic/uniqueErrors.txt
 
-# General Mac-specific things.
-# ......................................................................
+# OS-specific things to ignore:
+# .............................................................................
 
 .DS_Store
-
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
 # General Emacs things.
 # ......................................................................
@@ -43,9 +48,6 @@ cases/syntactic/uniqueErrors.txt
 *~
 .#*
 .git/COMMIT_EDITMSG
-
-
-# Generic programming things.
-# ......................................................................
-
+auto
+*.synctex.gz
 TAGS
