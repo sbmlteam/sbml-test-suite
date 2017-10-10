@@ -42,10 +42,10 @@ import java.util.Vector;
 public class ResultSet
 {
     private Vector<String> headers;
+    private File           dataFile = null;
     private double[][]     data;
     private boolean        hasInfinityOrNaN = false;
     private boolean        parseable = true;
-
 
 
     /**
@@ -66,6 +66,7 @@ public class ResultSet
     public ResultSet(File file)
     {
         this();
+        dataFile = file;
         parseFile(file);
     }
 
@@ -276,6 +277,15 @@ public class ResultSet
     public double[] getColumn(String header)
     {
         return getColumn(getIndex(header));
+    }
+
+
+    /**
+     * @return the file from whence this data came
+     */
+    public File getFile()
+    {
+        return dataFile;
     }
 
 
