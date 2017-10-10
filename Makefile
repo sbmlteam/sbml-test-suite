@@ -240,7 +240,7 @@ semantic-contents	   = cases/semantic	  \
 		 	     cases/NEWS.md        \
 		 	     cases/README.md 	  \
 			     $(ts-file)		  \
-			     $(semantic-map-file)
+#			     $(semantic-map-file)
 
 
 stochastic-cases-dist-name = sbml-stochastic-test-cases-$(today).zip
@@ -261,10 +261,10 @@ syntactic-contents	   = cases/syntactic/*.txt         \
 
 all-cases-dist-name       = sbml-all-test-cases-$(today).zip
 
-semantic-cases-dist: html plots sedml omex tags-map
+semantic-cases-dist: html plots sedml omex # tags-map
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/semantic/$(ts-file)
-	make $(semantic-map-file)
+#	make $(semantic-map-file)
 	zip -r $(semantic-cases-dist-name) $(semantic-contents) -x@.zipexcludes
 
 stochastic-cases-dist: $(stochastic-cases-plot-files)
@@ -307,7 +307,6 @@ dist-files = README.md  \
 	     AUTHORS.txt \
 	     COPYING.html \
 	     COPYING.txt \
-	     FUNDING.txt \
 	     LICENSE.txt \
 	     NEWS-OLD.txt \
 	     NEWS.md \
