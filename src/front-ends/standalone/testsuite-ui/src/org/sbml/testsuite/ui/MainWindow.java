@@ -374,6 +374,7 @@ public class MainWindow
 
     private WrapperMenuListener       wrapperMenuListener;
     private LVSelectionMenuListener   lvSelectionMenuListener;
+    private FileMonitor               fileMonitor;
 
     private Tree                      tree;
     private ResultMap                 resultMap;
@@ -426,6 +427,7 @@ public class MainWindow
         chartLegendFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -2);
         createContents();
         archiveManager = new CasesArchiveManager(shell);
+        fileMonitor = new FileMonitor(1000); // Polling time in ms.
     }
 
 
@@ -760,6 +762,9 @@ public class MainWindow
                 deselectAll();
                 if (tree.getItemCount() > 0)
                     progressSection.setMaxCount(tree.getItemCount());
+
+                // Watch for changes in the user's output files.
+                // %%%%%%%%%%%%%%%%%
             }
         });
 
@@ -3123,6 +3128,20 @@ public class MainWindow
     }
 
 
+    // When users modify some output files outside of running the test runner
+    // explicitly, they want the changes to be reflected.  This is called by
+    // the change detector.
+
+    protected void reRunModifiedTests(final TreeItem[] items)
+    {
+        if (running) {
+            // We can't do this while we're running.
+        } else {
+
+        }
+    }
+
+
     protected void runOrPause()
     {
         WrapperConfig wrapper = model.getLastWrapper();
@@ -3521,6 +3540,8 @@ public class MainWindow
         if (!directoriesOK()) return;
 
         clearPlots();
+        fileMonitor.clearFiles();
+        fileMonitor.clearListeners();
 
         gl_gridGraphs.numColumns = 2;
         gl_gridDifferences.numColumns = 1;
@@ -3569,6 +3590,10 @@ public class MainWindow
         if (!(Boolean) treeItem.getData(ITEM_RERUN))
         {
             WrapperConfig wrapper = model.getLastWrapper();
+            // This is inefficient, but if anything changed the output file
+            // since the time we ran the simulator, we want to make sure we
+            // detect it.  So, re-read the results file.
+            wrapper.invalidateCache(treeItem.getText());
             ResultType result = wrapper.getResultType(test, currentLV);
             String perhaps = "\nPerhaps the process output contains "
                 + "information about what happened.";
@@ -3584,10 +3609,10 @@ public class MainWindow
             else
             {
                 updateCaseItem(treeItem, result, null);
-                ResultSet actual = wrapper.getResultSet(test);
-                if (actual != null)
+                ResultSet caseResultValues = wrapper.getResultSet(test);
+                if (caseResultValues != null)
                 {
-                    if (!actual.parseable())
+                    if (!caseResultValues.parseable())
                     {
                         showMessageNotAvailable(cmpDifferences,
                                                 "Results cannot be plotted "
@@ -3596,7 +3621,7 @@ public class MainWindow
                                                 + "could not be parsed."
                                                 + perhaps);
                     }
-                    else if (actual.hasInfinityOrNaN())
+                    else if (caseResultValues.hasInfinityOrNaN())
                     {
                         showMessageNotAvailable(cmpDifferences,
                                                 "Results cannot be plotted "
@@ -3605,13 +3630,13 @@ public class MainWindow
                     }
                     else       // All okay, so plot the results & difference.
                     {
-                        addChartForData(cmpGraphs, isTimeSeries, actual,
+                        addChartForData(cmpGraphs, isTimeSeries, caseResultValues,
                                         "Simulator results for #" + itemName);
                         ResultSet diff;
                         if (isTimeSeries)
-                            diff = ResultSet.diff(expected, actual);
+                            diff = ResultSet.diff(expected, caseResultValues);
                         else
-                            diff = ResultSet.diffRow(expected, actual, 0);
+                            diff = ResultSet.diffRow(expected, caseResultValues, 0);
 
                         if (diff != null && ! diff.hasInfinityOrNaN())
                             addChartForData(cmpDifferences, isTimeSeries,
@@ -3619,6 +3644,12 @@ public class MainWindow
                     }
                 }
             }
+
+            // Watch for possible changes to the file while it's being shown.
+            // (For example, the user may be experimenting and editing it.)
+            File resultsFile = wrapper.getResultFile(test);
+            fileMonitor.addFile(resultsFile);
+            fileMonitor.addListener(new ResultsFileListener(treeItem, resultsFile));
         }
 
         cmpGraphs.layout();
@@ -3630,6 +3661,30 @@ public class MainWindow
     {
         if (selection == null || selection.length == 0) return;
         updatePlotsForSelection(selection[0]);
+    }
+
+
+    class ResultsFileListener implements FileListener
+    {
+        private TreeItem treeItem;
+        private File file;
+
+        public ResultsFileListener(final TreeItem item, final File file)
+        {
+            this.treeItem = item;
+            this.file = file;
+        }
+
+        public void fileChanged(final File ignored)
+        {
+            final TreeItem item = this.treeItem;
+            delayedUpdate(new Runnable() {
+                    public void run()
+                    {
+                        updatePlotsForSelection(item);
+                    }
+                });
+        }
     }
 
 
