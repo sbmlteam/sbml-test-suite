@@ -26,7 +26,7 @@ The initial conditions are as follows:
 |Initial amount of S3                |$2.0 \x 10^-3$ |mole                      |
 |Initial amount of S4                |$1.0 \x 10^-3$ |mole                      |
 |Value of parameter k1               |$0.75 \x 10^3$ |metre mole^-1^ second^-1^ |
-|Value of parameter k2               |$0.25 \x 10^3$ |mtere mole^-1^ second^-1^ |
+|Value of parameter k2               |$0.25 \x 10^3$ |metre mole^-1^ second^-1^ |
 |Length of compartment "compartment" |$            1$ |metre                     |]
 
 The species values are given as amounts of substance to make it easier to
