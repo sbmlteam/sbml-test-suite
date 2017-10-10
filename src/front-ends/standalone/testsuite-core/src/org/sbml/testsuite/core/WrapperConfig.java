@@ -389,6 +389,16 @@ public class WrapperConfig
 
 
     /**
+     * Invalidates the cache for a given case.
+     */
+    public void invalidateCache(String id)
+    {
+        if (resultCache != null && resultCache.get(id) != null)
+            resultCache.put(id, null);
+    }
+
+
+    /**
      * returns the cached result for the test with given id
      * 
      * @param id
