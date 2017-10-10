@@ -12,8 +12,6 @@ New in this release:
 
 * There is a new SBML Test Runner installer for Mac OS&nbsp;X. The installation is now distributed as an OS&nbsp;X `.pkg` installer file instead of a `.dmg` image.  It will install the Test Runner into the user's `/Applications` folder by default.
 
-* The SBML Test Runner now monitors for file changes in the currently-displayed test case.  If the application's output `.csv` file is changed outside the runner (e.g., by manually editing the file), it should now notice the changes and update the display.  Note that for architectural reasons, only the case being displayed is so monitored.
-
 * New semantic test cases.  Note that many tests starting at 01234 specifically test models that follow the release candidate specification of [SBML Level&nbsp;3 Version 2](http://sbml.org/Documents/Specifications/SBML_Level_3/Version_2/Core/Release_1), which encode elements and situations that were not present or illegal in SBML Level&nbsp;3 Version&nbsp;1.  If your simulator uses libSBML, it will need libSBML version [5.15.0](http://sbml.org/Software/libSBML) or later of the stable release of libSBML, or [5.14.0](http://sbml.org/Software/libSBML) or later of the experimental release.
 
     - All existing tests that could be translated to SBML Level 3 Version&nbsp;2 (L3V2) now have L3V2 versions.
@@ -205,6 +203,8 @@ New in this release:
     - Cases 01775-01777 test using avogadro to set conversion factor values.
 
 Changes in this release:
+
+* The SBML Test Runner now monitors for file changes in the currently-displayed test case.  If the application's output `.csv` file is changed outside the runner (e.g., by manually editing the file), it should now notice the changes and update the display.  Note that for architectural reasons, only the case being displayed is so monitored.
 
 * A few things have been cleaned up in past tests. Examples include model identifiers of a few test models that were misleading (now fixed), and a few tests that were designed to test species in multiple compartments were at some point accidentally changed so that all the species were put into a single compartment (they have been redistributed appropriately now).
 
