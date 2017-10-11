@@ -792,7 +792,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../../../../../../../../../LICENSE.html</string>
+							<string>../../../../../../../../LICENSE.html</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
