@@ -178,7 +178,7 @@
 
   <target name="make-html-files"> 
     <exec executable="grip">
-      <arg value="../../../../README.md"/>
+      <arg value="../../../README.md"/>
       <arg value="--user-content"/>
       <arg value="--title"/>
       <arg value="About the SBML Test Suite"/>
@@ -186,7 +186,7 @@
       <arg value="${dist.dir}/ABOUT.html"/>
     </exec>
     <exec executable="grip">
-      <arg value="../../../../NEWS.md"/>
+      <arg value="../../../NEWS.md"/>
       <arg value="--user-content"/>
       <arg value="--title"/>
       <arg value="NEWS"/>
@@ -196,9 +196,9 @@
   </target>
 
   <target name="add-misc-files" depends="make-html-files, generate-changes-file"> 
-    <copy file="../../../../LICENSE.html" 
+    <copy file="../../../LICENSE.html" 
           todir="${dist.dir}" overwrite="true"/>
-    <copy file="../../../../COPYING.html" 
+    <copy file="../../../COPYING.html" 
           todir="${dist.dir}" overwrite="true"/>
   </target>
 
@@ -236,7 +236,7 @@
   <target name="check-cases-exists">
     <pathconvert property="casesArchiveExists" setonempty="false" pathsep=" ">
       <path>
-        <fileset dir="../../../../" includes="sbml-semantic-test-cases-*.zip" />
+        <fileset dir="../../../" includes="sbml-semantic-test-cases-*.zip" />
       </path>
     </pathconvert>
   </target>
@@ -245,9 +245,9 @@
           unless="casesArchiveExists">
     <echo>
       Cannot continue because the test cases archive file
-      ../../../../sbml-semantic-test-cases-YYYY-MM-DD.zip
+      ../../../sbml-semantic-test-cases-YYYY-MM-DD.zip
       is missing.  Please run "make semantic-cases-dist" in
-      the top-level directory, ../../../../.
+      the top-level directory, ../../../.
     </echo>
     <fail message="File missing -- stopping."/>
   </target>
@@ -256,7 +256,7 @@
           if="casesArchiveExists">
     <copy tofile="${build.dest}/org/sbml/testsuite/ui/resources/sbml-semantic-test-cases.zip"
           overwrite="true">
-      <fileset dir="../../../../">
+      <fileset dir="../../../">
         <include name="sbml-semantic-test-cases-*.zip"/>
       </fileset>
     </copy>
