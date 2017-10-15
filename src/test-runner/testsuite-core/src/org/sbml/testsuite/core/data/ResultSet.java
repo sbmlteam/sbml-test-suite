@@ -120,7 +120,30 @@ public class ResultSet
 
 
     /**
-     * Computes a result set with absolute differences between two results
+     * Return true if the headers of the two result sets match.
+     */
+    public static boolean sameColumnOrder(ResultSet a, ResultSet b)
+    {
+        int numCols = Math.min(a.getNumColumns(), b.getNumColumns());
+        Vector<String> aHeaders = a.getHeaders();
+        Vector<String> bHeaders = b.getHeaders();
+
+        if (aHeaders == null || bHeaders == null)
+            return false;
+
+        for (int i = 0; i < numCols; i++)
+        {
+            if (! aHeaders.get(i).equalsIgnoreCase(bHeaders.get(i))
+                && ! aHeaders.get(i).equalsIgnoreCase("[" + bHeaders.get(i) + "]")
+                && ! bHeaders.get(i).equalsIgnoreCase("[" + aHeaders.get(i) + "]"))
+                return false;
+        }
+        return true;
+    }
+
+
+    /**
+     * Computes a result set with absolute differences between two results.
      * 
      * @param a
      *            result 1
