@@ -689,7 +689,7 @@ public class WrapperConfig
 
         if (lv.getLevel() != 0 && !test.supportsLevelVersion(lv))
             return ResultType.Unavailable;
-        
+
         ResultSet deliveredResult = getResultSet(test);
         if (deliveredResult == null)           // Didn't produce a result.
         {
@@ -709,6 +709,14 @@ public class WrapperConfig
             return ResultType.CannotSolve;     // We ignore it anyway.
 
         ResultSet expectedResult = test.getExpectedResult();
+
+        // Test if the column order matches.
+
+        if (! ResultSet.sameColumnOrder(expectedResult, deliveredResult))
+            return ResultType.NoMatch;
+
+        // Test the actual values.
+
         CompareResultSet set = new CompareResultSet(expectedResult,
                                                     deliveredResult);
         if (set.compareUsingTestSuite(test.getSettings().getAbsoluteError(),
