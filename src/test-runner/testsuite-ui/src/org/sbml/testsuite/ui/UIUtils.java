@@ -315,6 +315,25 @@ public class UIUtils
     }
 
 
+    public static final Font createStyledFont(Font font, int style)
+    {
+        if (font == null) return null;
+        FontData[] fontData = font.getFontData();
+        for (int i = 0; i < fontData.length; ++i)
+            fontData[i].setStyle(style);
+        final Display display = Display.findDisplay(Thread.currentThread());
+        final Font newFont = new Font(display, fontData);
+        display.addListener(SWT.Dispose, new Listener() {
+            public void handleEvent(Event event)
+            {
+                if (newFont != null && !newFont.isDisposed())
+                    newFont.dispose();
+            }
+        });
+        return newFont;
+    }
+
+
     public static Font createResizedFont(Font font, int sizeDifference)
     {
         if (font == null) return null;
