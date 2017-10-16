@@ -618,6 +618,9 @@ public class MainWindow
         final WrapperConfig wrapper = model.getLastWrapper();
         final boolean viewOnly = wrapperIsViewOnly(wrapper);
 
+        final Color fbcColor
+            = UIUtils.createColor(170, 90, 200);
+
         BusyIndicator.showWhile(getDisplay(), new Runnable() {
             public void run()
             {
@@ -633,6 +636,8 @@ public class MainWindow
                         if (func == null || func.filter(test, result))
                         {
                             TreeItem item = createCaseItem(test.getId(), result);
+                            if ("FluxBalanceSteadyState".equals(test.getTestType()))
+                                item.setForeground(fbcColor);
                             if (result == ResultType.Unknown && !viewOnly)
                                 markForRerun(item);
                         }
