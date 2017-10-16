@@ -31,6 +31,7 @@
 
   <property file="build.properties" description="Local build configuration"/>
   <property file="build-defaults.properties" description="Default configuration."/>
+  <property environment="env"/>
 
   <!-- =================================================================== -->
   <!-- Primary build targets:                                              -->
@@ -248,8 +249,11 @@
       ../../../sbml-semantic-test-cases-YYYY-MM-DD.zip
       is missing.  Please run "make semantic-cases-dist" in
       the top-level directory, ../../../.
+      
+      To continue building set the environment variable: 
+      TESTRUNNER_IGNORE_ARCHIVE=true. 
     </echo>
-    <fail message="File missing -- stopping."/>
+    <fail unless="env.TESTRUNNER_IGNORE_ARCHIVE" message="File missing -- stopping."/>
   </target>
 
   <target name="copy-cases-archive" depends="check-cases-exists, complain-cases-missing"
