@@ -646,14 +646,14 @@
   </target>
   <target name="start-osx-32" depends="swt-osx-32">
     <java fork="true" jar="${dist.dir}/sbmltestrunner.jar" >
-      <arg value="-d32"/>
-      <arg value="-XstartOnFirstThread"/>
+      <jvmarg value="-d32"/>
+      <jvmarg value="-XstartOnFirstThread"/>
     </java>
   </target>
   <target name="start-osx-64" depends="swt-osx-64">
     <java fork="true" jar="${dist.dir}/sbmltestrunner.jar">
-      <arg value="-XstartOnFirstThread"/>
-      <arg value='-Xdock:name="${app.name}"'/>
+      <jvmarg value="-XstartOnFirstThread"/>
+      <jvmarg value='-Xdock:name="${app.name}"'/>
     </java>
   </target>
 
