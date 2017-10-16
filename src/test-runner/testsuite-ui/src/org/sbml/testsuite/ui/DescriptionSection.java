@@ -70,11 +70,21 @@ public class DescriptionSection
 
         String modelSummary = "Model Summary";
         String sbmlLV       = "SBML Levels/Versions";
+        String testType     = "Test Type";
         String compTags     = "Component Tags";
         String testTags     = "Test Tags";
 
+        // FIXME this is very specific to FBC and time series, and should
+        // be generalized to handle other types in the future.
+        String testTypeValue;
+        if ("FluxBalanceSteadyState".equals(testCase.getTestType()))
+            testTypeValue = "Steady state";
+        else
+            testTypeValue = "Time course";
+
         String msg = modelSummary + ": " + testCase.getSynopsis()
             +     "\n" + sbmlLV   + ": " + supported + "."
+            +     "\n" + testType + ": " + testTypeValue + "."
             +     "\n" + compTags + ": " + testCase.getComponentTagsString() + "."
             +     "\n" + testTags + ": " + testCase.getTestTagsString() + ".";
 
@@ -82,9 +92,10 @@ public class DescriptionSection
 
         StyleRange modelSummaryStyle = new StyleRange();
         StyleRange sbmlLVStyle       = new StyleRange();
+        StyleRange testTypeStyle     = new StyleRange();
         StyleRange compTagsStyle     = new StyleRange();
         StyleRange testTagsStyle     = new StyleRange();
-        
+
         Color black = getDisplay().getSystemColor(SWT.COLOR_BLACK);
 
         modelSummaryStyle.start  = msg.indexOf(modelSummary);
@@ -96,6 +107,11 @@ public class DescriptionSection
         sbmlLVStyle.length = sbmlLV.length();
         sbmlLVStyle.fontStyle = SWT.BOLD;
         sbmlLVStyle.foreground = black;
+
+        testTypeStyle.start  = msg.indexOf(testType);
+        testTypeStyle.length = testType.length();
+        testTypeStyle.fontStyle = SWT.BOLD;
+        testTypeStyle.foreground = black;
 
         compTagsStyle.start  = msg.indexOf(compTags);
         compTagsStyle.length = compTags.length();
@@ -109,6 +125,7 @@ public class DescriptionSection
 
         message.setStyleRange(modelSummaryStyle);
         message.setStyleRange(sbmlLVStyle);
+        message.setStyleRange(testTypeStyle);
         message.setStyleRange(compTagsStyle);
         message.setStyleRange(testTagsStyle);
     }
