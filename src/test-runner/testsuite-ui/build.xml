@@ -95,7 +95,6 @@
     <pathelement location="./libs/libswt-cocoa-4745.jnilib" />
     <pathelement location="./libs/libswt-pi-cocoa-4745.jnilib" />
     <pathelement location="./libs/libswt-xulrunner-cocoa-4745.jnilib" />
-    <pathelement location="./libs/jna-4.4.0.jar" />
     <pathelement location="./libs/platform-3.5.2.jar" />
     <pathelement location="./libs/org.swtchart_0.7.0.v20110128.jar" />
     <pathelement location="./libs/opal-0.9.5.1.jar" />
