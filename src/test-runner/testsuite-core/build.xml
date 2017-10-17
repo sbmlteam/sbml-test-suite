@@ -7,9 +7,8 @@
 	<property name="debuglevel" value="source,lines,vars"/>
 	<path id="core.classpath">
 		<pathelement location="build"/>
-		<pathelement location="libs/jna-4.5.0.jar" />
-		<pathelement location="libs/jna-platform-4.5.0.jar" />
 		<pathelement location="libs/simple-xml-2.6.4.jar" />
+		<pathelement location="libs/jna-4.5.0.jar" />
 		<pathelement location="libs/jna-platform-4.5.0.jar" />
 	</path>
 	<target name="init">
