@@ -88,6 +88,9 @@
   <path id="testsuite-ui.classpath">
     <pathelement location="build" />
     <path refid="core.classpath" />
+    <pathelement location="${core.dir}/libs/simple-xml-2.6.4.jar"/>
+    <pathelement location="${core.dir}/libs/jna-4.5.0.jar" />
+    <pathelement location="${core.dir}/libs/jna-platform-4.5.0.jar" />
     <pathelement location="./libs/commons-io-2.5.jar" />
     <pathelement location="./libs/json-simple-2.1.2.jar" />
     <pathelement location="./libs/swt.jar" />
@@ -98,7 +101,6 @@
     <pathelement location="./libs/platform-3.5.2.jar" />
     <pathelement location="./libs/org.swtchart_0.7.0.v20110128.jar" />
     <pathelement location="./libs/opal-0.9.5.1.jar" />
-    <pathelement location="./libs/simple-xml-2.6.4.jar"/>
   </path>
 
   <condition property="isWindows" value="true">
