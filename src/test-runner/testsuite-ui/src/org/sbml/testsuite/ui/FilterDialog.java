@@ -714,11 +714,17 @@ public class FilterDialog
             {
                 Integer value = parseInt(item);
                 if (value == null)
-                    Tell.error(shlFilterTags,
-                               "The text '" + item + "' cannot be parsed "
-                               + "\nas a number. It will be ignored.",
-                               "Only integer numbers, consisting of one or "
-                               + "more digits,\nare valid in this context.");
+                {
+                    /// FTB: This is another example of a dialog, that is unnecessary, 
+                    ///      ignoring this would be the sensible thing to do without 
+                    ///      the need for a confirmation.
+                    // Tell.error(shlFilterTags,
+                    //            "The text '" + item + "' cannot be parsed "
+                    //            + "\nas a number. It will be ignored.",
+                    //            "Only integer numbers, consisting of one or "
+                    //            + "more digits,\nare valid in this context.");
+                    return caseNumbers;
+                }
                 else
                     caseNumbers.add(value);
             }
