@@ -50,9 +50,9 @@ import java.lang.ref.WeakReference;
  */
 public class FileMonitor
 {
-    private Timer       timer_;
-    private HashMap     files_;       // File -> Long
-    private Collection  listeners_;   // of WeakReference(FileListener)
+    private Timer timer_;
+    private HashMap<File, Long> files_;
+    private Collection<WeakReference<FileListener>> listeners_;
 
 
     /**
@@ -62,8 +62,8 @@ public class FileMonitor
      */
     public FileMonitor (long pollingInterval)
     {
-        files_     = new HashMap();
-        listeners_ = new ArrayList();
+        files_     = new HashMap<File, Long>();
+        listeners_ = new ArrayList<WeakReference<FileListener>>();
 
         timer_ = new Timer (true);
         timer_.schedule (new FileMonitorNotifier(), 0, pollingInterval);
@@ -137,7 +137,7 @@ public class FileMonitor
 
         // Use WeakReference to avoid memory leak if this becomes the
         // sole reference to the object.
-        listeners_.add (new WeakReference (fileListener));
+        listeners_.add (new WeakReference<FileListener> (fileListener));
     }
 
 
@@ -178,7 +178,7 @@ public class FileMonitor
             // Loop over the registered files and see which have changed.
             // Use a copy of the list in case listener wants to alter the
             // list within its fileChanged method.
-            Collection files = new ArrayList (files_.keySet());
+            Collection<File> files = new ArrayList<File> (files_.keySet());
 
             for (Iterator i = files.iterator(); i.hasNext(); ) {
                 File file = (File) i.next();
