@@ -602,23 +602,11 @@ public class PreferenceDialog
             File path = new File(outputPath);
             if (! path.exists())
             {
-                if (Tell.confirm(shell, "The path to the output directory specified "
-                                 + "\nin the wrapper configuration does not appear "
-                                 + "\nto exist. Click OK to create it."))
-                {
-                    if (! path.mkdir())
-                        return Tell.informWithOverride(shell,
-                                                       "Unable to create the directory "
-                                                       + "specified\nin the wrapper configuration.");
-                }
-                else
-                {
+                if (! path.mkdir())
                     return Tell.informWithOverride(shell,
-                                                   "The output directory specified in the "
-                                                   + "\nwrapper configuration does not appear "
-                                                   + "\nto exist; consequently, the wrapper "
-                                                   + "\ncannot be used.");
-                }
+                                                   "Unable to create the directory specified"
+                                                   + "\nin the wrapper configuration; consequently,"
+                                                   + "\nthe wrapper cannot be used.");
             }
             else if (! path.isDirectory())
                 return Tell.informWithOverride(shell,
@@ -638,57 +626,60 @@ public class PreferenceDialog
                                                + "\nwrapper configuration does not appear "
                                                + "\nto be writable; consequently, "
                                                + "\nthe wrapper cannot be used.");
-            else if (MarkerFile.exists(path))
-            {
-                // If we find a marker file in the output, it means the
-                // output directory probably contains the results of a past
-                // run of either this wrapper or a different wrapper.  We
-                // need to warn the user if it looks like the results came
-                // from a different wrapper program.
+            // FTB: i'd prefer the following check to go away, when i specify it as a user
+            //      i encountered this issue many time running the wrapper, and it does not 
+            //      help me. 
+            // else if (MarkerFile.exists(path))
+            // {
+            //     // If we find a marker file in the output, it means the
+            //     // output directory probably contains the results of a past
+            //     // run of either this wrapper or a different wrapper.  We
+            //     // need to warn the user if it looks like the results came
+            //     // from a different wrapper program.
 
-                String prog = MarkerFile.getContents(path);
-                String question = "Choose OK to associate the"
-                    + "\nresults with the current wrapper, or choose"
-                    + "\nCancel to go back to the Preferences panel"
-                    + "\nso that you can change the directory.";
-                String intro;
+            //     String prog = MarkerFile.getContents(path);
+            //     String question = "Choose OK to associate the"
+            //         + "\nresults with the current wrapper, or choose"
+            //         + "\nCancel to go back to the Preferences panel"
+            //         + "\nso that you can change the directory.";
+            //     String intro;
 
-                if (prog == null || prog.length() == 0)
-                    intro = "The output directory you have chosen appears"
-                        + "\nto contain the results of a previous run of"
-                        + "\nthe SBML Test Runner. ";
-                else
-                    intro = "The output directory you have chosen appears"
-                        + "\nto contain the results of a previous run of"
-                        + "\n\n   " + prog + "\n";
+            //     if (prog == null || prog.length() == 0)
+            //         intro = "The output directory you have chosen appears"
+            //             + "\nto contain the results of a previous run of"
+            //             + "\nthe SBML Test Runner. ";
+            //     else
+            //         intro = "The output directory you have chosen appears"
+            //             + "\nto contain the results of a previous run of"
+            //             + "\n\n   " + prog + "\n";
 
-                // The contents of the marker file should never be null,
-                // because we're the program that writes it in the first
-                // place.  But, we have to program defensively.
+            //     // The contents of the marker file should never be null,
+            //     // because we're the program that writes it in the first
+            //     // place.  But, we have to program defensively.
 
-                if (prog == null || prog.length() == 0)
-                {
-                    // Bummer, it's empty.  Can't do much, but only bother the
-                    // user if they are changing the wrapper program.
+            //     if (prog == null || prog.length() == 0)
+            //     {
+            //         // Bummer, it's empty.  Can't do much, but only bother the
+            //         // user if they are changing the wrapper program.
 
-                    if (!oldWrapper.getProgram().equals(newWrapper.getProgram()))
-                        return Tell.saveCancel(shell, intro + question);
-                }
-                else if (!newWrapper.getProgram().equals(prog))
-                {
-                    // If the results were generated by a different program,
-                    // confirm association of the results with *this* wrapper.
+            //         if (!oldWrapper.getProgram().equals(newWrapper.getProgram()))
+            //             return Tell.saveCancel(shell, intro + question);
+            //     }
+            //     else if (!newWrapper.getProgram().equals(prog))
+            //     {
+            //         // If the results were generated by a different program,
+            //         // confirm association of the results with *this* wrapper.
 
-                    String details = "Since the results in this directory appear"
-                        + "\nto have come from a different wrapper, the"
-                        + "\nSBML Test Runner needs your help to determine"
-                        + "\nwhether it makes sense to associate those"
-                        + "\nresults with the currently-selected wrapper,"
-                        + "\n\n    " + newWrapper.getProgram() + "\n";
+            //         String details = "Since the results in this directory appear"
+            //             + "\nto have come from a different wrapper, the"
+            //             + "\nSBML Test Runner needs your help to determine"
+            //             + "\nwhether it makes sense to associate those"
+            //             + "\nresults with the currently-selected wrapper,"
+            //             + "\n\n    " + newWrapper.getProgram() + "\n";
 
-                    return Tell.saveCancel(shell, intro + details + question);
-                }
-            }
+            //         return Tell.saveCancel(shell, intro + details + question);
+            //     }
+            // }
         }
 
         String args = newWrapper.getArguments();
@@ -709,7 +700,7 @@ public class PreferenceDialog
         if (!btnOverrideNumThreads.getSelection())
         {
             unsetNumThreads();
-            return true;            
+            return true;
         }
 
         // User checked the override-number-of-threads box.
@@ -721,31 +712,17 @@ public class PreferenceDialog
         }
         catch (NumberFormatException e)
         {
-            Tell.error(shell, "The value '" + txtNumThreads.getText()
-                       + "' for the number of threads does\nnot appear "
-                       + "to be an integer. It will be ignored.",
-                       "Only integers greater than 0 are valid\n"
-                       + "values for that field.");
+            // Probably a typo or something wrong. Ignore the value.
             unsetNumThreads();
             return true;
         }
 
         if (numThreads == 0)
         {
-            Tell.error(shell, "A value of '0' for the number of threads\n"
-                       + "is not usable in this context. It will be ignored.",
-                       "Only integers greater than 0 are valid\n"
-                       + "values for that field.");
+            // A value of 0 is unusable. Ignore it.
             unsetNumThreads();
             return true;
         }
-
-        if (numThreads > 10
-            && !Tell.confirm(shell, numThreads
-                             + " is a lot of processes to run in\nparallel. "
-                             + "Proceed anyway?"))
-            return false;
-
 
         UIUtils.saveBooleanPref("overrideNumThreads", true, this);
         UIUtils.saveIntPref("numThreads", numThreads, this);
