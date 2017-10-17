@@ -631,8 +631,8 @@ public class EditWrapper
             dlg.setFilterPath(selectedDir);
             selectedDir = dlg.open();
             if (!wrapperIsViewOnly() && selectedDir != null
-                && MarkerFile.exists(selectedDir)
-                && !confirmOutputDir(selectedDir))
+                && MarkerFile.exists(selectedDir))
+                // && !confirmOutputDir(selectedDir))
                 retry = true;
         }
         while (retry);
@@ -692,6 +692,9 @@ public class EditWrapper
                 + "\nwrapper. ";
         }
 
+        /// FTB: i find the dialogs not helpful. ifa path is specified by a user
+        //       an additional confirmation seems unnecessary.I don't see this 
+        //       dialog helping anyone
         return Tell.saveCancel(getShell(), intro + question);
     }
 
