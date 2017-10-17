@@ -1541,7 +1541,7 @@ public class MainWindow
                     delayedUpdate(new Runnable() {
                             public void run()
                             {
-                                checkAndUpdateTestCases(false);
+                                checkAndUpdateTestCases(false, false);
                             }
                         });
                 }
@@ -2165,7 +2165,7 @@ public class MainWindow
             result.saveAsDefault();
 
             TestSuite suite = model.getSuite();
-            if (suite.getNumCases() == 0 || suite.getCasesReleaseDate() == null)
+            if (suite.getNumCases() == 0)
                 display.asyncExec(new Runnable() {
                     @Override
                     public void run()
@@ -2529,7 +2529,7 @@ public class MainWindow
     {
         model = new MainModel();
         TestSuite suite = model.getSuite();
-        final Date bundledCasesDate = archiveManager.getBundledCasesDate();
+
         final File defaultCasesDir = archiveManager.getDefaultCasesDir();
         boolean unpackInternal = false;
 
@@ -2585,46 +2585,16 @@ public class MainWindow
             }
         }
 
-        // Check the default test case directory and update it if it's old.
-
-        Date defaultCasesDate = archiveManager.getCasesDate(defaultCasesDir);
-        if (defaultCasesDate == null)
-            unpackInternal = true;
-        if (defaultCasesDate != null && bundledCasesDate != null && !unpackInternal
-            && defaultCasesDate.compareTo(bundledCasesDate) < 0)
+        // If the user has enabled auto-checking for updates, then check the
+        // default test case directory and update it if it's old.
+        boolean autoCheckUpdates = UIUtils.getBooleanPref("autoCheckUpdates", false, this);
+        if (autoCheckUpdates || unpackInternal)
         {
-            // Either it's older or it doesn't have a date file, implying
-            // it's older than the one shipped with the STS version 3.1.0.
-
-            String msg =
-                "The test cases found in your default test suite directory\n"
-                + "are older than the test cases bundled with this copy of\n"
-                + "the Test Runner. The Test Runner can replace them with\n"
-                + "its bundled copy. Proceed?";
-            String details =
-                "The release date of the test cases in your directory\n"
-                + defaultCasesDir.getPath() + "\n"
-                + "is " + Util.archiveDateToString(defaultCasesDate)
-                + ", while the release date of the newer test\n"
-                + "cases bundled with this Test Runner is "
-                + Util.archiveDateToString(bundledCasesDate) + ".";
-
-            if (Tell.confirmWithDetails(shell, msg, details))
-                unpackInternal = true;
-        }
-
-        if (unpackInternal)
-        {
-            BusyIndicator.showWhile(getDisplay(), new Runnable() {
+            final boolean finalUnpackInternal = unpackInternal;
+            getDisplay().asyncExec(new Runnable() {
                 public void run()
                 {
-                    // The .update() is to get the busy cursor to show up.
-                    // Otherwise, on the mac, it doesn't get shown.
-                    getDisplay().update();
-
-                    archiveManager.extractBundledCasesArchive();
-                    model.getSuite().initializeFromDirectory(defaultCasesDir);
-                    model.getSettings().setCasesDir(defaultCasesDir);
+                    checkAndUpdateTestCases(finalUnpackInternal, true);
                 }
             });
         }
@@ -2654,28 +2624,27 @@ public class MainWindow
             }
         }
         updateStatuses();
-
-        if (UIUtils.getBooleanPref("autoCheckUpdates", false, this))
-        {
-            getDisplay().asyncExec(new Runnable() {
-                public void run()
-                {
-                    checkAndUpdateTestCases(true);
-                }
-            });
-        }
-
         return true;
     }
 
 
-    private void checkAndUpdateTestCases(boolean quietly)
+    private void checkAndUpdateTestCases(boolean unpackInternal, boolean quietly)
     {
-        // checkForUpdates() will not return until either it gets an answer
-        // or a network timeout occurs.
+        // This method assumes it is called either deliberately by the user
+        // (via the menu option to check for updates) or automatically by
+        // virtue of the fact that the autoCheckUpdates preference is true.
 
+        // We always check the downloadable archives first, because if we
+        // find them, we won't bother checking the internal cases archive.
+        // (Otherwise, we might ask to replace the internal archive, and then
+        // ask to replace *that* with copy from the server -- basically
+        // asking the user twice.)  If the check for new downloads fails,
+        // we only check the internal archive if other conditions ask for it.
+
+        boolean foundDownloads = false;
         if (archiveManager.checkForUpdates(quietly))
         {
+            foundDownloads = true;
             if (Tell.confirm(shell,
                              "Updated test cases are available from the\n"
                              + "download site. Proceed to download them\n"
@@ -2702,7 +2671,82 @@ public class MainWindow
                 });
             }
         }
-        else if (!quietly && !closing)
+        else
+        {
+            // We didn't find a new archive on the server.  If we're not
+            // forcing an update, check the internal cases against whatever
+            // the user is using.
+
+            final File defaultCasesDir = archiveManager.getDefaultCasesDir();
+            if (!unpackInternal)
+            {
+                final Date defaultDate = archiveManager.getCasesDate(defaultCasesDir);
+                final Date bundledDate = archiveManager.getBundledCasesDate();
+
+                if (bundledDate == null)
+                {
+                    // Something is wrong.  Other code will catch this
+                    // situation, so here we can only return.
+                    return;
+                }
+                else if (defaultDate == null)
+                {
+                    String msg =
+                        "Could not determine the age of the test cases in\n"
+                        + "your default test suite directory. Would you like to\n"
+                        + "update those test cases to the versions bundled with\n"
+                        + "this copy of the Test Runner?";
+
+                    String details =
+                        "Your default test suite directory is\n"
+                        + defaultCasesDir.getPath() + "\n"
+                        + "The release date of the test cases bundled with\n"
+                        + "this copy of the Test Runner is "
+                        + Util.archiveDateToString(bundledDate) + ".";
+
+                    if (Tell.confirmWithDetails(shell, msg, details))
+                        unpackInternal = true;
+                }
+                else if (bundledDate != null && defaultDate.compareTo(bundledDate) < 0)
+                {
+                    String msg =
+                        "The test cases found in your default test suite directory\n"
+                        + "are older than the test cases bundled with this copy of\n"
+                        + "the Test Runner. The Test Runner can replace them with\n"
+                        + "its bundled copy. Proceed?";
+                    String details =
+                        "The release date of the test cases in your directory\n"
+                        + defaultCasesDir.getPath() + "\n"
+                        + "is " + Util.archiveDateToString(defaultDate)
+                        + ", while the release date of the newer test\n"
+                        + "cases bundled with this Test Runner is "
+                        + Util.archiveDateToString(bundledDate) + ".";
+
+                    if (Tell.confirmWithDetails(shell, msg, details))
+                        unpackInternal = true;
+                }
+            }
+
+            if (unpackInternal)
+            {
+                BusyIndicator.showWhile(getDisplay(), new Runnable() {
+                        public void run()
+                        {
+                            // The .update() is to get the busy cursor to show up.
+                            // Otherwise, on the mac, it doesn't get shown.
+                            getDisplay().update();
+
+                            archiveManager.extractBundledCasesArchive();
+                            model.getSuite().initializeFromDirectory(defaultCasesDir);
+                            model.getSettings().setCasesDir(defaultCasesDir);
+                            resetAll();
+                            clearFilters();
+                        }
+                    });
+            }
+
+        }
+        if (!quietly && !closing && !foundDownloads && !unpackInternal)
             Tell.inform(shell, "No new test cases found.");
     }
 
