@@ -36,23 +36,23 @@ package org.sbml.testsuite.core.data;
  */
 public class CompareResultSet
 {
-    private ResultSet result1;
-    private ResultSet result2;
+    private ResultSet expected;
+    private ResultSet delivered;
     private boolean   requireAllColumns;
 
 
     /**
      * Constructor comparing two result sets
      * 
-     * @param result1
+     * @param expected
      *            resultset 1
-     * @param result2
+     * @param delivered
      *            resultset 2
      */
-    public CompareResultSet(ResultSet result1, ResultSet result2)
+    public CompareResultSet(ResultSet expected, ResultSet delivered)
     {
-        this.result1 = result1;
-        this.result2 = result2;
+        this.expected = expected;
+        this.delivered = delivered;
         this.requireAllColumns = true;
     }
 
@@ -70,23 +70,18 @@ public class CompareResultSet
     public boolean compareUsingTestSuite(double absoluteError,
                                          double relativeError)
     {
-        ResultSet expected = result1;
-        ResultSet another = result2;
+        if (expected == null || delivered == null) return false;
 
-        if (expected == null || another == null) return false;
+        int _nNumRows = Math.min(expected.getNumRows(), delivered.getNumRows());
 
-        int _nNumRows = Math.min(expected.getNumRows(), another.getNumRows());
-
-        for (String s : expected.getHeaders())
+        for (String columnName : expected.getHeaders())
         {
-            String sColumnName = s;
-
-            if (sColumnName.toLowerCase().equals("time")) continue;
-
-            if (expected.hasColumn(s) && another.hasColumn(s))
+            if (columnName.toLowerCase().equals("time"))
+                continue;
+            if (delivered.hasColumn(columnName))
             {
-                double[] aCol = expected.getColumn(s);
-                double[] bCol = another.getColumn(s);
+                double[] aCol = expected.getColumn(columnName);
+                double[] bCol = delivered.getColumn(columnName);
 
                 for (int i = 0; i < _nNumRows; i++)
                 {
@@ -102,8 +97,8 @@ public class CompareResultSet
                     if (Double.isNaN(givenValue)
                         && !Double.isNaN(expectedValue)) return false;
 
-                    if (Math.abs(expectedValue - givenValue) > (absoluteError + relativeError
-                        * Math.abs(expectedValue)))
+                    if (Math.abs(expectedValue - givenValue)
+                        > (absoluteError + relativeError * Math.abs(expectedValue)))
                     {
                         return false;
                     }
@@ -120,20 +115,20 @@ public class CompareResultSet
 
 
     /**
-     * @return the result1
+     * @return the expected
      */
-    public ResultSet getResult1()
+    public ResultSet getExpected()
     {
-        return result1;
+        return expected;
     }
 
 
     /**
-     * @return the result2
+     * @return the delivered
      */
-    public ResultSet getResult2()
+    public ResultSet getDelivered()
     {
-        return result2;
+        return delivered;
     }
 
 
@@ -157,21 +152,21 @@ public class CompareResultSet
 
 
     /**
-     * @param result1
-     *            the result1 to set
+     * @param expected
+     *            the expected to set
      */
-    public void setResult1(ResultSet result1)
+    public void setExpected(ResultSet expected)
     {
-        this.result1 = result1;
+        this.expected = expected;
     }
 
 
     /**
-     * @param result2
-     *            the result2 to set
+     * @param delivered
+     *            the delivered to set
      */
-    public void setResult2(ResultSet result2)
+    public void setDelivered(ResultSet delivered)
     {
-        this.result2 = result2;
+        this.delivered = delivered;
     }
 }
