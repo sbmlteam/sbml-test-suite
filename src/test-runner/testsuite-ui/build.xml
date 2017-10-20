@@ -94,10 +94,10 @@
     <pathelement location="./libs/commons-io-2.5.jar" />
     <pathelement location="./libs/json-simple-2.1.2.jar" />
     <pathelement location="./libs/swt-macos.jar" />
-    <pathelement location="./libs/swt-win32.jar.jar" />
-    <pathelement location="./libs/swt-win64.jar.jar" />
-    <pathelement location="./libs/swt-linux-x64.jar.jar" />
-    <pathelement location="./libs/swt-linux-x86.jar.jar" />
+    <pathelement location="./libs/swt-win32.jar" />
+    <pathelement location="./libs/swt-win64.jar" />
+    <pathelement location="./libs/swt-linux-x64.jar" />
+    <pathelement location="./libs/swt-linux-x86.jar" />
     <pathelement location="./libs/org.swtchart_0.7.0.v20110128.jar" />
     <pathelement location="./libs/opal-0.9.5.1.jar" />
   </path>
