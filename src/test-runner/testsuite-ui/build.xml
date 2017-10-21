@@ -357,10 +357,10 @@
       </manifest>
       <zipgroupfileset file="${core.dir}/dist/testsuite-core.jar"/>
       <zipgroupfileset file="${core.dir}/libs/jna-4.5.0.jar" />
-      <zipgroupfileset file="libs/platform-3.5.2.jar" />
+      <zipgroupfileset file="${core.dir}/libs/jna-platform-4.5.0.jar" />
+      <zipgroupfileset file="${core.dir}/libs/simple-xml-2.6.4.jar"/>
       <zipgroupfileset file="libs/opal-0.9.5.1.jar"/>
       <zipgroupfileset file="libs/org.swtchart_0.7.0.v20110128.jar"/>
-      <zipgroupfileset file="${core.dir}/libs/simple-xml-2.6.4.jar"/>
       <zipgroupfileset file="libs/commons-io-2.5.jar" />
       <zipgroupfileset file="libs/json-simple-2.1.2.jar" />
       <zipgroupfileset file="${swt.file}"/>
