@@ -91,6 +91,8 @@ import org.sbml.testsuite.core.TestSuite;
 import org.sbml.testsuite.core.TestSuiteSettings;
 import org.sbml.testsuite.core.Util;
 import org.sbml.testsuite.core.WrapperConfig;
+import org.sbml.testsuite.core.data.CompareResultSets;
+import org.sbml.testsuite.core.data.Comparison;
 import org.sbml.testsuite.core.data.ResultSet;
 import org.sbml.testsuite.ui.model.MainModel;
 import org.swtchart.Chart;
@@ -2494,8 +2496,9 @@ public class MainWindow
     private double getMax(double[] ySeries)
     {
         double max = Double.MIN_VALUE;
-        if (ySeries != null) for (double d : ySeries)
-            max = Math.max(max, d);
+        if (ySeries != null)
+            for (double d : ySeries)
+                max = Math.max(max, d);
         return max;
     }
 
@@ -2503,8 +2506,9 @@ public class MainWindow
     private double getMin(double[] ySeries)
     {
         double min = Double.MAX_VALUE;
-        if (ySeries != null) for (double d : ySeries)
-            min = Math.min(min, d);
+        if (ySeries != null)
+            for (double d : ySeries)
+                min = Math.min(min, d);
         return min;
     }
 
@@ -3606,7 +3610,7 @@ public class MainWindow
 
         if (!test.supportsLevelVersion(currentLV))
         {
-            showMessageNotAvailable(cmpDifferences, 
+            showMessageNotAvailable(cmpDifferences,
                                     "Test case not available in SBML Level "
                                     + currentLV.getLevel() + " Version "
                                     + currentLV.getVersion() + " format.");
@@ -3627,11 +3631,7 @@ public class MainWindow
             return;
         }
 
-        // FIXME: currently this only distinguishes between time-series and
-        // non time-series but assumes that non-time series is actually FBC.
-
-        boolean isTimeSeries
-            = ! "FluxBalanceSteadyState".equals(test.getTestType());
+        boolean isTimeSeries = "TimeCourse".equals(test.getTestType());
 
         if (expected != null)
             addChartForData(cmpGraphs, isTimeSeries, expected,
@@ -3641,11 +3641,9 @@ public class MainWindow
             WrapperConfig wrapper = model.getLastWrapper();
             // This is inefficient, but if anything changed the output file
             // since the time we ran the simulator, we want to make sure we
-            // detect it.  So, re-read the results file.
+            // detect it.  So, force the result file to be re-read.
             wrapper.invalidateCache(treeItem.getText());
             ResultType result = wrapper.getResultType(test, currentLV);
-            String perhaps = "\nPerhaps the process output contains "
-                + "information about what happened.";
 
             if (result == ResultType.Error)
             {
@@ -3653,44 +3651,52 @@ public class MainWindow
                                         "Results cannot be plotted because an "
                                         + "error occurred when the wrapper "
                                         + "was invoked or the results file "
-                                        + "was read." + perhaps);
+                                        + "was read.\nPerhaps the process output "
+                                        + "contains clues about what happened.");
             }
             else
             {
                 updateCaseItem(treeItem, result, null);
-                ResultSet caseResultValues = wrapper.getResultSet(test);
-                if (caseResultValues != null)
+                ResultSet delivered = wrapper.getResultSet(test);
+                if (delivered == null)
                 {
-                    if (!caseResultValues.parseable())
-                    {
-                        showMessageNotAvailable(cmpDifferences,
-                                                "Results cannot be plotted "
-                                                + "because the output file "
-                                                + "produced by the wrapper "
-                                                + "could not be parsed."
-                                                + perhaps);
-                    }
-                    else if (caseResultValues.hasInfinityOrNaN())
-                    {
-                        showMessageNotAvailable(cmpDifferences,
-                                                "Results cannot be plotted "
-                                                + "because they contain NaN "
-                                                + "or infinity values.");
-                    }
-                    else       // All okay, so plot the results & difference.
-                    {
-                        addChartForData(cmpGraphs, isTimeSeries, caseResultValues,
-                                        "Simulator results for #" + itemName);
-                        ResultSet diff;
-                        if (isTimeSeries)
-                            diff = ResultSet.diff(expected, caseResultValues);
-                        else
-                            diff = ResultSet.diffRow(expected, caseResultValues, 0);
+                    // Do nothing more here.
+                }
+                else if (!delivered.parseable())
+                {
+                    showMessageNotAvailable(cmpDifferences,
+                                            "Results cannot be plotted "
+                                            + "because the output file "
+                                            + "produced by the wrapper "
+                                            + "could not be parsed."
+                                            + "\nPerhaps the process output "
+                                            + "contains clues about what happened.");
+                }
+                else if (delivered.hasInfinityOrNaN())
+                {
+                    showMessageNotAvailable(cmpDifferences,
+                                            "Results cannot be plotted "
+                                            + "because they contain NaN "
+                                            + "or infinity values.");
+                }
+                else
+                {
+                    // All okay. Plot the delivered results in upper RHS...
+                    addChartForData(cmpGraphs, isTimeSeries, delivered,
+                                    "Simulator results for #" + itemName);
 
-                        if (diff != null && ! diff.hasInfinityOrNaN())
-                            addChartForData(cmpDifferences, isTimeSeries,
-                                            diff, "Difference plot");
-                    }
+                    // ... and plot the difference graph in bottom half.
+                    CompareResultSets crs = new CompareResultSets(expected, delivered);
+                    Comparison outcome;
+                    if (isTimeSeries)
+                        outcome = crs.compare(test.getSettings());
+                    else
+                        outcome = crs.compareRow(test.getSettings(), 0);
+
+                    ResultSet resultSet = outcome.getResultSet();
+                    if (resultSet != null && ! resultSet.hasInfinityOrNaN())
+                        addChartForData(cmpDifferences, isTimeSeries,
+                                        resultSet, "Difference plot");
                 }
             }
 
