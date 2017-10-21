@@ -1,5 +1,5 @@
 //
-// @file CompareResultSet.java
+// @file CompareResultSets.java
 // @brief Class comparing two result sets
 // @author Frank T. Bergmann
 // @date Created 2012-06-06 <fbergman@caltech.edu>
@@ -31,10 +31,14 @@
 
 package org.sbml.testsuite.core.data;
 
+import java.util.Vector;
+import org.sbml.testsuite.core.TestCaseSettings;
+
+
 /**
  * Class comparing two result sets
  */
-public class CompareResultSet
+public class CompareResultSets
 {
     private ResultSet expected;
     private ResultSet delivered;
@@ -43,13 +47,13 @@ public class CompareResultSet
 
     /**
      * Constructor comparing two result sets
-     * 
+     *
      * @param expected
      *            resultset 1
      * @param delivered
      *            resultset 2
      */
-    public CompareResultSet(ResultSet expected, ResultSet delivered)
+    public CompareResultSets(ResultSet expected, ResultSet delivered)
     {
         this.expected = expected;
         this.delivered = delivered;
@@ -58,59 +62,164 @@ public class CompareResultSet
 
 
     /**
-     * Compares the result sets according to the given relative and absolute
-     * errors
-     * 
-     * @param absoluteError
-     *            absolute error
-     * @param relativeError
-     *            relative error
-     * @return boolean indicating success (true) or failure (false)
+     * Compares the result sets according to the relative and absolute error
+     * settings found in the given TestCaseSettings.
+     *
+     * @param settings the test case settings object
+     *
+     * @return A Comparison object, which provides (1) a boolean to indicate
+     * whether the ResultSet arrays match within the tolerances and (2) an
+     * array of doubles representing the numerical differences.
      */
-    public boolean compareUsingTestSuite(double absoluteError,
-                                         double relativeError)
+    public Comparison compare(TestCaseSettings settings)
     {
-        if (expected == null || delivered == null) return false;
+        if (settings == null) return new Comparison(false, null);
+        return compare(settings.getAbsoluteError(), settings.getRelativeError(), -1);
+    }
 
-        int _nNumRows = Math.min(expected.getNumRows(), delivered.getNumRows());
 
+    /**
+     * Compares a single row of the result sets according to the relative and
+     * absolute error settings found in the given TestCaseSettings.
+     *
+     * @param settings the test case settings object
+     * @param row a single row index, or -1 to compare all rows
+     *
+     * @return A Comparison object, which provides (1) a boolean to indicate
+     * whether the ResultSet arrays match within the tolerances and (2) an
+     * array of doubles representing the numerical differences.
+     */
+    public Comparison compareRow(TestCaseSettings settings, int row)
+    {
+        if (settings == null) return new Comparison(false, null);
+        return compare(settings.getAbsoluteError(), settings.getRelativeError(), row);
+    }
+
+
+    /**
+     * Compares the result sets according to the given relative and absolute
+     * error settings.
+     *
+     * @param absError absolute error
+     * @param relError relative error
+     * @param row a single row index, or -1 to compare all rows
+     *
+     * @return A Comparison object, which provides (1) a boolean to indicate
+     * whether the ResultSet arrays match within the tolerances and (2) an
+     * array of doubles representing the numerical differences.
+     */
+    public Comparison compare(double absError, double relativeErr)
+    {
+        return compare(absError, relativeErr, -1);
+    }
+
+
+    /**
+     * Compares a single row of the result sets according to the given
+     * relative and absolute error settings.
+     *
+     * @param absError absolute error
+     * @param relError relative error
+     * @param row a single row index, or -1 to compare all rows
+     *
+     * @return A Comparison object, which provides (1) a boolean to indicate
+     * whether the ResultSet arrays match within the tolerances and (2) an
+     * array of doubles representing the numerical differences.
+     */
+    public Comparison compareRow(double absError, double relativeErr, int row)
+    {
+        return compare(absError, relativeErr, row);
+    }
+
+
+    /**
+     * Internal workhorse function for comparing results.
+     *
+     * @param absError absolute error
+     * @param relError relative error
+     * @param row a single row index, or -1 to compare all rows
+     *
+     * @return Comparison object providing a boolean to indicate successful
+     * comparison and an array of doubles to return the differences
+     */
+    private Comparison compare(double absError, double relError, int row)
+    {
+        // Prepare the return value for cases of problems.
+        Comparison failure = new Comparison(false, null);
+
+        if (expected == null || delivered == null) return failure;
+        if (row > expected.getNumRows() || row > delivered.getNumRows()) return failure;
+
+        int numRows = Math.min(expected.getNumRows(), delivered.getNumRows());
+        int numCols = Math.min(expected.getNumColumns(), delivered.getNumColumns());
+
+        // Edge case, where delivered results array lacks a column for time
+        // and numCols ends up one less than it needs to be. Compensate.
+        if (delivered.getIndex("time") < 0
+            && expected.getNumColumns() > delivered.getNumColumns())
+            numCols += 1;
+
+        // Are we comparing only a single row?
+        if (row >= 0)
+            numRows = 1;
+
+        double[][] diffArray = new double[numRows][numCols];
+        boolean match = true;
+
+        // Iterate over every column and compare the values.
         for (String columnName : expected.getHeaders())
         {
-            if (columnName.toLowerCase().equals("time"))
-                continue;
-            if (delivered.hasColumn(columnName))
+            int colIndex = expected.getIndex(columnName);
+            double[] eCol = expected.getColumn(colIndex);
+            if (columnName.equalsIgnoreCase("time"))
             {
-                double[] aCol = expected.getColumn(columnName);
-                double[] bCol = delivered.getColumn(columnName);
-
-                for (int i = 0; i < _nNumRows; i++)
+                if (row >= 0)
+                    diffArray[0][colIndex] = eCol[row];
+                else
                 {
-                    double expectedValue = aCol[i];
-                    double givenValue = bCol[i];
+                    for (int i = 0; i < numRows; i++)
+                        diffArray[i][colIndex] = eCol[i];
+                }
+            }
+            else if (delivered.hasColumn(columnName))
+            {
+                double[] dCol = delivered.getColumn(columnName);
+                if (row >= 0)
+                {
+                    double expectedValue = eCol[row];
+                    double givenValue = dCol[row];
 
-                    if (Double.isInfinite(expectedValue)
-                        && !Double.isInfinite(givenValue)) return false;
-                    if (Double.isNaN(expectedValue)
-                        && !Double.isNaN(givenValue)) return false;
-                    if (Double.isInfinite(givenValue)
-                        && !Double.isInfinite(expectedValue)) return false;
-                    if (Double.isNaN(givenValue)
-                        && !Double.isNaN(expectedValue)) return false;
-
-                    if (Math.abs(expectedValue - givenValue)
-                        > (absoluteError + relativeError * Math.abs(expectedValue)))
+                    diffArray[0][colIndex] = Math.abs(expectedValue - givenValue);
+                    // The test against match is to skip needless computations
+                    // if we already failed to match at a previous time.
+                    if (match &&
+                        (mismatchedBadValues(expectedValue, givenValue)
+                         || (Math.abs(expectedValue - givenValue)
+                             > (absError + relError * Math.abs(expectedValue)))))
+                        match = false;
+                }
+                else
+                {
+                    for (int i = 0; i < numRows; i++)
                     {
-                        return false;
+                        double expectedValue = eCol[i];
+                        double givenValue = dCol[i];
+
+                        diffArray[i][colIndex] = Math.abs(expectedValue - givenValue);
+                        if (match &&
+                            (mismatchedBadValues(expectedValue, givenValue)
+                             || (Math.abs(expectedValue - givenValue)
+                                 > (absError + relError * Math.abs(expectedValue)))))
+                            match = false;
                     }
                 }
             }
-            else
-            {
-                if (requireAllColumns) return false;
-            }
+            else if (requireAllColumns)
+                return failure;
         }
 
-        return true;
+        // FIXME this assumes headers vector has "time" as 1st column.
+        return new Comparison(match, new ResultSet(expected.getHeaders(), diffArray));
     }
 
 
@@ -169,4 +278,14 @@ public class CompareResultSet
     {
         this.delivered = delivered;
     }
+
+
+    private boolean mismatchedBadValues(double a, double b)
+    {
+        return (Double.isInfinite(a) && !Double.isInfinite(b))
+            || (Double.isInfinite(b) && !Double.isInfinite(a))
+            || (Double.isNaN(a) && !Double.isNaN(b))
+            || (Double.isNaN(b) && !Double.isNaN(a));
+    }
+
 }
