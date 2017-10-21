@@ -227,7 +227,7 @@
     <echo message="Now building ${ant.project.name}" />
     <echo message="${ant.file}"/>
     <javac debug="true" debuglevel="${debuglevel}" destdir="${build.dest}"
-           source="${java.source}" target="${java.target}" includeantruntime="no">
+           includeantruntime="no">
       <src path="src" />
       <classpath refid="testsuite-ui.classpath" />
       <compilerarg value="-Xlint:unchecked"/>
