@@ -1194,19 +1194,15 @@ public class Util
      */
     public static void deleteFile(File file)
     {
-        FileUtils fileUtils = FileUtils.getInstance();
-        if (fileUtils.hasTrash())
+        try
         {
-            try
-            {
+            FileUtils fileUtils = FileUtils.getInstance();
+            if (fileUtils.hasTrash())
                 fileUtils.moveToTrash( new File[] { file });
-            }
-            catch (IOException ioe)
-            {
-                ioe.printStackTrace();
-            }
         }
-        else
+        catch (IOException ioe)
+        {
             file.delete();
+        }
     }
 }
