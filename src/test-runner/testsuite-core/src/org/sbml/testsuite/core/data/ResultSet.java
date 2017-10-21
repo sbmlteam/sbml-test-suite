@@ -154,22 +154,23 @@ public class ResultSet
     public static ResultSet diff(ResultSet a, ResultSet b)
     {
         if (a == null || b == null) return null;
+
         int numRows = Math.min(a.getNumRows(), b.getNumRows());
         int numCols = Math.min(a.getNumColumns(), b.getNumColumns());
-
-        double[][] temp = new double[numRows][numCols];
+        double[][] diffArray = new double[numRows][numCols];
 
         for (int i = 0; i < numRows; i++)
         {
-            temp[i][0] = a.getData()[i][0];
+            diffArray[i][0] = a.getData()[i][0];
             for (int j = 1; j < numCols; j++)
             {
-                temp[i][j] = Math.abs(a.getData()[i][j] - b.getData()[i][j]);
+                diffArray[i][j] = Math.abs(a.getData()[i][j] - b.getData()[i][j]);
             }
         }
 
-        Vector<String> heads = (a.getHeaders().size() > b.getHeaders().size() ? b.getHeaders() : a.getHeaders());
-        return new ResultSet(heads, temp);
+        Vector<String> heads = (a.getHeaders().size() > b.getHeaders().size()
+                                ? b.getHeaders() : a.getHeaders());
+        return new ResultSet(heads, diffArray);
     }
 
 
@@ -191,16 +192,16 @@ public class ResultSet
         double[][] aData = a.getData();
         double[][] bData = b.getData();
         int numCols      = Math.min(a.getNumColumns(), b.getNumColumns());
-        double[][] temp  = new double[1][numCols];
+        double[][] diffArray  = new double[1][numCols];
 
         for (int j = 0; j < numCols; j++)
-            temp[row][j] = Math.abs(aData[row][j] - bData[row][j]);
+            diffArray[row][j] = Math.abs(aData[row][j] - bData[row][j]);
 
         Vector<String> heads = b.getHeaders();
         if (a.getHeaders().size() <= b.getHeaders().size())
             heads = a.getHeaders();
 
-        return new ResultSet(heads, temp);
+        return new ResultSet(heads, diffArray);
     }
 
 
