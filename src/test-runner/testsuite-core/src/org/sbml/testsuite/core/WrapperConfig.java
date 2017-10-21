@@ -39,7 +39,8 @@ import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import org.sbml.testsuite.core.data.CompareResultSet;
+import org.sbml.testsuite.core.data.CompareResultSets;
+import org.sbml.testsuite.core.data.Comparison;
 import org.sbml.testsuite.core.data.ResultSet;
 import org.simpleframework.xml.Default;
 import org.simpleframework.xml.Element;
@@ -690,15 +691,15 @@ public class WrapperConfig
         if (lv.getLevel() != 0 && !test.supportsLevelVersion(lv))
             return ResultType.Unavailable;
 
-        ResultSet deliveredResult = getResultSet(test);
-        if (deliveredResult == null)           // Didn't produce a result.
+        ResultSet delivered = getResultSet(test);
+        if (delivered == null)                 // It didn't produce a result.
         {
             if (test.matches(getUnsupportedTags()))
                 return ResultType.Unsupported; // We know why it didn't.
             else
-                return ResultType.Unknown;     // We don't know why.
+                return ResultType.Unknown;     // We don't know why it didn't.
         }
-        if (!deliveredResult.parseable())      // Something's wrong.
+        if (!delivered.parseable())            // Something's wrong.
         {
             return ResultType.Error;
         }
@@ -708,19 +709,12 @@ public class WrapperConfig
         if (test.matches(getUnsupportedTags()))
             return ResultType.CannotSolve;     // We ignore it anyway.
 
-        ResultSet expectedResult = test.getExpectedResult();
+        // How did the numerical values compare to what is expected?
 
-        // Test if the column order matches.
-
-        if (! ResultSet.sameColumnOrder(expectedResult, deliveredResult))
-            return ResultType.NoMatch;
-
-        // Test the actual values.
-
-        CompareResultSet set = new CompareResultSet(expectedResult,
-                                                    deliveredResult);
-        if (set.compareUsingTestSuite(test.getSettings().getAbsoluteError(),
-                                      test.getSettings().getRelativeError()))
+        ResultSet expected = test.getExpectedResult();
+        CompareResultSets crs = new CompareResultSets(expected, delivered);
+        Comparison outcome = crs.compare(test.getSettings());
+        if (outcome.isMatch())
             return ResultType.Match;
         else
             return ResultType.NoMatch;
