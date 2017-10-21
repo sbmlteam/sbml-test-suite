@@ -3704,8 +3704,11 @@ public class MainWindow
             // Watch for possible changes to the file while it's being shown.
             // (For example, the user may be experimenting and editing it.)
             File resultsFile = wrapper.getResultFile(test);
-            fileMonitor.addFile(resultsFile);
-            fileMonitor.addListener(new ResultsFileListener(treeItem, resultsFile));
+            if (resultsFile != null)
+            {
+                fileMonitor.addFile(resultsFile);
+                fileMonitor.addListener(new ResultsFileListener(treeItem, resultsFile));
+            }
         }
 
         cmpGraphs.layout();
