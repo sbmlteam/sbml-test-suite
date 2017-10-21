@@ -6,7 +6,7 @@
 // @date   Created 2012-06-06 <fbergman@caltech.edu>
 //
 // ----------------------------------------------------------------------------
-// This file is part of the SBML Testsuite. Please visit http://sbml.org for
+// This file is part of the SBML Test Suite. Please visit http://sbml.org for
 // more information about SBML, and the latest version of the SBML Test Suite.
 //
 // Copyright (C) 2009-2015 jointly by the following organizations:
