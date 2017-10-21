@@ -1495,6 +1495,7 @@ public class MainWindow
             }
         });
         menuItemDeleteSelectedResults.setText("Delete Selected Result(s)");
+        menuItemDeleteSelectedResults.setAccelerator(SWT.MOD1 + SWT.BS);
 
         new MenuItem(menu_3, SWT.SEPARATOR);
         menuItemViewProcessOutput = new MenuItem(menu_3, SWT.NONE);
