@@ -127,6 +127,12 @@
     </not>
   </condition>
 
+  <condition property="haveGrip" value="true">
+    <available file="grip"  
+               filepath="${env.PATH}"  
+               property="grip.present"/>
+  </condition>
+
   <target name="init">
     <loadfile property="app.version" srcFile="${app.version.file}">
       <filterchain>
@@ -177,9 +183,12 @@
     <delete file="${build.dir}/CHANGES-TMP.html" />
   </target>
 
-  <target name="make-html-files"> 
+  <!-- Convert some markdown files to HTML, possibly renaming them to make
+       more sense in the context of files in an application's directory. -->
+  <target name="make-html-files" depends="make-html-grip, make-html-fallback"/> 
+  <target name="make-html-grip" if="haveGrip">
     <exec executable="grip">
-      <arg value="../../../README.md"/>
+      <arg value="${basedir}/../../../README.md"/>
       <arg value="--user-content"/>
       <arg value="--title"/>
       <arg value="About the SBML Test Suite"/>
@@ -187,7 +196,7 @@
       <arg value="${dist.dir}/ABOUT.html"/>
     </exec>
     <exec executable="grip">
-      <arg value="../../../NEWS.md"/>
+      <arg value="${basedir}/../../../NEWS.md"/>
       <arg value="--user-content"/>
       <arg value="--title"/>
       <arg value="NEWS"/>
@@ -195,8 +204,33 @@
       <arg value="${dist.dir}/NEWS.html"/>
     </exec>
   </target>
+  <target name="make-html-fallback" unless="haveGrip">
+    <!-- If grip is not available on this platform, fall back to using 
+         pandoc with a special css file. Not as good as grip, but better
+         than nothing. -->
+    <exec executable="pandoc">
+      <arg value="--standalone"/>
+      <arg value="-f"/>
+      <arg value="markdown_github"/>
+      <arg value="-H"/>
+      <arg value="${basedir}/dev/github-css/github-markdown-css.html"/>      
+      <arg value="-o"/>
+      <arg value="${dist.dir}/ABOUT.html"/>
+      <arg value="${basedir}/../../../README.md"/>
+    </exec>
+    <exec executable="pandoc">
+      <arg value="--standalone"/>
+      <arg value="-f"/>
+      <arg value="markdown_github"/>
+      <arg value="-H"/>
+      <arg value="${basedir}/dev/github-css/github-markdown-css.html"/>      
+      <arg value="-o"/>
+      <arg value="${dist.dir}/NEWS.html"/>
+      <arg value="${basedir}/../../../NEWS.md"/>
+    </exec>
+  </target>
 
-  <target name="add-misc-files" depends="make-html-files, generate-changes-file"> 
+  <target name="add-misc-files"> 
     <copy file="../../../LICENSE.html" 
           todir="${dist.dir}" overwrite="true"/>
     <copy file="../../../COPYING.html" 
@@ -407,7 +441,8 @@
     <antcall target="clean-jar"/>
   </target>
 
-  <target name="app-mac-normal-common" depends="init, make-html-files, add-misc-files">
+  <target name="app-mac-normal-common"
+          depends="init, make-html-files, add-misc-files, generate-changes-file">
     <delete dir="${dist.dir}/${app.name}.app" failonerror="false"/>
     <mkdir dir="${dist.dir}" />
     <mkdir dir="${basedir}/package/macosx" />
@@ -600,7 +635,7 @@
     <antcall target="dist-linux"/>
   </target>
 
-  <target name="dist-linux" depends="init">
+  <target name="dist-linux" depends="init, make-html-files">
     <antcall target="app-linux"/>
     <antcall target="dist-linux-common">
       <param name="dist.linux.action" value="linux"/>

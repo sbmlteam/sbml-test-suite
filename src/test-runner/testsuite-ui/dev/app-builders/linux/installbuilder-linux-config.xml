@@ -25,7 +25,8 @@
          anything to cause the license file to be written in the installation
          directory; for that, we have to do a separate explicit step below.
     -->
-    <licenseFile>${basedir}/../LICENSE.txt</licenseFile>
+    <leftImage>${basedir}/src/data/application-icons/linux/icon_64x64.png</leftImage>
+    <licenseFile>${basedir}/../../../LICENSE.txt</licenseFile>
     <disableSplashScreen>1</disableSplashScreen>
     <logoImage>${basedir}/src/data/application-icons/linux/icon_64x64.png</logoImage>
     <customLanguageFileList>
@@ -101,10 +102,11 @@
                     <name>otherfileslinux</name>
                     <platforms>linux linux-x64</platforms>
                     <distributionFileList>
-                        <distributionFile origin="${basedir}/../LICENSE.txt"/>
+                        <distributionFile origin="${basedir}/../../../LICENSE.txt"/>
                         <distributionFile origin="${basedir}/../COPYING.txt"/>
                         <distributionFile origin="${basedir}/../COPYING.html"/>
-                        <distributionFile origin="${basedir}/README.txt"/>
+                        <distributionFile origin="${basedir}/dist/ABOUT.html"/>
+                        <distributionFile origin="${basedir}/dist/NEWS.html"/>
                     </distributionFileList>
                     <shortcutList>
                         <shortcut>
