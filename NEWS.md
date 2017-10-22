@@ -206,6 +206,10 @@ Changes in this release:
 
 * The SBML Test Runner now monitors for file changes in the currently-displayed test case.  If the application's output `.csv` file is changed outside the runner (e.g., by manually editing the file), it should now notice the changes and update the display.  Note that for architectural reasons, only the case being displayed is so monitored.
 
+* The Test Runner's algorithm for comparing test results and displaying the differences between expected and actual result values now properly ignores column ordering.  Thanks to Leandro Watanabe (U. Utah) for reporting the problem.
+
+* The Test Runner features various other small fixes and improvements.
+
 * A few things have been cleaned up in past tests. Examples include model identifiers of a few test models that were misleading (now fixed), and a few tests that were designed to test species in multiple compartments were at some point accidentally changed so that all the species were put into a single compartment (they have been redistributed appropriately now).
 
 * The issue tracker for the Test Suite is now the GitHub tracker: [https://github.com/sbmlteam/sbml-test-suite/issues](https://github.com/sbmlteam/sbml-test-suite/issues). Lucian Smith migrated the previous issues from the SourceForce tracker, so they are now in the GitHub tracker, for history.  We thank the guides by [Thomas Zajac](https://github.com/mephenor/JSBML-Migration-Guide/wiki/) and [Chris Mungall](https://github.com/cmungall/gosf2github) for helpful info about how to achieve this migration.
