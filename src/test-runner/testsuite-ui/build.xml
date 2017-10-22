@@ -604,7 +604,7 @@
       <arg value="dev/app-builders/macos/packages-config/SBML Test Runner/SBML Test Runner.pkgproj"/>
     </exec>
     <move file="${dist.dir}/${app.name}.pkg"
-          tofile="${dist.dir}/${app.name}-${app.version}.pkg" overwrite="true"/>
+          tofile="${dist.dir}/${app.name} ${app.version} macOS installer.pkg" overwrite="true"/>
   </target>
 
   <!-- Targets for Windows. -->
