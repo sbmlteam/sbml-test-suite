@@ -522,7 +522,7 @@
       <param name="os" value="linux"/>
       <param name="bits" value="x86"/>
     </antcall>
-    <antcall target="clean-jar"/>
+    <!-- <antcall target="clean-jar"/> -->
   </target>
   <target name="app-linux-64">
     <antcall target="jar-linux-64"/>
@@ -530,14 +530,15 @@
       <param name="os" value="linux"/>
       <param name="bits" value="x64"/>
     </antcall>
-    <antcall target="clean-jar"/>
+    <!-- <antcall target="clean-jar"/> -->
   </target>
 
   <target name="app-linux-common" depends="init">
-    <exec executable="cat" output="${dist.dir}/${app.name.nospace}-${os}-${bits}">
-      <arg value="dev/app-builders/linux/bootstrap.sh"/>
-      <arg value="${dist.dir}/sbmltestrunner.jar"/>
-    </exec>
+    <concat destfile="${dist.dir}/${app.name.nospace}-${os}-${bits}"
+            binary="true">
+      <filelist dir="dev/app-builders/linux" files="bootstrap.sh"/>
+      <filelist dir="${dist.dir}" files="sbmltestrunner.jar"/>
+   </concat>
     <exec executable="chmod">
       <arg value="+x"/>
       <arg value="${dist.dir}/${app.name.nospace}-${os}-${bits}"/>
