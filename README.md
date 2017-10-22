@@ -63,6 +63,8 @@ The SBML Test Suite is under active development by a distributed team.  If you h
 
 Contributions to the SBML Test Suite are very much welcome in all areas.  Please feel free to contact the developers.  A quick way to find out what is currently on people's plates and our near-term plans is to look at the [Pivotal Tracker](https://www.pivotaltracker.com/n/projects/68714) for this project.
 
+Notes about build procedures and other information are kept in the [GitHub repository wiki](https://github.com/sbmlteam/sbml-test-suite/wiki) for this project.
+
 
 ☺ Acknowledgments
 -----------------------
