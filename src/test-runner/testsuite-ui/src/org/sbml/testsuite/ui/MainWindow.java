@@ -39,7 +39,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
@@ -534,17 +536,37 @@ public class MainWindow
         double min = Double.MAX_VALUE;
         double max = Double.MIN_VALUE;
 
-        PlotColorGenerator.reset();
-        for (int i = 1; i < result.getNumColumns(); i++)
-        {
-            double[] ySeries = result.getColumn(i);
+        // Sort the columns so they're always displayed in a consistent order.
+        ArrayList<String> headers = new ArrayList<String>(result.getHeaders());
+        headers.remove("time");
+        headers.remove("Time");
+        Collections.sort(headers, new Comparator<String>() {
+                // Code based on https://stackoverflow.com/a/29611129
+                public int compare(String s1, String s2)
+                {
+                    String s1StringPart = s1.replaceAll("\\d", "");
+                    String s2StringPart = s2.replaceAll("\\d", "");
+                    if (s1StringPart.equalsIgnoreCase(s2StringPart))
+                        return extractInt(s1) - extractInt(s2);
+                    return s1.compareTo(s2);
+                }
 
+                int extractInt(String s)
+                {
+                    String num = s.replaceAll("\\D", "");
+                    return num.isEmpty() ? 0 : Integer.parseInt(num);
+                }
+            });
+
+        PlotColorGenerator.reset();
+        for (String columnName : headers)
+        {
+            double[] ySeries = result.getColumn(columnName);
             min = Math.min(min, getMin(ySeries));
             max = Math.max(max, getMax(ySeries));
 
-            ILineSeries series = (ILineSeries) seriesSet.createSeries(SeriesType.LINE,
-                                                                      result.getHeaders()
-                                                                            .get(i));
+            ILineSeries series =
+                (ILineSeries) seriesSet.createSeries(SeriesType.LINE, columnName);
             series.setLineWidth(2);
             series.setLineColor(PlotColorGenerator.nextColor());
             series.setAntialias(SWT.ON);
