@@ -121,5 +121,5 @@ More information
 More information about the SBML Test Suite is available online at
 [http://sbml.org/Software/SBML_Test_Suite](http://sbml.org/Software/SBML_Test_Suite).
 
-[![SBML Logo](https://raw.githubusercontent.com/sbmlteam/sbml-test-suite/develop/src/misc/graphics-originals/Official-sbml-supported-70.jpg)](http://sbml.org)
+[![SBML Logo](/dev/graphics/Official-sbml-supported-70.jpg)](http://sbml.org)
 
