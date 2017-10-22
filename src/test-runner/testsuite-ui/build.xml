@@ -652,6 +652,9 @@
   </target>
 
   <target name="dist-linux-common">
+    <copy file="${basedir}/src/data/application-icons/linux/icon_64x64.png"
+          tofile="${dist.dir}/.sbmltestrunner-icon.png"
+          overwrite="true"/>
     <exec executable="${installbuilder.dir}/bin/builder">
       <arg value="build"/>
       <arg value="dev/app-builders/linux/installbuilder-linux-config.xml"/>
