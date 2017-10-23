@@ -9,7 +9,7 @@ levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: 
 
- The model has an assigned stoichiometry for a boundary species, using an assignment rule.
+ In this model, a persistent event has a delay that lasts longer than the trigger is true, so it fires anyway.  It affects the value of a different parameter through an algebraic rule.
 
 The model contains:
 * 2 parameters (k1, k2)
@@ -17,7 +17,7 @@ The model contains:
 There is one event:
 
 [{width:35em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Delay*  | *Event Assignments* |
-| E0 | $(k2 > 3.5) && (k2 < 4)$ | $1$ | $k1 = 1$ |]
+| E0 | $(k2 > 3.5) && (k2 < 4)$ | $1.1$ | $k1 = 1$ |]
 
 
 There are 2 rules:
