@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1" comp:required="true">
-  <model id="case01477" name="case01477">
+  <model id="case01778" name="case01778">
     <listOfCompartments>
       <compartment id="C" spatialDimensions="3" size="1" constant="true">
         <comp:listOfReplacedElements>
