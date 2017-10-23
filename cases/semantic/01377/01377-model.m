@@ -24,7 +24,7 @@ There is one rule:
 The initial conditions are as follows:
 
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
-| Initial concentration of species J1 | $5$ | variable |
+| Initial concentration of species J1 | $5$ | constant |
 | Initial value of parameter A__x | $unknown$ | variable |
 | Initial volume of compartment 'A_C' | $1$ | constant |]
 
