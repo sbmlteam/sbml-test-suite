@@ -540,23 +540,7 @@ public class MainWindow
         ArrayList<String> headers = new ArrayList<String>(result.getHeaders());
         headers.remove("time");
         headers.remove("Time");
-        Collections.sort(headers, new Comparator<String>() {
-                // Code based on https://stackoverflow.com/a/29611129
-                public int compare(String s1, String s2)
-                {
-                    String s1StringPart = s1.replaceAll("\\d", "");
-                    String s2StringPart = s2.replaceAll("\\d", "");
-                    if (s1StringPart.equalsIgnoreCase(s2StringPart))
-                        return extractInt(s1) - extractInt(s2);
-                    return s1.compareTo(s2);
-                }
-
-                int extractInt(String s)
-                {
-                    String num = s.replaceAll("\\D", "");
-                    return num.isEmpty() ? 0 : Integer.parseInt(num);
-                }
-            });
+        Collections.sort(headers, NaturalOrderComparator.CASEINSENSITIVE_NUMERICAL_ORDER);
 
         PlotColorGenerator.reset();
         for (String columnName : headers)
