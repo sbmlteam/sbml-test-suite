@@ -202,6 +202,10 @@ New in this release:
 
     - Cases 01775-01777 test using avogadro to set conversion factor values.
 
+    - Case 01778 tests a comp model with a conversion factor affecting a reaction rate.
+
+    - Cases 01779-01780 test simultaneous event assignment of a species concentration and its compartment.
+
 Changes in this release:
 
 * The SBML Test Runner now monitors for file changes in the currently-displayed test case.  If the application's output `.csv` file is changed outside the runner (e.g., by manually editing the file), it should now notice the changes and update the display.  Note that for architectural reasons, only the case being displayed is so monitored.
