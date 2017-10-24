@@ -33,7 +33,7 @@ There are 3 rules:
 The initial conditions are as follows:
 
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
-| Initial concentration of species S1 | $1$ | variable |
+| Initial concentration of species S1 | $0$ | variable |
 | Initial value of parameter x | $S1$ | variable |
 | Initial value of parameter x2 | $0$ | variable |
 | Initial volume of compartment 'C1' | $0.5$ | variable |]

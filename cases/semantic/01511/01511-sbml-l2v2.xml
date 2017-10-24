@@ -5,7 +5,7 @@
       <compartment id="C1" size="0.5" constant="false"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" compartment="C1" initialConcentration="1" boundaryCondition="true"/>
+      <species id="S1" compartment="C1" initialConcentration="0" boundaryCondition="true"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="x" constant="false"/>
