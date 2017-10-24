@@ -30,12 +30,8 @@
 package org.sbml.testsuite.ui;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import org.apache.commons.io.IOUtils;
 import org.json.simple.DeserializationException;
 import org.json.simple.JsonArray;

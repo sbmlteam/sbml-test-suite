@@ -34,14 +34,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
@@ -52,7 +49,6 @@ import java.util.Vector;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.custom.SashForm;
@@ -367,7 +363,8 @@ public class MainWindow
     private MainModel                 model;
     private CasesArchiveManager       archiveManager;
 
-    private final DecimalFormat       sciformat;
+    private final DecimalFormat            sciFormat;
+    private final RightPaddedDecimalFormat rightPaddedFormat;
 
     protected Shell                   shell;
 
@@ -420,7 +417,8 @@ public class MainWindow
         Display.setAppName("SBML Test Runner");
         display = new Display();
         uiThread = Thread.currentThread();
-        sciformat = new DecimalFormat("##0.##E0");
+        sciFormat = new DecimalFormat("##0.##E0");
+        rightPaddedFormat = new RightPaddedDecimalFormat("###.##");
         foregroundColor = UIUtils.createColor(60, 60, 60);
         backgroundColor = SWTResourceManager.getColor(SWT.COLOR_WHITE);
         if (UIUtils.isWindows())
@@ -527,8 +525,7 @@ public class MainWindow
            character on the right of the labels.  The result makes the
            truncation of the last x-axis label irrelevant. */
 
-        RightPaddedDecimalFormat fmt = new RightPaddedDecimalFormat("###.##");
-        chart.getAxisSet().getXAxis(0).getTick().setFormat(fmt);
+        chart.getAxisSet().getXAxis(0).getTick().setFormat(rightPaddedFormat);
 
         ISeriesSet seriesSet = chart.getSeriesSet();
         double[] time = result.getTimeColumn();
@@ -563,7 +560,7 @@ public class MainWindow
         max *= 1.1;
 
         if (max < 1E-5)
-            chart.getAxisSet().getYAxis(0).getTick().setFormat(sciformat);
+            chart.getAxisSet().getYAxis(0).getTick().setFormat(sciFormat);
 
         chart.getAxisSet().getXAxis(0)
               .setRange(new Range(getMin(time), getMax(time)));
@@ -1340,7 +1337,6 @@ public class MainWindow
             @Override
             public void widgetSelected(SelectionEvent arg0)
             {
-                WrapperConfig wrapper = model.getLastWrapper();
                 if (menuItemShowOnlyProblematic.getSelection())
                 {
                     menuItemShowOnlyReally.setSelection(false);
@@ -3507,7 +3503,7 @@ public class MainWindow
             return;
         }
 
-        resultMap = new ResultMap(shell, model.getSuite(), model.getLastWrapper());
+        resultMap = new ResultMap(model.getSuite(), model.getLastWrapper());
         resultMap.setData(treeToSortedMap(tree));
         resultMap.setReRunAction(new ActionListener() {
             @Override
@@ -3732,12 +3728,10 @@ public class MainWindow
     class ResultsFileListener implements FileListener
     {
         private TreeItem treeItem;
-        private File file;
 
         public ResultsFileListener(final TreeItem item, final File file)
         {
             this.treeItem = item;
-            this.file = file;
         }
 
         public void fileChanged(final File ignored)

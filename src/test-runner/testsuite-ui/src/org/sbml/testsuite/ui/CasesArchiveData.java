@@ -29,29 +29,20 @@
 
 package org.sbml.testsuite.ui;
 
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.apache.commons.io.IOUtils;
-import org.json.simple.JsonArray;
 import org.json.simple.JsonObject;
-import org.json.simple.Jsoner;
 
 class CasesArchiveData
 {
     private static final SimpleDateFormat github_date_format =
         new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
-    private String archiveType = null;
     private JsonObject archiveData = null;
 
 
     public CasesArchiveData(String type, JsonObject data)
     {
-        archiveType = type;
         archiveData = data;
     }
 

@@ -66,7 +66,6 @@ public class TagsDialog
     private Tree           treePackages;
     private Shell          shell;
     private Vector<String> selectedTags;
-    private Vector<String> packages;
     private boolean        exitOK = false;
 
 

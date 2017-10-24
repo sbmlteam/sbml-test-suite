@@ -85,7 +85,9 @@ public class MarkerFile
         try
         {
             Scanner fileReader = new Scanner(createMarkerFilePath(dir));
-            return fileReader.nextLine();
+            final String nextLine = fileReader.nextLine();
+            fileReader.close();
+            return nextLine;
         }
         catch (Exception e)
         {

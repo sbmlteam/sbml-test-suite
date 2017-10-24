@@ -104,5 +104,7 @@ public class Tags
                 tags.put(parts[0], parts[2]);
             }
         }
+
+        fileReader.close();
     }
 }

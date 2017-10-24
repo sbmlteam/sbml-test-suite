@@ -77,7 +77,6 @@ import org.sbml.testsuite.core.WrapperConfig;
 public class ResultMap
 {
     private Shell                    shell;
-    private Shell                    parent;
     private Canvas                   canvas;
     private SortedMap<String, Color> data;
     private String[]                 caseNames;
@@ -114,9 +113,8 @@ public class ResultMap
      * @param wrapper
      *            selected wrapper configuration
      */
-    public ResultMap(Shell parent, TestSuite suite, WrapperConfig wrapper)
+    public ResultMap(TestSuite suite, WrapperConfig wrapper)
     {
-        this.parent = parent;
         this.wrapper = wrapper;
         this.suite = suite;
         createContents();
@@ -506,7 +504,6 @@ public class ResultMap
             return null;
 
         int numCases = suite.getNumCases();
-        Rectangle parentSize = parent.getBounds();
         int numSquaresSide = (int) Math.ceil(Math.sqrt(numCases));
         int pixelsSide = numSquaresSide * (SQUARE_WIDTH + SQUARE_GAP);
         int width = pixelsSide + (2 * EDGE_PADDING);

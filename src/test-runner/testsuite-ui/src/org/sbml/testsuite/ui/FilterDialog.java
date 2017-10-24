@@ -723,6 +723,7 @@ public class FilterDialog
                     //            + "\nas a number. It will be ignored.",
                     //            "Only integer numbers, consisting of one or "
                     //            + "more digits,\nare valid in this context.");
+                    groups.close();
                     return caseNumbers;
                 }
                 else
@@ -752,6 +753,7 @@ public class FilterDialog
                 }
             }
         }
+        groups.close();
         return caseNumbers;
     }
 

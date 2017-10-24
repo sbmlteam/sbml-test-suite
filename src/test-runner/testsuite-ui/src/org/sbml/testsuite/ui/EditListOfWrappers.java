@@ -53,7 +53,6 @@ import org.sbml.testsuite.core.WrapperConfig;
 public class EditListOfWrappers
     extends Composite
 {
-    private int                   lastWrapperIndex = -1;
     private WrapperConfig         lastWrapperDefinition = new WrapperConfig();
     private WrapperList           wrapperList;
     private EditWrapper           wrapperForm;
