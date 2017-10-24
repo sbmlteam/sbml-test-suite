@@ -1,7 +1,7 @@
 (*
 
 category:        Test
-synopsis:        A species and a compartment both under control of a rate rule, and affected by an event.
+synopsis:        A species concentration and its compartment assigned to by the same event.
 componentTags:   AssignmentRule, CSymbolTime, Compartment, EventNoDelay, Parameter, Species
 testTags:        Amount, BoundaryCondition, InitialValueReassigned, NonConstantCompartment, NonConstantParameter, NonUnityCompartment
 testType:        TimeCourse
