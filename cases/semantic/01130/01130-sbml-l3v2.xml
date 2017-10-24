@@ -14,8 +14,8 @@
       <species id="S1" compartment="C" initialAmount="5" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="true"/>
     </listOfSpecies>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef1"/>
-      <comp:submodel id="sub2" comp:id="sub2" comp:modelRef="moddef2"/>
+      <comp:submodel comp:id="sub1" comp:modelRef="moddef1"/>
+      <comp:submodel comp:id="sub2" comp:modelRef="moddef2"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfModelDefinitions>
@@ -35,7 +35,7 @@
         <species id="S1" compartment="C" initialAmount="9" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="true"/>
       </listOfSpecies>
       <comp:listOfSubmodels>
-        <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef1"/>
+        <comp:submodel comp:id="sub1" comp:modelRef="moddef1"/>
       </comp:listOfSubmodels>
     </comp:modelDefinition>
   </comp:listOfModelDefinitions>

@@ -90,7 +90,7 @@ The initial conditions are as follows:
 | Initial value of parameter chi15 | $0$ | variable |
 | Initial value of parameter chi16 | $0$ | variable |
 | Initial value of parameter tests | $0$ | variable |
-| Initial value of parameter finalchi | $unknown$ | variable |
+| Initial value of parameter finalchi | $0$ | variable |
 | Initial value of parameter error | $0$ | variable |]
 
 Note: The test data for this model was generated from an analytical

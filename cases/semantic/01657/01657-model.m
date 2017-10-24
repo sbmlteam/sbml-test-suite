@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A species reference with an empty assignment rule.
 componentTags:   AssignmentRule, Compartment, InitialAssignment, Parameter, Reaction, Species
-testTags:        Amount, AssignedConstantStoichiometry, InitialValueReassigned, NoMathML, NonUnityCompartment, NonUnityStoichiometry, SpeciesReferenceInMath
+testTags:        Amount, AssignedConstantStoichiometry, InitialValueReassigned, NoMathML, NonUnityStoichiometry, SpeciesReferenceInMath
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Analytic

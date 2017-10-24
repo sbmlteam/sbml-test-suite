@@ -20,7 +20,7 @@
       <parameter id="extentconv" value="1000" constant="true"/>
     </listOfParameters>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub2" comp:id="sub2" comp:modelRef="moddef2" comp:extentConversionFactor="extentconv"/>
+      <comp:submodel comp:id="sub2" comp:modelRef="moddef2" comp:extentConversionFactor="extentconv"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfModelDefinitions>
@@ -46,7 +46,7 @@
     </comp:modelDefinition>
     <comp:modelDefinition id="moddef2" name="moddef2">
       <comp:listOfSubmodels>
-        <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef1"/>
+        <comp:submodel comp:id="sub1" comp:modelRef="moddef1"/>
       </comp:listOfSubmodels>
     </comp:modelDefinition>
   </comp:listOfModelDefinitions>

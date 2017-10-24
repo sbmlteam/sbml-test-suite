@@ -11,7 +11,7 @@
       </compartment>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="s1" initialAmount="0" compartment="C" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+      <species id="s1" compartment="C" initialAmount="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
         <comp:listOfReplacedElements>
           <comp:replacedElement comp:idRef="sub1" comp:submodelRef="sub2">
             <comp:sBaseRef comp:idRef="s1"/>
@@ -23,10 +23,10 @@
       <parameter id="extentconv" value="1000" constant="true"/>
     </listOfParameters>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub2" comp:id="sub2" comp:modelRef="moddef2" comp:extentConversionFactor="extentconv"/>
+      <comp:submodel comp:id="sub2" comp:modelRef="moddef2" comp:extentConversionFactor="extentconv"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfExternalModelDefinitions>
-    <comp:externalModelDefinition id="moddef2" comp:id="moddef2" comp:source="external.xml" comp:modelRef="moddef2"/>
+    <comp:externalModelDefinition comp:id="moddef2" comp:source="external.xml" comp:modelRef="moddef2"/>
   </comp:listOfExternalModelDefinitions>
 </sbml>

@@ -6,7 +6,7 @@
       <parameter id="extentconv" value="10" constant="true"/>
     </listOfParameters>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef3" comp:timeConversionFactor="timeconv" comp:extentConversionFactor="extentconv"/>
+      <comp:submodel comp:id="sub1" comp:modelRef="moddef3" comp:timeConversionFactor="timeconv" comp:extentConversionFactor="extentconv"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfModelDefinitions>
@@ -16,7 +16,7 @@
         <parameter id="extentconv" value="10" constant="true"/>
       </listOfParameters>
       <comp:listOfSubmodels>
-        <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef2" comp:timeConversionFactor="timeconv" comp:extentConversionFactor="extentconv"/>
+        <comp:submodel comp:id="sub1" comp:modelRef="moddef2" comp:timeConversionFactor="timeconv" comp:extentConversionFactor="extentconv"/>
       </comp:listOfSubmodels>
     </comp:modelDefinition>
     <comp:modelDefinition id="moddef2">
@@ -25,7 +25,7 @@
         <parameter id="extentconv" value="10" constant="true"/>
       </listOfParameters>
       <comp:listOfSubmodels>
-        <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef1" comp:timeConversionFactor="timeconv" comp:extentConversionFactor="extentconv"/>
+        <comp:submodel comp:id="sub1" comp:modelRef="moddef1" comp:timeConversionFactor="timeconv" comp:extentConversionFactor="extentconv"/>
       </comp:listOfSubmodels>
     </comp:modelDefinition>
     <comp:modelDefinition id="moddef1">

@@ -88,10 +88,10 @@
       </reaction>
     </listOfReactions>
     <comp:listOfSubmodels>
-      <comp:submodel id="A" comp:id="A" comp:modelRef="enzyme"/>
-      <comp:submodel id="B" comp:id="B" comp:modelRef="simple">
+      <comp:submodel comp:id="A" comp:modelRef="enzyme"/>
+      <comp:submodel comp:id="B" comp:modelRef="simple">
         <comp:listOfDeletions>
-          <comp:deletion id="oldrxn" comp:portRef="J0_port" comp:id="oldrxn"/>
+          <comp:deletion comp:portRef="J0_port" comp:id="oldrxn"/>
         </comp:listOfDeletions>
       </comp:submodel>
     </comp:listOfSubmodels>
@@ -128,13 +128,13 @@
         </reaction>
       </listOfReactions>
       <comp:listOfPorts>
-        <comp:port id="comp_port" comp:idRef="comp" comp:id="comp_port"/>
-        <comp:port id="S_port" comp:idRef="S" comp:id="S_port"/>
-        <comp:port id="E_port" comp:idRef="E" comp:id="E_port"/>
-        <comp:port id="D_port" comp:idRef="D" comp:id="D_port"/>
-        <comp:port id="ES_port" comp:idRef="ES" comp:id="ES_port"/>
-        <comp:port id="J0_port" comp:idRef="J0" comp:id="J0_port"/>
-        <comp:port id="J1_port" comp:idRef="J1" comp:id="J1_port"/>
+        <comp:port comp:idRef="comp" comp:id="comp_port"/>
+        <comp:port comp:idRef="S" comp:id="S_port"/>
+        <comp:port comp:idRef="E" comp:id="E_port"/>
+        <comp:port comp:idRef="D" comp:id="D_port"/>
+        <comp:port comp:idRef="ES" comp:id="ES_port"/>
+        <comp:port comp:idRef="J0" comp:id="J0_port"/>
+        <comp:port comp:idRef="J1" comp:id="J1_port"/>
       </comp:listOfPorts>
     </comp:modelDefinition>
     <comp:modelDefinition id="simple">
@@ -156,10 +156,10 @@
         </reaction>
       </listOfReactions>
       <comp:listOfPorts>
-        <comp:port id="S_port" comp:idRef="S" comp:id="S_port"/>
-        <comp:port id="D_port" comp:idRef="D" comp:id="D_port"/>
-        <comp:port id="comp_port" comp:idRef="comp" comp:id="comp_port"/>
-        <comp:port id="J0_port" comp:idRef="J0" comp:id="J0_port"/>
+        <comp:port comp:idRef="S" comp:id="S_port"/>
+        <comp:port comp:idRef="D" comp:id="D_port"/>
+        <comp:port comp:idRef="comp" comp:id="comp_port"/>
+        <comp:port comp:idRef="J0" comp:id="J0_port"/>
       </comp:listOfPorts>
     </comp:modelDefinition>
   </comp:listOfModelDefinitions>

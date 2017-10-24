@@ -24,8 +24,8 @@
       </species>
     </listOfSpecies>
     <comp:listOfSubmodels>
-      <comp:submodel id="A" comp:id="A" comp:modelRef="ExtMod1"/>
-      <comp:submodel id="B" comp:id="B" comp:modelRef="simple">
+      <comp:submodel comp:id="A" comp:modelRef="ExtMod1"/>
+      <comp:submodel comp:id="B" comp:modelRef="simple">
         <comp:listOfDeletions>
           <comp:deletion comp:portRef="J0_port"/>
         </comp:listOfDeletions>
@@ -52,14 +52,14 @@
         </reaction>
       </listOfReactions>
       <comp:listOfPorts>
-        <comp:port id="S_port" comp:idRef="S" comp:id="S_port"/>
-        <comp:port id="D_port" comp:idRef="D" comp:id="D_port"/>
-        <comp:port id="comp_port" comp:idRef="comp" comp:id="comp_port"/>
-        <comp:port id="J0_port" comp:idRef="J0" comp:id="J0_port"/>
+        <comp:port comp:idRef="S" comp:id="S_port"/>
+        <comp:port comp:idRef="D" comp:id="D_port"/>
+        <comp:port comp:idRef="comp" comp:id="comp_port"/>
+        <comp:port comp:idRef="J0" comp:id="J0_port"/>
       </comp:listOfPorts>
     </comp:modelDefinition>
   </comp:listOfModelDefinitions>
   <comp:listOfExternalModelDefinitions>
-    <comp:externalModelDefinition id="ExtMod1" comp:id="ExtMod1" comp:source="enzyme_model.xml" comp:modelRef="enzyme"/>
+    <comp:externalModelDefinition comp:id="ExtMod1" comp:source="enzyme_model.xml" comp:modelRef="enzyme"/>
   </comp:listOfExternalModelDefinitions>
 </sbml>

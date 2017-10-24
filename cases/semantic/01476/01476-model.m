@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A hierarchical model with a reaction modified by an extent conversion factor.
 componentTags:   Compartment, Parameter, Reaction, Species, comp:ExternalModelDefinition, comp:ReplacedElement, comp:SBaseRef, comp:Submodel
-testTags:        Amount, InitialValueReassigned, comp:ExtentConversionFactor
+testTags:        Amount, comp:ExtentConversionFactor
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Numeric
@@ -24,7 +24,7 @@ There is one reaction:
 The initial conditions are as follows:
 
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
-| Initial level of species s1 | $unknown$ | variable |
+| Initial amount of species s1 | $0$ | variable |
 | Initial value of parameter extentconv | $1000$ | constant |
 | Initial volume of compartment 'C' | $1$ | constant |]
 

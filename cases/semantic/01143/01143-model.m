@@ -26,7 +26,7 @@ The initial conditions are as follows:
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial amount of species sub1__s1 | $1$ | variable |
 | Initial value of parameter extentconv | $1000$ | constant |
-| Initial volume of compartment 'sub1__C' | $unknown$ | constant |]
+| Initial volume of compartment 'sub1__C' | $0$ | constant |]
 
 *)
 

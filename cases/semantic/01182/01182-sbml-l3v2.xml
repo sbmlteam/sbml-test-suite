@@ -27,7 +27,7 @@
       </reaction>
     </listOfReactions>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef1" comp:timeConversionFactor="timeconv" comp:extentConversionFactor="extentconv"/>
+      <comp:submodel comp:id="sub1" comp:modelRef="moddef1" comp:timeConversionFactor="timeconv" comp:extentConversionFactor="extentconv"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfModelDefinitions>

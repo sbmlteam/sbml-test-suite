@@ -23,10 +23,10 @@
       <parameter id="cf" value="10" constant="true"/>
     </listOfParameters>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub2" comp:id="sub2" comp:modelRef="moddef2"/>
+      <comp:submodel comp:id="sub2" comp:modelRef="moddef2"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfExternalModelDefinitions>
-    <comp:externalModelDefinition id="moddef2" comp:id="moddef2" comp:source="external.xml" comp:modelRef="moddef2"/>
+    <comp:externalModelDefinition comp:id="moddef2" comp:source="external.xml" comp:modelRef="moddef2"/>
   </comp:listOfExternalModelDefinitions>
 </sbml>

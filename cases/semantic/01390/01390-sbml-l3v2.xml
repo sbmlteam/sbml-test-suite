@@ -56,7 +56,7 @@
       </initialAssignment>
     </listOfInitialAssignments>
     <comp:listOfSubmodels>
-      <comp:submodel id="A" comp:id="A" comp:modelRef="sub1"/>
+      <comp:submodel comp:id="A" comp:modelRef="sub1"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfModelDefinitions>
@@ -88,13 +88,13 @@
         </initialAssignment>
       </listOfInitialAssignments>
       <comp:listOfPorts>
-        <comp:port id="a" comp:idRef="a" comp:id="a"/>
-        <comp:port id="b" comp:idRef="b" comp:id="b"/>
-        <comp:port id="c" comp:idRef="c" comp:id="c"/>
-        <comp:port id="d" comp:idRef="d" comp:id="d"/>
-        <comp:port id="e" comp:idRef="e" comp:id="e"/>
-        <comp:port id="f" comp:idRef="f" comp:id="f"/>
-        <comp:port id="g" comp:idRef="g" comp:id="g"/>
+        <comp:port comp:idRef="a" comp:id="a"/>
+        <comp:port comp:idRef="b" comp:id="b"/>
+        <comp:port comp:idRef="c" comp:id="c"/>
+        <comp:port comp:idRef="d" comp:id="d"/>
+        <comp:port comp:idRef="e" comp:id="e"/>
+        <comp:port comp:idRef="f" comp:id="f"/>
+        <comp:port comp:idRef="g" comp:id="g"/>
       </comp:listOfPorts>
     </comp:modelDefinition>
   </comp:listOfModelDefinitions>

@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        An empty reaction's identifier used in an event delay.
 componentTags:   CSymbolTime, EventWithDelay, Parameter, Reaction
-testTags:        InitialValueReassigned, NonConstantParameter
+testTags:        NonConstantParameter
 testType:        TimeCourse
 levels:          3.2
 generatedBy:     Analytic
@@ -28,7 +28,7 @@ There is one event:
 The initial conditions are as follows:
 
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
-| Initial value of parameter p1 | $unknown$ | variable |]
+| Initial value of parameter p1 | $0$ | variable |]
 
 Note: The test data for this model was generated from an analytical
 solution of the system of equations.

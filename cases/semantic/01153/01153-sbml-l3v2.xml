@@ -21,7 +21,7 @@
       </initialAssignment>
     </listOfInitialAssignments>
     <comp:listOfSubmodels>
-      <comp:submodel id="A" comp:id="A" comp:modelRef="bar">
+      <comp:submodel comp:id="A" comp:modelRef="bar">
         <comp:listOfDeletions>
           <comp:deletion comp:idRef="A">
             <comp:sBaseRef comp:metaIdRef="foo_x_initialassignment"/>
@@ -63,7 +63,7 @@
         </rateRule>
       </listOfRules>
       <comp:listOfPorts>
-        <comp:port id="x" comp:idRef="x" comp:id="x"/>
+        <comp:port comp:idRef="x" comp:id="x"/>
       </comp:listOfPorts>
     </comp:modelDefinition>
     <comp:modelDefinition id="bar" name="bar">
@@ -75,10 +75,10 @@
         </parameter>
       </listOfParameters>
       <comp:listOfSubmodels>
-        <comp:submodel id="A" comp:id="A" comp:modelRef="foo"/>
+        <comp:submodel comp:id="A" comp:modelRef="foo"/>
       </comp:listOfSubmodels>
       <comp:listOfPorts>
-        <comp:port id="y" comp:idRef="y" comp:id="y"/>
+        <comp:port comp:idRef="y" comp:id="y"/>
       </comp:listOfPorts>
     </comp:modelDefinition>
   </comp:listOfModelDefinitions>

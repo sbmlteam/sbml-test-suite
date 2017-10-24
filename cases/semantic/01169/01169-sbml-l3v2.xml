@@ -48,7 +48,7 @@
       </assignmentRule>
     </listOfRules>
     <comp:listOfSubmodels>
-      <comp:submodel id="A" comp:id="A" comp:modelRef="submod" comp:timeConversionFactor="timeconv" comp:extentConversionFactor="extentconv">
+      <comp:submodel comp:id="A" comp:modelRef="submod" comp:timeConversionFactor="timeconv" comp:extentConversionFactor="extentconv">
         <comp:listOfDeletions>
           <comp:deletion comp:metaIdRef="submod_unused_raterule"/>
           <comp:deletion comp:metaIdRef="submod_unused2_assignmentrule"/>
@@ -164,9 +164,9 @@
         </event>
       </listOfEvents>
       <comp:listOfPorts>
-        <comp:port id="q" comp:idRef="q" comp:id="q"/>
-        <comp:port id="r" comp:idRef="r" comp:id="r"/>
-        <comp:port id="x" comp:idRef="x" comp:id="x"/>
+        <comp:port comp:idRef="q" comp:id="q"/>
+        <comp:port comp:idRef="r" comp:id="r"/>
+        <comp:port comp:idRef="x" comp:id="x"/>
       </comp:listOfPorts>
     </comp:modelDefinition>
   </comp:listOfModelDefinitions>

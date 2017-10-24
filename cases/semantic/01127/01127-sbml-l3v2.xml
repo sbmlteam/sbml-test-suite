@@ -9,7 +9,7 @@
       </parameter>
     </listOfParameters>
     <comp:listOfSubmodels>
-      <comp:submodel id="submod1" comp:id="submod1" comp:modelRef="Mod1"/>
+      <comp:submodel comp:id="submod1" comp:modelRef="Mod1"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfModelDefinitions>
@@ -45,7 +45,7 @@
         </rateRule>
       </listOfRules>
       <comp:listOfPorts>
-        <comp:port id="port1" comp:idRef="subparam1" comp:id="port1"/>
+        <comp:port comp:idRef="subparam1" comp:id="port1"/>
       </comp:listOfPorts>
     </comp:modelDefinition>
   </comp:listOfModelDefinitions>

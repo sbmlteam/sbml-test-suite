@@ -10,7 +10,7 @@
       <parameter id="conv" value="0.1" constant="true"/>
     </listOfParameters>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef1"/>
+      <comp:submodel comp:id="sub1" comp:modelRef="moddef1"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfModelDefinitions>

@@ -10,7 +10,7 @@
       </parameter>
     </listOfParameters>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef1" comp:timeConversionFactor="timeconv"/>
+      <comp:submodel comp:id="sub1" comp:modelRef="moddef1" comp:timeConversionFactor="timeconv"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfModelDefinitions>

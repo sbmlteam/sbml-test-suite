@@ -9,7 +9,7 @@
       </parameter>
     </listOfParameters>
     <comp:listOfSubmodels>
-      <comp:submodel id="submod1" comp:id="submod1" comp:modelRef="Mod1"/>
+      <comp:submodel comp:id="submod1" comp:modelRef="Mod1"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfModelDefinitions>

@@ -16,7 +16,7 @@
       </rateRule>
     </listOfRules>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef1">
+      <comp:submodel comp:id="sub1" comp:modelRef="moddef1">
         <comp:listOfDeletions>
           <comp:deletion comp:metaIdRef="p80_raterule"/>
         </comp:listOfDeletions>

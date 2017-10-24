@@ -5,7 +5,7 @@
       <parameter id="extentconv" value="1000" constant="true"/>
     </listOfParameters>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef1" comp:extentConversionFactor="extentconv"/>
+      <comp:submodel comp:id="sub1" comp:modelRef="moddef1" comp:extentConversionFactor="extentconv"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfModelDefinitions>

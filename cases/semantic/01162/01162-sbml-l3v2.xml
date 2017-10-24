@@ -9,7 +9,7 @@
       </parameter>
     </listOfParameters>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef1">
+      <comp:submodel comp:id="sub1" comp:modelRef="moddef1">
         <comp:listOfDeletions>
           <comp:deletion comp:portRef="rr_port"/>
         </comp:listOfDeletions>
@@ -37,7 +37,7 @@
         </rateRule>
       </listOfRules>
       <comp:listOfPorts>
-        <comp:port id="rr_port" comp:metaIdRef="p80_raterule" comp:id="rr_port"/>
+        <comp:port comp:metaIdRef="p80_raterule" comp:id="rr_port"/>
       </comp:listOfPorts>
     </comp:modelDefinition>
   </comp:listOfModelDefinitions>

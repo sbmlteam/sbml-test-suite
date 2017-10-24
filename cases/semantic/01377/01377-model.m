@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A replaced species whose ID is used in an algebraic rule.
 componentTags:   AlgebraicRule, Compartment, Parameter, Species, comp:ModelDefinition, comp:ReplacedBy, comp:ReplacedElement, comp:Submodel
-testTags:        Amount, BoundaryCondition, InitialValueReassigned, NonConstantParameter, comp:SubmodelOutput
+testTags:        Amount, BoundaryCondition, ConstantSpecies, InitialValueReassigned, comp:SubmodelOutput
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Analytic

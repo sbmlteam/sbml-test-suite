@@ -5,7 +5,7 @@
       <parameter id="timeconv" value="60" constant="true"/>
     </listOfParameters>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef2" comp:timeConversionFactor="timeconv"/>
+      <comp:submodel comp:id="sub1" comp:modelRef="moddef2" comp:timeConversionFactor="timeconv"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfModelDefinitions>
@@ -14,7 +14,7 @@
         <parameter id="timeconv" value="60" constant="true"/>
       </listOfParameters>
       <comp:listOfSubmodels>
-        <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef1" comp:timeConversionFactor="timeconv"/>
+        <comp:submodel comp:id="sub1" comp:modelRef="moddef1" comp:timeConversionFactor="timeconv"/>
       </comp:listOfSubmodels>
     </comp:modelDefinition>
     <comp:modelDefinition id="moddef1">

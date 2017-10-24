@@ -11,7 +11,7 @@
       </compartment>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="s1" initialAmount="0" compartment="C" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+      <species id="s1" compartment="C" initialAmount="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
         <comp:listOfReplacedElements>
           <comp:replacedElement comp:idRef="sub1" comp:submodelRef="sub2">
             <comp:sBaseRef comp:idRef="s1"/>
@@ -23,7 +23,7 @@
       <parameter id="timeconv" value="100" constant="true"/>
     </listOfParameters>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub2" comp:id="sub2" comp:modelRef="moddef2" comp:timeConversionFactor="timeconv"/>
+      <comp:submodel comp:id="sub2" comp:modelRef="moddef2" comp:timeConversionFactor="timeconv"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfModelDefinitions>
@@ -49,7 +49,7 @@
     </comp:modelDefinition>
     <comp:modelDefinition id="moddef2" name="moddef2">
       <comp:listOfSubmodels>
-        <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef1"/>
+        <comp:submodel comp:id="sub1" comp:modelRef="moddef1"/>
       </comp:listOfSubmodels>
     </comp:modelDefinition>
   </comp:listOfModelDefinitions>

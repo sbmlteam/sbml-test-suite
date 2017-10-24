@@ -31,7 +31,7 @@
       </reaction>
     </listOfReactions>
     <comp:listOfSubmodels>
-      <comp:submodel id="A" comp:id="A" comp:modelRef="sub1"/>
+      <comp:submodel comp:id="A" comp:modelRef="sub1"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfModelDefinitions>
