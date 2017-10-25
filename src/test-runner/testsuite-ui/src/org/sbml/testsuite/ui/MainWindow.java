@@ -30,6 +30,7 @@
 
 package org.sbml.testsuite.ui;
 
+import java.nio.file.Path;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedOutputStream;
@@ -100,7 +101,6 @@ import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.ISeries.SeriesType;
 import org.swtchart.ISeriesSet;
 import org.swtchart.Range;
-
 
 /**
  * MainWindow of the SBML Test suite runner
@@ -375,7 +375,7 @@ public class MainWindow
 
     private WrapperMenuListener       wrapperMenuListener;
     private LVSelectionMenuListener   lvSelectionMenuListener;
-    private FileMonitor               fileMonitor;
+    private FileWatcher               fileWatcher;
 
     private Tree                      tree;
     private ResultMap                 resultMap;
@@ -429,7 +429,7 @@ public class MainWindow
         chartLegendFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -2);
         createContents();
         archiveManager = new CasesArchiveManager(shell);
-        fileMonitor = new FileMonitor(1000); // Polling time in ms.
+        fileWatcher = new FileWatcher();
     }
 
 
@@ -772,9 +772,6 @@ public class MainWindow
                 deselectAll();
                 if (tree.getItemCount() > 0)
                     progressSection.setMaxCount(tree.getItemCount());
-
-                // Watch for changes in the user's output files.
-                // %%%%%%%%%%%%%%%%%
             }
         });
 
@@ -818,6 +815,8 @@ public class MainWindow
 
         if (resultMap != null)
             resultMap.updateWrapper(newWrapper);
+
+        fileWatcher.watchPath(newWrapper.getOutputPath());
     }
 
 
@@ -3596,8 +3595,7 @@ public class MainWindow
         if (!directoriesOK()) return;
 
         clearPlots();
-        fileMonitor.clearFiles();
-        fileMonitor.clearListeners();
+        fileWatcher.clearPaths();
 
         gl_gridGraphs.numColumns = 2;
         gl_gridDifferences.numColumns = 1;
@@ -3707,10 +3705,8 @@ public class MainWindow
             // (For example, the user may be experimenting and editing it.)
             File resultsFile = wrapper.getResultFile(test);
             if (resultsFile != null)
-            {
-                fileMonitor.addFile(resultsFile);
-                fileMonitor.addListener(new ResultsFileListener(treeItem, resultsFile));
-            }
+                fileWatcher.addListener(resultsFile.getName(),
+                                        new ResultsFileListener(treeItem));
         }
 
         cmpGraphs.layout();
@@ -3729,12 +3725,7 @@ public class MainWindow
     {
         private TreeItem treeItem;
 
-        public ResultsFileListener(final TreeItem item, final File file)
-        {
-            this.treeItem = item;
-        }
-
-        public void fileChanged(final File ignored)
+        private void doUpdate()
         {
             final TreeItem item = this.treeItem;
             delayedUpdate(new Runnable() {
@@ -3743,6 +3734,26 @@ public class MainWindow
                         updatePlotsForSelection(item);
                     }
                 });
+        }
+
+        public ResultsFileListener(final TreeItem item)
+        {
+            this.treeItem = item;
+        }
+
+        public void fileModified()
+        {
+            doUpdate();
+        }
+
+        public void fileCreated()
+        {
+            doUpdate();
+        }
+
+        public void fileDeleted()
+        {
+            doUpdate();
         }
     }
 
