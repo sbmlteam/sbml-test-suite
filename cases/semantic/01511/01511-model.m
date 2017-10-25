@@ -19,7 +19,7 @@ The model contains:
 There is one event:
 
 [{width:35em,margin: 1em auto}|  *Event*  |  *Trigger*  |  *Delay*  | *Event Assignments* |
-| E0 | $(S1 > 0.18) && (S1 < 0.2)$ | $0.1$ | $S1 = 0.2$ |]
+| E0 | $(S1 > 0.18) && (S1 < 0.19)$ | $0.1$ | $S1 = 0.2$ |]
 
 
 There are 3 rules:
