@@ -38,8 +38,8 @@ the terms of the LGPL.  For more information, please visit http://sbml.org/.
 
 JAVA=java
 AWK=awk
-RHINO=src/imported/rhino/js.jar
-CONVERTER=src/imported/wiky/wiky.js
+RHINO=src/imported-libs/rhino/js.jar
+CONVERTER=src/imported-libs/wiky/wiky.js
 
 # -----------------------------------------------------------------------------
 # Main body.
