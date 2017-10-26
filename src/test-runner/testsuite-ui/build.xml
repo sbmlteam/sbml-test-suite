@@ -68,6 +68,9 @@
   <!--   -windows                                                          -->
   <!--   -linux                                                            -->
   <!--                                                                     -->
+  <!-- E.g., you can run "ant dist-mac" (although this not really needed   -->
+  <!-- because the "dist" target automatically figures out which platform  -->
+  <!-- you are running on, and only builds for that platform).             -->
   <!-- The "jar" and "app" targets also understand the following suffixes: -->
   <!--                                                                     -->
   <!--   -windows-32                                                       -->
@@ -185,8 +188,8 @@
 
   <!-- Convert some markdown files to HTML, possibly renaming them to make
        more sense in the context of files in an application's directory. -->
-  <target name="make-html-files" depends="make-html-grip, make-html-fallback"/> 
-  <target name="make-html-grip" if="haveGrip">
+  <target name="html-files" depends="make-html-files-grip, make-html-fallback"/> 
+  <target name="make-html-files-grip" if="haveGrip">
     <exec executable="grip">
       <arg value="${basedir}/../../../README.md"/>
       <arg value="--user-content"/>
@@ -230,7 +233,7 @@
     </exec>
   </target>
 
-  <target name="add-misc-files"> 
+  <target name="misc-files"> 
     <copy file="../../../LICENSE.html" 
           todir="${dist.dir}" overwrite="true"/>
     <copy file="../../../COPYING.html" 
@@ -442,7 +445,7 @@
   </target>
 
   <target name="app-mac-normal-common"
-          depends="init, make-html-files, add-misc-files, generate-changes-file">
+          depends="init, html-files, misc-files, generate-changes-file">
     <delete dir="${dist.dir}/${app.name}.app" failonerror="false"/>
     <mkdir dir="${dist.dir}" />
     <mkdir dir="${basedir}/package/macosx" />
@@ -635,7 +638,7 @@
     <antcall target="dist-linux"/>
   </target>
 
-  <target name="dist-linux" depends="init, make-html-files">
+  <target name="dist-linux" depends="init, html-files">
     <antcall target="app-linux"/>
     <antcall target="dist-linux-common">
       <param name="dist.linux.action" value="linux"/>
