@@ -816,7 +816,8 @@ public class MainWindow
         if (resultMap != null)
             resultMap.updateWrapper(newWrapper);
 
-        fileWatcher.watchPath(newWrapper.getOutputPath());
+        if (UIUtils.getBooleanPref("autoWatchFile", true, this))
+            fileWatcher.watchPath(newWrapper.getOutputPath());
     }
 
 
@@ -2192,6 +2193,7 @@ public class MainWindow
         if (dialog.getOverrideNumThreads())
             numThreads = dialog.getNumberOfThreads();
         dialog.dispose();
+        updatePlotsForSelection(lastSelection());
     }
 
 
@@ -3701,12 +3703,15 @@ public class MainWindow
                 }
             }
 
-            // Watch for possible changes to the file while it's being shown.
-            // (For example, the user may be experimenting and editing it.)
-            File resultsFile = wrapper.getResultFile(test);
-            if (resultsFile != null)
-                fileWatcher.addListener(resultsFile.getName(),
-                                        new ResultsFileListener(treeItem));
+            if (UIUtils.getBooleanPref("autoWatchFile", true, this))
+            {
+                // Watch for changes to the file while it's being shown.
+                // (E.g., the user may be experimenting and editing it.)
+                File resultsFile = wrapper.getResultFile(test);
+                if (resultsFile != null)
+                    fileWatcher.addListener(resultsFile.getName(),
+                                            new ResultsFileListener(treeItem));
+            }
         }
 
         cmpGraphs.layout();
