@@ -208,17 +208,21 @@ New in this release:
 
 Changes in this release:
 
-* The SBML Test Runner now monitors for file changes in the currently-displayed test case.  If the application's output `.csv` file is changed outside the runner (e.g., by manually editing the file), it should now notice the changes and update the display.  Note that for architectural reasons, only the case being displayed is so monitored.
-
 * The Test Runner's algorithm for comparing test results and displaying the differences between expected and actual result values now properly ignores column ordering.  Thanks to Leandro Watanabe (U. Utah) for reporting the problem.
+
+* The SBML Test Runner now optionally monitors for file changes in the currently-displayed test case.  If the application's output `.csv` file is changed outside the runner (e.g., by manually editing the file), it should now notice the changes and update the display.  Note that for architectural reasons, only the case being displayed is so monitored.  A setting in the preferences dialog allows this feature to be turned on and off.
+
+* This release of the SBML Test Runner works around a crashing bug caused by an SWT-GTK issue that manifests itself on Ubuntu 16.
+
+* This release of the SBML Test Runner works around a font scaling issue that manifests itself on Windows when using display scaling of 150%.
 
 * The Test Runner features various other small fixes and improvements.
 
-* A few things have been cleaned up in past tests. Examples include model identifiers of a few test models that were misleading (now fixed), and a few tests that were designed to test species in multiple compartments were at some point accidentally changed so that all the species were put into a single compartment (they have been redistributed appropriately now).
-
-* The issue tracker for the Test Suite is now the GitHub tracker: [https://github.com/sbmlteam/sbml-test-suite/issues](https://github.com/sbmlteam/sbml-test-suite/issues). Lucian Smith migrated the previous issues from the SourceForce tracker, so they are now in the GitHub tracker, for history.  We thank the guides by [Thomas Zajac](https://github.com/mephenor/JSBML-Migration-Guide/wiki/) and [Chris Mungall](https://github.com/cmungall/gosf2github) for helpful info about how to achieve this migration.
+* A few things have been cleaned up in existing semantic test cases. Examples include model identifiers of a few test models that were misleading (now fixed), and a few tests that were designed to test species in multiple compartments were at some point accidentally changed so that all the species were put into a single compartment (they have been redistributed appropriately now).
 
 * With the addition of FBC v2 tests, the `packagesPresent` line in the .m file can now include `fbc_v1` or `fbc_v2`, depending on which version of the test it is.  The original `fbc` tag is still present.  In addition, a new FBC test tag 'fbc:NonStrict' is now provided for FBC v2 models where the 'strict' flag has been set to 'false'.
+
+* The issue tracker for the Test Suite is now the GitHub tracker: [https://github.com/sbmlteam/sbml-test-suite/issues](https://github.com/sbmlteam/sbml-test-suite/issues). Lucian Smith migrated the previous issues from the SourceForce tracker, so they are now in the GitHub tracker, for history.  We thank the guides by [Thomas Zajac](https://github.com/mephenor/JSBML-Migration-Guide/wiki/) and [Chris Mungall](https://github.com/cmungall/gosf2github) for helpful info about how to achieve this migration.
 
 
 Version 3.2.0 (29 July 2016)
