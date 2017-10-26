@@ -70,6 +70,7 @@ public class PreferenceDialog
     private Button             btnDeleteFiles;
     private Button             btnOverrideNumThreads;
     private Button             btnAutoCheckUpdates;
+    private Button             btnAutoWatchFile;
     private Text               txtNumThreads;
     private int                previousNumThreads;
     /** Tracks whether user has already indicated whether to save changes.
@@ -100,11 +101,11 @@ public class PreferenceDialog
      */
     private void createContents()
     {
-        int height = (UIUtils.isLinux() ? 670 : 600);
+        int height = (UIUtils.isLinux() ? 720 : 650);
 
         shell = new Shell(getParent(), getStyle());
         shell.setImage(UIUtils.getImageResource("icon_256x256.png"));
-        shell.setMinimumSize(new Point(670, 450));
+        shell.setMinimumSize(new Point(670, 550));
         shell.setSize(770, height);
         shell.setText("Preferences");
         GridLayout gl_shell = new GridLayout(1, true);
@@ -266,6 +267,30 @@ public class PreferenceDialog
             }
         });
 
+        btnAutoWatchFile = new Button(outerComp, SWT.CHECK);
+        GridData gd_btnAutoWatchFile = new GridData(SWT.LEFT, SWT.CENTER,
+                                                          false, false, 5, 1);
+        gd_btnAutoWatchFile.verticalIndent = 0;
+        btnAutoWatchFile.setLayoutData(gd_btnAutoWatchFile);
+        btnAutoWatchFile.setText("Watch displayed results file and automatically"
+                                       + " reanalyze test case if the file changes");
+        btnAutoWatchFile.setToolTipText(
+            "When enabled, this option makes the Test Runner watch the output "
+            + "file for the test case currently being displayed and automatically "
+            + "reload the results if the file changes. Useful if you need to "
+            + "experiment with the output for a test case and do not want to "
+            + "keep re-running the case using the Test Runner.");
+        btnAutoWatchFile.setSelection(UIUtils.getBooleanPref("autoWatchFile",
+                                                                true, this));
+        btnAutoWatchFile.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent event)
+            {
+                UIUtils.saveBooleanPref("autoWatchFile",
+                                        btnAutoWatchFile.getSelection(), this);
+            }
+        });
+
         btnAutoCheckUpdates = new Button(outerComp, SWT.CHECK);
         GridData gd_btnAutoCheckUpdates = new GridData(SWT.LEFT, SWT.CENTER,
                                                           false, false, 5, 1);
@@ -305,7 +330,7 @@ public class PreferenceDialog
                                                false, 2, 1));
 
         Button btnSave = new Button(compButtons, SWT.NONE);
-        btnSave.setBounds(3, 3, 75, 25);
+        btnSave.setBounds(3, 3, 75, 30);
         btnSave.setText("Save");
         btnSave.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -324,7 +349,7 @@ public class PreferenceDialog
         btnSave.setFocus();
 
         Button btnCancel = new Button(compButtons, SWT.NONE);
-        btnCancel.setBounds(85, 3, 75, 25);
+        btnCancel.setBounds(85, 3, 75, 30);
         btnCancel.setText("Cancel");
         btnCancel.addSelectionListener(new SelectionAdapter() {
             @Override
