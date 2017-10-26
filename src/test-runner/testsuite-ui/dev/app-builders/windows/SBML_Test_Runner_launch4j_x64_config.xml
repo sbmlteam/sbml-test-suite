@@ -23,6 +23,8 @@
     <maxVersion></maxVersion>
     <jdkPreference>preferJdk</jdkPreference>
     <force32>false</force32>
+    <opt>-Dswt.autoScale=quarter</opt>
+    <opt>-Dswt.autoScale.method=nearest</opt>
   </jre>
   <messages>
     <startupErr>An error occurred while starting the application.</startupErr>
