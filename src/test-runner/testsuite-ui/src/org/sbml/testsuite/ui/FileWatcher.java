@@ -109,22 +109,12 @@ public class FileWatcher
         {
             if (watcher != null)
                 watcher.close();
-
-            if (watcherThread != null)
-            {
-                watcherThread.interrupt();
-                watcherThread = null;
-            }
-
             watcher = FileSystems.getDefault().newWatchService();
             path.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
-
-            WatcherRunnable runner = new WatcherRunnable();
-            watcherThread = new Thread(runner);
-            watcherThread.start();
         }
         catch (Exception e)
         {
+            e.printStackTrace();
         }
     }
 
@@ -141,8 +131,28 @@ public class FileWatcher
     {
         if (path == null)
             return;
-
         watchPath(new File(path).toPath());
+    }
+
+
+    public void startWatcherThread()
+    {
+        if (watcherThread == null)
+        {
+            WatcherRunnable runner = new WatcherRunnable();
+            watcherThread = new Thread(runner);
+            watcherThread.start();
+        }
+    }
+
+
+    public void stopWatcherThread()
+    {
+        if (watcherThread != null)
+        {
+            watcherThread.interrupt();
+            watcherThread = null;
+        }
     }
 
 
@@ -151,6 +161,7 @@ public class FileWatcher
         if (path == null || listener == null)
             return;
         listenersMap.put(path, listener);
+        startWatcherThread();
     }
 
 
@@ -175,6 +186,8 @@ public class FileWatcher
         if (path == null)
             return;
         listenersMap.remove(path);
+        if (listenersMap.isEmpty())
+            stopWatcherThread();
     }
 
 
@@ -197,14 +210,5 @@ public class FileWatcher
     public void clearPaths()
     {
         listenersMap.clear();
-    }
-
-
-    /**
-     * Stop the file monitor polling.
-     */
-    public void stop()
-    {
-        watcherThread = null;
     }
 }
