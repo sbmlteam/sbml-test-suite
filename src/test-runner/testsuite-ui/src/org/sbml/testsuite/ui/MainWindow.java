@@ -90,6 +90,7 @@ import org.sbml.testsuite.core.TestSuite;
 import org.sbml.testsuite.core.TestSuiteSettings;
 import org.sbml.testsuite.core.Util;
 import org.sbml.testsuite.core.WrapperConfig;
+import org.sbml.testsuite.core.WrapperProblem;
 import org.sbml.testsuite.core.data.CompareResultSets;
 import org.sbml.testsuite.core.data.Comparison;
 import org.sbml.testsuite.core.data.ResultSet;
@@ -3852,11 +3853,48 @@ public class MainWindow
                             + "\nit is not runnable.  To run tests, please"
                             + "\nselect or define a runnable wrapper.");
             else
-                Tell.inform(shell, "Something is wrong with the definition of "
-                            + "\nthe selected wrapper. Running tests will "
-                            + "\nnot be possible until the definition is "
-                            + "\ncorrected or a different wrapper is "
-                            + "\nselected.");
+            {
+                WrapperProblem problem = wrapper.wrapperProblem();
+                if (problem == WrapperProblem.noSuchFile)
+                    Tell.inform(shell,
+                                "The specified wrapper program does not appear"
+                                + "\nto exist. Perhaps it has been moved since the"
+                                + "\nlast time the Test Runner has been executed."
+                                + "\nRunning tests will not be possible until"
+                                + "\nthe definition is corrected or a different"
+                                + "\nwrapper is selected.");
+                else if (problem == WrapperProblem.noSuchDirectory)
+                    Tell.inform(shell,
+                                "The specified wrapper output directory does not"
+                                + "\nappear to exist. Running tests will not be"
+                                + "\npossible until the definition is corrected"
+                                + "\nor a different wrapper is selected.");
+                else if (problem == WrapperProblem.cannotWriteDirectory)
+                    Tell.inform(shell,
+                                "The specified wrapper output directory is not"
+                                + "\nwritable to the Test Runner. Running tests will"
+                                + "\nnot be possible until the definition is corrected"
+                                + "\nor a different wrapper is selected.");
+                else if (problem == WrapperProblem.cannotReadWrapper)
+                    Tell.inform(shell,
+                                "The specified wrapper program is unreadable to"
+                                + "\nthe Test Runner. Running tests will not be"
+                                + "\npossible until the definition is corrected"
+                                + "\nor a different wrapper is selected.");
+                else if (problem == WrapperProblem.cannotExecuteWrapper)
+                    Tell.inform(shell,
+                                "The specified wrapper program cannot be executed."
+                                + "\nRunning tests will not be possible until the"
+                                + "\ndefinition is corrected or a different wrapper"
+                                + "\nis selected.");
+                else
+                    Tell.inform(shell,
+                                "Something is wrong with the definition of"
+                                + "\nthe selected wrapper. Running tests will"
+                                + "\nnot be possible until the definition is"
+                                + "\ncorrected or a different wrapper is"
+                                + "\nselected.");
+            }
         }
     }
 
