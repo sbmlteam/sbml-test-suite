@@ -66,6 +66,12 @@ Contributions to the SBML Test Suite are very much welcome in all areas.  Please
 Notes about build procedures and other information are kept in the [GitHub repository wiki](https://github.com/sbmlteam/sbml-test-suite/wiki) for this project.
 
 
+★ Do you like it?
+------------------
+
+If you like this software, don't forget to give this repo a star on GitHub to show your support!
+
+
 ☺ Acknowledgments
 -----------------------
 
