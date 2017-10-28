@@ -5,12 +5,13 @@
 ; @author Frank T. Bergmann
 ;
 ; ----------------------------------------------------------------------------
-; This file is part of the SBML Testsuite. Please visit http://sbml.org for
+; This file is part of the SBML Test Suite. Please visit http://sbml.org for
 ; more information about SBML, and the latest version of the SBML Test Suite.
 ;
-; Copyright (C) 2009-2012 jointly by the following organizations:
+; Copyright (C) 2009-2017 jointly by the following organizations:
 ; 1. California Institute of Technology, Pasadena, CA, USA
 ; 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+; 3. University of Heidelberg, Heidelberg, Germany
 ;
 ; Copyright (C) 2006-2008 by the California Institute of Technology,
 ; Pasadena, CA, USA
@@ -35,8 +36,8 @@
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 
-; MUI 1.67 compatible ------
 !include "MUI.nsh"
+!include "dev\app-builders\windows\MUI_EXTRAPAGES.nsh"
 
 ; MUI Settings
 !define MUI_ABORTWARNING
@@ -45,6 +46,8 @@
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
+; Read me page
+!insertmacro MUI_PAGE_README "${DIST_DIR}\ABOUT.html"
 ; Directory page
 !insertmacro MUI_PAGE_DIRECTORY
 ; Instfiles page
@@ -65,6 +68,22 @@
 
 ; Language files
 !insertmacro MUI_LANGUAGE "English"
+
+; Read me page config
+ 
+;Set up install lang strings for 1st lang
+${ReadmeLanguage} "${LANG_ENGLISH}" \
+        "  About the SBML Test Runner" \
+        "" \
+        "$(^name)" \
+        "$\n  Click on scrollbar arrows or page down to review the entire text."
+
+;Set up uninstall lang strings for 1st lang
+${Un.ReadmeLanguage} "${LANG_ENGLISH}" \
+        "  About the SBML Test Runner" \
+        "" \
+        "$(^name)" \
+        "$\n  Click on scrollbar arrows or page down to review the entire text."
 
 ; MUI end ------
 
@@ -88,10 +107,10 @@ Section "MainSection" SEC01
 
     File "${DIST_DIR}\SBML Test Runner - Windows x86.exe"
     File "${DIST_DIR}\SBML Test Runner - Windows x64.exe"
-    File "${DIST_DIR}\..\..\COPYING.txt"
-    File "${DIST_DIR}\..\..\LICENSE.txt"
-    File "${DIST_DIR}\..\README.txt"
-    File "${DIST_DIR}\..\NEWS.txt"
+    File "${DIST_DIR}\ABOUT.html"
+    File "${DIST_DIR}\NEWS.html"
+    File "${DIST_DIR}\COPYING.html"
+    File "${DIST_DIR}\LICENSE.html"
 
     CreateDirectory "$SMPROGRAMS\${SM_FOLDER}"
     Call FindJava
@@ -218,10 +237,10 @@ Section Uninstall
     Delete "$INSTDIR\Uninstall ${PRODUCT_NAME}.exe"
     Delete "$INSTDIR\${PRODUCT_RUN64}"
     Delete "$INSTDIR\${PRODUCT_RUN32}"
-    Delete "$INSTDIR\COPYING.txt"
-    Delete "$INSTDIR\LICENSE.txt"
-    Delete "$INSTDIR\README.txt"
-    Delete "$INSTDIR\NEWS.txt"
+    Delete "$INSTDIR\COPYING.html"
+    Delete "$INSTDIR\LICENSE.html"
+    Delete "$INSTDIR\ABOUT.html"
+    Delete "$INSTDIR\NEWS.html"
 
     Delete "$SMPROGRAMS\${SM_FOLDER}\${PRODUCT_NAME}.lnk"
     Delete "$SMPROGRAMS\${SM_FOLDER}\Uninstall.lnk"
