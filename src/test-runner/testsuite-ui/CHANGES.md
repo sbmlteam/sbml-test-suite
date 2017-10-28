@@ -8,9 +8,9 @@
 
 * With the addition of FBC v2 tests, the <code>packagesPresent</code> line in the <code>.m</code> file can now include <code>fbc_v1</code> or <code>fbc_v2</code>, depending on which version of the test it is.  The original <code>fbc</code> tag is still present.  In addition, a new FBC test tag <code>fbc:NonStrict</code> is now provided for FBC v2 models where the <code>strict</code> flag has been set to <code>false</code>.</code>
 
-* The SBML Test Runner now monitors for file changes in the currently-displayed test case.  If the application's output `.csv` file is changed outside the runner (e.g., by manually editing the file), it should now notice the changes and update the display.  Note that for architectural reasons, only the case being displayed is so monitored.
-
 * The Test Runner's algorithm for comparing test results and displaying the differences between expected and actual result values now properly ignores column ordering.  Thanks to Leandro Watanabe (U. Utah) for reporting the problem.
+
+* The SBML Test Runner now monitors for file changes in the currently-displayed test case.  If the application's output `.csv` file is changed outside the runner (e.g., by manually editing the file), it should now notice the changes and update the display.  Note that for architectural reasons, only the case being displayed is so monitored.  A setting in the preferences dialog allows this feature to be turned on and off.
 
 * The Test Runner features various other small fixes and improvements.
 
