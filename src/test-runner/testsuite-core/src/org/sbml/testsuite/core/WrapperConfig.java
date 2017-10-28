@@ -348,10 +348,37 @@ public class WrapperConfig
 
         File outPath = new File(outputPath);
         File fileProg = new File(program);
-        if (fileProg.exists() && fileProg.isFile() && outPath.exists()
-            && outPath.isDirectory()) return true;
+        if (fileProg.exists() && fileProg.isFile()
+            && fileProg.canRead() && fileProg.canExecute()
+            && outPath.exists() && outPath.isDirectory() && outPath.canWrite())
+            return true;
 
         return false;
+    }
+
+
+    public WrapperProblem wrapperProblem()
+    {
+        if (program == null || program.length() == 0)
+            return WrapperProblem.noWrapperGiven;
+        if (outputPath == null || outputPath.length() == 0)
+            return WrapperProblem.noSuchDirectory;
+
+        File outPath = new File(outputPath);
+        if (! outPath.exists() || ! outPath.isDirectory())
+            return WrapperProblem.noSuchDirectory;
+        if (! outPath.canWrite())
+            return WrapperProblem.cannotWriteDirectory;
+
+        File fileProg = new File(program);
+        if (! fileProg.exists() || ! fileProg.isFile())
+            return WrapperProblem.noSuchFile;
+        if (! fileProg.canRead())
+            return WrapperProblem.cannotReadWrapper;
+        if (! fileProg.canExecute())
+            return WrapperProblem.cannotExecuteWrapper;
+
+        return WrapperProblem.noProblem;
     }
 
 
