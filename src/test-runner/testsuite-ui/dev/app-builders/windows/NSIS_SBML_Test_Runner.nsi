@@ -47,7 +47,7 @@
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 ; Read me page
-!insertmacro MUI_PAGE_README "${DIST_DIR}\ABOUT.html"
+!insertmacro MUI_PAGE_README "${DIST_DIR}\CHANGES.rtf"
 ; Directory page
 !insertmacro MUI_PAGE_DIRECTORY
 ; Instfiles page
