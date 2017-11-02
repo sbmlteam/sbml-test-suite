@@ -1,10 +1,13 @@
-SBML Test Runner
+SBML Test Runner <img width="100px" align="right" src="https://raw.githubusercontent.com/sbmlteam/sbml-test-suite/master/src/front-ends/standalone/testsuite-ui/src/data/application-icons/linux/icon_256x256.png">
 ================
 
-<img align="right" src="https://raw.githubusercontent.com/sbmlteam/sbml-test-suite/master/src/front-ends/standalone/testsuite-ui/src/data/application-icons/linux/icon_64x64.png"> The SBML Test Runner is a Java program that uses the Eclipse [SWT](https://www.eclipse.org/swt) widget toolkit and can be used on Mac OS X, Linux and Windows.  It is a standalone application with a graphical user interface (GUI) for controlling SBML-compatible applications and making them run test cases from the [SBML Test Suite](http://sbml.org/Software/SBML_Test_Suite).
+The SBML Test Runner is a standalone desktop application with a graphical user interface (GUI) for controlling SBML-compatible applications and making them run test cases from the [SBML Test Suite](http://sbml.org/Software/SBML_Test_Suite).  It is written in 
+Java with the Eclipse [SWT](https://www.eclipse.org/swt) widget toolkit and can be used on macOS, Linux and Windows.
 
 ----
 *Main Authors*: [Michael Hucka](http://www.cds.caltech.edu/~mhucka) and [Frank T. Bergmann](http://www.cos.uni-heidelberg.de/index.php/f.bergmann?l=_e)
+
+*Repository*:   [https://github.com/sbmlteam/sbml-test-suite](https://github.com/sbmlteam/sbml-test-suite)
 
 *Developers' discussion group*: [https://groups.google.com/forum/#!forum/sbml-interoperability](https://groups.google.com/forum/#!forum/sbml-interoperability)
 
@@ -22,29 +25,22 @@ The SBML Test Suite is a conformance testing system for [SBML](http://sbml.org).
 
 Note: the test cases in the overall Test Suite are divided into 3 sets: _semantic_, _stochastic_, and _syntactic_. Each set is meant to exercise a different aspect of SBML understanding and compliance.  The SBML Test Runner currently **only implements facilities for running the semantic tests*.  The semantic portion of the Test Suite contains valid SBML models with known, deterministic simulation results.  These models can be used to test the ability of a software system to understand the meaning of different SBML constructs and properly simulate the models in a deterministic fashion.
 
+The SBML Test Runner is written in Java and uses the [SWT (Standard Widget Toolkit)](https://www.eclipse.org/swt) widgets in its graphical user interface.  If you obtained a binary release of the SBML Test Runner, then you can start it simply by double-clicking the application shortcut `SBML Test Runner` (or invoking it from a command line, if you prefer).  If you obtained the source code distribution, you will need to build the application first, using the instructions below.
 
-🚧 Building the SBML Test Runner
+🚧 Building the SBML Test Runner (if you must)
 ------------------------------
 
-_We provide ready-to-run binary installations of the SBML Test Suite for Windows, Mac OS X and Linux operating systems.  You may wish to [download the installer](https://github.com/sbmlteam/sbml-test-suite/releases) and skip directly to the [section below](#user-content-running) on running the SBML Test Runner._
+_Note: We provide ready-to-run binary installations of the SBML Test Suite for Windows, macOS and Linux operating systems.  You may wish to [download the installer](https://github.com/sbmlteam/sbml-test-suite/releases) and skip directly to the [section below](#user-content-running) on running the SBML Test Runner._
 
-If you want to build the Test Runner from the source code distribution, you will need Java version 1.8.  Note that because [SWT](https://www.eclipse.org/swt) uses native code graphical widgets, the JAR file that is built is platform-system specific &ndash; you must build a version for the operating system and machine word size (32-bit or 64-bit) you will run it on, unlike simpler platform-independent Java applications.
+If you want to build the Test Runner from the source code distribution, you will need Java version 1.8 or later.  Note that because [SWT](https://www.eclipse.org/swt) uses native code graphical widgets, the JAR file that is built is platform-system specific &ndash; you must build a version for the operating system and machine word size (32-bit or 64-bit) you will run it on, unlike simpler platform-independent Java applications.
 
 The Ant configuration understands the following commands.  All outputs are placed in the subdirectory `dist`.
 
-* `ant jar`: Creates a self-contained jar file in the subdirectory `dist`.  Whether it is 32-bit or 64-bit is determined automatically based on the platform you are running on.  You can run the JAR using either `java -XstartOnFirstThread -jar dist/sbmltestrunner.jar` (if you use Mac OS X) or `java -jar dist/sbmltestrunner.jar` (if you use any other operating system).
+* `ant jar`: Creates a self-contained jar file in the subdirectory `dist`.  Whether it is 32-bit or 64-bit is determined automatically based on the platform you are running on.  You can run the JAR using either `java -XstartOnFirstThread -jar dist/sbmltestrunner.jar` (if you use macOS) or `java -jar dist/sbmltestrunner.jar` (if you use any other operating system).
 
 * `ant app`: Creates an executable desktop application that wraps the JAR file and puts it in the subdirectory `dist`.  On Windows and Linux, this produces one executable for 32-bit and another for 64-bit versions of the current platform; on OS&nbsp;X, it only produces a 64-bit version.  The result can be executed as a normal application (e.g., by doing-clicking it). On Windows and Linux, the result still requires Java to be installed on the computer; on OS&nbsp;X, the Java run-time is included in the application bundle.
 
-* `ant dist`: Creates an installer for the current platform.  On Mac OS&nbsp;X, it creates a `.pkg` package installer, on Windows it creates a runnable `.exe` installer, and on Linux, it creates 3 items: a runnable binary installer, an RPM package, and a Debian `.deb` package.
-
-To build the executable applications and distributions (that is, using `ant app` and `ant dist`, but *not* the plain `ant jar`), you will need some additional tools, depending on the operating system:
-
-* _Mac_: You will need the program [Packages](http://s.sudre.free.fr/Software/Packages/about.html) by Stéphane Sudre.
-
-* _Windows_: You will need [Launch4j](http://launch4j.sourceforge.net) to create the application and [NSIS](http://nsis.sourceforge.net) to create the distribution installer.
-
-* _Linux_: You will need BitRock's [InstallBuilder](https://installbuilder.bitrock.com) but _only_ to create the distribution installer.  (You can create the standalone application without InstallBuilder.)
+* `ant dist`: Creates an installer for the current platform.  On macOS, it creates a `.pkg` package installer, on Windows it creates a runnable `.exe` installer, and on Linux, it creates 3 items: a runnable binary installer, an RPM package, and a Debian `.deb` package.
 
 
 ⚙️ <a name="wrappers"/>Defining test wrappers
@@ -100,6 +96,17 @@ Once the wrapper is defined, back in the main screen of the SBML Test Runner, yo
 ► <a name="running"/>Running the SBML Test Runner
  ------------------------------------------------
 
+There are a couple of easy ways to start the Test Runner. If you installed the official release installation or built from sources using `ant app`, you can run the `SBML Test Runner` application (typically by double-clicking it in a window environment).  Alternatively, you can run the JAR file directly, if you built the `.jar` file using `ant jar`:
+
+* On macOS, execute the following command in a terminal shell:
+  ```
+  java -XstartOnFirstThread -jar dist/sbmltestrunner.jar
+  ```
+* On Windows and Linux: execute the following command instead:
+  ```
+  java -jar dist/sbmltestrunner.jar
+  ```
+
 Once at least one wrapper is defined, you will be able to run tests on an application (or more precisely, run a wrapper to invoke an SBML-aware application) and view the results.  The main panel of the SBML Test Runner is oriented towards this purpose.
 
 <p align="center">
@@ -152,5 +159,4 @@ This software uses libraries and other materials from third-party sources.  All 
 
 More information about the SBML Test Suite is available online at [http://sbml.org/Software/SBML_Test_Suite](http://sbml.org/Software/SBML_Test_Suite).
 
-[![SBML Logo](https://raw.githubusercontent.com/sbmlteam/sbml-test-suite/develop/src/misc/graphics-originals/Official-sbml-supported-70.jpg)](http://sbml.org)
-
+[![SBML Logo](../../../dev/graphics/Official-sbml-supported-70.jpg)](http://sbml.org)
