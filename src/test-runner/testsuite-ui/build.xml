@@ -130,12 +130,6 @@
     </not>
   </condition>
 
-  <condition property="haveGrip" value="true">
-    <available file="grip"  
-               filepath="${env.PATH}"  
-               property="grip.present"/>
-  </condition>
-
   <target name="init">
     <loadfile property="app.version" srcFile="${app.version.file}">
       <filterchain>
@@ -154,7 +148,18 @@
           overwrite="true"/>
   </target>
 
-  <target name="changes-file" depends="init">
+  <target name="graphics" depends="init">
+    <!-- We need the .graphics directory to be in the same location as the
+         HTML file that is generated from the .md files, so that when we run
+         `inliner` later below, it can find the graphics files referenced in
+         the .md files. -->
+    <mkdir dir="${dist.dir}/.graphics" />
+    <copy todir="${dist.dir}/.graphics">
+      <fileset dir="${basedir}/.graphics" includes="**"/>
+    </copy>
+  </target>
+
+  <target name="changes-file-basic" depends="init, graphics">
     <!-- Start with fixed text for the top, then generate HTML for the middle,
          and finally close with some more fixed text for the bottom -->
     <copy file="dev/release-notes/release-notes-fragment-top.html"
@@ -164,10 +169,10 @@
       <arg value="CHANGES.md"/>
       <arg value="--snippet"/>
       <arg value="--to=html"/>
-      <arg value="--output=${build.dir}/CHANGES-TMP.html"/>
+      <arg value="--output=${dist.dir}/CHANGES-TMP.html"/>
     </exec>
     <concat append="true" destfile="${dist.dir}/CHANGES.html">
-      <filelist dir="${build.dir}" files="CHANGES-TMP.html"/>
+      <filelist dir="${dist.dir}" files="CHANGES-TMP.html"/>
     </concat>
     <concat append="true" destfile="${dist.dir}/CHANGES.html">
       <filelist dir="dev/release-notes" 
@@ -176,25 +181,50 @@
     <replaceregexp file="${dist.dir}/CHANGES.html"
                    match="%VERSION%" replace="${app.version}"/>
     <!-- Hack to deal with ugly formatting resulting from how the installer
-         treats <li> elements -->
+         treats <li> elements. -->
     <replace file="${dist.dir}/CHANGES.html"
                    token="&lt;li&gt;&lt;p&gt;" 
                    value="&lt;li style=&quot;margin-bottom: 1em&quot;&gt;"/>
     <replace file="${dist.dir}/CHANGES.html"
                    token="&lt;/p&gt;&lt;/li&gt;" value="&lt;/li&gt;"/>
     <!-- Clean up some temporary files -->
-    <delete file="${build.dir}/CHANGES-TMP.html" />
+    <delete file="${dist.dir}/CHANGES-TMP.html" />
   </target>
 
-  <!-- The following generates an RTF version of the readme file. This is
-       used by the windows NSIS installer. The stupid business with sed below
-       is due to the fact that the installer inlines HTML links in the RTF
-       file when it presents the RTF file to the user in the "about"
-       page. The resulting output is much harder to read. However, the RTF
-       output is still better and more readable than the plain-text output,
-       so here what's done is to strip the <a ...> tags from the HTML before
-       passing it to textutil for conversion to HTML. -->
-  <target name="changes-file-rtf" depends="changes-file">
+  <target name="changes-file" depends="changes-file-basic">
+    <!-- Convert the HTML file to have inlined images and css so the result
+         doesn't have issues with finding external resources. This uses
+         `inliner`, a node.js program, which in my testing was the only thing
+         that worked as expected.  Unfortunately, for reasons I have been
+         unable to figure out, I couldn't get it to work at all from inside
+         the <exec> task using normal exec syntax, and only got it to work
+         with the combination of (1) bash shell command line and (2) cat'ing
+         the file to a pipe with `inliner`.  This would otherwise be a
+         useless use of `cat`.  Despite that `inliner` can in fact take the
+         source file on the command line if you type it by hand in a shell,
+         it did *not* work to try it inside the exec task `line` below.  Note
+         carefully the double-quoted syntax of the value of `line` below, and
+         don't try to simply the command line to remove the use of cat. Also
+         note the temporary change of working directory via the `dir`
+         attribute; this is done so `inliner` can find the files referenced
+         in <img>'s in the .graphics subdirectory we copy to ${dist.dir}. -->
+    <exec executable="bash" dir="${dist.dir}" failonerror="true">
+      <arg value="-c"/>
+      <arg line='"cat CHANGES.html | inliner > CHANGES-inlined.html"'/>
+    </exec>
+    <move file="${dist.dir}/CHANGES-inlined.html"
+          tofile="${dist.dir}/CHANGES.html" overwrite="true"/>
+  </target>
+
+  <target name="changes-file-rtf" depends="changes-file-basic">
+    <!-- Generate an RTF version of the readme file. This is used for the
+         windows NSIS installer. The stupid business with sed below is due to
+         the fact that the installer inlines link URLs in the RTF file when
+         it presents the RTF file to the user in the "about" page. The
+         resulting output is much harder to read. However, the RTF output is
+         still better and more readable than the plain-text output, so here
+         what's done is to strip the <a ...> tags from the HTML before
+         passing it to textutil for conversion to HTML. -->
     <exec executable="sed">
       <arg value="-e"/>
       <arg value="s#&lt;a.*&gt;\(.*\)&lt;/a&gt;#\1#g"/>
@@ -215,58 +245,32 @@
     <delete file="${dist.dir}/CHANGES-TMP.html" />
   </target>
 
-  <!-- The following is not currently used, but I'm leaving it in here because
-       it took time to figure out and it might be needed again. -->
-  <target name="changes-file-text" depends="changes-file">
-    <exec executable="lynx">
-      <arg value="-nolist"/>
-      <arg value="-nocolor"/>
-      <arg value="-nobold"/>
-      <arg value="-nomore"/>
-      <arg value="-noreverse"/>
-      <arg value="-nounderline"/>
-      <arg value="-width=1024"/>      
-      <arg value="-dump"/>
-      <arg value="${dist.dir}/CHANGES.html"/>
-      <redirector output="${dist.dir}/CHANGES.txt"/>  
-    </exec>
-  </target>
-
   <!-- Convert some markdown files to HTML, possibly renaming them to make
        more sense in the context of files in an application's directory. -->
-  <target name="html-files" depends="make-html-files-grip, make-html-fallback"/> 
-  <target name="make-html-files-grip" if="haveGrip">
-    <exec executable="grip">
-      <arg value="${basedir}/../../../README.md"/>
-      <arg value="--user-content"/>
-      <arg value="--title"/>
-      <arg value="About the SBML Test Suite"/>
-      <arg value="--export"/>
-      <arg value="${dist.dir}/ABOUT.html"/>
-    </exec>
-    <exec executable="grip">
-      <arg value="${basedir}/../../../NEWS.md"/>
-      <arg value="--user-content"/>
-      <arg value="--title"/>
-      <arg value="NEWS"/>
-      <arg value="--export"/>
-      <arg value="${dist.dir}/NEWS.html"/>
-    </exec>
-  </target>
-  <target name="make-html-fallback" unless="haveGrip">
-    <!-- If grip is not available on this platform, fall back to using 
-         pandoc with a special css file. Not as good as grip, but better
-         than nothing. -->
+  <target name="html-files">
     <exec executable="pandoc">
       <arg value="--standalone"/>
       <arg value="-f"/>
       <arg value="markdown_github"/>
       <arg value="-H"/>
-      <arg value="${basedir}/dev/github-css/github-markdown-css.html"/>      
+      <arg value="${basedir}/dev/github-css/github-markdown-css.html"/>
       <arg value="-o"/>
       <arg value="${dist.dir}/ABOUT.html"/>
+      <!-- Note: this deliberately does not use the README.md in the current
+           directory.  The README in the current directory is good for the
+           source code in this directory, but the file we are producing is
+           meant to inform the user more generally about the test suite and
+           the role of the test runner. For that purpose, the top-level 
+           readme file is more appropriate. -->
       <arg value="${basedir}/../../../README.md"/>
     </exec>
+    <!-- Inline images & css.  See changes-file for explanations. -->
+    <exec executable="bash" dir="${dist.dir}" failonerror="true">
+      <arg value="-c"/>
+      <arg line='"cat ABOUT.html | inliner > ABOUT-inlined.html"'/>
+    </exec>
+    <move file="${dist.dir}/ABOUT-inlined.html"
+          tofile="${dist.dir}/ABOUT.html" overwrite="true"/>
     <exec executable="pandoc">
       <arg value="--standalone"/>
       <arg value="-f"/>
@@ -277,6 +281,13 @@
       <arg value="${dist.dir}/NEWS.html"/>
       <arg value="${basedir}/../../../NEWS.md"/>
     </exec>
+    <!-- Inline images & css.  See changes-file for explanations. -->
+    <exec executable="bash" dir="${dist.dir}" failonerror="true">
+      <arg value="-c"/>
+      <arg line='"cat NEWS.html | inliner > NEWS-inlined.html"'/>
+    </exec>
+    <move file="${dist.dir}/NEWS-inlined.html"
+          tofile="${dist.dir}/NEWS.html" overwrite="true"/>
   </target>
 
   <target name="misc-files"> 
@@ -743,6 +754,50 @@
       <jvmarg value="-XstartOnFirstThread"/>
       <jvmarg value='-Xdock:name="${app.name}"'/>
     </java>
+  </target>
+
+
+  <!--  =================================================================== -->
+  <!-- Code no longer used, but worth saving in case it's needed again -->
+  <!--  =================================================================== -->
+
+  <condition property="haveGrip" value="true">
+    <available file="grip" filepath="${env.PATH}" property="grip.present"/>
+  </condition>
+
+  <target name="make-html-files-grip" if="haveGrip">
+    <exec executable="grip">
+      <arg value="${basedir}/../../../README.md"/>
+      <arg value="--user-content"/>
+      <arg value="--context=sbmlteam/sbml-test-suite"/>
+      <arg value="--title"/>
+      <arg value="About the SBML Test Suite"/>
+      <arg value="--export"/>
+      <arg value="${dist.dir}/ABOUT.html"/>
+    </exec>
+    <exec executable="grip">
+      <arg value="${basedir}/../../../NEWS.md"/>
+      <arg value="--user-content"/>
+      <arg value="--title"/>
+      <arg value="NEWS"/>
+      <arg value="--export"/>
+      <arg value="${dist.dir}/NEWS.html"/>
+    </exec>
+  </target>
+
+  <target name="changes-file-text" depends="changes-file">
+    <exec executable="lynx">
+      <arg value="-nolist"/>
+      <arg value="-nocolor"/>
+      <arg value="-nobold"/>
+      <arg value="-nomore"/>
+      <arg value="-noreverse"/>
+      <arg value="-nounderline"/>
+      <arg value="-width=1024"/>      
+      <arg value="-dump"/>
+      <arg value="${dist.dir}/CHANGES.html"/>
+      <redirector output="${dist.dir}/CHANGES.txt"/>  
+    </exec>
   </target>
 
 </project>
