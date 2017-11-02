@@ -154,7 +154,7 @@
           overwrite="true"/>
   </target>
 
-  <target name="generate-changes-file" depends="init">
+  <target name="changes-file" depends="init">
     <!-- Start with fixed text for the top, then generate HTML for the middle,
          and finally close with some more fixed text for the bottom -->
     <copy file="dev/release-notes/release-notes-fragment-top.html"
@@ -184,6 +184,52 @@
                    token="&lt;/p&gt;&lt;/li&gt;" value="&lt;/li&gt;"/>
     <!-- Clean up some temporary files -->
     <delete file="${build.dir}/CHANGES-TMP.html" />
+  </target>
+
+  <!-- The following generates an RTF version of the readme file. This is
+       used by the windows NSIS installer. The stupid business with sed below
+       is due to the fact that the installer inlines HTML links in the RTF
+       file when it presents the RTF file to the user in the "about"
+       page. The resulting output is much harder to read. However, the RTF
+       output is still better and more readable than the plain-text output,
+       so here what's done is to strip the <a ...> tags from the HTML before
+       passing it to textutil for conversion to HTML. -->
+  <target name="changes-file-rtf" depends="changes-file">
+    <exec executable="sed">
+      <arg value="-e"/>
+      <arg value="s#&lt;a.*&gt;\(.*\)&lt;/a&gt;#\1#g"/>
+      <arg value="${dist.dir}/CHANGES.html"/>
+      <redirector output="${dist.dir}/CHANGES-TMP.html"/>  
+    </exec>
+    <exec executable="textutil">
+      <arg value="-convert"/>
+      <arg value="rtf"/>
+      <arg value="-strip"/>
+      <arg value="-textsizemultiplier"/>
+      <arg value="0.85"/>
+      <arg value="${dist.dir}/CHANGES-TMP.html"/>
+      <arg value="-output"/>
+      <arg value="${dist.dir}/CHANGES.rtf"/>
+    </exec>
+    <!-- Clean up some temporary files -->
+    <delete file="${dist.dir}/CHANGES-TMP.html" />
+  </target>
+
+  <!-- The following is not currently used, but I'm leaving it in here because
+       it took time to figure out and it might be needed again. -->
+  <target name="changes-file-text" depends="changes-file">
+    <exec executable="lynx">
+      <arg value="-nolist"/>
+      <arg value="-nocolor"/>
+      <arg value="-nobold"/>
+      <arg value="-nomore"/>
+      <arg value="-noreverse"/>
+      <arg value="-nounderline"/>
+      <arg value="-width=1024"/>      
+      <arg value="-dump"/>
+      <arg value="${dist.dir}/CHANGES.html"/>
+      <redirector output="${dist.dir}/CHANGES.txt"/>  
+    </exec>
   </target>
 
   <!-- Convert some markdown files to HTML, possibly renaming them to make
@@ -445,7 +491,7 @@
   </target>
 
   <target name="app-mac-normal-common"
-          depends="init, html-files, misc-files, generate-changes-file">
+          depends="init, html-files, misc-files, changes-file">
     <delete dir="${dist.dir}/${app.name}.app" failonerror="false"/>
     <mkdir dir="${dist.dir}" />
     <mkdir dir="${basedir}/package/macosx" />
@@ -616,7 +662,7 @@
     <antcall target="dist-win"/>
   </target>
 
-  <target name="dist-win" depends="init">
+  <target name="dist-win" depends="init, misc-files">
     <antcall target="app-win"/>
     <taskdef name="nsis" classname="com.danielreese.nsisant.Task">
       <classpath location="dev/app-builders/windows/nsisant-1.3.jar"/>
