@@ -1,4 +1,4 @@
-# SBML Test Suite <img width="120px" align="right" src="https://raw.githubusercontent.com/sbmlteam/sbml-test-suite/master/src/front-ends/standalone/testsuite-ui/src/data/application-icons/linux/icon_256x256.png">
+# SBML Test Suite <img width="100px" align="right" src=".graphics/icon_256x256.png">
 
 The SBML Test Suite is a conformance testing system for [SBML](http://sbml.org), a file and data format used to store and exchange models in computational systems biology.
 
@@ -129,5 +129,5 @@ More information
 More information about the SBML Test Suite is available online at
 [http://sbml.org/Software/SBML_Test_Suite](http://sbml.org/Software/SBML_Test_Suite).
 
-[![SBML Logo](/dev/graphics/Official-sbml-supported-70.jpg)](http://sbml.org)
+[![SBML Logo](.graphics/Official-sbml-supported-70.jpg)](http://sbml.org)
 
