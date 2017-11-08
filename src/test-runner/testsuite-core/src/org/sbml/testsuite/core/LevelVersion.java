@@ -49,13 +49,14 @@ public class LevelVersion
     {
         this.level = 0;
         this.version = 0;
+        this.text = new String("Highest Level+Version");
     }
 
     public LevelVersion(int level, int version)
     {
         this.level = level;
         this.version = version;
-        text = new String("SBML Level " + level + " Version " + version);
+        this.text = new String("SBML Level " + level + " Version " + version);
     }
 
     public int     getLevel()   { return level; }
