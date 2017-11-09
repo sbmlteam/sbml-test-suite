@@ -2,7 +2,7 @@ start: 0
 duration: 100
 steps: 1001
 variables: S, errorLow, errorHigh
-absolute: 0.03
+absolute: 0.07
 relative: 0.0001
 amount:
 concentration:
