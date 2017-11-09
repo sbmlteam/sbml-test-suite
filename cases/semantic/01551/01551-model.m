@@ -2,14 +2,14 @@
 
 category:        Test
 synopsis:        A fast reaction using a function definition.
-componentTags:   CSymbolTime, Compartment, FunctionDefinition, Reaction, Species
-testTags:        Amount, FastReaction
+componentTags:   Compartment, FunctionDefinition, Reaction, Species
+testTags:        Amount, FastReaction, ReversibleReaction
 testType:        TimeCourse
 levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:     Analytic
 packagesPresent: 
 
- In this model, the kinetic law of a fast reaction is negative and then positive because of a function definition.
+ In this model, the kinetic law of a fast reaction is negative because of a function definition.
 
 The model contains:
 * 2 species (S1, S2)
@@ -18,12 +18,12 @@ The model contains:
 There is one reaction:
 
 [{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |  *Fast*  |
-| J0: S1 -> S2 | $0.01 * S1 * S2 * getfiveishless(time)$ | fast |]
+| J0: S1 -> S2 | $getneg(S2)$ | fast |]
 
 The model contains the following function definition:
 
 [{width:30em,margin: 1em auto}|  *Id*  |  *Arguments*  |  *Formula*  |
- | getfiveishless | x | $x - 5.1$ |
+ | getneg | x | $-x$ |
 ]
 The initial conditions are as follows:
 
