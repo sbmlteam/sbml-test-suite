@@ -17,12 +17,8 @@
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
             <plus/>
-            <apply>
-              <minus/>
-              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
-              <cn> 5.5 </cn>
-            </apply>
             <ci> k </ci>
+            <cn type="integer"> 3 </cn>
           </apply>
         </math>
       </algebraicRule>
@@ -37,27 +33,11 @@
         </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <piecewise>
-              <piece>
-                <apply>
-                  <times/>
-                  <ci> S1 </ci>
-                  <ci> k </ci>
-                </apply>
-                <apply>
-                  <gt/>
-                  <ci> k </ci>
-                  <cn type="integer"> 0 </cn>
-                </apply>
-              </piece>
-              <otherwise>
-                <apply>
-                  <times/>
-                  <ci> S2 </ci>
-                  <ci> k </ci>
-                </apply>
-              </otherwise>
-            </piecewise>
+            <apply>
+              <times/>
+              <ci> S2 </ci>
+              <ci> k </ci>
+            </apply>
           </math>
         </kineticLaw>
       </reaction>

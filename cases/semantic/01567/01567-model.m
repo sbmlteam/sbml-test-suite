@@ -2,14 +2,14 @@
 
 category:        Test
 synopsis:        A fast reaction whose rate depends on an algebraic rule.
-componentTags:   AlgebraicRule, CSymbolTime, Compartment, Parameter, Reaction, Species
+componentTags:   AlgebraicRule, Compartment, Parameter, Reaction, Species
 testTags:        Amount, FastReaction, InitialValueReassigned, NonConstantParameter, ReversibleReaction
 testType:        TimeCourse
-levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:          1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:     Analytic
 packagesPresent: 
 
-The model tests a fast reaction which is positive or negative depending on the results of an algebraic rule.
+The model tests a fast reaction which is negative because of an algebraic rule.
 
 The model contains:
 * 2 species (S1, S2)
@@ -19,13 +19,13 @@ The model contains:
 There is one reaction:
 
 [{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |  *Fast*  |
-| J0: S1 -> S2 | $piecewise(S1 * k, k > 0, S2 * k)$ | fast |]
+| J0: S1 -> S2 | $S2 * k$ | fast |]
 
 
 There is one rule:
 
 [{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
-| Algebraic | $0$ | $(time - 5.5) + k$ |]
+| Algebraic | $0$ | $k + 3$ |]
 
 The initial conditions are as follows:
 
