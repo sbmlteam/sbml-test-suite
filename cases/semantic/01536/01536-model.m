@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        An assigned variable stoichiometry is given a delay.
 componentTags:   CSymbolDelay, CSymbolTime, Compartment, EventNoDelay, Parameter, RateRule, Reaction, Species
-testTags:        Amount, AssignedVariableStoichiometry, NonConstantParameter, NonUnityStoichiometry
+testTags:        Amount, AssignedVariableStoichiometry, DelayInEventAssignment, NonConstantParameter, NonUnityStoichiometry
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Analytic

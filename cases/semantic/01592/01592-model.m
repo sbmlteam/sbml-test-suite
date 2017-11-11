@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Competing events with the same priority, jointly causing a parameter to monotonically increase, checking to make sure the two events are not exactly evenly distributed.  NOTE:  STOCHASTIC TEST. Your software may fail periodically; it is only supposed to succeed in the majority of cases.
 componentTags:   AssignmentRule, CSymbolDelay, CSymbolTime, EventNoDelay, EventPriority, Parameter, RateRule
-testTags:        EventIsNotPersistent, InitialValueReassigned, NonConstantParameter, RandomEventExecution
+testTags:        DelayInEventAssignment, EventIsNotPersistent, InitialValueReassigned, NonConstantParameter, RandomEventExecution
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Analytic

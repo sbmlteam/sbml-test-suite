@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        An event with a delay that has triggers with variable delays.
 componentTags:   CSymbolDelay, EventWithDelay, Parameter, RateRule
-testTags:        EventIsPersistent, NonConstantParameter
+testTags:        DelayInTrigger, EventIsPersistent, NonConstantParameter
 testType:        TimeCourse
 levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:     Analytic

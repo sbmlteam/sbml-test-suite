@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A delayed event that assigns the value of a delayed parameter
 componentTags:   CSymbolDelay, EventWithDelay, Parameter, RateRule
-testTags:        EventUsesAssignmentTimeValues, NonConstantParameter
+testTags:        DelayInEventAssignment, EventUsesAssignmentTimeValues, NonConstantParameter
 testType:        TimeCourse
 levels:          2.4, 2.5, 3.1, 3.2
 generatedBy:     Analytic
