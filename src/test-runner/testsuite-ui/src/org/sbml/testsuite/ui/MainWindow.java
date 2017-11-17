@@ -1164,6 +1164,8 @@ public class MainWindow
         menuFile.setMenu(menuFileMenuItems);
 
         menuItemShowMap = new MenuItem(menuFileMenuItems, SWT.NONE);
+        menuItemShowMap.setText("Show Results Map\tCtrl+M");
+        menuItemShowMap.setAccelerator(SWT.MOD1 + 'M');
         menuItemShowMap.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1176,12 +1178,12 @@ public class MainWindow
                 });
             }
         });
-        menuItemShowMap.setText("Show Results Map\tCtrl+M");
-        menuItemShowMap.setAccelerator(SWT.MOD1 + 'M');
 
         new MenuItem(menuFileMenuItems, SWT.SEPARATOR);
 
         menuItemRefreshResults = new MenuItem(menuFileMenuItems, SWT.NONE);
+        menuItemRefreshResults.setText("Refresh All Test Results\tCtrl+G");
+        menuItemRefreshResults.setAccelerator(SWT.MOD1 + 'G');
         menuItemRefreshResults.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1189,12 +1191,12 @@ public class MainWindow
                 syncFiles(null);
             }
         });
-        menuItemRefreshResults.setText("Refresh All Test Results\tCtrl+G");
-        menuItemRefreshResults.setAccelerator(SWT.MOD1 + 'G');
 
         new MenuItem(menuFileMenuItems, SWT.SEPARATOR);
 
         menuItemOpen = new MenuItem(menuFileMenuItems, SWT.NONE);
+        menuItemOpen.setText("Open Cases Archive\tCtrl+O");
+        menuItemOpen.setAccelerator(SWT.MOD1 + 'O');
         menuItemOpen.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1204,17 +1206,8 @@ public class MainWindow
                 fileOpen();
             }
         });
-        menuItemOpen.setText("Open Cases Archive\tCtrl+O");
-        menuItemOpen.setAccelerator(SWT.MOD1 + 'O');
 
         MenuItem menuItemPrefs = new MenuItem(menuFileMenuItems, SWT.NONE);
-        menuItemPrefs.addSelectionListener(new SelectionAdapter() {
-                @Override
-                public void widgetSelected(SelectionEvent arg0)
-                {
-                    editPreferences();
-                }
-            });
         if (UIUtils.isMacOSX())
         {
             menuItemPrefs.setText("Edit Wrappers\tCtrl+,");
@@ -1225,19 +1218,19 @@ public class MainWindow
             menuItemPrefs.setText("Options/Wrappers\tCtrl+K");
             menuItemPrefs.setAccelerator(SWT.MOD1 + 'K');
         }
+        menuItemPrefs.addSelectionListener(new SelectionAdapter() {
+                @Override
+                public void widgetSelected(SelectionEvent arg0)
+                {
+                    editPreferences();
+                }
+            });
 
         if (! UIUtils.isMacOSX())
         {
             new MenuItem(menuFileMenuItems, SWT.SEPARATOR);
 
             MenuItem menuItemQuit = new MenuItem(menuFileMenuItems, SWT.NONE);
-            menuItemQuit.addSelectionListener(new SelectionAdapter() {
-                    @Override
-                    public void widgetSelected(SelectionEvent arg0)
-                    {
-                        arg0.doit = quitWithConfirmation();
-                    }
-                });
             if (UIUtils.isWindows())
             {
                 menuItemQuit.setText("E&xit");
@@ -1248,6 +1241,13 @@ public class MainWindow
                 menuItemQuit.setText("Quit\tCtrl+Q");
                 menuItemQuit.setAccelerator(SWT.MOD1 + 'Q');
             }
+            menuItemQuit.addSelectionListener(new SelectionAdapter() {
+                    @Override
+                    public void widgetSelected(SelectionEvent arg0)
+                    {
+                        arg0.doit = quitWithConfirmation();
+                    }
+                });
         }
 
         MenuItem menuItemEdit = new MenuItem(menuBar, SWT.CASCADE);
@@ -1257,6 +1257,8 @@ public class MainWindow
         menuItemEdit.setMenu(menu_edit);
 
         menuItemSelectAll = new MenuItem(menu_edit, SWT.NONE);
+        menuItemSelectAll.setText("Select All\tCtrl+A");
+        menuItemSelectAll.setAccelerator(SWT.MOD1 | 'A');
         menuItemSelectAll.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1264,10 +1266,10 @@ public class MainWindow
                 selectAll();
             }
         });
-        menuItemSelectAll.setText("Select All\tCtrl+A");
-        menuItemSelectAll.setAccelerator(SWT.MOD1 | 'A');
 
         menuItemDeselectAll = new MenuItem(menu_edit, SWT.NONE);
+        menuItemDeselectAll.setText("Deselect All\tCtrl+Shift+A");
+        menuItemDeselectAll.setAccelerator(SWT.MOD1 + SWT.SHIFT + 'A');
         menuItemDeselectAll.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1275,12 +1277,12 @@ public class MainWindow
                 deselectAll();
             }
         });
-        menuItemDeselectAll.setText("Deselect All\tCtrl+Shift+A");
-        menuItemDeselectAll.setAccelerator(SWT.MOD1 + SWT.SHIFT + 'A');
 
         new MenuItem(menu_edit, SWT.SEPARATOR);
 
         menuItemJumpToCase = new MenuItem(menu_edit, SWT.NONE);
+        menuItemJumpToCase.setText("Jump to Case\tCtrl+J");
+        menuItemJumpToCase.setAccelerator(SWT.MOD1 + 'J');
         menuItemJumpToCase.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event)
@@ -1293,8 +1295,6 @@ public class MainWindow
                 });
             }
         });
-        menuItemJumpToCase.setText("Jump to Case\tCtrl+J");
-        menuItemJumpToCase.setAccelerator(SWT.MOD1 + 'J');
 
         MenuItem menuItemNewSubmenu_1 = new MenuItem(menuBar, SWT.CASCADE);
         menuItemNewSubmenu_1.setText("F&ilter");
@@ -1303,6 +1303,8 @@ public class MainWindow
         menuItemNewSubmenu_1.setMenu(menu_2);
 
         MenuItem menuItemFilter = new MenuItem(menu_2, SWT.NONE);
+        menuItemFilter.setText("Filter Visible Test Cases\tCtrl+T");
+        menuItemFilter.setAccelerator(SWT.MOD1 + 'T');
         menuItemFilter.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1315,10 +1317,10 @@ public class MainWindow
                });
             }
         });
-        menuItemFilter.setText("Filter Visible Test Cases\tCtrl+T");
-        menuItemFilter.setAccelerator(SWT.MOD1 + 'T');
 
         MenuItem menuItemClearFilters = new MenuItem(menu_2, SWT.NONE);
+        menuItemClearFilters.setText("Clear All Filters\tCtrl+Shift+T");
+        menuItemClearFilters.setAccelerator(SWT.MOD1 + SWT.SHIFT + 'T');
         menuItemClearFilters.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1331,12 +1333,11 @@ public class MainWindow
                });
             }
         });
-        menuItemClearFilters.setText("Clear All Filters\tCtrl+Shift+T");
-        menuItemClearFilters.setAccelerator(SWT.MOD1 + SWT.SHIFT + 'T');
 
         new MenuItem(menu_2, SWT.SEPARATOR);
 
         menuItemShowOnlyProblematic = new MenuItem(menu_2, SWT.CHECK);
+        menuItemShowOnlyProblematic.setText("Show Only Problematic Entries");
         menuItemShowOnlyProblematic.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1353,9 +1354,9 @@ public class MainWindow
                 }
             }
         });
-        menuItemShowOnlyProblematic.setText("Show Only Problematic Entries");
 
         menuItemShowOnlyReally = new MenuItem(menu_2, SWT.CHECK);
+        menuItemShowOnlyReally.setText("Show Only Really Problematic Entries");
         menuItemShowOnlyReally.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1372,11 +1373,11 @@ public class MainWindow
                 }
             }
         });
-        menuItemShowOnlyReally.setText("Show Only Really Problematic Entries");
 
         new MenuItem(menu_2, SWT.SEPARATOR);
 
         menuItemShowOnlySupported = new MenuItem(menu_2, SWT.CHECK);
+        menuItemShowOnlySupported.setText("Show Only Supported Tests");
         menuItemShowOnlySupported.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1393,7 +1394,6 @@ public class MainWindow
                 }
             }
         });
-        menuItemShowOnlySupported.setText("Show Only Supported Tests");
 
         menuItemtest = new MenuItem(menuBar, SWT.CASCADE);
         menuItemtest.setText("&Test");
@@ -1419,6 +1419,8 @@ public class MainWindow
         */
 
         menuItemRunSelected = new MenuItem(menu_3, SWT.NONE);
+        menuItemRunSelected.setText("Run\tCtrl+R");
+        menuItemRunSelected.setAccelerator(SWT.MOD1 + 'R');
         menuItemRunSelected.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1426,10 +1428,10 @@ public class MainWindow
                 runOrPause();
             }
         });
-        menuItemRunSelected.setText("Run\tCtrl+R");
-        menuItemRunSelected.setAccelerator(SWT.MOD1 + 'R');
 
         menuItemRunByFilter = new MenuItem(menu_3, SWT.NONE);
+        menuItemRunByFilter.setText("Run By Tag and/or Number\tCtrl+Shift+R");
+        menuItemRunByFilter.setAccelerator(SWT.MOD1 + SWT.SHIFT + 'R');
         menuItemRunByFilter.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1442,12 +1444,11 @@ public class MainWindow
                 });
             }
         });
-        menuItemRunByFilter.setText("Run By Tag and/or Number\tCtrl+Shift+R");
-        menuItemRunByFilter.setAccelerator(SWT.MOD1 + SWT.SHIFT + 'R');
 
         new MenuItem(menu_3, SWT.SEPARATOR);
 
         menuItemRunAllTests = new MenuItem(menu_3, SWT.NONE);
+        menuItemRunAllTests.setText("Run All Tests");
         menuItemRunAllTests.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1456,9 +1457,9 @@ public class MainWindow
                 runAllTests();
             }
         });
-        menuItemRunAllTests.setText("Run All Tests");
 
         menuItemRunAllSupported = new MenuItem(menu_3, SWT.NONE);
+        menuItemRunAllSupported.setText("Run All Supported Tests");
         menuItemRunAllSupported.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1467,9 +1468,9 @@ public class MainWindow
                 runAllSupported();
             }
         });
-        menuItemRunAllSupported.setText("Run All Supported Tests");
 
         menuItemRunAllNew = new MenuItem(menu_3, SWT.NONE);
+        menuItemRunAllNew.setText("Run All New Tests");
         menuItemRunAllNew.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1478,11 +1479,11 @@ public class MainWindow
                 runAllNewTests();
             }
         });
-        menuItemRunAllNew.setText("Run All New Tests");
 
         new MenuItem(menu_3, SWT.SEPARATOR);
 
         menuItemRefreshSelectedResults = new MenuItem(menu_3, SWT.NONE);
+        menuItemRefreshSelectedResults.setText("Refresh Selected Result(s)");
         menuItemRefreshSelectedResults.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1490,9 +1491,10 @@ public class MainWindow
                 syncSelectedFiles();
             }
         });
-        menuItemRefreshSelectedResults.setText("Refresh Selected Result(s)");
 
         menuItemDeleteSelectedResults = new MenuItem(menu_3, SWT.NONE);
+        menuItemDeleteSelectedResults.setText("Delete Selected Result(s)");
+        menuItemDeleteSelectedResults.setAccelerator(SWT.MOD1 + SWT.BS);
         menuItemDeleteSelectedResults.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1500,11 +1502,11 @@ public class MainWindow
                 deleteSelectedResults();
             }
         });
-        menuItemDeleteSelectedResults.setText("Delete Selected Result(s)");
-        menuItemDeleteSelectedResults.setAccelerator(SWT.MOD1 + SWT.BS);
 
         new MenuItem(menu_3, SWT.SEPARATOR);
         menuItemViewProcessOutput = new MenuItem(menu_3, SWT.NONE);
+        menuItemViewProcessOutput.setText("View Process Output\tCtrl+I");
+        menuItemViewProcessOutput.setAccelerator(SWT.MOD1 + 'I');
         menuItemViewProcessOutput.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1517,8 +1519,6 @@ public class MainWindow
                 });
             }
         });
-        menuItemViewProcessOutput.setText("View Process Output\tCtrl+I");
-        menuItemViewProcessOutput.setAccelerator(SWT.MOD1 + 'I');
 
         MenuItem menuItemhelp = new MenuItem(menuBar, SWT.CASCADE);
         menuItemhelp.setText("&Help");
@@ -1527,6 +1527,8 @@ public class MainWindow
         menuItemhelp.setMenu(menu_4);
 
         MenuItem menuItemHelp = new MenuItem(menu_4, SWT.NONE);
+        menuItemHelp.setText("Help");
+        menuItemHelp.setAccelerator(SWT.MOD1 + '?');
         menuItemHelp.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent arg0)
@@ -1539,10 +1541,9 @@ public class MainWindow
                         });
                 }
             });
-        menuItemHelp.setText("Help");
-        menuItemHelp.setAccelerator(SWT.MOD1 + '?');
 
         MenuItem menuItemUpdate = new MenuItem(menu_4, SWT.NONE);
+        menuItemUpdate.setText("Check for updates...");
         menuItemUpdate.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent arg0)
@@ -1555,9 +1556,9 @@ public class MainWindow
                         });
                 }
             });
-        menuItemUpdate.setText("Check for updates...");
 
         MenuItem menuItemRestore = new MenuItem(menu_4, SWT.NONE);
+        menuItemRestore.setText("Restore test cases");
         menuItemRestore.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent arg0)
@@ -1570,11 +1571,11 @@ public class MainWindow
                         });
                 }
             });
-        menuItemRestore.setText("Restore test cases");
 
         if (!UIUtils.isMacOSX())
         {
             MenuItem menuItemAbout = new MenuItem(menu_4, SWT.NONE);
+            menuItemAbout.setText("About SBML Test Runner");
             menuItemAbout.addSelectionListener(new SelectionAdapter() {
                     @Override
                     public void widgetSelected(SelectionEvent arg0)
@@ -1587,7 +1588,6 @@ public class MainWindow
                             });
                     }
                 });
-            menuItemAbout.setText("About SBML Test Runner");
         }
 
         if (UIUtils.isMacOSX()) macify(getDisplay());
