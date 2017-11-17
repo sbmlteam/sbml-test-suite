@@ -54,8 +54,16 @@ public class Program
             if (UIUtils.isWindows())
                 RegisterWindowsID.register();
 
-            MainWindow window = new MainWindow();
+            final MainWindow window = new MainWindow();
             window.open();
+
+            Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        window.shutdown();
+                    }
+                }));
         }
         catch (Exception e)
         {
@@ -80,5 +88,4 @@ public class Program
         else
             return Program.class.getPackage().getImplementationVersion();
     }
-
 }

@@ -2234,13 +2234,17 @@ public class MainWindow
     }
 
 
+    /**
+     * Deliberately quit, possibly asking the user for confirmation.
+     *
+     * Note that shutdown() is called by the shutdown hook set up by Program().
+     * This function does not need to call it; it just needs to return with
+     * a true or false.
+     */
     private boolean quitWithConfirmation()
     {
         if (closing)
-        {
-            quit();
             return true;
-        }
         else
         {
             if (! running || Tell.confirm(shell,
@@ -2254,7 +2258,6 @@ public class MainWindow
                     Util.sleep(2000);
                 }
                 closing = true;
-                quit();
                 return true;
             }
         }
@@ -2262,7 +2265,7 @@ public class MainWindow
     }
 
 
-    private void quit()
+    public void shutdown()
     {
         running = false;
         archiveManager.shutdown();
