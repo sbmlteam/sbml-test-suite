@@ -52,6 +52,7 @@ public class NativeFileWatcher implements FileWatcher
     private WatchService watcher;
     private HashMap<Path, FileListener> listenersMap;
     private Thread watcherThread;
+    private Path watchedPath;
 
 
     // Supporting classes.
@@ -140,6 +141,7 @@ public class NativeFileWatcher implements FileWatcher
                 watcher.close();
             watcher = FileSystems.getDefault().newWatchService();
             path.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
+            watchedPath = path;
         }
         catch (Exception e)
         {
@@ -189,7 +191,10 @@ public class NativeFileWatcher implements FileWatcher
     {
         if (path == null || listener == null)
             return;
-        listenersMap.put(path, listener);
+        // Need the path to be relative to the directory being watched.
+        String relative = new File(watchedPath.toString()).toURI()
+            .relativize(path.toFile().toURI()).getPath();
+        listenersMap.put(new File(relative).toPath(), listener);
         startWatcherThread();
     }
 
