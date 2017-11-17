@@ -756,6 +756,17 @@
     </java>
   </target>
 
+  <target name="tags">
+    <delete file="TAGS"/>
+    <apply executable="etags" verbose="true" force="true">
+      <!-- You must use -append or this will only produce tags for the 
+           last file in the list. -->
+      <arg value="--append"/>
+      <arg value="--ignore-indentation"/>
+      <fileset dir="${basedir}/src/org/eclipse/wb/swt/" includes="*.java"/>
+      <fileset dir="${basedir}/src/org/sbml/testsuite/ui/" includes="*.java"/>
+    </apply>
+  </target>
 
   <!--  =================================================================== -->
   <!-- Code no longer used, but worth saving in case it's needed again -->
