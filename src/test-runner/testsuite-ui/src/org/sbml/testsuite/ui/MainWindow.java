@@ -612,13 +612,13 @@ public class MainWindow
     }
 
 
-    private void addTreeItems()
+    private int addTreeItems()
     {
-        addTreeItems(null);
+        return addTreeItems(null);
     }
 
 
-    private void addTreeItems(final FilterFunction func)
+    private int addTreeItems(final FilterFunction func)
     {
         tree.removeAll();
         tree.clearAll(true);
@@ -630,6 +630,8 @@ public class MainWindow
         final Color fbcColor
             = UIUtils.createColor(170, 90, 200);
 
+        final int[] count = new int[1];
+        count[0] = 0;
         BusyIndicator.showWhile(getDisplay(), new Runnable() {
             public void run()
             {
@@ -649,6 +651,7 @@ public class MainWindow
                                 item.setForeground(fbcColor);
                             if (result == ResultType.Unknown && !viewOnly)
                                 markForRerun(item);
+                            count[0]++;
                         }
                     }
                 }
@@ -663,6 +666,7 @@ public class MainWindow
 
         tree.update();
         progressSection.setMaxCount(tree.getItemCount());
+        return count[0];
     }
 
 
@@ -2355,9 +2359,7 @@ public class MainWindow
 
         if (filterIsNonEmpty())
         {
-            final int[] count = new int[1];
-            count[0] = 0;
-            addTreeItems(new FilterFunction() {
+            int count = addTreeItems(new FilterFunction() {
                     @Override
                     public boolean filter(TestCase test, ResultType result)
                     {
@@ -2372,15 +2374,14 @@ public class MainWindow
                             return false;
                         if (test.matches(excludedTags))
                             return false;
-                        count[0]++;
                         return true;
                     }
                 });
 
-            int numOmitted = (model.getSuite().getNumCases() - count[0]);
+            int numOmitted = (model.getSuite().getNumCases() - count);
             notificationBanner.setText("Filtering is in effect: "
                                        + numOmitted + " cases omitted, "
-                                       + count[0] + " cases left.");
+                                       + count + " cases left.");
             notificationBanner.show(true);
 
             resetForRun();
@@ -2399,9 +2400,7 @@ public class MainWindow
 
     protected void filterShowOnlyProblematic()
     {
-        final int[] count = new int[1];
-        count[0] = 0;
-        addTreeItems(new FilterFunction() {
+        int count = addTreeItems(new FilterFunction() {
                 @Override
                 public boolean filter(TestCase test, ResultType result)
                 {
@@ -2417,12 +2416,11 @@ public class MainWindow
                     case Unknown:        // No result returned by tool.
                     case Error:          // Encountered error while trying to run wrapper.
                     default:
-                        count[0]++;
                         return true;
                     }
                 }
             });
-        notificationBanner.setText("Filtering is in effect: showing " + count[0]
+        notificationBanner.setText("Filtering is in effect: showing " + count
                                    + " cases with problematic results");
         notificationBanner.show(true);
         clearPlots();
@@ -2432,9 +2430,7 @@ public class MainWindow
 
     protected void filterShowOnlyReallyProblematic()
     {
-        final int[] count = new int[1];
-        count[0] = 0;
-        addTreeItems(new FilterFunction() {
+        int count = addTreeItems(new FilterFunction() {
                 @Override
                 public boolean filter(TestCase test, ResultType result)
                 {
@@ -2450,12 +2446,11 @@ public class MainWindow
                     case Unknown:        // No result returned by tool.
                     case Error:          // Encountered error while trying to run wrapper.
                     default:
-                        count[0]++;
                         return true;
                     }
                 }
             });
-        notificationBanner.setText("Filtering is in effect: showing " + count[0]
+        notificationBanner.setText("Filtering is in effect: showing " + count
                                    + " cases with really problematic results");
         notificationBanner.show(true);
         clearPlots();
@@ -2465,9 +2460,7 @@ public class MainWindow
 
     protected void filterShowOnlySupported()
     {
-        final int[] count = new int[1];
-        count[0] = 0;
-        addTreeItems(new FilterFunction() {
+        int count = addTreeItems(new FilterFunction() {
                 @Override
                 public boolean filter(TestCase test, ResultType result)
                 {
@@ -2483,13 +2476,12 @@ public class MainWindow
                     case Unknown:        // No result returned by tool.
                     case Error:          // Encountered error while trying to run wrapper.
                     default:
-                        count[0]++;
                         return true;
                     }
                 }
             });
         notificationBanner.setText("Filtering is in effect: showing only"
-                                   + " supported cases (" + count[0] + " in total)");
+                                   + " supported cases (" + count + " in total)");
         notificationBanner.show(true);
         clearPlots();
         resetMap();
