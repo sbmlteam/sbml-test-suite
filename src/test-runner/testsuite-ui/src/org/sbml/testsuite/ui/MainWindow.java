@@ -430,7 +430,10 @@ public class MainWindow
         chartLegendFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -2);
         createContents();
         archiveManager = new CasesArchiveManager(shell);
-        fileWatcher = new FileWatcher();
+        if (UIUtils.isMacOSX())
+            fileWatcher = new PollingFileWatcher();
+        else
+            fileWatcher = new NativeFileWatcher();
     }
 
 
@@ -818,7 +821,7 @@ public class MainWindow
             resultMap.updateWrapper(newWrapper);
 
         if (UIUtils.getBooleanPref("autoWatchFile", true, this))
-            fileWatcher.watchPath(newWrapper.getOutputPath());
+            fileWatcher.initWatch(newWrapper.getOutputPath());
     }
 
 
@@ -3708,10 +3711,8 @@ public class MainWindow
             {
                 // Watch for changes to the file while it's being shown.
                 // (E.g., the user may be experimenting and editing it.)
-                File resultsFile = wrapper.getResultFile(test);
-                if (resultsFile != null)
-                    fileWatcher.addListener(resultsFile.getName(),
-                                            new ResultsFileListener(treeItem));
+                File file = wrapper.getResultFile(test);
+                fileWatcher.addListener(file, new ResultsFileListener(treeItem));
             }
         }
 
@@ -3758,6 +3759,12 @@ public class MainWindow
         }
 
         public void fileDeleted()
+        {
+            doUpdate();
+        }
+
+        // This method is only used by FileMonitor.
+        public void fileChanged(final File ignored)
         {
             doUpdate();
         }
