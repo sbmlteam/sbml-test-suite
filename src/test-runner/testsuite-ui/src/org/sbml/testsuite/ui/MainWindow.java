@@ -394,6 +394,12 @@ public class MainWindow
     private DescriptionSection        descriptionSection;
     private ProgressSection           progressSection;
 
+    private Vector<FilterFunction>    resultsFilters = new Vector<FilterFunction>();
+    private FilterFunction            reallyProblematicResultsFilter;
+    private FilterFunction            problematicResultsFilter;
+    private FilterFunction            supportedCasesFilter;
+    private FilterFunction            tagOrNumberFilter;
+
     private TreeSet<String>           includedTags = new TreeSet<String>();
     private TreeSet<String>           excludedTags = new TreeSet<String>();
     private TreeSet<Integer>          includedCases = new TreeSet<Integer>();
@@ -402,6 +408,7 @@ public class MainWindow
     private boolean                   ignoreDoubleClicks;
     private Color                     foregroundColor;
     private Color                     backgroundColor;
+    private Color                     bannerBackgroundColor;
     private final Display             display;
     private Thread                    uiThread;
 
@@ -422,12 +429,14 @@ public class MainWindow
         rightPaddedFormat = new RightPaddedDecimalFormat("###.##");
         foregroundColor = UIUtils.createColor(60, 60, 60);
         backgroundColor = SWTResourceManager.getColor(SWT.COLOR_WHITE);
+        bannerBackgroundColor = UIUtils.createColor(215, 150, 50);
         if (UIUtils.isWindows())
             chartTitleFont = UIUtils.createResizedFont("SansSerif", SWT.ITALIC, 0);
         else
             chartTitleFont = UIUtils.createResizedFont("SansSerif", SWT.ITALIC, -1);
         chartTickFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -2);
         chartLegendFont = UIUtils.createResizedFont("SansSerif", SWT.NORMAL, -2);
+        initResultsFilters();
         createContents();
         archiveManager = new CasesArchiveManager(shell);
         if (UIUtils.isMacOSX())
@@ -614,12 +623,6 @@ public class MainWindow
 
     private int addTreeItems()
     {
-        return addTreeItems(null);
-    }
-
-
-    private int addTreeItems(final FilterFunction func)
-    {
         tree.removeAll();
         tree.clearAll(true);
         tree.setToolTipText("");
@@ -644,7 +647,7 @@ public class MainWindow
                     for (final TestCase test : model.getSuite().getSortedCases())
                     {
                         ResultType result = wrapper.getResultType(test, currentLV);
-                        if (func == null || func.filter(test, result))
+                        if (passFilters(test, result))
                         {
                             TreeItem item = createCaseItem(test.getId(), result);
                             if ("FluxBalanceSteadyState".equals(test.getTestType()))
@@ -658,7 +661,7 @@ public class MainWindow
                 else                    // No wrapper set.
                 {
                     for (final TestCase test : model.getSuite().getSortedCases())
-                        if (func == null || func.filter(test, ResultType.Unknown))
+                        if (passFilters(test, ResultType.Unknown))
                             createCaseItem(test.getId(), ResultType.Unknown);
                 }
             }
@@ -667,6 +670,17 @@ public class MainWindow
         tree.update();
         progressSection.setMaxCount(tree.getItemCount());
         return count[0];
+    }
+
+
+    private final boolean passFilters(final TestCase test, final ResultType result)
+    {
+        if (resultsFilters == null)
+            return true;
+        for (final FilterFunction showResult : resultsFilters)
+            if (! showResult.filter(test, result))
+                return false;
+        return true;
     }
 
 
@@ -776,7 +790,7 @@ public class MainWindow
                 model.getSettings().setLastLevelVersion(currentLV);
                 if (newWrapper != null)
                     newWrapper.beginUpdate(model.getSuite(), currentLV);
-                clearFilters();
+                clearResultsFilters();
                 deselectAll();
                 if (tree.getItemCount() > 0)
                     progressSection.setMaxCount(tree.getItemCount());
@@ -843,7 +857,7 @@ public class MainWindow
         if (selection == null)          // Sync all.
         {
             wrapper.beginUpdate(model.getSuite(), currentLV);
-            clearFilters();             // Also causes tree to be updated.
+            clearResultsFilters();             // Also causes tree to be updated.
         }
         else                            // Sync selected.
         {
@@ -974,10 +988,10 @@ public class MainWindow
         if (UIUtils.isMacOSX())
             notificationBanner = new NotificationBanner(shell, SWT.CENTER, 0);
         else
-            notificationBanner = new NotificationBanner(shell, SWT.CENTER, 45);
+            notificationBanner = new NotificationBanner(shell, SWT.CENTER, 47);
         notificationBanner.setFont(statusFont);
         notificationBanner.setForeground(backgroundColor);
-        notificationBanner.setBackground(foregroundColor);
+        notificationBanner.setBackground(bannerBackgroundColor);
         notificationBanner.show(false);
 
         // ------------------ middle: tree & plot panels ----------------------
@@ -1316,7 +1330,10 @@ public class MainWindow
                 delayedUpdate(new Runnable() {
                     public void run()
                     {
-                        filterShowByTagOrNumber();
+                        boolean userChangedFilter = showCasesFilterDialog();
+                        if (! userChangedFilter) return;
+                        addResultsFilter(tagOrNumberFilter);
+                        updateFilteredResults();
                     }
                });
             }
@@ -1332,7 +1349,7 @@ public class MainWindow
                 delayedUpdate(new Runnable() {
                     public void run()
                     {
-                        clearFilters();
+                        clearResultsFilters();
                     }
                });
             }
@@ -1348,13 +1365,15 @@ public class MainWindow
             {
                 if (menuItemShowOnlyProblematic.getSelection())
                 {
+                    addResultsFilter(problematicResultsFilter);
+                    removeResultsFilter(reallyProblematicResultsFilter);
                     menuItemShowOnlyReally.setSelection(false);
-                    menuItemShowOnlySupported.setSelection(false);
-                    filterShowOnlyProblematic();
+                    updateFilteredResults();
                 }
                 else
                 {
-                    clearFilters();
+                    removeResultsFilter(problematicResultsFilter);
+                    updateFilteredResults();
                 }
             }
         });
@@ -1367,13 +1386,15 @@ public class MainWindow
             {
                 if (menuItemShowOnlyReally.getSelection())
                 {
+                    addResultsFilter(reallyProblematicResultsFilter);
+                    removeResultsFilter(problematicResultsFilter);
                     menuItemShowOnlyProblematic.setSelection(false);
-                    menuItemShowOnlySupported.setSelection(false);
-                    filterShowOnlyReallyProblematic();
+                    updateFilteredResults();
                 }
                 else
                 {
-                    clearFilters();
+                    removeResultsFilter(reallyProblematicResultsFilter);
+                    updateFilteredResults();
                 }
             }
         });
@@ -1388,13 +1409,13 @@ public class MainWindow
             {
                 if (menuItemShowOnlySupported.getSelection())
                 {
-                    menuItemShowOnlyProblematic.setSelection(false);
-                    menuItemShowOnlyReally.setSelection(false);
-                    filterShowOnlySupported();
+                    addResultsFilter(supportedCasesFilter);
+                    updateFilteredResults();
                 }
                 else
                 {
-                    clearFilters();
+                    removeResultsFilter(supportedCasesFilter);
+                    updateFilteredResults();
                 }
             }
         });
@@ -1443,7 +1464,7 @@ public class MainWindow
                 delayedUpdate(new Runnable() {
                     public void run()
                     {
-                        runByFilter();
+                        runByTagsOrCasesFilter();
                     }
                 });
             }
@@ -1768,7 +1789,10 @@ public class MainWindow
                 getDisplay().timerExec(100, new Runnable() {
                     public void run()
                     {
-                        filterShowByTagOrNumber();
+                        boolean userChangedFilter = showCasesFilterDialog();
+                        if (! userChangedFilter) return;
+                        addResultsFilter(tagOrNumberFilter);
+                        updateFilteredResults();
                     }
                 });
             }
@@ -1788,7 +1812,7 @@ public class MainWindow
                     ignoreDoubleClicks = true;
                     getDisplay().timerExec(doubleClickTime, doubleTimer);
                 }
-                clearFilters();
+                clearResultsFilters();
             }
         });
 
@@ -2224,7 +2248,7 @@ public class MainWindow
         {
             model.setTestSuiteDir(archiveManager.getDefaultCasesDir());
             resetAll();
-            clearFilters();
+            clearResultsFilters();
         }
     }
 
@@ -2291,7 +2315,7 @@ public class MainWindow
      * @return true if the filter values have changed, false if they
      * remain unchanged (i.e., the user clicked "cancel").
      */
-    protected boolean filter()
+    protected boolean showCasesFilterDialog()
     {
         FilterDialog dialog = new FilterDialog(shell, SWT.None);
         dialog.setComponentTags(model.getSuite().getComponentTags());
@@ -2328,7 +2352,7 @@ public class MainWindow
     }
 
 
-    private boolean filterIsNonEmpty()
+    private boolean tagFilterIsNonEmpty()
     {
         return ((includedTags     != null && !includedTags.isEmpty())
                 || (excludedTags  != null && !excludedTags.isEmpty())
@@ -2337,12 +2361,27 @@ public class MainWindow
     }
 
 
-    private void clearFilters()
+    private void addResultsFilter(FilterFunction func)
+    {
+        // Don't add more than one copy of a filter.
+        if (resultsFilters.indexOf(func) < 0)
+            resultsFilters.add(func);
+    }
+
+
+    private void removeResultsFilter(FilterFunction func)
+    {
+        resultsFilters.remove(func);
+    }
+
+
+    private void clearResultsFilters()
     {
         menuItemShowOnlyProblematic.setSelection(false);
         menuItemShowOnlyReally.setSelection(false);
         menuItemShowOnlySupported.setSelection(false);
         notificationBanner.show(false);
+        resultsFilters.clear();
         addTreeItems();
         clearPlots();
         resetMap();
@@ -2350,57 +2389,37 @@ public class MainWindow
     }
 
 
-    protected boolean filterShowByTagOrNumber()
+    private void updateFilteredResults()
     {
         boolean filterWasInEffect = notificationBanner.isVisible();
-        boolean userChangedFilter = filter();
 
-        if (! userChangedFilter) return false;
+        int count = addTreeItems();
+        int total = model.getSuite().getNumCases();
+        int omitted = (total - count);
 
-        if (filterIsNonEmpty())
+        if (omitted > 0)
         {
-            int count = addTreeItems(new FilterFunction() {
-                    @Override
-                    public boolean filter(TestCase test, ResultType result)
-                    {
-                        if (test == null) return false;
-                        if (!includedCases.isEmpty()
-                            && !includedCases.contains(test.getIndex()))
-                            return false;
-                        if (excludedCases.contains(test.getIndex()))
-                            return false;
-                        if (!includedTags.isEmpty()
-                            && !test.matches(includedTags))
-                            return false;
-                        if (test.matches(excludedTags))
-                            return false;
-                        return true;
-                    }
-                });
-
-            int numOmitted = (model.getSuite().getNumCases() - count);
-            notificationBanner.setText("Filtering is in effect: "
-                                       + numOmitted + " cases omitted, "
-                                       + count + " cases left.");
+            notificationBanner.setText("Showing " + count + " cases ("
+                                       + omitted + " cases filtered out, from "
+                                       + total + " total cases in suite)" +
+                                       " – use Filter menu to clear filters");
             notificationBanner.show(true);
-
             resetForRun();
             clearPlots();
             resetMap();
             updateProgressSection();
         }
-        else if (filterWasInEffect)    // New filter is empty => clear filters.
+        else
         {
             resetForRun();
-            clearFilters();
+            clearResultsFilters();
         }
-        return true;
     }
 
 
-    protected void filterShowOnlyProblematic()
+    private void initResultsFilters()
     {
-        int count = addTreeItems(new FilterFunction() {
+        problematicResultsFilter = new FilterFunction() {
                 @Override
                 public boolean filter(TestCase test, ResultType result)
                 {
@@ -2419,18 +2438,9 @@ public class MainWindow
                         return true;
                     }
                 }
-            });
-        notificationBanner.setText("Filtering is in effect: showing " + count
-                                   + " cases with problematic results");
-        notificationBanner.show(true);
-        clearPlots();
-        resetMap();
-    }
+            };
 
-
-    protected void filterShowOnlyReallyProblematic()
-    {
-        int count = addTreeItems(new FilterFunction() {
+        reallyProblematicResultsFilter = new FilterFunction() {
                 @Override
                 public boolean filter(TestCase test, ResultType result)
                 {
@@ -2449,18 +2459,9 @@ public class MainWindow
                         return true;
                     }
                 }
-            });
-        notificationBanner.setText("Filtering is in effect: showing " + count
-                                   + " cases with really problematic results");
-        notificationBanner.show(true);
-        clearPlots();
-        resetMap();
-    }
+            };
 
-
-    protected void filterShowOnlySupported()
-    {
-        int count = addTreeItems(new FilterFunction() {
+        supportedCasesFilter = new FilterFunction() {
                 @Override
                 public boolean filter(TestCase test, ResultType result)
                 {
@@ -2479,12 +2480,26 @@ public class MainWindow
                         return true;
                     }
                 }
-            });
-        notificationBanner.setText("Filtering is in effect: showing only"
-                                   + " supported cases (" + count + " in total)");
-        notificationBanner.show(true);
-        clearPlots();
-        resetMap();
+            };
+
+        tagOrNumberFilter = new FilterFunction() {
+                @Override
+                public boolean filter(TestCase test, ResultType result)
+                {
+                    if (test == null) return false;
+                    if (!includedCases.isEmpty()
+                        && !includedCases.contains(test.getIndex()))
+                        return false;
+                    if (excludedCases.contains(test.getIndex()))
+                        return false;
+                    if (!includedTags.isEmpty()
+                        && !test.matches(includedTags))
+                        return false;
+                    if (test.matches(excludedTags))
+                        return false;
+                    return true;
+                }
+            };
     }
 
 
@@ -2673,7 +2688,7 @@ public class MainWindow
                         model.getSuite().initializeFromDirectory(casesDir);
                         model.getSettings().setCasesDir(casesDir);
                         resetAll();
-                        clearFilters();
+                        clearResultsFilters();
                     }
                 });
             }
@@ -2747,7 +2762,7 @@ public class MainWindow
                             model.getSuite().initializeFromDirectory(defaultCasesDir);
                             model.getSettings().setCasesDir(defaultCasesDir);
                             resetAll();
-                            clearFilters();
+                            clearResultsFilters();
                         }
                     });
             }
@@ -2964,6 +2979,7 @@ public class MainWindow
     }
 
 
+    // FIXME
     protected void reRunFiltered(FilterFunction func)
     {
         Vector<TreeItem> items = new Vector<TreeItem>();
@@ -3282,7 +3298,7 @@ public class MainWindow
     }
 
 
-    protected void runByFilter()
+    protected void runByTagsOrCasesFilter()
     {
         if (! wrapperIsRunnable()) return;
 
@@ -3300,7 +3316,7 @@ public class MainWindow
         includedCases = null;
         excludedCases = null;
 
-        if (filter())
+        if (showCasesFilterDialog())
         {
             selectTreeItems(new FilterFunction() {
                 @Override
@@ -3397,7 +3413,7 @@ public class MainWindow
             model = new MainModel(archiveManager.getDefaultCasesDir());
         model.getSuite().initializeFromDirectory(archiveManager.getDefaultCasesDir());
         resetAll();
-        clearFilters();
+        clearResultsFilters();
     }
 
 
