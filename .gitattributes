@@ -6,7 +6,6 @@
 *.c text
 *.h text
 *.m text
-*.csv text
 *.xml text
 *.txt text
 *.mod text
@@ -21,3 +20,9 @@
 *.jpg binary
 *.xls binary
 *.doc binary
+
+# This next one is because we have constant problems with git getting
+# confused about line endings when people using Windows and Mac 
+# edit the same files.
+
+*.csv binary diff=csv
