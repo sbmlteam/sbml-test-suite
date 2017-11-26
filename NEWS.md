@@ -206,19 +206,21 @@ New in this release:
 
     - Cases 01779-01780 test simultaneous event assignment of a species concentration and its compartment.
 
+* In addition to the above, a few general things have been cleaned up in existing semantic test cases. Examples include model identifiers of a few test models that were misleading (now fixed), and a few tests that were designed to test species in multiple compartments were at some point accidentally changed so that all the species were put into a single compartment (they have been redistributed appropriately now).
+
 Changes in this release:
 
-* The Test Runner's algorithm for comparing test results and displaying the differences between expected and actual result values now properly ignores column ordering.  Thanks to Leandro Watanabe (U. Utah) for reporting the problem.
+* The SBML Test Runner's algorithm for comparing test results and displaying the differences between expected and actual result values now properly ignores column ordering.  Thanks to Leandro Watanabe (U. Utah) for reporting the problem.
 
-* The SBML Test Runner now optionally monitors for file changes in the currently-displayed test case.  If the application's output `.csv` file is changed outside the runner (e.g., by manually editing the file), it should now notice the changes and update the display.  Note that for architectural reasons, only the case being displayed is so monitored.  A setting in the preferences dialog allows this feature to be turned on and off.
+* The Test Runner now allows the combination of filters that include, simultaneously, tags, problematic test cases, and only supported test cases.  Thanks to Chris Myers for raising the issue and testing the implementation.
+
+* The Test Runner now optionally monitors for file changes in the currently-displayed test case.  If the application's output `.csv` file is changed outside the runner (e.g., by manually editing the file), it should now notice the changes and update the display.  Note that for architectural reasons, only the case currently being displayed is so monitored.  A setting in the preferences dialog allows this feature to be turned on and off.
 
 * This release of the SBML Test Runner works around a crashing bug caused by an SWT-GTK issue that manifests itself on Ubuntu 16.
 
 * This release of the SBML Test Runner works around a font scaling issue that manifests itself on Windows when using display scaling of 150%.
 
 * The Test Runner features various other small fixes and improvements.
-
-* A few things have been cleaned up in existing semantic test cases. Examples include model identifiers of a few test models that were misleading (now fixed), and a few tests that were designed to test species in multiple compartments were at some point accidentally changed so that all the species were put into a single compartment (they have been redistributed appropriately now).
 
 * With the addition of FBC v2 tests, the `packagesPresent` line in the .m file can now include `fbc_v1` or `fbc_v2`, depending on which version of the test it is.  The original `fbc` tag is still present.  In addition, a new FBC test tag 'fbc:NonStrict' is now provided for FBC v2 models where the 'strict' flag has been set to 'false'.
 
