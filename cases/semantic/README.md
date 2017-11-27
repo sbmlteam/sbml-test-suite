@@ -29,6 +29,7 @@ Relative to the entire SBML Test Suite, the directory where this `README.md` fil
 
 * `NNNNN-sbml-lXvY.xml`.  These are the SBML files defining the model that constitutes a given test.  Most tests have all of the following files, but note that they all define the same test; they are simply in different SBML Level/Version formats:
 
+  * `NNNNN-sbml-l3v2.xml`   – SBML Level 3 Version 2
   * `NNNNN-sbml-l3v1.xml`   – SBML Level 3 Version 1
   * `NNNNN-sbml-l2v5.xml`   – SBML Level 2 Version 5
   * `NNNNN-sbml-l2v4.xml`   – SBML Level 2 Version 4
