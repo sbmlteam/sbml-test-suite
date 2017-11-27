@@ -299,10 +299,8 @@ public class PreferenceDialog
         btnAutoCheckUpdates.setText("Automatically check for new versions of "
                                        + "test cases when application starts");
         btnAutoCheckUpdates.setToolTipText(
-            "Check the SourceForge.net repository for updated archives of "
-            + "SBML Test Cases each time the SBML Test Runner is started, and "
-            + "automatically download and install new test cases if they "
-            + "are found.");
+            "Check for updated releases of the SBML Test Suite test cases "
+            + "each time the SBML Test Runner is started.");
         btnAutoCheckUpdates.setSelection(UIUtils.getBooleanPref("autoCheckUpdates",
                                                                 true, this));
         btnAutoCheckUpdates.addSelectionListener(new SelectionAdapter() {
