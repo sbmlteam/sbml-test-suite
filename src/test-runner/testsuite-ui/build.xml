@@ -505,13 +505,6 @@
           depends="init, html-files, misc-files, changes-file">
     <delete dir="${dist.dir}/${app.name}.app" failonerror="false"/>
     <mkdir dir="${dist.dir}" />
-    <mkdir dir="${basedir}/package/macosx" />
-    <copy file="${basedir}/dev/app-builders/macos/javapackager-config/Info.plist"
-          todir="${basedir}/package/macosx"
-          overwrite="true"/>
-    <replaceregexp file="${basedir}/package/macosx/Info.plist"
-                   match="%VERSION%" replace="${app.version}" flags="g"/>
-    <mkdir dir="${basedir}/package/macosx/images" />
     <copy file="${basedir}/src/data/application-icons/icon_256x256.png"
           tofile="${dist.dir}/sbmltestrunner-splashscreen.png"
           overwrite="true"/>
@@ -520,6 +513,7 @@
           overwrite="true"/>
     <exec executable="/usr/libexec/java_home" outputproperty="jre.path" />
     <exec executable="javapackager">
+      <!-- Note: -deploy -name image has to come first in the argument list. -->
       <arg value="-deploy"/>
       <arg value="-native" />
       <arg value="image" />
@@ -529,10 +523,10 @@
       <arg value="${app.name}" />
       <arg value="-title" />
       <arg value="${app.name}" />
-      <arg value="-srcdir" />
-      <arg value="${dist.dir}" />
       <arg value="-appclass" />
       <arg value="${app.main.class}" />
+      <arg value="-srcdir" />
+      <arg value="${dist.dir}" />
       <arg value="-srcfiles" />
       <arg value="sbmltestrunner.jar" />
       <arg value="-srcfiles" />
@@ -545,16 +539,36 @@
       <arg value="-outfile" />
       <arg value="ignore-not-used" />
     </exec>
-    <!-- javapackager insists on putting the results into a "bundles" subir. -->
+    <!-- javapackager insists on putting the results into a "bundles" subir.
+         Move it back up to ${dist.dir}. -->
     <move file="${dist.dir}/bundles/${app.name}.app"
           todir="${dist.dir}" overwrite="true"/>
     <delete dir="${dist.dir}/bundles" failonerror="false"/>
-    <!-- javapackager doesn't include the Java bin directory. -->
-    <copy file="${jre.path}/bin/java"
-          tofile="${dist.dir}/${app.name}.app/Contents/PlugIns/Java/Contents/Home/jre/bin/java"/>
-    <chmod file="${dist.dir}/${app.name}.app/Contents/PlugIns/Java/Contents/Home/jre/bin/java"
-           perm="a+rx"/>
-    <!-- icon sometimes isn't found by the running app unless we put it here. -->
+
+    <!-- Javapackager at some point after version 1.6 started using a .cfg
+         file where JVM options need to be given, in addition to (or maybe
+         instead of) the Info.plist file that was used before.  Unless the
+         critical option -XstartOnFirstThread is set in there, the app will
+         not even start.  That makes two places where we have to set the same
+         options: Info.plist and the .cfg file.  We can't provide the options
+         to javapackager using the <exec> directive above, because the ant
+         <exec> directive will throw an error if you try something like
+            <arg value="-BuserJvmOptions=-XstartOnFirstThread"/>
+         and if instead you try
+            <arg value="-BuserJvmOptions"> <arg value="-XstartOnFirstThread">
+         you will get an error that javapackager does not understand the
+         "-XstartOnFirstThread" argument. So we're screwed either way, and
+         the only option left is to create the necessary files outside of
+         this process and they copy them over what javapackager produces. -->
+    <copy file="${basedir}/dev/app-builders/macos/javapackager-config/Info.plist"
+          todir="${dist.dir}/${app.name}.app/Contents" overwrite="true"/>
+    <replaceregexp file="${dist.dir}/${app.name}.app/Contents/Info.plist"
+                   match="%VERSION%" replace="${app.version}" flags="g"/>
+    <copy file="${basedir}/dev/app-builders/macos/javapackager-config/${app.name}.cfg"
+          todir="${dist.dir}/${app.name}.app/Contents/Java" overwrite="true"/>
+    <replaceregexp file="${dist.dir}/${app.name}.app/Contents/Java/${app.name}.cfg"
+                   match="%VERSION%" replace="${app.version}" flags="g"/>
+    <!-- Icon sometimes isn't found by the running app unless it's put here. -->
     <copy file="${basedir}/src/data/application-icons/icon_1024x1024.png"
           tofile="${dist.dir}/${app.name}.app/Contents/Java/sbmltestrunner-icon.png"
           overwrite="true"/>
