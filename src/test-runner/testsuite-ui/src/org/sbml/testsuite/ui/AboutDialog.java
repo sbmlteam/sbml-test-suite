@@ -172,11 +172,8 @@ public class AboutDialog
             lblNewLabel_2.setFont(UIUtils.createResizedFont("SansSerif", SWT.BOLD, -2));
         else
             lblNewLabel_2.setFont(UIUtils.createResizedFont("SansSerif", SWT.BOLD, -1));
-        lblNewLabel_2.setBounds(158, 76 - offset, 270, 28);
-        if (UIUtils.isMacOSX())
-            lblNewLabel_2.setText("Authors: Frank T. Bergmann and Michael Hucka.");
-        else
-            lblNewLabel_2.setText("Authors: Frank T. Bergmann and\nMichael Hucka.");
+        lblNewLabel_2.setBounds(158, 78 - offset, 270, 20);
+        lblNewLabel_2.setText("Authors: Frank T. Bergmann && Michael Hucka.");
 
         Label lblPartOfThe = new Label(shell, SWT.WRAP);
         lblPartOfThe.setText("Part of the SBML Test Suite by S.M. Keating, M. Hucka, L.P. Smith, F.T. Bergmann, B.E. Shapiro, T.W. Evans, C.S. Gillespie, D.J. Wilkinson, B.G. Olivier and A.M. Finney.");
@@ -184,7 +181,7 @@ public class AboutDialog
             lblPartOfThe.setFont(UIUtils.createResizedFont("Verdana", SWT.NORMAL, -3));
         else
             lblPartOfThe.setFont(UIUtils.createResizedFont("Verdana", SWT.NORMAL, -2));
-        lblPartOfThe.setBounds(158, 97 + offset, 270, 49);
+        lblPartOfThe.setBounds(158, 92 + offset, 270, 49);
 
         Label lblNewLabel_3 = new Label(shell, SWT.WRAP);
         if (UIUtils.isMacOSX())
