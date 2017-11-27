@@ -510,7 +510,7 @@
           todir="${basedir}/package/macosx"
           overwrite="true"/>
     <replaceregexp file="${basedir}/package/macosx/Info.plist"
-                   match="%VERSION%" replace="${app.version}"/>
+                   match="%VERSION%" replace="${app.version}" flags="g"/>
     <mkdir dir="${basedir}/package/macosx/images" />
     <copy file="${basedir}/src/data/application-icons/icon_256x256.png"
           tofile="${dist.dir}/sbmltestrunner-splashscreen.png"
