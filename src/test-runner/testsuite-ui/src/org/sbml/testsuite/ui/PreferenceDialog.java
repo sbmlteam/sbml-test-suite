@@ -304,7 +304,7 @@ public class PreferenceDialog
             + "automatically download and install new test cases if they "
             + "are found.");
         btnAutoCheckUpdates.setSelection(UIUtils.getBooleanPref("autoCheckUpdates",
-                                                                false, this));
+                                                                true, this));
         btnAutoCheckUpdates.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event)
