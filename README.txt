@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsbmlteam%2Fsbml-test-suite.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsbmlteam%2Fsbml-test-suite?ref=badge_shield)
+
                          The SBML Test Suite
 
 	    Sarah Keating, Michael Hucka, Frank Bergmann,
@@ -224,3 +226,7 @@ Local Variables:
 fill-column: 70
 End:
 ----------------------------------------------------------------------
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsbmlteam%2Fsbml-test-suite.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsbmlteam%2Fsbml-test-suite?ref=badge_large)
