@@ -530,7 +530,7 @@
       <arg value="-title" />
       <arg value="${app.name}" />
       <arg value="-srcdir" />
-      <arg value="${build.dir}" />
+      <arg value="${dist.dir}" />
       <arg value="-appclass" />
       <arg value="${app.main.class}" />
       <arg value="-srcfiles" />
@@ -541,7 +541,7 @@
       <arg value="${dist.dir}" />
       <arg value="-Bicon=${app.icon.icns}" />
       <arg value="-Bruntime=${jre.path}" />
-      <arg value="-BappVersion=3.3.0" />
+      <arg value="-BappVersion=${app.version}" />
       <arg value="-outfile" />
       <arg value="ignore-not-used" />
     </exec>
