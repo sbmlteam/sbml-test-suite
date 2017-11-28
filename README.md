@@ -3,6 +3,7 @@
 The SBML Test Suite is a conformance testing system for [SBML](http://sbml.org), a file and data format used to store and exchange models in computational systems biology.
 
 [![License](http://img.shields.io/:license-LGPL-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html)  [![Latest stable release](https://img.shields.io/badge/Latest_stable_release-3.3-brightgreen.svg)](http://shields.io)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsbmlteam%2Fsbml-test-suite.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsbmlteam%2Fsbml-test-suite?ref=badge_shield)
 
 ----
 
