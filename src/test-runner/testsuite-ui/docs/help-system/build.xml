@@ -19,7 +19,7 @@
        the html <title> tags in the .html files produced.
   ========================================================================= -->
 
-  <target name="generate-html" depends="copy-images">
+  <target name="generate-help-files" depends="copy-help-images">
     <create name="about-sts"         title="About the Test Runner"/>
     <create name="basic-operation"   title="Basic Usage"/>
     <create name="defining-wrappers" title="Defining Wrappers"/>
@@ -52,7 +52,7 @@
     </sequential>
   </macrodef>
 
-  <target name="copy-images">
+  <target name="copy-help-images">
     <copy todir="${output.dir}">
       <fileset dir="." includes="*.png"/>
     </copy>
