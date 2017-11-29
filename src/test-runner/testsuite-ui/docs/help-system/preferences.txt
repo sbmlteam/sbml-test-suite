@@ -56,10 +56,20 @@ additional general options.
    computer becomes so burdened that the SBML Test Runner, or indeed the
    entire computer, becomes sluggish or even stops responding.)
 
- * **Automatically check for new versions of test cases**: When
-   enabled, this option causes the Test Runner to contact the network
-   update location and check for new versions of test cases.  It will
-   do this once automatically when it is first started up.
+ * **Watch displayed results file and automatically reanalyze test case if
+   the file changes**: When enabled, this option makes the Test Runner
+   monitor the file containing the application output currently being plotted
+   in the main panel.  If the file changes (even without running the case in
+   the Test Runner), the Test Runner will automatically reanalyze and replot
+   the results.  This can be useful if you are developing software and are
+   using an external application to update the results for a particular test
+   case under scrutiny.  Only the currently-displayed results file is
+   monitored in this way.
+
+ * **Always check for new versions of test cases**: When enabled, this option
+   causes the Test Runner to contact the network update location and check
+   for new versions of test cases.  It will do this once automatically when
+   it is first started up.
 
 Whether the last option is enabled or not, you can always check for
 updates manually by using the "Check for Updates..." item in the Help

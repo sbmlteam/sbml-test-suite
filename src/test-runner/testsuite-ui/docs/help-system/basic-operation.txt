@@ -1,7 +1,7 @@
 Basic Usage of the SBML Test Runner
 -----------------------------------
 
-The first time you run the SBML Test Runner application, it will unpack its internal archive of SBML test cases into a folder within (depending on your operating system) your home folder or your user data folder.  This process will take a variable amount of time, depending on the speed of your computer.  During this time, you will see a diagnostic panel such as the one shown in the figure below.
+The first time you run the SBML Test Runner application, it will unpack its internal archive of SBML test cases into a folder within your home folder or your user data folder (depending on your operating system).  This process will take a variable amount of time, depending on the speed of your computer.  During this time, you will see a diagnostic panel such as the one shown in the figure below.
 
 ![The first time you start the Test Runner.](first-time.png "When you first start the SBML Test Runner, it will begin to unpack the SBML test cases it contains internally.  This may take some time, during which it will display a panel describing what it is doing.")
 
