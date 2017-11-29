@@ -300,6 +300,11 @@
           todir="${dist.dir}" overwrite="true"/>
   </target>
 
+  <target name="help-files" depends="init">
+    <ant antfile="build.xml" dir="${basedir}/docs/help-system"
+         useNativeBaseDir="true" target="generate-help-files" />
+  </target>
+
   <target name="clean">
     <delete dir="${dist.dir}" />
     <delete dir="${build.dir}" />
@@ -505,7 +510,7 @@
   </target>
 
   <target name="app-mac-normal-common"
-          depends="init, html-files, misc-files, changes-file">
+          depends="init, help-files, html-files, misc-files, changes-file">
     <delete dir="${dist.dir}/${app.name}.app" failonerror="false"/>
     <mkdir dir="${dist.dir}" />
     <copy file="${basedir}/src/data/application-icons/icon_256x256.png"
@@ -645,7 +650,8 @@
     <!-- <antcall target="clean-jar"/> -->
   </target>
 
-  <target name="app-linux-common" depends="init">
+  <target name="app-linux-common" 
+          depends="init, help-files, html-files, misc-files, changes-file">
     <concat destfile="${dist.dir}/${app.name.nospace}-${os}-${bits}"
             binary="true">
       <filelist dir="dev/app-builders/linux" files="bootstrap.sh"/>
