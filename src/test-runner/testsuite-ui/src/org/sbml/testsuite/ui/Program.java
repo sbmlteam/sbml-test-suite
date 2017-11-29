@@ -88,4 +88,40 @@ public class Program
         else
             return Program.class.getPackage().getImplementationVersion();
     }
+
+
+    /**
+     * Returns the version number as an array of 3 integers.
+     * <p>
+     * This gets the information from the manifest file in the application
+     * JAR file.  It will fail to get a number if you are not running this
+     * from the JAR file (e.g., if you are running this from within Eclipse).
+     * The number is the string version turned into a 3-part array, [X, Y, Z],
+     * where X is the major number, Y is the minor number, etc.
+     * <p>
+     * @return an array of int
+     */
+    public static int[] getVersionNumbers()
+    {
+        if (Program.class.getPackage().getImplementationVersion() == null)
+            return null;
+        else
+        {
+            try
+            {
+                String v = Program.class.getPackage().getImplementationVersion();
+                String[] parts = v.split("[_.]");
+                int[] num = new int[3];
+                num[0] = Integer.parseInt(parts[0]);
+                num[1] = Integer.parseInt(parts[1]);
+                num[2] = Integer.parseInt(parts[2]);
+                return num;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+    }
 }
