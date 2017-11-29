@@ -3723,7 +3723,8 @@ public class MainWindow
                 // Watch for changes to the file while it's being shown.
                 // (E.g., the user may be experimenting and editing it.)
                 File file = wrapper.getResultFile(test);
-                fileWatcher.addListener(file, new ResultsFileListener(treeItem));
+                if (file != null)
+                    fileWatcher.addListener(file, new ResultsFileListener(treeItem));
             }
         }
 
