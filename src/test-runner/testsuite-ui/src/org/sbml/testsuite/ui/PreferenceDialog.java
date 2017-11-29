@@ -296,7 +296,7 @@ public class PreferenceDialog
                                                           false, false, 5, 1);
         gd_btnAutoCheckUpdates.verticalIndent = 0;
         btnAutoCheckUpdates.setLayoutData(gd_btnAutoCheckUpdates);
-        btnAutoCheckUpdates.setText("Automatically check for new versions of "
+        btnAutoCheckUpdates.setText("Always check for new versions of "
                                        + "test cases when application starts");
         btnAutoCheckUpdates.setToolTipText(
             "Check for updated releases of the SBML Test Suite test cases "
