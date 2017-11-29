@@ -572,6 +572,20 @@ public class UIUtils
     }
 
 
+    public static void saveStringPref(String prefName, String value, Object obj)
+    {
+        Preferences prefs = Preferences.userNodeForPackage(obj.getClass());
+        prefs.put(prefName, value);
+    }
+
+
+    public static String getStringPref(String prefName, String defaultValue, Object obj)
+    {
+        Preferences prefs = Preferences.userNodeForPackage(obj.getClass());
+        return prefs.get(prefName, defaultValue);
+    }
+
+
     public static void removePref(String prefName, Object obj)
     {
         Preferences prefs = Preferences.userNodeForPackage(obj.getClass());
