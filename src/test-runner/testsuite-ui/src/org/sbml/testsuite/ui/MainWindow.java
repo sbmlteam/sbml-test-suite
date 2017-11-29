@@ -2399,10 +2399,14 @@ public class MainWindow
 
         if (omitted > 0)
         {
+            // The dash in this text should be a en dash, but don't use that
+            // here: it will case Linux builds to fail because of non-ASCII
+            // characters.  Also, don't put &ndash; instead, because it will
+            // not be interpreted and converted.  We're stuck with using "-".
             notificationBanner.setText("Showing " + count + " cases ("
                                        + omitted + " cases filtered out, from "
                                        + total + " total cases in suite)" +
-                                       " – use Filter menu to clear filters");
+                                       " - use Filter menu to clear filters");
             notificationBanner.show(true);
             resetForRun();
             clearPlots();
