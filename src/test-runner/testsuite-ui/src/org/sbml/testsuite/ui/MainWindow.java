@@ -2607,10 +2607,23 @@ public class MainWindow
             }
         }
 
+        // If this is the first time we've been run after a version change,
+        // we do a one-time offer to update the suite of test cases even if
+        // the user has turned off autoCheckUpdates.  Otherwise, if we don't
+        // do that, the user may not otherwise realize that there may be new
+        // test cases available.
+        String lastVersion = UIUtils.getStringPref("lastVersion", "", this);
+        boolean newVersion = false;
+        if (! Program.getVersion().equals(lastVersion))
+        {
+            UIUtils.saveStringPref("lastVersion", Program.getVersion(), this);
+            newVersion = true;
+        }
+
         // If the user has enabled auto-checking for updates, then check the
         // default test case directory and update it if it's old.
         boolean autoCheckUpdates = UIUtils.getBooleanPref("autoCheckUpdates", false, this);
-        if (autoCheckUpdates || unpackInternal)
+        if (autoCheckUpdates || unpackInternal || newVersion)
         {
             final boolean finalUnpackInternal = unpackInternal;
             getDisplay().asyncExec(new Runnable() {
