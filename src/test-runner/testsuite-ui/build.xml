@@ -157,6 +157,9 @@
     <copy todir="${dist.dir}/.graphics">
       <fileset dir="${basedir}/.graphics" includes="**"/>
     </copy>
+    <copy todir="${dist.dir}/.graphics">
+      <fileset dir="${basedir}/dev/github-css/.graphics" includes="**"/>
+    </copy>
   </target>
 
   <target name="changes-file-basic" depends="init, graphics">
@@ -210,7 +213,7 @@
          in <img>'s in the .graphics subdirectory we copy to ${dist.dir}. -->
     <exec executable="bash" dir="${dist.dir}" failonerror="true">
       <arg value="-c"/>
-      <arg line='"cat CHANGES.html | inliner > CHANGES-inlined.html"'/>
+      <arg line='"cat CHANGES.html | inliner -n > CHANGES-inlined.html"'/>
     </exec>
     <move file="${dist.dir}/CHANGES-inlined.html"
           tofile="${dist.dir}/CHANGES.html" overwrite="true"/>
@@ -247,7 +250,7 @@
 
   <!-- Convert some markdown files to HTML, possibly renaming them to make
        more sense in the context of files in an application's directory. -->
-  <target name="html-files">
+  <target name="html-files" depends="graphics">
     <exec executable="pandoc">
       <arg value="--standalone"/>
       <arg value="-f"/>
@@ -267,7 +270,7 @@
     <!-- Inline images & css.  See changes-file for explanations. -->
     <exec executable="bash" dir="${dist.dir}" failonerror="true">
       <arg value="-c"/>
-      <arg line='"cat ABOUT.html | inliner > ABOUT-inlined.html"'/>
+      <arg line='"cat ABOUT.html | inliner -n > ABOUT-inlined.html"'/>
     </exec>
     <move file="${dist.dir}/ABOUT-inlined.html"
           tofile="${dist.dir}/ABOUT.html" overwrite="true"/>
@@ -284,7 +287,7 @@
     <!-- Inline images & css.  See changes-file for explanations. -->
     <exec executable="bash" dir="${dist.dir}" failonerror="true">
       <arg value="-c"/>
-      <arg line='"cat NEWS.html | inliner > NEWS-inlined.html"'/>
+      <arg line='"cat NEWS.html | inliner -n > NEWS-inlined.html"'/>
     </exec>
     <move file="${dist.dir}/NEWS-inlined.html"
           tofile="${dist.dir}/NEWS.html" overwrite="true"/>
