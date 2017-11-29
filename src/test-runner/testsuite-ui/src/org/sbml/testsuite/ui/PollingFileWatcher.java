@@ -127,7 +127,7 @@ public class PollingFileWatcher implements FileWatcher
      */
     public void addFile (File file)
     {
-        if (!files_.containsKey (file)) {
+        if (! files_.containsKey (file)) {
             long modifiedTime = file.exists() ? file.lastModified() : -1;
             files_.put (file, new Long(modifiedTime));
         }
@@ -209,6 +209,8 @@ public class PollingFileWatcher implements FileWatcher
 
     public void addListener(File file, FileListener fileListener)
     {
+        if (file == null || fileListener == null)
+            return;
         addFile(file);
         addListener(fileListener);
     }
@@ -216,6 +218,8 @@ public class PollingFileWatcher implements FileWatcher
 
     public void addListener(Path file, FileListener fileListener)
     {
+        if (file == null || fileListener == null)
+            return;
         addFile(file);
         addListener(fileListener);
     }
@@ -223,6 +227,8 @@ public class PollingFileWatcher implements FileWatcher
 
     public void addListener(String file, FileListener fileListener)
     {
+        if (file == null || fileListener == null)
+            return;
         addFile(file);
         addListener(fileListener);
     }
