@@ -18,6 +18,8 @@
 
 * This release of the SBML Test Runner works around a font scaling issue that manifests itself on Windows when using display scaling of 150%.
 
+* The default value of the "_Always check for new versions of test cases when application starts_" preference option is now "yes" instead of "no" for new users.  Users who have used the previous version of the Test Runner will not be affected; this only affects new users of the Test Runner.
+
 * The Test Runner features various other small fixes and improvements.
 
 * The SBML Test Suite home repository has been moved to [GitHub](https://github.com/sbmlteam/sbml-test-suite).  New development will take place in the branch called [&#8216;develop&#8217;](https://github.com/sbmlteam/sbml-test-suite/tree/develop).  Each time we make a new release, we will merge the changes into branch &#8216;master&#8217; and start the next new developments in &#8216;develop&#8217;.
