@@ -443,7 +443,7 @@
     <property name="swt.file" value="libs/swt-macos.jar"/>
   </target>
 
-  <target name="jar-common" depends="build, copy-cases-archive">
+  <target name="jar-common" depends="build, help-files, copy-cases-archive">
     <copy todir="${build.dest}" overwrite="true">
       <fileset dir="src" includes="org/sbml/testsuite/ui/resources/**" />
     </copy>
@@ -510,7 +510,7 @@
   </target>
 
   <target name="app-mac-normal-common"
-          depends="init, help-files, html-files, misc-files, changes-file">
+          depends="init, html-files, misc-files, changes-file">
     <delete dir="${dist.dir}/${app.name}.app" failonerror="false"/>
     <mkdir dir="${dist.dir}" />
     <copy file="${basedir}/src/data/application-icons/icon_256x256.png"
