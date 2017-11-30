@@ -23,12 +23,13 @@
     <create name="about-sts"         title="About the Test Runner"/>
     <create name="basic-operation"   title="Basic Usage"/>
     <create name="defining-wrappers" title="Defining Wrappers"/>
+    <create name="color-codes"       title="Color Codes for Results"/>
     <create name="filters"           title="Filters"/>
     <create name="menus"             title="The Menu Bar Menus"/>
     <create name="preferences"       title="The Preferences Panel"/>
   </target>
 
-  <property name="output.dir" value="../../src/org/sbml/testsuite/ui/resources/help" />
+  <property name="output.dir" value="../../build/classes/org/sbml/testsuite/ui/resources/help" />
 
   <macrodef name="create">
     <attribute name="name"/>
