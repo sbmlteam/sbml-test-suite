@@ -49,6 +49,7 @@
           </replacetokens>
         </filterchain>
       </concat>
+      <delete file="@{name}.html" />
     </sequential>
   </macrodef>
 
