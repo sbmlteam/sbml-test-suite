@@ -513,9 +513,6 @@
           depends="init, html-files, misc-files, changes-file">
     <delete dir="${dist.dir}/${app.name}.app" failonerror="false"/>
     <mkdir dir="${dist.dir}" />
-    <copy file="${basedir}/src/data/application-icons/icon_256x256.png"
-          tofile="${dist.dir}/sbmltestrunner-splashscreen.png"
-          overwrite="true"/>
     <copy file="${basedir}/src/data/application-icons/icon_1024x1024.png"
           tofile="${dist.dir}/sbmltestrunner-icon.png"
           overwrite="true"/>
@@ -537,8 +534,6 @@
       <arg value="${dist.dir}" />
       <arg value="-srcfiles" />
       <arg value="sbmltestrunner.jar" />
-      <arg value="-srcfiles" />
-      <arg value="sbmltestrunner-splashscreen.png" />
       <arg value="-outdir" />
       <arg value="${dist.dir}" />
       <arg value="-Bicon=${app.icon.icns}" />
