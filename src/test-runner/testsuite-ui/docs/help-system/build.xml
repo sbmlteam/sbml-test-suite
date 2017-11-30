@@ -35,6 +35,7 @@
     <attribute name="name"/>
     <attribute name="title"/>
     <sequential>
+      <echo message="Converting @{name}.txt to ${output.dir}/@{name}.html"/>
       <exec executable="multimarkdown">
         <arg value="@{name}.txt"/>
         <arg value="-o"/>
@@ -50,7 +51,7 @@
           </replacetokens>
         </filterchain>
       </concat>
-      <delete file="@{name}.html" />
+      <delete file="@{name}.html" quiet="true"/>
     </sequential>
   </macrodef>
 
