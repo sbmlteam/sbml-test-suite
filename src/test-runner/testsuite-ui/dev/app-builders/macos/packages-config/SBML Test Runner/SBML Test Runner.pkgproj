@@ -529,6 +529,12 @@
 				</dict>
 				<key>PAYLOAD_TYPE</key>
 				<integer>0</integer>
+				<key>SHOW_INVISIBLE</key>
+				<false/>
+				<key>SPLIT_FORKS</key>
+				<true/>
+				<key>TREAT_MISSING_FILES_AS_WARNING</key>
+				<false/>
 				<key>VERSION</key>
 				<integer>4</integer>
 			</dict>
@@ -541,13 +547,18 @@
 					<key>PATH_TYPE</key>
 					<integer>0</integer>
 				</dict>
+				<key>PREINSTALL_PATH</key>
+				<dict>
+					<key>PATH_TYPE</key>
+					<integer>0</integer>
+				</dict>
 				<key>RESOURCES</key>
 				<array/>
 			</dict>
 			<key>PACKAGE_SETTINGS</key>
 			<dict>
 				<key>AUTHENTICATION</key>
-				<false/>
+				<integer>0</integer>
 				<key>CONCLUSION_ACTION</key>
 				<integer>0</integer>
 				<key>FOLLOW_SYMBOLIC_LINKS</key>
@@ -560,6 +571,8 @@
 				<string>SBML Test Runner</string>
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
+				<key>PAYLOAD_SIZE</key>
+				<integer>-1</integer>
 				<key>RELOCATABLE</key>
 				<true/>
 				<key>USE_HFS+_COMPRESSION</key>
@@ -567,6 +580,8 @@
 				<key>VERSION</key>
 				<string>3.3.0</string>
 			</dict>
+			<key>TYPE</key>
+			<integer>0</integer>
 			<key>UUID</key>
 			<string>83AE36BA-8215-4916-A6FD-12BD6CB01788</string>
 		</dict>
@@ -604,7 +619,7 @@
 					<integer>1</integer>
 				</dict>
 				<key>CUSTOM</key>
-				<integer>1</integer>
+				<true/>
 				<key>SCALING</key>
 				<integer>2</integer>
 			</dict>
@@ -710,7 +725,7 @@
 						<dict/>
 					</dict>
 				</dict>
-				<key>INSTALLATION TYPE</key>
+				<key>MODE</key>
 				<integer>0</integer>
 			</dict>
 			<key>INSTALLATION_STEPS</key>
@@ -791,8 +806,6 @@
 			</dict>
 			<key>LICENSE</key>
 			<dict>
-				<key>KEYWORDS</key>
-				<dict/>
 				<key>LOCALIZATIONS</key>
 				<array>
 					<dict>
@@ -933,10 +946,6 @@
 					<true/>
 				</dict>
 			</array>
-			<key>POSTINSTALL_PATH</key>
-			<dict/>
-			<key>PREINSTALL_PATH</key>
-			<dict/>
 			<key>RESOURCES</key>
 			<array/>
 			<key>ROOT_VOLUME_ONLY</key>
@@ -1134,8 +1143,12 @@
 			</array>
 			<key>NAME</key>
 			<string>SBML Test Runner</string>
+			<key>PAYLOAD_ONLY</key>
+			<false/>
 			<key>REFERENCE_FOLDER_PATH</key>
 			<string>/Users/mhucka/projects/sysbio/sbml/software/sts/git/src/front-ends/standalone/testsuite-ui</string>
+			<key>TREAT_MISSING_PRESENTATION_DOCUMENTS_AS_WARNING</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>SHARED_GLOBAL_DATA</key>
