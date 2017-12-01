@@ -663,6 +663,7 @@
   <!-- Distributions                                                       -->
   <!--                                                                     -->
   <!-- Basic invocation: "ant dist"                                        -->
+  <!-- On Mac, this requires Packages (by WhiteBox).                       -->
   <!-- On Windows, this requires (1) NSIS and (2) NSIS Ant Task.           -->
   <!-- On Linux, this requires InstallBuilder.                             -->
   <!-- =================================================================== -->
