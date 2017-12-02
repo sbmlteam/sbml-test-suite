@@ -300,9 +300,23 @@
           todir="${dist.dir}" overwrite="true"/>
   </target>
 
-  <target name="help-files" depends="init">
+  <target name="help-files" depends="help-files-normal, help-files-win"/>
+  <target name="help-files-normal" depends="init" unless="isWindows">
     <ant antfile="build.xml" dir="${basedir}/docs/help-system"
          useNativeBaseDir="true" target="generate-help-files" />
+  </target>
+  <target name="help-files-win" if="isWindows"
+          depends="check-help-files" unless="help-files.present">
+    <echo>
+Note: the help files cannot be created on Windows.
+Please run "ant help-files" on Mac or Linux machine with
+a shared file system, and then re-run the last command.
+    </echo>
+    <fail unless="help-files.present" message="Help files missing -- stopping."/>
+  </target>
+  <target name="check-help-files">
+    <available file="${build.dir}/classes/org/sbml/testsuite/ui/resources/help/menus.html"
+               property="help-files.present"/>
   </target>
 
   <target name="clean">
@@ -347,13 +361,13 @@
   <target name="complain-cases-missing" depends="check-cases-exists"
           unless="casesArchiveExists">
     <echo>
-      Cannot continue because the test cases archive file
-      ../../../sbml-semantic-test-cases-YYYY-MM-DD.zip
-      is missing.  Please run "make semantic-cases-dist" in
-      the top-level directory, ../../../.
-      
-      To continue building set the environment variable: 
-      TESTRUNNER_IGNORE_ARCHIVE=true. 
+Cannot continue because the test cases archive file
+../../../sbml-semantic-test-cases-YYYY-MM-DD.zip
+is missing.  Please run "make semantic-cases-dist" in
+the top-level directory, ../../../.
+
+To continue building set the environment variable: 
+TESTRUNNER_IGNORE_ARCHIVE=true. 
     </echo>
     <fail unless="env.TESTRUNNER_IGNORE_ARCHIVE" message="File missing -- stopping."/>
   </target>
