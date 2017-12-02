@@ -100,6 +100,8 @@ public class EditListOfWrappers
             {
                 int index = wrapperList.getSelectionIndex();
                 commitPrevious();
+                if (index < 0)
+                    return;
                 // FIXME use event.item
                 String wrapperName = wrapperList.getItem(index);
                 wrapperForm.loadFrom(wrapperList.getWrapper(wrapperName));
@@ -142,8 +144,9 @@ public class EditListOfWrappers
             public void widgetSelected(SelectionEvent event)
             {
                 int index = wrapperList.getSelectionIndex();
+                if (index < 0)
+                    return;
                 String name = wrapperList.getItem(index);
-                
                 if (name.equals(WrapperList.noWrapperName()))
                 {
                     Tell.inform(shell, "This special pseudo-wrapper is meant "

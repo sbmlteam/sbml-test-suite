@@ -175,6 +175,8 @@ public class HelpViewer
             public void handleEvent(Event e)
             {
                 int index = list.getSelectionIndex();
+                if (index < 0)
+                    return;
                 browser.setUrl(urls[index]);
             }
         });
