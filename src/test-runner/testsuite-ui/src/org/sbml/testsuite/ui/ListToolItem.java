@@ -85,6 +85,13 @@ public class ListToolItem
                     repaintButton(e);
                 }
             });
+        toolbar.addListener(SWT.MouseEnter, new Listener() {
+                // This gets called repeatedly when the panel is being resized.
+                public void handleEvent(Event e)
+                {
+                    repaintButton(e);
+                }
+            });
         toolbar.addListener(SWT.MouseDown, new Listener() {
                 public void handleEvent(Event e)
                 {
