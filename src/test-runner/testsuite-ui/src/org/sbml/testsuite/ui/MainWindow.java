@@ -635,13 +635,10 @@ public class MainWindow
 
         final int[] count = new int[1];
         count[0] = 0;
-        BusyIndicator.showWhile(getDisplay(), new Runnable() {
+        BusyBar busyBar = new BusyBar(shell, "Updating results ...");
+        busyBar.showWhile(getDisplay(), new Runnable() {
             public void run()
             {
-                // The .update() is to get the busy cursor to show up.
-                // Otherwise, on the mac, it doesn't get shown.
-                getDisplay().update();
-
                 if (wrapper != null)
                 {
                     for (final TestCase test : model.getSuite().getSortedCases())
@@ -664,11 +661,11 @@ public class MainWindow
                         if (passFilters(test, ResultType.Unknown))
                             createCaseItem(test.getId(), ResultType.Unknown);
                 }
+                tree.update();
             }
         });
-
-        tree.update();
         progressSection.setMaxCount(tree.getItemCount());
+        busyBar.dispose();
         return count[0];
     }
 
@@ -2182,16 +2179,13 @@ public class MainWindow
         dialog.setTestSuiteSettings(model.getSettings());
         File origCasesDir = new File(model.getSettings().getCasesDir());
 
-        TestSuiteSettings result = dialog.open();
+        final TestSuiteSettings result = dialog.open();
 
-        File newCasesDir = new File(dialog.getCasesDir());
+        final File newCasesDir = new File(dialog.getCasesDir());
         if (result != null &&
             (!origCasesDir.equals(newCasesDir)
              || !currentWrapper.equals(result.getLastWrapper())))
         {
-            // We got a result (=> user didn't cancel out) and either the
-            // new test suite directory or the wrapper is different.
-
             model.setTestSuiteDir(newCasesDir);
             String lastWrapperName = result.getLastWrapperName();
             model.setSettings(result);
@@ -2204,17 +2198,18 @@ public class MainWindow
             TestSuite suite = model.getSuite();
             if (suite.getNumCases() == 0)
                 display.asyncExec(new Runnable() {
-                    @Override
-                    public void run()
-                    {
-                        Tell.warn(shell, "Cannot find any test "
-                                  + "cases in this directory.");
-                    }
-                });
+                        @Override
+                        public void run()
+                        {
+                            Tell.warn(shell, "Cannot find any test "
+                                      + "cases in this directory.");
+                        }
+                    });
 
             resetAll();
             updateWrapperList();
         }
+        // This is mutually exclusive with the case above.
         if (result == null && model.getLastWrapper() == null)
         {
             model.getSettings().setLastWrapper(WrapperList.noWrapperName());
@@ -3504,12 +3499,16 @@ public class MainWindow
         File helpVersion = new File(helpDir, "VERSION-" + Program.getVersion());
 
         if (!helpDir.exists() || !helpDir.isDirectory() || !helpVersion.exists())
-            BusyIndicator.showWhile(getDisplay(), new Runnable() {
+        {
+            BusyBar busyBar = new BusyBar(shell, "Installing latest help files ...");
+            busyBar.showWhile(getDisplay(), new Runnable() {
                 public void run()
                 {
                     unpackHelp(helpDir);
                 }
             });
+            busyBar.dispose();
+        }
 
         if (!helpDir.exists() || !helpDir.isDirectory())
         {
