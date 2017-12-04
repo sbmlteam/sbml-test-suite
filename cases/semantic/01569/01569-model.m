@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Two fast reactions whose rates depend on initial assignments.
 componentTags:   CSymbolTime, Compartment, InitialAssignment, Parameter, Reaction, Species
-testTags:        Amount, FastReaction, InitialValueReassigned
+testTags:        Amount, FastReaction, InitialValueReassigned, MultipleFastReactions
 testType:        TimeCourse
 levels:          2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:     Analytic

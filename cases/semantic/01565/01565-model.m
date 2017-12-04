@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Uncommon MathML in kinetic laws from fast reactions.
 componentTags:   Compartment, Reaction, Species
-testTags:        Amount, FastReaction, UncommonMathML
+testTags:        Amount, FastReaction, MultipleFastReactions, UncommonMathML
 testType:        TimeCourse
 levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1
 generatedBy:     Analytic
