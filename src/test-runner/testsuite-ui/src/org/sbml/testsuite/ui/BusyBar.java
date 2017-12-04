@@ -105,7 +105,7 @@ public class BusyBar
     {
         int margin = 12;
         int totalWidth = 400;
-        int totalHeight = 140 + (!UIUtils.isMacOSX() ? margin/2 : 0);
+        int totalHeight = 110 + (!UIUtils.isMacOSX() ? margin/2 : 0);
         int buttonWidth = 80;
 
         shell = new Shell(getParent(), SWT.CLOSE | SWT.TITLE);
@@ -263,6 +263,13 @@ public class BusyBar
                         thisShell.close();
                 }
             });
+    }
+
+
+    public void dispose()
+    {
+        if (shell != null && !shell.isDisposed())
+            shell.dispose();
     }
 
 
