@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        An event triggered at t0 by a delayed value in its trigger.
 componentTags:   AssignmentRule, CSymbolDelay, CSymbolTime, EventNoDelay, Parameter
-testTags:        EventT0Firing, InitialValueReassigned, NonConstantParameter
+testTags:        DelayInTrigger, EventT0Firing, InitialValueReassigned, NonConstantParameter
 testType:        TimeCourse
 levels:          3.1, 3.2
 generatedBy:     Analytic
