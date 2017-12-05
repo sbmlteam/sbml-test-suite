@@ -635,7 +635,7 @@ public class MainWindow
 
         final int[] count = new int[1];
         count[0] = 0;
-        BusyBar busyBar = new BusyBar(shell, "Updating results ...");
+        BusyBar busyBar = new BusyBar(shell, "Refreshing results list ...");
         busyBar.showWhile(getDisplay(), new Runnable() {
             public void run()
             {
