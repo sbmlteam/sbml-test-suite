@@ -17,7 +17,7 @@ The model contains:
 There is one rule:
 
 [{width:30em,margin: 1em auto}|  *Type*  |  *Variable*  |  *Formula*  |
-| Algebraic | $0$ | $avogadro - P1$ |]
+| Algebraic | $0$ | $avogadro / 1e23 - P1$ |]
 
 The initial conditions are as follows:
 
