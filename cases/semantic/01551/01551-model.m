@@ -18,7 +18,7 @@ The model contains:
 There is one reaction:
 
 [{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |  *Fast*  |
-| J0: S1 -> S2 | $getneg(S2)$ | fast |]
+| J0: S1 -> S2 | $1 * getneg(S2)$ | fast |]
 
 The model contains the following function definition:
 

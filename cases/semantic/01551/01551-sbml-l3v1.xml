@@ -35,8 +35,12 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <ci> getneg </ci>
-              <ci> S2 </ci>
+              <times/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <ci> getneg </ci>
+                <ci> S2 </ci>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
