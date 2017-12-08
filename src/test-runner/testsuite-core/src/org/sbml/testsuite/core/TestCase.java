@@ -414,6 +414,18 @@ public class TestCase
 
 
     /**
+     * @param reread whether to re-read the settings file.
+     * @return the settings.
+     */
+    public TestCaseSettings getSettings(boolean reread)
+    {
+        if (reread)
+            initializeFromDirectory(caseDirectory);
+        return settings;
+    }
+
+
+    /**
      * @return text for the status, containing only component and test tags
      */
     public String getStatusText()
