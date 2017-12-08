@@ -344,7 +344,7 @@ a shared file system, and then re-run the last command.
     <echo message="${ant.file}"/>
     <javac debug="true" debuglevel="${debuglevel}" destdir="${build.dest}"
            includeantruntime="no">
-      <src path="src" />
+      <src path="src/org" />
       <classpath refid="testsuite-ui.classpath" />
       <compilerarg value="-Xlint:unchecked"/>
     </javac>
