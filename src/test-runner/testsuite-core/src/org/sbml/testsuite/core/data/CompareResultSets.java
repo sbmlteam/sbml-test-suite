@@ -148,9 +148,14 @@ public class CompareResultSets
         Comparison failure = new Comparison(false, null);
 
         if (expected == null || delivered == null) return failure;
-        if (row > expected.getNumRows() || row > delivered.getNumRows()) return failure;
+        if (row > expected.getNumRows() || row > delivered.getNumRows())
+            return failure;
+        if (delivered.getNumRows() < expected.getNumRows())
+            return failure;
 
-        int numRows = Math.min(expected.getNumRows(), delivered.getNumRows());
+        // I no longer remember why we would limit the rows like this.
+        // int numRows = Math.min(expected.getNumRows(), delivered.getNumRows());
+        int numRows = expected.getNumRows();
         int numCols = Math.min(expected.getNumColumns(), delivered.getNumColumns());
 
         // Edge case, where delivered results array lacks a column for time
