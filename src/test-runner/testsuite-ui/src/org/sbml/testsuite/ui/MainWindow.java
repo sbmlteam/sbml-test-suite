@@ -3741,6 +3741,11 @@ public class MainWindow
                 File file = wrapper.getResultFile(test);
                 if (file != null)
                     fileWatcher.addListener(file, new ResultsFileListener(treeItem));
+                // Also watch the test settings file, in case they're playing
+                // with tolerances.  (Looking at you, Chris Myers :-).)
+                File settingsFile = test.getSettingFile();
+                if (settingsFile.exists())
+                    fileWatcher.addListener(settingsFile, new ResultsFileListener(treeItem));
             }
         }
 
