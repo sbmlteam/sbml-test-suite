@@ -409,6 +409,7 @@ public class MainWindow
     private Color                     foregroundColor;
     private Color                     backgroundColor;
     private Color                     bannerBackgroundColor;
+    private Color                     errorColor;
     private final Display             display;
     private Thread                    uiThread;
 
@@ -430,6 +431,7 @@ public class MainWindow
         foregroundColor = UIUtils.createColor(60, 60, 60);
         backgroundColor = SWTResourceManager.getColor(SWT.COLOR_WHITE);
         bannerBackgroundColor = UIUtils.createColor(215, 150, 50);
+        errorColor = UIUtils.createColor(215, 50, 50);
         if (UIUtils.isWindows())
             chartTitleFont = UIUtils.createResizedFont("SansSerif", SWT.ITALIC, 0);
         else
@@ -468,6 +470,42 @@ public class MainWindow
         {
             e.printStackTrace();
         }
+    }
+
+
+    private void addMessageNoChart(Composite composite, String title)
+    {
+        if (title == null || title.length() == 0)
+            return;
+
+        Chart chart = new Chart(composite, SWT.NONE);
+        chart.setBackground(backgroundColor);
+
+        GridData gd_chart = new GridData();
+        gd_chart.horizontalAlignment = GridData.FILL;
+        gd_chart.verticalAlignment = GridData.FILL;
+        gd_chart.grabExcessHorizontalSpace = true;
+        gd_chart.grabExcessVerticalSpace = true;
+        gd_chart.horizontalIndent = 5;
+
+        chart.setLayoutData(gd_chart);
+
+        // The extra spaces are to avoid truncation of the last character
+        // on the right, which seems to happen (noticeably on Windows)
+        // because the font is italic and (evidently) something in SWT or
+        // SWT Charts isn't computing the label width properly.
+
+        chart.getTitle().setText(" " + title + " ");
+        chart.getTitle().setFont(chartTitleFont);
+        chart.getTitle().setForeground(errorColor);
+
+        chart.getAxisSet().getXAxis(0).getTitle().setVisible(false);
+        chart.getAxisSet().getXAxis(0).getTick().setForeground(foregroundColor);
+        chart.getAxisSet().getXAxis(0).getTick().setFont(chartTickFont);
+
+        chart.getAxisSet().getYAxis(0).getTitle().setVisible(false);
+        chart.getAxisSet().getYAxis(0).getTick().setForeground(foregroundColor);
+        chart.getAxisSet().getYAxis(0).getTick().setFont(chartTickFont);
     }
 
 
@@ -3734,6 +3772,9 @@ public class MainWindow
                     if (resultSet != null && ! resultSet.hasInfinityOrNaN())
                         addChartForData(cmpDifferences, isTimeSeries,
                                         resultSet, "Difference plot");
+                    if (resultSet == null)
+                        addMessageNoChart(cmpDifferences,
+                                          "Unable to compare results");
                 }
             }
 
