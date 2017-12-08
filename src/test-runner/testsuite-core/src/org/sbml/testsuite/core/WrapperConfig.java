@@ -740,7 +740,7 @@ public class WrapperConfig
 
         ResultSet expected = test.getExpectedResult();
         CompareResultSets crs = new CompareResultSets(expected, delivered);
-        Comparison outcome = crs.compare(test.getSettings());
+        Comparison outcome = crs.compare(test.getSettings(true));
         if (outcome.isMatch())
             return ResultType.Match;
         else
