@@ -214,7 +214,7 @@ Changes in this release:
 
 * The Test Runner now allows the combination of filters that include, simultaneously, tags, problematic test cases, and only supported test cases.  Thanks to Chris Myers for raising the issue and testing the implementation.
 
-* The Test Runner now optionally monitors for file changes in the currently-displayed test case.  If the application's output `.csv` file is changed outside the runner (e.g., by manually editing the file), it should now notice the changes and update the display.  Note that for architectural reasons, only the case currently being displayed is so monitored.  A setting in the preferences dialog allows this feature to be turned on and off.
+* The Test Runner now optionally monitors for file changes in the currently-displayed test case.  If the application's output `.csv` file is changed outside the runner (e.g., by manually editing the file), it should now notice the changes and update the display.  In addition, the Test Runner also monitors the test case settings file, to detect changes that developers may make while experimenting with test case defnitions.  Note that for architectural reasons, only the case currently being displayed is so monitored.  A setting in the preferences dialog allows this feature to be turned on and off.
 
 * This release of the SBML Test Runner works around a crashing bug caused by an SWT-GTK issue that manifests itself on Ubuntu 16.
 
