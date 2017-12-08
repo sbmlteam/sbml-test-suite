@@ -1715,43 +1715,18 @@ public class MainWindow
             }
         });
 
-        ToolItem sep1 = new ToolItem(toolBar, SWT.NONE);
-        sep1.setText(" ");
-        sep1.setEnabled(false);
+        addSeparator(toolBar);
 
-        if (UIUtils.isMacOSX())
-            lvSelectionMenuButton = new ListToolItem(toolBar, HIGHEST_LV_TEXT, -3);
-        else
-        {
-            lvSelectionMenuButton = new ToolItem(toolBar, SWT.DROP_DOWN);
-            lvSelectionMenuButton.setText(HIGHEST_LV_TEXT);
-        }
+        Font toolbarFont = UIUtils.createResizedFont("SansSerif", SWT.BOLD, 2);
+        toolBar.setFont(toolbarFont);
+
+        lvSelectionMenuButton = new ToolItem(toolBar, SWT.DROP_DOWN);
+        lvSelectionMenuButton.setText(HIGHEST_LV_TEXT);
         lvSelectionMenuButton.setToolTipText("Set the SBML Level and Version");
         lvSelectionMenuListener = new LVSelectionMenuListener(lvSelectionMenuButton);
         lvSelectionMenuButton.addSelectionListener(lvSelectionMenuListener);
-        
-        if (! UIUtils.isMacOSX())
-        {
-            ToolItem nonMacPadding = new ToolItem(toolBar, SWT.NONE);
-            nonMacPadding.setText(" ");
-            nonMacPadding.setEnabled(false);
-        }
-        
-        ToolItem sep2 = new ToolItem(toolBar, SWT.SEPARATOR);
-        sep2.setWidth(SWT.SEPARATOR_FILL);
-        
-        if (! UIUtils.isMacOSX())
-        {
-            ToolItem nonMacPadding = new ToolItem(toolBar, SWT.NONE);
-            nonMacPadding.setText(" ");
-            nonMacPadding.setEnabled(false);
-        }
-        else
-        {
-            // Without this, the centering looks off on the Mac.
-            ToolItem sepMiddle = new ToolItem(toolBar, SWT.SEPARATOR);
-            sepMiddle.setWidth(1);
-        }
+
+        addSeparator(toolBar);
 
         ToolItem buttonSelectAll = new ToolItem(toolBar, SWT.NONE);
         buttonSelectAll.setImage(UIUtils.getImageResource("select.png"));
@@ -1854,38 +1829,16 @@ public class MainWindow
             }
         });
 
-        if (! UIUtils.isMacOSX())
-        {
-            ToolItem nonMacPadding = new ToolItem(toolBar, SWT.NONE);
-            nonMacPadding.setText(" ");
-            nonMacPadding.setEnabled(false);
-        }
-        
-        ToolItem sep3 = new ToolItem(toolBar, SWT.SEPARATOR);
-        sep3.setWidth(SWT.SEPARATOR_FILL);
-        
-        if (! UIUtils.isMacOSX())
-        {
-            ToolItem nonMacPadding = new ToolItem(toolBar, SWT.NONE);
-            nonMacPadding.setText(" ");
-            nonMacPadding.setEnabled(false);
-        }
-        
-        if (UIUtils.isMacOSX())
-            wrapperMenuButton = new ListToolItem(toolBar, "(no wrapper chosen)", -3);
-        else
-        {
-            wrapperMenuButton = new ToolItem(toolBar, SWT.DROP_DOWN);
-            wrapperMenuButton.setText("(no wrapper chosen)");
-        }
+        addSeparator(toolBar);
+
+        wrapperMenuButton = new ToolItem(toolBar, SWT.DROP_DOWN);
+        wrapperMenuButton.setText("(no wrapper chosen)");
         wrapperMenuButton.setToolTipText("Switch the wrapper used to run the application");
         wrapperMenuListener = new WrapperMenuListener(wrapperMenuButton);
         wrapperMenuButton.addSelectionListener(wrapperMenuListener);
-        
-        ToolItem sep4 = new ToolItem(toolBar, SWT.NONE);
-        sep4.setText(" ");
-        sep4.setEnabled(false);
-        
+
+        addSeparator(toolBar);
+
         ToolItem buttonSyncFiles = new ToolItem(toolBar, SWT.NONE);
         buttonSyncFiles.setImage(UIUtils.getImageResource("reload.png"));
         buttonSyncFiles.setToolTipText("Refresh all test results from output files");
@@ -2052,7 +2005,23 @@ public class MainWindow
         tree.setMenu(treeContextMenu);
     }
 
-    
+
+    private void addSeparator(ToolBar toolBar)
+    {
+        if (UIUtils.isMacOSX())
+        {
+            ToolItem sep = new ToolItem(toolBar, SWT.SEPARATOR);
+            sep.setWidth(SWT.SEPARATOR_FILL);
+        }
+        else
+        {
+            ToolItem sep = new ToolItem(toolBar, SWT.NONE);
+            sep.setText(" ");
+            sep.setEnabled(false);
+        }
+    }
+
+
     private TreeItem getCaseFromUser()
     {
         String num = Tell.simpleQuery(shell, "Case number:");
