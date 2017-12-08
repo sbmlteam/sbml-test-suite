@@ -1261,6 +1261,9 @@ public class MainWindow
                     public void widgetSelected(SelectionEvent arg0)
                     {
                         arg0.doit = quitWithConfirmation();
+                        // On non-Mac platforms, have to do this ourselves.
+                        if (arg0.doit)
+                            shell.close();
                     }
                 });
         }
