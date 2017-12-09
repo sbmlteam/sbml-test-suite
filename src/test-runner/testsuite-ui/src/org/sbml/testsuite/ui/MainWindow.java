@@ -1217,7 +1217,7 @@ public class MainWindow
         menuFile.setMenu(menuFileMenuItems);
 
         menuItemShowMap = new MenuItem(menuFileMenuItems, SWT.NONE);
-        menuItemShowMap.setText("Show Results Map\tCtrl+M");
+        menuItemShowMap.setText("Show Results &Map\tCtrl+M");
         menuItemShowMap.setAccelerator(SWT.MOD1 + 'M');
         menuItemShowMap.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1235,7 +1235,7 @@ public class MainWindow
         new MenuItem(menuFileMenuItems, SWT.SEPARATOR);
 
         menuItemRefreshResults = new MenuItem(menuFileMenuItems, SWT.NONE);
-        menuItemRefreshResults.setText("Refresh All Test Results\tCtrl+G");
+        menuItemRefreshResults.setText("&Refresh All Test Results\tCtrl+G");
         menuItemRefreshResults.setAccelerator(SWT.MOD1 + 'G');
         menuItemRefreshResults.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1248,7 +1248,7 @@ public class MainWindow
         new MenuItem(menuFileMenuItems, SWT.SEPARATOR);
 
         menuItemOpen = new MenuItem(menuFileMenuItems, SWT.NONE);
-        menuItemOpen.setText("Open Cases Archive\tCtrl+O");
+        menuItemOpen.setText("&Open Cases Archive\tCtrl+O");
         menuItemOpen.setAccelerator(SWT.MOD1 + 'O');
         menuItemOpen.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1263,7 +1263,7 @@ public class MainWindow
         MenuItem menuItemPrefs = new MenuItem(menuFileMenuItems, SWT.NONE);
         if (UIUtils.isMacOSX())
         {
-            menuItemPrefs.setText("Edit Wrappers\tCtrl+,");
+            menuItemPrefs.setText("Edit &Wrappers\tCtrl+,");
             menuItemPrefs.setAccelerator(SWT.MOD1 + ',');
         }
         else
@@ -1286,7 +1286,7 @@ public class MainWindow
             MenuItem menuItemQuit = new MenuItem(menuFileMenuItems, SWT.NONE);
             if (UIUtils.isWindows())
             {
-                menuItemQuit.setText("Exit\tCtrl+X");
+                menuItemQuit.setText("E&xit\tCtrl+X");
                 menuItemQuit.setAccelerator(SWT.MOD1 + 'X');
             }
             else
@@ -1313,7 +1313,7 @@ public class MainWindow
         menuItemEdit.setMenu(menu_edit);
 
         menuItemSelectAll = new MenuItem(menu_edit, SWT.NONE);
-        menuItemSelectAll.setText("Select All\tCtrl+A");
+        menuItemSelectAll.setText("Select &All\tCtrl+A");
         menuItemSelectAll.setAccelerator(SWT.MOD1 | 'A');
         menuItemSelectAll.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1324,7 +1324,7 @@ public class MainWindow
         });
 
         menuItemDeselectAll = new MenuItem(menu_edit, SWT.NONE);
-        menuItemDeselectAll.setText("Deselect All\tCtrl+Shift+A");
+        menuItemDeselectAll.setText("&Deselect All\tCtrl+Shift+A");
         menuItemDeselectAll.setAccelerator(SWT.MOD1 + SWT.SHIFT + 'A');
         menuItemDeselectAll.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1337,7 +1337,7 @@ public class MainWindow
         new MenuItem(menu_edit, SWT.SEPARATOR);
 
         menuItemJumpToCase = new MenuItem(menu_edit, SWT.NONE);
-        menuItemJumpToCase.setText("Jump to Case\tCtrl+J");
+        menuItemJumpToCase.setText("&Jump to Case\tCtrl+J");
         menuItemJumpToCase.setAccelerator(SWT.MOD1 + 'J');
         menuItemJumpToCase.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1359,7 +1359,7 @@ public class MainWindow
         menuItemNewSubmenu_1.setMenu(menu_2);
 
         MenuItem menuItemFilter = new MenuItem(menu_2, SWT.NONE);
-        menuItemFilter.setText("Filter Visible Test Cases\tCtrl+T");
+        menuItemFilter.setText("Filter Visible &Test Cases\tCtrl+T");
         menuItemFilter.setAccelerator(SWT.MOD1 + 'T');
         menuItemFilter.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1378,7 +1378,7 @@ public class MainWindow
         });
 
         MenuItem menuItemClearFilters = new MenuItem(menu_2, SWT.NONE);
-        menuItemClearFilters.setText("Clear All Filters\tCtrl+Shift+T");
+        menuItemClearFilters.setText("&Clear All Filters\tCtrl+Shift+T");
         menuItemClearFilters.setAccelerator(SWT.MOD1 + SWT.SHIFT + 'T');
         menuItemClearFilters.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1396,7 +1396,7 @@ public class MainWindow
         new MenuItem(menu_2, SWT.SEPARATOR);
 
         menuItemShowOnlyProblematic = new MenuItem(menu_2, SWT.CHECK);
-        menuItemShowOnlyProblematic.setText("Show Only Problematic Entries");
+        menuItemShowOnlyProblematic.setText("Show Only &Problematic Entries");
         menuItemShowOnlyProblematic.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1417,7 +1417,7 @@ public class MainWindow
         });
 
         menuItemShowOnlyReally = new MenuItem(menu_2, SWT.CHECK);
-        menuItemShowOnlyReally.setText("Show Only Really Problematic Entries");
+        menuItemShowOnlyReally.setText("Show Only &Really Problematic Entries");
         menuItemShowOnlyReally.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1440,7 +1440,7 @@ public class MainWindow
         new MenuItem(menu_2, SWT.SEPARATOR);
 
         menuItemShowOnlySupported = new MenuItem(menu_2, SWT.CHECK);
-        menuItemShowOnlySupported.setText("Show Only Supported Tests");
+        menuItemShowOnlySupported.setText("Show Only &Supported Tests");
         menuItemShowOnlySupported.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1482,7 +1482,7 @@ public class MainWindow
         */
 
         menuItemRunSelected = new MenuItem(menu_3, SWT.NONE);
-        menuItemRunSelected.setText("Run\tCtrl+R");
+        menuItemRunSelected.setText("&Run\tCtrl+R");
         menuItemRunSelected.setAccelerator(SWT.MOD1 + 'R');
         menuItemRunSelected.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1493,7 +1493,7 @@ public class MainWindow
         });
 
         menuItemRunByFilter = new MenuItem(menu_3, SWT.NONE);
-        menuItemRunByFilter.setText("Run By Tag and/or Number\tCtrl+Shift+R");
+        menuItemRunByFilter.setText("Run By &Tag and/or Number\tCtrl+Shift+R");
         menuItemRunByFilter.setAccelerator(SWT.MOD1 + SWT.SHIFT + 'R');
         menuItemRunByFilter.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1511,7 +1511,7 @@ public class MainWindow
         new MenuItem(menu_3, SWT.SEPARATOR);
 
         menuItemRunAllTests = new MenuItem(menu_3, SWT.NONE);
-        menuItemRunAllTests.setText("Run All Tests");
+        menuItemRunAllTests.setText("Run &All Tests");
         menuItemRunAllTests.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1522,7 +1522,7 @@ public class MainWindow
         });
 
         menuItemRunAllSupported = new MenuItem(menu_3, SWT.NONE);
-        menuItemRunAllSupported.setText("Run All Supported Tests");
+        menuItemRunAllSupported.setText("Run All &Supported Tests");
         menuItemRunAllSupported.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1533,7 +1533,7 @@ public class MainWindow
         });
 
         menuItemRunAllNew = new MenuItem(menu_3, SWT.NONE);
-        menuItemRunAllNew.setText("Run All New Tests");
+        menuItemRunAllNew.setText("Run All &New Tests");
         menuItemRunAllNew.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1546,7 +1546,7 @@ public class MainWindow
         new MenuItem(menu_3, SWT.SEPARATOR);
 
         menuItemRefreshSelectedResults = new MenuItem(menu_3, SWT.NONE);
-        menuItemRefreshSelectedResults.setText("Refresh Selected Result(s)");
+        menuItemRefreshSelectedResults.setText("R&efresh Selected Result(s)");
         menuItemRefreshSelectedResults.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent arg0)
@@ -1556,7 +1556,7 @@ public class MainWindow
         });
 
         menuItemDeleteSelectedResults = new MenuItem(menu_3, SWT.NONE);
-        menuItemDeleteSelectedResults.setText("Delete Selected Result(s)");
+        menuItemDeleteSelectedResults.setText("&Delete Selected Result(s)");
         menuItemDeleteSelectedResults.setAccelerator(SWT.MOD1 + SWT.BS);
         menuItemDeleteSelectedResults.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1568,7 +1568,7 @@ public class MainWindow
 
         new MenuItem(menu_3, SWT.SEPARATOR);
         menuItemViewProcessOutput = new MenuItem(menu_3, SWT.NONE);
-        menuItemViewProcessOutput.setText("View Process Output\tCtrl+I");
+        menuItemViewProcessOutput.setText("&View Process Output\tCtrl+I");
         menuItemViewProcessOutput.setAccelerator(SWT.MOD1 + 'I');
         menuItemViewProcessOutput.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1606,7 +1606,7 @@ public class MainWindow
             });
 
         MenuItem menuItemUpdate = new MenuItem(menu_4, SWT.NONE);
-        menuItemUpdate.setText("Check for updates...");
+        menuItemUpdate.setText("Check for &updates...");
         menuItemUpdate.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent arg0)
@@ -1621,7 +1621,7 @@ public class MainWindow
             });
 
         MenuItem menuItemRestore = new MenuItem(menu_4, SWT.NONE);
-        menuItemRestore.setText("Restore test cases");
+        menuItemRestore.setText("&Restore test cases");
         menuItemRestore.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent arg0)
@@ -1638,7 +1638,7 @@ public class MainWindow
         if (!UIUtils.isMacOSX())
         {
             MenuItem menuItemAbout = new MenuItem(menu_4, SWT.NONE);
-            menuItemAbout.setText("About SBML Test Runner");
+            menuItemAbout.setText("&About SBML Test Runner");
             menuItemAbout.addSelectionListener(new SelectionAdapter() {
                     @Override
                     public void widgetSelected(SelectionEvent arg0)
