@@ -1717,7 +1717,11 @@ public class MainWindow
 
         addSeparator(toolBar);
 
-        Font toolbarFont = UIUtils.createResizedFont("SansSerif", SWT.BOLD, 2);
+        Font toolbarFont;
+        if (UIUtils.isWindows())
+            toolbarFont = UIUtils.createResizedFont("SansSerif", SWT.BOLD, 1);
+        else
+            toolbarFont = UIUtils.createResizedFont("SansSerif", SWT.BOLD, 2);
         toolBar.setFont(toolbarFont);
 
         lvSelectionMenuButton = new ToolItem(toolBar, SWT.DROP_DOWN);
