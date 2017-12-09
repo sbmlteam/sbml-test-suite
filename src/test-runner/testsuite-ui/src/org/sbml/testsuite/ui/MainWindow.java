@@ -1286,7 +1286,7 @@ public class MainWindow
             MenuItem menuItemQuit = new MenuItem(menuFileMenuItems, SWT.NONE);
             if (UIUtils.isWindows())
             {
-                menuItemQuit.setText("E&xit");
+                menuItemQuit.setText("Exit\tCtrl+X");
                 menuItemQuit.setAccelerator(SWT.MOD1 + 'X');
             }
             else
