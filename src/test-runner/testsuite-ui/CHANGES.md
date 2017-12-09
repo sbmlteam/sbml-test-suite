@@ -20,7 +20,7 @@
 
 * The default value of the "_Always check for new versions of test cases when application starts_" preference option is now "yes" instead of "no" for new users.  Users who have used the previous version of the Test Runner will not be affected; this only affects new users of the Test Runner.
 
-* The File ➜ Exit menu item should now work on Windows.  Thanks to Thomas Hamm for reporting that it did nothing before.
+* The File &#8594; Exit menu item should now work on Windows.  Thanks to Thomas Hamm for reporting that it did nothing before.  Missing keyboard shortcuts on Windows are now available in the lastest version.
 
 * The Test Runner features various other small fixes and improvements.
 

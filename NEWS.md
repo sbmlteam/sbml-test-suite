@@ -1,7 +1,7 @@
 NEWS &ndash; history of changes to the SBML Test Suite
 ================================================
 
-Version 3.3.0 (2017-11-30)
+Version 3.3.0 (2017-12-12)
 --------------------------
 
 _Important_: **do not run** semantic test cases 1199-1204 on systems that use [libSBML](http://sbml.org/Software/libSBML) 5.11.2 or earlier.  Test cases 1199-1204 test the use of nested MathML `<piecewise>` constructs, which unfortunately revealed a bug in [libSBML](http://sbml.org/Software/libSBML) versions prior to 5.11.4.  Make sure to use [libSBML](http://sbml.org/Software/libSBML) 5.11.4 or later.  LibSBML versions prior to 5.15.0 will also incorrectly report a handful of test files as being invalid SBML, but will actualy parse the files correctly; software developers should be aware of this if using libSBML versions prior to 5.15.0.
@@ -221,6 +221,8 @@ Changes in this release:
 * This release of the SBML Test Runner works around a font scaling issue that manifests itself on Windows when using display scaling of 150%.
 
 * The default value of the "_Always check for new versions of test cases when application starts_" preference option is now "yes" instead of "no".  Users who have used the previous version of the Test Runner will not be affected; this only affects new users of the Test Runner.
+
+* The File &#8594; Exit menu item should now work on Windows.  Thanks to Thomas Hamm for reporting that it did nothing before.  Missing keyboard shortcuts on Windows are now available in the lastest version.
 
 * The Test Runner features various other small fixes and improvements.
 
