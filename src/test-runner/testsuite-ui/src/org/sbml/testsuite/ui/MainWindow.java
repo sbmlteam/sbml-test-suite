@@ -3096,8 +3096,11 @@ public class MainWindow
 
         final WrapperConfig wrapper = model.getLastWrapper();
         if (wrapper == null || !wrapper.canRun())
-            informUserBadWrapper(wrapper);
-
+        {
+            boolean tryAgain = informUserBadWrapper();
+            if (! tryAgain)
+                return;
+        }
         if (selection == null || selection.length == 0)
         {
             Tell.inform(shell, "There is nothing to run!");
@@ -3236,13 +3239,18 @@ public class MainWindow
     {
         WrapperConfig wrapper = model.getLastWrapper();
         if (wrapper == null || !wrapper.canRun())
-            informUserBadWrapper();
-        else if (wrapperIsViewOnly(wrapper))
+        {
+            boolean tryAgain = informUserBadWrapper();
+            if (! tryAgain)
+                return;
+        }
+        if (wrapperIsViewOnly(wrapper))
         {
             progressSection.setStatus(RunStatus.NotRunnable);
             return;
         }
-        else if (!running)      // We're not running currently.
+
+        if (! running)                   // We're not running currently.
         {
             if (tree.getSelectionCount() > 0)
             {
@@ -3252,7 +3260,7 @@ public class MainWindow
             else
                 runAllTests();
         }
-        else                    // Pause or fresh start
+        else                            // Pause or fresh start
         {
             markAsRunning(false);
             TreeItem item = treeItemForCase(lastCaseWithCachedValue());
@@ -3880,18 +3888,18 @@ public class MainWindow
     }
 
 
-    private void informUserBadWrapper()
+    private boolean informUserBadWrapper()
     {
-        informUserBadWrapper(model.getLastWrapper());
+        return informUserBadWrapper(model.getLastWrapper());
     }
 
 
-    private void informUserBadWrapper(WrapperConfig wrapper)
+    private boolean informUserBadWrapper(WrapperConfig wrapper)
     {
         if (wrapper == null)
         {
             Tell.inform(shell, "Empty wrapper selection");
-            return;
+            return false;
         }
 
         if (! wrapper.canRun())
@@ -3905,46 +3913,64 @@ public class MainWindow
             {
                 WrapperProblem problem = wrapper.wrapperProblem();
                 if (problem == WrapperProblem.noSuchFile)
-                    Tell.inform(shell,
-                                "The specified wrapper program does not appear"
-                                + "\nto exist. Perhaps it has been moved since the"
-                                + "\nlast time the Test Runner has been executed."
-                                + "\nRunning tests will not be possible until"
-                                + "\nthe definition is corrected or a different"
-                                + "\nwrapper is selected.");
+                    Tell.warn(shell,
+                                "The specified wrapper program does not appear\n"
+                                + "to exist. The configuration is defined to use\n"
+                                + wrapper.getProgram() + "\n"
+                                + "Perhaps it has been moved since the last time\n"
+                                + "the Test Runner has been executed. Running tests\n"
+                                + "will not be possible until the definition is\n"
+                                + "corrected or a different wrapper is selected.");
                 else if (problem == WrapperProblem.noSuchDirectory)
-                    Tell.inform(shell,
-                                "The specified wrapper output directory does not"
-                                + "\nappear to exist. Running tests will not be"
-                                + "\npossible until the definition is corrected"
-                                + "\nor a different wrapper is selected.");
+                {
+                    // A sensible default here is to try to recreate the output
+                    // directory automatically and only complain if we can't.
+                    File path = new File(wrapper.getOutputPath());
+                    if (path.mkdir())
+                        return true;
+                    else
+                        Tell.warn(shell,
+                                  "The specified output directory no longer exists\n"
+                                  + "and the Test Runner is unable to create it.\n"
+                                  + "The wrapper configuration is defined to use\n"
+                                  + wrapper.getOutputPath() + "\n"
+                                  + "Running tests will not be possible until the\n"
+                                  + "directory is recreated or the wrapper definition\n"
+                                  + "is corrected or changed.");
+                }
                 else if (problem == WrapperProblem.cannotWriteDirectory)
-                    Tell.inform(shell,
-                                "The specified wrapper output directory is not"
-                                + "\nwritable to the Test Runner. Running tests will"
-                                + "\nnot be possible until the definition is corrected"
-                                + "\nor a different wrapper is selected.");
+                    Tell.warn(shell,
+                                "The specified wrapper output directory is not\n"
+                                + "writable. The configuration is defined to use\n"
+                                + wrapper.getOutputPath() + "\n"
+                                + "Running tests will not be possible until the\n"
+                                + "definition is corrected or a different wrapper\n"
+                                + "is selected.");
                 else if (problem == WrapperProblem.cannotReadWrapper)
-                    Tell.inform(shell,
-                                "The specified wrapper program is unreadable to"
-                                + "\nthe Test Runner. Running tests will not be"
-                                + "\npossible until the definition is corrected"
-                                + "\nor a different wrapper is selected.");
+                    Tell.warn(shell,
+                                "The specified wrapper output directory is not\n"
+                                + "readable. The configuration is defined to use\n"
+                                + wrapper.getOutputPath() + "\n"
+                                + "Running tests will not be possible until the\n"
+                                + "definition is corrected or a different wrapper\n"
+                                + "is selected.");
                 else if (problem == WrapperProblem.cannotExecuteWrapper)
-                    Tell.inform(shell,
-                                "The specified wrapper program cannot be executed."
-                                + "\nRunning tests will not be possible until the"
-                                + "\ndefinition is corrected or a different wrapper"
-                                + "\nis selected.");
+                    Tell.warn(shell,
+                                "The specified wrapper program cannot be executed.\n"
+                                + "The wrapper configuration is defined to use\n"
+                                + wrapper.getProgram() + "\n"
+                                + "Running tests will not be possible until the"
+                                + "definition is corrected or a different wrapper"
+                                + "is selected.");
                 else
-                    Tell.inform(shell,
-                                "Something is wrong with the definition of"
-                                + "\nthe selected wrapper. Running tests will"
-                                + "\nnot be possible until the definition is"
-                                + "\ncorrected or a different wrapper is"
-                                + "\nselected.");
+                    Tell.warn(shell,
+                                "Something is wrong with the definition of the\n"
+                                + "selected wrapper. Running tests will not be\n"
+                                + "possible until the definition is corrected\n"
+                                + "or a different wrapper is selected.");
             }
         }
+        return false;
     }
 
 
@@ -4107,7 +4133,9 @@ public class MainWindow
             Tell.error(shell, "The output directory does not exist.",
                        "The directory where the wrapper is supposed to write\n"
                        + "its output does not exist, has disappeared or has\n"
-                       + "been moved. Please check your Test Runner\n"
+                       + "been moved. The configuration is set to use this:\n"
+                       + outputDir.toString() + "\n"
+                       + "Please check your Test Runner\n"
                        + "configuration and the file system.");
             return false;
         }
