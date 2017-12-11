@@ -1284,16 +1284,8 @@ public class MainWindow
             new MenuItem(menuFileMenuItems, SWT.SEPARATOR);
 
             MenuItem menuItemQuit = new MenuItem(menuFileMenuItems, SWT.NONE);
-            if (UIUtils.isWindows())
-            {
-                menuItemQuit.setText("E&xit\tCtrl+X");
-                menuItemQuit.setAccelerator(SWT.MOD1 + 'X');
-            }
-            else
-            {
-                menuItemQuit.setText("Quit\tCtrl+Q");
-                menuItemQuit.setAccelerator(SWT.MOD1 + 'Q');
-            }
+            menuItemQuit.setText("&Quit\tQuit+Q");
+            menuItemQuit.setAccelerator(SWT.MOD1 + 'Q');
             menuItemQuit.addSelectionListener(new SelectionAdapter() {
                     @Override
                     public void widgetSelected(SelectionEvent arg0)
