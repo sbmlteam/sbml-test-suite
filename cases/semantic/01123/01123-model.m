@@ -5,7 +5,7 @@ synopsis:        Test of proper interpretation of a boundary species set hasOnly
 componentTags:   Compartment, RateRule, Reaction, Species
 testTags:        Amount, BoundaryCondition, HasOnlySubstanceUnits, NonConstantCompartment, NonUnityCompartment
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: 
 
@@ -34,3 +34,4 @@ The initial conditions are as follows:
 | Initial volume of compartment 'comp' | $5$ | variable |]
 
 *)
+

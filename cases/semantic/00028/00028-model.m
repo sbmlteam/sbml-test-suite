@@ -6,7 +6,7 @@ compartment using a rate that causes a discontinuity in the output.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      Amount
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are two
@@ -43,3 +43,4 @@ addReaction[ S1 -> S2, reversible -> False,
 	     kineticLaw -> Ceiling[S1 * p1]!/p2 ];
 
 makemodel[]
+

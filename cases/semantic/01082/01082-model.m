@@ -6,7 +6,7 @@ initialAssignment to set the initial value of one species.
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter 
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry, InitialValueReassigned
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 521.
@@ -65,3 +65,4 @@ addReaction[ S3 -> S1 + S2, reversible -> False,
 	     kineticLaw -> k2 * S3 * C ];
 
 makemodel[]
+

@@ -5,7 +5,7 @@ synopsis:      Model varying compartment using rules only.
 componentTags: Compartment, RateRule, InitialAssignment 
 testTags:      NonConstantCompartment, NonUnityCompartment, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic
 
 The model contains one varying 2-dimensional compartment called c.
@@ -43,3 +43,4 @@ addInitialAssignment[ c, math -> 2/3];
 addRule[ type->RateRule, variable -> c, math -> 0.5 * c];
 
 makemodel[]
+

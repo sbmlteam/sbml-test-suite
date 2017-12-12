@@ -6,7 +6,7 @@ synopsis:      Model using parameters and both rate and assignment rules
 componentTags: Parameter, InitialAssignment, RateRule, AssignmentRule 
 testTags:      NonConstantParameter, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains three varying parameters called S1, S2 and S3 and two constant
@@ -55,3 +55,4 @@ addRule[ type->RateRule, variable -> S1, math -> -k2 * S1 ];
 addRule[ type->RateRule, variable -> S2, math -> k2 * S1 ];
 
 makemodel[]
+

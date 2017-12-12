@@ -5,7 +5,7 @@ synopsis:      Basic single forward reaction with two species and a delayed even
 componentTags: Compartment, Species, Reaction, Parameter, EventWithDelay
 testTags:      Amount, EventIsNotPersistent
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
 The model contains one compartment called "C".  There are three
@@ -42,4 +42,5 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+
 

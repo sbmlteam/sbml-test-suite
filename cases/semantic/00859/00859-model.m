@@ -6,7 +6,7 @@ using csymbol time within a math expression.
 componentTags: Compartment, Species, Reaction, Parameter, CSymbolTime 
 testTags:      Amount, NonUnityCompartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are four
@@ -56,3 +56,4 @@ addReaction[ S3 -> S1 + S4, reversible -> False,
 	     kineticLaw -> k3 * S3 * C *\[LeftAngleBracket]s, "time"\[RightAngleBracket]];
 
 makemodel[]
+

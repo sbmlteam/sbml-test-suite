@@ -5,7 +5,7 @@ synopsis:        Compartment with spatial dimensions of 7.
 componentTags:   Compartment
 testTags:        NonUnityCompartment
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: 
 
@@ -22,3 +22,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

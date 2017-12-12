@@ -5,7 +5,7 @@ synopsis:      Model with parameters and assignmentRule only.
 componentTags: Parameter, AssignmentRule 
 testTags:      InitialValueReassigned
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic
 
 The model contains two constant
@@ -41,3 +41,4 @@ addParameter[ k2, value->0.3 ];
 addRule[ type -> assignmentRule, variable -> k1, math -> k2 * 4];
 
 makemodel[]
+

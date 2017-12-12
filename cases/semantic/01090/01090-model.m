@@ -5,7 +5,7 @@ synopsis:      One reactions and two rate rules with four species in a compartme
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter, RateRule 
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 726.
@@ -59,3 +59,4 @@ addReaction[reactants->{S1}, products->{S2}, productStoichiometry->{4 * p1},
 	     kineticLaw -> k1 * S1 * C ];
 
 makemodel[]
+

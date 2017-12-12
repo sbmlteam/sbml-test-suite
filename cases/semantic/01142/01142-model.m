@@ -5,7 +5,7 @@ synopsis:        A hierarchical model with a time conversion factor affecting ma
 componentTags:   AlgebraicRule, AssignmentRule, CSymbolDelay, CSymbolTime, Compartment, EventWithDelay, InitialAssignment, Parameter, RateRule, Reaction, Species, comp:ModelDefinition, comp:ReplacedBy, comp:ReplacedElement, comp:Submodel
 testTags:        Amount, HasOnlySubstanceUnits, InitialValueReassigned, NonConstantParameter, comp:TimeConversionFactor
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: comp
 
@@ -48,3 +48,4 @@ The initial conditions are as follows:
 | Initial volume of compartment 'C' | $1$ | constant |]
 
 *)
+

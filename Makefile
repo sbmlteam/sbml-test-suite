@@ -6,7 +6,7 @@
 ## This file is part of the SBML Test Suite.  Please visit http://sbml.org for
 ## more information about SBML, and the latest version of the SBML Test Suite.
 ##
-## Copyright (C) 2010-2015 jointly by the following organizations: 
+## Copyright (C) 2010-2017 jointly by the following organizations: 
 ##     1. California Institute of Technology, Pasadena, CA, USA
 ##     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK.
 ##     3. University of Heidelberg, Heidelberg, Germany
@@ -36,7 +36,7 @@
 #
 
 define make_html
-  ./src/utilities/desc2html/desc2html.sh $(addsuffix .m,$(basename $(1))) $(1)
+  ./dev/utilities/desc2html/desc2html.sh $(addsuffix .m,$(basename $(1))) $(1)
 endef
 
 semantic-cases-m-files    = $(wildcard cases/semantic/*/*-model.m)
@@ -54,7 +54,7 @@ clean-html:
 # 'make plots'
 #
 
-plotter = ./src/utilities/plotresults/plotresults.py
+plotter = ./dev/utilities/plotresults/plotresults.py
 
 # Semantic test suite
 
@@ -79,7 +79,7 @@ cases/semantic/%-plot.png: cases/semantic/%-plot.html
 	  flag="-t steadystate"; \
 	fi; \
 	$(plotter) -n -q $$flag -d $(patsubst %-plot.html,%-results.csv,$<) -o /tmp/$(notdir $<)
-	phantomjs ./src/utilities/rasterize/rasterize.js /tmp/$(notdir $<) $@
+	phantomjs ./dev/utilities/rasterize/rasterize.js /tmp/$(notdir $<) $@
 
 cases/semantic/%-plot.jpg: cases/semantic/%-plot.html cases/semantic/%-plot.png
 	convert -quality 90 $(patsubst %-plot.jpg,%-plot.png,$@) $@
@@ -101,7 +101,7 @@ cases/stochastic/%-plot.html: cases/stochastic/%-results.csv
 
 cases/stochastic/%-plot.png: cases/stochastic/%-plot.html
 	$(plotter) -n -2 -g mean -q -d $(patsubst %-plot.html,%-results.csv,$<) -o /tmp/$(notdir $<) ;\
-	phantomjs ./src/utilities/rasterize/rasterize.js /tmp/$(notdir $<) $@
+	phantomjs ./dev/utilities/rasterize/rasterize.js /tmp/$(notdir $<) $@
 
 cases/stochastic/%-plot.jpg: cases/stochastic/%-plot.html cases/stochastic/%-plot.png
 	convert -quality 90 $(patsubst %-plot.jpg,%-plot.png,$@) $@
@@ -125,14 +125,14 @@ clean-plots:
 ifeq "$(shell uname)" "Darwin"
   define make_sedml_files
     @echo "Creating SED-ML for $(1)"
-    env DYLD_LIBRARY_PATH="$(abspath src/utilities/sedml):$(DYLD_LIBRARY_PATH)" \
-	mono ./src/utilities/sedml/GenerateSedML.exe -c $(dir $(1)) -a
+    env DYLD_LIBRARY_PATH="$(abspath dev/utilities/sedml):$(DYLD_LIBRARY_PATH)" \
+	mono ./dev/utilities/sedml/GenerateSedML.exe -c $(dir $(1)) -a
   endef
 else
   define make_sedml_files
     @echo "Creating SED-ML for $(1)"
-    env LD_LIBRARY_PATH="$(abspath src/utilities/sedml):$(DYLD_LIBRARY_PATH)" \
-	mono ./src/utilities/sedml/GenerateSedML.exe -c $(dir $(1)) -a
+    env LD_LIBRARY_PATH="$(abspath dev/utilities/sedml):$(DYLD_LIBRARY_PATH)" \
+	mono ./dev/utilities/sedml/GenerateSedML.exe -c $(dir $(1)) -a
   endef
 endif
 
@@ -146,25 +146,25 @@ all-sedml-files	:= $(patsubst %-l2v4.xml,%-l2v4-sedml.xml,$(all-sedml-files))
 all-sedml-files	:= $(patsubst %-l2v5.xml,%-l2v5-sedml.xml,$(all-sedml-files))
 all-sedml-files	:= $(patsubst %-l3v1.xml,%-l3v1-sedml.xml,$(all-sedml-files))
 
-%-sbml-l1v2-sedml.xml: %-sbml-l1v2.xml src/utilities/sedml/GenerateSedML.exe
+%-sbml-l1v2-sedml.xml: %-sbml-l1v2.xml dev/utilities/sedml/GenerateSedML.exe
 	$(call make_sedml_files,$@)
 
-%-sbml-l2v1-sedml.xml: %-sbml-l2v1.xml src/utilities/sedml/GenerateSedML.exe
+%-sbml-l2v1-sedml.xml: %-sbml-l2v1.xml dev/utilities/sedml/GenerateSedML.exe
 	$(call make_sedml_files,$@)
 
-%-sbml-l2v2-sedml.xml: %-sbml-l2v2.xml src/utilities/sedml/GenerateSedML.exe
+%-sbml-l2v2-sedml.xml: %-sbml-l2v2.xml dev/utilities/sedml/GenerateSedML.exe
 	$(call make_sedml_files,$@)
 
-%-sbml-l2v3-sedml.xml: %-sbml-l2v3.xml src/utilities/sedml/GenerateSedML.exe
+%-sbml-l2v3-sedml.xml: %-sbml-l2v3.xml dev/utilities/sedml/GenerateSedML.exe
 	$(call make_sedml_files,$@)
 
-%-sbml-l2v4-sedml.xml: %-sbml-l2v4.xml src/utilities/sedml/GenerateSedML.exe
+%-sbml-l2v4-sedml.xml: %-sbml-l2v4.xml dev/utilities/sedml/GenerateSedML.exe
 	$(call make_sedml_files,$@)
 
-%-sbml-l2v5-sedml.xml: %-sbml-l2v5.xml src/utilities/sedml/GenerateSedML.exe
+%-sbml-l2v5-sedml.xml: %-sbml-l2v5.xml dev/utilities/sedml/GenerateSedML.exe
 	$(call make_sedml_files,$@)
 
-%-sbml-l3v1-sedml.xml: %-sbml-l3v1.xml src/utilities/sedml/GenerateSedML.exe
+%-sbml-l3v1-sedml.xml: %-sbml-l3v1.xml dev/utilities/sedml/GenerateSedML.exe
 	$(call make_sedml_files,$@)
 
 sedml: $(all-sedml-files)
@@ -189,20 +189,20 @@ clean-sedml:
 ifeq "$(shell uname)" "Darwin"
   define make_omex_files
     @echo "Creating COMBINE Archive for $(dir $(1))"
-    env DYLD_LIBRARY_PATH="$(abspath src/utilities/sedml):$(DYLD_LIBRARY_PATH)" \
-    mono ./src/utilities/sedml/GenerateSedML.exe -c $(dir $(1)) -a -o
+    env DYLD_LIBRARY_PATH="$(abspath dev/utilities/sedml):$(DYLD_LIBRARY_PATH)" \
+    mono ./dev/utilities/sedml/GenerateSedML.exe -c $(dir $(1)) -a -o
   endef
 else
   define make_omex_files
     @echo "Creating COMBINE Archive for $(dir $(1))"
-    env LD_LIBRARY_PATH="$(abspath src/utilities/sedml):$(DYLD_LIBRARY_PATH)" \
-    mono ./src/utilities/sedml/GenerateSedML.exe -c $(dir $(1)) -a -o
+    env LD_LIBRARY_PATH="$(abspath dev/utilities/sedml):$(DYLD_LIBRARY_PATH)" \
+    mono ./dev/utilities/sedml/GenerateSedML.exe -c $(dir $(1)) -a -o
   endef
 endif
 
 all-omex-files := $(patsubst %-results.csv,%.omex,$(semantic-cases-csv-files))
 
-cases/semantic/%.omex: cases/semantic/%-results.csv src/utilities/sedml/GenerateSedML.exe
+cases/semantic/%.omex: cases/semantic/%-results.csv dev/utilities/sedml/GenerateSedML.exe
 	$(call make_omex_files,$@)
 
 omex: html plots $(all-omex-files)
@@ -237,34 +237,34 @@ semantic-cases-dist-name   = sbml-semantic-test-cases-$(today).zip
 semantic-map-file	   = cases/semantic/.cases-tags-map
 semantic-contents	   = cases/semantic	  \
 		 	     cases/LICENSE.txt	  \
-		 	     cases/NEWS.txt       \
-		 	     cases/README.txt	  \
+		 	     cases/NEWS.md        \
+		 	     cases/README.md 	  \
 			     $(ts-file)		  \
-			     $(semantic-map-file)
+#			     $(semantic-map-file)
 
 
 stochastic-cases-dist-name = sbml-stochastic-test-cases-$(today).zip
 stochastic-contents	   = cases/stochastic  \
 		 	     cases/LICENSE.txt \
-		 	     cases/NEWS.txt    \
-		 	     cases/README.txt  \
+		 	     cases/NEWS.md     \
+		 	     cases/README.md   \
 			     $(ts-file)
 
 syntactic-cases-dist-name  = sbml-syntactic-test-cases-$(today).zip
-syntactic-contents	   = cases/syntactic	/*.txt         \
+syntactic-contents	   = cases/syntactic/*.txt         \
 			     cases/syntactic/[0-9]*        \
 			     cases/syntactic/[a-z]*-[0-9]* \
 		 	     cases/LICENSE.txt		   \
-		 	     cases/NEWS.txt		   \
-		 	     cases/README.txt		   \
+		 	     cases/NEWS.md		   \
+		 	     cases/README.md 		   \
 			     $(ts-file)
 
 all-cases-dist-name       = sbml-all-test-cases-$(today).zip
 
-semantic-cases-dist: html plots sedml omex tags-map
+semantic-cases-dist: html plots sedml omex # tags-map
 	@echo $(today) > $(ts-file)
 	@echo $(today) > cases/semantic/$(ts-file)
-	make $(semantic-map-file)
+#	make $(semantic-map-file)
 	zip -r $(semantic-cases-dist-name) $(semantic-contents) -x@.zipexcludes
 
 stochastic-cases-dist: $(stochastic-cases-plot-files)
@@ -290,7 +290,7 @@ cases-dist: all-cases-dist
 
 tags-map $(semantic-map-file): $(semantic-cases-m-files)
 	@echo "Making tags map file:"
-	src/utilities/make-tag-map/make-tag-map.sh $(semantic-map-file)
+	dev/utilities/make-tag-map/make-tag-map.sh $(semantic-map-file)
 
 clean-cases-dist: clean-html clean-plots clean-sedml
 	rm -f $(semantic-cases-dist-name)
@@ -303,17 +303,16 @@ clean-cases-dist: clean-html clean-plots clean-sedml
 # -----------------------------------------------------------------------------
 
 dist-dir   = SBMLTestSuite-$(shell cat VERSION.txt)
-dist-files = README.txt \
+dist-files = README.md  \
 	     AUTHORS.txt \
 	     COPYING.html \
 	     COPYING.txt \
-	     FUNDING.txt \
 	     LICENSE.txt \
 	     NEWS-OLD.txt \
-	     NEWS.txt \
+	     NEWS.md \
 	     VERSION.txt \
 	     docs/formatted/standalone-user-manual
-dist-jar   = src/front-ends/standalone/dist/SBMLTestSuite.jar
+dist-jar   = src/test-runner/dist/SBMLTestSuite.jar
 dist-zip   = $(dist-dir).zip
 
 standalone-dist:

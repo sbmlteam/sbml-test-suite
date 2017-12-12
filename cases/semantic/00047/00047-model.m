@@ -6,7 +6,7 @@ compartment.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      Amount
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are four
@@ -26,7 +26,7 @@ The initial conditions are as follows:
 |Initial amount of S3                |$2.0 \x 10^-3$ |mole                      |
 |Initial amount of S4                |$1.0 \x 10^-3$ |mole                      |
 |Value of parameter k1               |$0.75 \x 10^3$ |metre mole^-1^ second^-1^ |
-|Value of parameter k2               |$0.25 \x 10^3$ |mtere mole^-1^ second^-1^ |
+|Value of parameter k2               |$0.25 \x 10^3$ |metre mole^-1^ second^-1^ |
 |Length of compartment "compartment" |$            1$ |metre                     |]
 
 The species values are given as amounts of substance to make it easier to
@@ -51,3 +51,4 @@ addReaction[ S3 + S4 -> S1 + S2, reversible -> False,
 	     kineticLaw -> k2 * S3 * S4 * compartment ];
 
 makemodel[]
+

@@ -5,7 +5,7 @@ synopsis:      Two events with different 'initialValue's, causing one to fire an
 componentTags: EventNoDelay, Parameter
 testTags:      EventT0Firing, NonConstantParameter
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
 The model contains two events, one that assigns '1' to parameter p2, and one that assigns '1' to parameter p3.  Both have the same trigger, p1>0, which is true the entire time, but the first trigger is set 'initialValue="false"' and the second 'initialValue="true"'.  This causes the first to trigger at t0 and the second to not trigger.
@@ -30,3 +30,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

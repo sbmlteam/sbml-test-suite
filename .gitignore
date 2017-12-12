@@ -1,21 +1,59 @@
-# Mac-specific things.
+# SBML Test Suite-specific things.
 # ......................................................................
 
+# Ignore previews
+
+NEWS.html
+README.html
+
+# Ignore generated files in the test suite directories.
+
+cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-model.html
+cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.html
+cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.png
+cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.jpg
+cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-sbml-l[0-9]v[0-9]-sedml.xml
+cases/semantic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9].omex
+cases/semantic/.cases-archive-date
+cases/semantic/.cases-tags-map
+
+cases/stochastic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.html
+cases/stochastic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.png
+cases/stochastic/[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]-plot.jpg
+cases/stochastic/.cases-archive-date
+
+cases/syntactic/[0-9][0-9][0-9][0-9][0-9]
+cases/syntactic/comp-[0-9][0-9][0-9][0-9][0-9]
+cases/syntactic/fbc-[0-9][0-9][0-9][0-9][0-9]
+cases/syntactic/groups-[0-9][0-9][0-9][0-9][0-9]
+cases/syntactic/layout-[0-9][0-9][0-9][0-9][0-9]
+cases/syntactic/qual-[0-9][0-9][0-9][0-9][0-9]
+cases/syntactic/multi-[0-9][0-9][0-9][0-9][0-9]
+cases/syntactic/.cases-archive-date
+cases/syntactic/summary-full.csv
+cases/syntactic/uniqueErrors.txt
+
+# Ignore some other things that are auto-generated.
+
+.cases-archive-date
+
+# OS-specific things to ignore:
+# .............................................................................
+
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-
-# Emacs.
+# General Emacs things.
 # ......................................................................
 
 *~
 .#*
 .git/COMMIT_EDITMSG
-
-
-# Generic programming things.
-# ......................................................................
-
+auto
+*.synctex.gz
 TAGS
-
-# SBML Test Suite-specific things.
-# ......................................................................

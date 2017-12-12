@@ -6,7 +6,7 @@ with an algebraic rule used to determine value of the compartment size.
 componentTags: Compartment, Species, Reaction, Parameter, AlgebraicRule 
 testTags:      Amount, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are three
@@ -55,3 +55,4 @@ addReaction[ T -> X1, reversible -> False,
 	     kineticLaw -> C * k2 *T ];
 
 makemodel[]
+

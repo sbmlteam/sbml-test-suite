@@ -5,7 +5,7 @@ synopsis:        A simple aggregate hieararchical model.
 componentTags:   Compartment, Reaction, Species, comp:ModelDefinition, comp:Submodel
 testTags:        Amount, MultiCompartment, comp:SubmodelOutput
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: comp
 
@@ -38,3 +38,4 @@ The initial conditions are as follows:
 | Initial volume of compartment 'submod2__comp' | $1$ | constant |]
 
 *)
+

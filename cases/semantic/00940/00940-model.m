@@ -3,9 +3,9 @@
 category:      Test
 synopsis:      A variable species that varies in its IntialAssignment, but is constant thereafte, being echoed by a parameter viewing it through a delay.
 componentTags: AssignmentRule, CSymbolDelay, CSymbolTime, Compartment, InitialAssignment, Parameter, Species
-testTags:      Amount, NonConstantParameter, InitialValueReassigned
+testTags:      Amount, NonConstantParameter, InitialValueReassigned, UncommonMathML
 testType:      TimeCourse
-levels:        2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic
 
 The model contains a single species x whose InitialAssignment claims that it has been oscillating (the sine function) up until the start of the simulation, at which point it stops changing.  A parameter (y) echoes this species with a 0.5 second delay, meaning that it starts by 'seeing' the oscillations before flattening out.
@@ -31,3 +31,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

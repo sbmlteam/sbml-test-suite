@@ -5,10 +5,10 @@ synopsis:      Several parameters with assignment rules, testing various L2v1 bu
 componentTags: AssignmentRule, Parameter
 testTags:      NonConstantParameter, InitialValueReassigned, UncommonMathML
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic
 
-The model tests the various mathematical constructs added in the L2v1 specification.  The libsbml parser still allows them in L1v2 via the infix-to-mathml converter, so the l1v2 version of the model is included, even though a specification-conforming application officially need not understand the included constructs.
+The model tests the various mathematical constructs added in the L2v1 specification.
 
 The model contains:
 * 28 parameters (P1, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29)
@@ -81,3 +81,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

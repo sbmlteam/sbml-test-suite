@@ -3,9 +3,9 @@
 category:      Test
 synopsis:      Limited-time oscillation that triggers a delayed event three times before the first one executes.
 componentTags: AssignmentRule, CSymbolTime, Compartment, EventWithDelay, Species
-testTags:      Concentration, BoundaryCondition, EventIsPersistent, EventUsesAssignmentTimeValues, InitialValueReassigned
+testTags:      Concentration, BoundaryCondition, EventIsPersistent, EventUsesAssignmentTimeValues, InitialValueReassigned, UncommonMathML
 testType:      TimeCourse
-levels:        2.4, 2.5, 3.1
+levels:        2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic
 
  The model contains one species (S1) that oscillates (from the 'sin' function) for two seconds, then stops.  During that oscillation, the single event is triggered three times with a delay of two seconds each, increasing the value of the second species (S2) by one each time.  As 'useValuesFromTriggerTime' is false, this means that first S1 oscillates, then S2 steps up three times.
@@ -36,3 +36,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

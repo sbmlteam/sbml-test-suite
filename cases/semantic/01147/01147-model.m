@@ -5,7 +5,7 @@ synopsis:        A hierarchical model with two levels of time conversion factors
 componentTags:   AssignmentRule, CSymbolTime, InitialAssignment, Parameter, comp:ModelDefinition, comp:Submodel
 testTags:        InitialValueReassigned, NonConstantParameter, comp:SubmodelOutput, comp:TimeConversionFactor
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: comp
 
@@ -31,3 +31,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

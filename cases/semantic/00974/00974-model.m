@@ -5,7 +5,7 @@ synopsis:      A very simple reaction whose stoichiometry is referenced in other
 componentTags: AssignmentRule, Compartment, InitialAssignment, Parameter, RateRule, Reaction, Species
 testTags:      Amount, InitialValueReassigned, NonConstantParameter, SpeciesReferenceInMath
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
 The reaction in this model has a speciesReference which doesn't change, but is used in various other equations and rules in the model.
@@ -41,3 +41,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

@@ -5,7 +5,7 @@ synopsis:        A combination test of almost everything but events.
 componentTags:   AssignmentRule, CSymbolAvogadro, CSymbolTime, Compartment, FunctionDefinition, InitialAssignment, Parameter, RateRule, Reaction, Species
 testTags:        Amount, AssignedConstantStoichiometry, AssignedVariableStoichiometry, BoundaryCondition, ConstantSpecies, ConversionFactors, HasOnlySubstanceUnits, InitialValueReassigned, LocalParameters, MultiCompartment, NonConstantCompartment, NonConstantParameter, NonUnityCompartment, NonUnityStoichiometry, SpeciesReferenceInMath
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: 
 
@@ -53,3 +53,4 @@ The initial conditions are as follows:
 | Initial volume of compartment 'comp2' | $k4$ | variable |]
 
 *)
+

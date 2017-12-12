@@ -1,0 +1,44 @@
+<html>
+  <body style="font-family: helvetica">
+
+    <center>
+      <h3>Notes for the SBML Test Runner version %VERSION%</h3>
+      <p style="font-style: italic">
+        <a href="http://www.cds.caltech.edu/~mhucka/">Michael Hucka</a> and
+        <a href="http://www.cos.uni-heidelberg.de/index.php/f.bergmann">Frank T. Bergmann</a>
+      </p>
+      <p style="font-style: italic">The overall SBML Test Suite is the work of 
+        <a href="http://www.ebi.ac.uk/about/people/sarah-keating">Sarah M. Keating</a>,
+        <a href="http://www.washington.edu/home/peopledir/?method=name&term=smith">Lucian P. Smith</a>,
+        <a href="http://www.cds.caltech.edu/~mhucka/">Michael Hucka</a>,
+        <a href="http://www.cos.uni-heidelberg.de/index.php/f.bergmann">Frank T. Bergmann</a>,
+        <a href="http://www.bruce-shapiro.com">Bruce E. Shapiro</a>,
+        Thomas W. Evans,
+        <a href="http://www.ncl.ac.uk/maths/about/staff/profile/colingillespie.html">Colin S. Gillespie</a>,
+        <a href="https://www.staff.ncl.ac.uk/d.j.wilkinson">Darren J. Wilkinson</a>,
+        <a href="http://www.bgoli.net">Brett Olivier</a>, and
+        <a href="https://www.linkedin.com/in/andrewmartinfinney">Andrew Finney</a>.
+      </p>
+    </center>
+
+    <p> The <a href="http://sbml.org/Software/SBML_Test_Suite">SBML Test Suite</a> 
+      lets you test the degree and correctness of SBML support provided in an
+      SBML-compatible software package.  It consists of&nbsp;(1) a collection
+      of <a href="http://sbml.org">SBML</a>
+      models, each with associated simulation results, and&nbsp;(2) the <em>SBML
+      Test Runner</em>, a GUI program to make applications run through each
+      test case in the suite and report successes and failures.  The SBML
+      Test Runner is a Java program that uses the Eclipse
+      <a href="https://www.eclipse.org/swt/">SWT</a> widget toolkit and can
+      be used on macOS, Linux and Windows.</p>
+
+    <p> The test cases in the overall Test Suite are divided into 3
+      sets: <em>semantic</em>, <em>stochastic</em>, and <em>syntactic</em>. Each
+      set is meant to exercise a different aspect of SBML understanding and
+      compliance.  The SBML Test Runner currently <strong>only implements facilities
+      for running the semantic tests</strong>.  The semantic portion of the Test
+      Suite contains valid SBML models with known, deterministic simulation
+      results.  These models can be used to test the ability of a software
+      system to understand the meaning of different SBML constructs and
+      properly simulate the models in a deterministic fashion.</p>
+

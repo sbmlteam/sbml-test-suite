@@ -6,7 +6,7 @@ compartment using an assignmentRule and a rateRule to vary species.
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter, RateRule, AssignmentRule 
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry, InitialValueReassigned
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 728.
@@ -68,3 +68,4 @@ addReaction[ S3 -> S1, reversible -> False,
 	     kineticLaw -> k2 * S3 * C ];
 
 makemodel[]
+

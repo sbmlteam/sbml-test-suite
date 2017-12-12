@@ -5,7 +5,7 @@ synopsis:      Competing events with alternating priorities, so one fires for 5 
 componentTags: CSymbolTime, EventNoDelay, EventPriority, Parameter
 testTags:      NonConstantParameter, EventIsNotPersistent
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
 This model contains two events with the same trigger, both set 'persistent=false', and both of which disable the trigger of the other.  This means that every .01 seconds, one fires and the other does not.  One has the priority 'time' and the other the priority '5.001', meaning that for the first 5 seconds, one fires, and for the next 5 seconds, the other fires.
@@ -33,3 +33,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

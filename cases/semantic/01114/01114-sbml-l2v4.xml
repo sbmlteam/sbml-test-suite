@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v2.1-beta on 2012-01-18 10:55 with libSBML version 5.1.0-b0. -->
 <sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
   <model id="case_01114" name="case_01114">
     <listOfParameters>
-      <parameter id="a"/>
-      <parameter id="b"/>
-      <parameter id="c"/>
-      <parameter id="d"/>
-      <parameter id="e"/>
+      <parameter id="a" constant="true"/>
+      <parameter id="b" constant="true"/>
+      <parameter id="c" constant="true"/>
+      <parameter id="d" constant="true"/>
+      <parameter id="e" constant="true"/>
     </listOfParameters>
     <listOfInitialAssignments>
       <initialAssignment symbol="a">
@@ -14,7 +15,13 @@
           <apply>
             <plus/>
             <cn type="integer"> 1 </cn>
-            <cn type="integer"> 1 </cn>
+            <apply>
+              <plus/>
+              <cn type="integer"> 1 </cn>
+              <apply>
+                <plus/>
+              </apply> 
+            </apply>
           </apply>
         </math>
       </initialAssignment>
@@ -23,7 +30,13 @@
           <apply>
             <times/>
             <cn type="integer"> 2 </cn>
-            <cn type="integer"> 2 </cn>
+            <apply>
+              <times/>
+              <cn type="integer"> 2 </cn>
+              <apply>
+                <times/>
+              </apply>
+            </apply>
           </apply>
         </math>
       </initialAssignment>
@@ -40,7 +53,7 @@
                     <and/>
                   </apply>
                   <true/>
-                </apply>
+                 </apply>
                 <true/>
               </apply>
             </piece>

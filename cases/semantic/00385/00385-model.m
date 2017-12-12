@@ -6,7 +6,7 @@ synopsis:      Basic two reactions with four species in one compartment
 componentTags: Compartment, Species, Reaction, Parameter, EventNoDelay 
 testTags:      Amount, ConstantSpecies
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are four species called
@@ -59,3 +59,4 @@ addEvent[ trigger -> S2 < S4, eventAssignment -> S1->2/10^3 ];
 addEvent[ trigger -> S3 > 2/(10^3), eventAssignment -> S3->1/10^3 ];
 
 makemodel[]
+

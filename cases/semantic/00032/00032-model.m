@@ -5,7 +5,7 @@ synopsis:      Two rate rules used to determine species value.
 componentTags: Compartment, Species, Parameter, RateRule 
 testTags:      Amount
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic
 
 The model contains one compartment called "compartment".  There are two
@@ -44,3 +44,4 @@ addRule[ type->RateRule, variable -> S1, math -> -(k1 * S1)];
 addRule[ type->RateRule, variable -> S2, math -> k1 * S1];
 
 makemodel[]
+

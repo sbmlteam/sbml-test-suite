@@ -5,7 +5,7 @@ synopsis:        Priorities with nary relational elements.
 componentTags:   CSymbolTime, EventNoDelay, EventPriority, Parameter
 testTags:        NonConstantParameter, UncommonMathML
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: 
 
@@ -29,3 +29,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

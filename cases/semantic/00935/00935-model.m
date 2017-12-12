@@ -5,7 +5,7 @@ synopsis:      Single forward reaction with two species in one compartment and t
 componentTags: CSymbolTime, Compartment, EventNoDelay, EventPriority, Species
 testTags:      Amount, EventIsNotPersistent, EventIsPersistent
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
 The model contains three events that assign value to species S1 and S2 defined below.
@@ -46,3 +46,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

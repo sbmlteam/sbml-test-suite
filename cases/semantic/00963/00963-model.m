@@ -5,7 +5,7 @@ synopsis:      Competing events with different priorities, meaning one always fi
 componentTags: CSymbolTime, EventNoDelay, EventPriority, Parameter
 testTags:      EventIsNotPersistent, NonConstantParameter
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
  This model contains two pairs of events with the same two triggers and different priorities, both set 'persistent=false', and both of which disable the trigger of the other.  This means that every .01 seconds, one fires and the other does not, and the higher-priority event is the one that always wins.  Just to make sure that simulators don't accidentally do what was designed to happen here, the two pairs of events come in the same order alphabetically and within the file, but the priorities are reversed, so if you always pick the first event instead of looking at the priority, you will fail one of the tests.
@@ -39,3 +39,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

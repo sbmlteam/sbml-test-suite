@@ -5,7 +5,7 @@ synopsis:        A hierarchical model from the specification that uses replaceme
 componentTags:   Compartment, Reaction, Species, comp:Deletion, comp:ModelDefinition, comp:Port, comp:ReplacedElement, comp:Submodel
 testTags:        Amount
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: comp
 
@@ -31,3 +31,4 @@ The initial conditions are as follows:
 | Initial volume of compartment 'comp' | $1$ | constant |]
 
 *)
+

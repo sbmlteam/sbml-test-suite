@@ -6,7 +6,7 @@ synopsis:      Basic two reactions using functionDefinitions in one compartment,
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      Amount, BoundaryCondition
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are two
@@ -55,3 +55,4 @@ addReaction[ S2 -> S1, reversible -> False,
 	     kineticLaw -> multiply[k2,S2] * compartment ];
 
 makemodel[]
+

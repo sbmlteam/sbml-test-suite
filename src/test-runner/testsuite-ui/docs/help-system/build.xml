@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  @file   build.xml
+  @brief  Ant configuration file for the help text in the SBML Test Runner
+  @author Michael Hucka
+  @date   Created 2013-05-14 <mhucka@caltech.edu>
+ 
+  This file is part of the SBML Testsuite. Please visit http://sbml.org for
+  more information about SBML, and the latest version of the SBML Test Suite.
+ -->
+
+<project basedir="." default="generate-html"
+         name="Generate SBML Test Runner help files">
+
+  <!-- ========================================================================
+       The list of files and titles in the target "generate-html" below define
+       the help topics presented in the help system.  The titles are set here,
+       and not in the .txt files themselves, because they need to be added to 
+       the html <title> tags in the .html files produced.
+  ========================================================================= -->
+
+  <target name="generate-help-files" depends="copy-help-images">
+    <create name="about-sts"         title="About the Test Runner"/>
+    <create name="basic-operation"   title="Basic Usage"/>
+    <create name="defining-wrappers" title="Defining Wrappers"/>
+    <create name="color-codes"       title="Color Codes for Results"/>
+    <create name="filters"           title="Filters"/>
+    <create name="menus"             title="The Menu Bar Menus"/>
+    <create name="preferences"       title="The Preferences Panel"/>
+  </target>
+
+  <property name="output.dir" value="../../build/classes/org/sbml/testsuite/ui/resources/help" />
+
+  <macrodef name="create">
+    <attribute name="name"/>
+    <attribute name="title"/>
+    <sequential>
+      <echo message="Converting @{name}.txt to ${output.dir}/@{name}.html"/>
+      <exec executable="multimarkdown">
+        <arg value="@{name}.txt"/>
+        <arg value="-o"/>
+        <arg value="@{name}.html"/>
+      </exec>
+      <concat destfile="${output.dir}/@{name}.html">
+        <path path="@{name}.html"/>
+        <header file="header.html"/>
+        <footer file="footer.html"/>
+        <filterchain>
+          <replacetokens>
+            <token key="TITLE" value="@{title}"/>
+          </replacetokens>
+        </filterchain>
+      </concat>
+      <delete file="@{name}.html" quiet="true"/>
+    </sequential>
+  </macrodef>
+
+  <target name="copy-help-images">
+    <copy todir="${output.dir}">
+      <fileset dir="." includes="*.png"/>
+    </copy>
+  </target>
+
+</project>

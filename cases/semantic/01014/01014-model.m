@@ -6,7 +6,7 @@ synopsis:      Basic single forward reaction with three species in one
 componentTags: Compartment, Species, Reaction, Parameter, AssignmentRule 
 testTags:      Amount, HasOnlySubstanceUnits, InitialValueReassigned, NonUnityCompartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is a direct copy of test 00295, but with a size-10 compartment, to test the 'hasOnlySubstanceUnits' attribute.  The model should have exactly the same results, as concentration should have never been used to calculate anything.
@@ -54,3 +54,4 @@ addReaction[ S1 -> S2, reversible -> False,
 	     kineticLaw -> k2 * S1];
 
 makemodel[]
+

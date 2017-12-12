@@ -6,7 +6,7 @@ using csymbol time within a math expression.
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter, CSymbolTime
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
 Note:  This test is the L3 version of model 898.
@@ -50,3 +50,4 @@ addReaction[ reactants->{S1}, products->{S2},
  kineticLaw -> k1 * S1 * C *\[LeftAngleBracket]t, "time"\[RightAngleBracket]];
 
 makemodel[]
+

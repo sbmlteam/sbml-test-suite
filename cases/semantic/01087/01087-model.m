@@ -6,7 +6,7 @@ compartment using an assignmentRule to vary one species.
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter, AssignmentRule 
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry, InitialValueReassigned
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 609.
@@ -56,3 +56,4 @@ addReaction[reactants->{S1}, products->{S2}, productStoichiometry->{4 * p1},
 	     kineticLaw -> C * k2 * S1];
 
 makemodel[]
+

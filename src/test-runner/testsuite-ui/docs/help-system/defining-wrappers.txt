@@ -1,0 +1,95 @@
+Defining wrappers
+--------------------
+
+The execution of tests involves the use of "wrapper" programs that act
+as interfaces between the SBML Test Runner and the application being
+tested.  The SBML Test Runner invokes this "wrapper" for each test
+case in the suite, passing command-line arguments to the wrapper to
+indicate such things as which case to run and where to find the files.
+It is the responsibility of the wrapper to invoke the application to
+run the case in whatever fashion is appropriate for that application.
+A wrapper can be simple (e.g., a shell script) or a small program all
+on its own, depending on the application being tested.  (Some
+applications may not need a wrapper at all, if they can understand the
+necessary command line arguments directly and produce output in the
+format needed by the SBML Test Runner.)
+
+When you first start the Runner, you will not have any wrapper
+configurations defined.  The Runner will open a Preferences panel to
+let you define one or more wrapper configurations.
+
+![Image of the Preferences panel.](preferences-screenshot.png "The Preferences panel.")
+
+Each wrapper configuration has the following fields:
+
+1. a name
+
+2. the path to the wrapper program on your computer
+
+3. the path to a directory where the Runner will find the application's
+   output from running each test case
+
+4. a list of SBML packages and/or component or test tags that the application
+   is known to be unable to understand
+
+5. command-line arguments that should be passed to the wrapper
+
+In the command-line arguments given to the wrapper, the following
+substitution codes can be used.  Their values will be substituted at
+run-time whenever the wrapper is invoked:
+
+<table>
+<tr>
+<td><code>%d</code></td><td>the path to the directory containing all the test cases</td>
+</tr>
+<tr>
+<td><code>%n</code></td><td>the current test case number (in the form of 5 digits)</td>
+</tr>
+<tr>
+<td><code>%o</code></td><td>the directory where the output will be written (same as #3 above)</td>
+</tr>
+<tr>
+<td><code>%l</code></td><td>the SBML Level of the test case</td>
+</tr>
+<tr>
+<td><code>%v</code></td><td>the SBML Version within the Level of the test case</td>
+</tr>
+</table>
+
+Each test case consists of an SBML file and a settings file. The files
+are located in the directory named `%d/%n`. The SBML file for the test
+model is named `%n-sbml-l%lv%v.xml`. (Example: `00123-sbml-l2v3.xml`.)
+The settings file is named `%n-settings.txt` in the same directory.
+The wrapper must be instructed to write out the results into a file
+named `%o/%n.csv` so that the SBML Test Runner can find it.
+
+The definition of a wrapper also includes 3 options:
+
+ * **Pseudo-wrapper to view test cases only**: When set, this option
+   defines a wrapper as non-executable and disables some of the fields
+   in the preferences panel.  Use this option to define a wrapper for
+   viewing existing results (e.g., results created in some other fashion
+   than through the SBML Test Runner).  The wrapper definition allows
+   you to define the directory where the results will be found, as well
+   as unsupported tags, but not program path or arguments.
+
+ * **Wrapper can handle any SBML Level/Version**: Some applications may
+   not be able to accept any SBML Level and Version.
+
+ * **Wrapper can be run in parallel**: The Runner can execute tasks in
+   parallel, but it must be informed whether multiple instances of a
+   wrapper or application can be invoked simultaneously.  Use this flag
+   to indicate that multiple copies of the wrapper can be started
+   simultaneously.  Do _not_ enable this option if the wrapper (or
+   application) writes to the same file (e.g., a single log file), locks
+   a single resource, or does something else that would result in
+   non-deterministic behavior if multiple copies of the wrapper or
+   application are started simultaneously.  If you use a shell script,
+   also make sure that the script does not return before the application
+   you're testing returns a result.  (In other words, do not have the
+   shell script start the application as a background process; make sure
+   the script terminates only when the application itself terminates.)
+
+You can define multiple wrappers, but only one will be executed during
+any given test run.  (You will be able to choose it from a pull-down
+menu in the main window of the SBML Test Runner.)

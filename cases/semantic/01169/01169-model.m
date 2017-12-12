@@ -5,7 +5,7 @@ synopsis:        A hierarchical model with time, extent, and replacement convers
 componentTags:   AssignmentRule, Compartment, EventNoDelay, EventPriority, Parameter, RateRule, Reaction, Species, comp:Deletion, comp:ModelDefinition, comp:Port, comp:ReplacedElement, comp:Submodel
 testTags:        Amount, InitialValueReassigned, NonConstantParameter, comp:ConversionFactor, comp:ExtentConversionFactor, comp:SubmodelOutput, comp:TimeConversionFactor
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: comp
 
@@ -54,3 +54,4 @@ The initial conditions are as follows:
 | Initial volume of compartment 'A__default_compartment' | $1$ | constant |]
 
 *)
+

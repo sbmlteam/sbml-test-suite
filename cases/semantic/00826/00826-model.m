@@ -5,7 +5,7 @@ synopsis:      Single reversible reaction.
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      Amount, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are three species called 
@@ -44,3 +44,4 @@ addReaction[ S1 -> S2 + 2S3,
 	     kineticLaw -> (kf * S1 - kr * S2 * S3) * C ];
 
 makemodel[]
+

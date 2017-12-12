@@ -5,7 +5,7 @@ synopsis:      Model using parameters and rules only.
 componentTags: Parameter, RateRule 
 testTags:      NonConstantParameter
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains four varying parameters called S1, S2, S3 and S4 and 
@@ -50,3 +50,4 @@ addRule[ type->RateRule, variable -> S3, math -> k3 * S2-k4 * S3 * S4];
 addRule[ type->RateRule, variable -> S4, math -> k3 * S2-k4 * S3 * S4];
 
 makemodel[]
+

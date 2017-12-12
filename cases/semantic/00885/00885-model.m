@@ -6,7 +6,7 @@ and an event that assigns value to two species using csymbol time.
 componentTags: Compartment, Species, Reaction, CSymbolTime, Parameter, EventNoDelay 
 testTags:      Amount
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are four species called
@@ -63,3 +63,4 @@ addEvent[ trigger -> S2 > S3, eventAssignment -> {S1->k3 * \[LeftAngleBracket]ti
                                                   S4->k4 * S1 * \[LeftAngleBracket]time, "time"\[RightAngleBracket] }  ];
 
 makemodel[]
+

@@ -5,7 +5,7 @@ synopsis:        This hierarchical model deletes the delay of an event.
 componentTags:   CSymbolTime, EventNoDelay, Parameter, comp:Deletion, comp:ModelDefinition, comp:Submodel
 testTags:        NonConstantParameter, comp:SubmodelOutput
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: comp
 
@@ -27,3 +27,4 @@ The initial conditions are as follows:
 | Initial value of parameter sub1__t2 | $1$ | variable |]
 
 *)
+

@@ -5,7 +5,7 @@ synopsis:      A simple reaction with stoichiometry set to a parameter that vari
 componentTags: AssignmentRule, Compartment, EventNoDelay, Parameter, Reaction, Species
 testTags:      Amount, AssignedVariableStoichiometry, NonUnityStoichiometry, NonConstantParameter, InitialValueReassigned
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 991.
@@ -44,3 +44,4 @@ The initial conditions are as follows:
 | Initial volume of compartment 'default_compartment' | $1$ | constant |]
 
 *)
+

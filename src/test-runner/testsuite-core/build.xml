@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="jar" name="testsuite-core">
+
+	<property name="version.num" value="3.0.0" />
+
+	<property environment="env"/>
+	<property name="debuglevel" value="source,lines,vars"/>
+	<path id="core.classpath">
+		<pathelement location="build"/>
+		<pathelement location="libs/simple-xml-2.6.4.jar" />
+		<pathelement location="libs/jna-4.5.0.jar" />
+		<pathelement location="libs/jna-platform-4.5.0.jar" />
+	</path>
+	<target name="init">
+		<tstamp>
+			<format property="timestamp" pattern="yyyy-MM-dd HH:mm zzz"/>
+		</tstamp>		
+		<mkdir dir="build"/>
+		<mkdir dir="dist"/>
+		<copy includeemptydirs="false" todir="build">
+			<fileset dir="src">
+				<exclude name="**/*.launch"/>
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="build"/>
+		<delete dir="dist"/>
+		<delete file="dist/testsuite-core.jar"/>
+	</target>
+	<target depends="clean" name="cleanall"/>
+	<target depends="build-subprojects,build-project" name="build"/>
+	<target name="build-subprojects"/>
+	<target depends="init" name="build-project">
+		<javac debug="true" debuglevel="${debuglevel}" destdir="build"
+			includeantruntime="no" >
+			<src path="src"/>
+			<classpath refid="core.classpath" />
+                        <compilerarg value="-Xlint:unchecked"/>
+		</javac>
+	</target>
+	<target name="javadoc">
+		<javadoc access="public" author="true" classpath="lib/libsbmlj.jar"
+			destdir="doc" doctitle="SBML Test Suite"
+			nodeprecated="false" nodeprecatedlist="false"
+			noindex="false" nonavbar="false" notree="false"
+			packagenames="org.sbml.**/*.*"
+			source="1.6" sourcepath="src" splitindex="true"
+			use="true" version="true">
+			<link href="http://java.sun.com/javase/6/docs/api/"/>
+		</javadoc>
+	</target>
+	<target name="jar" depends="init,build" >
+		<manifestclasspath property="manifest.cp" jarfile="testsuite-core.jar">
+			<classpath>
+				<pathelement location="simple-xml-2.6.4.jar" />
+			</classpath>
+		</manifestclasspath>
+		<jar jarfile="testsuite-core.jar" destfile="dist/testsuite-core.jar">
+			<manifest>
+				<attribute name="Main-Class" value="org.sbml.testsuite.core.Main"/>
+				<attribute name="Class-Path" value="${manifest.cp}"/>
+				<attribute name="Implementation-Title" value="SBML Test Suite Core" />
+				<attribute name="Implementation-Version" value="${version.num}" />
+				<attribute name="Built-Timestamp" value="${timestamp}" />
+				<attribute name="Built-By" value="${user.name}" />
+			</manifest>
+			<fileset dir="build" includes="**/*.class"/>
+			<fileset dir="src" includes="data/**/*"/>
+		</jar>
+	</target>
+</project>

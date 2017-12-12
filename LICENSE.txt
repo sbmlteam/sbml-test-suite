@@ -2,6 +2,13 @@
 
 The majority of the SBML Test Suite is copyrighted as follows:
 
+* Copyright (C) 2016-2017 jointly by the following organizations: 
+    1. California Institute of Technology, Pasadena, CA, USA
+    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK.
+    3. University of Heidelberg, Heidelberg, Germany
+    4. The University of Tuebingen, Tübingen, Germany
+    5. The Babraham Institute, Cambridge, UK
+
 * Copyright (C) 2010-2016 jointly by the following organizations: 
     1. California Institute of Technology, Pasadena, CA, USA
     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK.
@@ -97,3 +104,11 @@ the SBML Test Suite.
 10. Wiky -- http://goessner.net/articles/wiky
     [checked 2008-08-09]
     GNU Lesser General Public License
+
+11. json-simple -- https://cliftonlabs.github.io/json-simple/
+    [checked 2017-06-30]
+    Apache License version 2.0
+
+12. FileMonitor -- http://geosoft.no/software
+    [checked 2017-10-09]
+    GNU LGPL version 2.1

@@ -5,7 +5,7 @@ synopsis:      Algebraic rule used to determine rate of species change.
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter, AlgebraicRule 
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 561.
@@ -63,3 +63,4 @@ addReaction[ T -> X1, reversible -> False,
 	     kineticLaw -> C * k2 *S1 ];
 
 makemodel[]
+

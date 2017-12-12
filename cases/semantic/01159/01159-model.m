@@ -5,7 +5,7 @@ synopsis:        This hieararchical model deletes a local parameter
 componentTags:   Compartment, Parameter, Reaction, Species, comp:Deletion, comp:ModelDefinition, comp:Submodel
 testTags:        Amount, HasOnlySubstanceUnits, comp:SubmodelOutput
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: comp
 
@@ -32,3 +32,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

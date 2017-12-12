@@ -5,7 +5,7 @@ synopsis:        A hierarchical model with a time conversion factor and a rate r
 componentTags:   CSymbolTime, Parameter, RateRule, comp:ModelDefinition, comp:ReplacedElement, comp:Submodel
 testTags:        NonConstantParameter, comp:TimeConversionFactor
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: comp
 
@@ -29,3 +29,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

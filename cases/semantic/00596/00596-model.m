@@ -6,7 +6,7 @@ synopsis:      Basic two reactions with three species and parameters both global
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      Concentration, LocalParameters
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are three
@@ -48,3 +48,4 @@ addReaction[ S2 -> S3, reversible -> False,
 	     kineticLaw -> k * S2 * C, parameters -> {k -> 2} ];
 
 makemodel[]
+

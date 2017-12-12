@@ -5,7 +5,7 @@ synopsis:        A hierarchical model with extent conversion and a reference to 
 componentTags:   AssignmentRule, Compartment, Parameter, Reaction, Species, comp:ModelDefinition, comp:Submodel
 testTags:        Amount, HasOnlySubstanceUnits, InitialValueReassigned, comp:ExtentConversionFactor, comp:SubmodelOutput
 testType:        TimeCourse
-levels:          3.1
+levels:          3.1, 3.2
 generatedBy:     Numeric
 packagesPresent: comp
 
@@ -36,3 +36,4 @@ The initial conditions are as follows:
 | Initial volume of compartment 'sub1__C' | $1$ | constant |]
 
 *)
+

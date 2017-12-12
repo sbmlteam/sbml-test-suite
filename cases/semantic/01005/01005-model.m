@@ -6,7 +6,7 @@ synopsis:      Basic reactions using functionDefinitions with three species in a
 componentTags: Compartment, Species, Reaction, Parameter, FunctionDefinition 
 testTags:      Amount, HasOnlySubstanceUnits, NonUnityCompartment
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is a direct copy of test 00114, but with a size-10 compartment, to test the 'hasOnlySubstanceUnits' attribute.  The model should have exactly the same results, as concentration should have never been used to calculate anything.
@@ -56,3 +56,4 @@ addReaction[ S3 -> S1 + S2, reversible -> False,
 	     kineticLaw -> k2 * S3 ];
 
 makemodel[]
+

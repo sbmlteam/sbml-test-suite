@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  @file   build.xml
+  @brief  Ant configuration file for the SBML Test Runner GUI.
+  @author Michael Hucka
+  @author Frank T. Bergmann
+ 
+  This file is part of the SBML Test Suite. Please visit the repository at
+  https://github.com/sbmlteam/sbml-test-suite/tree/develop or the SBML website
+  at http://sbml.org for more information about SBML, and the latest version 
+  of the SBML Test Suite.
+ -->
+
+<project basedir="." default="jar" name="testsuite-ui">
+
+  <!-- ========================================================================
+       IMPORTANT   IMPORTANT   IMPORTANT   IMPORTANT   IMPORTANT   IMPORTANT
+
+       Certain variables, such as the paths to tools used in this build file,
+       are stored externally.  Edit the file "build.properties" to set
+       appropriate values for your local environment.  Defaults are defined
+       in build-defaults.properties.  If "build.properties" exists, its
+       contents override the values in build-defaults.properties.
+
+       As an alternative to editing build.properties, you can also override
+       the property values via command-line arguments to ant.  E.g.,
+
+                ant -Dinstallbuilder.dir=/usr/local dist
+
+  ========================================================================= -->
+
+  <property file="build.properties" description="Local build configuration"/>
+  <property file="build-defaults.properties" description="Default configuration."/>
+  <property environment="env"/>
+
+  <!-- =================================================================== -->
+  <!-- Primary build targets:                                              -->
+  <!--                                                                     -->
+  <!-- ant jar                                                             -->
+  <!--     Creates a self-contained jar file in the subdirectory "dist".   -->
+  <!--     Determines platform characteristics automatically.              -->
+  <!--     You can run the result using "jar -jar dist/sbmltestrunner.jar" -->
+  <!--     on Linux and Windows; on Mac OS X, the result must be executed  -->
+  <!--     using "jar -XstartOnFirstThread -jar dist/sbmltestrunner.jar".  -->
+  <!--                                                                     -->
+  <!-- ant app                                                             -->
+  <!--     Creates executable applications that wrap the jar file.         -->
+  <!--     On Mac OS X, this creates one 64-bit executable; on Windows and --> 
+  <!--     Linux, this creates two executable applications, with one       -->
+  <!--     being a 32-bit version and another being a 64-bit version for   -->
+  <!--     the current platform.  The result can be executed as a normal   -->
+  <!--     application (e.g., by doing-clicking it). On Mac OS X, the      -->
+  <!--     application is self-contained, while on Linux and Windows,      -->
+  <!--     the result requires Java to be installed on the computer.       -->
+  <!--                                                                     -->
+  <!-- ant dist                                                            -->
+  <!--     Creates an installer for the SBML Test Suite for the current    -->
+  <!--     platform. The form of the distribution depends on the platform  -->
+  <!--     currently running: on Macs, it creates a .pkg package archive,  -->
+  <!--     on Windows it creates a runnable .exe installer, and on Linux   -->
+  <!--     it creates 3 different installers (a runnable binary, an RPM    -->
+  <!--     package, and a Debian .deb package).                            -->
+  <!--                                                                     -->
+  <!-- Each of the targets above can be suffixed to create specific        -->
+  <!-- versions for particular platforms.  The understood suffixes are:    -->
+  <!--                                                                     -->
+  <!--   -mac                                                              -->
+  <!--   -windows                                                          -->
+  <!--   -linux                                                            -->
+  <!--                                                                     -->
+  <!-- E.g., you can run "ant dist-mac" (although this not really needed   -->
+  <!-- because the "dist" target automatically figures out which platform  -->
+  <!-- you are running on, and only builds for that platform).             -->
+  <!-- The "jar" and "app" targets also understand the following suffixes: -->
+  <!--                                                                     -->
+  <!--   -windows-32                                                       -->
+  <!--   -windows-64                                                       -->
+  <!--   -linux-32                                                         -->
+  <!--   -linux-64                                                         -->
+  <!--   -mac-64                                                           -->
+  <!--                                                                     -->
+  <!-- E.g. of invocation: "ant jar-linux-64". (The "ant dist" target does -->
+  <!-- not have 32-bit and 64-bit variants; for simplicity and user        -->
+  <!-- convenience, the distribution archives always contain both the 32   -->
+  <!-- and 64-bit variants, except on OS X, where it's always 64-bit.)     -->
+  <!-- =================================================================== -->
+
+  <path id="core.classpath">
+    <pathelement location="${core.dir}/build" />
+  </path>
+  <path id="testsuite-ui.classpath">
+    <pathelement location="build" />
+    <path refid="core.classpath" />
+    <pathelement location="${core.dir}/libs/simple-xml-2.6.4.jar"/>
+    <pathelement location="${core.dir}/libs/jna-4.5.0.jar" />
+    <pathelement location="${core.dir}/libs/jna-platform-4.5.0.jar" />
+    <pathelement location="./libs/commons-io-2.5.jar" />
+    <pathelement location="./libs/json-simple-2.1.2.jar" />
+    <pathelement location="./libs/swt-macos.jar" />
+    <pathelement location="./libs/swt-win32.jar" />
+    <pathelement location="./libs/swt-win64.jar" />
+    <pathelement location="./libs/swt-linux-x64.jar" />
+    <pathelement location="./libs/swt-linux-x86.jar" />
+    <pathelement location="./libs/org.swtchart_0.7.0.v20110128.jar" />
+    <pathelement location="./libs/opal-0.9.5.1.jar" />
+  </path>
+
+  <condition property="isWindows" value="true">
+    <os family="windows" />
+  </condition>
+  <condition property="isLinux" value="true">
+    <and>
+      <os family="unix" />
+      <not>
+        <os family="mac" />
+      </not>
+    </and>
+  </condition>
+  <condition property="isMac" value="true">
+    <os family="mac" />
+  </condition>
+
+  <!-- The next condition tests the JVM only, not the OS. -->
+  <condition property="is64Bit" value="true">
+    <contains string="${os.arch}" substring="64"/>
+  </condition>
+  <condition property="is32Bit" value="true">
+    <not>
+      <contains string="${os.arch}" substring="64"/>
+    </not>
+  </condition>
+
+  <target name="init">
+    <loadfile property="app.version" srcFile="${app.version.file}">
+      <filterchain>
+        <deletecharacters chars="\r\n\f"/>
+      </filterchain>
+    </loadfile>
+    <tstamp>
+      <format property="timestamp" pattern="yyyy-MM-dd HH:mm zzz"/>
+    </tstamp>
+    <mkdir dir="${dist.dir}" />
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${build.dest}" />
+    <!-- <echo message="Tags file: ${app.tags.descriptions.file}" /> -->
+    <!-- <copy file="${app.tags.descriptions.file}" -->
+    <!--       todir="org/sbml/testsuite/ui/resources" -->
+    <!--       overwrite="true"/> -->
+  </target>
+
+  <target name="graphics" depends="init">
+    <!-- We need the .graphics directory to be in the same location as the
+         HTML file that is generated from the .md files, so that when we run
+         `inliner` later below, it can find the graphics files referenced in
+         the .md files. -->
+    <mkdir dir="${dist.dir}/.graphics" />
+    <copy todir="${dist.dir}/.graphics">
+      <fileset dir="${basedir}/.graphics" includes="**"/>
+    </copy>
+    <copy todir="${dist.dir}/.graphics">
+      <fileset dir="${basedir}/dev/github-css/.graphics" includes="**"/>
+    </copy>
+  </target>
+
+  <target name="changes-file-basic" depends="init, graphics">
+    <!-- Start with fixed text for the top, then generate HTML for the middle,
+         and finally close with some more fixed text for the bottom -->
+    <copy file="dev/release-notes/release-notes-fragment-top.html"
+          tofile="${dist.dir}/CHANGES.html"
+          overwrite="true"/>
+    <exec executable="multimarkdown">
+      <arg value="CHANGES.md"/>
+      <arg value="--snippet"/>
+      <arg value="--to=html"/>
+      <arg value="--output=${dist.dir}/CHANGES-TMP.html"/>
+    </exec>
+    <concat append="true" destfile="${dist.dir}/CHANGES.html">
+      <filelist dir="${dist.dir}" files="CHANGES-TMP.html"/>
+    </concat>
+    <concat append="true" destfile="${dist.dir}/CHANGES.html">
+      <filelist dir="dev/release-notes" 
+                files="release-notes-fragment-bottom.html"/>
+    </concat>
+    <replaceregexp file="${dist.dir}/CHANGES.html"
+                   match="%VERSION%" replace="${app.version}"/>
+    <!-- Hack to deal with ugly formatting resulting from how the installer
+         treats <li> elements. -->
+    <replace file="${dist.dir}/CHANGES.html"
+                   token="&lt;li&gt;&lt;p&gt;" 
+                   value="&lt;li style=&quot;margin-bottom: 1em&quot;&gt;"/>
+    <replace file="${dist.dir}/CHANGES.html"
+                   token="&lt;/p&gt;&lt;/li&gt;" value="&lt;/li&gt;"/>
+    <!-- Clean up some temporary files -->
+    <delete file="${dist.dir}/CHANGES-TMP.html" />
+  </target>
+
+  <target name="changes-file" depends="changes-file-basic">
+    <!-- Convert the HTML file to have inlined images and css so the result
+         doesn't have issues with finding external resources. This uses
+         `inliner`, a node.js program, which in my testing was the only thing
+         that worked as expected.  Unfortunately, for reasons I have been
+         unable to figure out, I couldn't get it to work at all from inside
+         the <exec> task using normal exec syntax, and only got it to work
+         with the combination of (1) bash shell command line and (2) cat'ing
+         the file to a pipe with `inliner`.  This would otherwise be a
+         useless use of `cat`.  Despite that `inliner` can in fact take the
+         source file on the command line if you type it by hand in a shell,
+         it did *not* work to try it inside the exec task `line` below.  Note
+         carefully the double-quoted syntax of the value of `line` below, and
+         don't try to simply the command line to remove the use of cat. Also
+         note the temporary change of working directory via the `dir`
+         attribute; this is done so `inliner` can find the files referenced
+         in <img>'s in the .graphics subdirectory we copy to ${dist.dir}. -->
+    <exec executable="bash" dir="${dist.dir}" failonerror="true">
+      <arg value="-c"/>
+      <arg line='"cat CHANGES.html | inliner -n > CHANGES-inlined.html"'/>
+    </exec>
+    <move file="${dist.dir}/CHANGES-inlined.html"
+          tofile="${dist.dir}/CHANGES.html" overwrite="true"/>
+  </target>
+
+  <target name="changes-file-rtf" depends="changes-file-basic">
+    <!-- Generate an RTF version of the readme file. This is used for the
+         windows NSIS installer. The stupid business with sed below is due to
+         the fact that the installer inlines link URLs in the RTF file when
+         it presents the RTF file to the user in the "about" page. The
+         resulting output is much harder to read. However, the RTF output is
+         still better and more readable than the plain-text output, so here
+         what's done is to strip the <a ...> tags from the HTML before
+         passing it to textutil for conversion to HTML. -->
+    <exec executable="sed">
+      <arg value="-e"/>
+      <arg value="s#&lt;a.*&gt;\(.*\)&lt;/a&gt;#\1#g"/>
+      <arg value="${dist.dir}/CHANGES.html"/>
+      <redirector output="${dist.dir}/CHANGES-TMP.html"/>  
+    </exec>
+    <exec executable="textutil">
+      <arg value="-convert"/>
+      <arg value="rtf"/>
+      <arg value="-strip"/>
+      <arg value="-textsizemultiplier"/>
+      <arg value="0.85"/>
+      <arg value="${dist.dir}/CHANGES-TMP.html"/>
+      <arg value="-output"/>
+      <arg value="${dist.dir}/CHANGES.rtf"/>
+    </exec>
+    <!-- Clean up some temporary files -->
+    <delete file="${dist.dir}/CHANGES-TMP.html" />
+  </target>
+
+  <!-- Convert some markdown files to HTML, possibly renaming them to make
+       more sense in the context of files in an application's directory. -->
+  <target name="html-files" depends="graphics">
+    <exec executable="pandoc">
+      <arg value="--standalone"/>
+      <arg value="-f"/>
+      <arg value="markdown_github"/>
+      <arg value="-H"/>
+      <arg value="${basedir}/dev/github-css/github-markdown-css.html"/>
+      <arg value="-o"/>
+      <arg value="${dist.dir}/ABOUT.html"/>
+      <!-- Note: this deliberately does not use the README.md in the current
+           directory.  The README in the current directory is good for the
+           source code in this directory, but the file we are producing is
+           meant to inform the user more generally about the test suite and
+           the role of the test runner. For that purpose, the top-level 
+           readme file is more appropriate. -->
+      <arg value="${basedir}/../../../README.md"/>
+    </exec>
+    <!-- Inline images & css.  See changes-file for explanations. -->
+    <exec executable="bash" dir="${dist.dir}" failonerror="true">
+      <arg value="-c"/>
+      <arg line='"cat ABOUT.html | inliner -n > ABOUT-inlined.html"'/>
+    </exec>
+    <move file="${dist.dir}/ABOUT-inlined.html"
+          tofile="${dist.dir}/ABOUT.html" overwrite="true"/>
+    <exec executable="pandoc">
+      <arg value="--standalone"/>
+      <arg value="-f"/>
+      <arg value="markdown_github"/>
+      <arg value="-H"/>
+      <arg value="${basedir}/dev/github-css/github-markdown-css.html"/>      
+      <arg value="-o"/>
+      <arg value="${dist.dir}/NEWS.html"/>
+      <arg value="${basedir}/../../../NEWS.md"/>
+    </exec>
+    <!-- Inline images & css.  See changes-file for explanations. -->
+    <exec executable="bash" dir="${dist.dir}" failonerror="true">
+      <arg value="-c"/>
+      <arg line='"cat NEWS.html | inliner -n > NEWS-inlined.html"'/>
+    </exec>
+    <move file="${dist.dir}/NEWS-inlined.html"
+          tofile="${dist.dir}/NEWS.html" overwrite="true"/>
+  </target>
+
+  <target name="misc-files"> 
+    <copy file="../../../LICENSE.html" 
+          todir="${dist.dir}" overwrite="true"/>
+    <copy file="../../../COPYING.html" 
+          todir="${dist.dir}" overwrite="true"/>
+  </target>
+
+  <target name="help-files" depends="help-files-normal, help-files-win"/>
+  <target name="help-files-normal" depends="init" unless="isWindows">
+    <ant antfile="build.xml" dir="${basedir}/docs/help-system"
+         useNativeBaseDir="true" target="generate-help-files" />
+  </target>
+  <target name="help-files-win" if="isWindows"
+          depends="check-help-files" unless="help-files.present">
+    <echo>
+Note: the help files cannot be created on Windows.
+Please run "ant help-files" on Mac or Linux machine with
+a shared file system, and then re-run the last command.
+    </echo>
+    <fail unless="help-files.present" message="Help files missing -- stopping."/>
+  </target>
+  <target name="check-help-files">
+    <available file="${build.dir}/classes/org/sbml/testsuite/ui/resources/help/menus.html"
+               property="help-files.present"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="${dist.dir}" />
+    <delete dir="${build.dir}" />
+    <delete dir="${build.dest}" />
+    <delete file="sbmltestrunner.jar"/>
+    <delete file="../testsuite-ui.jar"/>
+  </target>
+  <target name="cleanall" depends="clean">
+    <ant antfile="build.xml" dir="${core.dir}" inheritAll="false" target="clean" />
+  </target>
+  <target name="clean-jar">
+    <delete file="${dist.dir}/sbmltestrunner.jar" />
+  </target>
+
+  <target name="build" depends="build-subprojects, build-project" />
+  <target name="build-subprojects">
+    <echo message="Building dependent subproject" />
+    <echo message="${core.dir}"/>
+    <ant antfile="build.xml" dir="${core.dir}" inheritAll="false" target="jar" />
+  </target>
+  <target name="build-project" depends="init">
+    <echo message="Now building ${ant.project.name}" />
+    <echo message="${ant.file}"/>
+    <javac debug="true" debuglevel="${debuglevel}" destdir="${build.dest}"
+           includeantruntime="no">
+      <src path="src/org" />
+      <classpath refid="testsuite-ui.classpath" />
+      <compilerarg value="-Xlint:unchecked"/>
+    </javac>
+  </target>
+
+  <target name="check-cases-exists">
+    <pathconvert property="casesArchiveExists" setonempty="false" pathsep=" ">
+      <path>
+        <fileset dir="../../../" includes="sbml-semantic-test-cases-*.zip" />
+      </path>
+    </pathconvert>
+  </target>
+
+  <target name="complain-cases-missing" depends="check-cases-exists"
+          unless="casesArchiveExists">
+    <echo>
+Cannot continue because the test cases archive file
+../../../sbml-semantic-test-cases-YYYY-MM-DD.zip
+is missing.  Please run "make semantic-cases-dist" in
+the top-level directory, ../../../.
+
+To continue building set the environment variable: 
+TESTRUNNER_IGNORE_ARCHIVE=true. 
+    </echo>
+    <fail unless="env.TESTRUNNER_IGNORE_ARCHIVE" message="File missing -- stopping."/>
+  </target>
+
+  <target name="copy-cases-archive" depends="check-cases-exists, complain-cases-missing"
+          if="casesArchiveExists">
+    <copy tofile="${build.dest}/org/sbml/testsuite/ui/resources/sbml-semantic-test-cases.zip"
+          overwrite="true">
+      <fileset dir="../../../">
+        <include name="sbml-semantic-test-cases-*.zip"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Jars                                                                -->
+  <!--                                                                     -->
+  <!-- Basic invocation: "ant jar"                                         -->
+  <!--                                                                     -->
+  <!-- These bundle up dependent libraries and make it possible for a user -->
+  <!-- to execute "java -jar sbmltestrunner.jar" to start the app.         -->
+  <!-- =================================================================== -->
+
+  <target name="jar"          depends="jar-mac-auto, jar-win-auto, jar-linux-auto" />
+
+  <target name="jar-mac"      depends="jar-mac-auto-32, jar-mac-auto-64" />
+  <target name="jar-win"      depends="jar-win-auto-32, jar-win-auto-64" />
+  <target name="jar-linux"    depends="jar-linux-auto-32, jar-linux-auto-64" />
+
+  <target name="jar-mac-32"   depends="swt-osx-32, jar-common"/>
+  <target name="jar-mac-64"   depends="swt-osx-64, jar-common" />
+
+  <target name="jar-win-32"   depends="swt-win-32, jar-common" />
+  <target name="jar-win-64"   depends="swt-win-64, jar-common" />
+
+  <target name="jar-linux-32" depends="swt-linux-32, jar-common" />
+  <target name="jar-linux-64" depends="swt-linux-64, jar-common" />
+
+  <!-- The following targets are internal. -->
+
+  <target name="jar-mac-auto"      if="isMac">
+    <antcall target="jar-mac" />
+  </target>
+  <target name="jar-mac-auto-32"   if="is32Bit">
+    <antcall target="jar-mac-32" />
+  </target>
+  <target name="jar-mac-auto-64"   if="is64Bit">
+    <antcall target="jar-mac-64" />
+  </target>
+
+  <target name="jar-win-auto"      if="isWindows">
+    <antcall target="jar-win" />
+  </target>
+  <target name="jar-win-auto-32"   if="is32Bit">
+    <antcall target="jar-win-32" />
+  </target>
+  <target name="jar-win-auto-64"   if="is64Bit">
+    <antcall target="jar-win-64" />
+  </target>
+
+  <target name="jar-linux-auto"    if="isLinux">
+    <antcall target="jar-linux" />
+  </target>
+  <target name="jar-linux-auto-32" if="is32Bit">
+    <antcall target="jar-linux-32" />
+  </target>
+  <target name="jar-linux-auto-64" if="is64Bit">
+    <antcall target="jar-linux-64" />
+  </target>
+
+  <target name="swt-win-32">
+    <property name="swt.file" value="libs/swt-win32.jar"/>
+  </target>
+  <target name="swt-win-64">
+    <property name="swt.file" value="libs/swt-win64.jar"/>
+  </target>
+  <target name="swt-linux-32">
+    <property name="swt.file" value="libs/swt-linux-x86.jar"/>
+  </target>
+  <target name="swt-linux-64">
+    <property name="swt.file" value="libs/swt-linux-x64.jar"/>
+  </target>
+  <target name="swt-osx-32">
+    <property name="swt.file" value="libs/swt-macos.jar"/>
+  </target>
+  <target name="swt-osx-64">
+    <property name="swt.file" value="libs/swt-macos.jar"/>
+  </target>
+
+  <target name="jar-common" depends="build, help-files, copy-cases-archive">
+    <copy todir="${build.dest}" overwrite="true">
+      <fileset dir="src" includes="org/sbml/testsuite/ui/resources/**" />
+    </copy>
+    <touch file="${build.dest}/org/sbml/testsuite/ui/resources/help/VERSION-${app.version}"/>
+    <jar destfile="${dist.dir}/sbmltestrunner.jar">
+      <manifest>
+        <attribute name="Main-Class" value="${app.main.class}"/>
+        <attribute name="Implementation-Title" value="${app.name}" />
+        <attribute name="Implementation-Version" value="${app.version}" />
+        <attribute name="Built-Timestamp" value="${timestamp}" />
+        <attribute name="Built-By" value="${user.name}" />
+        <!-- <attribute name="SplashScreen-Image" value="org/sbml/testsuite/ui/resources/icon_256x256.png" /> -->
+      </manifest>
+      <zipgroupfileset file="${core.dir}/dist/testsuite-core.jar"/>
+      <zipgroupfileset file="${core.dir}/libs/jna-4.5.0.jar" />
+      <zipgroupfileset file="${core.dir}/libs/jna-platform-4.5.0.jar" />
+      <zipgroupfileset file="${core.dir}/libs/simple-xml-2.6.4.jar"/>
+      <zipgroupfileset file="libs/opal-0.9.5.1.jar"/>
+      <zipgroupfileset file="libs/org.swtchart_0.7.0.v20110128.jar"/>
+      <zipgroupfileset file="libs/commons-io-2.5.jar" />
+      <zipgroupfileset file="libs/json-simple-2.1.2.jar" />
+      <zipgroupfileset file="${swt.file}"/>
+      <fileset dir="libs" includes="*.jnilib" />
+      <fileset dir="${build.dest}" includes="**" />
+    </jar>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Applications                                                        -->
+  <!--                                                                     -->
+  <!-- Basic invocation: "ant app"                                         -->
+  <!--                                                                     -->
+  <!-- On Macs, this requires JarBundler, http://informagen.com/JarBundler -->
+  <!-- On Windows, this requires Frank's modified Launch4j                 -->
+  <!-- =================================================================== -->
+
+  <target name="app" depends="app-mac-auto, app-win-auto, app-linux-auto" />
+
+  <target name="app-mac-auto"    if="isMac">
+    <antcall target="app-mac-normal"/>
+  </target>
+  <target name="app-mac-auto-32" if="isMac">
+    <antcall target="app-mac-normal-32"/>
+  </target>
+  <target name="app-mac-auto-64" if="isMac">
+    <antcall target="app-mac-normal-64"/>
+  </target>
+
+  <!-- Targets for Mac OS X. -->
+
+  <target name="app-mac"    depends="app-mac-normal"/>
+
+  <target name="app-mac-normal"    depends="app-mac-normal-64"/>
+
+  <target name="app-mac-normal-64">
+    <antcall target="jar-mac-64"/>
+    <antcall target="app-mac-normal-common">
+      <param name="os" value=""/>
+      <param name="os.extra" value=" x64"/>
+      <param name="jvmarchs" value="x86_64"/>
+    </antcall>
+    <antcall target="clean-jar"/>
+  </target>
+
+  <target name="app-mac-normal-common"
+          depends="init, html-files, misc-files, changes-file">
+    <delete dir="${dist.dir}/${app.name}.app" failonerror="false"/>
+    <mkdir dir="${dist.dir}" />
+    <copy file="${basedir}/src/data/application-icons/icon_1024x1024.png"
+          tofile="${dist.dir}/sbmltestrunner-icon.png"
+          overwrite="true"/>
+    <exec executable="/usr/libexec/java_home" outputproperty="jre.path" />
+    <exec executable="javapackager">
+      <!-- Note: -deploy -name image has to come first in the argument list. -->
+      <arg value="-deploy"/>
+      <arg value="-native" />
+      <arg value="image" />
+      <arg value="-v" />
+      <arg value="-nosign" />
+      <arg value="-name" />
+      <arg value="${app.name}" />
+      <arg value="-title" />
+      <arg value="${app.name}" />
+      <arg value="-appclass" />
+      <arg value="${app.main.class}" />
+      <arg value="-srcdir" />
+      <arg value="${dist.dir}" />
+      <arg value="-srcfiles" />
+      <arg value="sbmltestrunner.jar" />
+      <arg value="-outdir" />
+      <arg value="${dist.dir}" />
+      <arg value="-Bicon=${app.icon.icns}" />
+      <arg value="-Bruntime=${jre.path}" />
+      <arg value="-BappVersion=${app.version}" />
+      <arg value="-outfile" />
+      <arg value="ignore-not-used" />
+    </exec>
+    <!-- javapackager insists on putting the results into a "bundles" subir.
+         Move it back up to ${dist.dir}. -->
+    <move file="${dist.dir}/bundles/${app.name}.app"
+          todir="${dist.dir}" overwrite="true"/>
+    <delete dir="${dist.dir}/bundles" failonerror="false"/>
+
+    <!-- Javapackager at some point after version 1.6 started using a .cfg
+         file where JVM options need to be given, in addition to (or maybe
+         instead of) the Info.plist file that was used before.  Unless the
+         critical option -XstartOnFirstThread is set in there, the app will
+         not even start.  That makes two places where we have to set the same
+         options: Info.plist and the .cfg file.  We can't provide the options
+         to javapackager using the <exec> directive above, because the ant
+         <exec> directive will throw an error if you try something like
+            <arg value="-BuserJvmOptions=-XstartOnFirstThread"/>
+         and if instead you try
+            <arg value="-BuserJvmOptions"> <arg value="-XstartOnFirstThread">
+         you will get an error that javapackager does not understand the
+         "-XstartOnFirstThread" argument. So we're screwed either way, and
+         the only option left is to create the necessary files outside of
+         this process and they copy them over what javapackager produces. -->
+    <copy file="${basedir}/dev/app-builders/macos/javapackager-config/Info.plist"
+          todir="${dist.dir}/${app.name}.app/Contents" overwrite="true"/>
+    <replaceregexp file="${dist.dir}/${app.name}.app/Contents/Info.plist"
+                   match="%VERSION%" replace="${app.version}" flags="g"/>
+    <copy file="${basedir}/dev/app-builders/macos/javapackager-config/${app.name}.cfg"
+          todir="${dist.dir}/${app.name}.app/Contents/Java" overwrite="true"/>
+    <replaceregexp file="${dist.dir}/${app.name}.app/Contents/Java/${app.name}.cfg"
+                   match="%VERSION%" replace="${app.version}" flags="g"/>
+    <!-- Icon sometimes isn't found by the running app unless it's put here. -->
+    <copy file="${basedir}/src/data/application-icons/icon_1024x1024.png"
+          tofile="${dist.dir}/${app.name}.app/Contents/Java/sbmltestrunner-icon.png"
+          overwrite="true"/>
+    <!-- Clean up some things we don't use from javapackager. -->
+    <delete file="${dist.dir}/ignore-not-used.html" failonerror="false"/>
+    <delete file="${dist.dir}/ignore-not-used.jnlp" failonerror="false"/>
+    <delete file="${dist.dir}/sbmltestrunner-splashscreen.png" failonerror="false"/>
+    <delete dir="${basedir}/package" failonerror="false"/>
+  </target>
+
+  <!-- Targets for Windows. -->
+
+  <target name="app-win" depends="app-win-32, app-win-64"/>
+
+  <target name="app-win-auto"    if="isWindows">
+    <antcall target="app-win-32"/>
+    <antcall target="app-win-64"/>
+  </target>
+  <target name="app-win-auto-32" if="isWindows">
+    <antcall target="app-win-32"/>
+  </target>
+  <target name="app-win-auto-64" if="isWindows">
+    <antcall target="app-win-64"/>
+  </target>
+
+  <target name="app-win-32" depends="init">
+    <antcall target="jar-win-32"/>
+    <taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask"
+             classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
+    <launch4j configFile="dev/app-builders/windows/SBML_Test_Runner_launch4j_x86_config.xml" />
+    <antcall target="clean-jar"/>
+  </target>
+  <target name="app-win-64" depends="init">
+    <antcall target="jar-win-64"/>
+    <taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask"
+             classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
+    <launch4j configFile="dev/app-builders/windows/SBML_Test_Runner_launch4j_x64_config.xml" />
+    <antcall target="clean-jar"/>
+  </target>
+
+
+  <!-- Targets for Linux. -->
+
+  <target name="app-linux" depends="app-linux-32, app-linux-64"/>
+
+  <target name="app-linux-auto"    if="isLinux">
+    <antcall target="app-linux-32"/>
+    <antcall target="app-linux-64"/>
+  </target>
+  <target name="app-linux-auto-32" if="isLinux">
+    <antcall target="app-linux-32"/>
+  </target>
+  <target name="app-linux-auto-64" if="isLinux">
+    <antcall target="app-linux-64"/>
+  </target>
+
+  <target name="app-linux-32">
+    <antcall target="jar-linux-32"/>
+    <antcall target="app-linux-common">
+      <param name="os" value="linux"/>
+      <param name="bits" value="x86"/>
+    </antcall>
+    <!-- <antcall target="clean-jar"/> -->
+  </target>
+  <target name="app-linux-64">
+    <antcall target="jar-linux-64"/>
+    <antcall target="app-linux-common">
+      <param name="os" value="linux"/>
+      <param name="bits" value="x64"/>
+    </antcall>
+    <!-- <antcall target="clean-jar"/> -->
+  </target>
+
+  <target name="app-linux-common" 
+          depends="init, help-files, html-files, misc-files, changes-file">
+    <concat destfile="${dist.dir}/${app.name.nospace}-${os}-${bits}"
+            binary="true">
+      <filelist dir="dev/app-builders/linux" files="bootstrap.sh"/>
+      <filelist dir="${dist.dir}" files="sbmltestrunner.jar"/>
+   </concat>
+    <exec executable="chmod">
+      <arg value="+x"/>
+      <arg value="${dist.dir}/${app.name.nospace}-${os}-${bits}"/>
+    </exec>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Distributions                                                       -->
+  <!--                                                                     -->
+  <!-- Basic invocation: "ant dist"                                        -->
+  <!-- On Mac, this requires Packages (by WhiteBox).                       -->
+  <!-- On Windows, this requires (1) NSIS and (2) NSIS Ant Task.           -->
+  <!-- On Linux, this requires InstallBuilder.                             -->
+  <!-- =================================================================== -->
+
+  <!-- The following targets are meant to be invoked by users.             -->
+
+  <target name="dist" depends="dist-mac-auto, dist-win-auto, dist-linux-auto"/>
+
+  <!-- Targets for Mac. -->
+
+  <target name="dist-mac-auto"    if="isMac">
+    <antcall target="dist-mac"/>
+  </target>
+
+  <target name="dist-mac" depends="init, app-mac-normal">
+    <exec executable="packagesbuild">
+      <arg value="dev/app-builders/macos/packages-config/SBML Test Runner/SBML Test Runner.pkgproj"/>
+    </exec>
+    <move file="${dist.dir}/${app.name}.pkg"
+          tofile="${dist.dir}/${app.name} ${app.version} macOS installer.pkg" overwrite="true"/>
+  </target>
+
+  <!-- Targets for Windows. -->
+
+  <target name="dist-win-auto"    if="isWindows">
+    <antcall target="dist-win"/>
+  </target>
+
+  <target name="dist-win" depends="init, misc-files">
+    <antcall target="app-win"/>
+    <taskdef name="nsis" classname="com.danielreese.nsisant.Task">
+      <classpath location="dev/app-builders/windows/nsisant-1.3.jar"/>
+    </taskdef>
+    <nsis script="dev/app-builders/windows/NSIS_SBML_Test_Runner.nsi"
+          verbosity="4" noconfig="yes" nocd="yes">
+      <define name="NAME" value="${app.name}"/>
+      <define name="VERSION" value="${app.version}"/>
+      <define name="WEBSITE" value="${app.website}"/>
+      <define name="DIST_DIR" value="${dist.dir}"/>
+      <scriptcmd cmd="AutoCloseWindow true"/>
+    </nsis>
+  </target>
+
+
+  <!-- Targets for Linux. -->
+
+  <target name="dist-linux-auto"    if="isLinux">
+    <antcall target="dist-linux"/>
+  </target>
+
+  <target name="dist-linux" depends="init, html-files">
+    <antcall target="app-linux"/>
+    <antcall target="dist-linux-common">
+      <param name="dist.linux.action" value="linux"/>
+    </antcall>
+    <antcall target="dist-linux-common">
+      <param name="dist.linux.action" value="linux-x64"/>
+    </antcall>
+    <antcall target="dist-linux-common">
+      <param name="dist.linux.action" value="rpm"/>
+    </antcall>
+    <antcall target="dist-linux-common">
+      <param name="dist.linux.action" value="deb"/>
+    </antcall>
+  </target>
+
+  <target name="dist-linux-common">
+    <copy file="${basedir}/src/data/application-icons/linux/icon_64x64.png"
+          tofile="${dist.dir}/.sbmltestrunner-icon.png"
+          overwrite="true"/>
+    <exec executable="${installbuilder.dir}/bin/builder">
+      <arg value="build"/>
+      <arg value="dev/app-builders/linux/installbuilder-linux-config.xml"/>
+      <arg value="${dist.linux.action}"/>
+      <arg value="--setvars"/>
+      <arg value="basedir=${basedir}"/>
+      <arg value="project.outputDirectory=${dist.dir}"/>
+      <arg value="project.version=${app.version}"/>
+    </exec>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Other targets                                                       -->
+  <!-- =================================================================== -->
+
+  <target name="start-win-32" depends="swt-win-32">
+    <java fork="true" jar="${dist.dir}/sbmltestrunner.jar" />
+  </target>
+  <target name="start-win-64" depends="swt-win-64">
+    <java fork="true" jar="${dist.dir}/sbmltestrunner.jar" />
+  </target>
+  <target name="start-linux-32" depends="swt-linux-32">
+    <java fork="true" jar="${dist.dir}/sbmltestrunner.jar" />
+  </target>
+  <target name="start-linux-64" depends="swt-linux-64">
+    <java fork="true" jar="${dist.dir}/sbmltestrunner.jar" />
+  </target>
+  <target name="start-osx-32" depends="swt-osx-32">
+    <java fork="true" jar="${dist.dir}/sbmltestrunner.jar" >
+      <jvmarg value="-d32"/>
+      <jvmarg value="-XstartOnFirstThread"/>
+    </java>
+  </target>
+  <target name="start-osx-64" depends="swt-osx-64">
+    <java fork="true" jar="${dist.dir}/sbmltestrunner.jar">
+      <jvmarg value="-XstartOnFirstThread"/>
+      <jvmarg value='-Xdock:name="${app.name}"'/>
+    </java>
+  </target>
+
+  <target name="tags">
+    <delete file="TAGS"/>
+    <apply executable="etags" verbose="true" force="true">
+      <!-- You must use -append or this will only produce tags for the 
+           last file in the list. -->
+      <arg value="--append"/>
+      <arg value="--ignore-indentation"/>
+      <fileset dir="${basedir}/src/org/eclipse/wb/swt/" includes="*.java"/>
+      <fileset dir="${basedir}/src/org/sbml/testsuite/ui/" includes="*.java"/>
+    </apply>
+  </target>
+
+  <!--  =================================================================== -->
+  <!-- Code no longer used, but worth saving in case it's needed again -->
+  <!--  =================================================================== -->
+
+  <condition property="haveGrip" value="true">
+    <available file="grip" filepath="${env.PATH}" property="grip.present"/>
+  </condition>
+
+  <target name="make-html-files-grip" if="haveGrip">
+    <exec executable="grip">
+      <arg value="${basedir}/../../../README.md"/>
+      <arg value="--user-content"/>
+      <arg value="--context=sbmlteam/sbml-test-suite"/>
+      <arg value="--title"/>
+      <arg value="About the SBML Test Suite"/>
+      <arg value="--export"/>
+      <arg value="${dist.dir}/ABOUT.html"/>
+    </exec>
+    <exec executable="grip">
+      <arg value="${basedir}/../../../NEWS.md"/>
+      <arg value="--user-content"/>
+      <arg value="--title"/>
+      <arg value="NEWS"/>
+      <arg value="--export"/>
+      <arg value="${dist.dir}/NEWS.html"/>
+    </exec>
+  </target>
+
+  <target name="changes-file-text" depends="changes-file">
+    <exec executable="lynx">
+      <arg value="-nolist"/>
+      <arg value="-nocolor"/>
+      <arg value="-nobold"/>
+      <arg value="-nomore"/>
+      <arg value="-noreverse"/>
+      <arg value="-nounderline"/>
+      <arg value="-width=1024"/>      
+      <arg value="-dump"/>
+      <arg value="${dist.dir}/CHANGES.html"/>
+      <redirector output="${dist.dir}/CHANGES.txt"/>  
+    </exec>
+  </target>
+
+</project>

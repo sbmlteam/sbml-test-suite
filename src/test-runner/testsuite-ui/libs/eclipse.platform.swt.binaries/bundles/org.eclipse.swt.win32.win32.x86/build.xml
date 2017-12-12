@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.eclipse.swt.win32.win32.x86" default="build.jars" basedir=".">
+
+	<property name="swt.ws" value="win32" />
+	<property name="swt.os" value="win32" />
+	<property name="swt.arch" value="x86" />
+	<property name="targets" value="x86 all make_webkit install"/>
+	
+	<!-- These properties are used by eclipse when exporting as Deployable plugin and fragments -->
+	<property name="version.suffix" value="3.106.0" />
+	
+	<condition property="plugindir" value="../../../eclipse.platform.swt/bundles/org.eclipse.swt" else="${buildDirectory}/plugins/org.eclipse.swt">
+		<available file="../../../eclipse.platform.swt/bundles/org.eclipse.swt" type="dir"/>
+	</condition>
+	<import file="${plugindir}/buildFragment.xml"/>
+	<import file="${plugindir}/buildSWT.xml"/>
+</project>

@@ -6,7 +6,7 @@ synopsis:      Basic two reactions with three species in one compartment
 componentTags: Compartment, Species, Reaction, Parameter, EventNoDelay, FunctionDefinition
 testTags:      Amount
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are three species
@@ -67,3 +67,4 @@ addEvent[ trigger -> S1 < 0.75, eventAssignment -> S2->add[k3, k4] ];
 addEvent[ trigger -> S3 > 1.2, eventAssignment -> S1->1*divide[k3, k4] ];
 
 makemodel[]
+

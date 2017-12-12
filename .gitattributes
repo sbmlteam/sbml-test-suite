@@ -1,0 +1,28 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout.
+*.c text
+*.h text
+*.m text
+*.xml text
+*.txt text
+*.mod text
+*.html text
+*.java text
+
+# Declare files that will always have CRLF line endings on checkout.
+# *.sln text eol=crlf
+
+# Denote all files that are truly binary and should not be modified.
+*.png binary
+*.jpg binary
+*.xls binary
+*.doc binary
+
+# This next one is because we have constant problems with git getting
+# confused about line endings when people using Windows and Mac 
+# edit the same files.
+
+*.csv binary diff=csv

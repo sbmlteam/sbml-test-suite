@@ -1,0 +1,15 @@
+Color codes for results
+-----------------------
+
+After tests are run, the SBML Test Runner will display the results and use color codes to convey how well the application fared on the test.  These color codes are shown both in the list of test cases along the left-hand side in the main application window, and in the map view window.  The following are the possible colors and their meanings:
+
+<ul style="list-style: none; line-height:200%;">
+  <li><div class="green square">&nbsp;</div> Results matched expectations (test passed)</li>
+  <li><div class="red square">&nbsp;</div> Results did not match expected results (test failed)</li>
+  <li><div class="yellow square">&nbsp;</div> Output ignored because tool does not support relevant tag(s)</li>
+  <li><div class="blue square">&nbsp;</div> No output obtained because tool does not support relevant tag(s)</li>
+  <li><div class="gray square">&nbsp;</div> No output obtained</li>
+  <li><div class="black square">&nbsp;</div> Error occurred upon wrapper invocation or reading the results file</li>
+  <li><div class="white boxed-square">&nbsp;</div> Test case is not available for this SBML Level+Version combination</li>
+</ul> 
+

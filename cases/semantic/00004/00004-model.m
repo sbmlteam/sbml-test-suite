@@ -7,7 +7,7 @@ compartment, with non-unity stoichiometries and non-unity rate
 componentTags: Compartment, Species, Reaction, Parameter 
 testTags:      Amount, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called "compartment".  There are two
@@ -49,3 +49,4 @@ addReaction[ 2 S2 -> S1, reversible -> False,
 	     kineticLaw -> k2 * S2 * S2 * compartment ];
 
 makemodel[]
+

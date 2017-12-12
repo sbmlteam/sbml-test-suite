@@ -5,7 +5,7 @@ synopsis:        Constant-amount species in variable compartment.
 componentTags:   AssignmentRule, Compartment, Parameter, RateRule, Species
 testTags:        Amount, InitialValueReassigned, NonConstantCompartment, NonConstantParameter, NonUnityCompartment
 testType:        TimeCourse
-levels:          1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:          1.2, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:     Analytic
 packagesPresent: 
 
@@ -38,3 +38,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

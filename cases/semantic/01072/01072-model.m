@@ -6,7 +6,7 @@ synopsis:      Basic two reactions with four species in one compartment
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter, EventNoDelay 
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Numeric
 
 Note:  This test is the L3 version of model 391.
@@ -63,3 +63,4 @@ addEvent[ trigger -> S4 > S2, eventAssignment -> S1->2/10^4 ];
 addEvent[ trigger -> S3 > 10/(4 10^4), eventAssignment -> S4->1/10^4 ];
 
 makemodel[]
+

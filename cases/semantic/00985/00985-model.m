@@ -5,7 +5,7 @@ synopsis:      An assignment rule with a continually-changing delay.
 componentTags: AssignmentRule, CSymbolDelay, Parameter, RateRule
 testTags:      NonConstantParameter, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic
 
 This model contains a single parameter x changing at a constant rate, and a second parameter z that follows x with a delay of 1, and a third parameter y that follows x with a delay of z.
@@ -31,3 +31,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

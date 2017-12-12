@@ -5,7 +5,7 @@ synopsis:      A very simple reaction with stoichiometry set by an initialAssign
 componentTags: Compartment, InitialAssignment, Parameter, Reaction, Species
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
 Note:  This test is the L3 version of model 968.
@@ -39,3 +39,4 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
+

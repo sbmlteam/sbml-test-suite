@@ -6,7 +6,7 @@ with an algebraic rule used to determine value of a parameter.
 componentTags: Compartment, Species, Reaction, Parameter, AlgebraicRule, EventWithDelay  
 testTags:      Amount, EventUsesTriggerTimeValues, InitialValueReassigned
 testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1
+levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Numeric
 
 The model contains one compartment called C.  There are four
@@ -68,3 +68,4 @@ addReaction[ S3 -> S1 + S4, reversible -> False,
 addEvent[ trigger -> S4 > S3, delay -> 2, eventAssignment -> S4 -> 3*S4 ];
 
 makemodel[]
+

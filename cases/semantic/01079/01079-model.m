@@ -6,7 +6,7 @@ compartment using initialAssignment to set the initial value of one species.
 componentTags: InitialAssignment, Compartment, Species, Reaction, Parameter 
 testTags:      InitialValueReassigned, Amount, AssignedConstantStoichiometry, NonUnityStoichiometry, InitialValueReassigned
 testType:      TimeCourse
-levels:        3.1
+levels:        3.1, 3.2
 generatedBy:   Analytic
 
 Note:  This test is the L3 version of model 518.
@@ -61,3 +61,4 @@ addReaction[reactants->{S1}, products->{S2}, productStoichiometry->{4 * p1},
 	     kineticLaw -> C * k2 * S1];
 
 makemodel[]
+
