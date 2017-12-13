@@ -3,6 +3,7 @@
 The SBML Test Suite is a conformance testing system for [SBML](http://sbml.org), a file and data format used to store and exchange models in computational systems biology.
 
 [![License](http://img.shields.io/:license-LGPL-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html)  [![Latest stable release](https://img.shields.io/badge/Latest_stable_release-3.3-brightgreen.svg)](http://shields.io)
+[![DOI](https://zenodo.org/badge/65245545.svg)](https://zenodo.org/badge/latestdoi/65245545)
 
 ----
 
@@ -19,7 +20,9 @@ The SBML Test Suite is a conformance testing system for [SBML](http://sbml.org),
 🏁 Recent news and activities
 ------------------------------
 
-Please see the file [NEWS.md](NEWS.md) for a summary of the changes in the most recent release.
+_December 2017_: [Release 3.3.0](https://github.com/sbmlteam/sbml-test-suite/releases/tag/3.3.0) is now available.  It features a large number of new test cases, new features in the SBML Test Runner, bug fixes and more.  Please see the file [NEWS.md](NEWS.md) for a summary of the changes in the most recent release. Here is the Zenodo DOI for this release:
+
+* SBML Test Suite release 3.3.0 &rArr; [10.5281/zenodo.1112521](https://zenodo.org/badge/latestdoi/65245545)
 
 ☀ Background
 ----------
