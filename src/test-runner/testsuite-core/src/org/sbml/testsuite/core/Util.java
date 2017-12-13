@@ -689,14 +689,30 @@ public class Util
     /**
      * @return the directory of the bundled test suite
      */
-    public static File getInternalTestSuiteDir()
+    public static File getInternalTestSuiteDir(boolean createIfMissing)
     {
         File destinationDir = new File(getUserDir() + File.separator
-            + ".test-suite");
-        if (!destinationDir.exists()) destinationDir.mkdirs();
+                                       + ".test-suite");
+        // Don't blindly assume we can write in the destination directory.
+        if (!destinationDir.exists() && createIfMissing)
+            try
+            {
+                destinationDir.mkdirs();
+            }
+            catch (Exception e)
+            {
+            }
         return destinationDir;
     }
 
+
+    /**
+     * @return the directory of the bundled test suite
+     */
+    public static File getInternalTestSuiteDir()
+    {
+        return getInternalTestSuiteDir(false);
+    }
 
     /**
      * Parses the given level / version string in the formats:
@@ -1024,14 +1040,17 @@ public class Util
     public static boolean unzipArchive(File file, CancelCallback callback)
     {
         if (!file.exists()) return false;
+
+        File destinationDir = getInternalTestSuiteDir(false);
         try
         {
-            delete(getInternalTestSuiteDir());
+            delete(destinationDir);
         }
         catch (IOException e)
-        {}
+        {
+            return false;
+        }
 
-        File destinationDir = getInternalTestSuiteDir();
         int ncount = 0;
         try
         {
