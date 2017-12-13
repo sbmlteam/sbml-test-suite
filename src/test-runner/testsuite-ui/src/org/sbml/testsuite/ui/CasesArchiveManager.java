@@ -567,11 +567,13 @@ public class CasesArchiveManager
                     public void run()
                     {
                         Tell.error(parentShell,
-                                   "Unable to extract cases from archive.",
-                                   "Encountered an error attempting to unzip\n"
-                                   + "the archive of test cases. It may be\n"
-                                   + "corrupted, or a file system error may\n"
-                                   + "have occurred.");
+                                   "Unable to extract cases from internal archive.",
+                                   "Encountered an error attempting to unzip the archive\n"
+                                   + "of test cases. It may be corrupted, or the destination\n"
+                                   + "directory may not be writable or a file system error\n"
+                                   + "or other problem may have occurred. The directory that\n"
+                                   + "the Test Runner attempted to write in is the following:\n"
+                                   + Util.getInternalTestSuiteDir() + "/cases");
                     }
                 });
                 return;
@@ -584,12 +586,12 @@ public class CasesArchiveManager
                     {
                         Tell.error(parentShell,
                            "Interrupted -- test cases are incomplete!",
-                           "As a result of the unpacking operation having\n"
-                           + "been interrupted, the test cases are not fully\n"
-                           + "installed or configured. The Test Runner is not\n"
-                           + "in a fully operational state. You are advised to\n"
-                           + "either use the 'Restore test cases' menu item or\n"
-                           + "else exit the program and recover manually.");
+                           "As a result of the unpacking operation having been\n"
+                           + "interrupted, the test cases are not fully installed\n"
+                           + "or configured. The Test Runner is not in a fully\n"
+                           + "operational state. You are advised to either use the\n"
+                           + "'Restore test cases' menu item or else exit the\n"
+                           + "program and recover manually.");
                     }
                 });
                 return;
