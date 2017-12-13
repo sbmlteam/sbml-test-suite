@@ -2682,6 +2682,7 @@ public class MainWindow
         // we only check the internal archive if other conditions ask for it.
 
         boolean foundDownloads = false;
+        boolean userDeclined = false;
         if (archiveManager.checkForUpdates(quietly))
         {
             foundDownloads = true;
@@ -2690,8 +2691,7 @@ public class MainWindow
                              + "download site. Proceed to download them\n"
                              + "and replace the contents of your default\n"
                              + "test suite directory, which is located in\n"
-                             + Util.getInternalTestSuiteDir()
-                             + "?"))
+                             + Util.getInternalTestSuiteDir() + "?"))
             {
                 markAsRunning(false);
                 archiveManager.updateFromNetwork();
@@ -2764,6 +2764,8 @@ public class MainWindow
 
                     if (Tell.confirmWithDetails(shell, msg, details))
                         unpackInternal = true;
+                    else
+                        userDeclined = true;
                 }
             }
 
@@ -2786,7 +2788,7 @@ public class MainWindow
             }
 
         }
-        if (!quietly && !closing && !foundDownloads && !unpackInternal)
+        if (!quietly && !closing && !foundDownloads && !unpackInternal && !userDeclined)
             Tell.inform(shell, "No new test cases found.");
     }
 
