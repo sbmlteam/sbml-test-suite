@@ -1,7 +1,7 @@
 start:
 duration:
 steps:
-variables: R01,R19,R26,OBJF
+variables: R01,R26,OBJF
 absolute: 0.001
 relative: 0.001
 amount: 
