@@ -24,7 +24,7 @@
       <parameter id="timeconv" value="100" constant="true"/>
     </listOfParameters>
     <comp:listOfSubmodels>
-      <comp:submodel id="sub2" comp:id="sub2" comp:modelRef="moddef2" comp:timeConversionFactor="timeconv"/>
+      <comp:submodel comp:id="sub2" comp:modelRef="moddef2" comp:timeConversionFactor="timeconv"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfExternalModelDefinitions>

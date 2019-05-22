@@ -3,7 +3,7 @@
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" level="3" version="1" comp:required="true">
   <model id="moddef2" name="moddef2">
     <comp:listOfSubmodels>
-      <comp:submodel id="sub1" comp:id="sub1" comp:modelRef="moddef1"/>
+      <comp:submodel comp:id="sub1" comp:modelRef="moddef1"/>
     </comp:listOfSubmodels>
   </model>
   <comp:listOfModelDefinitions>
