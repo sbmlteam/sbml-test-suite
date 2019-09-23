@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v2.12.0 with libSBML version 5.18.1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version2/core" level="3" version="2">
-  <model id="case000955" name="case000955" timeUnits="time">
-    <notes>
-      <body xmlns="http://www.w3.org/1999/xhtml">
-        <p> Originally created by libAntimony v1.4 (using libSBML 5.0.0-a1) </p>
-      </body>
-    </notes>
-    <listOfUnitDefinitions>
-      <unitDefinition id="volume">
-        <listOfUnits>
-          <unit kind="litre" exponent="1" scale="0" multiplier="1"/>
-        </listOfUnits>
-      </unitDefinition>
-      <unitDefinition id="time">
-        <listOfUnits>
-          <unit kind="second" exponent="1" scale="0" multiplier="1"/>
-        </listOfUnits>
-      </unitDefinition>
-    </listOfUnitDefinitions>
+  <model id="case000955" name="case000955">
     <listOfParameters>
       <parameter id="P1" constant="false"/>
       <parameter id="P2" constant="false"/>
@@ -141,7 +125,11 @@
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
             <ceiling/>
-            <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+            <apply>
+              <minus/>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <cn> 0.001 </cn>
+            </apply>
           </apply>
         </math>
       </assignmentRule>
@@ -151,7 +139,11 @@
             <ceiling/>
             <apply>
               <minus/>
-              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <apply>
+                <minus/>
+                <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              </apply>
+              <cn> 0.001 </cn>
             </apply>
           </apply>
         </math>
@@ -198,7 +190,11 @@
         <math xmlns="http://www.w3.org/1998/Math/MathML">
           <apply>
             <floor/>
-            <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+            <apply>
+              <plus/>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <cn> 0.001 </cn>
+            </apply>
           </apply>
         </math>
       </assignmentRule>
@@ -207,8 +203,12 @@
           <apply>
             <floor/>
             <apply>
-              <minus/>
-              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <plus/>
+              <apply>
+                <minus/>
+                <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              </apply>
+              <cn> 0.001 </cn>
             </apply>
           </apply>
         </math>

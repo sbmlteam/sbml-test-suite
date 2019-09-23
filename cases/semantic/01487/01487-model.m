@@ -26,14 +26,14 @@ There are 26 rules:
 | Assignment | P7 | $my_asin(-time)$ |
 | Assignment | P8 | $my_atan(time)$ |
 | Assignment | P9 | $my_atan(-time)$ |
-| Assignment | P10 | $my_ceil(time)$ |
-| Assignment | P11 | $my_ceil(-time)$ |
+| Assignment | P10 | $my_ceil(time - 0.001)$ |
+| Assignment | P11 | $my_ceil(-time - 0.001)$ |
 | Assignment | P13 | $my_cos(time)$ |
 | Assignment | P14 | $my_cos(-time)$ |
 | Assignment | P15 | $my_exp(time)$ |
 | Assignment | P16 | $my_exp(-time)$ |
-| Assignment | P18 | $my_floor(time)$ |
-| Assignment | P19 | $my_floor(-time)$ |
+| Assignment | P18 | $my_floor(time + 0.001)$ |
+| Assignment | P19 | $my_floor(-time + 0.001)$ |
 | Assignment | P20 | $my_ln(time + 1)$ |
 | Assignment | P22 | $my_log10(time + 1)$ |
 | Assignment | P29 | $my_sqrt(time)$ |
@@ -77,14 +77,14 @@ The initial conditions are as follows:
 | Initial value of parameter P7 | $my_asin(-time)$ | variable |
 | Initial value of parameter P8 | $my_atan(time)$ | variable |
 | Initial value of parameter P9 | $my_atan(-time)$ | variable |
-| Initial value of parameter P10 | $my_ceil(time)$ | variable |
-| Initial value of parameter P11 | $my_ceil(-time)$ | variable |
+| Initial value of parameter P10 | $my_ceil(time - 0.001)$ | variable |
+| Initial value of parameter P11 | $my_ceil(-time - 0.001)$ | variable |
 | Initial value of parameter P13 | $my_cos(time)$ | variable |
 | Initial value of parameter P14 | $my_cos(-time)$ | variable |
 | Initial value of parameter P15 | $my_exp(time)$ | variable |
 | Initial value of parameter P16 | $my_exp(-time)$ | variable |
-| Initial value of parameter P18 | $my_floor(time)$ | variable |
-| Initial value of parameter P19 | $my_floor(-time)$ | variable |
+| Initial value of parameter P18 | $my_floor(time + 0.001)$ | variable |
+| Initial value of parameter P19 | $my_floor(-time + 0.001)$ | variable |
 | Initial value of parameter P20 | $my_ln(time + 1)$ | variable |
 | Initial value of parameter P22 | $my_log10(time + 1)$ | variable |
 | Initial value of parameter P29 | $my_sqrt(time)$ | variable |
