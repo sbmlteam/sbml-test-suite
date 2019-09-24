@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Test that L1 and L2 reactions default to fast=false.
 componentTags:   Compartment, Reaction, Species
-testTags:        Amount, DefaultValue, ReversibleReaction
+testTags:        Amount, DefaultValue
 testType:        TimeCourse
 levels:          1.2, 2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:     Numeric
