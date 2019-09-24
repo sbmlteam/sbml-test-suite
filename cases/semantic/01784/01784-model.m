@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Test that L1 and L2 reactions default to fast=false.
 componentTags:   Compartment, Reaction, Species
-testTags:        Amount, ReversibleReaction, DefaultValue
+testTags:        Amount, DefaultValue, ReversibleReaction
 testType:        TimeCourse
 levels:          1.2, 2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:     Numeric
@@ -13,7 +13,7 @@ In this very simple model, a reaction is present that, if it was set 'fast=true'
 
 The model contains:
 * 1 species (S1)
-* 1 compartment (default_compartment)
+* 1 compartment (C)
 
 There is one reaction:
 
@@ -24,6 +24,6 @@ The initial conditions are as follows:
 
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial concentration of species S1 | $0$ | variable |
-| Initial volume of compartment 'default_compartment' | $1$ | constant |]
+| Initial volume of compartment 'C' | $1$ | constant |]
 
 *)
