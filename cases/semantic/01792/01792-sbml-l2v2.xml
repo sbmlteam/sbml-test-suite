@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level2/version2" level="2" version="2">
-  <model metaid="case01791" id="case01791">
+  <model metaid="case01792" id="case01792">
     <listOfCompartments>
       <compartment id="C1" size="2"/>
     </listOfCompartments>
