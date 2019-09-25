@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A simple reaction with stoichiometry set to a parameter that varies due to a rate law.
 componentTags: StoichiometryMath, Compartment, Parameter, RateRule, Reaction, Species
-testTags:      Amount, AssignedVariableStoichiometry, NonUnityStoichiometry, NonConstantParameter
+testTags:      Amount, AssignedVariableStoichiometry, DefaultValue, NonUnityStoichiometry, NonConstantParameter
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:   Numeric

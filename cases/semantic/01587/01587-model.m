@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        An event whose delayed assignment affects a reaction's stoichiometry.
 componentTags:   Compartment, EventWithDelay, Parameter, RateRule, Reaction, Species, StoichiometryMath
-testTags:        Amount, AssignedVariableStoichiometry, EventUsesAssignmentTimeValues, NonConstantParameter, NonUnityStoichiometry
+testTags:        Amount, AssignedVariableStoichiometry, DefaultValue, EventUsesAssignmentTimeValues, NonConstantParameter, NonUnityStoichiometry
 testType:        TimeCourse
 levels:          2.4, 2.5
 generatedBy:     Analytic

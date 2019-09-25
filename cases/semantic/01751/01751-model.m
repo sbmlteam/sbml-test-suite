@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A variable stoichiometry with a shadowing local parameter.
 componentTags:   CSymbolTime, Compartment, Reaction, Species, StoichiometryMath
-testTags:        Amount, AssignedVariableStoichiometry, LocalParameters, NonUnityStoichiometry
+testTags:        Amount, AssignedVariableStoichiometry, DefaultValue, LocalParameters, NonUnityStoichiometry
 testType:        TimeCourse
 levels:          2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:     Analytic

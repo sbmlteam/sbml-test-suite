@@ -10,7 +10,7 @@ synopsis:      Basic reactions with three species in a compartment
 
 componentTags: StoichiometryMath, Compartment, Species, Reaction, Parameter, FunctionDefinition 
 
-testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
+testTags:      Amount, AssignedConstantStoichiometry, DefaultValue, NonUnityStoichiometry
 
 testType:      TimeCourse
 

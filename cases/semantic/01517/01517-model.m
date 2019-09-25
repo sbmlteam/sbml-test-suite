@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        The use of unusual MathML constructs in StoichiometryMath.
 componentTags:   Compartment, Reaction, Species, StoichiometryMath
-testTags:        Amount, AssignedConstantStoichiometry, NonUnityStoichiometry, UncommonMathML
+testTags:        Amount, AssignedConstantStoichiometry, DefaultValue, NonUnityStoichiometry, UncommonMathML
 testType:        TimeCourse
 levels:          2.2, 2.3, 2.4, 2.5
 generatedBy:     Analytic

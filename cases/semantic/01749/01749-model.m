@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A variable stoichiometry for a substance-only species.
 componentTags:   CSymbolTime, Compartment, Reaction, Species, StoichiometryMath
-testTags:        Amount, AssignedVariableStoichiometry, HasOnlySubstanceUnits, NonUnityCompartment, NonUnityStoichiometry
+testTags:        Amount, AssignedVariableStoichiometry, DefaultValue, HasOnlySubstanceUnits, NonUnityCompartment, NonUnityStoichiometry
 testType:        TimeCourse
 levels:          2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:     Analytic
