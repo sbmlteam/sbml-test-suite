@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A fast reaction with assigned stoichiometry.
 componentTags:   Compartment, Reaction, Species, StoichiometryMath
-testTags:        Amount, AssignedConstantStoichiometry, FastReaction, NonUnityStoichiometry
+testTags:        Amount, AssignedConstantStoichiometry, DefaultValue, FastReaction, NonUnityStoichiometry
 testType:        TimeCourse
 levels:          2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:     Analytic

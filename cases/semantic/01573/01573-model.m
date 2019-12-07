@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A reaction with assigned stoichiometry for a boundary species.
 componentTags:   Compartment, Reaction, Species, StoichiometryMath
-testTags:        Amount, AssignedConstantStoichiometry, BoundaryCondition, NonUnityStoichiometry
+testTags:        Amount, AssignedConstantStoichiometry, BoundaryCondition, DefaultValue, NonUnityStoichiometry
 testType:        TimeCourse
 levels:          2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:     Analytic

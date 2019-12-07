@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        A stoichiometry that changes due to a function definition.
 componentTags:   Compartment, FunctionDefinition, Parameter, RateRule, Reaction, Species, StoichiometryMath
-testTags:        Amount, AssignedVariableStoichiometry, NonConstantParameter, NonUnityStoichiometry
+testTags:        Amount, AssignedVariableStoichiometry, DefaultValue, NonConstantParameter, NonUnityStoichiometry
 testType:        TimeCourse
 levels:          2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:     Analytic

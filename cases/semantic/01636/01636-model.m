@@ -3,7 +3,7 @@
 category:        Test
 synopsis:        Assigned stoichiometries, both constant and variable.
 componentTags:   Compartment, Parameter, RateRule, Reaction, Species, StoichiometryMath
-testTags:        Amount, AssignedVariableStoichiometry, BoundaryCondition, NonConstantParameter, NonUnityStoichiometry
+testTags:        Amount, AssignedVariableStoichiometry, BoundaryCondition, DefaultValue, NonConstantParameter, NonUnityStoichiometry
 testType:        TimeCourse
 levels:          2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:     Analytic

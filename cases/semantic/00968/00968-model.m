@@ -3,7 +3,7 @@
 category:      Test
 synopsis:      A very simple reaction with stoichiometry set by an initialAssignment.
 componentTags: StoichiometryMath, Compartment, Parameter, Reaction, Species
-testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
+testTags:      Amount, AssignedConstantStoichiometry, DefaultValue, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:   Analytic

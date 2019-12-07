@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic reactions with three species in a compartment 
                involving a stoichiometryMath element.
 componentTags: StoichiometryMath, Compartment, Species, Reaction, Parameter 
-testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
+testTags:      Amount, AssignedConstantStoichiometry, DefaultValue, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:   Numeric
