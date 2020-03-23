@@ -1,4 +1,4 @@
-# SBML Test Suite <img width="100px" align="right" src=".graphics/icon_256x256.png">
+# SBML Test Suite <img width="100px" align="right" src=".graphics/icon.svg">
 
 The SBML Test Suite is a conformance testing system for [SBML](http://sbml.org), a file and data format used to store and exchange models in computational systems biology.
 
