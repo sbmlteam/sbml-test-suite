@@ -3672,6 +3672,14 @@ public class MainWindow
 
         ResultSet expected = model.getSuite().get(itemName).getExpectedResult();
 
+        if (expected == null)
+        {
+            showMessageNotAvailable(cmpDifferences,
+                                    "Data cannot be plotted because the reference result is missing.");
+            cmpDifferences.layout();
+            return;
+        }
+
         if (expected.hasInfinityOrNaN())
         {
             showMessageNotAvailable(cmpDifferences,
