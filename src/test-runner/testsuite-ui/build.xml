@@ -312,7 +312,15 @@ Note: the help files cannot be created on Windows.
 Please run "ant help-files" on Mac or Linux machine with
 a shared file system, and then re-run the last command.
     </echo>
-    <fail unless="help-files.present" message="Help files missing -- stopping."/>
+    <fail message="Help files missing - stopping. (set TESTRUNNER_IGNORE_HELP=true to ignore)">
+    <condition>
+      <or>
+        <istrue value="${help-files.present}"/>
+        <isfalse value="${env.TESTRUNNER_IGNORE_HELP}"/>
+      </or>
+    </condition>
+    </fail>
+    <!-- <fail unless="help-files.present" message="Help files missing - stopping."/> -->
   </target>
   <target name="check-help-files">
     <available file="${build.dir}/classes/org/sbml/testsuite/ui/resources/help/menus.html"
