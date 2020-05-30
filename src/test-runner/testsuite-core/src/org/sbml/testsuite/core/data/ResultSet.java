@@ -463,6 +463,9 @@ public class ResultSet
         // have to keep testing the values themselves.
 
         int numRows = data.length;
+        if (numRows == 0 || data[0] == null)
+            return;
+        
         int numColumns = data[0].length;
         for (int row = 0; row < numRows; row++)
             for (int col = 0; col < numColumns; col++)
