@@ -1,11 +1,11 @@
 The SBML Test Suite –– Stochastic Test Cases
 ============================================
 
-The tests in this directory are of two types: tests that check that a stochastic simulation of the reactions in the SBML models are correct (with the testType 'StochasticTimeCourse'), and tests that check that assignments drawn from distributions (from the 'Distributions' package) are correct (with the testType 'StatisticalDistribution').
+The tests in this directory are of two types: tests that check that a stochastic simulation of the reactions in the SBML models are correct (with the testType `StochasticTimeCourse`), and tests that check that assignments drawn from distributions (from the 'Distributions' package) are correct (with the testType `StatisticalDistribution`).
 
-The first 39 tests are all of type 'StochasticTimeCourse' and were drawn from the SBML Discrete Stochastic Model Test Suite (DSMTS), developed and contributed by Thomas Evans, Colin Gillespie and Darren Wilkinson.  Each test case consists of an [SBML](http://sbml.org) model intended for simulation in a discrete stochastic regime; the models have been solved either analytically or using numerical methods, and the expected time course data, together with expected means and standard deviations of model species quantities, are provided for each test case.  The combination of models and known results may be used to test the behavior of SBML-compatible stochastic simulation systems.
+The first 39 tests are all of type `StochasticTimeCourse` and were drawn from the SBML Discrete Stochastic Model Test Suite (DSMTS), developed and contributed by Thomas Evans, Colin Gillespie and Darren Wilkinson.  Each test case consists of an [SBML](http://sbml.org) model intended for simulation in a discrete stochastic regime; the models have been solved either analytically or using numerical methods, and the expected time course data, together with expected means and standard deviations of model species quantities, are provided for each test case.  The combination of models and known results may be used to test the behavior of SBML-compatible stochastic simulation systems.
 
-The 'StatisticalDistribution' tests were developed by Lucian Smith to test implementations of the 'Distributions' package.  They are included here because the same basic structure (repeated tests where the means and standard deviations are compared to expectations) is required.
+The `StatisticalDistribution` tests were developed by Lucian Smith to test implementations of the [Distributions](http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/distrib) package.  They are included here because the same basic testing structure (repeated tests where the means and standard deviations are compared to expectations) is required.
 
 ----
 *Main Authors*: Thomas W. Evans<sup>a</sup>, [Colin S. Gillespie](https://github.com/csgillespie)<sup>b</sup>, [Darren J. Wilkinson](https://github.com/darrenjw)<sup>b</sup>, [Lucian P. Smith](https://github.com/luciansmith)<sup>c,d</sup>
@@ -117,7 +117,7 @@ and Y (if `X-sd` or `ln(X)-sd` are in the expected output):
 
 Due to the nature of stochastic simulation, a correct simulator will still occasionally fail a test or two here or there, especially when multiple tests are being performed. Z or Y failing 0-1 times per test is great, and failing 2-3 times should probably be checked to see if this is consistent, and/or at the same time points.
 
-Note that for some tests, `X-sd` is provided in the `XXXX-results.txt` but not requested in the `XXXXX-settings.txt` file.  This is because the expected standard deviations (sigmas) are requried to calculate Z, but the distribution in question has no expected range for the standard deviations themselves.
+Note that for some tests, `X-sd` is provided in `XXXX-results.txt` but not requested in `XXXXX-settings.txt`.  This is because the expected standard deviations (sigmas) are requried to calculate Z, but the distribution in question has no expected range for the standard deviations themselves.
 
 More details about the first 39 tests are included in the document [DSMTS-userguide-31v2.pdf](DSMTS-userguide-31v2.pdf) included in this directory.
 
