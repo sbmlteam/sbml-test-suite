@@ -119,6 +119,12 @@
   <condition property="isMac" value="true">
     <os family="mac" />
   </condition>
+  <condition property="skipHelp" value="true">
+    <or>
+      <istrue value="${isWindows}"/>
+      <istrue value="${env.TESTRUNNER_IGNORE_HELP}"/>
+    </or>
+  </condition>
 
   <!-- The next condition tests the JVM only, not the OS. -->
   <condition property="is64Bit" value="true">
@@ -301,7 +307,7 @@
   </target>
 
   <target name="help-files" depends="help-files-normal, help-files-win"/>
-  <target name="help-files-normal" depends="init" unless="isWindows">
+  <target name="help-files-normal" depends="init" unless="${skipHelp}">
     <ant antfile="build.xml" dir="${basedir}/docs/help-system"
          useNativeBaseDir="true" target="generate-help-files" />
   </target>
@@ -312,7 +318,15 @@ Note: the help files cannot be created on Windows.
 Please run "ant help-files" on Mac or Linux machine with
 a shared file system, and then re-run the last command.
     </echo>
-    <fail unless="help-files.present" message="Help files missing -- stopping."/>
+    <fail message="Help files missing - stopping. (set TESTRUNNER_IGNORE_HELP=true to ignore)">
+    <condition>
+      <or>
+        <istrue value="${help-files.present}"/>
+        <isfalse value="${env.TESTRUNNER_IGNORE_HELP}"/>
+      </or>
+    </condition>
+    </fail>
+    <!-- <fail unless="help-files.present" message="Help files missing - stopping."/> -->
   </target>
   <target name="check-help-files">
     <available file="${build.dir}/classes/org/sbml/testsuite/ui/resources/help/menus.html"

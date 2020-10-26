@@ -150,6 +150,7 @@ public class DelayedResult
     public ResultType getResult()
     {
         if (isDone) return result;
+        if (worker == null) return result;
 
         try
         {
