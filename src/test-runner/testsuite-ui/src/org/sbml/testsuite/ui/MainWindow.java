@@ -873,7 +873,7 @@ public class MainWindow
         if (resultMap != null)
             resultMap.updateWrapper(newWrapper);
 
-        if (UIUtils.getBooleanPref("autoWatchFile", true, this))
+        if (UIUtils.getBooleanPref("autoWatchFile", true, this) && newWrapper != null)
             fileWatcher.initWatch(newWrapper.getOutputPath());
     }
 
