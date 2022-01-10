@@ -19,7 +19,7 @@
       </unitDefinition>
     </listOfUnitDefinitions>
     <listOfCompartments>
-      <compartment id="Cell"/>
+      <compartment id="Cell" size="1"/>
     </listOfCompartments>
     <listOfSpecies>
       <species id="X" compartment="Cell" initialAmount="100"/>

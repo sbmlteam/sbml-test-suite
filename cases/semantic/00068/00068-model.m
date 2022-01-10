@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Basic single forward reaction involving two species and a
                stoichiometryMath element.
 componentTags: StoichiometryMath, Compartment, Species, Reaction, Parameter 
-testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry
+testTags:      Amount, AssignedConstantStoichiometry, DefaultValue, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:   Analytic

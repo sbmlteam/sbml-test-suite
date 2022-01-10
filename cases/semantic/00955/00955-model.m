@@ -1,12 +1,13 @@
 (*
 
-category:      Test
+category:        Test
 synopsis:      Several parameters with assignment rules involving time, testing various L1 built-in functions.
-componentTags: AssignmentRule, CSymbolTime, Parameter
-testTags:      NonConstantParameter, InitialValueReassigned, UncommonMathML
-testType:      TimeCourse
-levels:        2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
+componentTags:   AssignmentRule, CSymbolTime, Parameter
+testTags:        InitialValueReassigned, NonConstantParameter, UncommonMathML
+testType:        TimeCourse
+levels:          2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2
 generatedBy:   Analytic
+packagesPresent: 
 
  The model tests the various mathematical constructs present in L1, as applied to the time variable.  Ironically, this doesn't work in L1, since time isn't present, but hey.
 
@@ -25,19 +26,19 @@ There are 35 rules:
 | Assignment | P7 | $asin(-time)$ |
 | Assignment | P8 | $atan(time)$ |
 | Assignment | P9 | $atan(-time)$ |
-| Assignment | P10 | $ceil(time)$ |
-| Assignment | P11 | $ceil(-time)$ |
+| Assignment | P10 | $ceil(time - 0.001)$ |
+| Assignment | P11 | $ceil(-time - 0.001)$ |
 | Assignment | P13 | $cos(time)$ |
 | Assignment | P14 | $cos(-time)$ |
 | Assignment | P15 | $exp(time)$ |
 | Assignment | P16 | $exp(-time)$ |
-| Assignment | P18 | $floor(time)$ |
-| Assignment | P19 | $floor(-time)$ |
-| Assignment | P20 | $log(time + 1)$ |
+| Assignment | P18 | $floor(time + 0.001)$ |
+| Assignment | P19 | $floor(-time + 0.001)$ |
+| Assignment | P20 | $ln(time + 1)$ |
 | Assignment | P22 | $log10(time + 1)$ |
-| Assignment | P24 | $pow(time, 2)$ |
-| Assignment | P25 | $pow(2, time)$ |
-| Assignment | P26 | $pow(time, time)$ |
+| Assignment | P24 | $time^2$ |
+| Assignment | P25 | $2^time$ |
+| Assignment | P26 | $time^time$ |
 | Assignment | P29 | $sqrt(time)$ |
 | Assignment | P31 | $sin(time)$ |
 | Assignment | P32 | $sin(-time)$ |
@@ -64,19 +65,19 @@ The initial conditions are as follows:
 | Initial value of parameter P7 | $asin(-time)$ | variable |
 | Initial value of parameter P8 | $atan(time)$ | variable |
 | Initial value of parameter P9 | $atan(-time)$ | variable |
-| Initial value of parameter P10 | $ceil(time)$ | variable |
-| Initial value of parameter P11 | $ceil(-time)$ | variable |
+| Initial value of parameter P10 | $ceil(time - 0.001)$ | variable |
+| Initial value of parameter P11 | $ceil(-time - 0.001)$ | variable |
 | Initial value of parameter P13 | $cos(time)$ | variable |
 | Initial value of parameter P14 | $cos(-time)$ | variable |
 | Initial value of parameter P15 | $exp(time)$ | variable |
 | Initial value of parameter P16 | $exp(-time)$ | variable |
-| Initial value of parameter P18 | $floor(time)$ | variable |
-| Initial value of parameter P19 | $floor(-time)$ | variable |
-| Initial value of parameter P20 | $log(time + 1)$ | variable |
+| Initial value of parameter P18 | $floor(time + 0.001)$ | variable |
+| Initial value of parameter P19 | $floor(-time + 0.001)$ | variable |
+| Initial value of parameter P20 | $ln(time + 1)$ | variable |
 | Initial value of parameter P22 | $log10(time + 1)$ | variable |
-| Initial value of parameter P24 | $pow(time, 2)$ | variable |
-| Initial value of parameter P25 | $pow(2, time)$ | variable |
-| Initial value of parameter P26 | $pow(time, time)$ | variable |
+| Initial value of parameter P24 | $time^2$ | variable |
+| Initial value of parameter P25 | $2^time$ | variable |
+| Initial value of parameter P26 | $time^time$ | variable |
 | Initial value of parameter P29 | $sqrt(time)$ | variable |
 | Initial value of parameter P31 | $sin(time)$ | variable |
 | Initial value of parameter P32 | $sin(-time)$ | variable |
@@ -95,4 +96,3 @@ Note: The test data for this model was generated from an analytical
 solution of the system of equations.
 
 *)
-

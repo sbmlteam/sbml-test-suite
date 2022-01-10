@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Three reactions with four species in one compartment
 using csymbol time within a math expression.
 componentTags: StoichiometryMath, Compartment, Species, Reaction, Parameter, CSymbolTime 
-testTags:      Amount, LocalParameters, AssignedConstantStoichiometry, NonUnityStoichiometry
+testTags:      Amount, LocalParameters, AssignedConstantStoichiometry, DefaultValue, NonUnityStoichiometry
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:   Numeric

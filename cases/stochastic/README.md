@@ -1,7 +1,11 @@
 The SBML Test Suite –– Stochastic Test Cases
 ============================================
 
-The SBML Discrete Stochastic Model Test Suite (DSMTS) was developed and contributed by Thomas Evans, Colin Gillespie and Darren Wilkinson.  Each test case consists of an [SBML](http://sbml.org) model intended for simulation in a discrete stochastic regime; the models have been solved either analytically or using numerical methods, and the expected time course data, together with expected means and standard deviations of model species quantities, are provided for each test case.  The combination of models and known results may be used to test the behavior of SBML-compatible stochastic simulation systems.
+The tests in this directory are of two types: tests that check that a stochastic simulation of the reactions in the SBML models are correct (with the testType `StochasticTimeCourse`), and tests that check that assignments drawn from distributions (from the 'Distributions' package) are correct (with the testType `StatisticalDistribution`).
+
+The first 39 tests are all of type `StochasticTimeCourse` and were drawn from the SBML Discrete Stochastic Model Test Suite (DSMTS), developed and contributed by Thomas Evans, Colin Gillespie and Darren Wilkinson.  Each test case consists of an [SBML](http://sbml.org) model intended for simulation in a discrete stochastic regime; the models have been solved either analytically or using numerical methods, and the expected time course data, together with expected means and standard deviations of model species quantities, are provided for each test case.  The combination of models and known results may be used to test the behavior of SBML-compatible stochastic simulation systems.
+
+The `StatisticalDistribution` tests were developed by Lucian Smith to test implementations of the [Distributions](http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/distrib) package.  They are included here because the same basic testing structure (repeated tests where the means and standard deviations are compared to expectations) is required.
 
 ----
 *Main Authors*: Thomas W. Evans<sup>a</sup>, [Colin S. Gillespie](https://github.com/csgillespie)<sup>b</sup>, [Darren J. Wilkinson](https://github.com/darrenjw)<sup>b</sup>, [Lucian P. Smith](https://github.com/luciansmith)<sup>c,d</sup>
@@ -37,6 +41,7 @@ Please also indicate the specific version of the SBML Test Suite you
 use, to improve other people's ability to reproduce your results.
 
 
+
 Organization of folders and files
 ---------------------------------
 
@@ -52,7 +57,9 @@ Here are the files in each directory (where `N`, `Y` and `Z` are digits):
 *  `NNNNN-sbml-l2v2.xml`    – SBML Level 2 Version 2 model file
 *  `NNNNN-sbml-l2v3.xml`    – SBML Level 2 Version 3 model file
 *  `NNNNN-sbml-l2v4.xml`    – SBML Level 2 Version 4 model file
+*  `NNNNN-sbml-l2v5.xml`    – SBML Level 2 Version 5 model file
 *  `NNNNN-sbml-l3v1.xml`    – SBML Level 3 Version 1 model file
+*  `NNNNN-sbml-l3v2.xml`    – SBML Level 3 Version 2 model file
 *  `NNNNN-settings.txt`     – SBML Test Suite settings file
 *  `dsmts-YYY-ZZ.mod`       – original model definition
 *  `dsmts-YYY-ZZ-mean.csv`  – means of the simulation results
@@ -86,24 +93,33 @@ Finally, the files whose names begin with `dsmts-` are the original files from t
 Getting started
 ---------------
 
-To begin, please read the document [DSMTS-userguide-31v2.pdf](DSMTS-userguide-31v2.pdf) included in this directory.  As described in more detail in that file, the stochastic simulations of these models should be run <i>n</i> times, where <i>n</i> is at a minimum 1,000, but more reasonably set to 10,000 for repeated tests, and which will need to be 100,000 or 1,000,000 to detect more subtle implementation errors.  Once the tests have been run, the average value of <i>X</i> for each time point <i>t</i> (<i>X<sub>t</sub></i>) should be recorded, along with the standard deviation of that value (<i>S<sub>t</sub></i>).  These calculated values are then compared with the expected values (<i>mu<sub>t</sub></i> for the expected mean at time point <i>t</i>, and <i>sigma<sub>t</sub></i> for the expected standard deviation at time point <i>t</i>; values found in `NNNNN-results.csv`) to calculate the following values:
+For all tests, the stochastic simulations of these models should be run <i>n</i> times, where <i>n</i> is at a minimum 1,000, but more reasonably set to 10,000 for repeated tests, and which will need to be 100,000 or 1,000,000 to detect more subtle implementation errors.  Once the tests have been run, the `NNNNN-settings.txt` file will contain one or more of the following entries, where `X` is the name of the variable in question:
+* <i>X-mean</i>: The average value of <i>X</i> for each time point <i>t</i> (<i>X<sub>t</sub></i>)
+* <i>X-sd</i>: The standard deviation of the set of <i>X</i> values for each time point <i>t</i> (<i>S<sub>t</sub></i>)
+* <i>ln(X)-mean</i>: The average value of the natural log of <i>X</i> for each time point <i>t</i> (<i>ln(X)<sub>t</sub></i>)
+* <i>X-sd</i>: The standard deviation of the set of the natural log of <i>X</i> values for each time point <i>t</i> (<i>S<sub>ln, t</sub></i>)
+
+Any requested calculated values are then compared with expected values found in the `NNNNN-results.csv` files, with the same column titles as above.  If we designate the expected means as <i>mu<sub>t</sub></i>, and the expected standard deviations as <i>sigma<sub>t</sub></i>, we then calculate Z (if `X-mean` or `ln(X)-mean` are in the expected output):
 
 <p align="center">
 <i>Z<sub>t</sub> = sqrt(n) * (X<sub>t</sub> - mu<sub>t</sub>)/sigma<sub>t</sub></i>
 </p>
 
-and
+and Y (if `X-sd` or `ln(X)-sd` are in the expected output):
 
 <p align="center">
 <i>Y<sub>t</sub> = sqrt(n/2) * (S<sub>t</sub><sup>2</sup>/sigma<sub>t</sub><sup>2</sup> - 1)</i>
 </p>
 
-<i>Z<sub>t</sub></i> should always fall in the range `meanRange` from the settings file (which currently will always be the range (-3,3)).
+<i>Z<sub>t</sub></i> should fall in the range `meanRange` from the settings file (often the range (-3,3)).
 
-<i>Y<sub>t</sub></i> should always fall in the range `sdRange` from the settings file (which currently will always be the range (-5,5)).
+<i>Y<sub>t</sub></i> should fall in the range `sdRange` from the settings file (often the range (-5,5)).
 
-Note that due to the nature of stochastic simulation, a correct simulator will still occasionally fail a test or two here or there, especially when multiple tests are being performed.  As written in the user guide, in a complete run of the entire stochastic test suite with <i>n</i>=10,000, two or three <i>Z<sub>t</sub></i> tests may fail, and five or six <i>Y<sub>t</sub></i> tests may fail.
+Due to the nature of stochastic simulation, a correct simulator will still occasionally fail a test or two here or there, especially when multiple tests are being performed. Z or Y failing 0-1 times per test is great, and failing 2-3 times should probably be checked to see if this is consistent, and/or at the same time points.
 
+Note that for some tests, `X-sd` is provided in `XXXX-results.txt` but not requested in `XXXXX-settings.txt`.  This is because the expected standard deviations (sigmas) are requried to calculate Z, but the distribution in question has no expected range for the standard deviations themselves.
+
+More details about the first 39 tests are included in the document [DSMTS-userguide-31v2.pdf](DSMTS-userguide-31v2.pdf) included in this directory.
 
 (Lack of) Integration with the rest of the SBML Test Suite
 ----------------------------------------------------------

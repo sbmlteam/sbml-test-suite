@@ -4,7 +4,7 @@ category:      Test
 synopsis:      Two reactions with four species in one
 compartment using an assignmentRule to vary one species.
 componentTags: StoichiometryMath, Compartment, Species, Reaction, Parameter, AssignmentRule 
-testTags:      Amount, AssignedConstantStoichiometry, NonUnityStoichiometry, InitialValueReassigned
+testTags:      Amount, AssignedConstantStoichiometry, DefaultValue, NonUnityStoichiometry, InitialValueReassigned
 testType:      TimeCourse
 levels:        2.1, 2.2, 2.3, 2.4, 2.5
 generatedBy:   Numeric
