@@ -475,6 +475,7 @@ TESTRUNNER_IGNORE_ARCHIVE=true.
     <copy todir="${build.dest}" overwrite="true">
       <fileset dir="src" includes="org/sbml/testsuite/ui/resources/**" />
     </copy>
+    <mkdir dir="${build.dest}/org/sbml/testsuite/ui/resources/help/" />
     <touch file="${build.dest}/org/sbml/testsuite/ui/resources/help/VERSION-${app.version}"/>
     <jar destfile="${dist.dir}/sbmltestrunner.jar">
       <manifest>
