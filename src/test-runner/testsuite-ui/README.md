@@ -46,7 +46,6 @@ Some of the build steps require to run on macOS, the build relies on environment
 test suite archive. To put all the steps together (from checkout to start on win 64): 
 
     git clone https://github.com/sbmlteam/sbml-test-suite
-    cd sbml-test-suite\src\
     cd sbml-test-suite\src\test-runner\testsuite-ui\
     set TESTRUNNER_IGNORE_HELP=true
     set TESTRUNNER_IGNORE_ARCHIVE=true
