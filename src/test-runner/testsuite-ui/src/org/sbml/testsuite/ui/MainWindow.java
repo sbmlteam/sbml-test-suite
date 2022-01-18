@@ -613,8 +613,17 @@ public class MainWindow
         if (max < 1E-5)
             chart.getAxisSet().getYAxis(0).getTick().setFormat(sciFormat);
 
+        double mintime = getMin(time);
+        double maxtime = getMax(time);
+        if (mintime==maxtime) {
+            double[] mins = {mintime, 0};
+            double[] maxes = {maxtime, 1};
+            mintime = getMin(mins);
+            maxtime = getMax(maxes);
+        }
+
         chart.getAxisSet().getXAxis(0)
-              .setRange(new Range(getMin(time), getMax(time)));
+              .setRange(new Range(mintime, maxtime));
 
         if (max - min < 1E-30 || Double.isNaN(max) || Double.isNaN(min))
             chart.getAxisSet().getYAxis(0).adjustRange();
