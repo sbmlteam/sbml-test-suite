@@ -873,7 +873,7 @@ public class MainWindow
         if (resultMap != null)
             resultMap.updateWrapper(newWrapper);
 
-        if (UIUtils.getBooleanPref("autoWatchFile", true, this))
+        if (UIUtils.getBooleanPref("autoWatchFile", true, this) && newWrapper != null)
             fileWatcher.initWatch(newWrapper.getOutputPath());
     }
 
@@ -3671,6 +3671,14 @@ public class MainWindow
         // Check for NaN and infinity values, because we can't plot them.
 
         ResultSet expected = model.getSuite().get(itemName).getExpectedResult();
+
+        if (expected == null)
+        {
+            showMessageNotAvailable(cmpDifferences,
+                                    "Data cannot be plotted because the reference result is missing.");
+            cmpDifferences.layout();
+            return;
+        }
 
         if (expected.hasInfinityOrNaN())
         {

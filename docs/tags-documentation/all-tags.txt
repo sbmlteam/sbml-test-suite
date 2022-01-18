@@ -57,6 +57,7 @@ BoundaryCondition	all	A species with a value of 'true' for its 'boundaryConditio
 Concentration	all	The value of at least one species is requested to be output in units of concentration, not amount.
 ConstantSpecies	L2v1+	A species with a value of 'true' for its 'constant' attribute is present in the model.
 ConversionFactors	L2v2+	The model itself, or a species it contains, has a value set for the 'conversionFactor' attribute.
+DefaultValue	L1v1-L2v5	An SBML element has a default value that is not specified in the XML.
 DelayInEventAssignment	L2v1+	An EventAssignment has a MathML child containing the csymbol http://www.sbml.org/sbml/symbols/delay
 DelayInTrigger	L2v1+	An Event Trigger has a MathML child containing the csymbol http://www.sbml.org/sbml/symbols/delay
 EventIsNotPersistent	L3v1+	The simulation behavior of the model is influenced by an event that has a value of 'false' for its 'persistent' attribute (SBML Level 3).

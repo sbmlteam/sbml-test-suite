@@ -1,6 +1,33 @@
 NEWS &ndash; history of changes to the SBML Test Suite
 ================================================
 
+Version 3.4.0 (2022-01-11)
+--------------------------
+This release contains a number of updates for all three branches of the test suite.
+
+For the 'semantic' tests:
+
+* Tests 1781-1821 added, including tests for:
+  * Default values of various elements.
+  * Local parameters shadowing reaction IDs and species reference IDs.
+  * Case sensitivity.
+  * 0D-compartments in Level 3.
+  * As suggested in #72: add tests where model elements are given mathematical literal IDs.
+* A number of previously-existing tests updated, including:
+  * Correct 'comp' model files with extra id's.
+  * Correct 'comp' models with external model definitions.
+  * Adjust some mathematical tests to not test encoding of integers as doubles, but the function itself.
+  * Add L2v5 and L3v2 models to all relevant tests that didn't already have them.
+
+For the 'syntactic' tests:
+
+* A number of new tests, particularly for the spatial package. (Now up to date as of libsbml 5.19.3) These tests attached as a binary for this release, and are not present in the source release.
+
+For the 'stochastic' tests:
+* New tests 40-100, which test implementation of the new 'distrib' package functions.
+
+The SBML Test Suite Runner has not been updated in this release, just the tests themselves. The SBML Test Suite Database of tests and test results from various tools has been updated new results from simulators may be uploaded.
+
 Version 3.3.0 (2017-12-12)
 --------------------------
 

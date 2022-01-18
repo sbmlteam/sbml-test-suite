@@ -42,6 +42,17 @@ The Ant configuration understands the following commands.  All outputs are place
 
 * `ant dist`: Creates an installer for the current platform.  On macOS, it creates a `.pkg` package installer, on Windows it creates a runnable `.exe` installer, and on Linux, it creates 3 items: a runnable binary installer, an RPM package, and a Debian `.deb` package.
 
+Some of the build steps require to run on macOS, the build relies on environment variables, so it can be run on windows as well. The variable `TESTRUNNER_IGNORE_HELP` allows to bypass the help generation process. The variable `TESTRUNNER_IGNORE_ARCHIVE` to skip the bundling of the 
+test suite archive. To put all the steps together (from checkout to start on win 64): 
+
+    git clone https://github.com/sbmlteam/sbml-test-suite
+    cd sbml-test-suite\src\test-runner\testsuite-ui\
+    set TESTRUNNER_IGNORE_HELP=true
+    set TESTRUNNER_IGNORE_ARCHIVE=true
+    ant build
+    ant jar
+    ant start-win-64
+
 
 ⚙️ <a name="wrappers"/>Defining test wrappers
 ---------------------------------------------
