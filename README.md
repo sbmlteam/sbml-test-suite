@@ -13,7 +13,7 @@ The SBML Test Suite is a conformance testing system for [SBML](http://sbml.org),
 
 *Repository*:   [https://github.com/sbmlteam/sbml-test-suite](https://github.com/sbmlteam/sbml-test-suite)
 
-*Developers' discussion group*: [https://groups.google.com/forum/#!forum/sbml-interoperability](https://groups.google.com/forum/#!forum/sbml-interoperability)
+*Developers' discussion group*: [https://groups.google.com/forum/#!forum/sbml-discuss](https://groups.google.com/forum/#!forum/sbml-discuss)
 
 *Pivotal tracker*: [https://www.pivotaltracker.com/n/projects/68714](https://www.pivotaltracker.com/n/projects/68714)
 
