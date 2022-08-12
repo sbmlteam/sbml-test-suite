@@ -17,11 +17,11 @@
       <compartment id="compartment" name="compartment" spatialDimensions="0" constant="true"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="compartment" initialAmount="1e-06" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-      <species id="S2" name="S2" compartment="compartment" initialAmount="1.5e-06" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-      <species id="S3" name="S3" compartment="compartment" initialAmount="2e-06" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-      <species id="S4" name="S4" compartment="compartment" initialAmount="5e-07" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-      <species id="S5" name="S5" compartment="compartment" initialAmount="1e-06" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="true"/>
+      <species id="S1" name="S1" compartment="compartment" initialAmount="1e-06" substanceUnits="substance" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="S2" name="S2" compartment="compartment" initialAmount="1.5e-06" substanceUnits="substance" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="S3" name="S3" compartment="compartment" initialAmount="2e-06" substanceUnits="substance" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="S4" name="S4" compartment="compartment" initialAmount="5e-07" substanceUnits="substance" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="S5" name="S5" compartment="compartment" initialAmount="1e-06" substanceUnits="substance" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="true"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" name="k1" value="1300000" constant="true"/>

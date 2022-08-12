@@ -17,9 +17,9 @@
       <compartment id="compartment" name="compartment" spatialDimensions="0" constant="true"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="S1" name="S1" compartment="compartment" initialAmount="1e-006" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-      <species id="S2" name="S2" compartment="compartment" initialAmount="2e-006" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
-      <species id="S3" name="S3" compartment="compartment" initialAmount="1e-006" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="S1" name="S1" compartment="compartment" initialAmount="1e-006" substanceUnits="substance" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="S2" name="S2" compartment="compartment" initialAmount="2e-006" substanceUnits="substance" hasOnlySubstanceUnits="true" boundaryCondition="true" constant="false"/>
+      <species id="S3" name="S3" compartment="compartment" initialAmount="1e-006" substanceUnits="substance" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" name="k1" value="9.8" constant="true"/>
