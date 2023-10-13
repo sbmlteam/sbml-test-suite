@@ -53,6 +53,20 @@ test suite archive. To put all the steps together (from checkout to start on win
     ant jar
     ant start-win-64
 
+This is also helpful to run the test runner on the new apple arm machines, for which we dont have a full release yet. First you'd install ant and openjdk from `brew` and then you can run a local version of the GUI using: 
+
+    git clone https://github.com/sbmlteam/sbml-test-suite
+    git checkout develop
+    cd sbml-test-suite/src/test-runner/testsuite-ui
+    export TESTRUNNER_IGNORE_HELP=true
+    export TESTRUNNER_IGNORE_ARCHIVE=true
+    export JAVA_HOME=/opt/homebrew/opt/openjdk/
+    ant build
+    ant jar-mac-arm
+    ant start-osx-arm
+
+Next you would go into the preference menu to setup the path to the test cases `cases/semantic`
+and continue with the wrapper configuration as described below. 
 
 ⚙️ <a name="wrappers"/>Defining test wrappers
 ---------------------------------------------
