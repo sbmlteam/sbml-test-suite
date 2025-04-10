@@ -1227,7 +1227,7 @@ main (int argc, char* argv[])
   }
   string resultsfilename = filename;
   resultsfilename.replace(lxvx_place,13,"results.csv");
-  map<string, vector<double> >& results = getResults(resultsfilename);
+  map<string, vector<double> > results = getResults(resultsfilename);
 
   vector<string> levelsandversions = createTranslations(document, filename);
   if (!translateonly) {

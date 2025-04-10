@@ -8,23 +8,25 @@
 */
 
 
+#include <filesystem> //Requires c++17
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
 #include <set>
-#include <sstream>
 #include <stdlib.h>
-#include <iostream>
-#include <experimental/filesystem> // C++-standard header file name  
-#include <filesystem> // Microsoft-specific implementation header file name  
 #include <sbml/extension/SBMLExtensionRegister.h>
 #include <sbml/conversion/SBMLConverterRegistry.h>
 #include <sbml/SBMLTypes.h>
+#include <sbml/common/libsbml-namespace.h>
 
 using namespace std;
+
+#ifndef WIN32
 using namespace std::experimental::filesystem::v1;
-LIBSBML_CPP_NAMESPACE_USE
+#endif
+
+//LIBSBML_CPP_NAMESPACE_USE
 
 #include "../testSuiteUtil/testSuiteUtil.cpp"
 
@@ -258,7 +260,7 @@ int
   map<string, vector<int> > tagmap, tagpairmap;
   if (argc < 2) {
     vector<string> filelist;
-    for (auto& p : recursive_directory_iterator("C:/Users/Lucian/Desktop/test-suite/cases/semantic")) {
+    for (auto& p : std::filesystem::recursive_directory_iterator("C:/Users/Lucian/Desktop/sbml-test-suite/cases/semantic")) {
       stringstream fname;
       fname << p;
       if (fname.str().find("-model.m") != string::npos 
@@ -267,7 +269,12 @@ int
           && fname.str().find("01122") == string::npos
           && fname.str().find("01123") == string::npos
         ) {
-        filelist.push_back(fname.str());
+          string fnamestr = fname.str();
+          fnamestr.replace(fnamestr.find("\\\\"), 2, "/");
+          fnamestr.replace(fnamestr.find("\\\\"), 2, "/");
+          fnamestr.replace(fnamestr.find("\""), 1, "");
+          fnamestr.replace(fnamestr.find("\""), 1, "");
+          filelist.push_back(fnamestr);
       }
     }
 

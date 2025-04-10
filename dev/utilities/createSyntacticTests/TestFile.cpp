@@ -149,6 +149,9 @@ TestFile::getConstraintIdString(int idnum)
   else if (idnum <= 1099999) {
     id.replace(0,2,"comp-");
   }
+  else if (idnum <= 1299999) {
+    id.replace(0,2,"spatial-");
+  }
   else if (idnum <= 2099999) {
     id.replace(0,2,"fbc-");
   }
