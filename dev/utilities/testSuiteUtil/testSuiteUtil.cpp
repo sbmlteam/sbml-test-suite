@@ -19,8 +19,12 @@
 
 
 #include <sbml/SBMLTypes.h>
+#ifdef USE_FBC
 #include <sbml/packages/fbc/common/FbcExtensionTypes.h>
+#endif
+#ifdef USE_COMP
 #include <sbml/packages/comp/common/CompExtensionTypes.h>
+#endif
 
 using namespace std;
 LIBSBML_CPP_NAMESPACE_USE

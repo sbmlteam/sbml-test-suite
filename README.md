@@ -19,13 +19,6 @@ The SBML Test Suite is a conformance testing system for [SBML](http://sbml.org),
 
 *License*: For full license information, please refer to the file [LICENSE.html](LICENSE.html) for details.  Briefly, the test case distributions of the SBML Test Suite are distributed under the terms of the [LGPL v2.1](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html); the overall SBML Test Suite (including the software components) are distributed under the LGPL but include components from other sources licensed under other open-source terms.  (However, none of the terms are more restrictive than the LGPL.)
 
-🏁 Recent news and activities
-------------------------------
-
-_December 2017_: [Release 3.3.0](https://github.com/sbmlteam/sbml-test-suite/releases/tag/3.3.0) is now available.  It features a large number of new test cases, new features in the SBML Test Runner, bug fixes and more.  Please see the file [NEWS.md](NEWS.md) for a summary of the changes in the most recent release. Here is the Zenodo DOI for this release:
-
-* SBML Test Suite release 3.3.0 &rArr; [10.5281/zenodo.1112521](https://zenodo.org/badge/latestdoi/65245545)
-
 ☀ Background
 ----------
 

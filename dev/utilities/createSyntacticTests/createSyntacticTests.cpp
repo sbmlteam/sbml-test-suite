@@ -243,6 +243,10 @@ main (int argc, char* argv[])
   cout << "Please compile libsbml with multi enabled to run this program." << endl;
   return 1;
 #endif
+#ifndef  LIBSBML_HAS_PACKAGE_SPATIAL
+  cout << "Please compile libsbml with spatial enabled to run this program." << endl;
+  return 1;
+#endif
 
   string prefix(".");
 
@@ -258,11 +262,11 @@ main (int argc, char* argv[])
 
   string outdir(".");
 
-  free(srcdir);
-  srcdir = getenv("outdir");
-  if (srcdir != NULL) 
+  //free(srcdir);
+  char* outdirc = getenv("outdir");
+  if (outdirc != NULL)
   {
-    outdir = srcdir;
+    outdir = outdirc;
   }
   if (argc >= 3)
   {
@@ -284,6 +288,7 @@ main (int argc, char* argv[])
   vector<string> qualValidationDirectories;
   vector<string> groupsValidationDirectories;
   vector<string> multiValidationDirectories;
+  vector<string> spatialValidationDirectories;
   validationDirectories.push_back(prefix + "/validator/test/test-data/libsbml-constraints/");
   validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-annotation-constraints/");
   validationDirectories.push_back(prefix + "/validator/test/test-data/sbml-general-consistency-constraints/");
@@ -311,6 +316,9 @@ main (int argc, char* argv[])
   multiValidationDirectories.push_back(prefix + "/packages/multi/validator/test/test-data/general-constraints/");
   multiValidationDirectories.push_back(prefix + "/packages/multi/validator/test/test-data/identifier-constraints/");
   multiValidationDirectories.push_back(prefix + "/packages/multi/validator/test/test-data/mathml-constraints/");
+  spatialValidationDirectories.push_back(prefix + "/packages/spatial/validator/test/test-data/general-constraints/");
+  spatialValidationDirectories.push_back(prefix + "/packages/spatial/validator/test/test-data/identifier-constraints/");
+  spatialValidationDirectories.push_back(prefix + "/packages/spatial/validator/test/test-data/mathml-constraints/");
 
   cout << endl;
   cout << "Syntactic Test Suite Creation" << endl;
@@ -347,6 +355,7 @@ main (int argc, char* argv[])
   if (parseDirectories(qualValidationDirectories, outdir, "qual", report, uniqueErrors, uniqueErrorIDs, fullreport)) return 1;
   if (parseDirectories(groupsValidationDirectories, outdir, "groups", report, uniqueErrors, uniqueErrorIDs, fullreport)) return 1;
   if (parseDirectories(multiValidationDirectories, outdir, "multi", report, uniqueErrors, uniqueErrorIDs, fullreport)) return 1;
+  if (parseDirectories(spatialValidationDirectories, outdir, "spatial", report, uniqueErrors, uniqueErrorIDs, fullreport)) return 1;
   if (fullreport) {
     //Output the unique error messages, so we can read them:
     ofstream cfile((outdir + "/uniqueErrors.txt").c_str());

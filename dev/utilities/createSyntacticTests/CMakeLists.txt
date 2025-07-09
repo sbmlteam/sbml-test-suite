@@ -61,6 +61,7 @@ if (EXTRA_INCLUDE_DIRS)
 endif(EXTRA_INCLUDE_DIRS)
 
 add_executable(createSyntacticTests ${TEST_FILES})
+target_compile_features(createSyntacticTests PUBLIC cxx_std_17)
 target_link_libraries(createSyntacticTests ${LIBSBML_LIBRARY}-static)
 
 

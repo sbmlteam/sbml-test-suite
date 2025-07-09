@@ -61,6 +61,8 @@ if (EXTRA_INCLUDE_DIRS)
 endif(EXTRA_INCLUDE_DIRS)
 
 add_executable(analyzeTags ${TEST_FILES})
+#'filesystem' requires c++17
+target_compile_features(analyzeTags PUBLIC cxx_std_17)
 target_link_libraries(analyzeTags ${LIBSBML_LIBRARY}-static)
 
 
