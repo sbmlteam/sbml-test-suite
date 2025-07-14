@@ -413,6 +413,7 @@ TESTRUNNER_IGNORE_ARCHIVE=true.
 
   <target name="jar-mac-32"   depends="swt-osx-32, jar-common"/>
   <target name="jar-mac-64"   depends="swt-osx-64, jar-common" />
+  <target name="jar-mac-arm"   depends="swt-osx-arm, jar-common" />
 
   <target name="jar-win-32"   depends="swt-win-32, jar-common" />
   <target name="jar-win-64"   depends="swt-win-64, jar-common" />
@@ -469,6 +470,9 @@ TESTRUNNER_IGNORE_ARCHIVE=true.
   </target>
   <target name="swt-osx-64">
     <property name="swt.file" value="libs/swt-macos.jar"/>
+  </target>
+  <target name="swt-osx-arm">
+    <property name="swt.file" value="libs/swt-macos-aarch64.jar"/>
   </target>
 
   <target name="jar-common" depends="build, help-files, copy-cases-archive">
@@ -803,7 +807,12 @@ TESTRUNNER_IGNORE_ARCHIVE=true.
       <jvmarg value='-Xdock:name="${app.name}"'/>
     </java>
   </target>
-
+  <target name="start-osx-arm" depends="swt-osx-arm">
+    <java fork="true" jar="${dist.dir}/sbmltestrunner.jar">
+      <jvmarg value="-XstartOnFirstThread"/>
+      <jvmarg value='-Xdock:name="${app.name}"'/>
+    </java>
+  </target>
   <target name="tags">
     <delete file="TAGS"/>
     <apply executable="etags" verbose="true" force="true">

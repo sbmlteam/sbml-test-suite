@@ -24,7 +24,7 @@ The initial conditions are as follows:
 
 [{width:35em,margin: 1em auto}|       | *Value* | *Constant* |
 | Initial concentration of species S1 | $2$ | variable |
-| Initial concentration of species S2 | $3$ | variable |
+| Initial concentration of species S2 | $3$ | constant |
 | Initial volume of compartment 'C' | $1$ | constant |]
 
 Note: The test data for this model was generated from an analytical

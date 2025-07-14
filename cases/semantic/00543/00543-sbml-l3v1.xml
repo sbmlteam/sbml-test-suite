@@ -17,10 +17,10 @@
       <compartment id="C" name="C" spatialDimensions="0" constant="true"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="X0" name="X0" compartment="C" initialAmount="1" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-      <species id="X1" name="X1" compartment="C" initialAmount="0" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-      <species id="T" name="T" compartment="C" initialAmount="0" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-      <species id="S1" name="S1" compartment="C" initialAmount="0" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="X0" name="X0" compartment="C" initialAmount="1" substanceUnits="substance" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="X1" name="X1" compartment="C" initialAmount="0" substanceUnits="substance" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="T" name="T" compartment="C" initialAmount="0" substanceUnits="substance" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+      <species id="S1" name="S1" compartment="C" initialAmount="0" substanceUnits="substance" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" name="k1" value="0.1" constant="true"/>
