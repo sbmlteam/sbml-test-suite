@@ -1,91 +1,44 @@
 (* 
-
-
-
 category:      Test
-
 synopsis:      Basic reactions with three species in a compartment 
-
                involving a stoichiometryMath element that uses a functionDefinition.
-
 componentTags: StoichiometryMath, Compartment, Species, Reaction, Parameter, FunctionDefinition 
-
 testTags:      Amount, AssignedConstantStoichiometry, DefaultValue, NonUnityStoichiometry
-
 testType:      TimeCourse
-
 levels:        2.1, 2.2, 2.3, 2.4, 2.5
-
 generatedBy:   Numeric
-
-
 
 Note:  earlier versions of the test suite contained a 3.1 version of this test.
 That model was moved to its own test, because it did not have the 'StoichiometryMath'
 component.
 
-
 The model contains one compartment called "compartment".  There are three
-
 species named S1, S2 and S3 and three parameters named k1, k2 and p1.  The
-
 model contains two reactions defined as:
 
-
-
 [{width:30em,margin: 1em auto}|  *Reaction*  |  *Rate*  |
-
 | S1 + S2 -> S3 | $k1 * S1 * S2 * compartment$  |
-
 | multiply(2, p1)S3 -> S1  +  S2 | $k2 * S3 * compartment$  |]
-
-
-
-
 
 The model contains one functionDefinition defined as:
 
-
-
 [{width:30em,margin: 1em auto}|  *Id*  |  *Arguments*  |  *Formula*  |
-
  | multiply | x, y | $x * y$ |]
 
-
-
-
-
 The initial conditions are as follows:
-
-
-
 [{width:30em,margin: 1em auto}|       |*Value*          |*Units*  |
-
 |Initial amount of S1                |$1.0 \x 10^-4$ |mole                      |
-
 |Initial amount of S2                |$2.0 \x 10^-4$ |mole                      |
-
 |Initial amount of S3                |$1.0 \x 10^-4$ |mole                      |
-
 |Value of parameter k1               |$ 1.7 \x 10^2$ |litre mole^-1^ second^-1^ |
-
 |Value of parameter k2               |$          0.3$ |second^-1^ |
-
 |Value of parameter p1               |$            1$ |dimensionless |
-
 |Volume of compartment "compartment" |$            1$ |litre                     |]
 
-
-
 The species values are given as amounts of substance to make it easier to
-
 use the model in a discrete stochastic simulator, but (as per usual SBML
-
 principles) their symbols represent their values in concentration units
-
 where they appear in expressions.
-
-
 
 *)
 

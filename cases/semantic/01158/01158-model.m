@@ -1,7 +1,7 @@
 (*
 
 category:        Test
- synopsis:        A hierarchical model that deletes a priority, delay, and event assignment
+synopsis:        A hierarchical model that deletes a priority, delay, and event assignment
 componentTags:   CSymbolTime, EventNoDelay, Parameter, comp:Deletion, comp:ModelDefinition, comp:Submodel
 testTags:        NonConstantParameter, comp:SubmodelOutput
 testType:        TimeCourse
