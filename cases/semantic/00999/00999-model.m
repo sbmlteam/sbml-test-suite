@@ -1,6 +1,5 @@
 Previous version of this file:  
 (*
-
 category:      Test
 synopsis:      Testing different versions of initialAmount vs. initialConcentration with hasOnlySubstanceUnits=true/false, in a constant and varying compartment.
 componentTags: AssignmentRule, Compartment, Parameter, RateRule, Species
