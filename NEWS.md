@@ -1,6 +1,19 @@
 NEWS &ndash; history of changes to the SBML Test Suite
 ================================================
 
+Version 3.5.0 (2025-07-14)
+--------------------------
+This update is mostly a maintenance release, and includes:
+
+* Two new semantic tests (1822 and 1823) testing the rateOf function for species changing inside a simultaneously-changing compartment.
+* Syntactic tests updated to match libsbml v5.20.5
+* Extra spaces removed from a handful of CSV files
+* External model definition references fixed.
+* Helper functions in 'src/' updated to work on latest compilers.
+* L3 models with species in size-zero compartments fixed.
+* Some absolute tolerances adjusted
+* Species that were supposed to be 'constant' now actually set 'constant' (instead of 'boundary')
+
 Version 3.4.0 (2022-01-11)
 --------------------------
 This release contains a number of updates for all three branches of the test suite.
